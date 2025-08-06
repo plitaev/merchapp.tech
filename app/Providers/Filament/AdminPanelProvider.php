@@ -28,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
         $menus = MiniApp::orderBy('id')->get();
 
         $A[] = NavigationItem::make('apps')
-            ->label('Мини-приложенияzzz')
+            ->label('Мини-приложения')
             ->icon('heroicon-o-square-3-stack-3d')
             ->url("/admin/mini-apps")
             ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/mini-apps");
