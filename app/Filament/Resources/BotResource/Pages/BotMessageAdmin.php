@@ -1,0 +1,510 @@
+<?php
+namespace App\Filament\Resources\BotResource\Pages;
+
+use App\Actions\Core\BotMessage\BotMessageSave;
+use App\Filament\Resources\BotResource;
+use App\Models\Core\Bot;
+use App\Models\Core\BotMessage;
+use App\Models\Core\BotMessageAppointment;
+use App\Models\Core\BotMessageButton;
+use App\Models\Core\BotMessageListener;
+use App\Models\Core\BotMessageType;
+use App\Models\Core\BotUser;
+use App\Models\Core\Funnel;
+use App\Models\Core\Listener;
+use Filament\Forms;
+use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Filament\Infolists\Concerns\InteractsWithInfolists;
+use Filament\Infolists\Contracts\HasInfolists;
+use Filament\Notifications\Notification;
+use Filament\Resources\Pages\Page;
+use Filament\Tables;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
+
+class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
+{
+    use InteractsWithForms;
+    use InteractsWithTable;
+    use InteractsWithInfolists;
+
+    protected static string $resource = BotResource::class;
+
+    protected static string $view = 'filament.resources.bot-resource.pages.bot-message-admin';
+
+    public int $bot_id;
+
+    public int $id;
+
+    public string $name;
+    public string $bot_name;
+
+    protected static ?string $model = BotMessage::class;
+
+    public static ?string $label = "Сообщение";
+    public static ?string $navigationLabel = "Сообщение";
+    public static ?string $title = "Сообщение";
+    public ?array $data = [];
+    public ?array $data_bot_message_link_listener = [];
+    public $record;
+    public string $send_message_self = "";
+
+    public array $hours = [
+        '0' => '0',
+        '1' => '1',
+        '2' => '2',
+        '3' => '3',
+        '4' => '4',
+        '5' => '5',
+        '6' => '6',
+        '7' => '7',
+        '8' => '8',
+        '9' => '9',
+        '10' => '10',
+        '11' => '11',
+        '12' => '12',
+        '13' => '13',
+        '14' => '14',
+        '15' => '15',
+        '16' => '16',
+        '17' => '17',
+        '18' => '18',
+        '19' => '19',
+        '20' => '20',
+        '21' => '21',
+        '22' => '22',
+        '23' => '23',
+        '24' => '24',
+        '25' => '25',
+        '26' => '26',
+        '27' => '27',
+        '28' => '28',
+        '29' => '29',
+        '30' => '30',
+        '31' => '31',
+        '32' => '32',
+        '33' => '33',
+        '34' => '34',
+        '35' => '35',
+        '36' => '36',
+        '37' => '37',
+        '38' => '38',
+        '39' => '39',
+        '40' => '40',
+        '41' => '41',
+        '42' => '42',
+        '43' => '43',
+        '44' => '44',
+        '45' => '45',
+        '46' => '46'
+    ];
+
+    public array $minutes = [
+        '0' => '0',
+        '15' => '15',
+        '30' => '30',
+        '45' => '45'
+    ];
+
+    public function getRecord(): ?Model
+    {
+        return BotMessage::class;
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [];
+    }
+
+
+    public function mount(int $bot_id, int $id): void
+    {
+        $this->bot_id = $bot_id;
+        $this->id = $id;
+
+        $bot = Bot::select('name')->find($bot_id);
+        $this->bot_name = $bot->name;
+
+        if ($id > 0) {
+            $data = BotMessage::with('bot_message_type')->with('bot')->find($id)->toArray();
+
+            $bot_user = BotUser::select('telegram_chat_id')->where('bot_id', $data['bot_id'])->where('email', auth()->user()->email)->first();
+            if ($bot_user) {
+                $this->send_message_self = '<a href="/bot/'.$id.'/send_to_admin" target="_blank">Нажмите <span style="text-decoration: underline">на эту ссылку</a>, чтобы отправить это сообщение себе в боте</a>';
+            } else {
+                $this->send_message_self = 'В настоящее время ваш аккаунт администратора не связан с ботом в Telegram, чтобы отправить сообщение самому себе для проверки. Для привязки аккаунта администратора к боту перейдите в бот по ссылке: <a href="https://t.me/'.$data['bot']['alias'].'">https://t.me/'.$data['bot']['alias'].'</a> и нажмите Меню - Регистрация';
+            }
+
+            $bot_message_listener = BotMessageListener::select('listener_id')->where('bot_message_id', $data['id'])->count();
+
+
+        } else {
+            $data = [];
+            $data["bot_id"] = $bot_id;
+            $data["bot_message_type_id"] = 1;
+            $data["pause_after_message"] = 0;
+        }
+
+        $this->form->fill($data);
+
+        $this->form_bot_message_link_listener->fill([]);
+    }
+
+    public function getHeading(): string
+    {
+        if ($this->id > 0) {
+            return "Редактировать сообщение";
+        } else {
+            return "Добавить сообщение";
+        }
+    }
+
+    public function getTitle(): string
+    {
+        return $this->bot_name;
+    }
+
+    protected function getForms(): array
+    {
+        return ['form', 'form_bot_message_link_listener'];
+    }
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Section::make('Бот и воронка')
+                    ->description('Если необходимо, укажите воронку, к которой будет прикреплено данное сообщение')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->schema([
+                        Forms\Components\Hidden::make('bot_id'),
+                        Forms\Components\Select::make('funnel_id')
+                            ->label('Воронка')
+                            ->options(Funnel::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->live(),
+                    ]),
+                Section::make('Бот и назначение')
+                    ->description('Если необходимо, укажите функцию, которую будет выполнять данное сообщение')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->schema([
+                        Forms\Components\Hidden::make('bot_id'),
+                        Forms\Components\Select::make('bot_message_appointment_id')
+                            ->label('Назначение')
+                            ->options(BotMessageAppointment::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->live(),
+                    ]),
+                Section::make('Тип и название сообщения')
+                    ->description('Укажите базовые настройки, чтобы продолжить работу')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
+                        Forms\Components\Select::make('bot_message_type_id')
+                            ->label('Тип сообщения')
+                            ->required()
+                            ->options(BotMessageType::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->live(),
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->label('Название сообщения (только в панели администратора)')
+                            ->maxLength(255)
+                    ]),
+                Section::make('Текст сообщения')
+                    ->description('Сообщение, которое будет отправляться пользователю')
+                    ->schema([
+                        Forms\Components\Textarea::make('text')
+                            ->label('Текст сообщения')
+                    ]),
+                Section::make('Изображение')
+                    ->schema([
+                        Forms\Components\FileUpload::make('image')
+                            ->label('Изображение, которое будет отправляться пользователю')
+                            ->acceptedFileTypes(['image/*'])
+                            ->disk('local')
+                            ->directory('bot_message_images')
+                            ->visibility('public')
+                    ])
+                    ->visible(function (Forms\Get $get) {
+                        if (is_callable($get)) {
+                            return $get('bot_message_type_id') == 2;
+                        }
+                    }),
+                Section::make('Видео')
+                    ->schema([
+                        Forms\Components\FileUpload::make('video')
+                            ->label('Видео, которое будет отправляться пользователю')
+                            ->acceptedFileTypes(['video/mp4'])
+                            ->disk('local')
+                            ->directory('bot_message_videos')
+                            ->visibility('public')
+                    ])
+                    ->visible(function (Forms\Get $get) {
+                        if (is_callable($get)) {
+                            return $get('bot_message_type_id') == 3;
+                        }
+                    }),
+                Section::make('Аудио')
+                    ->schema([
+                        Forms\Components\FileUpload::make('audio')
+                            ->label('Аудио, которое будет отправляться пользователю')
+                            ->acceptedFileTypes(['audio/mp3'])
+                            ->disk('local')
+                            ->directory('bot_message_videos')
+                            ->visibility('public')
+                    ])
+                    ->visible(function (Forms\Get $get) {
+                        if (is_callable($get)) {
+                            return $get('bot_message_type_id') == 4;
+                        }
+                    }),
+                Section::make('Удалить сообщение (не более, чем 47 часов с момента отправки)')
+                    ->description('При включении данного параметра сообщение будет удалено у получивших его пользователей. Telegram позволяет полностью удалять сообщения не старше 47 часов с момента отправки.')
+                    ->columns([
+                        'sm' => 3,
+                        'md' => 3,
+                        'lg' => 3,
+                        'xl' => 3,
+                        '2xl' => 3,
+                    ])
+                    ->schema([
+                        Forms\Components\Toggle::make('delete_through')
+                            ->label('Включить')
+                            ->live(),
+                        Forms\Components\Select::make('delete_through_hours')
+                            ->label('Часы')
+                            ->options($this->hours)
+                            ->searchable()
+                            ->visible(function (Forms\Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('delete_through') == 1;
+                                }
+                            }),
+                        Forms\Components\Select::make('delete_through_minutes')
+                            ->label('Минуты')
+                            ->options($this->minutes)
+                            ->searchable()
+                            ->visible(function (Forms\Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('delete_through') == 1;
+                                }
+                            }),
+                    ])->visible(function (Forms\Get $get) {
+                        if (is_callable($get)) {
+                            return $get('delete_keyboard_through') == 0;
+                        }
+                    }),
+                Section::make('Удалить клавиатуру сообщения (более 48 часов с момента отправки)')
+                    ->description('При включении данного параметра клавиатура сообщения будет удалена у получивших его пользователей. Telegram позволяет удалять клавиатуру в течение любого времени с момента отправки сообщения.')
+                    ->columns([
+                        'sm' => 4,
+                        'md' => 4,
+                        'lg' => 4,
+                        'xl' => 4,
+                        '2xl' => 4,
+                    ])
+                    ->schema([
+                        Forms\Components\Toggle::make('delete_keyboard_through')
+                            ->label('Включить')
+                            ->live(),
+                        Forms\Components\Textarea::make('delete_keyboard_through_days')
+                            ->label('Дни')
+                            ->visible(function (Forms\Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('delete_keyboard_through') == 1;
+                                }
+                            }),
+                        Forms\Components\Select::make('delete_keyboard_through_hours')
+                            ->label('Часы')
+                            ->options($this->hours)
+                            ->searchable()
+                            ->visible(function (Forms\Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('delete_keyboard_through') == 1;
+                                }
+                            }),
+                        Forms\Components\Select::make('delete_keyboard_through_minutes')
+                            ->label('Минуты')
+                            ->options($this->minutes)
+                            ->searchable()
+                            ->visible(function (Forms\Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('delete_keyboard_through') == 1;
+                                }
+                            }),
+                    ])
+                    ->visible(function (Forms\Get $get) {
+                        if (is_callable($get)) {
+                            return $get('delete_through') == 0;
+                        }
+                    }),
+                Section::make('Пауза после отправки сообщения')
+                    ->description('При установке значения больше нуля бот создаст задержку после отправки данного сообщения, чтобы сделать паузу перед доставкой следующего сообщения.')
+                    ->schema([
+                        Forms\Components\TextInput::make('pause_after_message')
+                            ->label('Введите значение в секундах')
+                            ->maxLength(255)
+                    ]),
+                Section::make('Отправить сообщение себе')
+                    ->description(new HtmlString($this->send_message_self))
+                    ->columns([
+                        'sm' => 4,
+                        'md' => 4,
+                        'lg' => 4,
+                        'xl' => 4,
+                        '2xl' => 4,
+                    ])
+                    ->schema([])
+                    ->visible($this->id > 0?true:false),
+                Actions::make([
+                    Action::make('Сохранить')
+                        ->action(function () {
+                            $botMessageSave = new BotMessageSave();
+
+                            $data = $this->form->getState();
+
+                            if (!isset($data['delete_through'])) $data['delete_through'] = 0;
+                            if (!isset($data['delete_keyboard_through'])) $data['delete_keyboard_through'] = 0;
+
+                            if ($this->id>0) {
+                                BotMessage::where('id', $this->id)->update($data);
+                                $botMessageSave->handle($data, $this->id);
+                            } else {
+                                $new_message = BotMessage::create($data);
+                            }
+
+                            Notification::make()
+                                ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
+
+                            if ($this->id>0) {
+                                return redirect('/admin/bots/'.$this->bot_id.'/messages');
+                            } else {
+                                return redirect('/admin/bots/'.$this->bot_id.'/'.$new_message->id.'/message-admin');
+                            }
+
+                        }),
+                    Action::make('Cancel')
+                        ->action(function () {
+                            return redirect('/admin/bots/'.$this->bot_id.'/messages');
+                        })
+                        ->label('Вернуться назад')
+                ])
+            ])->statePath('data');
+    }
+
+    public function table(Table $table): Table
+    {
+        return $table
+            ->query(BotMessageButton::query()->where('bot_message_id', $this->id))
+            ->columns([
+                Tables\Columns\TextColumn::make('pos')
+                    ->label('№')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Название')
+                    ->searchable()
+            ])
+            ->filters([
+                //
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make()->url(fn($record) => "/admin/bots/".$this->id."/".$record->id."/button-admin"),
+                Tables\Actions\DeleteAction::make()
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make()
+                ])
+            ])
+            ->recordUrl(fn($record) => "/admin/bots/".$this->id."/".$record->id."/button-admin")
+            ->defaultSort('pos')
+            ->reorderable('pos');
+    }
+
+    public function table_listener(Table $table): Table
+    {
+        return $table
+            ->query(BotMessageButton::query()->where('bot_message_id', $this->id))
+            ->columns([
+                Tables\Columns\TextColumn::make('pos')
+                    ->label('№')
+                    ->searchable()
+            ])
+            ->filters([
+                //
+            ])
+            ->actions([
+            ])
+            ->bulkActions([
+            ])
+            ->reorderable('pos');
+    }
+
+    public function form_bot_message_link_listener(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Section::make('Выберите параметр')
+                    ->description('')
+                    ->schema([
+                        Select::make('listener_id')
+                            ->label('Параметр')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно выберите значение из списка',
+                            ])
+                            ->options(
+                                Listener::query()->pluck('name', 'id')
+                            )
+                            ->searchable()
+                    ]),
+                Actions::make([
+                    Action::make('Сохранить')
+                        ->action(function () {
+                            $formdata = $this->form_bot_message_link_listener->getState();
+
+                            BotMessageListener::upsert(
+                                ['bot_message_id' => $this->id, 'listener_id' => $formdata['listener_id']],
+                                ['listener_id', 'bot_message_id'],
+                                ['updated_at' => now()]
+                            );
+
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        }),
+                    Action::make('Отмена')
+                        ->action(function () {
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        })
+                ])
+            ])->statePath('data_bot_message_link_listener');
+    }
+
+}

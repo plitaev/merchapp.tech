@@ -1,0 +1,17 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {return view('welcome');})->name('welcome');
+
+require 'core/auto.php';
+require 'core/bot.php';
+require 'core/bot_message.php';
+require 'core/bot_message_button.php';
+require 'core/devtest.php';
+require 'core/getcourse.php';
+require 'core/telegram.php';
+
+require 'project/app1.php';
+require 'project/app2.php';
+require 'project/telegram_webhook.php';

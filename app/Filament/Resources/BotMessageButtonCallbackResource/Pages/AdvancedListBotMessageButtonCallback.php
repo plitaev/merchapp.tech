@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Filament\Resources\BotMessageButtonCallbackResource\Pages;
+
+use App\Filament\Resources\BotMessageButtonCallbackResource;
+use App\Models\Core\BotMessageButtonCallback;
+use Filament\Resources\Pages\Page;
+use Filament\Tables;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+
+
+class AdvancedListBotMessageButtonCallback extends Page implements HasTable
+{
+    use InteractsWithTable;
+
+    protected static string $resource = BotMessageButtonCallbackResource::class;
+
+    protected static string $view = 'filament.resources.bot-message-button-callback-resource.pages.advanced-list-bot-message-button-callback';
+
+
+    public static ?string $label = "Обработчики кнопок";
+    public static ?string $navigationLabel = "Обработчики кнопок";
+    public static ?string $title = "";
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->query(BotMessageButtonCallback::select('*'))
+            ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Наименование')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('system_name')
+                    ->label('System_name')
+                    ->searchable()
+            ])
+            ->filters([
+                //
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make()->url(fn($record) => "/admin/bot-message-button-callbacks/".$record->id."/admin"),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+}
+
+
