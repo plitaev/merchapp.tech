@@ -10,6 +10,7 @@ use App\Actions\Core\BotUser\BotUserGetFromTelegram;
 use App\Actions\Core\Product\ProductListByBot;
 use App\Actions\Core\Telegram\TelegramGetChatIDFromWebhook;
 use App\Actions\Core\Telegram\TelegramMessageGetStartParams;
+use App\Actions\Core\TelegramSendInvoice\TelegramSendInvoice;
 use App\Actions\Core\Telegram\TelegramWebhookWrite;
 use App\Actions\Project\ClubAccess\BotContacts;
 use App\Actions\Project\ClubAccess\BotEighteen;
@@ -37,6 +38,7 @@ class ClubAccessController extends Controller
         $botUserGetFromTelegram = new BotUserGetFromTelegram();
         $productListByBot = new ProductListByBot();
         $telegramMessageGetStartParams = new TelegramMessageGetStartParams();
+        $telegramSendInvoice = new TelegramSendInvoice();
         $botSupergroupsByBot = new BotSupergroups();
         $telegramWebhookWrite = new TelegramWebhookWrite();
 
@@ -132,7 +134,7 @@ class ClubAccessController extends Controller
                 $products = $productListByBot->handle($bot_id);
                 foreach ($products as $product) {
                     if ($callback == "pay_yookassa_product_".$product->id) {
-
+                        $telegramSendInvoice->handle($telegram, $bot, $bot_user, $product);
                     }
                 }
 
