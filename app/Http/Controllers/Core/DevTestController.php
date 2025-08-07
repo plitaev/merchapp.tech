@@ -16,7 +16,7 @@ class DevTestController extends Controller
             'description' => 'Описание продукта',
             'payload' => 'payload_text',
             'currency' => 'RUB',
-            'prices' => 3000
+            'prices' => [['label' => 'К оплате', 'amount' => 300000]]
         ]);
     }
 }
