@@ -2,7 +2,9 @@
 
 namespace App\Models\Core;
 
-class TelegramSendInvoiceLog
+use Illuminate\Database\Eloquent\Model;
+
+class TelegramSendInvoiceLog extends Model
 {
     protected $fillable = [
         'bot_user_id',
