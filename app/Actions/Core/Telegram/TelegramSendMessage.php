@@ -1,8 +1,11 @@
 <?php
 namespace App\Actions\Core\Telegram;
 
-use App\Models\Core\Product;
+use Illuminate\Support\Facades\Log;
+
 use Telegram\Bot\Api;
+
+use App\Models\Core\Product;
 
 use App\Actions\Core\Telegram\TelegramInviteLink;
 
@@ -38,6 +41,9 @@ class TelegramSendMessage
         if ($bot_message) {
 
             $kb = [];
+
+            Log::info('This is an informational message.');
+            Log::info($bot_message_appointment);
 
             if ($bot_message_appointment == 'SYS_PAY_IN_BOT') {
 
