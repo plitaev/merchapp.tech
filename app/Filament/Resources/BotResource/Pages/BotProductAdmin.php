@@ -93,7 +93,7 @@ class BotProductAdmin extends Page implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Параметры тарифа 11')->description('Укажите базовые настройки, чтобы продолжить работу')
+                Section::make('Параметры тарифа')->description('Укажите базовые настройки, чтобы продолжить работу')
                     ->columns([
                         'sm' => 1,
                         'md' => 1,
@@ -132,7 +132,7 @@ class BotProductAdmin extends Page implements HasForms
                             ->live(),
                     ]),
                 Section::make('Текст')
-                    ->description('Текст, который будет записываться в значение')
+                    ->description('Описание продукта')
                     ->schema([
                         Forms\Components\Textarea::make('description')
                             ->label('Описание')
