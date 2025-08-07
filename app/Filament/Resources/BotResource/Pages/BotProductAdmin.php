@@ -101,28 +101,28 @@ class BotProductAdmin extends Page implements HasForms
                         'lg' => 2,
                         'xl' => 2,
                         '2xl' => 2,
-                    ])
+                        ])
                     ->schema([
                         Forms\Components\Hidden::make('bot_id'),
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите название',
-                            ])
+                                ])
                             ->label('Название')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('price')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите стоимость',
-                            ])
+                                ])
                             ->label('Стоимость')
                             ->maxLength(50),
                         Forms\Components\TextInput::make('days')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите дни',
-                            ])
+                                ])
                             ->label('Дни')
                             ->maxLength(50),
                         Forms\Components\Select::make('product_type_id')
@@ -130,42 +130,42 @@ class BotProductAdmin extends Page implements HasForms
                             ->required()
                             ->options(ProductType::all()->pluck('name', 'id'))
                             ->searchable()
-                            ->live(),
+                            ->live()
                     ]),
-
-                        Actions::make([
-                            Action::make('Сохранить')
-                                ->action(function () {
-                                    $data = $this->form->getState();
-
-                                    if ($this->id>0) {
-
-                                        Product::where('id', $this->id)->update($data);
-                                    } else {
-                                        Product::create($data);
-                                    }
-
-                                    Notification::make()
-                                        ->title('Данные успешно сохранены!')
-                                        ->success()
-                                        ->send();
-
-                                    return redirect('/admin/bots/'.$this->bot_id.'/products');
-                                }),
-                            Action::make('Cancel')
-                                ->action(function () {
-                                    return redirect('/admin/bots/'.$this->bot_id.'/products');
-                                })
-                                ->label('Отменить и вернуться назад')
-
-                        ]),
+                Section::make('Параметры 1111')
+                    ->description('Укажите базовые настройки, чтобы продолжить работу')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
                     ])
-            ->Section::make('Текст')
-            ->description('Текст, который будет записываться в значение')
-            ->schema([
-                Forms\Components\Textarea::make('description')
-                    ->label('Описание')
-            ])
+                    ->schema([
+                        Forms\Components\Hidden::make('bot_id1'),
+                        Forms\Components\TextInput::make('name1')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите название',
+                            ])
+                            ->label('Название')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('price1')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите стоимость',
+                            ])
+                            ->label('Стоимость')
+                            ->maxLength(50),
+                        Forms\Components\TextInput::make('days1')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите дни',
+                            ])
+                            ->label('Дни')
+                            ->maxLength(50)
+                    ]),
+                    ])
             ->statePath('data');
     }
 
