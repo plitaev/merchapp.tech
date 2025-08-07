@@ -7,6 +7,7 @@ use App\Actions\Core\Bot\BotGetByID;
 use App\Actions\Core\BotSupergroup\BotSupergroups;
 use App\Actions\Core\BotUser\BotUserCreateFromTelegram;
 use App\Actions\Core\BotUser\BotUserGetFromTelegram;
+use App\Actions\Core\Product\ProductListByBot;
 use App\Actions\Core\Telegram\TelegramGetChatIDFromWebhook;
 use App\Actions\Core\Telegram\TelegramMessageGetStartParams;
 use App\Actions\Core\Telegram\TelegramWebhookWrite;
@@ -34,6 +35,7 @@ class ClubAccessController extends Controller
         $botUserCreateFromTelegram = new BotUserCreateFromTelegram();
         $telegramGetChatIDFromWebhook = new TelegramGetChatIDFromWebhook();
         $botUserGetFromTelegram = new BotUserGetFromTelegram();
+        $productListByBot = new ProductListByBot();
         $telegramMessageGetStartParams = new TelegramMessageGetStartParams();
         $botSupergroupsByBot = new BotSupergroups();
         $telegramWebhookWrite = new TelegramWebhookWrite();
@@ -126,6 +128,13 @@ class ClubAccessController extends Controller
                 if ($callback == 'GoToClub') $botGoToClub->handle($telegram, $webhook, $bot_user); //== Если нажал кнопку Стать участником
                 if ($callback == 'GoToEmailVerification') $botEmailVerification->handle($telegram, $bot_user, $webhook); //== Если нажата кнопка Подтвердить почту при условии что почта уже введена
                 if ($callback == 'GoToEmailChange') $botEmailChange->handle($telegram, $bot_user, $webhook); //== Если нажата кнопка Изменить почту при условии что почта уже введена
+
+                $products = $productListByBot->handle($bot_id);
+                foreach ($products as $product) {
+                    if ($callback == "pay_yookassa_product_".$product->id) {
+
+                    }
+                }
 
             } else {
                 //== Если ни сообщение, ни колбэк, то возвращаем ошибку

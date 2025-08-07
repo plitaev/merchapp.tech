@@ -159,7 +159,14 @@ class BotProductAdmin extends Page implements HasForms
                                 ->label('Отменить и вернуться назад')
 
                         ]),
-                    ])->statePath('data');
+                    ])
+            ->Section::make('Текст')
+            ->description('Текст, который будет записываться в значение')
+            ->schema([
+                Forms\Components\Textarea::make('description')
+                    ->label('Описание')
+            ])
+            ->statePath('data');
     }
 
 }

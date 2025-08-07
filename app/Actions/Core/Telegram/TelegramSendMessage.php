@@ -1,13 +1,11 @@
 <?php
 namespace App\Actions\Core\Telegram;
-
-use Illuminate\Support\Facades\Log;
-
 use Telegram\Bot\Api;
 
 use App\Models\Core\Product;
 
 use App\Actions\Core\Telegram\TelegramInviteLink;
+use App\Actions\Core\Product\ProductListByBot;
 
 use App\Models\Core\BotMessage;
 use App\Models\Core\BotMessageButton;
@@ -17,6 +15,7 @@ use App\Models\Core\TelegramSendMessageLog;
 class TelegramSendMessage
 {
     public function handle($bot_user, int $bot_message_id, string $bot_message_appointment = '') {
+        $productListByBot = new ProductListByBot();
         $telegramInviteLink = new TelegramInviteLink();
 
         (int) $send_status = 0;
@@ -42,12 +41,9 @@ class TelegramSendMessage
 
             $kb = [];
 
-            Log::info('This is an informational message.');
-            Log::info($bot_message_appointment);
-
             if ($bot_message_appointment == 'SYS_PAY_IN_BOT') {
 
-                $products = Product::where('bot_id', $bot_user->bot_id)->get();
+                $products = $productListByBot->handle($bot_user->bot_id);
                 foreach ($products as $product) {
                     $btn = [["text" => $product->name." ".$product->price, "callback_data" => "pay_yookassa_product_".$product->id]];
                     $kb[] = $btn;
