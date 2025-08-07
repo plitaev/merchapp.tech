@@ -1,6 +1,7 @@
 <?php
 namespace App\Actions\Core\Telegram;
 
+use App\Models\Core\Product;
 use Telegram\Bot\Api;
 
 use App\Actions\Core\Telegram\TelegramInviteLink;
@@ -12,7 +13,7 @@ use App\Models\Core\TelegramSendMessageLog;
 
 class TelegramSendMessage
 {
-    public function handle($bot_user, int $bot_message_id) {
+    public function handle($bot_user, int $bot_message_id, string $bot_message_appointment = '') {
         $telegramInviteLink = new TelegramInviteLink();
 
         (int) $send_status = 0;
@@ -36,39 +37,51 @@ class TelegramSendMessage
 
         if ($bot_message) {
 
-            $buttons = BotMessageButton::with('bot_message_button_callbacks')->where('bot_message_id', $bot_message_id)->orderBy('pos')->get();
-
             $kb = [];
-            foreach ($buttons as $button) {
 
-                if ($button->url) {
+            if ($bot_message_appointment == 'SYS_PAY_IN_BOT') {
 
-                    if ($button->url == "VAR_INVITE_LINK") {
+                $products = Product::where('bot_id', $bot_user->bot_id)->get();
+                foreach ($products as $product) {
+                    $btn = [["text" => $product->name." ".$product->price, "callback_data" => "pay_yookassa_product_".$product->id]];
+                    $kb[] = $btn;
+                }
 
-                        $url = $telegramInviteLink->handle($bot_user, $telegram);
+            } else {
 
-                    } else {
+                $buttons = BotMessageButton::with('bot_message_button_callbacks')->where('bot_message_id', $bot_message_id)->orderBy('pos')->get();
+                foreach ($buttons as $button) {
 
-                        if ($button->tracking == 1) {
-                            $url = env("APP_URL")."/go/".base64_encode($button->id)."/".base64_encode($bot_user->id);
+                    if ($button->url) {
+
+                        if ($button->url == "VAR_INVITE_LINK") {
+
+                            $url = $telegramInviteLink->handle($bot_user, $telegram);
+
                         } else {
-                            $url = $button->url;
+
+                            if ($button->tracking == 1) {
+                                $url = env("APP_URL")."/go/".base64_encode($button->id)."/".base64_encode($bot_user->id);
+                            } else {
+                                $url = $button->url;
+                            }
+
                         }
 
+                        $btn = [["text" => $button->name, "url" => $url]];
                     }
 
-                    $btn = [["text" => $button->name, "url" => $url]];
+                    if ($button->callback) {
+                        $btn = [["text" => $button->name, "callback_data" => $button->callback]];
+                    }
+
+                    if ($button->bot_message_button_callbacks) {
+                        $btn = [["text" => $button->name, "callback_data" => $button->bot_message_button_callbacks->system_name]];
+                    }
+
+                    $kb[] = $btn;
                 }
 
-                if ($button->callback) {
-                    $btn = [["text" => $button->name, "callback_data" => $button->callback]];
-                }
-
-                if ($button->bot_message_button_callbacks) {
-                    $btn = [["text" => $button->name, "callback_data" => $button->bot_message_button_callbacks->system_name]];
-                }
-
-                $kb[] = $btn;
             }
 
             if (count($kb) > 0) {
