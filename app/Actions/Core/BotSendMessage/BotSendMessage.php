@@ -12,17 +12,18 @@ use Illuminate\Support\Facades\Schema;
 
 class BotSendMessage
 {
-    public function handle($bot_user, string $bot_message_appointment) {
+    public function handle($bot_user, string $bot_message_appointment_name) {
         $telegramSendMessage = new TelegramSendMessage();
         $botUserSetListener = new BotUserSetListener();
 
-        $bot_message_appointment = BotMessageAppointment::where('alias', $bot_message_appointment)->first();
+        $bot_message_appointment = BotMessageAppointment::where('alias', $bot_message_appointment_name)->first();
         if ($bot_message_appointment) {
+
             $bot_message = BotMessage::select('id', 'pause_after_message')->where('bot_id', $bot_user->bot_id)->where('bot_message_appointment_id', $bot_message_appointment->id)->first();
             if ($bot_message) {
 
                 //== Отправляем само сообщение
-                $message = $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment);
+                $message = $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
 
                 //== Проверяем статусы, и ставим, если есть
                 $schema=Schema::getColumnListing(with (new BotUser())->getTable());
