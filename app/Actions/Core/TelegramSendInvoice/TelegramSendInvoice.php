@@ -4,6 +4,9 @@ namespace App\Actions\Core\TelegramSendInvoice;
 
 use App\Actions\Core\Pay\PayCreateIntoBot;
 
+use App\Models\Core\TelegramSendInvoiceLog;
+use App\Models\Core\TelegramSendInvoiceErrorLog;
+
 class TelegramSendInvoice
 {
     public function handle($telegram, $bot, $bot_user, $product, $webhook) {
@@ -17,14 +20,28 @@ class TelegramSendInvoice
 
         $pay = $payCreateIntoBot->handle($bot_user, $bot);
 
-        return $telegram->sendInvoice([
-            'provider_token' => $bot->yookassa_provider_token,
-            'chat_id' => $bot_user->telegram_chat_id,
-            'title' => $product->name,
-            'description' => $product->description,
-            'payload' => $pay->id,
-            'currency' => 'RUB',
-            'prices' => [['label' => 'К оплате', 'amount' => $price]]
-        ]);
+        try {
+
+            $invoice = $telegram->sendInvoice([
+                'provider_token' => $bot->yookassa_provider_token,
+                'chat_id' => $bot_user->telegram_chat_id,
+                'title' => $product->name,
+                'description' => $product->description,
+                'payload' => $pay->id,
+                'currency' => 'RUB',
+                'prices' => [['label' => 'К оплате', 'amount' => $price]]
+            ]);
+
+            TelegramSendInvoiceLog::create(
+                [
+                    'bot_user_id' => $bot_user->id,
+                    'chat_id' => $bot_user->telegram_chat_id,
+                    'invoice' => json_encode($invoice, true)
+                ]
+            );
+
+        } catch (\Exception $exception) {
+            TelegramSendInvoiceErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'text' => $exception]);
+        }
     }
 }
