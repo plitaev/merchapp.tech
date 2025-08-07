@@ -134,7 +134,7 @@ class ClubAccessController extends Controller
                 $products = $productListByBot->handle($bot_id);
                 foreach ($products as $product) {
                     if ($callback == "pay_yookassa_product_".$product->id) {
-                        $telegramSendInvoice->handle($telegram, $bot, $bot_user, $product);
+                        $telegramSendInvoice->handle($telegram, $bot, $bot_user, $product, $webhook);
                     }
                 }
 

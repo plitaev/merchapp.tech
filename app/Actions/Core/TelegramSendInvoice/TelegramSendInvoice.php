@@ -4,8 +4,12 @@ namespace App\Actions\Core\TelegramSendInvoice;
 
 class TelegramSendInvoice
 {
-    public function handle($telegram, $bot, $bot_user, $product) {
+    public function handle($telegram, $bot, $bot_user, $product, $webhook) {
         $price = $product->price.'00';
+
+        if (isset($webhook['callback_query']['message']['message_id'])) {
+            $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
+        }
 
         return $telegram->sendInvoice([
             'provider_token' => $bot->yookassa_provider_token,
