@@ -44,10 +44,7 @@ class TelegramWebhookWrite
             Bot::where('id', $bot_id)->update(['business_connection_id' => $json['business_message']['business_connection_id']]);
         }
 
-        if (isset($json['chat_join_request'])) {
-            return 'aaa';
-            $telegramChatJoinRequest->handle($bot_id, $json);
-        }
+        if (isset($json['chat_join_request'])) $telegramChatJoinRequest->handle($bot_id, $json);
 
         return $json;
     }
