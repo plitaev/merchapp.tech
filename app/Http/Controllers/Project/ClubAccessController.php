@@ -12,6 +12,7 @@ use App\Actions\Core\Telegram\TelegramGetChatIDFromWebhook;
 use App\Actions\Core\Telegram\TelegramMessageGetStartParams;
 use App\Actions\Core\TelegramSendInvoice\TelegramSendInvoice;
 use App\Actions\Core\Telegram\TelegramWebhookWrite;
+use App\Actions\Project\ClubAccess\BotCabinetRecurrentCheck;
 use App\Actions\Project\ClubAccess\BotContacts;
 use App\Actions\Project\ClubAccess\BotEighteen;
 use App\Actions\Project\ClubAccess\BotEighteenNo;
@@ -43,6 +44,7 @@ class ClubAccessController extends Controller
         $telegramWebhookWrite = new TelegramWebhookWrite();
 
         //== Инициализируем классы проекта
+        $botCabinetRecurrentCheck = new BotCabinetRecurrentCheck();
         $botContacts = new BotContacts();
         $botEighteen = new BotEighteen();
         $botEighteenYes = new BotEighteenYes();
@@ -100,7 +102,7 @@ class ClubAccessController extends Controller
 
             //== Если это /cabinet, тут обрабатываем личный кабинет
             if ($Astart[0] == "/cabinet") {
-                $botRequestAndConfirmEmail->handle($bot_user);
+                $botCabinetRecurrentCheck->handle($bot_user);
             }
 
             //== Заканчиваем обрабатывать входящие параметры по ссылке на переход в ТГ к разговору с ботом
