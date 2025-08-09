@@ -45,7 +45,7 @@ class TelegramSendMessage
 
                 $products = $productListByBot->handle($bot_user->bot_id);
                 foreach ($products as $product) {
-                    $btn = [["text" => $product->name." ".$product->price, "callback_data" => "pay_yookassa_product_".$product->id]];
+                    $btn = [["text" => $product->name." - ".$product->price." руб.", "callback_data" => "pay_yookassa_product_".$product->id]];
                     $kb[] = $btn;
                 }
 
