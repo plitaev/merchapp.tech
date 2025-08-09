@@ -15,9 +15,8 @@ class TelegramChatJoinRequest
         $telegramChatJoinRequestCreate = new TelegramChatJoinRequestCreate();
 
         if (isset($json['chat_join_request']['chat']['id']) && isset($json['chat_join_request']['user_chat_id'])) {
-            return '1';
             $bot_user = $botUserGetFromTelegram->handle($bot_id, $json['chat_join_request']['user_chat_id']);
-            return $bot_user;
+            return $bot_id." | ".$json['chat_join_request']['user_chat_id'];
 
             if ($bot_user) {
 
@@ -40,8 +39,6 @@ class TelegramChatJoinRequest
                 $botSendMessage->handle($bot_user, 'SYS_DECLINE_CHAT_JOIN_REQUEST');
                 $telegramChatJoinRequestCreate->handle($bot_user, 0);
             }
-        } else {
-            return '2';
         }
 
     }
