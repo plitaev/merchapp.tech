@@ -13,14 +13,14 @@ class TelegramChatJoinRequestCreate
         $telegram = new Api($bot->telegram_token);
 
         if ($status === 1) {
-            $result = $telegram->approveChatJoinRequest(['chat_id' => $json['chat_join_request']['chat']['id'], 'user_id' => $json['user_chat_id']]);
+            $result = $telegram->approveChatJoinRequest(['chat_id' => $json['chat_join_request']['chat']['id'], 'user_id' => $json['chat_join_request']['user_chat_id']]);
         } else {
-            $result = $telegram->declineChatJoinRequest(['chat_id' => $json['chat_join_request']['chat']['id'], 'user_id' => $json['user_chat_id']]);
+            $result = $telegram->declineChatJoinRequest(['chat_id' => $json['chat_join_request']['chat']['id'], 'user_id' => $json['chat_join_request']['user_chat_id']]);
         }
 
         TelegramChatJoinRequestLog::create([
             'chat_id' => $json['chat_join_request']['chat']['id'],
-            'user_id' => $json['user_chat_id'],
+            'user_id' => $json['chat_join_request']['user_chat_id'],
             'invite_link' => $json['chat_join_request']['invite_link']['invite_link'],
             'status' => $status,
             'telegram_data' => json_encode($result, true)
