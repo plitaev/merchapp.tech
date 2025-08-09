@@ -16,6 +16,7 @@ class TelegramChatJoinRequest
 
         if (isset($json['chat_join_request']['chat']['id']) && isset($json['chat_join_request']['user_chat_id'])) {
             $bot_user = $botUserGetFromTelegram->handle($bot_id, $json['chat_join_request']['user_chat_id']);
+            return $bot_user;
 
             if ($bot_user) {
 
