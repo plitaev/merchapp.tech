@@ -4,9 +4,14 @@ namespace App\Actions\Core\Telegram;
 use App\Models\Core\Bot;
 use App\Models\Core\TelegramWebhook;
 
+use App\Actions\Core\Telegram\TelegramChatJoinRequest;
+
 class TelegramWebhookWrite
 {
     public function handle($data, int $bot_id) {
+
+        $telegramChatJoinRequest = new TelegramChatJoinRequest();
+
         $json = json_decode($data, true);
 
         $A = [];
@@ -38,6 +43,8 @@ class TelegramWebhookWrite
         if (isset($json['business_message']['business_connection_id'])) {
             Bot::where('id', $bot_id)->update(['business_connection_id' => $json['business_message']['business_connection_id']]);
         }
+
+        if (isset($webhook['chat_join_request'])) $telegramChatJoinRequest->handle($bot_id, $json);
 
         return $json;
     }
