@@ -33,7 +33,11 @@ class TelegramSendMessage
 
         if (stripos(strtolower($text), 'VAR_USER_EMAIL')) $text = str_replace('VAR_USER_EMAIL', $bot_user->email, $text);
 
-        if (stripos(strtolower($text), 'VAR_USER_DATE_END')) $text = str_replace('VAR_USER_DATE_END', date('d.m.Y', strtotime($bot_user->date_end)), $text);
+        if (stripos(strtolower($text), 'VAR_USER_DATE_END')) {
+            $date_end = date('d.m.Y', strtotime($bot_user->date_end));
+            if ($date_end == '01.01.1970') $date_end = '';
+            $text = str_replace('VAR_USER_DATE_END', $date_end, $text);
+        }
 
         //== Конец замены переменных
 
@@ -104,7 +108,7 @@ class TelegramSendMessage
             $A['chat_id'] = $bot_user->telegram_chat_id;
             $A['reply_markup'] = $keyboard;
             $A['parse_mode'] = 'HTML';
-            $A['protect_content'] = true;
+            $A['protect_content'] = false;
             if (count($kb) > 0) $A['reply_markup'] = $keyboard;
             if (isset($bot_message->bot->business_connection_id)) $A['business_connection_id'] = $bot_message->bot->business_connection_id;
 
