@@ -98,6 +98,11 @@ class ClubAccessController extends Controller
                 $botRequestAndConfirmEmail->handle($bot_user);
             }
 
+            //== Если это /cabinet, тут обрабатываем личный кабинет
+            if ($Astart[0] == "/cabinet") {
+                $botRequestAndConfirmEmail->handle($bot_user);
+            }
+
             //== Заканчиваем обрабатывать входящие параметры по ссылке на переход в ТГ к разговору с ботом
 
             //== Обрабатываем листенеры
