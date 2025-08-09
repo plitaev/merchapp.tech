@@ -15,7 +15,7 @@ class TelegramChatJoinRequest
         $telegramChatJoinRequestCreate = new TelegramChatJoinRequestCreate();
 
         if (isset($json['chat_join_request']['chat']['id']) && isset($json['user_chat_id'])) {
-            $bot_user = $botUserGetFromTelegram->handle($bot_id, $json['user_chat_id']);
+            $bot_user = $botUserGetFromTelegram->handle($bot_id, $json['user_chat_idd']);
 
             if ($bot_user) {
 
