@@ -65,7 +65,7 @@ class ClubAccessController extends Controller
 
         //== Делаем первичную обработку
         //== Пишем вебхук от телеграма в БД и в переменную
-        $webhook = $telegramWebhookWrite->handle(file_get_contents('php://input'), $bot_id);
+        return $telegramWebhookWrite->handle(file_get_contents('php://input'), $bot_id);
 
         //== Получаем chat_id из вебхука, и если не найден, возвращаем ошибку
         (int) $chat_id = $telegramGetChatIDFromWebhook->handle($webhook);
