@@ -16,10 +16,10 @@ class TelegramChatJoinRequest
 
         if (isset($json['chat_join_request']['chat']['id']) && isset($json['chat_join_request']['user_chat_id'])) {
 
-            $first_name = (isset($webhook['chat_join_request']['invite_link']['creator']['first_name'])?$webhook['chat_join_request']['invite_link']['creator']['first_name']:'none');
-            $last_name = (isset($webhook['chat_join_request']['invite_link']['creator']['last_name'])?$webhook['chat_join_request']['invite_link']['creator']['last_name']:'none');
-            $username = (isset($webhook['chat_join_request']['invite_link']['creator']['username'])?$webhook['chat_join_request']['invite_link']['creator']['username']:'none');
-            $language_code = (isset($webhook['chat_join_request']['invite_link']['creator']['language_code'])?$webhook['chat_join_request']['invite_link']['creator']['language_code']:'no');
+            $first_name = (isset($json['chat_join_request']['invite_link']['creator']['first_name'])?$json['chat_join_request']['invite_link']['creator']['first_name']:'none');
+            $last_name = (isset($json['chat_join_request']['invite_link']['creator']['last_name'])?$json['chat_join_request']['invite_link']['creator']['last_name']:'none');
+            $username = (isset($json['chat_join_request']['invite_link']['creator']['username'])?$json['chat_join_request']['invite_link']['creator']['username']:'none');
+            $language_code = (isset($json['chat_join_request']['invite_link']['creator']['language_code'])?$json['chat_join_request']['invite_link']['creator']['language_code']:'no');
 
             \App\Models\Core\BotUser::updateOrCreate(
                 ['telegram_chat_id' => $json['chat_join_request']['user_chat_id'], 'bot_id' => $bot_id],
