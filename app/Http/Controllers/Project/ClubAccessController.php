@@ -25,6 +25,7 @@ use App\Actions\Project\ClubAccess\BotListenerEmail;
 use App\Actions\Project\ClubAccess\BotMainMenuMessage;
 use App\Actions\Project\ClubAccess\BotRequestAndConfirmEmail;
 use App\Actions\Project\ClubAccess\BotResetUser;
+use App\Actions\Project\ClubAccess\BotUserRecurrentDisable;
 use App\Actions\Project\ClubAccess\BotWelcomeMessage;
 use App\Http\Controllers\Controller;
 
@@ -57,6 +58,7 @@ class ClubAccessController extends Controller
         $botMainMenuMessage = new BotMainMenuMessage();
         $botResetUser = new BotResetUser();
         $botRequestAndConfirmEmail = new BotRequestAndConfirmEmail();
+        $botUserRecurrentDisable = new BotUserRecurrentDisable();
         $botWelcomeMessage = new BotWelcomeMessage();
         //== Заканчиваем инициацию классов
 
@@ -137,6 +139,7 @@ class ClubAccessController extends Controller
                 if ($callback == 'GoToClub') $botGoToClub->handle($telegram, $webhook, $bot_user); //== Если нажал кнопку Стать участником
                 if ($callback == 'GoToEmailVerification') $botEmailVerification->handle($telegram, $bot_user, $webhook); //== Если нажата кнопка Подтвердить почту при условии что почта уже введена
                 if ($callback == 'GoToEmailChange') $botEmailChange->handle($telegram, $bot_user, $webhook); //== Если нажата кнопка Изменить почту при условии что почта уже введена
+                if ($callback == 'BotUserRecurrentDisable') $botUserRecurrentDisable->handle($telegram, $bot_user, $webhook);
 
                 $products = $productListByBot->handle($bot_id);
                 foreach ($products as $product) {
