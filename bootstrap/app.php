@@ -13,7 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
             '/telegram/*',
-            '/pdf/*'
+            '/pdf/*',
+            '/yookassa/*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
