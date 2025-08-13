@@ -11,6 +11,7 @@ require 'core/bot_message_button.php';
 require 'core/devtest.php';
 require 'core/getcourse.php';
 require 'core/telegram.php';
+require 'core/yookassa.php';
 
 require 'project/app1.php';
 require 'project/app2.php';
