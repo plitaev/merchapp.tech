@@ -11,6 +11,6 @@ class TelegramAnswerPreCheckoutQuery
         $bot = $botGetByID->handle($bot_id);
 
         $telegram = new Api($bot->telegram_token);
-        $telegram->answerPreCheckoutQuery($json['pre_checkout_query']['id']);
+        $telegram->answerPreCheckoutQuery(['pre_checkout_query_id' => $json['pre_checkout_query']['id'], 'ok' => true]);
     }
 }
