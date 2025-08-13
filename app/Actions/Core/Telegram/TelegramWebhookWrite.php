@@ -5,12 +5,14 @@ use App\Models\Core\Bot;
 use App\Models\Core\TelegramWebhook;
 
 use App\Actions\Core\Telegram\TelegramChatJoinRequest;
+use App\Actions\Core\Telegram\TelegramAnswerPreCheckoutQuery;
 
 class TelegramWebhookWrite
 {
     public function handle($data, int $bot_id) {
 
         $telegramChatJoinRequest = new TelegramChatJoinRequest();
+        $telegramAnswerPreCheckoutQuery = new TelegramAnswerPreCheckoutQuery();
 
         $json = json_decode($data, true);
 
@@ -46,6 +48,10 @@ class TelegramWebhookWrite
 
         if (isset($json['chat_join_request'])) {
             return $telegramChatJoinRequest->handle($bot_id, $json);
+        }
+
+        if (isset($json['pre_checkout_query'])) {
+            return $telegramAnswerPreCheckoutQuery->handle($bot_id, $json);
         }
 
         return $json;
