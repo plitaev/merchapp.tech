@@ -3,6 +3,7 @@ namespace App\Actions\Core\Pay;
 
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserGetFromTelegram;
+use App\Actions\Core\DateEnd\DateEnd;
 
 use App\Models\Core\Pay;
 
@@ -11,6 +12,7 @@ class PaySuccessfulFromTelegramCallback
     public function handle(int $bot_id, $json) {
         $botSendMessage = new BotSendMessage();
         $botUserGetFromTelegram = new BotUserGetFromTelegram();
+        $dateEnd = new DateEnd();
 
         Pay::query()
             ->where('id', $json['message']['successful_payment']['invoice_payload'])
@@ -23,6 +25,7 @@ class PaySuccessfulFromTelegramCallback
             );
 
         $bot_user = $botUserGetFromTelegram->handle($bot_id, $json['message']['chat']['id']);
+        $dateEnd->handle($bot_user, 'Y-m-d');
         $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
     }
 }
