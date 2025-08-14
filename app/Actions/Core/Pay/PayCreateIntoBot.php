@@ -6,7 +6,7 @@ use App\Actions\Core\DateEnd\DateEnd;
 
 class PayCreateIntoBot
 {
-    public function handle($bot_user, $product) {
+    public function handle($bot_user, $product, $additional_data) {
         $dateEnd = new DateEnd();
 
         $new = \App\Models\Core\Pay::create([
@@ -17,7 +17,8 @@ class PayCreateIntoBot
             'days' => $product->days,
             'status' => 0,
             'recurrent' => 0,
-            'recurrent_status' => 0
+            'recurrent_status' => 0,
+            'pay_system_id' => $additional_data['pay_system_id']
         ]);
 
         $dateEnd->handle($bot_user, 'Y-m-d');

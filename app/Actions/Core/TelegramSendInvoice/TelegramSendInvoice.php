@@ -19,8 +19,6 @@ class TelegramSendInvoice
             $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
         }
 
-        $pay = $payCreateIntoBot->handle($bot_user, $bot);
-
         $provider_token = NULL;
         $pay_system_id = NULL;
 
@@ -31,11 +29,15 @@ class TelegramSendInvoice
 
         if (isset($pay_system)) $pay_system_id = $pay_system->id;
 
+        $additional_data = [];
+        $additional_data['pay_system_id'] = $pay_system_id;
+
+        $pay = $payCreateIntoBot->handle($bot_user, $bot, $additional_data);
+
         try {
 
             $invoice = $telegram->sendInvoice([
                 'provider_token' => $provider_token,
-                'pay_system_id' => $pay_system_id,
                 'chat_id' => $bot_user->telegram_chat_id,
                 'title' => $product->name,
                 'description' => $product->description,
