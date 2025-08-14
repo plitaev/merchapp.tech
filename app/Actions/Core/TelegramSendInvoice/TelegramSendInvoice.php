@@ -4,6 +4,7 @@ namespace App\Actions\Core\TelegramSendInvoice;
 
 use App\Actions\Core\Pay\PayCreateIntoBot;
 
+use App\Models\Core\PaySystem;
 use App\Models\Core\TelegramSendInvoiceLog;
 use App\Models\Core\TelegramSendInvoiceErrorLog;
 
@@ -20,10 +21,21 @@ class TelegramSendInvoice
 
         $pay = $payCreateIntoBot->handle($bot_user, $bot);
 
+        $provider_token = NULL;
+        $pay_system_id = NULL;
+
+        if (isset($bot->yookassa_provider_token)) {
+            $provider_token = $bot->yookassa_provider_token;
+            $pay_system = PaySystem::where('alias', 'yookassa')->first();
+        }
+
+        if (isset($pay_system)) $pay_system_id = $pay_system->id;
+
         try {
 
             $invoice = $telegram->sendInvoice([
-                'provider_token' => $bot->yookassa_provider_token,
+                'provider_token' => $provider_token,
+                'pay_system_id' => $pay_system_id,
                 'chat_id' => $bot_user->telegram_chat_id,
                 'title' => $product->name,
                 'description' => $product->description,

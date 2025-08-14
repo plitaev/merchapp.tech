@@ -16,7 +16,8 @@ class Pay extends Model
         'days',
         'status',
         'recurrent',
-        'recurrent_status'
+        'recurrent_status',
+        'pay_system_id'
     ];
 
     public function bot_user(): BelongsTo {
