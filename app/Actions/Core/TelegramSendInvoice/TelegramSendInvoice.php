@@ -32,7 +32,7 @@ class TelegramSendInvoice
         $additional_data = [];
         $additional_data['pay_system_id'] = $pay_system_id;
 
-        $pay = $payCreateIntoBot->handle($bot_user, $bot, $additional_data);
+        $pay = $payCreateIntoBot->handle($bot_user, $product, $additional_data);
 
         try {
 
