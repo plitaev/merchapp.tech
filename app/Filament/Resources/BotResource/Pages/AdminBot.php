@@ -178,6 +178,12 @@ class AdminBot extends Page implements HasForms
                         Forms\Components\TextInput::make('yookassa_provider_token')
                             ->label('Токен Юкассы')
                             ->maxLength(255),
+                        Forms\Components\TextInput::make('yookassa_shop_id')
+                            ->label('Юкасса ShopID')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('yookassa_shop_secret')
+                            ->label('Юкасса ShopSecret')
+                            ->maxLength(255),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
