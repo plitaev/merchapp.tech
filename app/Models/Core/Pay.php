@@ -17,7 +17,9 @@ class Pay extends Model
         'status',
         'recurrent',
         'recurrent_status',
-        'pay_system_id'
+        'pay_system_id',
+        'provider_payment_charge_id',
+        'telegram_payment_charge_id'
     ];
 
     public function bot_user(): BelongsTo {

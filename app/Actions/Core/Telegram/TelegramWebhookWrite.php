@@ -4,6 +4,7 @@ namespace App\Actions\Core\Telegram;
 use App\Models\Core\Bot;
 use App\Models\Core\TelegramWebhook;
 
+use App\Actions\Core\Pay\PaySuccessfulFromTelegramCallback;
 use App\Actions\Core\Telegram\TelegramChatJoinRequest;
 use App\Actions\Core\Telegram\TelegramAnswerPreCheckoutQuery;
 
@@ -11,6 +12,7 @@ class TelegramWebhookWrite
 {
     public function handle($data, int $bot_id) {
 
+        $paySuccessfulFromTelegramCallback = new PaySuccessfulFromTelegramCallback();
         $telegramChatJoinRequest = new TelegramChatJoinRequest();
         $telegramAnswerPreCheckoutQuery = new TelegramAnswerPreCheckoutQuery();
 
@@ -52,6 +54,10 @@ class TelegramWebhookWrite
 
         if (isset($json['pre_checkout_query'])) {
             return $telegramAnswerPreCheckoutQuery->handle($bot_id, $json);
+        }
+
+        if (isset($json['message']['successful_payment'])) {
+            return $paySuccessfulFromTelegramCallback->handle($bot_id, $json);
         }
 
         return $json;
