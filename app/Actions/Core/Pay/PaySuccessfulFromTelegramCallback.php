@@ -23,6 +23,6 @@ class PaySuccessfulFromTelegramCallback
             );
 
         $bot_user = $botUserGetFromTelegram->handle($bot_id, $json['message']['chat']['id']);
-        $botSendMessage->handle($bot_user, 'SYS_MAIN_MENU_MESSAGE');
+        $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
     }
 }
