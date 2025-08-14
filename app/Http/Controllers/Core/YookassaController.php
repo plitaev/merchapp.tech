@@ -1,13 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\Core;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class YookassaController
 {
     public function callback() {
-        Log::info('yookassa', ['ok' => 'ok']);
-        $source = file_get_contents('php://input');
-        Log::info('kost', ['kost' => $source]);
+        DB::table('pddata')->insertOrIgnore(['ddata' => 'ok']);
+
+        //$source = file_get_contents('php://input');
+        //DB::table('pddata')->insertOrIgnore(['ddata' => $source]);
     }
 }
