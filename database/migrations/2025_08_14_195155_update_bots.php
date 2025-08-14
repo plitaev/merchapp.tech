@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bots', function (Blueprint $table) {
-            $table->integer('yookassa_shop_id', 255)->after('yookassa_provider_token')->nullable();
+            $table->unsignedInteger('yookassa_shop_id')->after('yookassa_provider_token')->nullable();
             $table->string('yookassa_shop_secret', 255)->after('yookassa_shop_id')->nullable();
         });
     }
