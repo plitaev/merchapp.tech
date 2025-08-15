@@ -51,7 +51,17 @@ class TelegramSendMessage
                 $products = $productListByBot->handle($bot_user->bot_id);
 
                 foreach ($products as $product) {
-                    $btn = [["text" => $product->name." - ".$product->price." руб.", "web_app" => ['url' => env("APP_URL")."/pay/create/yookassa/".$product->id]]];
+
+                    $btn = [
+                        [
+                            "text" => $product->name." - ".$product->price." руб.",
+                            "web_app" =>
+                                [
+                                    'url' => env("APP_URL")."/pay/create/yookassa/".$bot_user->id."/".$product->id
+                                ]
+                        ]
+                    ];
+
                     $kb[] = $btn;
                 }
 
