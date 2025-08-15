@@ -52,7 +52,7 @@ class PayController
         $payment = $client->createPayment(array('amount' => array('value' => $product->price, 'currency' => 'RUB'),
             'confirmation' => array('type' => 'redirect', 'return_url' => 'https://google.com'),
             'receipt' => array('customer' => array('full_name' => (isset($bot_user->first_name)?$bot_user->first_name:'').' '.(isset($bot_user->last_name)?$bot_user->last_name:''), 'email' => $bot_user->email), 'items' => $products),
-            'capture' => true,'description' => $bot_user->telegram_chat_id, 'metadata' => ['orderNumber' => $pay->pay_id]),uniqid('', true));
+            'capture' => true,'description' => $bot_user->telegram_chat_id, 'metadata' => ['orderNumber' => $pay->id]),uniqid('', true));
 
         $confirmationUrl=$payment->getConfirmation()->getConfirmationUrl();
 
