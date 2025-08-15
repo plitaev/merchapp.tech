@@ -17,7 +17,6 @@ class PayController
         $payCreateIntoBot = new PayCreateIntoBot();
 
         $bot_user = BotUser::find($bot_user_id);
-        return $bot_user;
         $bot = Bot::find($bot_user->bot_id);
         $product = Product::find($product_id);
 
