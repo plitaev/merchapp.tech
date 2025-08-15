@@ -48,9 +48,9 @@ class TelegramSendMessage
 
             if ($bot_message_appointment == 'SYS_PAY_IN_BOT') {
 
-                return 'iii';
-
                 $products = $productListByBot->handle($bot_user->bot_id);
+                return $products;
+
                 foreach ($products as $product) {
                     $btn = [["text" => $product->name." - ".$product->price." руб.", "web_app" => env("APP_URL")."/"]];
                     $kb[] = $btn;
