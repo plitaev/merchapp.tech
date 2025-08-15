@@ -1,10 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\Core;
+use YooKassa\Client;
 
 use App\Actions\Core\BotUser\BotUserGetFromTelegram;
 use App\Actions\Core\Pay\PayCreateIntoBot;
 
+use App\Models\Core\Bot;
+use App\Models\Core\BotUser;
 use App\Models\Core\PaySystem;
 use App\Models\Core\Product;
 
