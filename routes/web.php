@@ -10,6 +10,7 @@ require 'core/bot_message.php';
 require 'core/bot_message_button.php';
 require 'core/devtest.php';
 require 'core/getcourse.php';
+require 'core/pay.php';
 require 'core/telegram.php';
 require 'core/yookassa.php';
 
