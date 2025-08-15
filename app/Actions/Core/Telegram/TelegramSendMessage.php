@@ -49,7 +49,6 @@ class TelegramSendMessage
             if ($bot_message_appointment == 'SYS_PAY_IN_BOT') {
 
                 $products = $productListByBot->handle($bot_user->bot_id);
-                return $products;
 
                 foreach ($products as $product) {
                     $btn = [["text" => $product->name." - ".$product->price." руб.", "web_app" => env("APP_URL")."/"]];
@@ -165,6 +164,7 @@ class TelegramSendMessage
             //=========================================================================================================================
 
             if (!$bot_message->image && !$bot_message->video && !$bot_message->audio && $send_status == 0) {
+                return 'saaa';
                 try {
                     $message = $telegram->sendMessage($A);
                     $entities = $message->entities;
