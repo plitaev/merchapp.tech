@@ -60,5 +60,7 @@ class PayController
 
         $confirmationUrl=$payment->getConfirmation()->getConfirmationUrl();
 
+        return $confirmationUrl;
+
     }
 }
