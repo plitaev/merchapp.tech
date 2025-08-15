@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Project;
 use Telegram\Bot\Api;
 
 use App\Actions\Core\Bot\BotGetByID;
+use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotSupergroup\BotSupergroups;
 use App\Actions\Core\BotUser\BotUserCreateFromTelegram;
 use App\Actions\Core\BotUser\BotUserGetFromTelegram;
@@ -35,6 +36,7 @@ class ClubAccessController extends Controller
 
         //== Инициализируем основные классы
         $botGetByID = new BotGetByID();
+        $botSendMessage = new BotSendMessage();
         $botUserCreateFromTelegram = new BotUserCreateFromTelegram();
         $telegramGetChatIDFromWebhook = new TelegramGetChatIDFromWebhook();
         $botUserGetFromTelegram = new BotUserGetFromTelegram();
@@ -93,6 +95,13 @@ class ClubAccessController extends Controller
 
             //== Если это /start, тут обрабатываем старт
             if ($Astart[0] == "/start") {
+
+                if ($bot_user->date_end != NULL && $bot_user->date_end < date('Y-m-d', time())) {
+                    $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+                } else {
+
+                }
+
                 $botResetUser->handle($bot_user->id); //== Сбрасываем юзера
                 $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id); //== И повторно достаем его данные после сброса
             }
