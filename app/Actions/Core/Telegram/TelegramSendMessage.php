@@ -164,7 +164,6 @@ class TelegramSendMessage
             //=========================================================================================================================
 
             if (!$bot_message->image && !$bot_message->video && !$bot_message->audio && $send_status == 0) {
-                return 'saaa';
                 try {
                     $message = $telegram->sendMessage($A);
                     $entities = $message->entities;

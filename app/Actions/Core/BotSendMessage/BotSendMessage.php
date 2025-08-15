@@ -27,7 +27,6 @@ class BotSendMessage
 
                 //== Отправляем само сообщение
                 $message = $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
-                return $message;
 
                 //== Проверяем статусы, и ставим, если есть
                 $schema=Schema::getColumnListing(with (new BotUser())->getTable());
