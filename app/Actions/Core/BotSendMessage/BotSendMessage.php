@@ -18,6 +18,9 @@ class BotSendMessage
         $botUserSetListener = new BotUserSetListener();
 
         $bot_message_appointment = BotMessageAppointment::where('alias', $bot_message_appointment_name)->first();
+
+        return $bot_message_appointment;
+
         if ($bot_message_appointment) {
 
             $bot_message = BotMessage::select('id', 'pause_after_message')->where('bot_id', $bot_user->bot_id)->where('bot_message_appointment_id', $bot_message_appointment->id)->first();
