@@ -1,13 +1,22 @@
 <?php
 namespace App\Http\Controllers\Core;
+
 use Illuminate\Support\Facades\DB;
+
+use App\Actions\Core\Yookassa\YookassaMakePaySuccessful;
 
 class YookassaController
 {
     public function callback() {
-        DB::table('pddata')->insertOrIgnore(['ddata' => 'ok']);
+        $yookassaMakePaySuccessful = new YookassaMakePaySuccessful();
 
         $source = file_get_contents('php://input');
-        DB::table('pddata')->insertOrIgnore(['ddata' => $source]);
+        $requestBody = json_decode($source, true);
+
+        if ($requestBody['event']=='payment.succeeded') {
+
+            if (isset($requestBody['object']['metadata']['order_number'])) $yookassaMakePaySuccessful->handle($requestBody, $source);
+
+        }
     }
 }

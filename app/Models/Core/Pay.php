@@ -18,6 +18,8 @@ class Pay extends Model
         'recurrent',
         'recurrent_status',
         'pay_system_id',
+        'pay_system_callback',
+        'pay_system_comission',
         'provider_payment_charge_id',
         'telegram_payment_charge_id'
     ];
