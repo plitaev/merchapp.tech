@@ -153,6 +153,20 @@ class ClubAccessController extends Controller
                 if ($callback == 'GoToEmailChange') $botEmailChange->handle($telegram, $bot_user, $webhook); //== Если нажата кнопка Изменить почту при условии что почта уже введена
                 if ($callback == 'BotUserRecurrentDisable') $botUserRecurrentDisable->handle($telegram, $bot_user, $webhook);
 
+                if ($callback == 'GoToStart') {
+
+                    if ($bot_user->date_end != NULL && $bot_user->date_end > date('Y-m-d', time())) {
+                        $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+                        die();
+                    } else {
+
+                    }
+
+                    $botResetUser->handle($bot_user->id); //== Сбрасываем юзера
+                    $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id); //== И повторно достаем его данные после сброса
+
+                }
+
                 $products = $productListByBot->handle($bot_id);
                 foreach ($products as $product) {
                     if ($callback == "pay_yookassa_product_".$product->id) {
