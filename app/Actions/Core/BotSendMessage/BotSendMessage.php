@@ -23,12 +23,11 @@ class BotSendMessage
 
             $bot_message = BotMessage::select('id', 'pause_after_message')->where('bot_id', $bot_user->bot_id)->where('bot_message_appointment_id', $bot_message_appointment->id)->first();
 
-            return $bot_message;
-
             if ($bot_message) {
 
                 //== Отправляем само сообщение
                 $message = $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
+                return $message;
 
                 //== Проверяем статусы, и ставим, если есть
                 $schema=Schema::getColumnListing(with (new BotUser())->getTable());
