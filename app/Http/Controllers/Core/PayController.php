@@ -37,19 +37,15 @@ class PayController
 
         $products = [
             [
-                'description' => 'Переносное зарядное устройство Хувей',
+                'description' => $product->name,
                 'quantity' => '1.00',
                 'amount' => [
                     'value' => $product->price,
                     'currency' => 'RUB'
                 ],
-                'vat_code' => '2',
+                'vat_code' => '1',
                 'payment_mode' => 'full_payment',
-                'payment_subject' => 'commodity',
-                'country_of_origin_code' => 'CN',
-                'product_code' => '44 4D 01 00 21 FA 41 00 23 05 41 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 12 00 AB 00',
-                'customs_declaration_number' => '10714040/140917/0090376',
-                'excise' => '20.00'
+                'payment_subject' => 'commodity'
                 ]
         ];
 
@@ -60,7 +56,7 @@ class PayController
 
         $confirmationUrl=$payment->getConfirmation()->getConfirmationUrl();
 
-        return $confirmationUrl;
+        return redirect($confirmationUrl);
 
     }
 }
