@@ -33,9 +33,7 @@ class PayController
         $pay = $payCreateIntoBot->handle($bot_user, $product, $additional_data);
 
         $products = [];
-        $products[]=["description" => $product->product_name, "quantity" => "1.00", "amount" => ["value" => $product->price, "currency" => "RUB", "vat_code" => 1, "payment_mode" => "full_payment", "payment_subject" => "service"]];
-
-        return $products;
+        $products[]=["description" => $product->name, "quantity" => "1.00", "amount" => ["value" => $product->price, "currency" => "RUB", "vat_code" => 1, "payment_mode" => "full_payment", "payment_subject" => "service"]];
 
         $payment = $client->createPayment(array('amount' => array('value' => $product->price, 'currency' => 'RUB'),
             'confirmation' => array('type' => 'redirect', 'return_url' => 'https://google.com'),
