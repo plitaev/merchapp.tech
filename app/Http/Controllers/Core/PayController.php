@@ -35,7 +35,28 @@ class PayController
         $products = [];
         $products[]=["description" => $product->name, "quantity" => "1.00", "amount" => ["value" => $product->price, "currency" => "RUB", "vat_code" => "1", "payment_mode" => "full_payment", "payment_subject" => "service"]];
 
-        return $products;
+        $products = [
+            [
+                'description' => 'Переносное зарядное устройство Хувей',
+                'quantity' => '1.00',
+                'amount' => [
+                    'value' => $product->price,
+                    'currency' => 'RUB'
+                ],
+                'vat_code' => '2',
+                'payment_mode' => 'full_payment',
+                'payment_subject' => 'commodity',
+                'country_of_origin_code' => 'CN',
+                'product_code' => '44 4D 01 00 21 FA 41 00 23 05 41 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 12 00 AB 00',
+                'customs_declaration_number' => '10714040/140917/0090376',
+                'excise' => '20.00',
+                'supplier' => [
+                    'name' => 'string',
+                    'phone' => 'string',
+                    'inn' => 'string'
+                ]
+                ]
+        ];
 
         $payment = $client->createPayment(array('amount' => array('value' => $product->price, 'currency' => 'RUB'),
             'confirmation' => array('type' => 'redirect', 'return_url' => 'https://google.com'),
