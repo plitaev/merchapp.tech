@@ -96,7 +96,7 @@ class ClubAccessController extends Controller
             //== Если это /start, тут обрабатываем старт
             if ($Astart[0] == "/start") {
 
-                if ($bot_user->date_end != NULL && $bot_user->date_end < date('Y-m-d', time())) {
+                if ($bot_user->date_end != NULL && $bot_user->date_end > date('Y-m-d', time())) {
                     $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
                 } else {
 
