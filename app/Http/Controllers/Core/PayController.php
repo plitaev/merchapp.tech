@@ -19,6 +19,7 @@ class PayController
         $bot_user = BotUser::find($bot_user_id);
         $bot = Bot::find($bot_user->bot_id);
         $product = Product::find($product_id);
+        return $product;
 
         $client = new Client();
         $client->setAuth($bot->yookassa_shop_id, $bot->yookassa_shop_secret);
