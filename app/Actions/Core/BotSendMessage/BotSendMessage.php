@@ -14,7 +14,6 @@ use App\Models\Core\BotUser;
 class BotSendMessage
 {
     public function handle($bot_user, string $bot_message_appointment_name) {
-        return 'sendmessage';
         $telegramSendMessage = new TelegramSendMessage();
         $botUserSetListener = new BotUserSetListener();
 
