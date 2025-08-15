@@ -15,7 +15,6 @@ use App\Models\Core\TelegramSendMessageLog;
 class TelegramSendMessage
 {
     public function handle($bot_user, int $bot_message_id, string $bot_message_appointment = '') {
-        return 'telegram send';
 
         $productListByBot = new ProductListByBot();
         $telegramInviteLink = new TelegramInviteLink();
@@ -48,6 +47,8 @@ class TelegramSendMessage
             $kb = [];
 
             if ($bot_message_appointment == 'SYS_PAY_IN_BOT') {
+
+                return 'iii';
 
                 $products = $productListByBot->handle($bot_user->bot_id);
                 foreach ($products as $product) {
