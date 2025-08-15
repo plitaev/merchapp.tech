@@ -2,7 +2,6 @@
 namespace App\Http\Controllers\Core;
 use YooKassa\Client;
 
-use App\Actions\Core\BotUser\BotUserGetFromTelegram;
 use App\Actions\Core\Pay\PayCreateIntoBot;
 
 use App\Models\Core\Bot;
@@ -13,7 +12,6 @@ use App\Models\Core\Product;
 class PayController
 {
     public function create(string $pay_system_alias, int $bot_user_id, int $product_id) {
-        $botUserGetFromTelegram = new BotUserGetFromTelegram();
         $payCreateIntoBot = new PayCreateIntoBot();
 
         $bot_user = BotUser::find($bot_user_id);
@@ -59,4 +57,10 @@ class PayController
         return redirect($confirmationUrl);
 
     }
+
+    public function thank_you(int $bot_id) {
+        $bot = Bot::select('alias')->find($bot_id);
+        return view('core.pay.thank_you', ['bot' => $bot]);
+    }
+
 }
