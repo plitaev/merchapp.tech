@@ -155,6 +155,10 @@ class ClubAccessController extends Controller
 
                 if ($callback == 'GoToStart') {
 
+                    if (isset($webhook['callback_query']['message']['message_id'])) {
+                        $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
+                    }
+
                     if ($bot_user->date_end != NULL && $bot_user->date_end > date('Y-m-d', time())) {
                         $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
                         die();
