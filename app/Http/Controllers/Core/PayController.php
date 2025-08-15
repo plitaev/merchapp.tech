@@ -22,7 +22,7 @@ class PayController
         $client->setAuth($bot->yookassa_shop_id, $bot->yookassa_shop_secret);
 
         $pay_system_id = NULL;
-        if (isset($bot->yookassa_shop_id) && isset($bot->yookassa_shop_secret)) $pay_system = PaySystem::where('alias', 'yookassa')->first();
+        $pay_system = PaySystem::where('alias', $pay_system_alias)->first();
         if (isset($pay_system)) $pay_system_id = $pay_system->id;
 
         $additional_data = [];
