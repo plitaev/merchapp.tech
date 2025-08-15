@@ -7,7 +7,6 @@ use App\Actions\Project\ClubAccess\BotMainMenuMessage;
 class BotEmailVerification
 {
     public function handle($telegram, $bot_user, $webhook) {
-        return 'ok ok ok';
 
         $botMainMenuMessage = new BotMainMenuMessage();
         $botSendMessage = new BotSendMessage();
