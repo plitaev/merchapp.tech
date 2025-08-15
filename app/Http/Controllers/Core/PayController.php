@@ -41,6 +41,7 @@ class PayController
                     'value' => $product->price,
                     'currency' => 'RUB'
                 ],
+                'tax_system_code' => 6,
                 'vat_code' => '1',
                 'payment_mode' => 'full_payment',
                 'payment_subject' => 'service'
