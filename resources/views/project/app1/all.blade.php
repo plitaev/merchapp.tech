@@ -9,7 +9,7 @@
     <title>{{env('APP_NAME')}} @hasSection('title') - @yield('title') @endif</title>
 
     <!-- Styles -->
-    @vite('resources/css/app.css')
+    <link href="/css/tailwind.css" rel="stylesheet">
 
     @hasSection('head') @yield('head') @endif
 </head>
