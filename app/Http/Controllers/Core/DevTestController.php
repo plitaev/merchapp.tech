@@ -15,7 +15,7 @@ class DevTestController extends Controller
 
         $bot_user = BotUser::find(1);
         $bot = Bot::find($bot_user->bot_id);
-        $product = Product::find(1);
+        $product = Product::find(7);
 
         $client = new Client();
         $client->setAuth($bot->yookassa_shop_id, $bot->yookassa_shop_secret);
