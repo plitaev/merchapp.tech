@@ -40,7 +40,7 @@ class DevTestController extends Controller
             'confirmation' => array('type' => 'redirect', 'return_url' => env("APP_URL").'/thank-you/'.$bot_user->bot_id),
             'payment_method_id' => '30350d4f-000f-5000-b000-11da1ea9d023',
             'receipt' => array('customer' => array('full_name' => (isset($bot_user->first_name)?$bot_user->first_name:'').' '.(isset($bot_user->last_name)?$bot_user->last_name:''), 'email' => $bot_user->email), 'items' => $products),
-            'capture' => false,'description' => $bot_user->telegram_chat_id, 'metadata' => ['order_number' => 90]),uniqid('', true));
+            'capture' => false,'description' => $bot_user->telegram_chat_id, 'metadata' => ['order_number' => 91]),uniqid('', true));
 
         return $payment;
 
