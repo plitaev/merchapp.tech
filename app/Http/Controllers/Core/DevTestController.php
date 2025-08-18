@@ -13,6 +13,15 @@ use Telegram\Bot\Api;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $keyboard = ["inline_keyboard" => [
+                    [["text" => "", "web_app" => ["url" => "https://irinaschevchenko.tech/app2"]]]
+                ]];
+        $keyboard = json_encode($keyboard,true);
+
+        $telegram = new Api("8440878720:AAHrI6jj_V16gYrNxKBHnpC_fW835c9nlfU");
+        return $telegram->sendPhoto(['chat_id' => 247632034, 'parse_mode' => 'HTML', 'text' => "В этом приложении вы найдете все методички и материалы клуба.%0A%0AВСЕ В ОДНОМ МЕСТЕ❤️", 'protect_content' => false]);
+
         /*
         $bot_user = BotUser::find(1);
         $bot = Bot::find($bot_user->bot_id);
@@ -23,7 +32,7 @@ class DevTestController extends Controller
 
         return $client->getPaymentInfo("3035311b-000f-5001-9000-1b771a469f1d");
         */
-
+        /*
         $bot_user = BotUser::find(1);
         $bot = Bot::find($bot_user->bot_id);
         $product = Product::find(7);
@@ -70,6 +79,6 @@ class DevTestController extends Controller
             'capture' => true,'description' => $bot_user->telegram_chat_id, 'metadata' => ['order_number' => $new->id]),uniqid('', true));
 
         return $payment;
-
+        */
     }
 }
