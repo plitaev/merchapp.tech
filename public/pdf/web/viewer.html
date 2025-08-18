@@ -51,7 +51,7 @@ See https://github.com/adobe-type-tools/cmap-resources
               }
           };
 
-          var bot_id = getUrlParameter("bot_id");
+          var app_bot_id = getUrlParameter("bot_id");
           var pdf_file = getUrlParameter("doc");
 
           $(document).ready(function() {
@@ -59,7 +59,10 @@ See https://github.com/adobe-type-tools/cmap-resources
               let app_chat_id = app.initDataUnsafe.user.id;
               app.initDataUnsafe.start_param = undefined;
 
-              $.post("/pdf/rights_check", { "bot_id": bot_id, "chat_id": app_chat_id }, function(data) {
+              console.log(app_bot_id);
+              console.log(app_chat_id);
+
+              $.post("/pdf/rights_check", { bot_id: app_bot_id, chat_id: app_chat_id }, function(data) {
               }).done(function(data) {
                   if (!data || data!=1) $("#outerContainer").remove();
               }).fail(function() {
