@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use App\Actions\Core\MiniApp\MiniAppGetByURI;
 use App\Actions\Core\MiniAppBanner\MiniAppBannerListByClassID;
+use App\Models\Core\BotUser;
 
 class App2Controller extends Controller
 {
@@ -25,7 +26,11 @@ class App2Controller extends Controller
         $source = file_get_contents('php://input');
         $params = json_decode($source, true);
 
-        return $params['chat_id']." | ".$params['bot_id'];
+        return BotUser::where('telegram_chat_id', $params['chat_id'])
+            ->where('bot_id', $params['bot_id'])
+            ->whereNotNull('date_end')
+            ->where('date_end', '>=', date('Y-m-d'))
+            ->count();
     }
 
 }
