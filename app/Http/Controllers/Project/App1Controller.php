@@ -19,16 +19,4 @@ class App1Controller extends Controller
         return view('project.app1.guides');
     }
 
-    public function app1_pdf_rights_check() {
-        $chat_id = implode(',', $_POST);
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://kovalchuk.tech/app1/pdf_rights_check/".$chat_id);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        return $response;
-    }
-
 }
