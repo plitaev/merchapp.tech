@@ -7,6 +7,7 @@ class MiniAppBannerListByClassID
 {
     public function handle(int $mini_app_page_id, int $banner_class_id) {
         $banners = MiniAppBannerLinkPage::query()
+            ->with('miniapp')
             ->with('miniapp_banner')
             ->with('miniapp_banner_class')
             ->whereHas('miniapp_banner_class', function ($query) use ($banner_class_id) {
