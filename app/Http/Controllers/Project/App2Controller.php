@@ -22,16 +22,7 @@ class App2Controller extends Controller
     }
 
     public function pdf_rights_check() {
-        $chat_id = implode(',', $_POST);
-        return $chat_id;
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "/app2/pdf_rights_check");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        return $response;
+        return file_get_contents('php://input');
     }
 
 }
