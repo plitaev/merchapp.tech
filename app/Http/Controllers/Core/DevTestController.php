@@ -13,6 +13,7 @@ use Telegram\Bot\Api;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
         $bot_user = BotUser::find(1);
         $bot = Bot::find($bot_user->bot_id);
         $product = Product::find(7);
@@ -21,8 +22,8 @@ class DevTestController extends Controller
         $client->setAuth($bot->yookassa_shop_id, $bot->yookassa_shop_secret);
 
         return $client->getPaymentInfo("3035311b-000f-5001-9000-1b771a469f1d");
+        */
 
-        /*
         $bot_user = BotUser::find(1);
         $bot = Bot::find($bot_user->bot_id);
         $product = Product::find(7);
@@ -66,9 +67,9 @@ class DevTestController extends Controller
             'confirmation' => array('type' => 'redirect', 'return_url' => env("APP_URL").'/thank-you/'.$bot_user->bot_id),
             'payment_method_id' => '30352fc9-000f-5000-b000-1bf08ebe361e',
             'receipt' => array('customer' => array('full_name' => (isset($bot_user->first_name)?$bot_user->first_name:'').' '.(isset($bot_user->last_name)?$bot_user->last_name:''), 'email' => $bot_user->email), 'items' => $products),
-            'capture' => false,'description' => $bot_user->telegram_chat_id, 'metadata' => ['order_number' => $new->id]),uniqid('', true));
+            'capture' => true,'description' => $bot_user->telegram_chat_id, 'metadata' => ['order_number' => $new->id]),uniqid('', true));
 
         return $payment;
-        */
+
     }
 }
