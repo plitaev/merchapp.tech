@@ -59,7 +59,7 @@ See https://github.com/adobe-type-tools/cmap-resources
               let app_chat_id = app.initDataUnsafe.user.id;
               app.initDataUnsafe.start_param = undefined;
 
-              $.post("/app2/pdf_rights_check", { "bot_id": bot_id, "chat_id": app_chat_id }, function(data) {
+              $.post("/pdf/rights_check", { "bot_id": bot_id, "chat_id": app_chat_id }, function(data) {
               }).done(function(data) {
                   if (!data || data!=1) $("#outerContainer").remove();
               }).fail(function() {
