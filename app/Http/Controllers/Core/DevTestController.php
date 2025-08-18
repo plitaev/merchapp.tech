@@ -39,7 +39,7 @@ class DevTestController extends Controller
         $payment = $client->createPayment(array('amount' => array('value' => $product->price, 'currency' => 'RUB'),
             'confirmation' => array('type' => 'redirect', 'return_url' => env("APP_URL").'/thank-you/'.$bot_user->bot_id),
             'receipt' => array('customer' => array('full_name' => (isset($bot_user->first_name)?$bot_user->first_name:'').' '.(isset($bot_user->last_name)?$bot_user->last_name:''), 'email' => $bot_user->email), 'items' => $products),
-            'capture' => true,'description' => $bot_user->telegram_chat_id, 'metadata' => ['order_number' => 90]),uniqid('', true));
+            'capture' => false,'description' => $bot_user->telegram_chat_id, 'metadata' => ['order_number' => 90]),uniqid('', true));
 
         return $payment;
 
