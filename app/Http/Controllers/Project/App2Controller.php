@@ -22,7 +22,10 @@ class App2Controller extends Controller
     }
 
     public function pdf_rights_check() {
-        return file_get_contents('php://input');
+        $source = file_get_contents('php://input');
+        $params = json_decode($source, true);
+
+        return $params['chat_id']." | ".$params['bot_id'];
     }
 
 }
