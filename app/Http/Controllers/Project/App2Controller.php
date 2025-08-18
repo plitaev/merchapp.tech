@@ -13,8 +13,6 @@ class App2Controller extends Controller
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
         $mini_app = $miniAppGetByURI->handle();
 
-        return $miniAppBannerListByClassID->handle(5, 2);
-
         return view('project.app2.app2', [
             'mini_app' => $mini_app,
             'banners_big' => $miniAppBannerListByClassID->handle(5, 1),
