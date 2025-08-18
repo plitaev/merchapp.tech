@@ -7,6 +7,6 @@ use App\Models\Core\MiniApp;
 class MiniAppGetByURI
 {
     public function handle() {
-        return MiniApp::with('bot')->where('url', $_SERVER['REQUEST_URI'])->first();
+        return MiniApp::select('bot_id')->where('url', $_SERVER['REQUEST_URI'])->first();
     }
 }

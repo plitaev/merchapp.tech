@@ -11,10 +11,12 @@ class App2Controller extends Controller
     public function app2(int $no_rdr = 0) {
         $miniAppGetByURI = new MiniAppGetByURI();
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
+        $mini_app = $miniAppGetByURI->handle();
 
-        return $miniAppGetByURI->handle();
+        return $miniAppBannerListByClassID->handle(5, 2);
 
         return view('project.app2.app2', [
+            'mini_app' => $mini_app,
             'banners_big' => $miniAppBannerListByClassID->handle(5, 1),
             'banners_medium' => $miniAppBannerListByClassID->handle(5, 2),
             'no_rdr' => $no_rdr

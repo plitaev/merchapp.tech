@@ -22,7 +22,7 @@
 
             @if ($no_rdr==0)
             let startParam = app.initDataUnsafe.start_param;
-            if (startParam != undefined) window.location.href = "/pdf/web/viewer.html?doc="+startParam;
+            if (startParam != undefined) window.location.href = "/pdf/web/viewer.html?bot_id=".$mini_app->bot_id."&doc="+startParam;
             @endif
 
         };
