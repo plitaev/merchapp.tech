@@ -44,7 +44,8 @@ class PayController
                 'tax_system_code' => 6,
                 'vat_code' => '1',
                 'payment_mode' => 'full_payment',
-                'payment_subject' => 'service'
+                'payment_subject' => 'service',
+                'save_payment_method' => true
                 ]
         ];
 
