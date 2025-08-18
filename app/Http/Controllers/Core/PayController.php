@@ -30,9 +30,6 @@ class PayController
 
         $pay = $payCreateIntoBot->handle($bot_user, $product, $additional_data);
 
-        $products = [];
-        $products[]=["description" => $product->name, "quantity" => "1.00", "amount" => ["value" => $product->price, "currency" => "RUB", "vat_code" => "1", "payment_mode" => "full_payment", "payment_subject" => "service"]];
-
         $products = [
             [
                 'description' => $product->name,
