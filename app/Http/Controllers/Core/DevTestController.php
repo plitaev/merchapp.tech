@@ -15,7 +15,7 @@ class DevTestController extends Controller
     public function devtest() {
 
         $keyboard = ["inline_keyboard" => [
-                    [["text" => "", "web_app" => ["url" => "https://irinaschevchenko.tech/app2"]]]
+                    [["text" => "ОТКРЫТЬ ПРИЛОЖЕНИЕ", "web_app" => ["url" => "https://irinaschevchenko.tech/app2"]]]
                 ]];
         $keyboard = json_encode($keyboard,true);
 
