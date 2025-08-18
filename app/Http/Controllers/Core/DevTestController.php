@@ -20,7 +20,7 @@ class DevTestController extends Controller
         $keyboard = json_encode($keyboard,true);
 
         $telegram = new Api("8440878720:AAHrI6jj_V16gYrNxKBHnpC_fW835c9nlfU");
-        return $telegram->sendMessage(['chat_id' => 247632034, 'parse_mode' => 'HTML', 'text' => urldecode("В этом приложении вы найдете все методички и материалы клуба.%0A%0AВСЕ В ОДНОМ МЕСТЕ❤️"), 'protect_content' => false, 'reply_markup' => $keyboard]);
+        return $telegram->sendMessage(['chat_id' => -1002826769152, 'parse_mode' => 'HTML', 'text' => urldecode("В этом приложении вы найдете все методички и материалы клуба.%0A%0AВСЕ В ОДНОМ МЕСТЕ❤️"), 'protect_content' => false, 'reply_markup' => $keyboard]);
 
         /*
         $bot_user = BotUser::find(1);
