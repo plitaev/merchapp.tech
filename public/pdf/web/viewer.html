@@ -70,10 +70,10 @@ See https://github.com/adobe-type-tools/cmap-resources
                   dataType: 'json',
                   data: JSON.stringify(dataToSend),
                   success: function(data) {
-                      if (!data || data!=1) $("#outerContainer").remove();
+                      if (!data || data!=1) document.location.href="/pdf/access_denied";
                   },
                   error: function(xhr, status, error) {
-                      $("#outerContainer").remove();
+                      document.location.href="/pdf/access_denied";
                   }
               });
 
