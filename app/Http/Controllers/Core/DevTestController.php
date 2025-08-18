@@ -20,8 +20,21 @@ class DevTestController extends Controller
         $client = new Client();
         $client->setAuth($bot->yookassa_shop_id, $bot->yookassa_shop_secret);
 
-        $products = [];
-        $products[]=["description" => $product->name, "quantity" => "1.00", "amount" => ["value" => $product->price, "currency" => "RUB", "vat_code" => "1", "payment_mode" => "full_payment", "payment_subject" => "service"]];
+        $products = [
+            [
+                'description' => $product->name,
+                'quantity' => '1.00',
+                'amount' => [
+                    'value' => $product->price,
+                    'currency' => 'RUB'
+                ],
+                'tax_system_code' => 6,
+                'vat_code' => '1',
+                'payment_mode' => 'full_payment',
+                'payment_subject' => 'service',
+                'save_payment_method' => true
+            ]
+        ];
 
         $payment = $client->createPayment(array('amount' => array('value' => $product->price, 'currency' => 'RUB'),
             'confirmation' => array('type' => 'redirect', 'return_url' => env("APP_URL").'/thank-you/'.$bot_user->bot_id),
