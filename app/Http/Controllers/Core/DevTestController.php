@@ -15,12 +15,12 @@ class DevTestController extends Controller
     public function devtest() {
 
         $keyboard = ["inline_keyboard" => [
-                    [["text" => "ОТКРЫТЬ ПРИЛОЖЕНИЕ", "web_app" => ["url" => "https://irinaschevchenko.tech/app2"]]]
+                    [["text" => "ОТКРЫТЬ ПРИЛОЖЕНИЕ", "url" => "https://t.me/tochka_i_club_bot/merchapp"]]
                 ]];
         $keyboard = json_encode($keyboard,true);
 
         $telegram = new Api("8440878720:AAHrI6jj_V16gYrNxKBHnpC_fW835c9nlfU");
-        return $telegram->sendMessage(['chat_id' => 1288080888, 'parse_mode' => 'HTML', 'text' => urldecode("В этом приложении вы найдете все методички и материалы клуба.%0A%0AВСЕ В ОДНОМ МЕСТЕ❤️"), 'protect_content' => false, 'reply_markup' => $keyboard]);
+        return $telegram->sendMessage(['chat_id' => -1002826769152, 'parse_mode' => 'HTML', 'text' => urldecode("В этом приложении вы найдете все методички и материалы клуба.%0A%0AВСЕ В ОДНОМ МЕСТЕ❤️"), 'protect_content' => false, 'reply_markup' => $keyboard]);
 
         /*
         $bot_user = BotUser::find(1);
