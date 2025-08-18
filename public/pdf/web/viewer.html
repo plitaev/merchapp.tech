@@ -69,7 +69,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                   contentType: 'application/json',
                   dataType: 'json',
                   data: JSON.stringify(dataToSend),
-                  success: function(response) {
+                  success: function(data) {
                       if (!data || data!=1) $("#outerContainer").remove();
                   },
                   error: function(xhr, status, error) {
