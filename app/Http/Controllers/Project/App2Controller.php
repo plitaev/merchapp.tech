@@ -33,4 +33,8 @@ class App2Controller extends Controller
             ->count();
     }
 
+    public function access_denied() {
+        return view("project.app2.access_denied");
+    }
+
 }
