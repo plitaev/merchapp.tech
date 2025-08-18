@@ -16,17 +16,34 @@ class YookassaMakePaySuccessful
         $botUserGetFromTelegram = new BotUserGetFromTelegram();
         $dateEnd = new DateEnd();
 
+        $order_number = 0;
+        $provider_payment_charge_id = '';
+
+        if (isset($requestBody['object']['metadata']['order_number'])) {
+
+            $order_number = $requestBody['object']['metadata']['order_number'];
+            $provider_payment_charge_id = $requestBody['object']['id'];
+
+        } else {
+
+            if (isset($requestBody['metadata']['order_number'])) {
+                $order_number = $requestBody['metadata']['order_number'];
+                $provider_payment_charge_id = $requestBody['id'];
+            }
+
+        }
+
         Pay::query()
-            ->where('id', $requestBody['object']['metadata']['order_number'])
+            ->where('id', $order_number)
             ->update(
                 [
                     'status' => 1,
-                    'provider_payment_charge_id' => $requestBody['object']['id'],
+                    'provider_payment_charge_id' => $provider_payment_charge_id,
                     'pay_system_callback' => $source
                 ]
             );
 
-        $pay = Pay::find($requestBody['object']['metadata']['order_number']);
+        $pay = Pay::find($order_number);
 
         $bot_user = BotUser::find($pay->bot_user_id);
         $dateEnd->handle($bot_user, 'Y-m-d');
