@@ -8,6 +8,6 @@ class PaySystemCallbackCreate
 {
     public function handle(string $callback, string $pay_system_alias) {
         $pay_system = PaySystem::where('alias', $pay_system_alias)->first();
-        if ($pay_system)PaySystemCallback::create(['pay_system_id' => $pay_system->id, 'callback' => $callback]);
+        if ($pay_system) PaySystemCallback::create(['pay_system_id' => $pay_system->id, 'callback' => $callback]);
     }
 }
