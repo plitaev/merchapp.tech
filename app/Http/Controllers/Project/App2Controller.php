@@ -22,7 +22,6 @@ class App2Controller extends Controller
     }
 
     public function pdf_rights_check() {
-        return $_POST;
         $chat_id = implode(',', $_POST);
 
         $ch = curl_init();

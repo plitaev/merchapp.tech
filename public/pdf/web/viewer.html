@@ -60,9 +60,7 @@ See https://github.com/adobe-type-tools/cmap-resources
               app.initDataUnsafe.start_param = undefined;
 
               $.post("/app2/pdf_rights_check", { "bot_id": bot_id, "chat_id": app_chat_id }, function(data) {
-                  console.log(data);
               }).done(function(data) {
-                  console.log(data);
                   if (!data || data!=1) $("#outerContainer").remove();
               }).fail(function() {
                   $("#outerContainer").remove();
