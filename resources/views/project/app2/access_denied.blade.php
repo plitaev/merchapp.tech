@@ -5,6 +5,22 @@
 
 @section('content')
 
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+
+    <script>
+
+        $(document).ready(function() {
+            let app = window.Telegram.WebApp;
+
+            app.BackButton.show();
+            app.BackButton.onClick(function() {
+                window.location.href="/app2/1";
+            });
+
+            app.ready();
+        });
+
     <main class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8 dark:bg-gray-900">
         <div class="text-center">
             <p class="text-base font-semibold text-indigo-600 dark:text-indigo-400">404</p>
