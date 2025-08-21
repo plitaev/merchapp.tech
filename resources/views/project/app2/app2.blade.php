@@ -7,6 +7,7 @@
 
     <script>
         window.onload = function() {
+            console.log(app);
             app.BackButton.hide();
             @if ($no_rdr==0)
             let startParam = app.initDataUnsafe.start_param;
