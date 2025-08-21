@@ -18,8 +18,6 @@
             let app = window.Telegram.WebApp;
             app.ready();
 
-            console.log(app);
-
             let first_name = app.initDataUnsafe.user.first_name;
 
             $(document).ready(function() {
