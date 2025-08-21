@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Project;
 
 use App\Http\Controllers\Controller;
 
+use App\Actions\Core\Bot\BotGetByID;
 use App\Actions\Core\MiniApp\MiniAppGetByURI;
 use App\Actions\Core\MiniAppBanner\MiniAppBannerListByClassID;
 use App\Models\Core\BotUser;
@@ -12,6 +13,7 @@ class App2Controller extends Controller
     public function app2(int $no_rdr = 0) {
         $miniAppGetByURI = new MiniAppGetByURI();
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
+
         $mini_app = $miniAppGetByURI->handle();
 
         return view('project.app2.app2', [
@@ -33,8 +35,12 @@ class App2Controller extends Controller
             ->count();
     }
 
-    public function access_denied() {
-        return view("project.app2.access_denied");
+    public function access_denied(int $bot_id) {
+        $botGetByID = new BotGetByID();
+
+        $bot = $botGetByID->handle($bot_id);
+
+        return view("project.app2.access_denied", ['bot' => $bot]);
     }
 
 }
