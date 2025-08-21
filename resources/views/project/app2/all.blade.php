@@ -16,13 +16,13 @@
 
     <script>
 
-        $(document).ready(function() {
+
             let app = window.Telegram.WebApp;
             app.ready();
 
             let first_name = app.initDataUnsafe.user.first_name;
             if (first_name!="undefined") document.getElementById('username').innerHTML = "😎 "+first_name;
-        });
+
     </script>
 
     @hasSection('head') @yield('head') @endif
