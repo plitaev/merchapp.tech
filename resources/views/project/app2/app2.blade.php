@@ -1,30 +1,17 @@
-@extends('project.app1.app')
+@extends('project.app2.app')
 
 @section('head')
 @endsection
 
 @section('content')
-    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
 
     <script>
         window.onload = function() {
-            let app = window.Telegram.WebApp;
-            console.log(app);
             app.BackButton.hide();
-
-            let first_name = app.initDataUnsafe.user.first_name;
-
-            if (first_name!="undefined") {
-                document.getElementById('username').innerHTML = "😎 "+first_name;
-            }
-
-            app.ready();
-
             @if ($no_rdr==0)
             let startParam = app.initDataUnsafe.start_param;
-            if (startParam != undefined) window.location.href = "/pdf/web/viewer.html?bot_id=".$mini_app->bot_id."&doc="+startParam;
+            if (startParam != undefined) window.location.href = "/pdf/web/viewer.html?bot_id={{$mini_app->bot_id}}&doc="+startParam;
             @endif
-
         };
     </script>
 

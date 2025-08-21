@@ -1,25 +1,17 @@
-@extends('project.app1.app')
+@extends('project.app2.app')
 
 @section('head')
 @endsection
 
 @section('content')
-
-    <script src="/js/jquery-3.6.0.min.js"></script>
-    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
-
     <script>
 
-        $(document).ready(function() {
-            let app = window.Telegram.WebApp;
-
+        window.onload = function() {
             app.BackButton.show();
             app.BackButton.onClick(function() {
                 window.location.href="/app2/1";
             });
-
-            app.ready();
-        });
+        }
         </script>
 
     <main class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8 dark:bg-gray-900">
