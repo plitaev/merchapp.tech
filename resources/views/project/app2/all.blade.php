@@ -17,8 +17,8 @@
     <script>
 
         $(document).ready(function() {
-            let telegram = window.Telegram.WebApp;
-            telegram.ready();
+            let app = window.Telegram.WebApp;
+            app.ready();
 
             let first_name = telegram.initDataUnsafe.user.first_name;
             if (first_name!="undefined") document.getElementById('username').innerHTML = "😎 "+first_name;

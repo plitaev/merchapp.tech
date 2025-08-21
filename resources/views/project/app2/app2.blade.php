@@ -6,14 +6,13 @@
 @section('content')
 
     <script>
-        window.onload = function() {
-            console.log(telegram);
-            telegram.BackButton.hide();
+        $(document).ready(function() {
+            app.BackButton.hide();
             @if ($no_rdr==0)
             let startParam = app.initDataUnsafe.start_param;
             if (startParam != undefined) window.location.href = "/pdf/web/viewer.html?bot_id={{$mini_app->bot_id}}&doc="+startParam;
             @endif
-        };
+        });
     </script>
 
     <div class="isolate overflow-y-scroll bg-[#f1f1f1] h-[100vh]">
