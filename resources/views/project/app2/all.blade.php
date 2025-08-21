@@ -21,7 +21,7 @@
             let first_name = app.initDataUnsafe.user.first_name;
 
             $(document).ready(function() {
-                if (first_name!="undefined") document.getElementById('username').innerHTML = "😎 "+first_name;
+                if (first_name !== "undefined") $('#username').html("😎 "+first_name);
             });
     </script>
 
