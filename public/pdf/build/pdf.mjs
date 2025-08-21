@@ -1,5 +1,5 @@
 /**
- * @licstart The following is the entire license notice for the
+ * @licstart The following is the entire license notice for thee
  * JavaScript code in this page
  *
  * Copyright 2024 Mozilla Foundation
@@ -22,7 +22,7 @@
 
 /******/ // The require scope
 /******/ var __webpack_require__ = {};
-/******/ 
+/******/
 /************************************************************************/
 /******/ /* webpack/runtime/define property getters */
 /******/ (() => {
@@ -35,12 +35,12 @@
 /******/ 		}
 /******/ 	};
 /******/ })();
-/******/ 
+/******/
 /******/ /* webpack/runtime/hasOwnProperty shorthand */
 /******/ (() => {
 /******/ 	__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ })();
-/******/ 
+/******/
 /************************************************************************/
 var __webpack_exports__ = globalThis.pdfjsLib = {};
 
