@@ -10,16 +10,7 @@
 
     <script>
 
-        $(document).ready(function() {
-            let app = window.Telegram.WebApp;
 
-            app.BackButton.show();
-            app.BackButton.onClick(function() {
-                window.location.href="/app2/1";
-            });
-
-            app.ready();
-        });
 
     <main class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8 dark:bg-gray-900">
         <div class="text-center">
