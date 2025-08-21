@@ -15,14 +15,13 @@
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
 
     <script>
-
-
             let app = window.Telegram.WebApp;
             app.ready();
 
+            console.log(app);
+
             let first_name = app.initDataUnsafe.user.first_name;
             if (first_name!="undefined") document.getElementById('username').innerHTML = "😎 "+first_name;
-
     </script>
 
     @hasSection('head') @yield('head') @endif
