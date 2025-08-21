@@ -16,7 +16,7 @@ limitations under the License.
 
 Adobe CMap resources are covered by their own copyright but the same license:
 
-    Copyright 1990-2015 Adobe Systems Incorporated..
+    Copyright 1990-2015 Adobe Systems Incorporated.
 
 See https://github.com/adobe-type-tools/cmap-resources
 -->
@@ -26,6 +26,11 @@ See https://github.com/adobe-type-tools/cmap-resources
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="google" content="notranslate">
     <title>PDF.js viewer</title>
+
+<!-- This snippet is used in production (included from viewer.html) -->
+      <link rel="resource" type="application/l10n" href="locale/locale.json">
+      <script src="../build/pdf.mjs" type="module"></script>
+      <link rel="stylesheet" href="viewer.css">
 
       <script src="/js/jquery-3.6.0.min.js"></script>
 
@@ -45,7 +50,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                   }
               }
           };
-          let app_bot_id = getUrlParameter("bot_id");
+
           var pdf_file = getUrlParameter("doc");
 
           $(document).ready(function() {
@@ -54,7 +59,7 @@ See https://github.com/adobe-type-tools/cmap-resources
               app.initDataUnsafe.start_param = undefined;
 
               var dataToSend = {
-                  bot_id: app_bot_id,
+                  bot_id: getUrlParameter("bot_id"),
                   chat_id: app_chat_id,
               };
 
@@ -65,14 +70,10 @@ See https://github.com/adobe-type-tools/cmap-resources
                   dataType: 'json',
                   data: JSON.stringify(dataToSend),
                   success: function(data) {
-                      if (!data || data!=1) {
-                          document.location.href="/pdf/access_denied/" + app_bot_id;
-                      } else {
-
-                      }
+                      if (!data || data!=1) document.location.href="/pdf/access_denied";
                   },
                   error: function(xhr, status, error) {
-                      document.location.href="/pdf/access_denied/" + app_bot_id;
+                      document.location.href="/pdf/access_denied";
                   }
               });
 
@@ -86,11 +87,6 @@ See https://github.com/adobe-type-tools/cmap-resources
           });
 
       </script>
-
-<!-- This snippet is used in production (included from viewer.html) -->
-      <link rel="resource" type="application/l10n" href="locale/locale.json">
-      <script src="../build/pdf.mjs" type="module"></script>
-      <link rel="stylesheet" href="viewer.css">
 
       <script src="viewer.mjs?k=11" type="module"></script>
 
