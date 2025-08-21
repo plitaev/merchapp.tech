@@ -48,7 +48,7 @@ See https://github.com/adobe-type-tools/cmap-resources
           let app_bot_id = getUrlParameter("bot_id");
           var pdf_file = getUrlParameter("doc");
 
-
+          $(document).ready(function() {
               let app = window.Telegram.WebApp;
               let app_chat_id = app.initDataUnsafe.user.id;
               app.initDataUnsafe.start_param = undefined;
@@ -65,7 +65,11 @@ See https://github.com/adobe-type-tools/cmap-resources
                   dataType: 'json',
                   data: JSON.stringify(dataToSend),
                   success: function(data) {
-                      if (!data || data!=1) document.location.href="/pdf/access_denied/" + app_bot_id;
+                      if (!data || data!=1) {
+                          document.location.href="/pdf/access_denied/" + app_bot_id;
+                      } else {
+                          $("body").css("display", "unset");
+                      }
                   },
                   error: function(xhr, status, error) {
                       document.location.href="/pdf/access_denied/" + app_bot_id;
@@ -79,7 +83,7 @@ See https://github.com/adobe-type-tools/cmap-resources
               });
 
               app.ready();
-
+          });
 
       </script>
 
@@ -92,7 +96,7 @@ See https://github.com/adobe-type-tools/cmap-resources
 
   </head>
 
-  <body tabindex="0">
+  <body tabindex="0" style="display: none">
     <div id="outerContainer">
 
       <div id="sidebarContainer">
