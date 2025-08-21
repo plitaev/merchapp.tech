@@ -70,7 +70,11 @@ See https://github.com/adobe-type-tools/cmap-resources
                   dataType: 'json',
                   data: JSON.stringify(dataToSend),
                   success: function(data) {
-                      if (!data || data!=1) document.location.href="/pdf/access_denied";
+                      if (!data || data!=1) {
+                          document.location.href="/pdf/access_denied";
+                      } else {
+                          $("body").css("display", "block");
+                      }
                   },
                   error: function(xhr, status, error) {
                       document.location.href="/pdf/access_denied";
@@ -92,7 +96,7 @@ See https://github.com/adobe-type-tools/cmap-resources
 
   </head>
 
-  <body tabindex="0">
+  <body tabindex="0" style="display: none">
     <div id="outerContainer">
 
       <div id="sidebarContainer">
