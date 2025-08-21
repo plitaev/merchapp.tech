@@ -51,6 +51,7 @@ See https://github.com/adobe-type-tools/cmap-resources
               }
           };
 
+          let app_bot_id = getUrlParameter("bot_id");
           var pdf_file = getUrlParameter("doc");
 
           $(document).ready(function() {
@@ -59,7 +60,7 @@ See https://github.com/adobe-type-tools/cmap-resources
               app.initDataUnsafe.start_param = undefined;
 
               var dataToSend = {
-                  bot_id: getUrlParameter("bot_id"),
+                  bot_id: app_bot_id,
                   chat_id: app_chat_id,
               };
 
@@ -71,13 +72,13 @@ See https://github.com/adobe-type-tools/cmap-resources
                   data: JSON.stringify(dataToSend),
                   success: function(data) {
                       if (!data || data!=1) {
-                          document.location.href="/pdf/access_denied";
+                          document.location.href="/pdf/access_denied/" + app_bot_id;
                       } else {
                           $("body").css("visibility", "visible");
                       }
                   },
                   error: function(xhr, status, error) {
-                      document.location.href="/pdf/access_denied";
+                      document.location.href="/pdf/access_denied/" + app_bot_id;
                   }
               });
 
