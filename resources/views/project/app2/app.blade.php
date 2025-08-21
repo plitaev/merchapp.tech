@@ -6,10 +6,10 @@
 
     <script>
         window.onload = function() {
-            let app = window.Telegram.WebApp;
-            app.ready();
+            let telegram = window.Telegram.WebApp;
+            telegram.ready();
 
-            let first_name = app.initDataUnsafe.user.first_name;
+            let first_name = telegram.initDataUnsafe.user.first_name;
             if (first_name!="undefined") document.getElementById('username').innerHTML = "😎 "+first_name;
         };
     </script>
