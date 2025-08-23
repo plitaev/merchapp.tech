@@ -8,10 +8,8 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotSupergroup\BotSupergroups;
 use App\Actions\Core\BotUser\BotUserCreateFromTelegram;
 use App\Actions\Core\BotUser\BotUserGetFromTelegram;
-use App\Actions\Core\Product\ProductListByBot;
 use App\Actions\Core\Telegram\TelegramGetChatIDFromWebhook;
 use App\Actions\Core\Telegram\TelegramMessageGetStartParams;
-use App\Actions\Core\TelegramSendInvoice\TelegramSendInvoice;
 use App\Actions\Core\Telegram\TelegramWebhookWrite;
 use App\Actions\Project\ClubAccess\BotCabinetRecurrentCheck;
 use App\Actions\Project\ClubAccess\BotContacts;
@@ -40,9 +38,7 @@ class ClubAccessController extends Controller
         $botUserCreateFromTelegram = new BotUserCreateFromTelegram();
         $telegramGetChatIDFromWebhook = new TelegramGetChatIDFromWebhook();
         $botUserGetFromTelegram = new BotUserGetFromTelegram();
-        $productListByBot = new ProductListByBot();
         $telegramMessageGetStartParams = new TelegramMessageGetStartParams();
-        $telegramSendInvoice = new TelegramSendInvoice();
         $botSupergroupsByBot = new BotSupergroups();
         $telegramWebhookWrite = new TelegramWebhookWrite();
 
@@ -169,13 +165,6 @@ class ClubAccessController extends Controller
                     $botResetUser->handle($bot_user->id); //== Сбрасываем юзера
                     $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id); //== И повторно достаем его данные после сброса
 
-                }
-
-                $products = $productListByBot->handle($bot_id);
-                foreach ($products as $product) {
-                    if ($callback == "pay_yookassa_product_".$product->id) {
-                        $telegramSendInvoice->handle($telegram, $bot, $bot_user, $product, $webhook);
-                    }
                 }
 
             } else {
