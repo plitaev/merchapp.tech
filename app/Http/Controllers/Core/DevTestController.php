@@ -4,6 +4,7 @@ use App\Actions\Core\DateEnd\DateEnd;
 use App\Http\Controllers\Controller;
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
+use App\Models\Core\Pay;
 use App\Models\Core\Product;
 use App\Models\Core\TelegramWebhook;
 
@@ -14,6 +15,23 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
+        $res = Pay::whereNotNull('pay_system_callback')->get();
+        foreach ($res as $data) {
+            $requestBody = json_decode($data->pay_system_callback, true);
+            $comission = $requestBody['object']['amount']['value']-$requestBody['object']['income_amount']['value'];
+            $pay_system_payment_id = $requestBody['object']['id'];
+            $pay_system_payment_method_id = $requestBody['object']['payment_method']['id'];
+
+            Pay::where('id', $data->id)->update(
+                [
+                    'pay_system_comission' => $comission,
+                    'pay_system_payment_id' => $pay_system_payment_id,
+                    'pay_system_payment_method_id' => $pay_system_payment_method_id
+                ]
+            );
+        }
+
+        /*
         $keyboard = ["inline_keyboard" => [
                     [["text" => "ОТКРЫТЬ ПРИЛОЖЕНИЕ", "url" => "https://t.me/tochka_i_club_bot/merchapp"]]
                 ]];
@@ -21,7 +39,7 @@ class DevTestController extends Controller
 
         $telegram = new Api("8440878720:AAHrI6jj_V16gYrNxKBHnpC_fW835c9nlfU");
         return $telegram->sendMessage(['chat_id' => -1002826769152, 'parse_mode' => 'HTML', 'text' => urldecode("В этом приложении вы найдете все методички и материалы клуба.%0A%0AВСЕ В ОДНОМ МЕСТЕ❤️"), 'protect_content' => false, 'reply_markup' => $keyboard]);
-
+        */
         /*
         $bot_user = BotUser::find(1);
         $bot = Bot::find($bot_user->bot_id);
