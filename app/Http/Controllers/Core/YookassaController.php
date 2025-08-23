@@ -20,7 +20,7 @@ class YookassaController
             if (isset($requestBody['object']['metadata']['order_number']) && isset($requestBody['object']['id']) && isset($requestBody['object']['payment_method']['id'])) {
 
                 if (isset($requestBody['object']['amount']['value']) && isset($requestBody['object']['income_amount']['value'])) {
-                    $comission=$requestBody['object']['amount']['value']-$requestBody['object']['income_amount']['value'];
+                    $comission = $requestBody['object']['amount']['value']-$requestBody['object']['income_amount']['value'];
                 } else {
                     $comission = NULL;
                 }
