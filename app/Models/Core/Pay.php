@@ -20,8 +20,8 @@ class Pay extends Model
         'pay_system_id',
         'pay_system_callback',
         'pay_system_comission',
-        'provider_payment_charge_id',
-        'telegram_payment_charge_id'
+        'pay_system_payment_id',
+        'pay_system_payment_method_id'
     ];
 
     public function bot_user(): BelongsTo {
