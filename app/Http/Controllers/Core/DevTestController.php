@@ -25,7 +25,6 @@ class DevTestController extends Controller
             Pay::where('id', $data->id)->update(
                 [
                     'pay_system_comission' => $comission,
-                    'pay_system_payment_id' => $pay_system_payment_id,
                     'pay_system_payment_method_id' => $pay_system_payment_method_id
                 ]
             );
