@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Core;
 use App\Actions\Core\DateEnd\DateEnd;
+use App\Actions\Core\Telegram\TelegramChatJoinRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
@@ -14,6 +15,12 @@ use Telegram\Bot\Api;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $res = TelegramChatJoinRequest::where('status', 1)->get();
+        foreach ($res as $data) {
+            BotUser::where('telegram_chat_id', $data->user_id)->update(['listen_success_message_status' => 1, 'listen_success_message_status_timestamp' => $data->created_at]);
+        }
+
         /*
         $bot_user = BotUser::find(1);
         $bot = Bot::find($bot_user->bot_id);
