@@ -14,13 +14,6 @@ use Telegram\Bot\Api;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $dateEnd = new DateEnd();
-
-        $bot_users = BotUser::whereNotNull('date_end')->get();
-        foreach ($bot_users as $bot_user) {
-            $dateEnd->handle($bot_user, 'Y-m-d');
-        }
-
         /*
         $bot_user = BotUser::find(1);
         $bot = Bot::find($bot_user->bot_id);
