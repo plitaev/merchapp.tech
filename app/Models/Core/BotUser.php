@@ -20,7 +20,6 @@ class BotUser extends Model
         'email',
         'business_bot_account',
         'language_code',
-        'telegram_invite_link',
         'ban',
         'ban_time',
         'unban',
