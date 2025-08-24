@@ -1,14 +1,13 @@
 <?php
 namespace App\Actions\Core\Telegram;
+
 use Telegram\Bot\Api;
 
-use App\Models\Core\Product;
-
-use App\Actions\Core\Telegram\TelegramInviteLink;
 use App\Actions\Core\Product\ProductListByBot;
 
 use App\Models\Core\BotMessage;
 use App\Models\Core\BotMessageButton;
+use App\Models\Core\Product;
 use App\Models\Core\TelegramSendMessageErrorLog;
 use App\Models\Core\TelegramSendMessageLog;
 
@@ -17,7 +16,6 @@ class TelegramSendMessage
     public function handle($bot_user, int $bot_message_id, string $bot_message_appointment = '') {
 
         $productListByBot = new ProductListByBot();
-        $telegramInviteLink = new TelegramInviteLink();
 
         (int) $send_status = 0;
 
@@ -72,18 +70,10 @@ class TelegramSendMessage
 
                     if ($button->url) {
 
-                        if ($button->url == "VAR_INVITE_LINK") {
-
-                            $url = $telegramInviteLink->handle($bot_user, $telegram);
-
+                        if ($button->tracking == 1) {
+                            $url = env("APP_URL")."/go/".base64_encode($button->id)."/".base64_encode($bot_user->id);
                         } else {
-
-                            if ($button->tracking == 1) {
-                                $url = env("APP_URL")."/go/".base64_encode($button->id)."/".base64_encode($bot_user->id);
-                            } else {
-                                $url = $button->url;
-                            }
-
+                            $url = $button->url;
                         }
 
                         $btn = [["text" => $button->name, "url" => $url]];
