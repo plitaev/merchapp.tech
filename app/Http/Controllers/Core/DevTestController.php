@@ -12,11 +12,13 @@ use App\Models\Core\TelegramWebhook;
 use YooKassa\Client;
 use Telegram\Bot\Api;
 
+use App\Models\Core\TelegramChatJoinRequestLog;
+
 class DevTestController extends Controller
 {
     public function devtest() {
 
-        $res = TelegramChatJoinRequest::where('status', 1)->get();
+        $res = TelegramChatJoinRequestLog::where('status', 1)->get();
         foreach ($res as $data) {
             BotUser::where('telegram_chat_id', $data->user_id)->update(['listen_success_message_status' => 1, 'listen_success_message_status_timestamp' => $data->created_at]);
         }
