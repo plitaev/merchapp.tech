@@ -15,7 +15,6 @@
 
             app.BackButton.show();
             app.BackButton.onClick(function() {
-                console.log("bb pressed");
                 window.location.href="/app2/1";
             });
             app.ready();
