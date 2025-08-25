@@ -7,6 +7,8 @@
 
     <script>
         $(document).ready(function() {
+            let app_chat_id = app.initDataUnsafe.user.id;
+
             app.BackButton.hide();
             @if ($no_rdr==0)
             let startParam = app.initDataUnsafe.start_param;
@@ -16,6 +18,8 @@
     </script>
 
     <div class="isolate overflow-y-scroll bg-[#f1f1f1] h-[100vh]">
+
+        {{$_SERVER['HTTP_USER_AGENT']}}
 
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
