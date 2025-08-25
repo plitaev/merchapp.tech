@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Core;
 
 use App\Http\Controllers\Controller;
@@ -16,16 +15,15 @@ use App\Actions\Core\Auto\TelegramScheduleEditMessageProcess;
 
 class AutoController extends Controller
 {
+    public function bot_user_set_ban_scheduler() {
+        $botUserSetBanScheduler = new BotUserSetBanScheduler();
+        return $botUserSetBanScheduler->handle();
+    }
 
     public function bot_user_ban_process()
     {
         $botUserBanProcess = new BotUserBanProcess();
         return $botUserBanProcess->handle();
-    }
-
-    public function bot_user_set_ban_scheduler() {
-        $botUserSetBanScheduler = new BotUserSetBanScheduler();
-        return $botUserSetBanScheduler->handle();
     }
 
     public function telegram_business_opening_hours()
