@@ -38,10 +38,6 @@ class BotUserSetBanScheduler
             ->whereNotIn('id', $non_runned_users)
             ->get();
 
-        return $bot_users;
-
         $botUserSetBanSchedulerCreate->handle($bot_users, $date);
-
-
     }
 }
