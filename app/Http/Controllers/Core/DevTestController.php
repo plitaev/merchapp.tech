@@ -21,7 +21,7 @@ class DevTestController extends Controller
     public function devtest() {
         $botSendMessage = new BotSendMessage();
 
-        $bot_users = BotUser::whereNull('date_end')->skip(0)->take(30)->get();
+        $bot_users = BotUser::whereNull('date_end')->skip(30)->take(30)->get();
 
         foreach ($bot_users as $bot_user) {
             $botSendMessage->handle($bot_user, 'PROJECT_MAILING_1');
