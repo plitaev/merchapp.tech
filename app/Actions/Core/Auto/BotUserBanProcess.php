@@ -27,7 +27,7 @@ class BotUserBanProcess
 
                     try {
                         $status = $telegram->banChatMember(['chat_id' => $supergroup, 'user_id' => $ban->bot_user->telegram_chat_id]);
-                        TelegramBanScheduleLogs::create(['bot_user_id' => 1, 'chat_id' => $supergroup, 'user_id' =>$ban->bot->telegram_chat_id, 'text' => $status]);
+                        TelegramBanScheduleLogs::create(['bot_user_id' => $ban->bot_user->id, 'chat_id' => $supergroup, 'user_id' =>$ban->bot_user->telegram_chat_id, 'text' => $status]);
                     } catch (\Exception $exception) {
                         TelegramBanScheduleErrorLogs::create(['bot_user_id' => $ban->bot_user->id, 'chat_id' => $supergroup, 'user_id' =>$ban->bot_user->telegram_chat_id, 'text' => $exception]);
                     }
