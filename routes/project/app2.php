@@ -7,4 +7,5 @@ Route::controller(App2Controller::class)->group(function() {
     Route::get('/app2/{nordr?}', 'app2');
     Route::post('/pdf/rights_check', 'pdf_rights_check');
     Route::get('/pdf/access_denied/{bot_id}', 'access_denied');
+    Route::get('/pdf/native/{pdf}', 'pdf_native');
 });

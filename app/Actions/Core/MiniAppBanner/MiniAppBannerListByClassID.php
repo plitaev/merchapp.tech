@@ -23,7 +23,12 @@ class MiniAppBannerListByClassID
             if ($banner->miniapp_banner->button_pdf) {
                 $user_agent = $_SERVER['HTTP_USER_AGENT'];
                 if (preg_match('/macintosh|mac os/i', $user_agent) || preg_match('/iPhone OS 15/i', $user_agent) || preg_match('/iPhone OS 14/i', $user_agent) || preg_match('/iPhone OS 13/i', $user_agent)) {
-                    $button_url = 'content/' . $banner->miniapp_banner->button_pdf;
+
+                    $pdf = explode('/', $banner->miniapp_banner->button_pdf);
+                    $pdf = $pdf[1];
+                    $pdf = str_replace('.pdf', '', $pdf);
+
+                    $button_url = '/pdf/native/'.$pdf;
                 } else {
                     $pdf = explode('/', $banner->miniapp_banner->button_pdf);
                     $pdf = $pdf[1];
