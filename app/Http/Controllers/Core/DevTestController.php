@@ -23,7 +23,7 @@ class DevTestController extends Controller
 
         $bot_users = BotUser::where('id', 1)->get();
         foreach ($bot_users as $bot_user) {
-            $botSendMessage->handle($bot_users, 'PROJECT_MAILING_1');
+            $botSendMessage->handle($bot_user, 'PROJECT_MAILING_1');
         }
 
         /*
