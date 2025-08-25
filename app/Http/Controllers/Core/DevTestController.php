@@ -9,6 +9,8 @@ use App\Models\Core\Pay;
 use App\Models\Core\Product;
 use App\Models\Core\TelegramWebhook;
 
+use App\Actions\Core\BotSendMessage\BotSendMessage;
+
 use YooKassa\Client;
 use Telegram\Bot\Api;
 
@@ -17,14 +19,14 @@ use App\Models\Core\TelegramChatJoinRequestLog;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $botSendMessage = new BotSendMessage();
 
-        $res = TelegramChatJoinRequestLog::where('status', 1)->get();
-        foreach ($res as $data) {
-            BotUser::where('telegram_chat_id', $data->user_id)->update(['listen_success_message_status' => 1, 'listen_success_message_status_timestamp' => $data->created_at]);
+        $bot_users = BotUser::where('id', 1)->get();
+        foreach ($bot_users as $bot_user) {
+            $botSendMessage->handle($bot_users, 'PROJECT_MAILING_1');
         }
 
         /*
-        $bot_user = BotUser::find(1);
         $bot = Bot::find($bot_user->bot_id);
         $product = Product::find(7);
 
