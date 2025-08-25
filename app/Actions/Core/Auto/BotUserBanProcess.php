@@ -11,12 +11,18 @@ use App\Models\Core\TelegramSupergroup;
 class BotUserBanProcess
 {
     public function handle() {
+        $date = date('Y-m-d', time());
+        $time = date('H:i:s', time());
 
         $supergroups = [];
         $res = TelegramSupergroup::select('bot_id', 'telegram_id')->get();
         foreach ($res as $data) $supergroups[$data->bot_id][] = $data->telegram_id;
 
-        $bans = BotUserBanSchedule::with('bot', 'bot_user')->where('run_status', 0)->get();
+        $bans = BotUserBanSchedule::with('bot', 'bot_user')
+            ->where('run_status', 0)
+            ->where('ban_date', $date)
+            ->where('ban_time', $time)
+            ->get();
 
         foreach ($bans as $ban) {
             BotUserBanSchedule::where('id', $ban->id)->update(['run_status' => 1]);
