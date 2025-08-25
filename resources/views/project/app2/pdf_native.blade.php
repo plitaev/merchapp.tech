@@ -13,6 +13,7 @@
         $(document).ready(function() {
             app.BackButton.show();
             app.BackButton.onClick(function() {
+                console.log("bb pressed");
                 window.location.href="/app2/1";
             });
             app.ready();
@@ -20,6 +21,6 @@
 
     </script>
 
-    <iframe style="width: 100%; height: 100%" src="/content/miniapp_pdf/{{$pdf}}.pdf"/>
+    <iframe style="width: 100%; height: 100vh" src="/content/miniapp_pdf/{{$pdf}}.pdf"/>
 
 @endsection
