@@ -21,7 +21,7 @@ class BotUserBanProcess
         $bans = BotUserBanSchedule::with('bot', 'bot_user')
             ->where('run_status', 0)
             ->where('ban_date', $date)
-            ->where('ban_time', $time)
+            ->where('ban_time', '<=', $time)
             ->get();
 
         foreach ($bans as $ban) {
