@@ -19,6 +19,7 @@ use App\Models\Core\TelegramChatJoinRequestLog;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
         $botSendMessage = new BotSendMessage();
 
         $bot_users = BotUser::whereNull('date_end')->skip(120)->take(50)->get();
@@ -26,7 +27,7 @@ class DevTestController extends Controller
         foreach ($bot_users as $bot_user) {
             $botSendMessage->handle($bot_user, 'PROJECT_MAILING_1');
         }
-
+        */
         /*
         $bot = Bot::find($bot_user->bot_id);
         $product = Product::find(7);
