@@ -57,5 +57,4 @@ class AutoController extends Controller
         $telegramScheduleDeleteMessageProcess = new TelegramScheduleDeleteMessageProcess();
         return $telegramScheduleDeleteMessageProcess->handle();
     }
-
 }
