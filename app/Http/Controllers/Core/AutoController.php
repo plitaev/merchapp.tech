@@ -20,11 +20,6 @@ class AutoController extends Controller
         return $botUserSetBanScheduler->handle();
     }
 
-    public function bot_user_set_ban_scheduler() {
-        $botUserSetBanScheduler = new BotUserSetBanScheduler();
-        return $botUserSetBanScheduler->handle();
-    }
-
     public function bot_user_ban_process()
     {
         $botUserBanProcess = new BotUserBanProcess();
