@@ -7,7 +7,6 @@ use App\Models\Core\BotUserBanSchedule;
 class BotUserSetBanScheduler
 {
     public function handle() {
-        return 'ok';
         $date = date('Y-m-d', time());
 
         $non_runned_users = BotUserBanSchedule::select('bot_user_id')
