@@ -43,4 +43,8 @@ class App2Controller extends Controller
         return view("project.app2.access_denied", ['bot' => $bot]);
     }
 
+    public function pdf_native(string $pdf) {
+        return view("project.app2.pdf_native", ['pdf' => $pdf]);
+    }
+
 }

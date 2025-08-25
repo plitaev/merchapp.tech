@@ -7,6 +7,8 @@
 
     <script>
         $(document).ready(function() {
+            let app_chat_id = app.initDataUnsafe.user.id;
+
             app.BackButton.hide();
             @if ($no_rdr==0)
             let startParam = app.initDataUnsafe.start_param;
