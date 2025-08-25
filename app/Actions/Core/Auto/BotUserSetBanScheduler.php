@@ -10,7 +10,7 @@ class BotUserSetBanScheduler
 {
     public function handle() {
         //== init
-        $botUserSetBanSchedulerCreate = BotUserSetBanSchedulerCreate();
+        $botUserSetBanSchedulerCreate = new BotUserSetBanSchedulerCreate();
         $date = date('Y-m-d', time());
 
         //== Первая выборка - у кого date_end на сегодня
