@@ -9,8 +9,10 @@
 
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
 
-    <script type="text/javascript">
+    <script>
         $(document).ready(function() {
+            let app = window.Telegram.WebApp;
+
             app.BackButton.show();
             app.BackButton.onClick(function() {
                 console.log("bb pressed");
