@@ -22,12 +22,10 @@ class MiniAppBannerListByClassID
         foreach ($banners as $banner) {
             if ($banner->miniapp_banner->button_pdf) {
                 $user_agent = $_SERVER['HTTP_USER_AGENT'];
-
-                $pdf = explode('/', $banner->miniapp_banner->button_pdf);
-
                 if (preg_match('/macintosh|mac os/i', $user_agent)) {
-                    $button_url = 'content/' . $pdf;
+                    $button_url = 'content/' . $banner->miniapp_banner->button_pdf;
                 } else {
+                    $pdf = explode('/', $banner->miniapp_banner->button_pdf);
                     $pdf = $pdf[1];
                     $pdf = str_replace('.pdf', '', $pdf);
                     $pdf = env("APP_URL")."/pdf/web/viewer.html?bot_id=".$banner->miniapp->bot_id."&doc=".$pdf;
