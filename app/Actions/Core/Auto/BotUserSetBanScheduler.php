@@ -1,13 +1,19 @@
 <?php
 namespace App\Actions\Core\Auto;
 
+use App\Actions\Core\Auto\BotUserSetBanSchedulerCreate;
+
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
 
 class BotUserSetBanScheduler
 {
     public function handle() {
+        //== init
+        $botUserSetBanSchedulerCreate = BotUserSetBanSchedulerCreate();
         $date = date('Y-m-d', time());
+
+        //== Первая выборка - у кого date_end на сегодня
 
         $non_runned_users = BotUserBanSchedule::select('bot_user_id')
             ->where('run_status', 0)
@@ -22,17 +28,20 @@ class BotUserSetBanScheduler
             ->where('date_end', $date)
             ->whereNotIn('id', $non_runned_users)
             ->get();
+        $botUserSetBanSchedulerCreate->handle($bot_users, $date);
 
-        foreach ($bot_users as $bot_user) {
-            BotUserBanSchedule::create(
-                [
-                    'bot_user_id' => $bot_user->id,
-                    'run_status' => 0,
-                    'ban_date' => $date,
-                    'ban_time' => '09:00:00'
-                ]
-            );
-        }
+        //== Вторая выборка - у кого date_end IS NULL и listen_success_message_status = 1
+
+        $bot_users = BotUser::select('id')
+            ->whereNull('date_end')
+            ->where('listen_success_message_status', 1)
+            ->whereNotIn('id', $non_runned_users)
+            ->get();
+
+        return $bot_users;
+
+        $botUserSetBanSchedulerCreate->handle($bot_users, $date);
+
 
     }
 }
