@@ -85,7 +85,7 @@
 
 <div class="container">
     <h1>ОПЛАТА УСПЕШНО ЗАВЕРШЕНА. ВЫ МОЖЕТЕ ЗАКРЫТЬ БРАУЗЕР, ДОСТУП ПРИДЕТ ПРЯМО В БОТ.</h1>
-    <a href="https://t.me/{{$bot->alias}}" target="_blank" class="button">Закрыть</a>
+    <a href="https://t.me/{{$bot->alias}}" target="_blank" class="button">ПЕРЕЙТИ В БОТ</a>
 </div>
 
 </body>
