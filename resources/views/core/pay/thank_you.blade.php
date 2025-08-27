@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-    <script>
-        window.onload = function() {
-            window.Telegram.WebApp.close();
-        };
-    </script>
 
     <style>
         .button {
@@ -91,7 +84,7 @@
 <body>
 
 <div class="container">
-    <h1>ОПЛАТА УСПЕШНО ЗАВЕРШЕНА. ЗАКРОЙТЕ ВСЕ ОКНА ОПЛАТЫ. ДОСТУП ЧЕРЕЗ НЕСКОЛЬКО МИНУТ ПРИДЕТ ПРЯМО В БОТ.</h1>
+    <h1>ОПЛАТА УСПЕШНО ЗАВЕРШЕНА. ВЫ МОЖЕТЕ ЗАКРЫТЬ БРАУЗЕР, ДОСТУП ПРИДЕТ ПРЯМО В БОТ.</h1>
     <a href="https://t.me/{{$bot->alias}}" target="_blank" class="button">Закрыть</a>
 </div>
 
