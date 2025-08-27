@@ -52,11 +52,8 @@ class TelegramSendMessage
 
                     $btn = [
                         [
-                            "text" => $product->name." - ".$product->price." руб.",
-                            "web_app" =>
-                                [
-                                    'url' => env("APP_URL")."/pay/create/yookassa/".$bot_user->id."/".$product->id
-                                ]
+                            'url' => env("APP_URL")."/pay/create/yookassa/".$bot_user->id."/".$product->id,
+                            "text" => $product->name." - ".$product->price." руб."
                         ]
                     ];
 
