@@ -22,6 +22,6 @@
 
     </script>
 
-    <iframe style="width: 100%; height: 100vh" src="/content/miniapp_pdf/{{$pdf}}.pdf#toolbar=0"/>
+    <iframe style="width: 100%; height: 100vh" src="/content/miniapp_pdf/{{$pdf}}.pdf"/>
 
 @endsection
