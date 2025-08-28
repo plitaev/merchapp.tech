@@ -22,6 +22,6 @@
 
     </script>
 
-    <iframe style="width: 100%; height: 100vh" src="/content/miniapp_pdf/{{$pdf}}.pdf"/>
+    <iframe style="width: 100%; height: 100vh; overflow-y: scroll" src="/content/miniapp_pdf/{{$pdf}}.pdf" scrolling="yes"/>
 
 @endsection
