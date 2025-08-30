@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Core;
 use App\Http\Controllers\Controller;
 
 use App\Actions\Core\Auto\BotUserBanProcess;
+use App\Actions\Core\Auto\BotUserUnbanProcess;
 use App\Actions\Core\Auto\BotUserSetBanScheduler;
 
 use App\Actions\Core\Auto\TelegramBusinessOpeningHours;
@@ -24,6 +25,12 @@ class AutoController extends Controller
     {
         $botUserBanProcess = new BotUserBanProcess();
         return $botUserBanProcess->handle();
+    }
+
+    public function bot_user_unban_process()
+    {
+        $botUserUnbanProcess = new BotUserUnbanProcess();
+        return $botUserUnbanProcess->handle();
     }
 
     public function telegram_business_opening_hours()

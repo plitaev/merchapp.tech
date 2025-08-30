@@ -5,6 +5,25 @@
 
 @section('content')
 
+    <style>
+        .compability {
+            display: block;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 0.875rem;
+            padding-right: 0.875rem;
+            margin-top: 0.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            :hover {
+                background-color: #D1D5DB;
+            }
+
+        }
+    </style>
+
     <script>
         $(document).ready(function() {
             let app_chat_id = app.initDataUnsafe.user.id;
@@ -26,7 +45,7 @@
                 <div class="mt-3 ml-3 mr-3">
                     <div class="relative flex flex-col justify-between w-full rounded-xl bg-cover shadow-xl ring-1 ring-gray-900/10">
                         <img src="{{env('APP_URL').'/content/'.$banner_big->miniapp_banner->image}}?updated_at={{base64_encode($banner_big->miniapp_banner->updated_at)}}" class="z-1 rounded-xl"/>
-                        <a href="{{$banner_big->miniapp_banner->button_url}}" aria-describedby="tier-hobby" class="inset-x-0 bottom-0 absolute z-2 m-2 block rounded-md px-3.5 py-2 text-center text-sm/6 font-semibold shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400" style="background-color: {{$banner_big->miniapp_banner->button_bg_color}}; color: {{$banner_big->miniapp_banner->button_text_color}}">{{$banner_big->miniapp_banner->button_text}}</a>
+                        <a href="{{$banner_big->miniapp_banner->button_url}}" aria-describedby="tier-hobby" class="inset-x-0 bottom-0 absolute z-2 m-2 block rounded-md px-3.5 py-2 text-center text-sm/6 font-semibold shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400 compability" style="background-color: {{$banner_big->miniapp_banner->button_bg_color}}; color: {{$banner_big->miniapp_banner->button_text_color}}">{{$banner_big->miniapp_banner->button_text}}</a>
                     </div>
                 </div>
             @endforeach
@@ -49,7 +68,7 @@
                                 <img src="{{env('APP_URL').'/content/'.$banner_medium->miniapp_banner->image}}?updated_at={{base64_encode($banner_medium->miniapp_banner->updated_at)}}" class="rounded-xl"/>
                             </div>
 
-                            <a href="{{$banner_medium->miniapp_banner->button_url}}" aria-describedby="tier-team" class="mt-2 block rounded-md px-3.5 py-2 text-center text-sm/6 font-semibold shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400" style="background-color: {{$banner_medium->miniapp_banner->button_bg_color}}; color: {{$banner_medium->miniapp_banner->button_text_color}}">{{$banner_medium->miniapp_banner->button_text}}</a>
+                            <a href="{{$banner_medium->miniapp_banner->button_url}}" aria-describedby="tier-team" class="mt-2 block rounded-md px-3.5 py-2 text-center text-sm/6 font-semibold shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400 compability" style="background-color: {{$banner_medium->miniapp_banner->button_bg_color}}; color: {{$banner_medium->miniapp_banner->button_text_color}}">{{$banner_medium->miniapp_banner->button_text}}</a>
                         </div>
 
                         @if ($bscount==2)
