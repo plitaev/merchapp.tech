@@ -2,7 +2,9 @@
 
 namespace App\Actions\Core\Auto;
 
-use App\Models\Core\BotUserBanSchedule;
+use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
+
+use App\Models\Core\BotUserUnbanSchedule;
 use App\Models\Core\TelegramBanScheduleErrorLogs;
 use App\Models\Core\TelegramBanScheduleLogs;
 use App\Models\Core\TelegramSupergroup;
@@ -10,21 +12,22 @@ use App\Models\Core\TelegramSupergroup;
 class BotUserUnbanProcess
 {
     public function handle() {
+        $botSupergroupsAll = new BotSupergroupsAll();
+
         $date = date('Y-m-d', time());
         $time = date('H:i:s', time());
 
-        $supergroups = [];
-        $res = TelegramSupergroup::select('bot_id', 'telegram_id')->get();
-        foreach ($res as $data) $supergroups[$data->bot_id][] = $data->telegram_id;
+        $supergroups = $botSupergroupsAll->handle();
 
-        $bans = BotUserBanSchedule::with('bot', 'bot_user')
+        $unbans = BotUserUnBanSchedule::with('bot', 'bot_user')
             ->where('run_status', 0)
             ->where('ban_date', $date)
             ->where('ban_time', '<=', $time)
             ->get();
 
-        foreach ($bans as $ban) {
-            BotUserBanSchedule::where('id', $ban->id)->update(['run_status' => 1]);
+        foreach ($unbans as $unban) {
+            /*
+            BotUserUnbanSchedule::where('id', $ban->id)->update(['run_status' => 1]);
             $telegram = new Api($ban->bot->telegram_token);
 
             if (isset($supergroups[$ban->bot->id])) {
@@ -39,6 +42,7 @@ class BotUserUnbanProcess
 
                 }
             }
+            */
         }
     }
 }

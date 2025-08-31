@@ -19,6 +19,11 @@ use App\Models\Core\TelegramChatJoinRequestLog;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $telegram = new Api("8440878720:AAHrI6jj_V16gYrNxKBHnpC_fW835c9nlfU");
+        $telegram->unbanChatMember(['chat_id' => -1002826769152, 'user_id' => 247632034, 'only_if_banned' => true]);
+        return $telegram->getChatMember(['user_id' => 247632034, 'chat_id' => -1002826769152]);
+
         /*
         $botSendMessage = new BotSendMessage();
 

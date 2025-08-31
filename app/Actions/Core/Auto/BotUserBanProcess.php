@@ -3,6 +3,8 @@ namespace App\Actions\Core\Auto;
 
 use Telegram\Bot\Api;
 
+use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
+
 use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\TelegramBanScheduleLogs;
 use App\Models\Core\TelegramBanScheduleErrorLogs;
@@ -11,12 +13,13 @@ use App\Models\Core\TelegramSupergroup;
 class BotUserBanProcess
 {
     public function handle() {
+
+        $botSupergroupsAll = new BotSupergroupsAll();
+
         $date = date('Y-m-d', time());
         $time = date('H:i:s', time());
 
-        $supergroups = [];
-        $res = TelegramSupergroup::select('bot_id', 'telegram_id')->get();
-        foreach ($res as $data) $supergroups[$data->bot_id][] = $data->telegram_id;
+        $supergroups = $botSupergroupsAll->handle();
 
         $bans = BotUserBanSchedule::with('bot', 'bot_user')
             ->where('run_status', 0)
