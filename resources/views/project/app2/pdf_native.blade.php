@@ -22,6 +22,9 @@
 
     </script>
 
-    <iframe style="width: 100%; height: 100vh; overflow-y: scroll; -webkit-overflow-scrolling: touch;"/></iframe>
+    <iframe
+        src="{{env("APP_URL")}}/content/miniapp_pdf/{{$pdf}}.pdf"
+        style="width: 100%; height: 100vh; overflow-y: scroll; -webkit-overflow-scrolling: touch"/>
+    </iframe>
 
 @endsection
