@@ -28,7 +28,7 @@ class MiniAppBannerListByClassID
                 $pdf = $pdf[1];
                 $pdf = str_replace('.pdf', '', $pdf);
 
-                if (preg_match('/macintosh|mac os/i', $user_agent)) {
+                if (preg_match('/macintosh|mac os/i', $user_agent) && !preg_match('/iPhone/i', $user_agent) && !preg_match('/iPad/i', $user_agent)) {
                     $button_url = '/pdf/native/'.$pdf;
                 } elseif (preg_match('/iPhone OS 15/i', $user_agent) || preg_match('/iPhone OS 14/i', $user_agent) || preg_match('/iPhone OS 13/i', $user_agent) || preg_match('/iPad; CPU OS 15/i', $user_agent) || preg_match('/iPad; CPU OS 14/i', $user_agent) || preg_match('/iPad; CPU OS 13/i', $user_agent)) {
                     $button_url = env("APP_URL")."/content/miniapp_pdf/".$pdf.".pdf";
