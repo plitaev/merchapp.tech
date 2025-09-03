@@ -79,6 +79,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
             $data['button_url'] = env("APP_URL");
             $data['button_text'] = 'Смотреть';
             $data['button_bg_color'] = '#9ca3af';
+            $data['button_text_color'] = '#ffffff';
         }
 
         $this->form->fill($data);
