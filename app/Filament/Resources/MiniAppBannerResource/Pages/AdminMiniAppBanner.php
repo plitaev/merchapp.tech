@@ -265,7 +265,8 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->recordUrl(fn($record) => "/admin/mini-app-pages/".$this->mini_app_page_id."/admin");
     }
 
 }
