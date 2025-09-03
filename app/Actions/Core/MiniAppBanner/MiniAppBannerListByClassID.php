@@ -21,20 +21,19 @@ class MiniAppBannerListByClassID
 
         foreach ($banners as $banner) {
             if ($banner->miniapp_banner->button_pdf) {
+
                 $user_agent = $_SERVER['HTTP_USER_AGENT'];
-                if (preg_match('/macintosh|mac os/i', $user_agent) || preg_match('/iPhone OS 15/i', $user_agent) || preg_match('/iPhone OS 14/i', $user_agent) || preg_match('/iPhone OS 13/i', $user_agent)) {
 
-                    $pdf = explode('/', $banner->miniapp_banner->button_pdf);
-                    $pdf = $pdf[1];
-                    $pdf = str_replace('.pdf', '', $pdf);
+                $pdf = explode('/', $banner->miniapp_banner->button_pdf);
+                $pdf = $pdf[1];
+                $pdf = str_replace('.pdf', '', $pdf);
 
+                if (preg_match('/macintosh|mac os/i', $user_agent)) {
                     $button_url = '/pdf/native/'.$pdf;
+                } elseif (preg_match('/iPhone OS 15/i', $user_agent) || preg_match('/iPhone OS 14/i', $user_agent) || preg_match('/iPhone OS 13/i', $user_agent) || preg_match('/iPad; CPU OS 15/i', $user_agent) || preg_match('/iPad; CPU OS 14/i', $user_agent) || preg_match('/iPad; CPU OS 13/i', $user_agent)) {
+                    $button_url = env("APP_URL")."/content/miniapp_pdf/".$pdf.".pdf";
                 } else {
-                    $pdf = explode('/', $banner->miniapp_banner->button_pdf);
-                    $pdf = $pdf[1];
-                    $pdf = str_replace('.pdf', '', $pdf);
                     $pdf = env("APP_URL")."/pdf/web/viewer.html?bot_id=".$banner->miniapp->bot_id."&doc=".$pdf;
-
                     $button_url = $pdf;
                 }
 
