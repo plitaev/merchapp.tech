@@ -64,7 +64,6 @@ class DateEnd
         }
 
         if (isset($date_end)) {
-            $date_end->addDays(1);
             BotUser::where('id', $bot_user->id)->update(['date_end' => date('Y-m-d', strtotime($date_end))]);
             return date($format, strtotime($date_end));
         } else {
