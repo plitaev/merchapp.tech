@@ -7,7 +7,7 @@ use App\Actions\Core\MiniAppBanner\MiniAppBannerListByClassID;
 class MiniAppPageController
 {
     public function mini_app_banner_page() {
-        return 'belkos';
+        return $_SERVER['REQUEST_URI'];
         /*
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
 
