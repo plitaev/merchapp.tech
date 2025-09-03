@@ -6,7 +6,9 @@ use App\Actions\Core\MiniAppBanner\MiniAppBannerListByClassID;
 
 class MiniAppPageController
 {
-    public function mini_app_banner_page(int $id) {
+    public function mini_app_banner_page() {
+        return 'belkos';
+        /*
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
 
         return view('core.app1.app1', [
@@ -14,5 +16,6 @@ class MiniAppPageController
             'banners_middle' => $miniAppBannerListByClassID->handle($id, 2),
             'banners_small' => $miniAppBannerListByClassID->handle($id, 3)
         ]);
+        */
     }
 }

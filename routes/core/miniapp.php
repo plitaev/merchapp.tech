@@ -9,7 +9,7 @@ Route::controller(MiniAppPageController::class)->group(function() {
 
     $res = MiniAppPage::select('id', 'url')->get();
     foreach ($res as $data) {
-        Route::get('/'.$data->url.'/{'.$data->id.'}', 'mini_app_banner_page');
+        Route::get('/'.$data->url, 'mini_app_banner_page');
     }
 
 });
