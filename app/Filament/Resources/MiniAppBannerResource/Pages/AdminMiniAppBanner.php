@@ -97,6 +97,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                 ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2]);
         } else {
             $A[] = Hidden::make('mini_app_page_id');
+            $A[] = Hidden::make('pos');
         }
 
         $A[] = Forms\Components\Select::make('banner_class_id')
