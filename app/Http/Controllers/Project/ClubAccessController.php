@@ -122,6 +122,7 @@ class ClubAccessController extends Controller
 
                 if ($code == "GoToClub") {
                     $botGoToClub->handle($telegram, $webhook, $bot_user);
+                    die();
                 }
 
             }
