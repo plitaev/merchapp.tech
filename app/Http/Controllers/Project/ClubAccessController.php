@@ -58,6 +58,10 @@ class ClubAccessController extends Controller
         $botRequestAndConfirmEmail = new BotRequestAndConfirmEmail();
         $botUserRecurrentDisable = new BotUserRecurrentDisable();
         $botWelcomeMessage = new BotWelcomeMessage();
+
+        $bot = $botGetByID->handle($bot_id);
+        $telegram = new Api($bot->telegram_token);
+
         //== Заканчиваем инициацию классов
 
 
@@ -95,8 +99,6 @@ class ClubAccessController extends Controller
                 if ($bot_user->date_end != NULL && $bot_user->date_end > date('Y-m-d', time())) {
                     $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
                     die();
-                } else {
-
                 }
 
                 $botResetUser->handle($bot_user->id); //== Сбрасываем юзера
@@ -112,6 +114,18 @@ class ClubAccessController extends Controller
             if ($Astart[0] == "/cabinet") {
                 $botCabinetRecurrentCheck->handle($bot_user);
             }
+
+            //== Тут обрабатываем разные входяшие параметры в бот после старта
+
+            if (count($Astart)==2 && $Astart[0]=="/start" && $Astart[1]!="none") {
+                $code = base64_decode($Astart[1]);
+
+                if ($code == "GoToClub") {
+                    $botGoToClub->handle($telegram, $webhook, $bot_user);
+                }
+
+            }
+
 
             //== Заканчиваем обрабатывать входящие параметры по ссылке на переход в ТГ к разговору с ботом
 
@@ -133,8 +147,6 @@ class ClubAccessController extends Controller
 
                 //== Инициализируем базовые данные и классы
 
-                $bot = $botGetByID->handle($bot_id);
-                $telegram = new Api($bot->telegram_token);
                 $callback=$webhook['callback_query']['data'];
 
                 //== Конец базовой инициализации
