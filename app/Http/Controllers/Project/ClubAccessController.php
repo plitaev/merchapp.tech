@@ -148,6 +148,7 @@ class ClubAccessController extends Controller
                 }
                 if ($callback == 'GoToEmailChange') $botEmailChange->handle($telegram, $bot_user, $webhook); //== Если нажата кнопка Изменить почту при условии что почта уже введена
                 if ($callback == 'BotUserRecurrentDisable') $botUserRecurrentDisable->handle($telegram, $bot_user, $webhook);
+                if ($callback == 'GoToMainMenuMessage') $botMainMenuMessage->handle($bot_user);
 
                 if ($callback == 'GoToStart') {
 
