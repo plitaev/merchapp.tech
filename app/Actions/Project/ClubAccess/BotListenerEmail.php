@@ -7,6 +7,7 @@ use App\Actions\Core\BotUser\BotUserSetEmail;
 use App\Actions\Core\BotUser\BotUserSetListener;
 use App\Actions\Core\DateEnd\DateEnd;
 use App\Actions\Core\Pay\PayCreateByPayGuest;
+use App\Models\Core\BotUser;
 use App\Models\Core\Pay;
 use App\Models\Core\Product;
 
@@ -25,6 +26,13 @@ class BotListenerEmail
 
             //== Если ожидает, то проверяем, является ли введенная пользователем строка почтой через стандартный определитель ТГ
             if (isset($webhook['message']['entities']) && $webhook['message']['entities'][0]['type']=='email') {
+
+                $other_telegram_user = BotUser::where('email', $webhook['message']['text'])->whereNot('id', $bot_user->id)->count();
+
+                if ($other_telegram_user > 0) {
+                    $botSendMessage->handle($bot_user, 'SYS_OTHER_USER_WITH_ENTERED_EMAIL');
+                    die();
+                }
 
                 //== Если юзер ввёл почту, то привязываем её ему к аккаунту
                 $botUserSetEmail->handle($bot_user, $webhook['message']['text']);
