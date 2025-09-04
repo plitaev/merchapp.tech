@@ -19,5 +19,5 @@
         </div>
     </div>
 
-    <iframe src="{{env("APP_URL")}}{{$this->mini_app_page_url}}" class="appframe"></iframe>
+    <iframe src="{{env("APP_URL")}}/{{$this->mini_app_page_url}}" class="appframe"></iframe>
 </x-filament::page>
