@@ -18,5 +18,6 @@ class BotWrongEmail
         }
 
         $botUserSetListener->handle('listen_email', 1, $bot_user->id);
+        die();
     }
 }
