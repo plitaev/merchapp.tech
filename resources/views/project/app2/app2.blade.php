@@ -28,6 +28,8 @@
                 dataType: 'json',
                 data: JSON.stringify(dataToSend),
                 success: function(data) {
+                    console.log(data);
+
                     if (!data || data!=1) {
                         $(".lock-button").attr("href", "javascript:void(0);");
                     }
