@@ -16,7 +16,7 @@
             @endif
 
             var dataToSend = {
-                bot_id: {{$mini_app->bot}},
+                bot_id: {{$mini_app->bot_id}},
                 chat_id: app_chat_id,
             };
 
