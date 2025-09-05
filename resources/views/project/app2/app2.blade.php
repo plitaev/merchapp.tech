@@ -14,6 +14,23 @@
             let startParam = app.initDataUnsafe.start_param;
             if (startParam != undefined) window.location.href = "/pdf/web/viewer.html?bot_id={{$mini_app->bot_id}}&doc="+startParam;
             @endif
+
+            $.ajax({
+                url: '/pdf/rights_check',
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(dataToSend),
+                success: function(data) {
+                    if (!data || data!=1) {
+                        $(".lock-button").attr("href", "javascript:void(0);");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    document.location.href="/pdf/access_denied/" + app_bot_id;
+                }
+            });
+
         });
     </script>
 
@@ -26,7 +43,7 @@
                 <div class="mt-3 ml-3 mr-3">
                     <div class="relative flex flex-col justify-between w-full rounded-xl bg-cover shadow-xl ring-1 ring-gray-900/10">
                         <img src="{{env('APP_URL').'/content/'.$banner_big->miniapp_banner->image}}?updated_at={{base64_encode($banner_big->miniapp_banner->updated_at)}}" class="z-1 rounded-xl"/>
-                        <a href="{{$banner_big->miniapp_banner->button_url}}" aria-describedby="tier-hobby" class="inset-x-0 bottom-0 absolute z-2 m-2 block rounded-md px-3.5 py-2 text-center text-sm/6 font-semibold shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400" style="background-color: {{$banner_big->miniapp_banner->button_bg_color}}; color: {{$banner_big->miniapp_banner->button_text_color}}">{{$banner_big->miniapp_banner->button_text}}</a>
+                        <a href="{{$banner_big->miniapp_banner->button_url}}" aria-describedby="tier-hobby" class="lock-button inset-x-0 bottom-0 absolute z-2 m-2 block rounded-md px-3.5 py-2 text-center text-sm/6 font-semibold shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400" style="background-color: {{$banner_big->miniapp_banner->button_bg_color}}; color: {{$banner_big->miniapp_banner->button_text_color}}">{{$banner_big->miniapp_banner->button_text}}</a>
                     </div>
                 </div>
             @endforeach
@@ -49,7 +66,7 @@
                                 <img src="{{env('APP_URL').'/content/'.$banner_medium->miniapp_banner->image}}?updated_at={{base64_encode($banner_medium->miniapp_banner->updated_at)}}" class="rounded-xl"/>
                             </div>
 
-                            <a href="{{$banner_medium->miniapp_banner->button_url}}" aria-describedby="tier-team" class="mt-2 block rounded-md px-3.5 py-2 text-center text-sm/6 font-semibold shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400" style="background-color: {{$banner_medium->miniapp_banner->button_bg_color}}; color: {{$banner_medium->miniapp_banner->button_text_color}}">{{$banner_medium->miniapp_banner->button_text}}</a>
+                            <a href="{{$banner_medium->miniapp_banner->button_url}}" aria-describedby="tier-team" class="lock-button mt-2 block rounded-md px-3.5 py-2 text-center text-sm/6 font-semibold shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400" style="background-color: {{$banner_medium->miniapp_banner->button_bg_color}}; color: {{$banner_medium->miniapp_banner->button_text_color}}">{{$banner_medium->miniapp_banner->button_text}}</a>
                         </div>
 
                         @if ($bscount==2)
