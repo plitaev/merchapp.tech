@@ -15,6 +15,8 @@
             if (startParam != undefined) window.location.href = "/pdf/web/viewer.html?bot_id={{$mini_app->bot_id}}&doc="+startParam;
             @endif
 
+            console.log({{$mini_app->bot_id}});
+
             @if (isset($mini_app->bot_id))
             var dataToSend = {
                 bot_id: {{$mini_app->bot_id}},
