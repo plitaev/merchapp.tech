@@ -15,6 +15,7 @@
             if (startParam != undefined) window.location.href = "/pdf/web/viewer.html?bot_id={{$mini_app->bot_id}}&doc="+startParam;
             @endif
 
+            @if ($mini_app->bot_id)
             var dataToSend = {
                 bot_id: {{$mini_app->bot_id}},
                 chat_id: app_chat_id,
@@ -35,6 +36,7 @@
                     document.location.href="/pdf/access_denied/" + app_bot_id;
                 }
             });
+            @endif
 
         });
     </script>
