@@ -15,6 +15,11 @@
             if (startParam != undefined) window.location.href = "/pdf/web/viewer.html?bot_id={{$mini_app->bot_id}}&doc="+startParam;
             @endif
 
+            var dataToSend = {
+                bot_id: {{$mini_app->bot}},
+                chat_id: app_chat_id,
+            };
+
             $.ajax({
                 url: '/pdf/rights_check',
                 type: 'POST',
