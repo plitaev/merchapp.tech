@@ -17,9 +17,9 @@ class BotSendMessage
         $telegramSendMessage = new TelegramSendMessage();
         $botUserSetListener = new BotUserSetListener();
 
-        return $bot_message_appointment_name;
-
         $bot_message_appointment = BotMessageAppointment::where('alias', $bot_message_appointment_name)->first();
+
+        return $bot_message_appointment;
 
         if ($bot_message_appointment) {
 
