@@ -136,7 +136,7 @@ class ClubAccessController extends Controller
             //== Запускаем основной скрипт клуба
             //== Проверяем, получал ли юзер приветственное сообщение
 
-            $botWelcomeMessage->handle($bot_user); //== Обрабатываем первичное стартовое сообщение (до ввода имени)
+            return $botWelcomeMessage->handle($bot_user); //== Обрабатываем первичное стартовое сообщение (до ввода имени)
             $botHandName->handle($bot_user, $webhook); //== Обрабатываем HandName - вручную введенное юзером имя
             $botEighteen->handle($bot_user); //== Обрабатываем подтверждение 18 лет
             $botMainMenuMessage->handle($bot_user); //== Обрабатываем сообщение с главным меню
