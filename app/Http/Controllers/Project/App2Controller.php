@@ -15,7 +15,6 @@ class App2Controller extends Controller
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
 
         $mini_app = $miniAppGetByURI->handle();
-        return $_SERVER['REQUEST_URI'];
 
         return view('project.app2.app2', [
             'mini_app' => $mini_app,
