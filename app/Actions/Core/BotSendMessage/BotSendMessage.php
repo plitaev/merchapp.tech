@@ -23,8 +23,6 @@ class BotSendMessage
 
             $bot_message = BotMessage::select('id', 'pause_after_message')->where('bot_id', $bot_user->bot_id)->where('bot_message_appointment_id', $bot_message_appointment->id)->first();
 
-            return $bot_message;
-
             if ($bot_message) {
 
                 //== Отправляем само сообщение
