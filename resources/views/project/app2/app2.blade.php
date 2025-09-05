@@ -47,10 +47,10 @@
 
     <div class="isolate overflow-y-scroll bg-[#f1f1f1] h-[100vh]">
 
-        {{$_SERVER['REQUEST_URI']}}
-
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
+
+            <div style="margin: 25px 0">{{$_SERVER['REQUEST_URI']}}</div>
 
             @foreach ($banners_big as $banner_big)
                 <div class="mt-3 ml-3 mr-3">
