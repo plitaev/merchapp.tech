@@ -96,8 +96,6 @@ class ClubAccessController extends Controller
             //== Если это /start, тут обрабатываем старт
             if ($Astart[0] == "/start") {
 
-                return 'test 1';
-
                 if ($bot_user->date_end != NULL && $bot_user->date_end > date('Y-m-d', time())) {
                     $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
                     die();
@@ -138,7 +136,7 @@ class ClubAccessController extends Controller
             //== Запускаем основной скрипт клуба
             //== Проверяем, получал ли юзер приветственное сообщение
 
-            return 'test 2';
+            return 'start 2';
 
             $botWelcomeMessage->handle($bot_user); //== Обрабатываем первичное стартовое сообщение (до ввода имени)
             $botHandName->handle($bot_user, $webhook); //== Обрабатываем HandName - вручную введенное юзером имя
