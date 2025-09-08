@@ -9,6 +9,7 @@ use App\Actions\Core\Auto\BotUserSetBanScheduler;
 
 use App\Actions\Core\Auto\TelegramBusinessOpeningHours;
 use App\Actions\Core\Auto\TelegramBusinessResponceInOpeningHours;
+use App\Actions\Core\Auto\TelegramSendMessageSchedule\TelegramSendMessageScheduleProcess;
 use App\Actions\Core\Auto\TelegramScheduleDeleteMessageFill;
 use App\Actions\Core\Auto\TelegramScheduleDeleteMessageProcess;
 use App\Actions\Core\Auto\TelegramScheduleEditMessageFill;
@@ -43,6 +44,11 @@ class AutoController extends Controller
     {
         $telegramBusinessResponceInOpeningHours = new TelegramBusinessResponceInOpeningHours();
         return $telegramBusinessResponceInOpeningHours->handle();
+    }
+
+    public function telegram_send_message_schedule() {
+        $telegramSendMessageScheduleProcess = new TelegramSendMessageScheduleProcess();
+        return $telegramSendMessageScheduleProcess->handle();
     }
 
     public function telegram_schedule_edit_messages() {

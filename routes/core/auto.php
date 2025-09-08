@@ -12,6 +12,8 @@ Route::controller(AutoController::class)->group(function() {
     Route::get('/auto/telegram_business_opening_hours', 'telegram_business_opening_hours');
     Route::get('/auto/telegram_business_responce_in_opening_hours', 'telegram_business_responce_in_opening_hours');
 
+    Route::get('/auto/telegram_send_message_schedule', 'telegram_send_message_schedule');
+
     Route::get('/auto/telegram_schedule_edit_messages', 'telegram_schedule_edit_messages');
     Route::get('/auto/telegram_schedule_edit_messages_process', 'telegram_schedule_edit_messages_process');
 
