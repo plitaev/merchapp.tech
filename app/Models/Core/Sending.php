@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Sending extends Model
 {
     protected $fillable = [
-        'bot_id',
         'bot_message_id',
         'name',
         'send_date',
