@@ -34,7 +34,7 @@ class DevTestController extends Controller
             [
                 'sending_id' => $sending->id,
                 'bot_user_id' => 1,
-                'chat_id' => 1
+                'chat_id' => 247632034
             ]
         );
 
