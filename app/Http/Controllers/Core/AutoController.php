@@ -9,7 +9,7 @@ use App\Actions\Core\Auto\BotUserSetBanScheduler;
 
 use App\Actions\Core\Auto\TelegramBusinessOpeningHours;
 use App\Actions\Core\Auto\TelegramBusinessResponceInOpeningHours;
-use App\Actions\Core\Auto\TelegramSendMessageSchedule\TelegramSendMessageScheduleProcess;
+use App\Actions\Core\Auto\TelegramSendMessageScheduleProcess;
 use App\Actions\Core\Auto\TelegramScheduleDeleteMessageFill;
 use App\Actions\Core\Auto\TelegramScheduleDeleteMessageProcess;
 use App\Actions\Core\Auto\TelegramScheduleEditMessageFill;

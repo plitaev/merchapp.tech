@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Core\TelegramSendMessageSchedule;
+namespace App\Actions\Core\Auto;
 
 class TelegramSendMessageScheduleProcess
 {
