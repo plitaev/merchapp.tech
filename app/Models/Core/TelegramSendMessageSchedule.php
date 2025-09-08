@@ -16,7 +16,6 @@ class TelegramSendMessageSchedule extends Model
         'sending_id',
         'bot_user_id',
         'run_status',
-        'send_status',
         'message_id'
     ];
 
