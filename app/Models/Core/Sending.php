@@ -8,6 +8,7 @@ class Sending extends Model
 {
     protected $fillable = [
         'bot_id',
+        'bot_message_id',
         'name',
         'send_date',
         'send_time'
