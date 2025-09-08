@@ -7,6 +7,7 @@ use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
 use App\Models\Core\Pay;
 use App\Models\Core\Product;
+use App\Models\Core\TelegramSendMessageSchedule;
 use App\Models\Core\TelegramWebhook;
 
 use App\Actions\Core\BotSendMessage\BotSendMessage;
@@ -19,30 +20,21 @@ use App\Models\Core\TelegramChatJoinRequestLog;
 class DevTestController extends Controller
 {
     public function devtest() {
-        /*
-        $date_end = new DateEnd();
-        $bot_users = BotUser::whereNotNull('date_end')->get();
-        foreach ($bot_users as $bot_user) {
-            $date_end->handle($bot_user, 'Y-m-d');
-        }
-        */
-        /*
-        $botSendMessage = new BotSendMessage();
+        $sending = Sending::create(
+            [
+                'bot_id' => 1,
+                'bot_message_id' => 16,
+                'name' => 'Уже завтра встретимся с тобой в RENEW! Не пропусти💙',
+                'send_date' => '2025-09-08',
+                'send_time' => '09:00:00'
+            ]
+        );
 
-        $bot_users = BotUser::whereNull('date_end')->skip(120)->take(50)->get();
+        TelegramSendMessageSchedule::create(
+            [
 
-        foreach ($bot_users as $bot_user) {
-            $botSendMessage->handle($bot_user, 'PROJECT_MAILING_1');
-        }
-        */
-        /*
-        $bot = Bot::find($bot_user->bot_id);
-        $product = Product::find(7);
+            ]
+        );
 
-        $client = new Client();
-        $client->setAuth($bot->yookassa_shop_id, $bot->yookassa_shop_secret);
-
-        return $client->getPaymentInfo("3035311b-000f-5001-9000-1b771a469f1d");
-        */
     }
 }

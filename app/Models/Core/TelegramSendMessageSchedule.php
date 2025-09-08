@@ -8,6 +8,7 @@ class TelegramSendMessageSchedule extends Model
 {
     protected $fillable = [
         'sending_id',
+        'bot_user_id',
         'chat_id',
         'message_photo',
         'message_text',

@@ -23,8 +23,6 @@ return new class extends Migration
             $table->boolean('send_status')->default(0);
             $table->unsignedBigInteger('message_id')->nullable();
             $table->timestamps();
-
-            $table->unique(['sending_id', 'chat_id']);
         });
     }
 
