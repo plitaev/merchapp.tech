@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('telegram_send_message_schedules', function (Blueprint $table) {
-            $table->unique(['sending_id', 'bot_user_id']);
+            $table->unique(['sending_id', 'bot_user_id'], 'unique');
         });
     }
 
