@@ -20,6 +20,7 @@ class TelegramSendMessageScheduleProcess
             ->get();
 
         foreach ($res as $data) {
+            return $data->bot_message->bot_message_appointment;
             return $botSendMessage->handle($data->bot_user, $data->bot_message->bot_message_appointment);
         }
 
