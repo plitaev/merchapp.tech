@@ -19,7 +19,7 @@ class TelegramSendMessageSchedule extends Model
     ];
 
     public function bot_message(): HasOneThrough {
-        return $this->hasOneThrough(Sending::class, BotMessage::class, 'id', 'id', 'bot_message_id', 'sending_id');
+        return $this->hasOneThrough(BotMessage::class, Sending::class, 'id', 'id', 'sending_id', 'bot_message_id');
     }
 
 }
