@@ -12,7 +12,7 @@ class TelegramSendMessageScheduleProcess
         $date = date('Y-m-d', time());
         $time = date('H:i:s', time());
 
-        $res = TelegramSendMessageSchedule::with('bot_message')
+        $res = TelegramSendMessageSchedule::with('bot_message,bot_message.bot_message_appointment')
             ->where('run_status', 0)
             ->get();
 
