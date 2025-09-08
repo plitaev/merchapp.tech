@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 use App\Models\Core\BotMessage;
+use App\Models\Core\BotUser;
 use App\Models\Core\Sending;
 
 class TelegramSendMessageSchedule extends Model
@@ -17,6 +18,11 @@ class TelegramSendMessageSchedule extends Model
         'send_status',
         'message_id'
     ];
+
+    public function bot_user(): BelongsTo
+    {
+        return $this->belongsTo(BotUser::class);
+    }
 
     public function bot_message(): HasOneThrough {
         return $this->hasOneThrough(BotMessage::class, Sending::class, 'id', 'id', 'sending_id', 'bot_message_id')->with('bot_message_appointment');
