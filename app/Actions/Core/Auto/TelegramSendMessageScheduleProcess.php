@@ -19,10 +19,8 @@ class TelegramSendMessageScheduleProcess
             ->where('run_status', 0)
             ->get();
 
-        return $res;
-
         foreach ($res as $data) {
-            return $botSendMessage->handle();
+            return $botSendMessage->handle($data->bot_user, $data->bot_message->bot_message_appointment);
         }
 
     }
