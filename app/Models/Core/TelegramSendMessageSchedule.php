@@ -3,6 +3,7 @@
 namespace App\Models\Core;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 use App\Models\Core\BotMessage;
 use App\Models\Core\Sending;
