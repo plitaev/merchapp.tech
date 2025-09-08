@@ -2,6 +2,8 @@
 
 namespace App\Actions\Core\Auto;
 
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+
 use App\Models\Core\TelegramSendMessageSchedule;
 
 class TelegramSendMessageScheduleProcess
