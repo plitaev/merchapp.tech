@@ -15,7 +15,7 @@ class TelegramSendMessageScheduleProcess
         $date = date('Y-m-d', time());
         $time = date('H:i:s', time());
 
-        $res = TelegramSendMessageSchedule::with('bot_message,bot_user')
+        $res = TelegramSendMessageSchedule::with('bot_message')->with('bot_user')
             ->where('run_status', 0)
             ->get();
 
