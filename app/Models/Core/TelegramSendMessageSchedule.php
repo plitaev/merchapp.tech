@@ -4,6 +4,9 @@ namespace App\Models\Core;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Core\BotMessage;
+use App\Models\Core\Sending;
+
 class TelegramSendMessageSchedule extends Model
 {
     protected $fillable = [
@@ -13,4 +16,9 @@ class TelegramSendMessageSchedule extends Model
         'send_status',
         'message_id'
     ];
+
+    public function bot_message(): HasOneThrough {
+        return $this->hasOneThrough(Sending::class, BotMessage::class, 'id', 'id', 'bot_message_id', 'sending_id');
+    }
+
 }
