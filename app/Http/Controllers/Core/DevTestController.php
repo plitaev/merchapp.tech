@@ -24,10 +24,20 @@ class DevTestController extends Controller
         $telegram = new Api('8307593800:AAF5THy4VstNdji3U4oF01zRBfKuA74QC9E');
 
         $res = BotUser::whereNotNull('email')->get();
+
+        $members = [];
+        $others = [];
+
         foreach ($res as $data) {
 
-            $chat = $telegram->getChatMember(['chat_id' => -1001288663452, 'user_id' => $data->telegram_chat_id]);
-            return $chat;
+            $status = $telegram->getChatMember(['chat_id' => -1001288663452, 'user_id' => $data->telegram_chat_id]);
+            $status = $status->status;
+
+            if ($status == 'members') {
+                $members[] = $data->id;
+            } else {
+                $others[] = $data->id;
+            }
 
             /*
             TelegramSendMessageSchedule::create(
@@ -38,6 +48,8 @@ class DevTestController extends Controller
             );
             */
         }
+
+        return $members;
 
     }
 }
