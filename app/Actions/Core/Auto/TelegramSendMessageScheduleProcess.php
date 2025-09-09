@@ -17,7 +17,7 @@ class TelegramSendMessageScheduleProcess
 
         $res = TelegramSendMessageSchedule::with('bot_message')->with('bot_user')
             ->where('run_status', 0)
-            ->take(50)
+            ->take(25)
             ->get();
 
         foreach ($res as $data) {
