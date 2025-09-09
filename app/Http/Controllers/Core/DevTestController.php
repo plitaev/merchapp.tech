@@ -26,7 +26,7 @@ class DevTestController extends Controller
         foreach ($res as $data) {
             TelegramSendMessageSchedule::create(
                 [
-                    'sending_id' => 11,
+                    'sending_id' => 7,
                     'bot_user_id' => $data->id
                 ]
             );
