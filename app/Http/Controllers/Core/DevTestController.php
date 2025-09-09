@@ -27,7 +27,7 @@ class DevTestController extends Controller
 
             TelegramSendMessageSchedule::create(
                 [
-                    'sending_id' => 1,
+                    'sending_id' => 2,
                     'bot_user_id' => $data->id
                 ]
             );
