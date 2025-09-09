@@ -49,7 +49,7 @@ class DevTestController extends Controller
             */
         }
 
-        return $members;
+        return $others;
 
     }
 }
