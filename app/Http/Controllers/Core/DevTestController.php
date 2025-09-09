@@ -33,7 +33,7 @@ class DevTestController extends Controller
             $status = $telegram->getChatMember(['chat_id' => -1001288663452, 'user_id' => $data->telegram_chat_id]);
             $status = $status->status;
 
-            if ($status == 'members') {
+            if ($status == 'member') {
                 $members[] = $data->id;
             } else {
                 $others[] = $data->id;
