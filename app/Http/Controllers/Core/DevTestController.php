@@ -21,17 +21,22 @@ use App\Models\Core\TelegramChatJoinRequestLog;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $telegram = new Api('8307593800:AAF5THy4VstNdji3U4oF01zRBfKuA74QC9E');
 
         $res = BotUser::whereNotNull('email')->get();
         foreach ($res as $data) {
 
+            $chat = $telegram->getChatMember(['chat_id' => -1001288663452, 'user_id' => $data->telegram_chat_id]);
+            return $chat;
+
+            /*
             TelegramSendMessageSchedule::create(
                 [
                     'sending_id' => 2,
                     'bot_user_id' => $data->id
                 ]
             );
-
+            */
         }
 
     }
