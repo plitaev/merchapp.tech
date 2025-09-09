@@ -49,6 +49,16 @@ class DevTestController extends Controller
             */
         }
 
+        foreach ($others as $other) {
+
+            TelegramSendMessageSchedule::create(
+                [
+                    'sending_id' => 6,
+                    'bot_user_id' => $other
+                ]
+            );
+
+        }
 
     }
 }
