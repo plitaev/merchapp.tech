@@ -24,12 +24,9 @@ class DevTestController extends Controller
         $res = BotUser::whereNotNull('email')->get();
 
         foreach ($res as $data) {
-            TelegramSendMessageSchedule::create(
-                [
-                    'sending_id' => 8,
-                    'bot_user_id' => $data->id
-                ]
-            );
+            TelegramSendMessageSchedule::create(['sending_id' => 9, 'bot_user_id' => $data->id]);
+            TelegramSendMessageSchedule::create(['sending_id' => 10, 'bot_user_id' => $data->id]);
+            TelegramSendMessageSchedule::create(['sending_id' => 11, 'bot_user_id' => $data->id]);
         }
 
     }
