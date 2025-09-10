@@ -9,7 +9,12 @@
         $(document).ready(function() {
             let app_chat_id = app.initDataUnsafe.user.id;
 
-            app.BackButton.hide();
+            app.BackButton.show();
+
+            app.BackButton.onClick(function() {
+                window.location.href="/app1";
+            });
+
             @if ($no_rdr==0)
             let startParam = app.initDataUnsafe.start_param;
             if (startParam != undefined) window.location.href = "/pdf/web/viewer.html?bot_id={{$mini_app->bot_id}}&doc="+startParam;

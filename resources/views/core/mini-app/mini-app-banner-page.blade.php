@@ -16,7 +16,11 @@
     <script>
         window.onload = function() {
             let app = window.Telegram.WebApp;
-            app.BackButton.hide();
+            app.BackButton.show();
+
+            app.BackButton.onClick(function() {
+                window.location.href="/app1";
+            });
 
             let first_name = app.initDataUnsafe.user.first_name;
 
