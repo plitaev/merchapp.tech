@@ -21,6 +21,7 @@ use App\Models\Core\TelegramChatJoinRequestLog;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
         $telegram = new Api('8440878720:AAHrI6jj_V16gYrNxKBHnpC_fW835c9nlfU');
 
         $telegram->deleteMessage(['chat_id' => -1002826769152, 'message_id' => 196]);
@@ -40,6 +41,6 @@ class DevTestController extends Controller
         $A['text'] = urldecode("В этом приложении вы найдете все методички и материалы клуба%0A%0AВСЁ В ОДНОМ МЕСТЕ ❤️");
 
         return $telegram->sendMessage($A);
-
+        */
     }
 }
