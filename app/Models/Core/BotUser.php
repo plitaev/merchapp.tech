@@ -30,6 +30,8 @@ class BotUser extends Model
         'listen_handname_status_timestamp',
         'listen_check_access_status',
         'listen_check_access_status_timestamp',
+        'listen_email_pay_not_found_first_status',
+        'listen_email_pay_not_found_first_status_timestamp',
         'date_end',
         'sys_welcome_message_status',
         'sys_welcome_message_status_timestamp',
