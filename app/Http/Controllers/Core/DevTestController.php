@@ -39,7 +39,7 @@ class DevTestController extends Controller
         $A['protect_content'] = true;
         $A['reply_markup'] = $keyboard;
         $A['text'] = urldecode("В этом приложении вы найдете все методички и материалы клуба%0A%0AВСЁ В ОДНОМ МЕСТЕ ❤️");
-
+`1
         return $telegram->sendMessage($A);
         */
     }
