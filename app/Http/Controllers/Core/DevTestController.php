@@ -21,13 +21,23 @@ use App\Models\Core\TelegramChatJoinRequestLog;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $res = BotUser::whereNotNull('email')->get();
 
-        foreach ($res as $data) {
-            TelegramSendMessageSchedule::create(['sending_id' => 9, 'bot_user_id' => $data->id]);
-            TelegramSendMessageSchedule::create(['sending_id' => 10, 'bot_user_id' => $data->id]);
-            TelegramSendMessageSchedule::create(['sending_id' => 11, 'bot_user_id' => $data->id]);
-        }
+        $kb = [];
+        $btn = [["text" => "ОТКРЫТЬ ПРИЛОЖЕНИЕ", "url" => "https://t.me/tochka_i_club_bot?startapp"]];
+        $kb[] = $btn;
+
+        $keyboard = ["inline_keyboard" => $kb];
+        $keyboard = json_encode($keyboard, true);
+
+        $telegram = new Api('8440878720:AAHrI6jj_V16gYrNxKBHnpC_fW835c9nlfU');
+
+        $A['chat_id'] = -1002826769152;
+        $A['parse_mode'] = 'HTML';
+        $A['protect_content'] = true;
+        $A['reply_markup'] = $keyboard;
+        $A['text'] = "В этом приложении вы найдете все методички и материалы клуба%0A%0AВСЁ В ОДНОМ МЕСТЕ ❤️";
+
+        return $telegram->sendMessage($A);
 
     }
 }
