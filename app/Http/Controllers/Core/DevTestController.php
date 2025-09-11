@@ -21,6 +21,9 @@ use App\Models\Core\TelegramChatJoinRequestLog;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $telegram = new Api('8440878720:AAHrI6jj_V16gYrNxKBHnpC_fW835c9nlfU');
+
+        $telegram->deleteMessage(['chat_id' => -100282676915, 'message_id' => 196]);
 
         $kb = [];
         $btn = [["text" => "ОТКРЫТЬ ПРИЛОЖЕНИЕ", "url" => "https://t.me/tochka_i_club_bot?startapp"]];
@@ -29,13 +32,12 @@ class DevTestController extends Controller
         $keyboard = ["inline_keyboard" => $kb];
         $keyboard = json_encode($keyboard, true);
 
-        $telegram = new Api('8440878720:AAHrI6jj_V16gYrNxKBHnpC_fW835c9nlfU');
 
         $A['chat_id'] = -1002826769152;
         $A['parse_mode'] = 'HTML';
         $A['protect_content'] = true;
         $A['reply_markup'] = $keyboard;
-        $A['text'] = "В этом приложении вы найдете все методички и материалы клуба%0A%0AВСЁ В ОДНОМ МЕСТЕ ❤️";
+        $A['text'] = urldecode("В этом приложении вы найдете все методички и материалы клуба%0A%0AВСЁ В ОДНОМ МЕСТЕ ❤️");
 
         return $telegram->sendMessage($A);
 
