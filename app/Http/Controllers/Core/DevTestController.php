@@ -23,7 +23,7 @@ class DevTestController extends Controller
     public function devtest() {
         $telegram = new Api('8440878720:AAHrI6jj_V16gYrNxKBHnpC_fW835c9nlfU');
 
-        $telegram->deleteMessage(['chat_id' => -100282676915, 'message_id' => 196]);
+        $telegram->deleteMessage(['chat_id' => -1002826769152, 'message_id' => 196]);
 
         $kb = [];
         $btn = [["text" => "ОТКРЫТЬ ПРИЛОЖЕНИЕ", "url" => "https://t.me/tochka_i_club_bot?startapp"]];
