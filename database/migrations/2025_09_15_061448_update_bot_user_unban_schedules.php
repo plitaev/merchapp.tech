@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('bot_user_unban_schedules', function (Blueprint $table) {
             $table->dropColumn('unban_date');
             $table->dropColumn('unban_time');
-            $table->datetime('unban_datetime')->after('run_status');
+            $table->datetime('unban_datetime')->after('run_status')->nullable();
         });
     }
 
