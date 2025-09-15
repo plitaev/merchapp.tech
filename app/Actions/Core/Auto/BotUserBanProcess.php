@@ -16,15 +16,13 @@ class BotUserBanProcess
 
         $botSupergroupsAll = new BotSupergroupsAll();
 
-        $date = date('Y-m-d', time());
-        $time = date('H:i:s', time());
+        $datetime = date('Y-m-d', time());
 
         $supergroups = $botSupergroupsAll->handle();
 
         $bans = BotUserBanSchedule::with('bot', 'bot_user')
             ->where('run_status', 0)
-            ->where('ban_date', $date)
-            ->where('ban_time', '<=', $time)
+            ->where('ban_datetime', '<=', $datetime)
             ->get();
 
         foreach ($bans as $ban) {
