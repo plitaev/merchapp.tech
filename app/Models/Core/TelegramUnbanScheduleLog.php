@@ -5,7 +5,7 @@ namespace App\Models\Core;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TelegramUnbanScheduleErrorLogs extends Model
+class TelegramUnbanScheduleLog extends Model
 {
     use HasFactory;
 
@@ -13,6 +13,6 @@ class TelegramUnbanScheduleErrorLogs extends Model
         'bot_user_id',
         'user_id',
         'chat_id',
-        'text'
+        'status'
     ];
 }
