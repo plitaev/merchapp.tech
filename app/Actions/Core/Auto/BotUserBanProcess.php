@@ -17,7 +17,7 @@ class BotUserBanProcess
 
         $botSupergroupsAll = new BotSupergroupsAll();
 
-        $datetime = date('Y-m-d', time());
+        $datetime = date('Y-m-d H:i:s', time());
 
         $supergroups = $botSupergroupsAll->handle();
 
