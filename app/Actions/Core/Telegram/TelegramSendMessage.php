@@ -1,15 +1,14 @@
 <?php
 namespace App\Actions\Core\Telegram;
+use Telegram\Bot\Api;
 
 use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
 use App\Actions\Core\BotUser\BotUserUnban;
-use Telegram\Bot\Api;
-
+use App\Actions\Core\BotUser\BotUserSetUnbanScheduler;
 use App\Actions\Core\Product\ProductListByBot;
 
 use App\Models\Core\BotMessage;
 use App\Models\Core\BotMessageButton;
-use App\Models\Core\Product;
 use App\Models\Core\TelegramSendMessageErrorLog;
 use App\Models\Core\TelegramSendMessageLog;
 
@@ -18,6 +17,7 @@ class TelegramSendMessage
     public function handle($bot_user, int $bot_message_id, string $bot_message_appointment = '') {
 
         $botSupergroupsAll = new BotSupergroupsAll();
+        $botUserSetUnbanScheduler = new BotUserSetUnbanScheduler();
         $botUserUnban = new BotUserUnban();
         $productListByBot = new ProductListByBot();
 
@@ -196,6 +196,7 @@ class TelegramSendMessage
                 if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE') {
                     $supergroups = $botSupergroupsAll->handle();
                     $botUserUnban->handle($bot_user, $supergroups, $telegram);
+                    $botUserSetUnbanScheduler->handle($bot_user, date('Y-m-d H:i:s'));
                 }
 
                 return $message;
