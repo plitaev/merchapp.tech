@@ -1,7 +1,9 @@
 <?php
 namespace App\Actions\Core\Pay;
 
+use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\DateEnd\DateEnd;
+
 use App\Models\Core\BotUser;
 use App\Models\Core\PayGuest;
 use App\Models\Core\Product;
@@ -9,6 +11,7 @@ use App\Models\Core\Product;
 class PayCreateByEmail
 {
     public function handle(string $email, int $product_id, int $recurrent, int $recurrent_status, int $days = 0, int $price = 0) {
+        $botSendMessage = new BotSendMessage();
         $dateEnd = new DateEnd();
 
         $product = Product::select('bot_id', 'price', 'days')->find($product_id);
@@ -32,6 +35,8 @@ class PayCreateByEmail
             ]);
 
             $dateEnd->handle($bot_user, 'Y-m-d');
+
+            $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
 
             return $new;
 
