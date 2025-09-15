@@ -2,8 +2,10 @@
 
 namespace App\Actions\Core\BotUser;
 
+use App\Models\Core\BotUser;
 use App\Models\Core\TelegramChatMemberLog;
 use App\Models\Core\TelegramChatMemberErrorLog;
+use App\Models\Core\TelegramUnbanSchedule;
 use App\Models\Core\TelegramUnbanScheduleErrorLog;
 use App\Models\Core\TelegramUnbanScheduleLog;
 
@@ -21,6 +23,14 @@ class BotUserUnban
                     try {
                         $member = $telegram->getChatMember(['chat_id' => $supergroup, 'user_id' => $bot_user->telegram_chat_id]);
                         TelegramChatMemberLog::create(['bot_user_id' => $bot_user->id, 'user_id' => $bot_user->telegram_chat_id, 'chat_id' => $supergroup, 'status' => $member->status, 'text' => $member]);
+
+                        if ($member->status != 'banned') {
+                            TelegramUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 2]);
+                            BotUser::where('id', $bot_user->id)->update(['ban' => 0, 'unban' => 1]);
+                        } else {
+                            TelegramUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 0]);
+                        }
+
                     } catch (\Exception $exception) {
                         TelegramChatMemberErrorLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup, 'user_id' =>$bot_user->telegram_chat_id, 'text' => $exception]);
                     }
