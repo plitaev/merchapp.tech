@@ -16,8 +16,7 @@ class BotUserBanSchedule extends Model
     protected $fillable = [
         'bot_user_id',
         'run_status',
-        'ban_date',
-        'ban_time'
+        'ban_datetime'
     ];
 
     public function bot(): HasOneThrough {
