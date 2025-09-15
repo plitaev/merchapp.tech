@@ -5,6 +5,7 @@ use Telegram\Bot\Api;
 
 use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
 
+use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\TelegramBanScheduleLogs;
 use App\Models\Core\TelegramBanScheduleErrorLogs;
@@ -35,6 +36,9 @@ class BotUserBanProcess
                     try {
                         $status = $telegram->banChatMember(['chat_id' => $supergroup, 'user_id' => $ban->bot_user->telegram_chat_id]);
                         TelegramBanScheduleLogs::create(['bot_user_id' => $ban->bot_user->id, 'chat_id' => $supergroup, 'user_id' =>$ban->bot_user->telegram_chat_id, 'status' => $status]);
+
+                        BotUser::where('id', $ban->bot_user_id)->update(['ban' => 1, 'unban' => 0]);
+
                     } catch (\Exception $exception) {
                         TelegramBanScheduleErrorLogs::create(['bot_user_id' => $ban->bot_user->id, 'chat_id' => $supergroup, 'user_id' =>$ban->bot_user->telegram_chat_id, 'text' => $exception]);
                     }
