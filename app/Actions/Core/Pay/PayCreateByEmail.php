@@ -22,7 +22,7 @@ class PayCreateByEmail
         if ($days == 0) $days = $product->days;
         if ($price == 0) $price = $product->price;
 
-        $bot_user = BotUser::select('id', 'bot_id')->where('email', $email)->where('bot_id', $product->bot_id)->first();
+        $bot_user = BotUser::where('email', $email)->where('bot_id', $product->bot_id)->first();
 
         if ($bot_user) {
             $new = \App\Models\Core\Pay::create([
