@@ -20,7 +20,7 @@ class BotUserUnbanProcess
 
         $unbans = BotUserUnBanSchedule::with('bot', 'bot_user')
             ->where('run_status', 0)
-            ->where('unban_datetime', $datetime)
+            ->where('unban_datetime', '<=', $datetime)
             ->get();
 
         foreach ($unbans as $unban) {
