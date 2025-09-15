@@ -19,6 +19,7 @@ class BotUserUnban
 
                 try {
                     $status = $telegram->unbanChatMember(['chat_id' => $supergroup, 'user_id' => $bot_user->telegram_chat_id]);
+
                     TelegramUnbanScheduleLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup, 'user_id' => $bot_user->telegram_chat_id, 'status' => $status]);
 
                     try {
