@@ -1,6 +1,8 @@
 <?php
 namespace App\Actions\Core\Telegram;
 
+use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
+use App\Actions\Core\BotUser\BotUserUnban;
 use Telegram\Bot\Api;
 
 use App\Actions\Core\Product\ProductListByBot;
@@ -15,6 +17,8 @@ class TelegramSendMessage
 {
     public function handle($bot_user, int $bot_message_id, string $bot_message_appointment = '') {
 
+        $botSupergroupsAll = new BotSupergroupsAll();
+        $botUserUnban = new BotUserUnban();
         $productListByBot = new ProductListByBot();
 
         (int) $send_status = 0;
@@ -186,6 +190,13 @@ class TelegramSendMessage
                         'telegram_entities' => $entities
                     ]
                 );
+
+                //== Разбаниваем, если идет сообщение об успехе, и ставим в UnbanScheduler
+
+                if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE') {
+                    $supergroups = $botSupergroupsAll->handle();
+                    $botUserUnban->handle($bot_user, $supergroups, $telegram);
+                }
 
                 return $message;
             }

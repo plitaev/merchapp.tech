@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Schema;
 
 use App\Actions\Core\BotUser\BotUserSetListener;
 use App\Actions\Core\Telegram\TelegramSendMessage;
+
 use App\Models\Core\BotMessage;
 use App\Models\Core\BotMessageAppointment;
 use App\Models\Core\BotMessageListener;
@@ -14,8 +15,9 @@ use App\Models\Core\BotUser;
 class BotSendMessage
 {
     public function handle($bot_user, string $bot_message_appointment_name) {
-        $telegramSendMessage = new TelegramSendMessage();
+
         $botUserSetListener = new BotUserSetListener();
+        $telegramSendMessage = new TelegramSendMessage();
 
         $bot_message_appointment = BotMessageAppointment::where('alias', $bot_message_appointment_name)->first();
 
@@ -44,7 +46,9 @@ class BotSendMessage
                 //== Проверяем паузу, и отправляем, если есть
                 if ($bot_message->pause_after_message > 0) sleep($bot_message->pause_after_message);
 
+                //== Завершаем отправку
                 return $message;
+
             } else {
                 return 'BOT_MESSAGE_NOT_FOUND';
             }
