@@ -15,11 +15,16 @@ class BotUserSetBanScheduler
         $botUserSetBanSchedulerCreate = new BotUserSetBanSchedulerCreate();
         $date = date('Y-m-d', time());
 
+        $datetime_ban = $date." 23:30:00";
+        $datetime_start = $date." 00:00:00";
+        $datetime_end = $date." 23:59:59";
+
         //== Первая выборка - у кого date_end на сегодня
 
         $non_runned_users = BotUserBanSchedule::select('bot_user_id')
             ->where('run_status', 0)
-            ->where('ban_date', $date)
+            ->where('ban_datetime', '>=', $datetime_start)
+            ->where('ban_datetime', '<=', $datetime_end)
             ->groupBy('bot_user_id')
             ->pluck('bot_user_id')
             ->toArray();
@@ -30,7 +35,7 @@ class BotUserSetBanScheduler
             ->where('date_end', $date)
             ->whereNotIn('id', $non_runned_users)
             ->get();
-        $botUserSetBanSchedulerCreate->handle($bot_users, $date);
+        $botUserSetBanSchedulerCreate->handle($bot_users, $datetime_ban);
 
         //== Вторая выборка - у кого date_end IS NULL и listen_success_message_status = 1
 
@@ -40,6 +45,6 @@ class BotUserSetBanScheduler
             ->whereNotIn('id', $non_runned_users)
             ->get();
 
-        $botUserSetBanSchedulerCreate->handle($bot_users, $date);
+        $botUserSetBanSchedulerCreate->handle($bot_users, $datetime_ban);
     }
 }

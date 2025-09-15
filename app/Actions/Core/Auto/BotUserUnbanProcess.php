@@ -16,15 +16,13 @@ class BotUserUnbanProcess
         $botSupergroupsAll = new BotSupergroupsAll();
         $botUserUnban = new BotUserUnban();
 
-        $date = date('Y-m-d', time());
-        $time = date('H:i:s', time());
+        $datetime = date('Y-m-d H:i:s', time());
 
         $supergroups = $botSupergroupsAll->handle();
 
         $unbans = BotUserUnBanSchedule::with('bot', 'bot_user')
             ->where('run_status', 0)
-            ->where('ban_date', $date)
-            ->where('ban_time', '<=', $time)
+            ->where('unban_datetime', $datetime)
             ->get();
 
         foreach ($unbans as $unban) {
