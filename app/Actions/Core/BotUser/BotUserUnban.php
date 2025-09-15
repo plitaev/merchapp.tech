@@ -27,7 +27,7 @@ class BotUserUnban
                         TelegramChatMemberLog::create(['bot_user_id' => $bot_user->id, 'user_id' => $bot_user->telegram_chat_id, 'chat_id' => $supergroup, 'status' => $member->status, 'text' => $member]);
 
                         if ($member->status != 'banned') {
-                            BotUserUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 2]);
+                            BotUserUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 1]);
                             BotUser::where('id', $bot_user->id)->update(['ban' => 0, 'unban' => 1]);
                         } else {
                             BotUserUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 0]);
