@@ -13,6 +13,7 @@ class Funnel extends Model
     protected $fillable = [
         'bot_id',
         'name',
+        'alias'
     ];
 
     public function bot(): BelongsTo
