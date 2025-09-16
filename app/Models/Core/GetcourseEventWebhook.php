@@ -11,7 +11,8 @@ class GetcourseEventWebhook extends Model
         'getcourse_id',
         'name',
         'email',
-        'event'
+        'event',
+        'bot_id'
     ];
 
 }
