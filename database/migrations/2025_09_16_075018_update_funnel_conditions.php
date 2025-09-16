@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('funnel_conditions', function (Blueprint $table) {
-            $table->id();
             $table->string('alias', 255)->after('name');
         });
     }
