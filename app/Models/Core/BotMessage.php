@@ -11,6 +11,7 @@ class BotMessage extends Model
         'bot_message_type_id',
         'bot_message_appointment_id',
         'funnel_id',
+        'funnel_condition_id',
         'name',
         'text',
         'image',
