@@ -27,10 +27,16 @@ class BotMessage extends Model
         'pause_after_message'
     ];
 
+    public function funnel_condition(): BelongsTo
+    {
+        return $this->belongsTo(FunnelCondition::class, 'funnel_condition_id', 'id');
+    }
+
     public function bot_message_funnel(): BelongsTo
     {
         return $this->belongsTo(Funnel::class, 'funnel_id', 'id');
     }
+
     public function bot_message_appointment(): BelongsTo
     {
         return $this->belongsTo(BotMessageAppointment::class, 'bot_message_appointment_id', 'id');
