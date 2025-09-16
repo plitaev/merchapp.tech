@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Core;
 
 use App\Http\Controllers\Controller;
 
+use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserGetByEmail;
 use App\Actions\Core\GetCourseEventWebhook\GetCourseEventWebhookCreate;
 use App\Actions\Core\GetCourseWebhook\GetCourseWebhookCreate;
+
 use App\Models\Core\BotMessage;
 
 class GetCourseController extends Controller
@@ -18,6 +20,7 @@ class GetCourseController extends Controller
 
     public function getcourse_event_webhooks(int $getcourse_id, string $name, string $email, int $bot_id, string $event) {
 
+        $botSendMessage = new BotSendMessage();
         $botUserGetByEmail = new BotUserGetByEmail();
         $getCourseEventWebhookCreate = new GetCourseEventWebhookCreate();
 
@@ -31,7 +34,10 @@ class GetCourseController extends Controller
                 })
                 ->first();
 
-            return $bot_message;
+            if ($bot_message) {
+                $botSendMessage->handle($bot_user, $bot_message->bot_message_appointmen->alias);
+            }
+
         }
 
     }
