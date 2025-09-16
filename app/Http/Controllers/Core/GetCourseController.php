@@ -25,8 +25,7 @@ class GetCourseController extends Controller
         $bot_user = $botUserGetByEmail->handle($bot_id, $email);
 
         if ($bot_user) {
-            $bot_message = BotMessage::with('funnel_condition')
-                ->select('id, funnel_conditon_id')
+            $bot_message = BotMessage::with('funnel_condition')->with('bot_message_appointment')
                 ->whereHas('funnel_condition', function ($query) use ($event) {
                     $query->where('alias', $event);
                 })
