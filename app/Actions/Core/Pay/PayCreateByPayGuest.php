@@ -36,7 +36,10 @@ class PayCreateByPayGuest
             PayGuest::where('id', $data->id)->update(['status' => 1]);
         }
 
-        $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+        if (count($res) > 0) {
+            $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+        }
+
         $dateEnd->handle($bot_user, 'Y-m-d');
 
     }
