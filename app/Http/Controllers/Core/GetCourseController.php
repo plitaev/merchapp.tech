@@ -35,8 +35,7 @@ class GetCourseController extends Controller
                 ->first();
 
             if ($bot_message) {
-                return $bot_message->bot_message_appointment->alias;
-                $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
+                return $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
             }
 
         }
