@@ -11,6 +11,7 @@ use App\Models\Core\BotMessageListener;
 use App\Models\Core\BotMessageType;
 use App\Models\Core\BotUser;
 use App\Models\Core\Funnel;
+use App\Models\Core\FunnelCondition;
 use App\Models\Core\Listener;
 use Filament\Forms;
 use Filament\Forms\Components\Actions;
@@ -197,6 +198,10 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->options(Funnel::all()->pluck('name', 'id'))
                             ->searchable()
                             ->live(),
+                        Forms\Components\Select::make('funnel_condition_id')
+                            ->label('Условие для воронки')
+                            ->options(FunnelCondition::all()->pluck('name', 'id'))
+                            ->searchable()
                     ]),
                 Section::make('Бот и назначение')
                     ->description('Если необходимо, укажите функцию, которую будет выполнять данное сообщение')
