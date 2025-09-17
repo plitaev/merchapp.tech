@@ -6,11 +6,28 @@ use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Core\BotUser;
+
 class ConverterController extends Controller
 {
     public function load_users() {
-        $res = DB::table('secondbot.telegram_chats')->get();
-        return $res;
+        $res = DB::table('secondbot.telegram_chats')->where('chat_id', '>', 0)->get();
+        foreach ($res as $data) {
+
+            if ($data->chat_id > 0) {
+                BotUser::create([
+                    'telegram_chat_id' => $data->chat_id,
+                    'bot_id' => 1,
+                    'first_name' => $data->first_name,
+                    'last_name' => $data->last_name,
+                    'username' => $data->username,
+                    'email' => $data->email,
+                    'language_code' => $data->language_code,
+
+                ]);
+            }
+
+        }
     }
 
     public function clean() {
