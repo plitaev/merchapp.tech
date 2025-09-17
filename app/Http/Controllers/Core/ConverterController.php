@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Core\BotUser;
 
+use App\Actions\Core\Pay\PayCreateByEmail;
+
 class ConverterController extends Controller
 {
     public function load_users() {
@@ -51,6 +53,16 @@ class ConverterController extends Controller
                 'created_at' => $data->created_at,
                 'updated_at' => $data->updated_at
             ]);
+        }
+
+    }
+
+    public function create_pays_from_webhook() {
+        $payCreateByEmail = new PayCreateByEmail();
+
+        $res = GetcourseWebhook::all();
+        foreach ($res as $data) {
+            $payCreateByEmail->handle($data->email, $data->product_id, $data->recurrent, $data->recurrent_status);
         }
 
     }
