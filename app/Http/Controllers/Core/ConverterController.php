@@ -39,7 +39,7 @@ class ConverterController extends Controller
             $Aproducts[$product->days] = $product->id;
         }
 
-        $res = DB::table('secondbot.getcourse_callback')->get();
+        $res = DB::table('secondbot.getcourse_callback')->where('days', '>', 0)->get();
         foreach ($res as $data) {
             GetcourseWebhook::insert([
                 'product_id' => $Aproducts[$data->days],
