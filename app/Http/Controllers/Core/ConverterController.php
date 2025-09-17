@@ -62,7 +62,7 @@ class ConverterController extends Controller
     public function create_pays_from_webhook() {
         $payCreateByEmail = new PayCreateByEmail();
 
-        $res = GetcourseWebhook::all();
+        $res = GetcourseWebhook::where('run_status', 0)->take(50)->get();
         foreach ($res as $data) {
             $new = $payCreateByEmail->handle($data->email, $data->product_id, $data->recurrent, $data->recurrent_status);
 
@@ -72,6 +72,7 @@ class ConverterController extends Controller
                 PayGuest::where('id', $new->id)->update(['created_at' => $data->created_at, 'updated_at' => $data->updated_at]);
             }
 
+            GetcourseWebhook::where('id', $data->id)->update(['run_status' => 1]);
         }
 
     }
