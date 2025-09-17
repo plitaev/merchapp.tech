@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 use App\Models\Core\BotUser;
+use App\Models\Core\Pay;
+use App\Models\Core\PayGuest;
 
 use App\Actions\Core\Pay\PayCreateByEmail;
 
@@ -62,7 +64,14 @@ class ConverterController extends Controller
 
         $res = GetcourseWebhook::all();
         foreach ($res as $data) {
-            $payCreateByEmail->handle($data->email, $data->product_id, $data->recurrent, $data->recurrent_status);
+            $new = $payCreateByEmail->handle($data->email, $data->product_id, $data->recurrent, $data->recurrent_status);
+
+            if (isset($new->bot_user_id)) {
+                Pay::where('id', $new->id)->update(['created_at' => $data->created_at, 'updated_at' => $data->updated_at]);
+            } else {
+                PayGuest::where('id', $new->id)->update(['created_at' => $data->created_at, 'updated_at' => $data->updated_at]);
+            }
+
         }
 
     }
