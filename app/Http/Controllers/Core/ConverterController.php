@@ -15,7 +15,7 @@ class ConverterController extends Controller
         foreach ($res as $data) {
 
             if ($data->chat_id > 0) {
-                BotUser::create([
+                DB::table('magiclife_new.bot_users')->insert([
                     'telegram_chat_id' => $data->chat_id,
                     'bot_id' => 1,
                     'first_name' => $data->first_name,
