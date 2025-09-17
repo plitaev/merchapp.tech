@@ -15,14 +15,14 @@ class ConverterController extends Controller
         foreach ($res as $data) {
 
             if ($data->chat_id > 0) {
-                DB::table('magiclife_new.bot_users')->insert([
+                BotUser::create([
                     'telegram_chat_id' => $data->chat_id,
                     'bot_id' => 1,
                     'first_name' => $data->first_name,
                     'last_name' => $data->last_name,
                     'username' => $data->username,
                     'email' => $data->email,
-                    'language_code' => $data->language_code,
+                    'language_code' => $data->language_code
                 ]);
             }
 
