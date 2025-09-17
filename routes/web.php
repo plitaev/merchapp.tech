@@ -8,6 +8,7 @@ require 'core/auto.php';
 require 'core/bot.php';
 require 'core/bot_message.php';
 require 'core/bot_message_button.php';
+require 'core/converter.php';
 require 'core/devtest.php';
 require 'core/getcourse.php';
 require 'core/miniapp.php';
