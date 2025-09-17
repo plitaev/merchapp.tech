@@ -62,17 +62,39 @@ class ConverterController extends Controller
     public function create_pays_from_webhook() {
         $payCreateByEmail = new PayCreateByEmail();
 
-        $res = GetcourseWebhook::where('run_status', 0)->take(50)->get();
+        $res = GetcourseWebhook::get();
         foreach ($res as $data) {
-            $new = $payCreateByEmail->handle($data->email, $data->product_id, $data->recurrent, $data->recurrent_status);
 
-            if (isset($new->bot_user_id)) {
-                Pay::where('id', $new->id)->update(['created_at' => $data->created_at, 'updated_at' => $data->updated_at]);
+            $bot_user = BotUser::where('email', $data->email)->first();
+            $product = Product::select('bot_id', 'price', 'days')->find($data->product_id);
+
+            if ($bot_user) {
+                $new = \App\Models\Core\Pay::insert([
+                    'product_id' => $data->product_id,
+                    'gift' => 0,
+                    'bot_user_id' => $bot_user->id,
+                    'price' => $product->price,
+                    'days' => $product->days,
+                    'status' => 1,
+                    'recurrent' => $data->recurrent,
+                    'recurrent_status' => $data->recurrent_status,
+                    'created_at' => $data->created_at,
+                    'updated_at' => $data->updated_at
+                ]);
             } else {
-                PayGuest::where('id', $new->id)->update(['created_at' => $data->created_at, 'updated_at' => $data->updated_at]);
+                $new = PayGuest::create([
+                    'product_id' => $data->product_id,
+                    'email' => $data->email,
+                    'price' => $product->price,
+                    'days' => $product->days,
+                    'gift' => 0,
+                    'status' => 0,
+                    'recurrent' => $data->recurrent,
+                    'recurrent_status' => $data->recurrent_status,
+                    'created_at' => $data->created_at,
+                    'updated_at' => $data->updated_at
+                ]);
             }
-
-            GetcourseWebhook::where('id', $data->id)->update(['run_status' => 1]);
         }
 
     }
