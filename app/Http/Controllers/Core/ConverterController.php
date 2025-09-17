@@ -9,7 +9,8 @@ use App\Http\Controllers\Controller;
 class ConverterController extends Controller
 {
     public function load() {
-
+        $res = DB::table('secondbot.telegram_chats')->get();
+        return $res;
     }
 
     public function clean() {
