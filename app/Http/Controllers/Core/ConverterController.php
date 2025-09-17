@@ -35,8 +35,10 @@ class ConverterController extends Controller
         $Aproducts = [];
 
         foreach ($products as $product) {
-            $Aproducts[$product->days] = $product->
+            $Aproducts[$product->days] = $product->id;
         }
+
+        return $Aproducts;
     }
 
     public function clean() {
