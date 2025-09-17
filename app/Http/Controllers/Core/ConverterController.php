@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Core;
 
+use App\Models\Core\GetcourseWebhook;
 use App\Models\Core\Product;
 use Illuminate\Support\Facades\DB;
 
@@ -38,7 +39,20 @@ class ConverterController extends Controller
             $Aproducts[$product->days] = $product->id;
         }
 
-        return $Aproducts;
+        $res = DB::table('secondbot.getcourse_callback')->get();
+        foreach ($res as $data) {
+            GetcourseWebhook::insert([
+                'product_id' => $Aproducts[$data->days],
+                'getcourse_id' => $data->getcourse_id,
+                'name' => $data->name,
+                'email' => $data->email,
+                'recurrent' => $data->recurrent,
+                'recurrent_status' => $data->recurrent_status,
+                'created_at' => $data->created_at,
+                'updated_at' => $data->updated_at
+            ]);
+        }
+
     }
 
     public function clean() {
