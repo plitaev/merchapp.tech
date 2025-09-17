@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Core;
 
+use App\Models\Core\Product;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
@@ -26,6 +27,15 @@ class ConverterController extends Controller
                 ]);
             }
 
+        }
+    }
+
+    public function load_getcourse_webhooks() {
+        $products = Product::all();
+        $Aproducts = [];
+
+        foreach ($products as $product) {
+            $Aproducts[$product->days] = $product->
         }
     }
 
