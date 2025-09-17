@@ -11,7 +11,7 @@ use App\Models\Core\BotUser;
 class ConverterController extends Controller
 {
     public function load_users() {
-        $res = DB::table('secondbot.telegram_chats')->where('chat_id', '>', 0)->take(1)->get();
+        $res = DB::table('secondbot.telegram_chats')->where('chat_id', '>', 0)->get();
         foreach ($res as $data) {
 
             if ($data->chat_id > 0) {
@@ -23,7 +23,6 @@ class ConverterController extends Controller
                     'username' => $data->username,
                     'email' => $data->email,
                     'language_code' => $data->language_code,
-
                 ]);
             }
 
