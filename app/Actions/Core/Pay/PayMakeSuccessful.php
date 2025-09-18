@@ -14,12 +14,14 @@ class PayMakeSuccessful
         $botSendMessage = new BotSendMessage();
         $botUserGetByID = new BotUserGetByID();
         $dateEnd = new DateEnd();
+        $dateEnd = new DateEnd();
 
         Pay::query()
             ->where('id', $order_number)
             ->update(
                 [
                     'status' => 1,
+                    'recurrent' => 1,
                     'pay_system_callback' => $source,
                     'pay_system_payment_id' => $pay_system_payment_id,
                     'pay_system_payment_method_id' => $pay_system_payment_method_id,
