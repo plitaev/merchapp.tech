@@ -106,9 +106,10 @@ class ConverterController extends Controller
     public function cache_date_end() {
         $dateEnd = new DateEnd();
 
-        $res = BotUser::all();
+        $res = BotUser::where('run_status', 0)->get();
         foreach ($res as $data) {
             $dateEnd->handle($data, 'Y-m-d');
+            BotUser::where('id', $data->id)->update(['run_status' => 1]);
         }
     }
 

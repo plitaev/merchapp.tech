@@ -41,7 +41,8 @@ class BotUser extends Model
         'sys_email_pay_not_found_first_status_timestamp',
         'listen_success_message_status',
         'listen_success_message_status_timestamp',
-        'time_zone_name'
+        'time_zone_name',
+        'run_status'
     ];
 
 
