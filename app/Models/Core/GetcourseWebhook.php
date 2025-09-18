@@ -13,9 +13,7 @@ class GetcourseWebhook extends Model
         'name',
         'email',
         'recurrent',
-        'recurrent_status',
-        'run_status',
-        'created_at',
+        'recurrent_status'
     ];
 
 

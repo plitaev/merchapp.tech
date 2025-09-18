@@ -13,10 +13,12 @@ use App\Models\Core\Pay;
 use App\Models\Core\PayGuest;
 
 use App\Actions\Core\Pay\PayCreateByEmail;
+use App\Actions\Core\DateEnd\DateEnd;
 
 class ConverterController extends Controller
 {
     public function load_users() {
+        /*
         $res = DB::table('secondbot.telegram_chats')->where('chat_id', '>', 0)->get();
         foreach ($res as $data) {
 
@@ -31,11 +33,12 @@ class ConverterController extends Controller
                     'language_code' => $data->language_code
                 ]);
             }
-
         }
+        */
     }
 
     public function load_getcourse_webhooks() {
+        /*
         $products = Product::all();
         $Aproducts = [];
 
@@ -56,10 +59,11 @@ class ConverterController extends Controller
                 'updated_at' => $data->updated_at
             ]);
         }
-
+        */
     }
 
     public function create_pays_from_webhook() {
+        /*
         $payCreateByEmail = new PayCreateByEmail();
 
         $res = GetcourseWebhook::where('id', '>=', 42659)->get();
@@ -96,7 +100,16 @@ class ConverterController extends Controller
                 ]);
             }
         }
+        */
+    }
 
+    public function cache_date_end() {
+        $dateEnd = new DateEnd();
+
+        $res = BotUser::all();
+        foreach ($res as $data) {
+            $dateEnd->handle($data, 'Y-m-d');
+        }
     }
 
     public function clean() {
