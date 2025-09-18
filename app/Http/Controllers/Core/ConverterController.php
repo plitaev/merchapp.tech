@@ -82,7 +82,7 @@ class ConverterController extends Controller
                     'updated_at' => $data->updated_at
                 ]);
             } else {
-                $new = PayGuest::create([
+                $new = PayGuest::insert([
                     'product_id' => $data->product_id,
                     'email' => $data->email,
                     'price' => $product->price,
