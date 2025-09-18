@@ -62,7 +62,7 @@ class ConverterController extends Controller
     public function create_pays_from_webhook() {
         $payCreateByEmail = new PayCreateByEmail();
 
-        $res = GetcourseWebhook::get();
+        $res = GetcourseWebhook::where('created_at', '>', '2025-08-18 16:19:45')->get();
         foreach ($res as $data) {
 
             $bot_user = BotUser::where('email', $data->email)->first();
