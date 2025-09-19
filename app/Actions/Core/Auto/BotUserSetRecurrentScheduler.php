@@ -25,10 +25,9 @@ class BotUserSetRecurrentScheduler
                         'bot_user_id' => $bot_user->id,
                         'prevous_pay_id' => $pay->id,
                         'recurrent_datetime' => date('Y-m-d', time())." 12:00:00",
-                        'run_status' => 0,
-                        'status' => 0
+                        'run_status' => 0
                     ],
-                    ['telegram_message_id', 'chat_id'],
+                    ['bot_user_id', 'recurrent_datetime'],
                     ['updated_at' => now()]
                 );
             }
