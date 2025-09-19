@@ -20,9 +20,9 @@ class BotUserRecurrentSchedule extends Model
         'pay_system_responce'
     ];
 
-    public function prevois_pay(): BelongsTo
+    public function prevous_pay(): BelongsTo
     {
-        return $this->belongsTo(Pay::class, 'prevois_pay_id', 'id');
+        return $this->belongsTo(Pay::class, 'prevous_pay_id', 'id');
     }
 
 }

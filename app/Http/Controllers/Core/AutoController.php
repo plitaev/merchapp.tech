@@ -22,7 +22,7 @@ class AutoController extends Controller
 
     public function bot_user_set_recurrent_scheduler() {
         $botUserSetRecurrentScheduler = new BotUserSetRecurrentScheduler();
-        $botUserSetRecurrentScheduler->handle();
+        return $botUserSetRecurrentScheduler->handle();
     }
 
     public function bot_user_recurrent_scheduler_process() {
