@@ -23,7 +23,7 @@ class BotUserRecurrentSchedulerProcess
             $client->setAuth($data->bot->yookassa_shop_id, $data->bot->yookassa_shop_secret);
 
             $products = [];
-            $products[]=["description" => $data->product->name, "quantity" => "1.00", "amount" => ["value" => $data->prevous_pay->price, "currency" => "RUB", "vat_code" => 1, "payment_mode" => "full_payment", "payment_subject" => "service"]];
+            $products[]=["description" => $data->product->name, "quantity" => "1.00", "vat_code" => 1, "amount" => ["value" => $data->prevous_pay->price, "currency" => "RUB", "vat_code" => 1, "payment_mode" => "full_payment", "payment_subject" => "service"]];
 
             $payment = $client->createPayment(
                 array(
