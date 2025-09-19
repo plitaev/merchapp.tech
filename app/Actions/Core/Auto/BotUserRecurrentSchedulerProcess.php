@@ -21,6 +21,7 @@ class BotUserRecurrentSchedulerProcess
             ->select('id', 'bot_user_recurrent_schedules.id', 'prevous_pay_id', 'bot_user_id')
             ->where('recurrent_datetime', '<=', date('Y-m-d H:i:s', time()))
             ->where('run_status', 0)
+            ->take(1)
             ->get();
 
         foreach ($res as $data) {
