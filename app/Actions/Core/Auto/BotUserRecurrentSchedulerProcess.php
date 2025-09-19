@@ -18,8 +18,6 @@ class BotUserRecurrentSchedulerProcess
             ->where('run_status', 0)
             ->get();
 
-        return $res;
-
         foreach ($res as $data) {
             $client = new Client();
             $client->setAuth($data->bot->yookassa_shop_id, $data->bot->yookassa_shop_secret);
