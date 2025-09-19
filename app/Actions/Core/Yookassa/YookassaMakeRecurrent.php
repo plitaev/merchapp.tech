@@ -5,7 +5,7 @@ use YooKassa\Client;
 
 use App\Actions\Core\Pay\PayCreateIntoBot;
 
-use App\Models\Pay;
+use App\Models\Core\Pay;
 
 class YookassaMakeRecurrent
 {
