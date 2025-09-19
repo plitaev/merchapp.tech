@@ -56,6 +56,6 @@ class YookassaMakeRecurrent
             BotUserBanSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
         }
 
-        return $payment;
+        return ['new_pay_id' => $pay->id, 'pay_system_responce' => json_encode($payment)];
     }
 }
