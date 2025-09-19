@@ -22,7 +22,7 @@ class YookassaMakeRecurrent
         $client->setAuth($data->bot->yookassa_shop_id, $data->bot->yookassa_shop_secret);
 
         $products = [];
-        $products[]=["description" => $data->product->name, "quantity" => "1.00", "vat_code" => 1, "payment_mode" => "full_payment", "payment_subject" => "service", "amount" => ["value" => $data->prevous_pay->price, "currency" => "RUB", "vat_code" => 1, "payment_mode" => "full_payment", "payment_subject" => "service"]];
+        $products[]=["description" => $data->product->name, "quantity" => "1.00", 'tax_system_code' => 6, "vat_code" => 1, "payment_mode" => "full_payment", "payment_subject" => "service", "amount" => ["value" => $data->prevous_pay->price, "currency" => "RUB"]];
 
         $additional_data = [];
         $additional_data['pay_system_id'] = $data->paysystem->id;
