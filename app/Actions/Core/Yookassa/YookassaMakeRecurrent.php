@@ -22,7 +22,7 @@ class YookassaMakeRecurrent
         $additional_data = [];
         $additional_data['pay_system_id'] = $data->paysystem->id;
 
-        return $payCreateIntoBot->handle($data->bot_user, $data->product, $additional_data);
+        $payCreateIntoBot->handle($data->bot_user, $data->product, $additional_data);
 
         $payment = $client->createPayment(
             array(
