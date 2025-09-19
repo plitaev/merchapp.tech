@@ -24,9 +24,7 @@ class BotUserRecurrentSchedulerProcess
 
         foreach ($res as $data) {
 
-            if ($data->paysystem->alias == "yookassa") {
-                return $yookassaMakeRecurrent->handle($data);
-            }
+            if ($data->paysystem->alias == "yookassa") $yookassaMakeRecurrent->handle($data);
 
         }
 
