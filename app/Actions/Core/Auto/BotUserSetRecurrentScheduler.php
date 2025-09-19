@@ -6,6 +6,7 @@ use App\Actions\Core\MySQL\InnoDBUpsertStopIncrementIncreasing;
 
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserRecurrentSchedule;
+use App\Models\Core\Pay;
 
 class BotUserSetRecurrentScheduler
 {
@@ -16,17 +17,22 @@ class BotUserSetRecurrentScheduler
         foreach ($bot_users as $bot_user) {
             $innoDBUpsertStopIncrementIncreasing->handle(new BotUserRecurrentSchedule());
 
-            BotUserRecurrentSchedule::upsert(
-                [
-                    'bot_user_id' => $new->bot_message_id,
-                    'prevous_pay_id' => $new->telegram_message_id,
-                    'recurrent_datetime' => $new->chat_id,
-                    'run_status' => $delete_dt,
-                    'status' => 0
-                ],
-                ['telegram_message_id', 'chat_id'],
-                ['updated_at' => now()]
-            );
+            $pay = Pay::select('id')->where('bot_user_id', $bot_user->id)->where('status', 1)->whereNotNull('pay_system_payment_method_id')->orderByDesc('created_at')->first();
+
+            if ($pay) {
+                BotUserRecurrentSchedule::upsert(
+                    [
+                        'bot_user_id' => $bot_user->id,
+                        'prevous_pay_id' => $pay->id,
+                        'recurrent_datetime' => date('Y-m-d', time())." 12:00:00",
+                        'run_status' => 0,
+                        'status' => 0
+                    ],
+                    ['telegram_message_id', 'chat_id'],
+                    ['updated_at' => now()]
+                );
+            }
+
         }
     }
 }
