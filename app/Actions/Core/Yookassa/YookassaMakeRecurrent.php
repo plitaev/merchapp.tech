@@ -4,6 +4,7 @@ namespace App\Actions\Core\Yookassa;
 use YooKassa\Client;
 
 use App\Actions\Core\Pay\PayCreateIntoBot;
+use App\Actions\Core\Pay\PayMakeSuccessful;
 
 use App\Models\Core\Pay;
 
@@ -12,6 +13,7 @@ class YookassaMakeRecurrent
     public function handle($data) {
 
         $payCreateIntoBot = new PayCreateIntoBot();
+        $payMakeSuccessful = new PayMakeSuccessful();
 
         $client = new Client();
         $client->setAuth($data->bot->yookassa_shop_id, $data->bot->yookassa_shop_secret);
@@ -39,7 +41,16 @@ class YookassaMakeRecurrent
             uniqid('', true)
         );
 
-        Pay::where('id', $pay->id)->update(['pay_system_callback' => json_encode($payment)]);
+        if ($payment->status == "succeeded") {
+
+            if (isset($payment->amount->value) && isset($payment->income_amount->value)) {
+                $comission = $payment->amount->value-$payment->income_amount->value;
+            } else {
+                $comission = NULL;
+            }
+
+            $payMakeSuccessful->handle(json_encode($payment), $pay->id, $payment->id, $payment->payment_method->id, $comission);
+        }
 
         return $payment;
     }
