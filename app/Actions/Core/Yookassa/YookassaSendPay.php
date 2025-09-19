@@ -4,12 +4,15 @@ namespace App\Actions\Core\Yookassa;
 use YooKassa\Client;
 
 use App\Actions\Core\Pay\PayCreateIntoBot;
+use App\Actions\Core\BotUser\BotUserGetFullName;
+
 use App\Models\Core\PaySystem;
 
 class YookassaSendPay
 {
     public function handle($telegram, $bot, $bot_user, $product, $webhook) {
 
+        $botUserGetFullName = new BotUserGetFullName();
         $payCreateIntoBot = new PayCreateIntoBot();
 
         if (isset($webhook['callback_query']['message']['message_id'])) {
@@ -33,7 +36,7 @@ class YookassaSendPay
 
         $payment = $client->createPayment(array('amount' => array('value' => $product->price, 'currency' => 'RUB'),
             'confirmation' => array('type' => 'redirect', 'return_url' => env("APP_URL")),
-            'receipt' => array('customer' => array('full_name' => (isset($bot_user->first_name)?$bot_user->first_name:'').' '.(isset($bot_user->last_name)?$bot_user->last_name:''), 'email' => $bot_user->email), 'items' => $products),
+            'receipt' => array('customer' => array('full_name' => $botUserGetFullName->handle($bot_user), 'email' => $bot_user->email), 'items' => $products),
             'capture' => true,'description' => $bot_user->telegram_chat_id, 'metadata' => ['orderNumber' => $pay->id]),uniqid('', true));
 
         $confirmationUrl=$payment->getConfirmation()->getConfirmationUrl();

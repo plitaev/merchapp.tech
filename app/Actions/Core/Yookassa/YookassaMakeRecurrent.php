@@ -1,18 +1,20 @@
 <?php
 namespace App\Actions\Core\Yookassa;
 
-use App\Models\Core\BotUserBanSchedule;
 use YooKassa\Client;
 
+use App\Actions\Core\BotUser\BotUserGetFullName;
 use App\Actions\Core\Pay\PayCreateIntoBot;
 use App\Actions\Core\Pay\PayMakeSuccessful;
 
+use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\Pay;
 
 class YookassaMakeRecurrent
 {
     public function handle($data) {
 
+        $botUserGetFullName = new BotUserGetFullName();
         $payCreateIntoBot = new PayCreateIntoBot();
         $payMakeSuccessful = new PayMakeSuccessful();
 
@@ -36,7 +38,7 @@ class YookassaMakeRecurrent
                 ),
                 'capture' => true,
                 'payment_method_id' => $data->prevous_pay->pay_system_payment_method_id,
-                'receipt' => array('customer' => array('full_name' => (isset($data->bot_user->first_name)?$data->bot_user->first_name:'').' '.(isset($data->bot_user->last_name)?$data->bot_user->last_name:''), 'email' => $data->bot_user->email), 'items' => $products),
+                'receipt' => array('customer' => array('full_name' => $botUserGetFullName->handle($data->bot_user), 'email' => $data->bot_user->email), 'items' => $products),
                 'description' => $data->bot_user->telegram_chat_id,
                 'metadata' => ['orderNumber' => $pay->id]
             ),
