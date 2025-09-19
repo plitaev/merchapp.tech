@@ -25,4 +25,8 @@ class BotUserRecurrentSchedule extends Model
         return $this->belongsTo(Pay::class, 'prevous_pay_id', 'id');
     }
 
+    public function bot(): HasOneThrough {
+        return $this->hasOneThrough(Bot::class, BotUser::class, 'id', 'id', 'bot_user_id', 'bot_id');
+    }
+
 }
