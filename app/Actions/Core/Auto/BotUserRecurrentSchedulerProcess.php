@@ -2,8 +2,6 @@
 
 namespace App\Actions\Core\Auto;
 
-use YooKassa\Client;
-
 use App\Actions\Core\Yookassa\YookassaMakeRecurrent;
 
 use App\Models\Core\BotUserRecurrentSchedule;
@@ -26,7 +24,9 @@ class BotUserRecurrentSchedulerProcess
 
         foreach ($res as $data) {
 
-            if ($data->paysystem->alias == "yookassa") $yookassaMakeRecurrent->handle($data);
+            if ($data->paysystem->alias == "yookassa") {
+                return $yookassaMakeRecurrent->handle($data);
+            }
 
         }
 
