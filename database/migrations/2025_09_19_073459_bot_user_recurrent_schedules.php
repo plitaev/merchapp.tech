@@ -18,8 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('new_pay_id')->nullable();
             $table->datetime('recurrent_datetime');
             $table->boolean('run_status');
-            $table->json('pay_system_responce', 255);
+            $table->json('pay_system_responce', 255)->nullable();
             $table->timestamps();
+
+            $table->unique(['bot_user_id', 'recurrent_datetime'], 'unique');
         });
     }
 

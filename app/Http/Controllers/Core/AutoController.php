@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use App\Actions\Core\Auto\BotUserBanProcess;
 use App\Actions\Core\Auto\BotUserUnbanProcess;
+use App\Actions\Core\Auto\BotUserSetRecurrentScheduler;
 use App\Actions\Core\Auto\BotUserSetBanScheduler;
 
 use App\Actions\Core\Auto\TelegramBusinessOpeningHours;
@@ -17,6 +18,12 @@ use App\Actions\Core\Auto\TelegramScheduleEditMessageProcess;
 
 class AutoController extends Controller
 {
+
+    public function bot_user_set_recurrent_scheduler() {
+        $botUserSetRecurrentScheduler = new BotUserSetRecurrentScheduler();
+        $botUserSetRecurrentScheduler->handle();
+    }
+
     public function bot_user_set_ban_scheduler() {
         $botUserSetBanScheduler = new BotUserSetBanScheduler();
         return $botUserSetBanScheduler->handle();

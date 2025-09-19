@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(AutoController::class)->group(function() {
 
+    Route::get('/auto/bot_user_set_recurrent_scheduler', 'bot_user_set_recurrent_scheduler');
     Route::get('/auto/bot_user_set_ban_scheduler', 'bot_user_set_ban_scheduler');
     Route::get('/auto/bot_user_ban_process', 'bot_user_ban_process');
     Route::get('/auto/bot_user_unban_process', 'bot_user_unban_process');
