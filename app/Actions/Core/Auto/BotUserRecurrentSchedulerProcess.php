@@ -9,7 +9,7 @@ use App\Models\Core\BotUserRecurrentSchedule;
 class BotUserRecurrentSchedulerProcess
 {
     public function handle() {
-        $res = BotUserRecurrentSchedule::with('prevous_pay:id,pay_system_payment_method_id')
+        $res = BotUserRecurrentSchedule::with('prevous_pay:id,pay_system_payment_method_id,price')
             ->with('bot')
             ->with('bot_user:id,telegram_chat_id')
             ->select('bot_user_recurrent_schedules.id', 'prevous_pay_id', 'bot_user_id')
