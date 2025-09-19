@@ -6,6 +6,7 @@ use YooKassa\Client;
 use App\Actions\Core\BotUser\BotUserGetFullName;
 use App\Actions\Core\Pay\PayCreateIntoBot;
 use App\Actions\Core\Pay\PayMakeSuccessful;
+use App\Actions\Core\Yookassa\YookassaMakeProductJSON;
 
 use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\Pay;
@@ -17,12 +18,10 @@ class YookassaMakeRecurrent
         $botUserGetFullName = new BotUserGetFullName();
         $payCreateIntoBot = new PayCreateIntoBot();
         $payMakeSuccessful = new PayMakeSuccessful();
+        $yookassaMakeProductJSON = new YookassaMakeProductJSON();
 
         $client = new Client();
         $client->setAuth($data->bot->yookassa_shop_id, $data->bot->yookassa_shop_secret);
-
-        $products = [];
-        $products[]=["description" => $data->product->name, "quantity" => "1.00", 'tax_system_code' => 6, "vat_code" => 1, "payment_mode" => "full_payment", "payment_subject" => "service", "amount" => ["value" => $data->prevous_pay->price, "currency" => "RUB"]];
 
         $additional_data = [];
         $additional_data['pay_system_id'] = $data->paysystem->id;
@@ -38,7 +37,7 @@ class YookassaMakeRecurrent
                 ),
                 'capture' => true,
                 'payment_method_id' => $data->prevous_pay->pay_system_payment_method_id,
-                'receipt' => array('customer' => array('full_name' => $botUserGetFullName->handle($data->bot_user), 'email' => $data->bot_user->email), 'items' => $products),
+                'receipt' => array('customer' => array('full_name' => $botUserGetFullName->handle($data->bot_user), 'email' => $data->bot_user->email), 'items' => $yookassaMakeProductJSON->handle($data->bot, $data->product, $data->prevous_pay->price, false)),
                 'description' => $data->bot_user->telegram_chat_id,
                 'metadata' => ['orderNumber' => $pay->id]
             ),

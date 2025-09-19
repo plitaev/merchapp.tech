@@ -5,6 +5,7 @@ use YooKassa\Client;
 
 use App\Actions\Core\BotUser\BotUserGetFullName;
 use App\Actions\Core\Pay\PayCreateIntoBot;
+use App\Actions\Core\Yookassa\YookassaMakeProductJSON;
 
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
@@ -14,8 +15,11 @@ use App\Models\Core\Product;
 class PayController
 {
     public function create(string $pay_system_alias, int $bot_user_id, int $product_id) {
+
         $botUserGetFullName = new BotUserGetFullName();
         $payCreateIntoBot = new PayCreateIntoBot();
+        $yookassaMakeProductJSON = new YookassaMakeProductJSON();
+
 
         $bot_user = BotUser::find($bot_user_id);
         $bot = Bot::find($bot_user->bot_id);
@@ -33,26 +37,10 @@ class PayController
 
         $pay = $payCreateIntoBot->handle($bot_user, $product, $additional_data);
 
-        $products = [
-            [
-                'description' => $product->name,
-                'quantity' => '1.00',
-                'amount' => [
-                    'value' => $product->price,
-                    'currency' => 'RUB'
-                ],
-                'tax_system_code' => 6,
-                'vat_code' => '1',
-                'payment_mode' => 'full_payment',
-                'payment_subject' => 'service',
-                'save_payment_method' => true
-                ]
-        ];
-
         $payment = $client->createPayment(array('amount' => array('value' => $product->price, 'currency' => 'RUB'),
             'confirmation' => array('type' => 'redirect', 'return_url' => env("APP_URL").'/thank-you/'.$bot_user->bot_id),
             'save_payment_method' => true,
-            'receipt' => array('customer' => array('full_name' => $botUserGetFullName->handle($bot_user), 'email' => $bot_user->email), 'items' => $products),
+            'receipt' => array('customer' => array('full_name' => $botUserGetFullName->handle($bot_user), 'email' => $bot_user->email), 'items' => $yookassaMakeProductJSON->handle($bot, $product, $product->price, true)),
             'capture' => true,'description' => $bot_user->telegram_chat_id, 'metadata' => ['order_number' => $pay->id]),uniqid('', true));
 
         $confirmationUrl=$payment->getConfirmation()->getConfirmationUrl();
