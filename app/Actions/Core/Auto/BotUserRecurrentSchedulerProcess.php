@@ -25,6 +25,8 @@ class BotUserRecurrentSchedulerProcess
             $products = [];
             $products[]=["description" => $data->product->name, "quantity" => "1.00", "amount" => ["value" => $data->prevous_pay->price, "currency" => "RUB", "vat_code" => 1, "payment_mode" => "full_payment", "payment_subject" => "service"]];
 
+            return $products;
+
             $payment = $client->createPayment(
                 array(
                     'amount' => array(
