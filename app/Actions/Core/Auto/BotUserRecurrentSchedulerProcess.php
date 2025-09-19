@@ -33,7 +33,7 @@ class BotUserRecurrentSchedulerProcess
                     ),
                     'capture' => true,
                     'payment_method_id' => $data->prevous_pay->pay_system_payment_method_id,
-                    'receipt' => array('customer' => array('full_name' => (isset($bot_user->first_name)?$bot_user->first_name:'').' '.(isset($bot_user->last_name)?$bot_user->last_name:''), 'email' => $bot_user->email), 'items' => $products),
+                    'receipt' => array('customer' => array('full_name' => (isset($data->bot_user->first_name)?$data->bot_user->first_name:'').' '.(isset($data->bot_user->last_name)?$data->bot_user->last_name:''), 'email' => $data->bot_user->email), 'items' => $products),
                     'description' => $data->bot_user->telegram_chat_id,
                 ),
                 uniqid('', true)
