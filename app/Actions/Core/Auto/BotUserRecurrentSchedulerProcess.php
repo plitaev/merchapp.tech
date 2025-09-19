@@ -28,7 +28,7 @@ class BotUserRecurrentSchedulerProcess
                         'currency' => 'RUB',
                     ),
                     'capture' => true,
-                    'payment_method_id' => $data->prevous_pay->price,
+                    'payment_method_id' => $data->prevous_pay->pay_system_payment_method_id,
                     'description' => $data->bot_user->telegram_chat_id,
                 ),
                 uniqid('', true)
