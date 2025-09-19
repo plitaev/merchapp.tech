@@ -1,6 +1,7 @@
 <?php
 namespace App\Actions\Core\Yookassa;
 
+use App\Models\Core\BotUserBanSchedule;
 use YooKassa\Client;
 
 use App\Actions\Core\Pay\PayCreateIntoBot;
@@ -25,6 +26,7 @@ class YookassaMakeRecurrent
         $additional_data['pay_system_id'] = $data->paysystem->id;
 
         $pay = $payCreateIntoBot->handle($data->bot_user, $data->product, $additional_data);
+        if (!$pay) return ["new_pay_id" => NULL, "pay_system_responce" => '{"error":"prevous_pay_not_found"}'];
 
         $payment = $client->createPayment(
             array(
@@ -50,6 +52,8 @@ class YookassaMakeRecurrent
             }
 
             $payMakeSuccessful->handle(json_encode($payment), $pay->id, $payment->id, $payment->payment_method->id, $comission);
+
+            BotUserBanSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
         }
 
         return $payment;
