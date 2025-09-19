@@ -39,7 +39,7 @@ class YookassaMakeRecurrent
             uniqid('', true)
         );
 
-        Pay::where('id', $pay->id)->update(['pay_system_callback' => $payment]);
+        Pay::where('id', $pay->id)->update(['pay_system_callback' => json_encode($payment)]);
 
         return $payment;
     }
