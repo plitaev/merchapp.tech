@@ -5,6 +5,7 @@ use YooKassa\Client;
 
 use App\Actions\Core\BotUser\BotUserGetFullName;
 use App\Actions\Core\Pay\PayCreateIntoBot;
+use App\Actions\Core\Pay\PayGetAdditionalData;
 use App\Actions\Core\Yookassa\YookassaMakeProductJSON;
 
 use App\Models\Core\Bot;
@@ -18,6 +19,7 @@ class PayController
 
         $botUserGetFullName = new BotUserGetFullName();
         $payCreateIntoBot = new PayCreateIntoBot();
+        $payGetAdditionalData = new PayGetAdditionalData();
         $yookassaMakeProductJSON = new YookassaMakeProductJSON();
 
 
@@ -32,10 +34,7 @@ class PayController
         $pay_system = PaySystem::where('alias', $pay_system_alias)->first();
         if (isset($pay_system)) $pay_system_id = $pay_system->id;
 
-        $additional_data = [];
-        $additional_data['pay_system_id'] = $pay_system_id;
-
-        $pay = $payCreateIntoBot->handle($bot_user, $product, $additional_data);
+        $pay = $payCreateIntoBot->handle($bot_user, $product, $payGetAdditionalData->handle($pay_system_id));
 
         $payment = $client->createPayment(array('amount' => array('value' => $product->price, 'currency' => 'RUB'),
             'confirmation' => array('type' => 'redirect', 'return_url' => env("APP_URL").'/thank-you/'.$bot_user->bot_id),

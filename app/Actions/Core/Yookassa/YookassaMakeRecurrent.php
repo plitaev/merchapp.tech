@@ -5,11 +5,11 @@ use YooKassa\Client;
 
 use App\Actions\Core\BotUser\BotUserGetFullName;
 use App\Actions\Core\Pay\PayCreateIntoBot;
+use App\Actions\Core\Pay\PayGetAdditionalData;
 use App\Actions\Core\Pay\PayMakeSuccessful;
 use App\Actions\Core\Yookassa\YookassaMakeProductJSON;
 
 use App\Models\Core\BotUserBanSchedule;
-use App\Models\Core\Pay;
 
 class YookassaMakeRecurrent
 {
@@ -17,16 +17,14 @@ class YookassaMakeRecurrent
 
         $botUserGetFullName = new BotUserGetFullName();
         $payCreateIntoBot = new PayCreateIntoBot();
+        $payGetAdditionalData = new PayGetAdditionalData();
         $payMakeSuccessful = new PayMakeSuccessful();
         $yookassaMakeProductJSON = new YookassaMakeProductJSON();
 
         $client = new Client();
         $client->setAuth($data->bot->yookassa_shop_id, $data->bot->yookassa_shop_secret);
 
-        $additional_data = [];
-        $additional_data['pay_system_id'] = $data->paysystem->id;
-
-        $pay = $payCreateIntoBot->handle($data->bot_user, $data->product, $additional_data);
+        $pay = $payCreateIntoBot->handle($data->bot_user, $data->product, $payGetAdditionalData->handle($data->paysystem->id));
         if (!$pay) return ["new_pay_id" => NULL, "pay_system_responce" => '{"error":"prevous_pay_not_found"}'];
 
         $payment = $client->createPayment(
