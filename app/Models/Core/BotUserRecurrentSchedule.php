@@ -20,9 +20,9 @@ class BotUserRecurrentSchedule extends Model
         'pay_system_responce'
     ];
 
-    public function bot_n(): BelongsTo
+    public function prevois_pay(): BelongsTo
     {
-        return $this->belongsTo(TelegramSupergroup::class, 'telegram_supergroup_id', 'id');
+        return $this->belongsTo(Pay::class, 'prevois_pay_id', 'id');
     }
 
 }
