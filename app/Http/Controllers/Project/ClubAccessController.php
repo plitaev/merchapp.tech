@@ -115,6 +115,12 @@ class ClubAccessController extends Controller
                 $botCabinetRecurrentCheck->handle($bot_user);
             }
 
+            //== Если это /subscription, тут обрабатываем регистрацию
+            if ($Astart[0] == "/subscription") {
+                $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
+                die();
+            }
+
             //== Тут обрабатываем разные входяшие параметры в бот после старта
 
             if (count($Astart)==2 && $Astart[0]=="/start" && $Astart[1]!="none") {
