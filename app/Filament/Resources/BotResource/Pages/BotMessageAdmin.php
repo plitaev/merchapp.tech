@@ -203,6 +203,27 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->options(FunnelCondition::all()->pluck('name', 'id'))
                             ->searchable()
                     ]),
+                Section::make('Отправка ДО наступления события в воронке')
+                    ->description('Укажите, за сколько дней, часов и минут должно отправляться сообщение до наступления события в воронке')
+                    ->columns([
+                        'sm' => 3,
+                        'md' => 3,
+                        'lg' => 3,
+                        'xl' => 3,
+                        '2xl' => 3,
+                    ])
+                    ->schema([
+                        Forms\Components\Hidden::make('bot_id'),
+                        Forms\Components\Select::make('funnel_id')
+                            ->label('Воронка')
+                            ->options(Funnel::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->live(),
+                        Forms\Components\Select::make('funnel_condition_id')
+                            ->label('Событие')
+                            ->options(FunnelCondition::all()->pluck('name', 'id'))
+                            ->searchable()
+                    ]),
                 Section::make('Назначение')
                     ->description('Если необходимо, укажите функцию, которую будет выполнять данное сообщение')
                     ->columns([
