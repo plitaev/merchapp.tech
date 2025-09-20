@@ -36,6 +36,11 @@ class TelegramSendMessage
 
         if (stripos(strtolower($text), 'VAR_USER_EMAIL')) $text = str_replace('VAR_USER_EMAIL', $bot_user->email, $text);
 
+        //== Имя пользователя
+        if (stripos(strtolower($text), 'VAR_USERNAME')) {
+            if ($bot_user->username!="none") $text = str_replace('VAR_USER_EMAIL', $bot_user->email, $text);
+        }
+
         if (stripos(strtolower($text), 'VAR_USER_DATE_END')) {
             $date_end = date('d.m.Y', strtotime($bot_user->date_end));
             if ($date_end == '01.01.1970') $date_end = '';
