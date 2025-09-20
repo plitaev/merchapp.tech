@@ -38,7 +38,7 @@ class TelegramSendMessage
 
         //== Имя пользователя
         if (stripos(strtolower($text), 'VAR_USERNAME')) {
-            if ($bot_user->username!="none") $text = str_replace('VAR_USER_EMAIL', $bot_user->email, $text);
+            if ($bot_user->username!="none") $text = str_replace('VAR_USER_EMAIL', "@".$bot_user->username, $text);
         }
 
         if (stripos(strtolower($text), 'VAR_USER_DATE_END')) {
