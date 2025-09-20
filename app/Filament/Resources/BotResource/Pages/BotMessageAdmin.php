@@ -182,14 +182,14 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
     {
         return $form
             ->schema([
-                Section::make('Бот и воронка')
+                Section::make('Воронка')
                     ->description('Если необходимо, укажите воронку, к которой будет прикреплено данное сообщение')
                     ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1,
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
                     ])
                     ->schema([
                         Forms\Components\Hidden::make('bot_id'),
@@ -203,7 +203,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->options(FunnelCondition::all()->pluck('name', 'id'))
                             ->searchable()
                     ]),
-                Section::make('Бот и назначение')
+                Section::make('азначение')
                     ->description('Если необходимо, укажите функцию, которую будет выполнять данное сообщение')
                     ->columns([
                         'sm' => 1,
