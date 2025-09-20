@@ -199,11 +199,11 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->searchable()
                             ->live(),
                         Forms\Components\Select::make('funnel_condition_id')
-                            ->label('Условие для воронки')
+                            ->label('Событие')
                             ->options(FunnelCondition::all()->pluck('name', 'id'))
                             ->searchable()
                     ]),
-                Section::make('азначение')
+                Section::make('Назначение')
                     ->description('Если необходимо, укажите функцию, которую будет выполнять данное сообщение')
                     ->columns([
                         'sm' => 1,
