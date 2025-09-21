@@ -185,22 +185,25 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                 Section::make('Воронка')
                     ->description('Если необходимо, укажите воронку, к которой будет прикреплено данное сообщение')
                     ->columns([
-                        'sm' => 2,
-                        'md' => 2,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
+                        'sm' => 3,
+                        'md' => 3,
+                        'lg' => 3,
+                        'xl' => 3,
+                        '2xl' => 3,
                     ])
                     ->schema([
                         Forms\Components\Hidden::make('bot_id'),
                         Forms\Components\Select::make('funnel_id')
                             ->label('Воронка')
                             ->options(Funnel::all()->pluck('name', 'id'))
-                            ->searchable()
-                            ->live(),
+                            ->searchable(),
                         Forms\Components\Select::make('funnel_condition_id')
                             ->label('Событие')
                             ->options(FunnelCondition::all()->pluck('name', 'id'))
+                            ->searchable(),
+                        Forms\Components\Select::make('funnel_condition_trigger_id')
+                            ->label('Триггер')
+                            ->options(FunnelConditionTrigger::all()->pluck('name', 'id'))
                             ->searchable()
                     ]),
                 Section::make('Отправка ДО наступления события в воронке')
