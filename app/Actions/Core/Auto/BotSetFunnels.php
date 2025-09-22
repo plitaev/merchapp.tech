@@ -18,6 +18,8 @@ class BotSetFunnels
             ->where('id', 7)
             ->get();
 
+        return $res;
+
         foreach ($res as $data) {
             return $funnelUserBan->handle($data);
         }
