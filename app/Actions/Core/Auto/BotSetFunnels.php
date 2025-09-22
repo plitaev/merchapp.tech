@@ -15,7 +15,7 @@ class BotSetFunnels
             ->select('id', 'funnel_condition_id', 'funnel_condition_trigger_id', 'funnel_days', 'funnel_hours', 'funnel_minutes')
             ->whereNotNull('funnel_condition_id')
             ->whereNotNull('funnel_condition_trigger_id')
-            ->where('id', 7)
+            ->where('id', 15)
             ->get();
 
         return $res;
