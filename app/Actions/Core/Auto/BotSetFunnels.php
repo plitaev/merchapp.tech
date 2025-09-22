@@ -19,7 +19,7 @@ class BotSetFunnels
             ->get();
 
         foreach ($res as $data) {
-            $funnelUserBan->handle($data);
+            return $funnelUserBan->handle($data);
         }
 
     }
