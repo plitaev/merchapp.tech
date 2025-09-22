@@ -212,7 +212,6 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->live()
                             ->searchable(),
                         Forms\Components\TextInput::make('funnel_days')
-                            ->required()
                             ->label(function (Forms\Get $get) {
                                 if (is_callable($get)) {
                                     if ($get('funnel_condition_trigger_id') == 2) {
@@ -221,6 +220,42 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
 
                                     if ($get('funnel_condition_trigger_id') == 3) {
                                         return 'Через сколько дней после события';
+                                    }
+                                }
+                            })
+                            ->maxLength(255)
+                            ->visible(function (Forms\Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('funnel_condition_trigger_id') > 1;
+                                }
+                            }),
+                        Forms\Components\TextInput::make('funnel_hours')
+                            ->label(function (Forms\Get $get) {
+                                if (is_callable($get)) {
+                                    if ($get('funnel_condition_trigger_id') == 2) {
+                                        return 'За сколько часов до события';
+                                    }
+
+                                    if ($get('funnel_condition_trigger_id') == 3) {
+                                        return 'Через сколько часов после события';
+                                    }
+                                }
+                            })
+                            ->maxLength(255)
+                            ->visible(function (Forms\Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('funnel_condition_trigger_id') > 1;
+                                }
+                            }),
+                        Forms\Components\TextInput::make('funnel_minutes')
+                            ->label(function (Forms\Get $get) {
+                                if (is_callable($get)) {
+                                    if ($get('funnel_condition_trigger_id') == 2) {
+                                        return 'За сколько минут до события';
+                                    }
+
+                                    if ($get('funnel_condition_trigger_id') == 3) {
+                                        return 'Через сколько минут после события';
                                     }
                                 }
                             })
