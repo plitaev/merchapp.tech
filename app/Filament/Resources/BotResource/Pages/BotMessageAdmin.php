@@ -209,6 +209,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         Forms\Components\Select::make('funnel_condition_trigger_id')
                             ->label('Триггер')
                             ->options(FunnelConditionTrigger::all()->pluck('name', 'id'))
+                            ->live(),
                             ->searchable(),
                         Forms\Components\TextInput::make('funnel_days')
                             ->required()
