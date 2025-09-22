@@ -213,7 +213,17 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->searchable(),
                         Forms\Components\TextInput::make('funnel_days')
                             ->required()
-                            ->label('Дней')
+                            ->label(function (Forms\Get $get) {
+                                if (is_callable($get)) {
+                                    if ($get('funnel_condition_trigger_id') == 1) {
+                                        return 'За сколько дней до события';
+                                    }
+
+                                    if ($get('funnel_condition_trigger_id') == 2) {
+                                        return 'Через сколько дней после события';
+                                    }
+                                }
+                            })
                             ->maxLength(255)
                             ->visible(function (Forms\Get $get) {
                                 if (is_callable($get)) {
