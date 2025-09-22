@@ -215,11 +215,11 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->required()
                             ->label(function (Forms\Get $get) {
                                 if (is_callable($get)) {
-                                    if ($get('funnel_condition_trigger_id') == 1) {
+                                    if ($get('funnel_condition_trigger_id') == 2) {
                                         return 'За сколько дней до события';
                                     }
 
-                                    if ($get('funnel_condition_trigger_id') == 2) {
+                                    if ($get('funnel_condition_trigger_id') == 3) {
                                         return 'Через сколько дней после события';
                                     }
                                 }
