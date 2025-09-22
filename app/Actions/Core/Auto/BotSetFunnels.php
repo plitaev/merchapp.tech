@@ -2,6 +2,8 @@
 
 namespace App\Actions\Core\Auto;
 
+use App\Models\Core\BotMessage;
+
 class BotSetFunnels
 {
     public function handle() {
