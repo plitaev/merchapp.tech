@@ -36,6 +36,11 @@ class BotMessage extends Model
         return $this->belongsTo(FunnelCondition::class, 'funnel_condition_id', 'id');
     }
 
+    public function funnel_condition_trigger(): BelongsTo
+    {
+        return $this->belongsTo(FunnelConditionTrigger::class, 'funnel_condition_trigger_id', 'id');
+    }
+
     public function bot_message_funnel(): BelongsTo
     {
         return $this->belongsTo(Funnel::class, 'funnel_id', 'id');

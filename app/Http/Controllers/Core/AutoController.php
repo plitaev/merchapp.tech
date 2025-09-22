@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Core;
 
 use App\Http\Controllers\Controller;
 
+use App\Actions\Core\Auto\BotSetFunnels;
 use App\Actions\Core\Auto\BotUserBanProcess;
 use App\Actions\Core\Auto\BotUserRecurrentSchedulerProcess;
 use App\Actions\Core\Auto\BotUserSetRecurrentScheduler;
@@ -19,6 +20,11 @@ use App\Actions\Core\Auto\TelegramScheduleEditMessageProcess;
 
 class AutoController extends Controller
 {
+
+    public function bot_set_funnels() {
+        $botSetFunnels = new BotSetFunnels();
+        return $botSetFunnels->handle();
+    }
 
     public function bot_user_set_recurrent_scheduler() {
         $botUserSetRecurrentScheduler = new BotUserSetRecurrentScheduler();
