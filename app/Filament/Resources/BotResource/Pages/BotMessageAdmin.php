@@ -209,7 +209,16 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         Forms\Components\Select::make('funnel_condition_trigger_id')
                             ->label('Триггер')
                             ->options(FunnelConditionTrigger::all()->pluck('name', 'id'))
-                            ->searchable()
+                            ->searchable(),
+                        Forms\Components\TextInput::make('funnel_days')
+                            ->required()
+                            ->label('Дней')
+                            ->maxLength(255)
+                            ->visible(function (Forms\Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('funnel_condition_trigger_id') > 1;
+                                }
+                            }),
                     ]),
                 Section::make('Назначение')
                     ->description('Если необходимо, укажите функцию, которую будет выполнять данное сообщение')
