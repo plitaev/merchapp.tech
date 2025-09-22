@@ -95,8 +95,8 @@ class BotFunnelAdmin extends Page implements HasForms
                 Section::make('Воронка')
                     ->description('Укажите базовые настройки, чтобы продолжить работу')
                     ->columns([
-                        'sm' => 1,
-                        'md' => 1,
+                        'sm' => 2,
+                        'md' => 2,
                         'lg' => 2,
                         'xl' => 2,
                         '2xl' => 2,
@@ -110,6 +110,13 @@ class BotFunnelAdmin extends Page implements HasForms
                                 'required' => 'Обязательно укажите наименование',
                             ])
                             ->label('Наименование')
+                            ->maxLength(50),
+                        Forms\Components\TextInput::make('alias')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите псевдоним',
+                            ])
+                            ->label('Псевдоним')
                             ->maxLength(50),
                     ]),
                 Actions::make([
