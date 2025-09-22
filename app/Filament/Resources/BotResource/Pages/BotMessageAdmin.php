@@ -190,11 +190,11 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                 Section::make('Воронка')
                     ->description('Если необходимо, укажите воронку, к которой будет прикреплено данное сообщение')
                     ->columns([
-                        'sm' => 3,
-                        'md' => 3,
-                        'lg' => 3,
-                        'xl' => 3,
-                        '2xl' => 3,
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2
                     ])
                     ->schema([
                         Forms\Components\Hidden::make('bot_id'),
