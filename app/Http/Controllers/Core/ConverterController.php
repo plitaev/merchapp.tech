@@ -18,7 +18,12 @@ use App\Actions\Core\DateEnd\DateEnd;
 class ConverterController extends Controller
 {
     public function load_users() {
-        /*
+        $in_new = BotUser::select('telegram_chat_id')->pluck('telegram_chat_id')->toArray();
+        $res = DB::table('secondbot.telegram_chats')->whereNotIn('chat_id', $in_new)->get();
+        return $res;
+
+        return 'ok';
+
         $res = DB::table('secondbot.telegram_chats')->where('chat_id', '>', 0)->get();
         foreach ($res as $data) {
 
@@ -34,7 +39,7 @@ class ConverterController extends Controller
                 ]);
             }
         }
-        */
+
     }
 
     public function load_getcourse_webhooks() {
@@ -104,6 +109,7 @@ class ConverterController extends Controller
     }
 
     public function cache_date_end() {
+        /*
         $dateEnd = new DateEnd();
 
         $res = BotUser::where('run_status', 0)->get();
@@ -111,9 +117,11 @@ class ConverterController extends Controller
             $dateEnd->handle($data, 'Y-m-d');
             BotUser::where('id', $data->id)->update(['run_status' => 1]);
         }
+        */
     }
 
     public function clean() {
+        /*
         DB::table('bot_message_button_clicks')->truncate();
         DB::table('bot_users')->truncate();
         DB::table('bot_user_ban_schedules')->truncate();
@@ -135,6 +143,7 @@ class ConverterController extends Controller
         DB::table('telegram_unban_schedule_error_logs')->truncate();
         DB::table('telegram_unban_schedule_logs')->truncate();
         DB::table('telegram_webhooks')->truncate();
+        */
     }
 
 }
