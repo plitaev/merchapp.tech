@@ -107,7 +107,7 @@ class ConverterController extends Controller
     }
 
     public function cache_date_end() {
-        /*
+
         $dateEnd = new DateEnd();
 
         $res = BotUser::where('run_status', 0)->get();
@@ -115,7 +115,7 @@ class ConverterController extends Controller
             $dateEnd->handle($data, 'Y-m-d');
             BotUser::where('id', $data->id)->update(['run_status' => 1]);
         }
-        */
+
     }
 
     public function clean() {
