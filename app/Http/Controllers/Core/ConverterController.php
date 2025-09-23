@@ -66,7 +66,7 @@ class ConverterController extends Controller
     }
 
     public function create_pays_from_webhook() {
-
+        /*
         $payCreateByEmail = new PayCreateByEmail();
 
         $res = GetcourseWebhook::where('created_at', '>', '2025-09-17 15:49:57')->get();
@@ -103,7 +103,7 @@ class ConverterController extends Controller
                 ]);
             }
         }
-
+        */
     }
 
     public function cache_date_end() {
