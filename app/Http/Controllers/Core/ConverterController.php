@@ -41,7 +41,7 @@ class ConverterController extends Controller
     }
 
     public function load_getcourse_webhooks() {
-
+        /*
         $products = Product::all();
         $Aproducts = [];
 
@@ -62,14 +62,14 @@ class ConverterController extends Controller
                 'updated_at' => $data->updated_at
             ]);
         }
-
+        */
     }
 
     public function create_pays_from_webhook() {
-        /*
+
         $payCreateByEmail = new PayCreateByEmail();
 
-        $res = GetcourseWebhook::where('id', '>=', 42659)->get();
+        $res = GetcourseWebhook::where('created_at', '>', '2025-09-17 15:49:57')->get();
         foreach ($res as $data) {
 
             $bot_user = BotUser::where('email', $data->email)->first();
@@ -103,7 +103,7 @@ class ConverterController extends Controller
                 ]);
             }
         }
-        */
+
     }
 
     public function cache_date_end() {
