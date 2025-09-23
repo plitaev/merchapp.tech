@@ -19,12 +19,9 @@ class ConverterController extends Controller
 {
     public function load_users() {
         $in_new = BotUser::select('telegram_chat_id')->pluck('telegram_chat_id')->toArray();
+
+        //$res = DB::table('secondbot.telegram_chats')->where('chat_id', '>', 0)->get();
         $res = DB::table('secondbot.telegram_chats')->whereNotIn('chat_id', $in_new)->get();
-        return $res;
-
-        return 'ok';
-
-        $res = DB::table('secondbot.telegram_chats')->where('chat_id', '>', 0)->get();
         foreach ($res as $data) {
 
             if ($data->chat_id > 0) {
