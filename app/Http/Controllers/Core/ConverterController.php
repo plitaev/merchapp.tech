@@ -18,6 +18,7 @@ use App\Actions\Core\DateEnd\DateEnd;
 class ConverterController extends Controller
 {
     public function load_users() {
+        /*
         $in_new = BotUser::select('telegram_chat_id')->pluck('telegram_chat_id')->toArray();
 
         //$res = DB::table('secondbot.telegram_chats')->where('chat_id', '>', 0)->get();
@@ -36,11 +37,11 @@ class ConverterController extends Controller
                 ]);
             }
         }
-
+        */
     }
 
     public function load_getcourse_webhooks() {
-        /*
+
         $products = Product::all();
         $Aproducts = [];
 
@@ -48,7 +49,7 @@ class ConverterController extends Controller
             $Aproducts[$product->days] = $product->id;
         }
 
-        $res = DB::table('secondbot.getcourse_callback')->where('days', '>', 0)->get();
+        $res = DB::table('secondbot.getcourse_callback')->where('days', '>', 0)->where('created_at', '>', '2025-09-17 15:49:57')->get();
         foreach ($res as $data) {
             GetcourseWebhook::insert([
                 'product_id' => $Aproducts[$data->days],
@@ -61,7 +62,7 @@ class ConverterController extends Controller
                 'updated_at' => $data->updated_at
             ]);
         }
-        */
+
     }
 
     public function create_pays_from_webhook() {
