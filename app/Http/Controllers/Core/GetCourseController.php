@@ -18,6 +18,10 @@ class GetCourseController extends Controller
         $getCourseWebhookCreate->handle($product_id, $getcourse_user_id, $getcourse_user_name, $email, $is_recurrent, $recurrent_status);
     }
 
+    public function getcourse_cancel_webhook(int $getcourse_user_id, string $getcourse_user_name, string $email) {
+        return 'success';
+    }
+
     public function getcourse_event_webhooks(int $getcourse_id, string $name, string $email, int $bot_id, string $event) {
 
         $botSendMessage = new BotSendMessage();
