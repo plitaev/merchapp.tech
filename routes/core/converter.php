@@ -9,4 +9,5 @@ Route::controller(ConverterController::class)->group(function() {
     Route::get('/converter/load_getcourse_webhooks', 'load_getcourse_webhooks');
     Route::get('/converter/create_pays_from_webhook', 'create_pays_from_webhook');
     Route::get('/converter/cache_date_end', 'cache_date_end');
+    Route::get('/converter/ban', 'ban');
 });
