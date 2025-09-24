@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('telegram_supergroups', function (Blueprint $table) {
-            $table->unsignedBigInteger('supergroup_delete_parameter_id')->after('give_access');
-            $table->integer('supergroup_delete_hours')->after('supergroup_delete_parameter_id');
+            $table->unsignedBigInteger('supergroup_delete_parameter_id')->after('give_access')->nullable();
+            $table->integer('supergroup_delete_hours')->after('supergroup_delete_parameter_id')->default(0);
         });
     }
 
