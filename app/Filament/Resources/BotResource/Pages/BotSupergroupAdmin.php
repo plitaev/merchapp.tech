@@ -151,11 +151,11 @@ class BotSupergroupAdmin extends Page implements HasForms
                         Forms\Components\TextInput::make('supergroup_delete_hours')
                             ->label(function (Forms\Get $get) {
                                 if (is_callable($get)) {
-                                    if ($get('funnel_condition_trigger_id') == 2) {
+                                    if ($get('supergroup_delete_parameter_id') == 2) {
                                         return 'За сколько дней до окончания подписки';
                                     }
 
-                                    if ($get('funnel_condition_trigger_id') == 3) {
+                                    if ($get('supergroup_delete_parameter_id') == 3) {
                                         return 'Через сколько дней после окончания подписки';
                                     }
                                 }
@@ -163,7 +163,7 @@ class BotSupergroupAdmin extends Page implements HasForms
                             ->maxLength(255)
                             ->visible(function (Forms\Get $get) {
                                 if (is_callable($get)) {
-                                    return $get('funnel_condition_trigger_id') > 1;
+                                    return $get('supergroup_delete_parameter_id') > 1;
                                 }
                             }),
                     ]),
