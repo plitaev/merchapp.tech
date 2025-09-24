@@ -9,7 +9,7 @@ class BotSupergroupsAll
     {
         $supergroups = [];
         $res = TelegramSupergroup::select('bot_id', 'telegram_id')->get();
-        foreach ($res as $data) $supergroups[$data->bot_id][] = $data->telegram_id;
+        foreach ($res as $data) $supergroups[$data->bot_id][] = $data;
 
         return $supergroups;
     }

@@ -12,19 +12,19 @@ use App\Models\Core\TelegramUnbanScheduleLog;
 
 class BotUserUnban
 {
-    public function handle($bot_user, array $supergroups, $telegram) {
+    public function handle($bot_user, $supergroups, $telegram) {
 
         if (isset($supergroups[$bot_user->bot_id])) {
             foreach ($supergroups[$bot_user->bot_id] as $supergroup) {
 
                 try {
-                    $status = $telegram->unbanChatMember(['chat_id' => $supergroup, 'user_id' => $bot_user->telegram_chat_id, 'only_if_banned' => true]);
+                    $status = $telegram->unbanChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'only_if_banned' => true]);
 
-                    TelegramUnbanScheduleLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup, 'user_id' => $bot_user->telegram_chat_id, 'status' => $status]);
+                    TelegramUnbanScheduleLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'status' => $status]);
 
                     try {
-                        $member = $telegram->getChatMember(['chat_id' => $supergroup, 'user_id' => $bot_user->telegram_chat_id]);
-                        TelegramChatMemberLog::create(['bot_user_id' => $bot_user->id, 'user_id' => $bot_user->telegram_chat_id, 'chat_id' => $supergroup, 'status' => $member->status, 'text' => $member]);
+                        $member = $telegram->getChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id]);
+                        TelegramChatMemberLog::create(['bot_user_id' => $bot_user->id, 'user_id' => $bot_user->telegram_chat_id, 'chat_id' => $supergroup->telegram_id, 'status' => $member->status, 'text' => $member]);
 
                         if ($member->status != 'banned') {
                             BotUserUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 1]);
@@ -34,11 +34,11 @@ class BotUserUnban
                         }
 
                     } catch (\Exception $exception) {
-                        TelegramChatMemberErrorLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup, 'user_id' =>$bot_user->telegram_chat_id, 'text' => $exception]);
+                        TelegramChatMemberErrorLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' =>$bot_user->telegram_chat_id, 'text' => $exception]);
                     }
 
                 } catch (\Exception $exception) {
-                    TelegramUnbanScheduleErrorLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup, 'user_id' =>$bot_user->telegram_chat_id, 'text' => $exception]);
+                    TelegramUnbanScheduleErrorLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' =>$bot_user->telegram_chat_id, 'text' => $exception]);
                 }
 
             }

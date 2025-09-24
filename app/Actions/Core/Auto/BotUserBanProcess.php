@@ -35,13 +35,13 @@ class BotUserBanProcess
                 foreach ($supergroups[$ban->bot->id] as $supergroup) {
 
                     try {
-                        $status = $telegram->banChatMember(['chat_id' => $supergroup, 'user_id' => $ban->bot_user->telegram_chat_id]);
-                        TelegramBanScheduleLogs::create(['bot_user_id' => $ban->bot_user->id, 'chat_id' => $supergroup, 'user_id' =>$ban->bot_user->telegram_chat_id, 'status' => $status]);
+                        $status = $telegram->banChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $ban->bot_user->telegram_chat_id]);
+                        TelegramBanScheduleLogs::create(['bot_user_id' => $ban->bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' =>$ban->bot_user->telegram_chat_id, 'status' => $status]);
 
                         BotUser::where('id', $ban->bot_user_id)->update(['ban' => 1, 'unban' => 0]);
 
                     } catch (\Exception $exception) {
-                        TelegramBanScheduleErrorLogs::create(['bot_user_id' => $ban->bot_user->id, 'chat_id' => $supergroup, 'user_id' =>$ban->bot_user->telegram_chat_id, 'text' => $exception]);
+                        TelegramBanScheduleErrorLogs::create(['bot_user_id' => $ban->bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' =>$ban->bot_user->telegram_chat_id, 'text' => $exception]);
                     }
 
                 }
