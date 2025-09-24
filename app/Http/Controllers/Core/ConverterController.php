@@ -145,11 +145,13 @@ class ConverterController extends Controller
     }
 
     public function ban() {
+        /*
         $res = DB::table('secondbot.telegram_banneds')->get();
         foreach ($res as $data) {
             BotUser::where('telegram_chat_id', $data->chat_id)->whereNull('date_end')->update(['ban' => 1, 'ban_time' => $data->created_at]);
             BotUser::where('telegram_chat_id', $data->chat_id)->where('date_end', '<', date('Y-m-d', time()))->whereNotNull('date_end')->update(['ban' => 1, 'ban_time' => $data->created_at]);
         }
+        */
     }
 
 }
