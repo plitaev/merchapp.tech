@@ -146,7 +146,26 @@ class BotSupergroupAdmin extends Page implements HasForms
                             ->label('Режим удаления')
                             ->required()
                             ->options(SupergroupDeleteParameter::all()->pluck('name', 'id'))
+                            ->live()
                             ->searchable(),
+                        Forms\Components\TextInput::make('supergroup_delete_hours')
+                            ->label(function (Forms\Get $get) {
+                                if (is_callable($get)) {
+                                    if ($get('funnel_condition_trigger_id') == 2) {
+                                        return 'За сколько дней до окончания подписки';
+                                    }
+
+                                    if ($get('funnel_condition_trigger_id') == 3) {
+                                        return 'Через сколько дней после окончания подписки';
+                                    }
+                                }
+                            })
+                            ->maxLength(255)
+                            ->visible(function (Forms\Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('funnel_condition_trigger_id') > 1;
+                                }
+                            }),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')

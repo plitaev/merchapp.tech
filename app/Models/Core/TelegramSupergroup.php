@@ -12,7 +12,9 @@ class TelegramSupergroup extends Model
         'bot_id',
         'name',
         'telegram_id',
-        'give_access'
+        'give_access',
+        'supergroup_delete_parameter_id',
+        'supergroup_delete_hours'
     ];
 
     public function telegramsupergroup_n(): BelongsTo
