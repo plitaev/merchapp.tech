@@ -2,9 +2,7 @@
 namespace App\Filament\Resources\BotResource\Pages;
 
 use App\Filament\Resources\BotResource;
-use App\Models\Core\Bot;
-use App\Models\Core\TelegramSupergroup;
-use App\Models\Core\TelegramSupergroupLinkBot\TelegramSupergroupLinkBot;
+
 use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
@@ -14,6 +12,10 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
+
+use App\Models\Core\Bot;
+use App\Models\Core\SupergroupDeleteParameter;
+use App\Models\Core\TelegramSupergroup;
 
 class BotSupergroupAdmin extends Page implements HasForms
 {
@@ -129,6 +131,22 @@ class BotSupergroupAdmin extends Page implements HasForms
                     ->schema([
                         Forms\Components\Checkbox::make('give_access')
                             ->label('Выдавать доступ в эту группу')
+                    ]),
+                Section::make('Удаление участников')
+                    ->description('Укажите, когда бот должен удалять участников из этой супергруппы')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
+                        Forms\Components\Select::make('bot_id')
+                            ->label('Режим удаления')
+                            ->required()
+                            ->options(SupergroupDeleteParameter::all()->pluck('name', 'id'))
+                            ->searchable(),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
