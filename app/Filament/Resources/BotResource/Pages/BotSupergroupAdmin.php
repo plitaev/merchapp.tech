@@ -142,7 +142,7 @@ class BotSupergroupAdmin extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Forms\Components\Select::make('bot_id')
+                        Forms\Components\Select::make('supergroup_delete_parameter_id')
                             ->label('Режим удаления')
                             ->required()
                             ->options(SupergroupDeleteParameter::all()->pluck('name', 'id'))
