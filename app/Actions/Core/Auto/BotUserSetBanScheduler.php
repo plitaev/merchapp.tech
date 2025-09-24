@@ -36,8 +36,6 @@ class BotUserSetBanScheduler
             ->whereNotIn('id', $non_runned_users)
             ->get();
 
-        return $bot_users;
-
         $botUserSetBanSchedulerCreate->handle($bot_users, $datetime_ban);
 
         //== Вторая выборка - у кого date_end IS NULL и listen_success_message_status = 1
