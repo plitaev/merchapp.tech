@@ -9,6 +9,7 @@ use App\Models\Core\BotUserBanSchedule;
 class BotUserSetBanScheduler
 {
     public function handle() {
+        /*
 
         //== init
 
@@ -48,5 +49,6 @@ class BotUserSetBanScheduler
             ->get();
 
         $botUserSetBanSchedulerCreate->handle($bot_users, $datetime_ban);
+        */
     }
 }
