@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('telegram_supergroups', function (Blueprint $table) {
             $table->unsignedBigInteger('supergroup_delete_parameter_id')->after('give_access');
-            $table->integer('supergroup_delete_hours')->after('give_access');
+            $table->integer('supergroup_delete_hours')->after('supergroup_delete_parameter_id');
         });
     }
 
