@@ -48,6 +48,7 @@ class BotPayGuests extends Page implements HasTable
         return $table
             ->query(PayGuest::with('bot')
             ->with('product')
+            ->where('status', 1)
             ->whereHas('bot', function ($query) {
                 $query->where('bot_id', $this->bot_id);
             }))
