@@ -5,6 +5,8 @@ use App\Actions\Core\Auto\BotUserSetBanSchedulerCreate;
 
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
+use App\Models\Core\TelegramSupergroup;
+
 
 class BotUserSetBanScheduler
 {
@@ -48,6 +50,23 @@ class BotUserSetBanScheduler
             ->get();
 
         $botUserSetBanSchedulerCreate->handle($bot_users, $datetime_ban);
+
+        //== Третья выборка - удаление из чата ДО наступления date_end
+
+        $res = TelegramSupergroup::select('supergroup_delete_days')->where('supergroup_delete_parameter_id', 2)->groupBy('supergroup_delete_days')->pluck('supergroup_delete_days')->toArray();
+        $dates = [];
+        foreach ($res as $day) {
+            $new_date = Carbon::parse($date)->subDays($day)->format('Y-m-d');
+            $dates[] = $new_date;
+        }
+
+        $bot_users = BotUser::select('id')
+            ->whereIn('date_end', $dates)
+            ->whereNotIn('id', $non_runned_users)
+            ->get();
+
+        $botUserSetBanSchedulerCreate->handle($bot_users, $datetime_ban);
+
 
     }
 }
