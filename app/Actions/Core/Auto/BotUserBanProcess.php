@@ -49,7 +49,7 @@ class BotUserBanProcess
                         if ($next_ban_date <= date('Y-m-d H:i:s', time())) {
                             $telegramBanRun->handle($telegram, $supergroup, $ban);
                         } else {
-                            $bot_users = BotUser::find($ban->bot_user->id);
+                            $bot_users = BotUser::where('id', $ban->bot_user->id)->get();
                             $botUserSetBanSchedulerCreate->handle($bot_users, $next_ban_date);
                         }
                     }
