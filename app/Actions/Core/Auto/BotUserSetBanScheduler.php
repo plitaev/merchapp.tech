@@ -56,7 +56,7 @@ class BotUserSetBanScheduler
         $res = TelegramSupergroup::select('supergroup_delete_days')->where('supergroup_delete_parameter_id', 2)->groupBy('supergroup_delete_days')->pluck('supergroup_delete_days')->toArray();
         $dates = [];
         foreach ($res as $day) {
-            $new_date = Carbon::parse($date)->subDays($day)->format('Y-m-d');
+            $new_date = Carbon::parse($date)->addDays($day)->format('Y-m-d');
             $dates[] = $new_date;
         }
 
