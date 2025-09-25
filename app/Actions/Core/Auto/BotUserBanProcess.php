@@ -26,15 +26,15 @@ class BotUserBanProcess
             ->where('ban_datetime', '<=', $datetime)
             ->get();
 
-        return $bans;
 
-        /*
         foreach ($bans as $ban) {
             BotUserBanSchedule::where('id', $ban->id)->update(['run_status' => 1]);
             $telegram = new Api($ban->bot->telegram_token);
 
             if (isset($supergroups[$ban->bot->id])) {
                 foreach ($supergroups[$ban->bot->id] as $supergroup) {
+
+                    return $supergroup;
 
                     try {
                         $status = $telegram->banChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $ban->bot_user->telegram_chat_id]);
@@ -49,7 +49,7 @@ class BotUserBanProcess
                 }
             }
         }
-        */
+
 
     }
 }
