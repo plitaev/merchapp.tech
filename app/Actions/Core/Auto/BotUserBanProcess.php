@@ -8,7 +8,7 @@ use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
 use App\Actions\Core\Auto\BotUserSetBanSchedulerCreate;
 use App\Actions\Core\Telegram\TelegramBanRun;
 
-use App\Models\Core\Bot\BotUser;
+use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
 
 class BotUserBanProcess
