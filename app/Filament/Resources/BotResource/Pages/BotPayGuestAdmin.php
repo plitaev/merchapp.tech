@@ -3,6 +3,7 @@ namespace App\Filament\Resources\BotResource\Pages;
 
 use App\Filament\Resources\BotResource;
 use App\Models\Core\Bot;
+use App\Models\Core\BotUser;
 use App\Models\Core\Pay;
 use App\Models\Core\PayGuest;
 use App\Models\Core\PayLinkBot\PayLinkBot;
@@ -18,6 +19,8 @@ use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
+
+use App\Actions\Core\Pay\PayCreateByPayGuest;
 
 class BotPayGuestAdmin extends Page implements HasForms
 {
@@ -161,6 +164,11 @@ class BotPayGuestAdmin extends Page implements HasForms
 
                                     if ($this->id>0) {
                                         PayGuest::where('id', $this->id)->update($data);
+
+                                        $payCreateByPayGuest = new PayCreateByPayGuest();
+
+                                        $bot_user = BotUser::where('email', $data['email'])->first();
+                                        $payCreateByPayGuest->handle($bot_user, $data['email']);
                                     }
 
 
