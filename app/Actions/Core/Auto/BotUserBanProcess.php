@@ -2,20 +2,22 @@
 namespace App\Actions\Core\Auto;
 
 use Telegram\Bot\Api;
+use Carbon\Carbon;
 
 use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
+use App\Actions\Core\Auto\BotUserSetBanSchedulerCreate;
+use App\Actions\Core\Telegram\TelegramBanRun;
 
-use App\Models\Core\BotUser;
+use App\Models\Core\Bot\BotUser;
 use App\Models\Core\BotUserBanSchedule;
-use App\Models\Core\TelegramBanScheduleLogs;
-use App\Models\Core\TelegramBanScheduleErrorLogs;
-use App\Models\Core\TelegramSupergroup;
 
 class BotUserBanProcess
 {
     public function handle() {
 
         $botSupergroupsAll = new BotSupergroupsAll();
+        $botUserSetBanSchedulerCreate = new BotUserSetBanSchedulerCreate();
+        $telegramBanRun = new TelegramBanRun();
 
         $datetime = date('Y-m-d H:i:s', time());
 
@@ -34,16 +36,22 @@ class BotUserBanProcess
             if (isset($supergroups[$ban->bot->id])) {
                 foreach ($supergroups[$ban->bot->id] as $supergroup) {
 
-                    return $supergroup;
+                    //== бан в момент окончания
+                    if ($supergroup->supergroup_delete_parameter_id == 1) {
+                        $telegramBanRun->handle($telegram, $supergroup, $ban);
+                    }
 
-                    try {
-                        $status = $telegram->banChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $ban->bot_user->telegram_chat_id]);
-                        TelegramBanScheduleLogs::create(['bot_user_id' => $ban->bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' =>$ban->bot_user->telegram_chat_id, 'status' => $status]);
+                    //== бан после окончания через ххх дней
+                    if ($supergroup->supergroup_delete_parameter_id == 3) {
+                        $next_ban_date = Carbon::parse($ban->bot_user->date_end)->addDays(5)->format('Y-m-d');
+                        $next_ban_date = $next_ban_date." 23:30:00";
 
-                        BotUser::where('id', $ban->bot_user_id)->update(['ban' => 1, 'unban' => 0]);
-
-                    } catch (\Exception $exception) {
-                        TelegramBanScheduleErrorLogs::create(['bot_user_id' => $ban->bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' =>$ban->bot_user->telegram_chat_id, 'text' => $exception]);
+                        if ($next_ban_date <= date('Y-m-d H:i:s', time())) {
+                            $telegramBanRun->handle($telegram, $supergroup, $ban);
+                        } else {
+                            $bot_users = BotUser::find($ban->bot_user->id);
+                            $botUserSetBanSchedulerCreate->handle($bot_users, $next_ban_date);
+                        }
                     }
 
                 }
