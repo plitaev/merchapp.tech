@@ -56,6 +56,8 @@ class BotUserBanProcess
 
                 }
             }
+
+            return 'ok';
         }
 
 
