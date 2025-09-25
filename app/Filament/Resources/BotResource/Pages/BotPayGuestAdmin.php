@@ -171,7 +171,7 @@ class BotPayGuestAdmin extends Page implements HasForms
                                         $cat = $payCreateByPayGuest->handle($bot_user, $data['email']);
 
                                         Notification::make()
-                                            ->title($data['email'])
+                                            ->title($cat)
                                             ->success()
                                             ->send();
 
