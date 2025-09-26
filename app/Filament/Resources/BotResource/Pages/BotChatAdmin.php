@@ -97,6 +97,20 @@ class BotChatAdmin extends Page implements HasForms
                             ->label('Аккаунт привязан к бизнес-боту')
 
                     ]),
+                Section::make('Автоплатеж')
+                    ->description('Включайте и отключайте рекуррентные платежи у пользователя')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->schema([
+                        Forms\Components\Checkbox::make('recurrent')
+                            ->label('Автоплатеж включен')
+
+                    ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
