@@ -17,10 +17,9 @@ class TelegramSupergroupSendRecurrentFail
 
         $bot_message_appointment = BotMessageAppointment::where('alias', 'SYS_SG_NOTIFICATION_RECURRENT_FAIL')->first();
 
-        return $bot_message_appointment;
-
         if ($bot_message_appointment) {
             $bot_message = BotMessage::select('text')->where('bot_id', $bot_user->bot_id)->where('bot_message_appointment_id', $bot_message_appointment->id)->first();
+            return $bot_message;
 
             if ($bot_message) {
 
