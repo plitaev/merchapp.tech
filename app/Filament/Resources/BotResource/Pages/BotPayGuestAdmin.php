@@ -164,7 +164,7 @@ class BotPayGuestAdmin extends Page implements HasForms
 
                                     if ($this->id>0) {
                                         PayGuest::where('id', $this->id)->update($data);
-                                        $pay_guest = PayGuest::with('bot')->find('id', $this->id);
+                                        $pay_guest = PayGuest::with('bot')->find($this->id);
 
                                         $payCreateByPayGuest = new PayCreateByPayGuest();
 
