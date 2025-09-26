@@ -98,6 +98,7 @@ class BotPays extends Page implements HasTable
                 Tables\Columns\TextColumn::make('recurrent_status_name.name')
                     ->label('Статус рекуррента'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->format('d.m.Y H:i:s')
                     ->label('Дата'),
             ])
             ->filters([
