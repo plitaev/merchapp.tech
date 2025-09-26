@@ -1,5 +1,5 @@
 @php
-    $categories = ['edit' => 'Основные', 'messages' => 'Сообщения', 'chats' => 'Подписчики', 'pays' => 'Платежи', 'pay-guests' => 'В ожидании', 'supergroups' => 'Супергруппы', 'products' => 'Тарифы', 'getcourse-settings' => 'Настройки GetCourse','getcourse-webhooks' => 'Вебхуки GetCourse','telegram-ban-schedules' => 'Баны','telegram-unban-schedules' => 'Разбаны','funnels' => 'Воронки'];
+    $categories = ['edit' => 'Основные', 'pay-system-admin' => 'Платежные системы', 'messages' => 'Сообщения', 'chats' => 'Подписчики', 'pays' => 'Платежи', 'pay-guests' => 'В ожидании', 'supergroups' => 'Супергруппы', 'products' => 'Тарифы', 'getcourse-settings' => 'Настройки GetCourse','getcourse-webhooks' => 'Вебхуки GetCourse','telegram-ban-schedules' => 'Баны','telegram-unban-schedules' => 'Разбаны','funnels' => 'Воронки'];
 @endphp
 
 <nav class="fi-tabs flex max-w-full gap-x-1 overflow-x-auto mx-auto rounded-xl bg-white p-2 shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10" role="tablist">
