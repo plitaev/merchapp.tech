@@ -43,6 +43,7 @@ class GetCourseController extends Controller
             //== Костыль к удалению
 
             if ($event == "recurrent_fail") {
+                return $bot_user;
                 $telegram = new Api("7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY");
 
                 $text = "❗️ Не прошёл рекуррент%0A".$bot_user->email;
