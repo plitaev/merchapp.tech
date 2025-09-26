@@ -40,10 +40,6 @@ class GetCourseController extends Controller
                 })
                 ->first();
 
-            if ($bot_message) {
-                return $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
-            }
-
             //== Костыль к удалению
 
             if ($event == "recurrent_fail") {
@@ -53,6 +49,10 @@ class GetCourseController extends Controller
                 if ($bot_user->username) $text = $text."%0A@".$bot_user->username->username;
 
                 return $telegram->sendMessage(['chat_id' => -1002755813111, 'parse_mode' => 'HTML', 'text' => urldecode($text), 'protect_content' => true]);
+            }
+
+            if ($bot_message) {
+                return $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
             }
 
         }
