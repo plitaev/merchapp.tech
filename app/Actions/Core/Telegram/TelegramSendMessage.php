@@ -3,6 +3,7 @@ namespace App\Actions\Core\Telegram;
 use Telegram\Bot\Api;
 
 use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
+use App\Actions\Core\BotUser\BotUserInsertVariables;
 use App\Actions\Core\BotUser\BotUserUnban;
 use App\Actions\Core\BotUser\BotUserSetUnbanScheduler;
 use App\Actions\Core\Product\ProductListByBot;
@@ -17,6 +18,7 @@ class TelegramSendMessage
     public function handle($bot_user, int $bot_message_id, string $bot_message_appointment = '') {
 
         $botSupergroupsAll = new BotSupergroupsAll();
+        $botUserInsertVariables = new BotUserInsertVariables();
         $botUserSetUnbanScheduler = new BotUserSetUnbanScheduler();
         $botUserUnban = new BotUserUnban();
         $productListByBot = new ProductListByBot();
@@ -29,35 +31,7 @@ class TelegramSendMessage
 
         $text = $bot_message->text;
         $text = urldecode($text);
-
-        //== Замены переменных
-
-        //== Адрес почты
-
-        if (stripos(strtolower($text), 'VAR_USER_EMAIL')) $text = str_replace('VAR_USER_EMAIL', $bot_user->email, $text);
-
-        //== Имя пользователя
-        if (stripos(strtolower($text), 'VAR_USERNAME')) {
-            if ($bot_user->username!="none") $text = str_replace('VAR_USERNAME', "@".$bot_user->username, $text);
-        }
-
-        if (stripos(strtolower($text), 'VAR_USER_FULL_NAME')) {
-            $message_dd = "";
-
-            if ($bot_user->first_name && $bot_user->first_name!="none") $message_dd = $bot_user->first_name;
-            if ($bot_user->last_name && $bot_user->last_name!="none") $message_dd = $message_dd." ".$bot_user->last_name;
-            if ($bot_user->first_name || $bot_user->last_name || $bot_user->first_name!="none" || $bot_user->last_name!="none") $message_dd = ", ".$message_dd;
-
-            $text = str_replace('VAR_USER_FULL_NAME', $message_dd, $text);
-        }
-
-        if (stripos(strtolower($text), 'VAR_USER_DATE_END')) {
-            $date_end = date('d.m.Y', strtotime($bot_user->date_end));
-            if ($date_end == '01.01.1970') $date_end = '';
-            $text = str_replace('VAR_USER_DATE_END', $date_end, $text);
-        }
-
-        //== Конец замены переменных
+        $text = $botUserInsertVariables->handle($bot_user, $text);
 
         if ($bot_message) {
 

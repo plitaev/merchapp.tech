@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Actions\Core\BotUser;
+
+class BotUserInsertVariables {
+
+    public function handle($bot_user, $text) {
+        //== Адрес почты
+
+        if (stripos(strtolower($text), 'VAR_USER_EMAIL')) $text = str_replace('VAR_USER_EMAIL', $bot_user->email, $text);
+
+        //== Имя пользователя
+        if (stripos(strtolower($text), 'VAR_USERNAME')) {
+            if ($bot_user->username!="none") $text = str_replace('VAR_USERNAME', "@".$bot_user->username, $text);
+        }
+
+        if (stripos(strtolower($text), 'VAR_USER_FULL_NAME')) {
+            $message_dd = "";
+
+            if ($bot_user->first_name && $bot_user->first_name!="none") $message_dd = $bot_user->first_name;
+            if ($bot_user->last_name && $bot_user->last_name!="none") $message_dd = $message_dd." ".$bot_user->last_name;
+            if ($bot_user->first_name || $bot_user->last_name || $bot_user->first_name!="none" || $bot_user->last_name!="none") $message_dd = ", ".$message_dd;
+
+            $text = str_replace('VAR_USER_FULL_NAME', $message_dd, $text);
+        }
+
+        if (stripos(strtolower($text), 'VAR_USER_DATE_END')) {
+            $date_end = date('d.m.Y', strtotime($bot_user->date_end));
+            if ($date_end == '01.01.1970') $date_end = '';
+            $text = str_replace('VAR_USER_DATE_END', $date_end, $text);
+        }
+
+        return $text;
+    }
+
+}
