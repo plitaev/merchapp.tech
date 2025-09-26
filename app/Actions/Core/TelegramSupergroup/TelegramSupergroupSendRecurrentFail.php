@@ -19,7 +19,6 @@ class TelegramSupergroupSendRecurrentFail
 
         if ($bot_message_appointment) {
             $bot_message = BotMessage::select('text')->where('bot_id', $bot_user->bot_id)->where('bot_message_appointment_id', $bot_message_appointment->id)->first();
-            return $bot_message;
 
             if ($bot_message) {
 
@@ -30,7 +29,6 @@ class TelegramSupergroupSendRecurrentFail
                 $telegram = new Api($bot_user->bot->telegram_token);
 
                 $supergroups = TelegramSupergroup::select('telegram_id')->where('bot_id', $bot_user->bot_id)->where('statistic_recurrent_fail', 1)->get();
-                return $supergroups;
 
                 foreach ($supergroups as $supergroup) {
                     $telegram->sendMessage(['chat_id' => $supergroup->telegram_id, 'parse_mode' => 'HTML', 'text' => urldecode($text), 'protect_content' => true]);

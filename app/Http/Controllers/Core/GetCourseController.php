@@ -46,7 +46,7 @@ class GetCourseController extends Controller
 
             if ($event == "recurrent_fail") {
                 $telegramSupergroupSendRecurrentFail = new TelegramSupergroupSendRecurrentFail();
-                return $telegramSupergroupSendRecurrentFail->handle($bot_user);
+                $telegramSupergroupSendRecurrentFail->handle($bot_user);
             }
 
             if ($bot_message) {
