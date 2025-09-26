@@ -164,10 +164,10 @@ class BotPaySystemAdmin extends Page implements HasForms
 
                             if ($this->id > 0) {
                                 Bot::where('id', $this->id)->update($data);
-                                return redirect('/admin/bots/'.$this->id.'/edit');
+                                return redirect('/admin/bots/'.$this->id.'/pay-system-admin');
                             } else {
                                 $new = Bot::create($data);
-                                return redirect('/admin/bots/'.$new->id.'/edit');
+                                return redirect('/admin/bots/'.$new->id.'/pay-system-admin');
                             }
 
                             Notification::make()

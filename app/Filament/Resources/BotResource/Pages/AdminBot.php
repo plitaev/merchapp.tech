@@ -175,12 +175,6 @@ class AdminBot extends Page implements HasForms
                         Forms\Components\TextInput::make('business_bot_delay_after_operator_sent_message_in_minutes')
                             ->label('Не отправлять сообщение в бизнес-бот после ответа оператора (в минутах)')
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('yookassa_shop_id')
-                            ->label('Юкасса ShopID')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('yookassa_shop_secret')
-                            ->label('Юкасса ShopSecret')
-                            ->maxLength(255),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
