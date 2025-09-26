@@ -162,7 +162,7 @@ class BotSupergroupAdmin extends Page implements HasForms
                             ->maxLength(255)
                             ->visible(function (Forms\Get $get) {
                                 if (is_callable($get)) {
-                                    return $get('supergroup_delete_parameter_id') > 1;
+                                    return $get('supergroup_delete_parameter_id') == 2 || $get('supergroup_delete_parameter_id') == 3;
                                 }
                             }),
                     ]),
