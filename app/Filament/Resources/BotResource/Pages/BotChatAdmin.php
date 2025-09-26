@@ -14,6 +14,8 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 
+use App\Actions\Core\Pay\PayCreateByPayGuest;
+
 class BotChatAdmin extends Page implements HasForms
 {
     use InteractsWithForms;
@@ -119,9 +121,11 @@ class BotChatAdmin extends Page implements HasForms
                             if ($this->id>0) {
                                 BotUser::where('id', $this->id)->update($data);
                                 $output_id = $this->id;
-                            } else {
-                                $new = BotUser::create($data);
-                                $output_id = $new->id;
+
+                                $payCreateByPayGuest = new PayCreateByPayGuest();
+
+                                $bot_user = BotUser::find($this->id);
+                                $payCreateByPayGuest->handle($bot_user, $data['email']);
                             }
 
                             Notification::make()
