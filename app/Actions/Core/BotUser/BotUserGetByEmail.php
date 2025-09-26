@@ -6,7 +6,8 @@ use App\Models\Core\BotUser;
 class BotUserGetByEmail
 {
     public function handle(int $bot_id, string $email) {
-        return BotUser::where('bot_id', $bot_id)
+        return BotUser::with('bot')
+            ->where('bot_id', $bot_id)
             ->where('email', $email)
             ->first();
     }
