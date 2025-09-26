@@ -129,8 +129,7 @@ class BotSupergroupAdmin extends Page implements HasForms
                         '2xl' => 1,
                     ])
                     ->schema([
-                        Forms\Components\Checkbox::make('give_access')
-                            ->label('Выдавать доступ в эту группу')
+                        Forms\Components\Checkbox::make('give_access')->label('Выдавать доступ в эту группу')
                     ]),
                 Section::make('Удаление участников')
                     ->description('Укажите, когда бот должен удалять участников из этой супергруппы')
@@ -166,6 +165,18 @@ class BotSupergroupAdmin extends Page implements HasForms
                                     return $get('supergroup_delete_parameter_id') > 1;
                                 }
                             }),
+                    ]),
+                Section::make('Отправка статистики')
+                    ->description('Укажите, должен ли бот отправлять статистику в этот чат')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->schema([
+                        Forms\Components\Checkbox::make('statistic_recurrent_fail')->label('Проваленные рекурренты')
                     ]),
                 Actions::make([
                     Action::make('Сохранить')

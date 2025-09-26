@@ -14,7 +14,8 @@ class TelegramSupergroup extends Model
         'telegram_id',
         'give_access',
         'supergroup_delete_parameter_id',
-        'supergroup_delete_days'
+        'supergroup_delete_days',
+        'statistic_recurrent_fail'
     ];
 
     public function telegramsupergroup_n(): BelongsTo
