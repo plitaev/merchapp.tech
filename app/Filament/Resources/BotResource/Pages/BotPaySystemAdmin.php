@@ -83,7 +83,7 @@ class BotPaySystemAdmin extends Page implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Юкасс')
+                Section::make('Юкасса')
                     ->description('Настройки платежной системы Юкасса')
                     ->columns([
                         'sm' => 2,
