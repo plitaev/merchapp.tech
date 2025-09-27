@@ -21,6 +21,11 @@ use App\Models\Core\TelegramChatJoinRequestLog;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $dateEnd = new DateEnd();
+
+        $bot_user = BotUser::find(12798);
+        return $dateEnd->handle($bot_user, 'Y-m-d');
+
         /*
         $telegram = new Api('8440878720:AAHrI6jj_V16gYrNxKBHnpC_fW835c9nlfU');
 
