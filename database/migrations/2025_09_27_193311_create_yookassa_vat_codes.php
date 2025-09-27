@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('yookassa_vat_codes', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('code', 1);
+            $table->tinyInteger('code');
             $table->string('name', 255);
             $table->timestamps();
         });

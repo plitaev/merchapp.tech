@@ -100,7 +100,7 @@ class BotPaySystemAdmin extends Page implements HasForms
                             ->label('Секретный ключ API (ShopSecret)')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('yookassa_currency')
-                            ->label('Валюта (currency)')
+                            ->label('Валюта (Currency)')
                             ->maxLength(3),
                     ]),
                 Actions::make([
