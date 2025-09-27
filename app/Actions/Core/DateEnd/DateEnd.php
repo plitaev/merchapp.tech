@@ -33,7 +33,7 @@ class DateEnd
         foreach ($alldays1 as $allday1) $alldays[] = $allday1->id;
         foreach ($alldays2 as $allday2) $alldays[] = $allday2->id;
 
-        $alldays = Pay::select('days', 'created_at', 'updated_at')->whereIn('id', $alldays)->orderBy('updated_at')->get();
+        $alldays = Pay::select('days', 'created_at', 'updated_at')->whereIn('id', $alldays)->orderBy('created_at')->get();
 
         $Adates_start=[];
         $Adates_end=[];
