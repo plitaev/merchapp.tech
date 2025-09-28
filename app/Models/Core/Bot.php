@@ -26,8 +26,9 @@ class Bot extends Model
         'yookassa_vat_code_id',
         'yookassa_payment_mode_id',
         'yookassa_payment_subject_id',
-        'prodamus_payment_methods',
-        'prodamus_payment_objects'
+        'prodamus_payment_method_id',
+        'prodamus_payment_object_id',
+        'prodamus_sys'
     ];
 
     public function bot_n(): BelongsTo
@@ -53,6 +54,21 @@ class Bot extends Model
     public function yookassa_payment_mode(): BelongsTo
     {
         return $this->belongsTo(YookassaPaymentMode::class, 'yookassa_payment_mode_id', 'id');
+    }
+
+    public function prodamus_payment_method(): BelongsTo
+    {
+        return $this->belongsTo(ProdamusPaymentMethod::class, 'prodamus_payment_method_id', 'id');
+    }
+
+    public function prodamus_payment_object(): BelongsTo
+    {
+        return $this->belongsTo(ProdamusPaymentObject::class, 'prodamus_payment_object_id', 'id');
+    }
+
+    public function prodamus_npd_income_type(): BelongsTo
+    {
+        return $this->belongsTo(ProdamusNpdIncomeType::class, 'prodamus_npd_income_type_id', 'id');
     }
 
 
