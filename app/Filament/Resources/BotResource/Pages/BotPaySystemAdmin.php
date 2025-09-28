@@ -149,7 +149,7 @@ class BotPaySystemAdmin extends Page implements HasForms
                             ->options(ProdamusNpdIncomeType::query()->pluck('name', 'id'))
                             ->searchable(),
                         Forms\Components\TextInput::make('prodamus_sys')
-                            ->label('sys')
+                            ->label('Параметр sys')
                             ->maxLength(255),
                     ]),
                 Actions::make([
