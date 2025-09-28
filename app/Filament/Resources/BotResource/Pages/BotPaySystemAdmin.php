@@ -148,7 +148,9 @@ class BotPaySystemAdmin extends Page implements HasForms
                             ->label('Тип плательщика')
                             ->options(ProdamusNpdIncomeType::query()->pluck('name', 'id'))
                             ->searchable(),
-
+                        Forms\Components\TextInput::make('prodamus_sys')
+                            ->label('Секретный ключ API (Prodamus_sys)')
+                            ->maxLength(255),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
