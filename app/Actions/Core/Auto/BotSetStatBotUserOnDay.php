@@ -16,7 +16,7 @@ class BotSetStatBotUserOnDay
         foreach ($bots as $bot) {
             $botUsers = BotUser::where('date_end', '>=', $datetime)->where('bot_id', $bot->id)->count();
 
-            StatBotUserOnDay::insert(
+            StatBotUserOnDay::create(
                 [
                     'bot_id' => $bot->id,
                     'bot_user_count' => $botUsers,
