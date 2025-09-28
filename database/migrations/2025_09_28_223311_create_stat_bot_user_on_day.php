@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('stat_bot_user_on_day', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('bot_id');
-            $table->unsignedBigInteger('bot_id');
+            $table->integer('bot_user_count');
             $table->timestamps();
         });
     }
