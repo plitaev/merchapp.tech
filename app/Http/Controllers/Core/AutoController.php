@@ -17,6 +17,8 @@ use App\Actions\Core\Auto\TelegramScheduleDeleteMessageFill;
 use App\Actions\Core\Auto\TelegramScheduleDeleteMessageProcess;
 use App\Actions\Core\Auto\TelegramScheduleEditMessageFill;
 use App\Actions\Core\Auto\TelegramScheduleEditMessageProcess;
+use App\Actions\Core\Auto\BotSetStatBotUserOnDay;
+
 
 class AutoController extends Controller
 {
@@ -88,5 +90,10 @@ class AutoController extends Controller
     public function telegram_schedule_delete_messages_process() {
         $telegramScheduleDeleteMessageProcess = new TelegramScheduleDeleteMessageProcess();
         return $telegramScheduleDeleteMessageProcess->handle();
+    }
+
+    public function stat_bot_user_on_day() {
+        $botSetStatBotUserOnDay = new BotSetStatBotUserOnDay();
+        return $botSetStatBotUserOnDay->handle();
     }
 }
