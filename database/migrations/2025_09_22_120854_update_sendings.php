@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('sendings', function (Blueprint $table) {
             $table->dropColumn('send_date');
             $table->dropColumn('send_time');
-            $table->datetime('send_datetime');
+            $table->datetime('send_datetime')->nullable();
         });
     }
 
