@@ -4,6 +4,9 @@ namespace App\Filament\Resources\BotResource\Pages;
 use App\Filament\Resources\BotResource;
 use App\Filament\Resources\BotResource\RelationManagers;
 use App\Models\Core\Bot;
+use App\Models\Core\ProdamusNpdIncomeType;
+use App\Models\Core\ProdamusPaymentMethod;
+use App\Models\Core\ProdamusPaymentObject;
 use App\Models\Core\TelegramSupergroupLinkBot\TelegramSupergroupLinkBot;
 use App\Models\Core\YookassaPaymentMode;
 use App\Models\Core\YookassaPaymentSubject;
@@ -121,6 +124,30 @@ class BotPaySystemAdmin extends Page implements HasForms
                             ->label('Признак предмета расчета')
                             ->options(YookassaPaymentSubject::query()->pluck('name', 'id'))
                             ->searchable()
+
+                    ]),
+                Section::make('Продамус')
+                    ->description('Настройки платежной системы Продамус')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
+                        Forms\Components\Select::make('prodamus_payment_method_id')
+                            ->label('Тип оплаты')
+                            ->options(ProdamusPaymentMethod::query()->pluck('name', 'id'))
+                            ->searchable(),
+                        Forms\Components\Select::make('prodamus_payment_object_id')
+                            ->label('Тип оплачиваемой позиции')
+                            ->options(ProdamusPaymentObject::query()->pluck('name', 'id'))
+                            ->searchable(),
+                        Forms\Components\Select::make('prodamus_npd_income_type_id')
+                            ->label('Тип плательщика')
+                            ->options(ProdamusNpdIncomeType::query()->pluck('name', 'id'))
+                            ->searchable(),
 
                     ]),
                 Actions::make([
