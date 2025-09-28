@@ -24,4 +24,6 @@ Route::controller(AutoController::class)->group(function() {
 
     Route::get('/auto/telegram_schedule_delete_messages', 'telegram_schedule_delete_messages');
     Route::get('/auto/telegram_schedule_delete_messages_process', 'telegram_schedule_delete_messages_process');
+    Route::get('/auto/stat_bot_user_on_day', 'stat_bot_user_on_day');
+
 });
