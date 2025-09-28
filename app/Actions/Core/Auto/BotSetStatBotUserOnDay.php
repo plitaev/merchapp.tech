@@ -19,7 +19,8 @@ class BotSetStatBotUserOnDay
             StatBotUserOnDay::insert(
                 [
                     'bot_id' => $bot->id,
-                    'bot_user_count' => $botUsers
+                    'bot_user_count' => $botUsers,
+                    'stat_date' => $datetime,
                 ]);
         }
 
