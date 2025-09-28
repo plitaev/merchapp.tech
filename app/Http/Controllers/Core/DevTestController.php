@@ -21,30 +21,5 @@ use App\Models\Core\TelegramChatJoinRequestLog;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $botSendMessage = new BotSendMessage();
-        $bot_user = BotUser::find(14072);
-        return $botSendMessage->handle($bot_user, 'MAGICLIFE_ARCHIVE');
-
-        /*
-        $telegram = new Api('8440878720:AAHrI6jj_V16gYrNxKBHnpC_fW835c9nlfU');
-
-        $telegram->deleteMessage(['chat_id' => -1002826769152, 'message_id' => 196]);
-
-        $kb = [];
-        $btn = [["text" => "ОТКРЫТЬ ПРИЛОЖЕНИЕ", "url" => "https://t.me/tochka_i_club_bot?startapp"]];
-        $kb[] = $btn;
-
-        $keyboard = ["inline_keyboard" => $kb];
-        $keyboard = json_encode($keyboard, true);
-
-
-        $A['chat_id'] = -1002826769152;
-        $A['parse_mode'] = 'HTML';
-        $A['protect_content'] = true;
-        $A['reply_markup'] = $keyboard;
-        $A['text'] = urldecode("В этом приложении вы найдете все методички и материалы клуба%0A%0AВСЁ В ОДНОМ МЕСТЕ ❤️");
-`1
-        return $telegram->sendMessage($A);
-        */
     }
 }
