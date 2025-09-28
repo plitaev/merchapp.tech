@@ -13,7 +13,6 @@ use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
@@ -108,19 +107,19 @@ class BotPaySystemAdmin extends Page implements HasForms
                             ->maxLength(3),
                         Forms\Components\Select::make('yookassa_tax_system_code_id')
                             ->label('Коды систем налогообложения')
-                            ->options(YookassaTaxSystemCode::all()->pluck('name', 'id'))
+                            ->options(YookassaTaxSystemCode::query()->pluck('name', 'id'))
                             ->searchable(),
                         Forms\Components\Select::make('yookassa_vat_code_id')
                             ->label('Признак способа расчета')
-                            ->options(YookassaVatCode::all()->pluck('name', 'id'))
+                            ->options(YookassaVatCode::query()->pluck('name', 'id'))
                             ->searchable(),
                         Forms\Components\Select::make('yookassa_payment_mode_id')
                             ->label('Коды ставок НДС')
-                            ->options(YookassaPaymentMode::all()->pluck('name', 'id'))
+                            ->options(YookassaPaymentMode::query()->pluck('name', 'id'))
                             ->searchable(),
                         Forms\Components\Select::make('yookassa_payment_subject_id')
                             ->label('Признак предмета расчета')
-                            ->options(YookassaPaymentSubject::all()->pluck('name', 'id'))
+                            ->options(YookassaPaymentSubject::query()->pluck('name', 'id'))
                             ->searchable()
 
                     ]),
