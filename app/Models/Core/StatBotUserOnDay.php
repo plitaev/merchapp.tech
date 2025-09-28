@@ -13,6 +13,7 @@ class StatBotUserOnDay extends Model
 
     protected $fillable = [
         'bot_id',
-        'bot_user_count'
+        'bot_user_count',
+        'stat_date'
     ];
 }
