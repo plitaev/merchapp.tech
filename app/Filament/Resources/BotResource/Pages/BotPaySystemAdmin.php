@@ -3,13 +3,17 @@ namespace App\Filament\Resources\BotResource\Pages;
 
 use App\Filament\Resources\BotResource;
 use App\Filament\Resources\BotResource\RelationManagers;
-use App\Livewire\Agency\Inbox\ActiveTasksTable;
 use App\Models\Core\Bot;
 use App\Models\Core\TelegramSupergroupLinkBot\TelegramSupergroupLinkBot;
+use App\Models\Core\YookassaPaymentMode;
+use App\Models\Core\YookassaPaymentSubject;
+use App\Models\Core\YookassaTaxSystemCode;
+use App\Models\Core\YookassaVatCode;
 use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
@@ -102,6 +106,23 @@ class BotPaySystemAdmin extends Page implements HasForms
                         Forms\Components\TextInput::make('yookassa_currency')
                             ->label('Валюта (Currency)')
                             ->maxLength(3),
+                        Forms\Components\Select::make('yookassa_tax_system_code_id')
+                            ->label('Коды систем налогообложения')
+                            ->options(YookassaTaxSystemCode::all()->pluck('name', 'id'))
+                            ->searchable(),
+                        Forms\Components\Select::make('yookassa_vat_code_id')
+                            ->label('Признак способа расчета')
+                            ->options(YookassaVatCode::all()->pluck('name', 'id'))
+                            ->searchable(),
+                        Forms\Components\Select::make('yookassa_payment_mode_id')
+                            ->label('Коды ставок НДС')
+                            ->options(YookassaPaymentMode::all()->pluck('name', 'id'))
+                            ->searchable(),
+                        Forms\Components\Select::make('yookassa_payment_subject_id')
+                            ->label('Признак предмета расчета')
+                            ->options(YookassaPaymentSubject::all()->pluck('name', 'id'))
+                            ->searchable()
+
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
