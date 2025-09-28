@@ -21,5 +21,9 @@ use App\Models\Core\TelegramChatJoinRequestLog;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $botSendMessage = new BotSendMessage();
+
+        $bot_user = BotUser::find(8290);
+        return $botSendMessage->handle($bot_user, 'MAGICLIFE_ARCHIVE');
     }
 }
