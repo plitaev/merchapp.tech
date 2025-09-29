@@ -2,6 +2,8 @@
 
 namespace App\Actions\Core\BotUser;
 
+use App\Models\Core\BotUser;
+
 class BotUserInsertVariables {
 
     public function handle($bot_user, $text) {
@@ -25,6 +27,8 @@ class BotUserInsertVariables {
         }
 
         if (stripos(strtolower($text), 'VAR_USER_DATE_END')) {
+            $bot_user = BotUser::find($bot_user->id);
+
             $date_end = date('d.m.Y', strtotime($bot_user->date_end));
             if ($date_end == '01.01.1970') $date_end = '';
             $text = str_replace('VAR_USER_DATE_END', $date_end, $text);

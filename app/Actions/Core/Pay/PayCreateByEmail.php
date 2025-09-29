@@ -38,8 +38,6 @@ class PayCreateByEmail
 
             $dateEnd->handle($bot_user, 'Y-m-d');
 
-            $bot_user = BotUser::where('email', $email)->where('bot_id', $product->bot_id)->first(); // переопределяем из-за DATE END
-
             $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
 
             return $new;
