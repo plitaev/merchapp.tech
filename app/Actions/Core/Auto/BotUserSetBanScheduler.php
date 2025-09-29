@@ -35,11 +35,12 @@ class BotUserSetBanScheduler
 
         $non_runned_users[] = 0;
 
-        $bot_users = BotUser::select('id')
+        $bot_users = BotUser::with('bot')
+            ->select('id', 'bot_id')
             ->where('date_end', $date)
             ->whereNotIn('id', $non_runned_users)
             ->get();
-        return 'pfe';
+        return $bot_users;
 
         $botUserSetBanSchedulerCreate->handle($bot_users, $datetime_ban);
 
