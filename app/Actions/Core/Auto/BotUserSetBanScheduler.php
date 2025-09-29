@@ -35,7 +35,7 @@ class BotUserSetBanScheduler
 
         $non_runned_users[] = 0;
 
-        $bot_users = BotUser::with('bot')
+        $bot_users = BotUser::with('bot:id,ban_time')
             ->select('id', 'bot_id')
             ->where('date_end', $date)
             ->whereNotIn('id', $non_runned_users)
