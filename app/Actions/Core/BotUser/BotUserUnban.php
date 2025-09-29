@@ -30,7 +30,7 @@ class BotUserUnban
 
                         if ($member->status != 'banned') {
                             BotUserUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 1]);
-                            BotUser::where('id', $bot_user->id)->update(['ban' => 0, 'unban' => 1]);
+                            BotUser::where('id', $bot_user->id)->update(['ban' => 0, 'unban' => 1, 'unban_time' => now()]);
                         } else {
                             BotUserUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 0]);
                         }

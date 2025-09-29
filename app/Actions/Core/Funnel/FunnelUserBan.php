@@ -16,13 +16,14 @@ class FunnelUserBan
             }
 
             if ($data->funnel_condition_trigger->alias == "after") {
-
                 $next_date = Carbon::now();
-                if ($data->funnel_days && $data->funnel_days > 0) $next_date->addDays($data->funnel_days);
-                if ($data->funnel_hours && $data->funnel_hours > 0) $next_date->addHours($data->funnel_hours);
-                if ($data->funnel_minutes && $data->funnel_minutes > 0) $next_date->addMinutes($data->funnel_hours);
 
-                return $data->id.' | '.$next_date->format('Y-m-d H:i:s');
+                if ($data->funnel_days && $data->funnel_days > 0) $next_date->subDays($data->funnel_days);
+                if ($data->funnel_hours && $data->funnel_hours > 0) $next_date->subHours($data->funnel_hours);
+                if ($data->funnel_minutes && $data->funnel_minutes > 0) $next_date->subMinutes($data->funnel_hours);
+
+                $datetime_start = $next_date." 00:00:00";
+                $datetime_end = $next_date." 23:59:59";
             }
 
         }
