@@ -19,7 +19,6 @@ class BotUserSetBanScheduler
         $botUserSetBanSchedulerCreate = new BotUserSetBanSchedulerCreate();
         $date = date('Y-m-d', time());
 
-        $datetime_ban = $date." 23:30:00";
         $datetime_start = $date." 00:00:00";
         $datetime_end = $date." 23:59:59";
 

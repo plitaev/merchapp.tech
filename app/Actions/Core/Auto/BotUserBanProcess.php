@@ -55,7 +55,7 @@ class BotUserBanProcess
                     //== бан после окончания через ххх дней
                     if ($supergroup->supergroup_delete_parameter_id == 3) {
                         $next_ban_date = Carbon::parse($ban->bot_user->date_end)->addDays(5)->format('Y-m-d');
-                        $next_ban_date = $next_ban_date." 23:30:00";
+                        $next_ban_date = $next_ban_date." ".$ban->bot->ban_time;
 
                         if ($next_ban_date <= date('Y-m-d H:i:s', time())) {
                             $telegramBanRun->handle($telegram, $supergroup, $ban);
