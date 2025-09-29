@@ -13,7 +13,7 @@ class BotUserSetBanSchedulerCreate
                 [
                     'bot_user_id' => $bot_user->id,
                     'run_status' => 0,
-                    'ban_datetime' => date('Y-m-d', time()).''.$bot_user->bot->ban_time
+                    'ban_datetime' => date('Y-m-d', time()).' '.$bot_user->bot->ban_time
                 ]
             );
         }
