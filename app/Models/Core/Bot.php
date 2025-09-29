@@ -28,7 +28,8 @@ class Bot extends Model
         'yookassa_payment_subject_id',
         'prodamus_payment_method_id',
         'prodamus_payment_object_id',
-        'prodamus_sys'
+        'prodamus_sys',
+        'ban_time'
     ];
 
     public function bot_n(): BelongsTo
