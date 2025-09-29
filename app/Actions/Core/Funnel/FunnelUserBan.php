@@ -28,6 +28,19 @@ class FunnelUserBan
                 return $date." | ".$datetime;
             }
 
+            if ($data->funnel_condition_trigger->alias == "before") {
+                $next_date = Carbon::now();
+
+                if ($data->funnel_days && $data->funnel_days > 0) $next_date->addDays($data->funnel_days);
+                if ($data->funnel_hours && $data->funnel_hours > 0) $next_date->addHours($data->funnel_hours);
+                if ($data->funnel_minutes && $data->funnel_minutes > 0) $next_date->addMinutes($data->funnel_hours);
+
+                $date = $next_date->format('Y-m-d');
+                $datetime = $next_date->format('Y-m-d H:i:s');
+
+                return $date." | ".$datetime;
+            }
+
         }
 
     }
