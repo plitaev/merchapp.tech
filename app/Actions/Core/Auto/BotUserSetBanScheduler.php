@@ -39,7 +39,7 @@ class BotUserSetBanScheduler
             ->where('date_end', $date)
             ->whereNotIn('id', $non_runned_users)
             ->get();
-        return $bot_users;
+        return 'pfe';
 
         $botUserSetBanSchedulerCreate->handle($bot_users, $datetime_ban);
 
