@@ -1,6 +1,8 @@
 <?php
 namespace App\Actions\Core\Auto;
 
+use Carbon\Carbon;
+
 use App\Actions\Core\Auto\BotUserSetBanSchedulerCreate;
 
 use App\Models\Core\BotUser;
@@ -11,7 +13,6 @@ use App\Models\Core\TelegramSupergroup;
 class BotUserSetBanScheduler
 {
     public function handle() {
-
 
         //== init
 
@@ -38,6 +39,7 @@ class BotUserSetBanScheduler
             ->where('date_end', $date)
             ->whereNotIn('id', $non_runned_users)
             ->get();
+        return $bot_users;
 
         $botUserSetBanSchedulerCreate->handle($bot_users, $datetime_ban);
 
