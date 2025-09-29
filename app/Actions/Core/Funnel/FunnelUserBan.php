@@ -26,8 +26,6 @@ class FunnelUserBan
                 $date = $prevous_date->format('Y-m-d');
                 $time = $prevous_date->format('H:i:s');
                 $datetime = $prevous_date->format('Y-m-d H:i:s');
-
-                return $date." | ".$time." | ".$datetime;
             }
 
             if ($data->funnel_condition_trigger->alias == "before") {
@@ -38,7 +36,7 @@ class FunnelUserBan
                 if ($data->funnel_minutes && $data->funnel_minutes > 0) $next_date->addMinutes($data->funnel_hours);
 
                 $date = $next_date->format('Y-m-d');
-                $time = $prevous_date->format('H:i:s');
+                $time = $next_date->format('H:i:s');
                 $datetime = $next_date->format('Y-m-d H:i:s');
             }
 
