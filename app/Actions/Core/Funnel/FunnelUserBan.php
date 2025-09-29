@@ -40,6 +40,8 @@ class FunnelUserBan
                 $datetime = $next_date->format('Y-m-d H:i:s');
             }
 
+
+
         }
 
     }
