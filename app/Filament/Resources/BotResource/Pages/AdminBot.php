@@ -10,6 +10,7 @@ use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
@@ -175,6 +176,8 @@ class AdminBot extends Page implements HasForms
                         Forms\Components\TextInput::make('business_bot_delay_after_operator_sent_message_in_minutes')
                             ->label('Не отправлять сообщение в бизнес-бот после ответа оператора (в минутах)')
                             ->maxLength(255),
+                        Forms\Components\TimePicker::make('ban_time')
+                            ->label('Время удаления из чата'),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
