@@ -24,8 +24,6 @@ class FunnelUserBan
 
                 $date = $prevous_date->format('Y-m-d');
                 $datetime = $prevous_date->format('Y-m-d H:i:s');
-
-                return $date." | ".$datetime;
             }
 
             if ($data->funnel_condition_trigger->alias == "before") {
@@ -37,8 +35,6 @@ class FunnelUserBan
 
                 $date = $next_date->format('Y-m-d');
                 $datetime = $next_date->format('Y-m-d H:i:s');
-
-                return $date." | ".$datetime;
             }
 
         }
