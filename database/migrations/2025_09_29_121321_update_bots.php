@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::table('bots', function (Blueprint $table) {
             $table->time('ban_time')->after('prodamus_npd_income_type_id')->nullable();
-
-
         });
     }
 

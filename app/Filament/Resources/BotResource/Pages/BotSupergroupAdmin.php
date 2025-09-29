@@ -129,7 +129,7 @@ class BotSupergroupAdmin extends Page implements HasForms
                         '2xl' => 1,
                     ])
                     ->schema([
-                        Forms\Components\Checkbox::make('give_access')->label('Выдавать доступ в эту группу')
+                        Forms\Components\Checkbox::make('give_access')->label('Выдавать доступ в эту группу'),
                     ]),
                 Section::make('Удаление участников')
                     ->description('Укажите, когда бот должен удалять участников из этой супергруппы')
