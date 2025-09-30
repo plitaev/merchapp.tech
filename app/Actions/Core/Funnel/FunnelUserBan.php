@@ -15,7 +15,7 @@ class FunnelUserBan
             if ($data->funnel_condition_trigger->alias == "now") {
                 $date = date('Y-m-d', time());
                 $time = $data->bot->ban_time;
-                $datetime = $date."".$data->bot->ban_time;
+                $datetime = $date.$data->bot->ban_time;
             }
 
             if ($data->funnel_condition_trigger->alias == "after") {
