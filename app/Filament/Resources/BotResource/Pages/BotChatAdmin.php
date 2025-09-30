@@ -3,11 +3,13 @@ namespace App\Filament\Resources\BotResource\Pages;
 
 use App\Filament\Resources\BotResource;
 use App\Models\Core\Bot;
+use App\Models\Core\BotMessage;
 use App\Models\Core\BotUser;
 use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
@@ -15,6 +17,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 
 use App\Actions\Core\Pay\PayCreateByPayGuest;
+use App\Actions\BotSendMessage\BotSendMessage;
 
 class BotChatAdmin extends Page implements HasForms
 {
@@ -24,6 +27,9 @@ class BotChatAdmin extends Page implements HasForms
 
     protected static string $view = 'filament.resources.bot-resource.pages.bot-telegram-chat';
 
+    protected $rules = [
+        'data_user_link_message.data_user_link_message_id' => 'required', // Validate the nested property
+    ];
 
     public static ?string $label = "Телеграмм чат";
     public static ?string $navigationLabel = "Телеграмм чат";
@@ -61,11 +67,14 @@ class BotChatAdmin extends Page implements HasForms
         $data = ($id>0?BotUser::find($id)->toArray():[]);
 
         $this->form->fill($data);
+
+        $this->form_user_link_message->fill([ ]);
+
     }
 
     protected function getForms(): array
     {
-        return ['form'];
+        return ['form', 'form_user_link_message'];
     }
 
     public function form(Form $form): Form
@@ -138,6 +147,49 @@ class BotChatAdmin extends Page implements HasForms
                 ])
             ])->statePath('data');
     }
+
+    public function form_user_link_message(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Section::make('Выберите сообщение')
+                    ->description('Которое должно отправиться пользователю')
+                    ->schema([
+                        Select::make('bot_message_appointment_id')
+                            ->label('Сообщение')
+                            ->required()
+                            ->options(
+                                BotMessage::query()->pluck('name', 'id')
+                            )
+                            ->searchable()
+                    ]),
+                Actions::make([
+                    Action::make('Сохранить')
+                        ->action(function () {
+                            $formdata = $this->form_user_link_message->getState();
+
+                            $id = $this->id;
+
+                            $bot_message_appointment = $formdata['bot_message_appointment_id'];
+
+                            $botSendMessage = new BotSendMessage();
+
+                            $bot_user = BotUser::find($id);
+
+                            $botSendMessage->handle($bot_user, $bot_message_appointment);
+
+
+
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        }),
+                    Action::make('Отмена')
+                        ->action(function () {
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        })
+                ])
+            ])->statePath('data_user_link_message');
+    }
+
 
 }
 
