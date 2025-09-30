@@ -10,8 +10,6 @@ class FunnelUserBan
 {
     public function handle($data) {
 
-        return $data->funnel_condition->alias;
-
         if ($data->funnel_condition->alias == "user_ban") {
 
             if ($data->funnel_condition_trigger->alias == "now") {
