@@ -10,8 +10,6 @@ class FunnelUserBan
 {
     public function handle($data) {
 
-        return 'ok';
-
         if ($data->funnel_condition->alias == "user_ban") {
 
             if ($data->funnel_condition_trigger->alias == "now") {
@@ -43,6 +41,8 @@ class FunnelUserBan
                 $time = $next_date->format('H:i:s');
                 $datetime = $next_date->format('Y-m-d H:i:s');
             }
+
+            return 'ok';
 
             return $data->funnel_condition_trigger->alias." || ".$date;
             $bot_users = BotUser::where('bot_id', $data->bot->id)->where('date_end', $date)->get();
