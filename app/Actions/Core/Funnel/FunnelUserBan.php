@@ -10,6 +10,8 @@ class FunnelUserBan
 {
     public function handle($data) {
 
+        return $data->funnel_condition->alias;
+
         if ($data->funnel_condition->alias == "user_ban") {
 
             if ($data->funnel_condition_trigger->alias == "now") {
@@ -17,8 +19,6 @@ class FunnelUserBan
                 $time = $data->bot->ban_time;
                 $datetime = $date.$data->bot->ban_time;
             }
-
-            return 'ok';
 
             if ($data->funnel_condition_trigger->alias == "after") {
                 $prevous_date = Carbon::now();
