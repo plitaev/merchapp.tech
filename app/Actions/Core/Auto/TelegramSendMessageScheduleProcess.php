@@ -23,8 +23,11 @@ class TelegramSendMessageScheduleProcess
         foreach ($res as $data) {
             TelegramSendMessageSchedule::where('id', $data->id)->update(['run_status' => 1]);
             $message = $botSendMessage->handle($data->bot_user, $data->bot_message->bot_message_appointment->alias);
-            TelegramSendMessageSchedule::where('id', $data->id)->update(['message_id' => $message->message_id]);
-        }
 
+            if ($message) {
+                TelegramSendMessageSchedule::where('id', $data->id)->update(['message_id' => $message->message_id]);
+            }
+
+        }
     }
 }
