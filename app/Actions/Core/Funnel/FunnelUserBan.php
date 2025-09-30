@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Actions\Core\Funnel;
 
-use App\Models\Core\TelegramSendMessageSchedule;
 use Carbon\Carbon;
 
 use App\Models\Core\BotUser;
+use App\Models\Core\TelegramSendMessageSchedule;
 
 class FunnelUserBan
 {
