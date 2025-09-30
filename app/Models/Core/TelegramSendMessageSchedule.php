@@ -1,8 +1,6 @@
 <?php
-
 namespace App\Models\Core;
 
-use App\Models\Core\BotUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
