@@ -4,7 +4,7 @@ namespace App\Actions\Core\Funnel;
 
 use Carbon\Carbon;
 
-use App\Models\Core\Bot;
+use App\Models\Core\BotUser;
 
 class FunnelUserBan
 {
