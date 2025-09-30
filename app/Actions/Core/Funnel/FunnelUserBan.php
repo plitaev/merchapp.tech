@@ -40,6 +40,8 @@ class FunnelUserBan
                 $datetime = $next_date->format('Y-m-d H:i:s');
             }
 
+            $bot_users = BotUser::where('bot_id', $data->bot->id)->where('date_end', $date)->get();
+            return $bot_users;
 
 
         }
