@@ -42,9 +42,13 @@ class FunnelUserBan
                 $datetime = $next_date->format('Y-m-d H:i:s');
             }
 
+            /*
             $schedules = TelegramSendMessageSchedule::whereHas('sending', function ($query) use ($data) {
                 $query->where('id', $data->id);
             });
+            */
+
+            $schedules = TelegramSendMessageSchedule::with('sending')->get();
 
             return $schedules;
 
