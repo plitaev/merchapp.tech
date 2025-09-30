@@ -48,7 +48,7 @@ class FunnelUserBan
             });
             */
 
-            $schedules = TelegramSendMessageSchedule::with('sending')->get();
+            $schedules = TelegramSendMessageSchedule::whereHas('sending')->get();
 
             return $schedules;
 
