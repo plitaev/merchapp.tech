@@ -46,7 +46,7 @@ class FunnelUserBan
             if (date('H:i:s') >= $time) {
 
                 $schedules = TelegramSendMessageSchedule::whereHas('sending', function ($query) use ($data) {
-                    $query->where('id', $data->id);
+                    $query->where('bot_message_id', $data->id);
                     $query->where('send_datetime', '>=', date('Y-m-d', time())." 00:00:00");
                     $query->where('send_datetime', '<=', date('Y-m-d', time())." 23:59:59");
                 })
