@@ -52,9 +52,7 @@ class FunnelUserBan
                 ->pluck('bot_user_id')
                 ->toArray();
 
-            return $schedules;
-
-            $bot_users = BotUser::select('id')->where('bot_id', $data->bot->id)->where('date_end', $date)->get();
+            $bot_users = BotUser::select('id')->where('bot_id', $data->bot->id)->where('date_end', $date)->whereNotIn('id', $schedules)->get();
             return $bot_users;
         }
 
