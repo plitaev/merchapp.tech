@@ -2,6 +2,7 @@
 
 namespace App\Actions\Core\Funnel;
 
+use App\Models\Core\TelegramSendMessageSchedule;
 use Carbon\Carbon;
 
 use App\Models\Core\BotUser;
@@ -41,6 +42,12 @@ class FunnelUserBan
                 $time = $next_date->format('H:i:s');
                 $datetime = $next_date->format('Y-m-d H:i:s');
             }
+
+            $schedules = TelegramSendMessageSchedule::whereHas('sending', function ($query) use ($data) {
+                $query->where('id', $data->id);
+            });
+
+            return $schedules;
 
             $bot_users = BotUser::select('id')->where('bot_id', $data->bot->id)->where('date_end', $date)->get();
             return $bot_users;

@@ -2,6 +2,7 @@
 
 namespace App\Models\Core;
 
+use App\Models\Core\BotUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
@@ -22,6 +23,11 @@ class TelegramSendMessageSchedule extends Model
     public function bot_user(): BelongsTo
     {
         return $this->belongsTo(BotUser::class);
+    }
+
+    public function sending(): BelongsTo
+    {
+        return $this->belongsTo(Sending::class);
     }
 
     public function bot_message(): HasOneThrough {
