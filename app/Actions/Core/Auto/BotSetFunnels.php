@@ -15,11 +15,10 @@ class BotSetFunnels
             ->select('id', 'funnel_condition_id', 'funnel_condition_trigger_id', 'funnel_days', 'funnel_hours', 'funnel_minutes', 'bot_id')
             ->whereNotNull('funnel_condition_id')
             ->whereNotNull('funnel_condition_trigger_id')
-            ->where('id', 18)
             ->get();
 
         foreach ($res as $data) {
-            return $funnelUserBan->handle($data);
+            $funnelUserBan->handle($data);
         }
 
     }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Actions\Core\Funnel;
 
+use App\Models\Core\Sending;
 use Carbon\Carbon;
 
 use App\Models\Core\BotUser;
@@ -42,18 +43,36 @@ class FunnelUserBan
                 $datetime = $next_date->format('Y-m-d H:i:s');
             }
 
-            $schedules = TelegramSendMessageSchedule::whereHas('sending', function ($query) use ($data) {
-                $query->where('id', $data->id);
-                $query->where('send_datetime', '>=', date('Y-m-d', time())." 00:00:00");
-                $query->where('send_datetime', '<=', date('Y-m-d', time())." 23:59:59");
-            })
-                ->select('bot_user_id')
-                ->groupBy('bot_user_id')
-                ->pluck('bot_user_id')
-                ->toArray();
+            if (date('H:i:s') >= $time) {
 
-            $bot_users = BotUser::select('id')->where('bot_id', $data->bot->id)->where('date_end', $date)->whereNotIn('id', $schedules)->get();
-            return $bot_users;
+                $schedules = TelegramSendMessageSchedule::whereHas('sending', function ($query) use ($data) {
+                    $query->where('id', $data->id);
+                    $query->where('send_datetime', '>=', date('Y-m-d', time())." 00:00:00");
+                    $query->where('send_datetime', '<=', date('Y-m-d', time())." 23:59:59");
+                })
+                    ->select('bot_user_id')
+                    ->groupBy('bot_user_id')
+                    ->pluck('bot_user_id')
+                    ->toArray();
+
+                $bot_users = BotUser::select('id')->where('bot_id', $data->bot->id)->where('date_end', $date)->whereNotIn('id', $schedules)->get();
+                if (count($bot_users) > 0) {
+
+                    $sending = Sending::create([
+                        'bot_message_id' => $data->id,
+                        'name' => 'Рассылка воронки USER_BAN',
+                        'send_datetime' => $datetime,
+                    ]);
+
+                    foreach ($bot_users as $bot_user) {
+                        TelegramSendMessageSchedule::create([
+                            'sending_id' => $sending->id,
+                            'bot_user_id' => $bot_user->id
+                        ]);
+                    }
+                }
+
+            }
         }
 
     }
