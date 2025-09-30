@@ -4,6 +4,8 @@ namespace App\Actions\Core\Funnel;
 
 use Carbon\Carbon;
 
+use App\Models\Core\Bot;
+
 class FunnelUserBan
 {
     public function handle($data) {
