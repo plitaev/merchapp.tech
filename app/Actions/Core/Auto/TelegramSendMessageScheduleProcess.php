@@ -12,12 +12,11 @@ class TelegramSendMessageScheduleProcess
     public function handle() {
         $botSendMessage = new BotSendMessage();
 
-        $date = date('Y-m-d', time());
-        $time = date('H:i:s', time());
-
         $res = TelegramSendMessageSchedule::with('bot_message')->with('bot_user')
+            ->whereHas('sending', function ($query) {
+                $query->where('send_datetime', '<=', date('Y-m-d H:i:s', time()));
+            })
             ->where('run_status', 0)
-            ->where('send_datetime', '<=', date('Y-m-d H:i:s', time()))
             ->take(25)
             ->get();
 
