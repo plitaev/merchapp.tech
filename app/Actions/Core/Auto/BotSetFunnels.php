@@ -17,6 +17,8 @@ class BotSetFunnels
             ->whereNotNull('funnel_condition_trigger_id')
             ->get();
 
+        return $res;
+
         foreach ($res as $data) {
             return $funnelUserBan->handle($data);
         }
