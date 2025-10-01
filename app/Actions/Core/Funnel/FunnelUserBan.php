@@ -23,12 +23,16 @@ class FunnelUserBan
                 $prevous_date = Carbon::now();
 
                 if ($data->funnel_days && $data->funnel_days > 0) $prevous_date->subDays($data->funnel_days);
-                if ($data->funnel_hours && $data->funnel_hours > 0) $prevous_date->subHours($data->funnel_hours);
-                if ($data->funnel_minutes && $data->funnel_minutes > 0) $prevous_date->subMinutes($data->funnel_hours);
 
                 $date = $prevous_date->format('Y-m-d');
                 $time = $prevous_date->format('H:i:s');
-                $datetime = $prevous_date->format('Y-m-d H:i:s');
+
+                $datetime = $datetime." ".$data->bot->ban_time;
+                $datetime = Carbon::parse($datetime);
+
+                if ($data->funnel_hours && $data->funnel_hours > 0) $datetime->addHours($data->funnel_hours);
+                if ($data->funnel_minutes && $data->funnel_minutes > 0) $datetime->addMinutes($data->funnel_hours);
+                $datetime = $datetime->format('Y-m-d H:i:s');
             }
 
             if ($data->funnel_condition_trigger->alias == "before") {
