@@ -179,17 +179,16 @@ class BotChatAdmin extends Page implements HasForms
 
                             $botSendMessage = new BotSendMessage();
 
-                            $res = $botSendMessage->handle($bot_user, $bot_message_appointment->bot_message_appointment);
+                            $botSendMessage->handle($bot_user, $bot_message_appointment->bot_message_appointment);
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
 
-                            if ($res) {
-                                Notification::make()
-                                    ->title('Сообщение успешно отправлено!')
-                                    ->success()
-                                    ->send();
+                            Notification::make()
+                                ->title('Сообщение успешно отправлено!')
+                                ->success()
+                                ->send();
 
-                            }
+
                         }),
                     Action::make('Отмена')
                         ->action(function () {
