@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\BotResource\Pages;
 
+use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Filament\Resources\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\BotMessage;
@@ -17,7 +18,6 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 
 use App\Actions\Core\Pay\PayCreateByPayGuest;
-use App\Actions\BotSendMessage\BotSendMessage;
 
 class BotChatAdmin extends Page implements HasForms
 {
@@ -26,10 +26,6 @@ class BotChatAdmin extends Page implements HasForms
     protected static string $resource = BotResource::class;
 
     protected static string $view = 'filament.resources.bot-resource.pages.bot-telegram-chat';
-
-    protected $rules = [
-        'data_user_link_message.data_user_link_message_id' => 'required', // Validate the nested property
-    ];
 
     public static ?string $label = "Телеграмм чат";
     public static ?string $navigationLabel = "Телеграмм чат";
@@ -68,7 +64,7 @@ class BotChatAdmin extends Page implements HasForms
 
         $this->form->fill($data);
 
-        $this->form_user_link_message->fill([ ]);
+        $this->form_user_link_message->fill([]);
 
     }
 
@@ -153,11 +149,14 @@ class BotChatAdmin extends Page implements HasForms
         return $form
             ->schema([
                 Section::make('Выберите сообщение')
-                    ->description('Которое должно отправиться пользователю')
+                    ->description('')
                     ->schema([
                         Select::make('bot_message_appointment_id')
                             ->label('Сообщение')
                             ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно выберите значение из списка',
+                            ])
                             ->options(
                                 BotMessage::query()->pluck('name', 'id')
                             )
@@ -166,19 +165,17 @@ class BotChatAdmin extends Page implements HasForms
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
-                            $formdata = $this->form_user_link_message->getState();
+                            $botSendMessage = new BotSendMessage();
 
-                            $id = $this->id;
+                            $formdata = $this->form_user_link_message->getState();
 
                             $bot_message_appointment = $formdata['bot_message_appointment_id'];
 
-                            $botSendMessage = new BotSendMessage();
+                            $id = $this->id;
 
                             $bot_user = BotUser::find($id);
 
                             $botSendMessage->handle($bot_user, $bot_message_appointment);
-
-
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         }),
