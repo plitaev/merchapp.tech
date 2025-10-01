@@ -34,6 +34,7 @@ class BotChatAdmin extends Page implements HasForms
     public ?array $data = [];
     public ?array $data_user_link_message = [];
 
+    public string $bot_message_appointment;
 
     public int $id;
 
@@ -167,24 +168,30 @@ class BotChatAdmin extends Page implements HasForms
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
-                            $botSendMessage = new BotSendMessage();
 
                             $formdata = $this->form_user_link_message->getState();
 
-                            $bot_message_appointment = $formdata['bot_message_appointment_id'];
+                            $bot_message_appointment = BotMessage::with('bot_message_appointment')
+                                ->where('bot_message_appointment_id', $formdata['bot_message_appointment_id'])->first();
 
                             $id = $this->id;
 
                             $bot_user = BotUser::find($id);
+                            //return $bot_message_appointment->name;
 
-                            $botSendMessage->handle($bot_user, $bot_message_appointment);
+                            $botSendMessage = new BotSendMessage();
+
+                            $res = $botSendMessage->handle($bot_user, $bot_message_appointment->text);
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
 
-                            Notification::make()
-                                ->title('Сообщение успешно отправлено!')
-                                ->success()
-                                ->send();
+                            if ($res) {
+                                Notification::make()
+                                    ->title('Сообщение успешно отправлено!')
+                                    ->success()
+                                    ->send();
+
+                            }
                         }),
                     Action::make('Отмена')
                         ->action(function () {
