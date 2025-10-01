@@ -16,7 +16,7 @@ class FunnelUserBan
             if ($data->funnel_condition_trigger->alias == "now") {
                 $date = date('Y-m-d', time());
                 $time = $data->bot->ban_time;
-                $datetime = $date.$data->bot->ban_time;
+                $datetime = $date." ".$data->bot->ban_time;
             }
 
             if ($data->funnel_condition_trigger->alias == "after") {
@@ -61,7 +61,7 @@ class FunnelUserBan
                     $sending = Sending::create([
                         'bot_message_id' => $data->id,
                         'name' => 'Рассылка воронки USER_BAN - '.$datetime,
-                        'send_datetime' => date('Y-m-d H:i:s', time()),
+                        'send_datetime' => $datetime,
                     ]);
 
                     foreach ($bot_users as $bot_user) {
