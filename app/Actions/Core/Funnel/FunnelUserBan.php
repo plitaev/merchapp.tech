@@ -33,6 +33,7 @@ class FunnelUserBan
                 if ($data->funnel_hours && $data->funnel_hours > 0) $datetime->addHours($data->funnel_hours);
                 if ($data->funnel_minutes && $data->funnel_minutes > 0) $datetime->addMinutes($data->funnel_hours);
                 $datetime = $datetime->format('Y-m-d H:i:s');
+                $time = $datetime->format('H:i:s');
             }
 
             if ($data->funnel_condition_trigger->alias == "before") {
@@ -65,7 +66,7 @@ class FunnelUserBan
                     $sending = Sending::create([
                         'bot_message_id' => $data->id,
                         'name' => 'Рассылка воронки USER_BAN - '.$datetime,
-                        'send_datetime' => $datetime,
+                        'send_datetime' => date('Y-m-d', time())." ".$time
                     ]);
 
                     foreach ($bot_users as $bot_user) {
