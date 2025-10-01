@@ -27,7 +27,7 @@ class FunnelUserBan
                 $date = $prevous_date->format('Y-m-d');
                 $time = $prevous_date->format('H:i:s');
 
-                $datetime = $datetime." ".$data->bot->ban_time;
+                $datetime = $date." ".$data->bot->ban_time;
                 $datetime = Carbon::parse($datetime);
 
                 if ($data->funnel_hours && $data->funnel_hours > 0) $datetime->addHours($data->funnel_hours);
