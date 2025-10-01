@@ -32,6 +32,8 @@ class BotChatAdmin extends Page implements HasForms
     public static ?string $title = "Телеграмм чат";
 
     public ?array $data = [];
+    public ?array $data_user_link_message = [];
+
 
     public int $id;
 
@@ -178,6 +180,11 @@ class BotChatAdmin extends Page implements HasForms
                             $botSendMessage->handle($bot_user, $bot_message_appointment);
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
+
+                            Notification::make()
+                                ->title('Сообщение успешно отправлено!')
+                                ->success()
+                                ->send();
                         }),
                     Action::make('Отмена')
                         ->action(function () {
