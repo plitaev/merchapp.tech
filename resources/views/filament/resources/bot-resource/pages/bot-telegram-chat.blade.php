@@ -4,7 +4,7 @@
         <div class="flex shrink-0 items-center gap-3">
             <x-filament::modal id="add-page-modal">
                 <x-slot name="trigger">
-                    <x-filament::button>Добавить сообщение</x-filament::button>
+                    <x-filament::button>Отправить сообщение пользователю</x-filament::button>
                 </x-slot>
 
                 <form wire:submit.prevent="submit">{{$this->form_user_link_message}}</form>
