@@ -59,6 +59,8 @@ class BotChatAdmin extends Page implements HasForms
     public function mount(int $bot_id, int $id): void
     {
         $bot = Bot::select('name')->find($bot_id);
+
+        $this->bot_id = $bot_id;
         $this->bot_name = $bot->name;
 
         $this->id = $id;
@@ -161,7 +163,7 @@ class BotChatAdmin extends Page implements HasForms
                                 'required' => 'Обязательно выберите значение из списка',
                             ])
                             ->options(
-                                BotMessage::query()->pluck('name', 'id')
+                                BotMessage::query()->where('bot_id', $this->bot_id)->pluck('name', 'id')
                             )
                             ->searchable()
                     ]),
@@ -173,6 +175,11 @@ class BotChatAdmin extends Page implements HasForms
 
                             $bot_message_appointment = BotMessage::with('bot_message_appointment')->where('bot_message_appointment_id', $formdata['bot_message_appointment_id'])->first();
 
+                            Notification::make()
+                                ->title('Сообщение успешно отправлено!')
+                                ->success()
+                                ->send();
+
                             $id = $this->id;
 
                             $bot_message_appointment_alias = $bot_message_appointment->bot_message_appointment->alias;
@@ -181,7 +188,12 @@ class BotChatAdmin extends Page implements HasForms
 
                             $botSendMessage = new BotSendMessage();
 
-                            $botSendMessage->handle($bot_user, $bot_message_appointment_alias);
+                            $bsm = $botSendMessage->handle($bot_user, $bot_message_appointment_alias);
+
+                            Notification::make()
+                                ->title($bsm)
+                                ->success()
+                                ->send();
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
 
