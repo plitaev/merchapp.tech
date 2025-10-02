@@ -155,6 +155,12 @@ class BotChatAdmin extends Page implements HasForms
                                 ->searchable()
                         ])
                         ->action(function (array $data): void {
+
+                            Notification::make()
+                                ->title('1')
+                                ->success()
+                                ->send();
+
                             $bot_message = BotMessage::with('bot_message_appointment')->where('id', $data['bot_message_id'])->first();
 
                             if ($bot_message) {
