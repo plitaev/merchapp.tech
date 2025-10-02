@@ -68,7 +68,7 @@ class BotChatAdmin extends Page implements HasForms
 
         $this->form->fill($data);
 
-        $this->form_user_link_message->fill([ ]);
+        $this->form_user_link_message->fill([]);
 
     }
 
@@ -192,7 +192,7 @@ class BotChatAdmin extends Page implements HasForms
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         })
                 ])
-            ])->statePath('data_user_link_message');
+            ])->statePath('form_user_link_message');
     }
 
 
