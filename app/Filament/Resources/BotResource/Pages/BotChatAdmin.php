@@ -167,7 +167,6 @@ class BotChatAdmin extends Page implements HasForms
                     Action::make('Сохранить')
                         ->action(function () {
                             $formdata = $this->form_user_link_message->getState();
-
                             $bot_message = BotMessage::with('bot_message_appointment')->where('id', $formdata['bot_message_id'])->first();
 
                             if ($bot_message) {
