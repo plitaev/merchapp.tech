@@ -157,7 +157,7 @@ class BotChatAdmin extends Page implements HasForms
                         ->action(function (array $data): void {
 
                             Notification::make()
-                                ->title($data)
+                                ->title($data['bot_message_id'])
                                 ->success()
                                 ->send();
 
