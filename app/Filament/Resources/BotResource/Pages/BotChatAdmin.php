@@ -141,7 +141,8 @@ class BotChatAdmin extends Page implements HasForms
 
                             return redirect('/admin/bots/'.$this->bot_id.'/chats');
                         }),
-                    Action::make('Отправить сообщение')
+                    Action::make('send_message')
+                        ->label('Отправить сообщение')
                         ->form([
                             Select::make('bot_message_id')
                                 ->label('Сообщение')
