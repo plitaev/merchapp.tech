@@ -168,6 +168,11 @@ class BotChatAdmin extends Page implements HasForms
                         ->action(function () {
                             $formdata = $this->form_user_link_message->getState();
 
+                            Notification::make()
+                                ->title($formdata['bot_message_appointment_id'])
+                                ->success()
+                                ->send();
+
                             $id = $this->id;
 
                             $bot_message_appointment = $formdata['bot_message_appointment_id'];
