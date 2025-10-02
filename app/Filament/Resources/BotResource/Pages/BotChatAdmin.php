@@ -146,10 +146,23 @@ class BotChatAdmin extends Page implements HasForms
                         }),
                     Action::make('theme')
                         ->form([
-                            Forms\Components\ViewField::make('form_user_link_message')
+                            Select::make('bot_message_id')
+                                ->label('Сообщение')
+                                ->required()
+                                ->options(
+                                    BotMessage::query()->pluck('name', 'id')
+                                )
+                                ->searchable()
                         ])
-                        ->modalWidth('2xl')
-                        ->action(fn () => '')
+                        ->action(function (array $data, Post $record): void {
+                            $bot_message = BotMessage::with('bot_message_appointment')->where('id', $data['bot_message_id'])->first();
+
+                            if ($bot_message) {
+                                $botSendMessage = new BotSendMessage();
+                                $bot_user = BotUser::find($this->id);
+                                $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
+                            }
+                        })
                 ])
             ])->statePath('data');
     }
