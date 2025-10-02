@@ -160,7 +160,7 @@ class BotChatAdmin extends Page implements HasForms
                             if ($bot_message) {
 
                                 Notification::make()
-                                    ->title($this->id)
+                                    ->title($bot_message->bot_message_appointment->alias)
                                     ->success()
                                     ->send();
 
