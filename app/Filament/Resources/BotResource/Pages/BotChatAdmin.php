@@ -37,7 +37,6 @@ class BotChatAdmin extends Page implements HasForms
     public static ?string $title = "Телеграмм чат";
 
     public ?array $data = [];
-    public ?array $data_user_link_message = [];
 
     public int $id;
 
@@ -68,13 +67,11 @@ class BotChatAdmin extends Page implements HasForms
 
         $data = ($id>0?BotUser::find($id)->toArray():[]);
         $this->form->fill($data);
-
-        $this->form_user_link_message->fill([ ]);
     }
 
     protected function getForms(): array
     {
-        return ['form', 'form_user_link_message'];
+        return ['form'];
     }
 
     public function form(Form $form): Form
@@ -158,12 +155,6 @@ class BotChatAdmin extends Page implements HasForms
 
                             $bot_message = BotMessage::with('bot_message_appointment')->where('id', $data['bot_message_id'])->first();
                             if ($bot_message) {
-
-                                Notification::make()
-                                    ->title($bot_message->bot_message_appointment->alias)
-                                    ->success()
-                                    ->send();
-
                                 $botSendMessage = new BotSendMessage();
                                 $bot_user = BotUser::find($this->id);
                                 $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
@@ -172,44 +163,4 @@ class BotChatAdmin extends Page implements HasForms
                 ])
             ])->statePath('data');
     }
-
-    public function form_user_link_message(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Section::make('Выберите сообщение')
-                    ->description('Которое должно отправиться пользователю')
-                    ->schema([
-                        Select::make('bot_message_id')
-                            ->label('Сообщение')
-                            ->required()
-                            ->options(
-                                BotMessage::query()->pluck('name', 'id')
-                            )
-                            ->searchable()
-                    ]),
-                Actions::make([
-                    Action::make('Сохранить')
-                        ->action(function () {
-                            $formdata = $this->form_user_link_message->getState();
-                            $bot_message = BotMessage::with('bot_message_appointment')->where('id', $formdata['bot_message_id'])->first();
-
-                            if ($bot_message) {
-                                $botSendMessage = new BotSendMessage();
-                                $bot_user = BotUser::find($this->id);
-                                $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
-                            }
-
-                            $this->dispatch('close-modal', id: 'add-page-modal');
-                        }),
-                    Action::make('Отмена')
-                        ->action(function () {
-                            $this->dispatch('close-modal', id: 'add-page-modal');
-                        })
-                ])
-            ])->statePath('data_user_link_message');
-    }
-
-
 }
-
