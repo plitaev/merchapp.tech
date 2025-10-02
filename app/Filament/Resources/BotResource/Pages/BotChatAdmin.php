@@ -150,7 +150,7 @@ class BotChatAdmin extends Page implements HasForms
                                 ->view('livewire.themes-modal')
                         ])
                         ->modalWidth('2xl')
-                        ->action(fn () => '');
+                        ->action(fn () => '')
                 ])
             ])->statePath('data');
     }
