@@ -155,7 +155,7 @@ class BotChatAdmin extends Page implements HasForms
                 Section::make('Выберите сообщение')
                     ->description('Которое должно отправиться пользователю')
                     ->schema([
-                        Select::make('bot_message_appointment_id')
+                        Select::make('bot_message_id')
                             ->label('Сообщение')
                             ->required()
                             ->options(
@@ -168,20 +168,13 @@ class BotChatAdmin extends Page implements HasForms
                         ->action(function () {
                             $formdata = $this->form_user_link_message->getState();
 
-                            $id = $this->id;
+                            $bot_message = BotMessage::with('bot_message_appointment')->where('id', $formdata['bot_message_id'])->first();
 
-                            $bot_message_appointment = $formdata['bot_message_appointment_id'];
-
-                            Notification::make()
-                                ->title($bot_message_appointment)
-                                ->success()
-                                ->send();
-
-                            $botSendMessage = new BotSendMessage();
-
-                            $bot_user = BotUser::find($id);
-
-                            $botSendMessage->handle($bot_user, $bot_message_appointment);
+                            if ($bot_message) {
+                                $botSendMessage = new BotSendMessage();
+                                $bot_user = BotUser::find($this->id);
+                                $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
+                            }
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         }),
