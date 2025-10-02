@@ -163,7 +163,7 @@ class BotChatAdmin extends Page implements HasForms
                                 'required' => 'Обязательно выберите значение из списка',
                             ])
                             ->options(
-                                BotMessage::query()->where('bot_id', $this->bot_id)->pluck('name', 'id')
+                                BotMessage::query()->where('bot_id', $this->bot_id)->whereNotNull('bot_message_appointment_id')->pluck('name', 'id')
                             )
                             ->searchable()
                     ]),
