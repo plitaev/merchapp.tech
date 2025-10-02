@@ -36,6 +36,7 @@ class BotChatAdmin extends Page implements HasForms
     public static ?string $title = "Телеграмм чат";
 
     public ?array $data = [];
+    public ?array $data_user_link_message = [];
 
     public int $id;
 
@@ -68,7 +69,6 @@ class BotChatAdmin extends Page implements HasForms
         $this->form->fill($data);
 
         $this->form_user_link_message->fill([ ]);
-
     }
 
     protected function getForms(): array
