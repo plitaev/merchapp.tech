@@ -146,7 +146,7 @@ class BotChatAdmin extends Page implements HasForms
                         }),
                     Action::make('theme')
                         ->form([
-                            ViewField::make('form_user_link_message')
+                            Forms\Components\ViewField::make('form_user_link_message')
                                 ->view('livewire.themes-modal')
                         ])
                         ->modalWidth('2xl')
