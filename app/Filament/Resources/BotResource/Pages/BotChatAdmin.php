@@ -65,10 +65,9 @@ class BotChatAdmin extends Page implements HasForms
         $this->id = $id;
 
         $data = ($id>0?BotUser::find($id)->toArray():[]);
-
         $this->form->fill($data);
 
-        $this->form_user_link_message->fill([]);
+        $this->form_user_link_message->fill([ ]);
 
     }
 
@@ -168,11 +167,6 @@ class BotChatAdmin extends Page implements HasForms
                         ->action(function () {
                             $formdata = $this->form_user_link_message->getState();
 
-                            Notification::make()
-                                ->title($formdata)
-                                ->success()
-                                ->send();
-
                             $id = $this->id;
 
                             $bot_message_appointment = $formdata['bot_message_appointment_id'];
@@ -192,7 +186,7 @@ class BotChatAdmin extends Page implements HasForms
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         })
                 ])
-            ])->statePath('form_user_link_message');
+            ])->statePath('data_user_link_message');
     }
 
 
