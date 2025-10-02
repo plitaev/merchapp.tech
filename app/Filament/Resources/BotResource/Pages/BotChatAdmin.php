@@ -156,14 +156,14 @@ class BotChatAdmin extends Page implements HasForms
                         ])
                         ->action(function (array $data): void {
 
-                            Notification::make()
-                                ->title($data['bot_message_id'])
-                                ->success()
-                                ->send();
-
                             $bot_message = BotMessage::with('bot_message_appointment')->where('id', $data['bot_message_id'])->first();
-
                             if ($bot_message) {
+
+                                Notification::make()
+                                    ->title($this->id)
+                                    ->success()
+                                    ->send();
+
                                 $botSendMessage = new BotSendMessage();
                                 $bot_user = BotUser::find($this->id);
                                 $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
