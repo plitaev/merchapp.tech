@@ -26,6 +26,7 @@ class YookassaMakeRecurrent
 
         $additional_data = $payGetAdditionalData->handle($data->paysystem->id);
         $additional_data['recurrent'] = 1;
+        $additional_data['price'] = $data->prevous_pay->price;
 
         $pay = $payCreateIntoBot->handle($data->bot_user, $data->product, $additional_data);
         if (!$pay) return ["new_pay_id" => NULL, "pay_system_responce" => '{"error":"prevous_pay_not_found"}'];
