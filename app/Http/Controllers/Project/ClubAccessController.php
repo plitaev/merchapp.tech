@@ -121,6 +121,12 @@ class ClubAccessController extends Controller
                 die();
             }
 
+            //== Если это /oferta, тут обрабатываем регистрацию
+            if ($Astart[0] == "/oferta") {
+                $botSendMessage->handle($bot_user, 'SYS_OFERTA');
+                die();
+            }
+
             //== Тут обрабатываем разные входяшие параметры в бот после старта
 
             if (count($Astart)==2 && $Astart[0]=="/start" && $Astart[1]!="none") {
