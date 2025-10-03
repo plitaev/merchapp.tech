@@ -9,6 +9,7 @@ class Sending extends Model
     protected $fillable = [
         'bot_message_id',
         'name',
+        'user_ban',
         'send_datetime'
     ];
 }
