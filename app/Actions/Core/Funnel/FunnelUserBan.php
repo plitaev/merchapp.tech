@@ -73,6 +73,7 @@ class FunnelUserBan
                     $sending = Sending::create([
                         'bot_message_id' => $data->id,
                         'name' => 'user_ban',
+                        'user_ban' => 1,
                         'send_datetime' => date('Y-m-d', time())." ".$time
                     ]);
 

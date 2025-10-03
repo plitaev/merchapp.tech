@@ -5,8 +5,10 @@ namespace App\Actions\Core\BotUser;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\BotUserUnbanSchedule;
+use App\Models\Core\Sending;
 use App\Models\Core\TelegramChatMemberLog;
 use App\Models\Core\TelegramChatMemberErrorLog;
+use App\Models\Core\TelegramSendMessageSchedule;
 use App\Models\Core\TelegramUnbanSchedule;
 use App\Models\Core\TelegramUnbanScheduleErrorLog;
 use App\Models\Core\TelegramUnbanScheduleLog;
@@ -31,6 +33,20 @@ class BotUserUnban
                         if ($member->status != 'banned') {
                             BotUserUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 1]);
                             BotUser::where('id', $bot_user->id)->update(['ban' => 0, 'unban' => 1, 'unban_time' => now()]);
+
+                            $date = date('Y-m-d', time());
+                            $datetime_start = $date." 00:00:00";
+                            $datetime_end = $date." 23:59:59";
+
+                            $sendings = Sending::select('sending_id')
+                                ->where('user_ban', 1)
+                                ->where('sending_datetime', '>=', $datetime_start)
+                                ->where('sending_datetime', '<=', $datetime_end)
+                                ->pluck('sending_id')
+                                ->toArray();
+
+                            TelegramSendMessageSchedule::where('bot_user_id', $bot_user->id)->whereIn('sending_id', $sendings)->update(['run_status' => 3]);
+
                         } else {
                             BotUserUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 0]);
                         }
