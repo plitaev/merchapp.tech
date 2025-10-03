@@ -27,6 +27,6 @@ class DevTestController extends Controller
         $bot_users = BotUser::select('email')->whereNotNull('email')->pluck('email')->toArray();
         $webhooks = GetCourseWebhook::where('created_at', '>=', '2025-09-20 00:00:00')->whereNotIn('email', $bot_users)->get();
 
-        return view('devtest.devtest', ['webhooks' => $webhooks]);
+        return view('core.devtest.devtest', ['webhooks' => $webhooks]);
     }
 }
