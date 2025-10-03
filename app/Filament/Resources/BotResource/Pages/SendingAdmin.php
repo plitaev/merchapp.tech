@@ -54,7 +54,7 @@ class SendingAdmin extends Page implements HasForms, HasInfolists
     public string $bot_name;
 
     public int $new_bot_id;
-    
+
     protected static ?string $model = Sending::class;
 
     public static ?string $label = "Рассылка";
@@ -135,6 +135,10 @@ class SendingAdmin extends Page implements HasForms, HasInfolists
                         Forms\Components\Select::make('bot_message_id')
                             ->label('Сообщение для бота')
                             ->options(BotMessage::query()->pluck('name', 'id'))
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно выберите сообщение',
+                            ])
                             ->searchable(),
                         Forms\Components\DatePicker::make('send_datetime')
                             ->label('Дата отправления рассылки')
@@ -178,5 +182,5 @@ class SendingAdmin extends Page implements HasForms, HasInfolists
             ])->statePath('data');
     }
 
-  
+
 }
