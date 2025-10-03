@@ -21,7 +21,7 @@ class BotSendUserOnDay
 
         $text = $bot_message->text;
         $text = urldecode($text);
-        $text = str_replace('VAR_STAT_USER_ON_DAY_DATE', date('d.m.Y', strtotime($stat->date)), $text);
+        $text = str_replace('VAR_STAT_USER_ON_DAY_DATE', date('d.m.Y', strtotime($stat->stat_date)), $text);
         $text = str_replace('VAR_STAT_USER_ON_DAY_COUNT', $stat->bot_user_count, $text);
 
         $supergroups = TelegramSupergroup::with('bot')->where('statistic_user_on_day', 1)->get();
