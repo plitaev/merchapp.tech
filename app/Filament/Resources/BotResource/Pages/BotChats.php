@@ -70,12 +70,7 @@ class BotChats extends Page implements HasTable
                 Tables\Columns\TextColumn::make('ban_name.name')
                     ->label('Бан'),
                 Tables\Columns\TextColumn::make('ban_time')
-                    ->label('Дата/время бана'),
-                Tables\Columns\TextColumn::make('unban_name.name')
-                    ->label('Разбан'),
-                Tables\Columns\TextColumn::make('unban_time')
-                    ->label('Дата/время разбана'),
-
+                    ->label('Дата/время бана')
             ])
             ->filters([
                 Filter::make('Все')
