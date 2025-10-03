@@ -93,7 +93,7 @@ class BotPays extends Page implements HasTable
                     ->label('Дни'),
                 Tables\Columns\TextColumn::make('product_type.name')
                     ->label('Способ оплаты'),
-                IconColumn::make('recurrent')
+                Tables\Columns\IconColumn::make('recurrent')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->date('d.m.Y H:i:s')
