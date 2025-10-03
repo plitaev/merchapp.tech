@@ -67,6 +67,10 @@ class BotChats extends Page implements HasTable
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
+                Tables\Columns\ColumnGroup::make('Visibility', [
+                    TextColumn::make('ban'),
+                    IconColumn::make('date_end'),
+                ]),
                 Tables\Columns\TextColumn::make('ban_name.name')
                     ->label('Бан'),
                 Tables\Columns\TextColumn::make('ban_time')
