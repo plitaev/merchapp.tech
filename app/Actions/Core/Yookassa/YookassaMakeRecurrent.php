@@ -24,7 +24,10 @@ class YookassaMakeRecurrent
         $client = new Client();
         $client->setAuth($data->bot->yookassa_shop_id, $data->bot->yookassa_shop_secret);
 
-        $pay = $payCreateIntoBot->handle($data->bot_user, $data->product, $payGetAdditionalData->handle($data->paysystem->id));
+        $additional_data = $payGetAdditionalData->handle($data->paysystem->id);
+        $additional_data['recurrent'] = 1;
+
+        $pay = $payCreateIntoBot->handle($data->bot_user, $data->product, $additional_data);
         if (!$pay) return ["new_pay_id" => NULL, "pay_system_responce" => '{"error":"prevous_pay_not_found"}'];
 
         $payment = $client->createPayment(

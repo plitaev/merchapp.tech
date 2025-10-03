@@ -21,7 +21,6 @@ class PayMakeSuccessful
             ->update(
                 [
                     'status' => 1,
-                    'recurrent' => 1,
                     'pay_system_callback' => $source,
                     'pay_system_payment_id' => $pay_system_payment_id,
                     'pay_system_payment_method_id' => $pay_system_payment_method_id,
@@ -30,6 +29,10 @@ class PayMakeSuccessful
             );
 
         $pay = Pay::find($order_number);
+
+        if ($pay->recurrent == 1) {
+            Pay::where('id', $order_number)->update(['recurrent_status' => 1]);
+        }
 
         $bot_user = $botUserGetByID->handle($pay->bot_user_id);
         $dateEnd->handle($bot_user, 'Y-m-d');
