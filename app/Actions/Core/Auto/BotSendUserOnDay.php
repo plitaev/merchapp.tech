@@ -13,8 +13,8 @@ class BotSendUserOnDay
     public function handle() {
         $stat = StatBotUserOnDay::orderByDesc('created_at')->first();
 
-        $bot_message = BotMessage::with('bot_message_appointment')
-            ->whereHas('alias', function ($query) {
+        $bot_message = BotMessage::query()
+            ->whereHas('bot_message_appointment', function ($query) {
                 $query->where('alias', 'SYS_STAT_PER_DAY');
             })
             ->first();
