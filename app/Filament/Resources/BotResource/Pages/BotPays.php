@@ -68,7 +68,7 @@ class BotPays extends Page implements HasTable
                         $query->where('bot_id', $this->bot_id);
                     })
                     ->where('status', 1)
-                    ->orderByDesc('updated_at')
+                    ->orderByDesc('id')
             )
             ->columns([
 
