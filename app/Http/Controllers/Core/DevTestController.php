@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Core;
 use App\Actions\Core\DateEnd\DateEnd;
+use App\Actions\Core\GetCourseWebhook\GetCourseWebhookCreate;
 use App\Actions\Core\Telegram\TelegramChatJoinRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Core\Bot;
@@ -18,14 +19,14 @@ use YooKassa\Client;
 use Telegram\Bot\Api;
 
 use App\Models\Core\TelegramChatJoinRequestLog;
+use App\Models\Core\GetcourseWebhook;
 
 class DevTestController extends Controller
 {
     public function devtest() {
-        $recurrents = BotUserRecurrentSchedule::select('new_pay_id')->pluck('new_pay_id')->toArray();
-        Pay::whereNotIn('id', $recurrents)->update(['recurrent' => 0, 'recurrent_status' => 0]);
-        Pay::whereIn('id', $recurrents)->update(['recurrent' => 1, 'price' => 1900]);
-        Pay::whereIn('id', $recurrents)->where('status', 1)->update(['recurrent' => 1, 'recurrent_status' => 0]);
-        Pay::whereIn('id', $recurrents)->where('status', 1)->update(['recurrent' => 1, 'recurrent_status' => 1]);
+        $bot_users = BotUser::select('email')->whereNotNull('email')->pluck('email')->toArray();
+        $webhooks = GetCourseWebhook::where('created_at', '>=', '2025-09-20 00:00:00')->whereNotIn('email', $bot_users)->get();
+
+        return view('devtest.devtest', ['webhooks' => $webhooks]);
     }
 }
