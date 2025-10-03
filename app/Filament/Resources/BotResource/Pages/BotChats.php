@@ -67,11 +67,11 @@ class BotChats extends Page implements HasTable
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('date_end')
+                Tables\Columns\TextColumn::make('ban_name.name')
                     ->badge()
-                    ->recordClasses(fn(BotUser $record) => match ($record->ban) {
-                        1 => 'danger',
-                        0 => 'success',
+                    ->color(fn (string $state): string => match ($state) {
+                        'Да' => 'danger',
+                        'Нет' => 'success',
                     })
                     ->label('Бан'),
                 Tables\Columns\TextColumn::make('ban_time')
