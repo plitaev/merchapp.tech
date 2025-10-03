@@ -66,4 +66,6 @@ class BotMessage extends Model
         return $this->belongsTo(BotMessageListener::class);
     }
 
+
+
 }
