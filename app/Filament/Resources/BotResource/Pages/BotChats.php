@@ -71,7 +71,7 @@ class BotChats extends Page implements HasTable
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'Да' => 'warning',
-                        'Нет' => 'success',
+                        'Нет' => 'danger',
                     })
                     ->label('Бан'),
                 Tables\Columns\TextColumn::make('ban_time')
