@@ -176,7 +176,8 @@ class BotSupergroupAdmin extends Page implements HasForms
                         '2xl' => 1,
                     ])
                     ->schema([
-                        Forms\Components\Checkbox::make('statistic_recurrent_fail')->label('Проваленные рекурренты')
+                        Forms\Components\Checkbox::make('statistic_recurrent_fail')->label('Проваленные рекурренты'),
+                        Forms\Components\Checkbox::make('statistic_user_on_day')->label('Количество юзеров ежедневно')
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
