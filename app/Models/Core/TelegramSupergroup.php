@@ -24,6 +24,11 @@ class TelegramSupergroup extends Model
         return $this->belongsTo(Bot::class, 'bot_id', 'id');
     }
 
+    public function bot(): BelongsTo
+    {
+        return $this->belongsTo(Bot::class, 'bot_id', 'id');
+    }
+
     public function give_access_name(): BelongsTo
     {
         return $this->belongsTo(Boolean::class, 'give_access', 'id');
