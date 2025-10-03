@@ -94,7 +94,8 @@ class BotPays extends Page implements HasTable
                 Tables\Columns\TextColumn::make('product_type.name')
                     ->label('Способ оплаты'),
                 Tables\Columns\IconColumn::make('recurrent')
-                    ->boolean(),
+                    ->boolean()
+                    ->extraAttributes(['class' => 'flex justify-center']),
                 Tables\Columns\TextColumn::make('created_at')
                     ->date('d.m.Y H:i:s')
                     ->label('Дата'),
