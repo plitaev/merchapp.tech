@@ -58,9 +58,6 @@ class BotChats extends Page implements HasTable
                 Tables\Columns\TextColumn::make('last_name')
                     ->label('Фамилия')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('hand_name')
-                    ->label('Отчество')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('username')
                     ->label('Имя пользователя')
                     ->searchable(),
