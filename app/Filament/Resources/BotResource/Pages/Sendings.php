@@ -54,7 +54,9 @@ class Sendings extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(Sending::with('bot_message'))
+            ->query(Sending::whereHas('bot_message', function ($query) {
+                $query->where('bot_id', $this->bot_id);
+            }))
             ->columns([
                 Tables\Columns\TextColumn::make('bot_message.name')
                     ->label('Сообщение бота')
