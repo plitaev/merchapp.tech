@@ -92,7 +92,7 @@ class BotSendings extends Page implements HasTable
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->after(function (Tables\Actions\DeleteAction $action, Sending $record, Collection $selectedRecords) {
+                        ->after(function (Tables\Actions\DeleteBulkAction $action, Sending $record, Collection $selectedRecords) {
                             foreach ($selectedRecords as $selectedRecord) {
                                 $botSendingAdminDeleteRecord = new BotSendingAdminDeleteRecord();
                                 $botSendingAdminDeleteRecord->handle($selectedRecord, $action);
