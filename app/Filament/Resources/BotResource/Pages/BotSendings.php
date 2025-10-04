@@ -80,7 +80,7 @@ class BotSendings extends Page implements HasTable
             ->actions([
                 Tables\Actions\EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin"),
                 Tables\Actions\DeleteAction::make()
-                    ->before(function (Filament\Tables\Actions\DeleteAction $action, Sending $record) {
+                    ->before(function (Tables\Actions\DeleteAction $action, Sending $record) {
                         $action->cancel();
                     })
 
