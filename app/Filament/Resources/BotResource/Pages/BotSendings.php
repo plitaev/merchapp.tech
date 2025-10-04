@@ -1,19 +1,20 @@
 <?php
-
 namespace App\Filament\Resources\BotResource\Pages;
-
 use App\Filament\Resources\BotResource;
-use App\Models\Core\Bot;
+
 use App\Models\Core\MiniAppBanner;
 use App\Models\Core\MiniAppBannerLinkPage;
-use App\Models\Core\Sending;
-use App\Models\Core\BotMessage;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+
+use App\Models\Core\Bot;
+use App\Models\Core\Sending;
+use App\Models\Core\TelegramSendMessageSchedule;
 
 
 class BotSendings extends Page implements HasTable
@@ -81,14 +82,27 @@ class BotSendings extends Page implements HasTable
                 Tables\Actions\EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin"),
                 Tables\Actions\DeleteAction::make()
                     ->before(function (Tables\Actions\DeleteAction $action, Sending $record) {
-                        $action->cancel();
-                    })
+                        $check = TelegramSendMessageSchedule::where('sending_id', $record->id)->where('run_status', '>', 0)->count();
+                        if ($check) {
+                            TelegramSendMessageSchedule::where('sending_id', $record->id)->update(['run_status' => 3]);
 
+                            Notification::make()
+                                ->title('Рассылка уже доставлена пользователям, удаление невозможно. Неотправленные сообщения будут отменены.')
+                                ->success()
+                                ->send();
+
+                            $action->cancel();
+                        }
+                    })
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin")
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->after(function (Tables\Actions\DeleteAction $action, Sending $record, Collection $selectedRecords) {
+                            foreach ($selectedRecords as $selectedRecord) {
+                            }
+                        }),
                 ]),
             ]);
     }
