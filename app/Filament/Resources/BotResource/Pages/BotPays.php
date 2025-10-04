@@ -72,7 +72,7 @@ class BotPays extends Page implements HasTable
             )
             ->columns([
                 Tables\Columns\TextColumn::make('created_at')
-                    ->date('d.m.Y H:i:s')
+                    ->date('d.m.Y')
                     ->label('Дата')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('bot_user.email')
