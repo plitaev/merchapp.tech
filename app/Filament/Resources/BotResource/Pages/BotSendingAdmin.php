@@ -143,7 +143,7 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
                         Forms\Components\DateTimePicker::make('send_datetime')
                             ->label('Дата и время отправки')
                             ->required()
-                            ->maxDateTime(now())
+                            ->maxDatetime(now())
                             ->validationMessages([
                                 'required' => 'Обязательно укажите дату',
                             ])
