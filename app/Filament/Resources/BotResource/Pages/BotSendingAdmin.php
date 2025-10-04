@@ -14,6 +14,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+
 use Filament\Forms\Form;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
@@ -52,7 +53,6 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
     public int $bot_id;
     public int $bot_message_id;
     public string $bot_name;
-
     public int $new_bot_id;
 
     protected static ?string $model = Sending::class;
@@ -142,8 +142,9 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
                             ->searchable(),
                         Forms\Components\DateTimePicker::make('send_datetime')
                             ->label('Дата и время отправки')
+                            ->format('Y-m-d H:i:s')
+
                             ->required()
-                            ->maxDate(now())
                             ->validationMessages([
                                 'required' => 'Обязательно укажите дату',
                             ])
@@ -155,12 +156,15 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
                             $data = $this->form->getState();
                            // $this->bot_id = $data['bot_id'];
                             $this->bot_message_id = $data['bot_message_id'];
+                            $datetime = date('Y-m-d H:i:s', time());
 
-                            if ($this->id>0) {
-                                Sending::where('id', $this->id)->update($data);
-                            } else {
-                                $new_sending = Sending::create($data);
-                            }
+
+                            if ($data['send_datetime'] >= $datetime) {
+                                if ($this->id>0) {
+                                    Sending::where('id', $this->id)->update($data);
+                                } else {
+                                    $new_sending = Sending::create($data);
+                                }
 
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
@@ -171,6 +175,17 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
                                 return redirect('/admin/bots/' . $this->bot_id . '/sendings');
                             } else {
                                 return redirect('/admin/bots/' . $this->bot_id . '/' . $new_sending->id . '/sending-admin');
+                            }
+
+                            Notification::make()
+                                ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
+                            } else {
+                                Notification::make()
+                                    ->title('Дата и время отправки меньше текущей!')
+                                    ->danger()
+                                    ->send();
                             }
 
                         }),
