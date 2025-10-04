@@ -57,6 +57,7 @@ class BotSendings extends Page implements HasTable
             ->query(Sending::whereHas('bot_message', function ($query) {
                 $query->where('bot_id', $this->bot_id);
             }))
+            ->orderByDesc('send_datetime')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Рассылка')
