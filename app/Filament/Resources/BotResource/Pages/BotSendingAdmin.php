@@ -13,6 +13,7 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 
@@ -40,10 +41,12 @@ use App\Models\Core\FunnelCondition;
 use App\Models\Core\FunnelConditionTrigger;
 use App\Models\Core\Listener;
 
-class BotSendingAdmin extends Page implements HasForms, HasInfolists
+
+class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
 {
     use InteractsWithForms;
     use InteractsWithInfolists;
+    use InteractsWithTable;
 
     protected static string $resource = BotResource::class;
 
@@ -64,6 +67,8 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
     public static ?string $title = "Рассылка";
     public ?array $data = [];
     public ?array $data_bot_message_link_listener = [];
+    public ?array $data_bot_user = [];
+
 
 
     public function getRecord(): ?Model
@@ -103,6 +108,7 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
         $bot = Bot::select('name')->find($bot_id);
         $this->bot_name = $bot->name;
 
+        $this->form_bot_user->fill([]);
         $this->form->fill($data);
     }
 
@@ -113,7 +119,7 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
 
     protected function getForms(): array
     {
-        return ['form'];
+        return ['form', 'form_bot_user'];
     }
 
     public function form(Form $form): Form
@@ -233,5 +239,77 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
             ])->statePath('data');
     }
 
+    public function table(Table $table): Table
+    {
+        return $table
+            ->query(
+                TelegramSendMessageSchedule::query()->with('sending')->with('bot_user')
+                    ->whereHas('bot_message', function ($query) {
+                    $query->where('bot_id', $this->bot_id);
+                })
+            )
+            ->columns([
+                Tables\Columns\TextColumn::make('sending.name')
+                    ->label('Рассылка')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('bot_user.username')
+                    ->label('Пользователь')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('run_status')
+                    ->label('Статус')
+            ])
+
+            ->filters([
+                //
+            ])
+            ->actions([
+
+            ])->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin");
+    }
+
+    public function form_bot_user(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Section::make('Получатели рассылки')
+                    ->description('')
+                    ->schema([
+                        Select::make('sending_id')
+                            ->label('Рассылка')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно выберите рассылку',
+                            ])
+                            ->options(
+                                Sending::query()->pluck('name', 'id')
+                            )
+                            ->searchable(),
+                        Select::make('bot_user_id')
+                            ->label('Пользователь')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно выберите пользователя',
+                            ])
+                            ->options(
+                                BotUser::query()->pluck('username', 'id')
+                            )
+                            ->searchable(),
+                        Checkbox::make('run_status')
+                            ->label('Статус')
+                    ]),
+                Actions::make([
+                    Action::make('Сохранить')
+                        ->action(function () {
+                            $formdata = $this->form_bot_user->getState();
+
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        }),
+                    Action::make('Отмена')
+                        ->action(function () {
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        })
+                ])
+            ])->statePath('data_bot_user');
+    }
 
 }
