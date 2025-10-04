@@ -3,6 +3,7 @@ namespace App\Filament\Resources\BotResource\Pages;
 use App\Filament\Resources\BotResource;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection;
 
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
