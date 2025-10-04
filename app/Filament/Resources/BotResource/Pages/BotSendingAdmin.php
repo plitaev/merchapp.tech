@@ -133,15 +133,15 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
                             ->required()
                             ->maxLength(255),
                         Forms\Components\Select::make('bot_message_id')
-                            ->label('Сообщение для бота')
-                            ->options(BotMessage::query()->pluck('name', 'id'))
+                            ->label('Сообщение')
+                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно выберите сообщение',
                             ])
                             ->searchable(),
-                        Forms\Components\DatePicker::make('send_datetime')
-                            ->label('Дата отправления рассылки')
+                        Forms\Components\DateTimePicker::make('send_datetime')
+                            ->label('Дата и время отправки')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите дату',
