@@ -14,7 +14,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 
 
-class Sendings extends Page implements HasTable
+class BotSendings extends Page implements HasTable
 {
     use InteractsWithTable;
 

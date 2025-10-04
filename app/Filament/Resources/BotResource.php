@@ -138,8 +138,8 @@ class BotResource extends Resource
             'funnel-admin' => Pages\BotFunnelAdmin::route('/{bot_id}/{id}/funnel-admin'),
             'bot-wizard' => Pages\BotWizard::route('/bot-wizard'),
             'pay-system-admin' => Pages\BotPaySystemAdmin::route('/{record}/pay-system-admin'),
-            'sendings' => Pages\Sendings::route('/{bot_id}/sendings'),
-            'sending-admin' => Pages\SendingAdmin::route('/{bot_id}/{id}/sending-admin'),
+            'sendings' => Pages\BotSendings::route('/{bot_id}/sendings'),
+            'sending-admin' => Pages\BotSendingAdmin::route('/{bot_id}/{id}/sending-admin'),
 
 
 

@@ -38,7 +38,7 @@ use App\Models\Core\FunnelCondition;
 use App\Models\Core\FunnelConditionTrigger;
 use App\Models\Core\Listener;
 
-class SendingAdmin extends Page implements HasForms, HasInfolists
+class BotSendingAdmin extends Page implements HasForms, HasInfolists
 {
     use InteractsWithForms;
     use InteractsWithInfolists;
