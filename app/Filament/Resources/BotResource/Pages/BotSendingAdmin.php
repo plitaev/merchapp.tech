@@ -8,6 +8,7 @@ use Illuminate\Support\HtmlString;
 use App\Filament\Resources\BotResource;
 
 use Filament\Forms;
+use Filament\Forms\Components;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Section;
@@ -246,17 +247,17 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                 TelegramSendMessageSchedule::query()->with('sending')->with('bot_user')
                     ->whereHas('bot_message', function ($query) {
                     $query->where('bot_id', $this->bot_id);
-                })
+                })->where('sending_id', $this->id)
             )
             ->columns([
-                Tables\Columns\TextColumn::make('sending.name')
-                    ->label('Рассылка')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('bot_user.username')
                     ->label('Пользователь')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('run_status')
-                    ->label('Статус')
+                    ->label('Статус'),
+                Tables\Columns\TextColumn::make('bot_message.name')
+                    ->label('Сообщение')
+                    ->searchable(),
             ])
 
             ->filters([
@@ -274,16 +275,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                 Section::make('Получатели рассылки')
                     ->description('')
                     ->schema([
-                        Select::make('sending_id')
-                            ->label('Рассылка')
-                            ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно выберите рассылку',
-                            ])
-                            ->options(
-                                Sending::query()->pluck('name', 'id')
-                            )
-                            ->searchable(),
+                        Forms\Components\Hidden::make('sending_id'),
                         Select::make('bot_user_id')
                             ->label('Пользователь')
                             ->required()
@@ -295,12 +287,28 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                             )
                             ->searchable(),
                         Checkbox::make('run_status')
-                            ->label('Статус')
+                            ->label('Статус'),
+                        Select::make('bot_message_id')
+                            ->label('Сообщение')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно выберите сообщение',
+                            ])
+                            ->options(
+                                BotMessage::query()->pluck('name', 'id')
+                            )
+                            ->searchable(),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
                             $formdata = $this->form_bot_user->getState();
+
+                            TelegramSendMessageSchedule::upsert(
+                                ['sending_id' => $this->id, 'bot_user_id' => $formdata['bot_user_id'], 'bot_message_id' => $formdata['bot_message_id'], 'run_status' => $formdata['run_status']],
+                                ['sending_id', 'bot_user_id', 'bot_message_id', 'run_status'],
+                                ['updated_at' => now()]
+                            );
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         }),
