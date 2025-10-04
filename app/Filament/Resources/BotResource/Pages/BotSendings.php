@@ -58,17 +58,14 @@ class BotSendings extends Page implements HasTable
                 $query->where('bot_id', $this->bot_id);
             }))
             ->columns([
-                Tables\Columns\TextColumn::make('bot_message.name')
-                    ->label('Сообщение бота')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Наименование')
+                    ->label('Рассылка')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('bot_message.name')
+                    ->label('Сообщение')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('send_datetime')
-                    ->label('Дата отправления рассылки')
-                    ->dateTime('d.m.Y H:i:s'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Создан')
+                    ->label('Отправка')
                     ->dateTime('d.m.Y H:i:s')
             ])
 
