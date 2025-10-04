@@ -1,10 +1,10 @@
 <?php
 namespace App\Actions\Core\Funnel;
 
-use App\Models\Core\Sending;
 use Carbon\Carbon;
 
 use App\Models\Core\BotUser;
+use App\Models\Core\Sending;
 use App\Models\Core\TelegramSendMessageSchedule;
 
 class FunnelUserBan
@@ -72,7 +72,7 @@ class FunnelUserBan
 
                     $sending = Sending::create([
                         'bot_message_id' => $data->id,
-                        'name' => 'user_ban',
+                        'name' => 'Авторассылка по забаненным',
                         'user_ban' => 1,
                         'send_datetime' => date('Y-m-d', time())." ".$time
                     ]);
