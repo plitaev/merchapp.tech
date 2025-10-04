@@ -161,7 +161,12 @@ class BotChatAdmin extends Page implements HasForms
                                 $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
                             }
                         })
-                ])
+                ]),
+                Action::make('Cancel')
+                    ->action(function () {
+                        return redirect('/admin/bots/'.$this->bot_id.'/chats');
+                    })
+                    ->label('Отменить и вернуться назад')
             ])->statePath('data');
     }
 }
