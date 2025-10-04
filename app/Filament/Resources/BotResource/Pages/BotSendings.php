@@ -87,18 +87,6 @@ class BotSendings extends Page implements HasTable
                         $botSendingAdminDeleteRecord = new BotSendingAdminDeleteRecord();
                         $botSendingAdminDeleteRecord->handle($record, $action);
                     })
-            ])
-            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin")
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
-                        ->after(function (Tables\Actions\DeleteBulkAction $action, Sending $record, Collection $selectedRecords) {
-                            foreach ($selectedRecords as $selectedRecord) {
-                                $botSendingAdminDeleteRecord = new BotSendingAdminDeleteRecord();
-                                $botSendingAdminDeleteRecord->handle($selectedRecord, $action);
-                            }
-                        }),
-                ]),
-            ]);
+            ])->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin");
     }
 }
