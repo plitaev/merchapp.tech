@@ -153,6 +153,18 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
                                 'required' => 'Обязательно укажите дату',
                             ])
                     ]),
+                Section::make('Вы не можете изменить эту рассылку')
+                    ->description('В рассылке уже есть пользователи, получившие сообщение. Если нужно отменить отправку тем, кто еще не получил письмо, нажмите кнопку Удалить рассылку')
+                    ->columns([
+                        'sm' => 3,
+                        'md' => 3,
+                        'lg' => 3,
+                        'xl' => 3,
+                        '2xl' => 3,
+                    ])
+                    ->schema([
+                    ])
+                ->visible($this->id > 0 && $this->sent_users > 0),
 
                 Actions::make([
                     Action::make('Сохранить')
@@ -203,7 +215,20 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
                         ->action(function () {
                             return redirect('/admin/bots/' . $this->bot_id . '/sendings');
                         })
-                        ->label('Вернуться назад')
+                        ->label('Вернуться назад'),
+                    Action::make('Delete')
+                        ->action(function () {
+
+                            if ($this->sent_users > 0) {
+                                TelegramSendMessageSchedule::where('sending_id', $this->id)->where('run_status', 0)->update(['run_status' => 3]);
+                            } else {
+                                TelegramSendMessageSchedule::where('sending_id', $this->id)->delete();
+                                Sending::destroy($this->id);
+                            }
+
+                            return redirect('/admin/bots/' . $this->bot_id . '/sendings');
+                        })
+                        ->label('Удалить')
                 ])
             ])->statePath('data');
     }
