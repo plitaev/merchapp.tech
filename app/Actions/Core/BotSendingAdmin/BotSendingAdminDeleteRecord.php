@@ -19,6 +19,8 @@ class BotSendingAdminDeleteRecord
                 ->send();
 
             $action->cancel();
+        } else {
+            TelegramSendMessageSchedule::where('sending_id', $record->id)->delete();
         }
     }
 }
