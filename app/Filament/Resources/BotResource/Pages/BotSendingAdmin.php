@@ -2,6 +2,7 @@
 namespace App\Filament\Resources\BotResource\Pages;
 
 use App\Models\Core\BotMessage;
+use App\Models\Core\TelegramSendMessageSchedule;
 use Illuminate\Support\HtmlString;
 
 use App\Filament\Resources\BotResource;
@@ -53,6 +54,7 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
     public int $bot_id;
     public int $bot_message_id;
     public string $bot_name;
+    public int $sent_users;
     public int $new_bot_id;
 
     protected static ?string $model = Sending::class;
@@ -91,9 +93,11 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
 
         if ($id > 0) {
             $data = ($id>0?Sending::with('bot_message')->find($id)->toArray():["bot_id" => $bot_id]);
+            $this->sent_users = TelegramSendMessageSchedule::where('run_status', '>', 0)->where('sending_id', $id)->count();
         } else {
             $data = [];
             $data['bot_id'] = $bot_id;
+            $this->sent_users = 0;
         }
 
         $bot = Bot::select('name')->find($bot_id);
@@ -161,26 +165,32 @@ class BotSendingAdmin extends Page implements HasForms, HasInfolists
 
                             if ($data['send_datetime'] >= $datetime) {
                                 if ($this->id>0) {
-                                    Sending::where('id', $this->id)->update($data);
+
+                                    if ($this->sent_users > 0) {
+                                        Notification::make()
+                                            ->title('Рассылка уже доставлена пользователям, удаление невозможно.')
+                                            ->danger()
+                                            ->send();
+                                    } else {
+                                        Sending::where('id', $this->id)->update($data);
+
+                                        Notification::make()
+                                            ->title('Данные успешно сохранены!')
+                                            ->success()
+                                            ->send();
+
+                                        return redirect('/admin/bots/' . $this->bot_id . '/sendings');
+                                    }
                                 } else {
                                     $new_sending = Sending::create($data);
+
+                                    Notification::make()
+                                        ->title('Данные успешно сохранены!')
+                                        ->success()
+                                        ->send();
+
+                                    return redirect('/admin/bots/' . $this->bot_id . '/' . $new_sending->id . '/sending-admin');
                                 }
-
-                            Notification::make()
-                                ->title('Данные успешно сохранены!')
-                                ->success()
-                                ->send();
-
-                            if ($this->id > 0) {
-                                return redirect('/admin/bots/' . $this->bot_id . '/sendings');
-                            } else {
-                                return redirect('/admin/bots/' . $this->bot_id . '/' . $new_sending->id . '/sending-admin');
-                            }
-
-                            Notification::make()
-                                ->title('Данные успешно сохранены!')
-                                ->success()
-                                ->send();
                             } else {
                                 Notification::make()
                                     ->title('Дата и время отправки меньше текущей!')
