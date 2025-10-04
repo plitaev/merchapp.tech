@@ -4,6 +4,8 @@ namespace App\Filament\Resources\BotResource\Pages;
 
 use App\Filament\Resources\BotResource;
 use App\Models\Core\Bot;
+use App\Models\Core\MiniAppBanner;
+use App\Models\Core\MiniAppBannerLinkPage;
 use App\Models\Core\Sending;
 use App\Models\Core\BotMessage;
 use Filament\Resources\Pages\Page;
@@ -77,7 +79,10 @@ class BotSendings extends Page implements HasTable
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin"),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->after(function (Sending $record) {
+                        return false;
+                    })
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin")
