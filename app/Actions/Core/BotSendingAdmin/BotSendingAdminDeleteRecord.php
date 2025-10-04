@@ -16,7 +16,7 @@ class BotSendingAdminDeleteRecord
 
             Notification::make()
                 ->title('Рассылка уже доставлена пользователям, удаление невозможно. Неотправленные сообщения будут отменены.')
-                ->fail()
+                ->danger()
                 ->send();
 
             $action->cancel();
