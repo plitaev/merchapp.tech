@@ -264,8 +264,8 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                 //
             ])
             ->actions([
-
-            ])->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin");
+                Tables\Actions\DeleteAction::make()
+            ])->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$this->id."/sending-admin");
     }
 
     public function form_bot_user(Form $form): Form
