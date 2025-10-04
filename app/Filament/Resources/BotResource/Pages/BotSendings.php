@@ -82,7 +82,6 @@ class BotSendings extends Page implements HasTable
                 Tables\Actions\DeleteAction::make()
                     ->before(function (DeleteAction $action, Sending $record) {
                         $action->cancel();
-                        die();
                     })
 
             ])
