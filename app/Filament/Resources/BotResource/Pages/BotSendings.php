@@ -81,6 +81,7 @@ class BotSendings extends Page implements HasTable
                 Tables\Actions\EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin"),
                 Tables\Actions\DeleteAction::make()
                     ->before(function (Sending $record) {
+                        $this->closeActionModal();
                         die();
                     })
 
