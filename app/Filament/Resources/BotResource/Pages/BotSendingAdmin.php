@@ -288,7 +288,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->searchable(),
                         Checkbox::make('run_status')
                             ->label('Статус'),
-                        Select::make('bot_message_id')
+                        Select::make('message_id')
                             ->label('Сообщение')
                             ->required()
                             ->validationMessages([
@@ -305,8 +305,8 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                             $formdata = $this->form_bot_user->getState();
 
                             TelegramSendMessageSchedule::upsert(
-                                ['sending_id' => $this->id, 'bot_user_id' => $formdata['bot_user_id'], 'bot_message_id' => $formdata['bot_message_id'], 'run_status' => $formdata['run_status']],
-                                ['sending_id', 'bot_user_id', 'bot_message_id', 'run_status'],
+                                ['sending_id' => $this->id, 'bot_user_id' => $formdata['bot_user_id'], 'message_id' => $formdata['message_id'], 'run_status' => $formdata['run_status']],
+                                ['sending_id', 'bot_user_id', 'message_id', 'run_status'],
                                 ['updated_at' => now()]
                             );
 
