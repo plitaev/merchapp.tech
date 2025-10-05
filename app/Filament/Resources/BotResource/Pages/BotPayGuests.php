@@ -70,10 +70,7 @@ class BotPayGuests extends Page implements HasTable
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('gift_name.name')
-                    ->label('Подарок')
-                    ->searchable(),
+                    ->searchable()
             ])
             ->filters([
                 //
