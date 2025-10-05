@@ -27,10 +27,31 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-// Works only with publicly shared spreadsheets
-        $values = Sheets::spreadsheet('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')
-            ->sheet('Sheet1')
-            ->all();
+        /** generate sheet name **/
+        $sheetName = sprintf('%s-Test', format_date('m-d', Carbon::today()->toDateString()));
+
+        /** prepare the data in array **/
+        $data = [
+            [
+                'ID',
+                'Name',
+            ],
+            [
+                'U001',
+                'John',
+            ],
+            [
+                'U002',
+                'Harry',
+            ],
+        ];
+
+        /** generate a new sheet in a specific spread sheet **/
+        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->addSheet($sheetName);
+
+        /** write the data in the newly generated sheet **/
+        Sheets::sheet($sheetName)->append($data);
+
 
         /*
         $result = [];
