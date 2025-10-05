@@ -21,9 +21,17 @@ use Telegram\Bot\Api;
 use App\Models\Core\TelegramChatJoinRequestLog;
 use App\Models\Core\GetcourseWebhook;
 
+use Revolution\Google\Sheets\Facades\Sheets;
+
 class DevTestController extends Controller
 {
     public function devtest() {
+
+// Works only with publicly shared spreadsheets
+        $values = Sheets::spreadsheet('public-spreadsheet-id')
+            ->sheet('Sheet1')
+            ->all();
+
         /*
         $result = [];
 
