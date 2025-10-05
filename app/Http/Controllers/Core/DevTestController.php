@@ -24,10 +24,13 @@ use App\Models\Core\GetcourseWebhook;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
+
         $res = BotUser::where('date_end', '<=', '2025-10-04')->where('ban', 0)->get();
-        return $res;
 
         foreach ($res as $data) {
+            $status = $telegram->getChatMember(['chat_id' => -1002225281436, 'user_id' => $data->telegram_chat_id]);
+            return $status;
 
         }
     }
