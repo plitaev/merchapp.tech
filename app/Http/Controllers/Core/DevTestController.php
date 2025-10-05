@@ -28,8 +28,8 @@ class DevTestController extends Controller
     public function devtest() {
 
 // Works only with publicly shared spreadsheets
-        $values = Sheets::spreadsheet('public-spreadsheet-id')
-            ->sheet('1C4uLIHbyyac167pA-iCNT4z4xl4V8165-v41mUcJktk')
+        $values = Sheets::spreadsheet('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')
+            ->sheet('Sheet1')
             ->all();
 
         /*
