@@ -97,7 +97,7 @@ class BotPayAdmin extends Page implements HasForms
         return $form
             ->schema([
                 Section::make('Параметры платежа')
-                    ->description('Укажите продукт, цену, продолжительность и email.')
+                    ->description('')
                     ->columns([
                         'sm' => 1,
                         'md' => 1,
