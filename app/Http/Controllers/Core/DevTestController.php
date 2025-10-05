@@ -38,7 +38,7 @@ class DevTestController extends Controller
 
         }
 
-        return BotUser::whereIn('telegram_chat_id', $result)->get();
+        return BotUser::whereIn('telegram_chat_id', $result)->where('date_end', '<=', '2025-10-04')->get();
 
     }
 }
