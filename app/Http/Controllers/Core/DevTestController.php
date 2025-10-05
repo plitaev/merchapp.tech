@@ -29,7 +29,7 @@ class DevTestController extends Controller
 
 // Works only with publicly shared spreadsheets
         $values = Sheets::spreadsheet('public-spreadsheet-id')
-            ->sheet('Sheet1')
+            ->sheet('1C4uLIHbyyac167pA-iCNT4z4xl4V8165-v41mUcJktk')
             ->all();
 
         /*
