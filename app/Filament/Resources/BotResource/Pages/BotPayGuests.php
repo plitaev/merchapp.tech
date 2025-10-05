@@ -59,6 +59,9 @@ class BotPayGuests extends Page implements HasTable
                     ->label('Дата')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->label('Email')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('product.name')
                     ->label('Продукт')
                     ->searchable(),
@@ -67,9 +70,6 @@ class BotPayGuests extends Page implements HasTable
                     ->searchable(),
                 Tables\Columns\TextColumn::make('days')
                     ->label('Дни')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->label('Email')
                     ->searchable()
             ])
             ->filters([
