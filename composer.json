@@ -10,6 +10,7 @@
         "irazasyed/telegram-bot-sdk": "^3.15",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
+        "revolution/laravel-google-sheets": "^7.1",
         "yoomoney/yookassa-sdk-php": "^2.1"
     },
     "require-dev": {
