@@ -74,7 +74,11 @@ class BotPays extends Page implements HasTable
                 Tables\Columns\TextColumn::make('created_at')
                     ->date('d.m.Y H:i:s')
                     ->label('Дата')
-                    ->sortable()
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        return $query
+                            ->orderBy('created_at', $direction)
+                            ->orderBy('created_at', $direction);
+                    })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('bot_user.email')
                     ->label('Email')
