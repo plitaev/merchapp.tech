@@ -24,6 +24,7 @@ use App\Models\Core\GetcourseWebhook;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
         $result = [];
 
         $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
@@ -39,6 +40,6 @@ class DevTestController extends Controller
         }
 
         return BotUser::whereIn('telegram_chat_id', $result)->where('date_end', '<', '2025-10-04')->get();
-
+        */
     }
 }
