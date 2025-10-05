@@ -24,9 +24,11 @@ use App\Models\Core\GetcourseWebhook;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $bot_users = BotUser::select('email')->whereNotNull('email')->pluck('email')->toArray();
-        $webhooks = GetCourseWebhook::where('created_at', '>=', '2025-09-20 00:00:00')->whereNotIn('email', $bot_users)->get();
+        $res = BotUser::where('date_end', '<=', '2025-10-04')->where('ban', 0)->get();
+        return $res;
 
-        return view('core.devtest.devtest', ['webhooks' => $webhooks]);
+        foreach ($res as $data) {
+
+        }
     }
 }
