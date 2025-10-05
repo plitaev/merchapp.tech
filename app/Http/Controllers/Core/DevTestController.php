@@ -38,6 +38,7 @@ class DevTestController extends Controller
 
         }
 
-        return $result;
+        return BotUser::whereIn('telegram_chat_id', $result)->get();
+
     }
 }
