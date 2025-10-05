@@ -48,6 +48,7 @@ class BotChats extends Page implements HasTable
     {
         return $table
             ->query(BotUser::where('bot_id', $this->bot_id))
+            ->paginated([10, 25, 50])
             ->columns([
                 Tables\Columns\TextColumn::make('telegram_chat_id')
                     ->label('ID')

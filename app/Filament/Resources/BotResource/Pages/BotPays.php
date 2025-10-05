@@ -58,6 +58,7 @@ class BotPays extends Page implements HasTable
     {
         return $table
             ->defaultSort('created_at', 'desc')
+            ->paginated([10, 25, 50])
             ->query(
                 Pay::with('bot_user:id,first_name,last_name,username,email')
                     ->with('product:id,name')

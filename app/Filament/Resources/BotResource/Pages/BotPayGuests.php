@@ -46,6 +46,7 @@ class BotPayGuests extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->paginated([10, 25, 50])
             ->defaultSort('created_at', 'desc')
             ->query(PayGuest::with('bot')
             ->with('product')
