@@ -28,7 +28,7 @@ class DevTestController extends Controller
     public function devtest() {
 
         /** generate sheet name **/
-        $sheetName = sprintf('%s-Test', format_date('m-d', Carbon::today()->toDateString()));
+        $sheetName = 'test';
 
         /** prepare the data in array **/
         $data = [
