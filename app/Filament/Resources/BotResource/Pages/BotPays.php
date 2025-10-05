@@ -57,6 +57,7 @@ class BotPays extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->query(
                 Pay::with('bot_user:id,first_name,last_name,username,email')
                     ->with('product:id,name')
@@ -69,17 +70,12 @@ class BotPays extends Page implements HasTable
                         $query->where('bot_id', $this->bot_id);
                     })
                     ->where('status', 1)
-                    ->orderByDesc('id')
             )
             ->columns([
                 Tables\Columns\TextColumn::make('created_at')
                     ->date('d.m.Y H:i:s')
                     ->label('Дата')
-                    ->sortable(query: function (Builder $query, string $direction): Builder {
-                        return $query
-                            ->orderBy('created_at', $direction)
-                            ->orderBy('created_at', $direction);
-                    })
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('bot_user.email')
                     ->label('Email')
