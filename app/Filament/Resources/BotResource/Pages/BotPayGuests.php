@@ -53,6 +53,11 @@ class BotPayGuests extends Page implements HasTable
                 $query->where('bot_id', $this->bot_id);
             }))
             ->columns([
+                Tables\Columns\TextColumn::make('created_at')
+                    ->date('d.m.Y H:i:s')
+                    ->label('Дата')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('product.name')
                     ->label('Продукт')
                     ->searchable(),
