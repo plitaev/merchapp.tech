@@ -34,13 +34,19 @@ class DevTestController extends Controller
             ->get();
 
         foreach ($res as $data) {
-            BotUserBanSchedule::create(
-                [
-                    'bot_user_id' => $data->bot_user_id,
-                    'run_status' => $data->run_status,
-                    'ban_datetime' => $data->ban_datetime
-                ]
-            );
+
+            $check = BotUserBanSchedule::where('ban_datetime', $data->ban_datetime)->where('bot_user_id', $data->bot_user_id)->count();
+
+            if ($check == 0) {
+                BotUserBanSchedule::create(
+                    [
+                        'bot_user_id' => $data->bot_user_id,
+                        'run_status' => $data->run_status,
+                        'ban_datetime' => $data->ban_datetime
+                    ]
+                );
+            }
+
         }
 
         /*
