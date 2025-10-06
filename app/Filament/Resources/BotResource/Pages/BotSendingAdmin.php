@@ -108,8 +108,8 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
 
         $bot = Bot::select('name')->find($bot_id);
         $this->bot_name = $bot->name;
-
         $this->form_bot_user->fill([]);
+
         $this->form->fill($data);
     }
 
@@ -244,20 +244,32 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
     {
         return $table
             ->query(
-                TelegramSendMessageSchedule::query()->with('sending')->with('bot_user')
+                TelegramSendMessageSchedule::query()->with('sending')->with('bot_user')->with('run_status_name')
                     ->whereHas('bot_message', function ($query) {
                     $query->where('bot_id', $this->bot_id);
                 })->where('sending_id', $this->id)
             )
             ->columns([
+                Tables\Columns\TextColumn::make('concat(bot_user.email, \' -\', bot_user.username)')
+                    ->visible(false)
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('bot_user.first_name')
+                    ->label('Имя'),
+                    //->searchable(),
+                Tables\Columns\TextColumn::make('bot_user.last_name')
+                    ->label('Фамилия'),
+                    //->searchable(),
                 Tables\Columns\TextColumn::make('bot_user.username')
-                    ->label('Пользователь')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('run_status')
+                    ->label('Имя пользователя'),
+                   // ->searchable(),
+                Tables\Columns\TextColumn::make('bot_user.email')
+                    ->label('Email'),
+                    //->searchable(),
+                Tables\Columns\TextColumn::make('run_status_name.name')
                     ->label('Статус'),
-                Tables\Columns\TextColumn::make('bot_message.name')
-                    ->label('Сообщение')
-                    ->searchable(),
+//                Tables\Columns\TextColumn::make('bot_message.name')
+//                    ->label('Сообщение')
+//                    ->searchable(),
             ])
 
             ->filters([
@@ -265,7 +277,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
             ])
             ->actions([
                 Tables\Actions\DeleteAction::make()
-            ])->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$this->id."/sending-admin");
+            ]);
     }
 
     public function form_bot_user(Form $form): Form
@@ -276,28 +288,39 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ->description('')
                     ->schema([
                         Forms\Components\Hidden::make('sending_id'),
+
                         Select::make('bot_user_id')
                             ->label('Пользователь')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно выберите пользователя',
                             ])
-                            ->options(
-                                BotUser::query()->pluck('username', 'id')
-                            )
-                            ->searchable(),
-                        Checkbox::make('run_status')
-                            ->label('Статус'),
-                        Select::make('message_id')
-                            ->label('Сообщение')
-                            ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно выберите сообщение',
-                            ])
-                            ->options(
-                                BotMessage::query()->pluck('name', 'id')
-                            )
-                            ->searchable(),
+                            ->options(BotUser::select(\DB::raw("CONCAT_WS('-', email, username) as fullname, CONCAT(last_name,' ', first_name, ' (', username, ')') as fullname_view"),'bot_user_id')
+                                ->leftjoin('telegram_send_message_schedules', 'telegram_send_message_schedules.bot_user_id', '=', 'bot_users.id')
+                                ->pluck('fullname_view','bot_user_id'))
+                            ->searchable('fullname'),
+//                        Select::make('bot_user_id')
+//                            ->label('Пользователь')
+//                            ->required()
+//                            ->validationMessages([
+//                                'required' => 'Обязательно выберите пользователя',
+//                            ])
+//                            ->options(BotUser::select(\DB::raw("CONCAT_WS('-', email, username) as fullname"),'bot_user_id')
+//                                ->join('variable_groups', 'variable_groups.id', '=', 'variables_systems.variable_group_id')
+//                                ->pluck('fullname','bot_user_id'))
+//                            ->searchable(),
+//                        Checkbox::make('run_status')
+//                            ->label('Статус'),
+//                        Select::make('message_id')
+//                            ->label('Сообщение')
+//                            ->required()
+//                            ->validationMessages([
+//                                'required' => 'Обязательно выберите сообщение',
+//                            ])
+//                            ->options(
+//                                BotMessage::query()->pluck('name', 'id')
+//                            )
+//                            ->searchable(),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
