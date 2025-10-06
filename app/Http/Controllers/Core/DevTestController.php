@@ -32,7 +32,6 @@ class DevTestController extends Controller
 
         $res = DB::table('bot_user_ban_schedules_backup')->select('bot_user_id', 'run_status', 'ban_datetime')
             ->groupBy('bot_user_id', 'run_status', 'ban_datetime')
-            ->orderBy('id')
             ->get();
 
         foreach ($res as $data) {
