@@ -6,11 +6,11 @@ use App\Models\Core\BotUserBanSchedule;
 
 class BotUserSetBanSchedulerCreate
 {
-    public function handle($bot_users) {
+    public function handle($bot_users, $ban_date) {
 
         foreach ($bot_users as $bot_user) {
 
-            $ban_datetime = date('Y-m-d', time()).' '.$bot_user->bot->ban_time;
+            $ban_datetime = $ban_date.' '.$bot_user->bot->ban_time;
 
             $check = BotUserBanSchedule::where('ban_datetime', $ban_datetime)->where('bot_user_id', $bot_user->id)->count();
 

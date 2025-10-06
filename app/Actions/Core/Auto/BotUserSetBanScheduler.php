@@ -40,7 +40,7 @@ class BotUserSetBanScheduler
             ->whereNotIn('id', $non_runned_users)
             ->get();
 
-        $botUserSetBanSchedulerCreate->handle($bot_users);
+        $botUserSetBanSchedulerCreate->handle($bot_users, date('Y-m-d', time()));
 
         //== Вторая выборка - у кого date_end IS NULL и listen_success_message_status = 1
 
@@ -51,7 +51,7 @@ class BotUserSetBanScheduler
             ->whereNotIn('id', $non_runned_users)
             ->get();
 
-        $botUserSetBanSchedulerCreate->handle($bot_users);
+        $botUserSetBanSchedulerCreate->handle($bot_users, date('Y-m-d', time()));
 
         //== Третья выборка - удаление из чата ДО наступления date_end
 
@@ -68,7 +68,7 @@ class BotUserSetBanScheduler
             ->whereNotIn('id', $non_runned_users)
             ->get();
 
-        $botUserSetBanSchedulerCreate->handle($bot_users);
+        $botUserSetBanSchedulerCreate->handle($bot_users, date('Y-m-d', time()));
 
 
     }
