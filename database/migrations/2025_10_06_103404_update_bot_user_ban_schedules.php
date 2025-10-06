@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bot_user_ban_schedules', function (Blueprint $table) {
-            $table->removeIndex('bot_user_id');
-            $table->removeIndex('ban_datetime');
+            $table->dropIndex('bot_user_id');
+            $table->dropIndex('ban_datetime');
 
             $table->unique(['bot_user_id', 'ban_datetime']);
         });
