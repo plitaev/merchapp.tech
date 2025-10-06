@@ -20,43 +20,45 @@ class BotUserUnban
         if (isset($supergroups[$bot_user->bot_id])) {
             foreach ($supergroups[$bot_user->bot_id] as $supergroup) {
 
-                try {
-                    $status = $telegram->unbanChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'only_if_banned' => true]);
-                    BotUserBanSchedule::where('bot_user_id', $bot_user->id)->where('run_status', 0)->update(['run_status' => 3]);
-
-                    TelegramUnbanScheduleLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'status' => $status]);
-
+                if ($supergroup->unban == 1) {
                     try {
-                        $member = $telegram->getChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id]);
-                        TelegramChatMemberLog::create(['bot_user_id' => $bot_user->id, 'user_id' => $bot_user->telegram_chat_id, 'chat_id' => $supergroup->telegram_id, 'status' => $member->status, 'text' => $member]);
+                        $status = $telegram->unbanChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'only_if_banned' => true]);
+                        BotUserBanSchedule::where('bot_user_id', $bot_user->id)->where('run_status', 0)->update(['run_status' => 3]);
 
-                        if ($member->status != 'banned') {
-                            BotUserUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 1]);
-                            BotUser::where('id', $bot_user->id)->update(['ban' => 0, 'unban' => 1, 'unban_time' => now()]);
+                        TelegramUnbanScheduleLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'status' => $status]);
 
-                            $date = date('Y-m-d', time());
-                            $datetime_start = $date." 00:00:00";
-                            $datetime_end = $date." 23:59:59";
+                        try {
+                            $member = $telegram->getChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id]);
+                            TelegramChatMemberLog::create(['bot_user_id' => $bot_user->id, 'user_id' => $bot_user->telegram_chat_id, 'chat_id' => $supergroup->telegram_id, 'status' => $member->status, 'text' => $member]);
 
-                            $sendings = Sending::select('sending_id')
-                                ->where('user_ban', 1)
-                                ->where('sending_datetime', '>=', $datetime_start)
-                                ->where('sending_datetime', '<=', $datetime_end)
-                                ->pluck('sending_id')
-                                ->toArray();
+                            if ($member->status != 'banned') {
+                                BotUserUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 1]);
+                                BotUser::where('id', $bot_user->id)->update(['ban' => 0, 'unban' => 1, 'unban_time' => now()]);
 
-                            TelegramSendMessageSchedule::where('bot_user_id', $bot_user->id)->whereIn('sending_id', $sendings)->update(['run_status' => 3]);
+                                $date = date('Y-m-d', time());
+                                $datetime_start = $date." 00:00:00";
+                                $datetime_end = $date." 23:59:59";
 
-                        } else {
-                            BotUserUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 0]);
+                                $sendings = Sending::select('sending_id')
+                                    ->where('user_ban', 1)
+                                    ->where('sending_datetime', '>=', $datetime_start)
+                                    ->where('sending_datetime', '<=', $datetime_end)
+                                    ->pluck('sending_id')
+                                    ->toArray();
+
+                                TelegramSendMessageSchedule::where('bot_user_id', $bot_user->id)->whereIn('sending_id', $sendings)->update(['run_status' => 3]);
+
+                            } else {
+                                BotUserUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 0]);
+                            }
+
+                        } catch (\Exception $exception) {
+                            TelegramChatMemberErrorLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' =>$bot_user->telegram_chat_id, 'text' => $exception]);
                         }
 
                     } catch (\Exception $exception) {
-                        TelegramChatMemberErrorLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' =>$bot_user->telegram_chat_id, 'text' => $exception]);
+                        TelegramUnbanScheduleErrorLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' =>$bot_user->telegram_chat_id, 'text' => $exception]);
                     }
-
-                } catch (\Exception $exception) {
-                    TelegramUnbanScheduleErrorLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' =>$bot_user->telegram_chat_id, 'text' => $exception]);
                 }
 
             }
