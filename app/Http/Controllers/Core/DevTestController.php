@@ -24,6 +24,8 @@ use App\Models\Core\GetcourseWebhook;
 
 use Revolution\Google\Sheets\Facades\Sheets;
 
+use Illuminate\Support\Facades\DB;
+
 class DevTestController extends Controller
 {
     public function devtest() {
