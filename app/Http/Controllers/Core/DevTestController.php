@@ -6,6 +6,7 @@ use App\Actions\Core\Telegram\TelegramChatJoinRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
+use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\BotUserRecurrentSchedule;
 use App\Models\Core\Pay;
 use App\Models\Core\Product;
@@ -27,10 +28,24 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        /** generate sheet name **/
+        $res = DB::table('bot_user_ban_schedules_backup')->select('bot_user_id', 'run_status', 'ban_datetime')
+            ->groupBy('bot_user_id', 'run_status', 'ban_datetime')
+            ->orderBy('id')
+            ->get();
+
+        foreach ($res as $data) {
+            BotUserBanSchedule::create(
+                [
+                    'bot_user_id' => $data->bot_user_id,
+                    'run_status' => $data->run_status,
+                    'ban_datetime' => $data->ban_datetime
+                ]
+            );
+        }
+
+        /*
         $sheetName = 'test';
 
-        /** prepare the data in array **/
         $data = [
             [
                 'ID',
@@ -46,12 +61,9 @@ class DevTestController extends Controller
             ],
         ];
 
-        /** generate a new sheet in a specific spread sheet **/
         Sheets::spreadsheet(config('google.post_spreadsheet_id'))->addSheet($sheetName);
-
-        /** write the data in the newly generated sheet **/
         Sheets::sheet($sheetName)->append($data);
-
+        */
 
         /*
         $result = [];
