@@ -61,7 +61,7 @@ class BotUserBanProcess
                             $telegramBanRun->handle($telegram, $supergroup, $ban);
                         } else {
                             $bot_users = BotUser::with('bot')->where('id', $ban->bot_user->id)->get();
-                            $botUserSetBanSchedulerCreate->handle($bot_users);
+                            //$botUserSetBanSchedulerCreate->handle($bot_users);
                         }
                     }
 
