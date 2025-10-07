@@ -1,12 +1,24 @@
 <?php
 namespace App\Filament\Resources\Bots;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\IconColumn;
+use Illuminate\Contracts\View\View;
+
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
+
+use Filament\Forms;
+use Filament\Forms\Components\TextInput;
+
+use Filament\Resources\Action as FRActon;
+use Filament\Resources\Resource;
+
+use Filament\Tables;
+use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+
+use Filament\Schemas\Schema;
+
 use App\Filament\Resources\Bots\Pages\AdvancedListBot;
 use App\Filament\Resources\Bots\Pages\CreateBot;
 use App\Filament\Resources\Bots\Pages\AdminBot;
@@ -34,15 +46,8 @@ use App\Filament\Resources\Bots\Pages\BotTelegramUnBanScheduleAdmin;
 use App\Filament\Resources\Bots\Pages\BotFunnels;
 use App\Filament\Resources\Bots\Pages\BotFunnelAdmin;
 use App\Filament\Resources\Bots\Pages\BotWizard;
-use App\Filament\Resources\BotResource\Pages;
-use App\Filament\Resources\BotResource\RelationManagers;
+
 use App\Models\Core\Bot;
-use Filament\Forms;
-use Filament\Resources\Action as FRActon;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Contracts\View\View;
 
 class BotResource extends Resource
 {
