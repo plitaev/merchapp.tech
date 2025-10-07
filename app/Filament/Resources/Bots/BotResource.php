@@ -147,8 +147,8 @@ class BotResource extends Resource
     public static function getPages(): array
     {
         return [
-            //'index' => Pages\ListBots::route('/'),
-            'index' => AdvancedListBot::route('/'),
+            'index' => Pages\ListBots::route('/'),
+            //'index' => AdvancedListBot::route('/'),
             'create' => CreateBot::route('/create'),
             'edit' => AdminBot::route('/{record}/edit'),
             'admin' => AdminBot::route('/{record}/admin'),
