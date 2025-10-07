@@ -26,7 +26,7 @@ class BotSendings extends Page implements HasTable
 
     protected static string $resource = BotResource::class;
 
-    protected static string $view = 'filament.resources.bot-resource.pages.sendings';
+    protected static string $view = 'filament.resources.bot-resource.pages.bot-sendings';
 
 
     public static ?string $label = "Рассылки";

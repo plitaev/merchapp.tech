@@ -51,7 +51,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
 
     protected static string $resource = BotResource::class;
 
-    protected static string $view = 'filament.resources.bot-resource.pages.sending-admin';
+    protected static string $view = 'filament.resources.bot-resource.pages.bot-sending-admin';
 
     public int $id;
 
