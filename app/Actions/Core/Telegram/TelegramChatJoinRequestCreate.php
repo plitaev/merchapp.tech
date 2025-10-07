@@ -20,7 +20,7 @@ class TelegramChatJoinRequestCreate
             $botSendMessage->handle($bot_user, 'SYS_APPROVE_CHAT_JOIN_REQUEST');
             $result = $telegram->approveChatJoinRequest(['chat_id' => $json['chat_join_request']['chat']['id'], 'user_id' => $json['chat_join_request']['user_chat_id']]);
         } else {
-            $botSendMessage->handle($bot_user, 'SYS_APPROVE_CHAT_JOIN_REQUEST');
+            $botSendMessage->handle($bot_user, 'SYS_DECLINE_CHAT_JOIN_REQUEST');
             $result = $telegram->declineChatJoinRequest(['chat_id' => $json['chat_join_request']['chat']['id'], 'user_id' => $json['chat_join_request']['user_chat_id']]);
         }
 
