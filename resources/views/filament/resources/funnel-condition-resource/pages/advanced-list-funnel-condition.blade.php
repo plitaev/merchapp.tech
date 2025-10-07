@@ -1,13 +1,39 @@
 <x-filament-panels::page>
-        <div class="fi-header flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div class="flex justify-between shrink-0 items-center gap-3 w-full">
-                <h1 class="fi-header-heading text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">Условия воронки</h1>
-                <div class="fi-ac gap-3 flex flex-wrap items-center justify-start">
-                    <a href="/admin/funnel-conditions/0/admin" style="--c-400:var(--primary-400);--c-500:var(--primary-500);--c-600:var(--primary-600);" class="fi-btn relative grid-flow-col items-center justify-center font-semibold outline-none transition duration-75 focus-visible:ring-2 rounded-lg fi-color-custom fi-btn-color-primary fi-color-primary fi-size-md fi-btn-size-md gap-1.5 px-3 py-2 text-sm inline-grid shadow-sm bg-custom-600 text-white hover:bg-custom-500 focus-visible:ring-custom-500/50 dark:bg-custom-500 dark:hover:bg-custom-400 dark:focus-visible:ring-custom-400/50 fi-ac-action fi-ac-btn-action">
-                        <span class="fi-btn-label">Создать условие воронки</span>
-                    </a>
-                </div>
+    @include('filament.resources.bot-resource.pages.navigation-bot', ['category' => "funnels", 'bot_id' => $this->bot_id])
+
+    <div class="fi-header fi-header-has-breadcrumbs">
+        <div>
+            <nav class="fi-breadcrumbs">
+                <ol class="fi-breadcrumbs-list">
+                    <li class="fi-breadcrumbs-item">
+                        <a href="/admin/funnel-conditions" class="fi-breadcrumbs-item-label">
+                            Условия воронки
+                        </a>
+                    </li>
+                    <li class="fi-breadcrumbs-item">
+                        <svg class="fi-icon fi-size-md fi-breadcrumbs-item-separator fi-ltr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg class="fi-icon fi-size-md fi-breadcrumbs-item-separator fi-rtl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd"></path>
+                        </svg>
+
+                        <span class="fi-breadcrumbs-item-label">Список</span>
+                    </li>
+                </ol>
+            </nav>
+
+            <h1 class="fi-header-heading">Условия воронки</h1>
+        </div>
+
+        <div class="fi-header-actions-ctn">
+            <div class="fi-ac fi-align-start">
+                <a href="/admin/funnel-conditions/0/admin" class="fi-color fi-color-primary fi-bg-color-400 hover:fi-bg-color-300 dark:fi-bg-color-600 dark:hover:fi-bg-color-500 fi-text-color-900 hover:fi-text-color-800 dark:fi-text-color-950 dark:hover:fi-text-color-950 fi-btn fi-size-md  fi-ac-btn-action">
+                    Создать
+                </a>
             </div>
         </div>
+    </div>
+
     {{$this->table}}
 </x-filament-panels::page>
