@@ -41,9 +41,6 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
 
-use Filament\Schemas\Components\Tabs;
-use Filament\Schemas\Components\Tabs\Tab;
-
 class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
 {
     use InteractsWithForms;
@@ -195,22 +192,6 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
     {
         return $schema
             ->components([
-
-Tabs::make('Tabs')
-    ->tabs([
-        Tab::make('Tab 1')
-            ->schema([
-                // ...
-            ]),
-        Tab::make('Tab 2')
-            ->schema([
-                // ...
-            ]),
-        Tab::make('Tab 3')
-            ->schema([
-                // ...
-            ]),
-    ]),
                 Section::make('Бот и воронка')
                     ->description('Если необходимо, укажите воронку, к которой будет прикреплено данное сообщение')
                     ->columns([
