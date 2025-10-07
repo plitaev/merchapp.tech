@@ -19,8 +19,6 @@ class BotMessageAppointmentResource extends Resource
     public static ?string $navigationLabel = "Назначение";
     public static ?string $title = "Назначение";
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
     protected static bool $shouldRegisterNavigation = false;
 
     public static function getPluralLabel(): ?string {return "Назначение";}
