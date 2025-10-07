@@ -25,69 +25,10 @@ use App\Models\Core\GetcourseWebhook;
 use Revolution\Google\Sheets\Facades\Sheets;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class DevTestController extends Controller
 {
     public function devtest() {
-
-        $res = DB::table('bot_user_ban_schedules_backup')->select('bot_user_id', 'run_status', 'ban_datetime')
-            ->groupBy('bot_user_id', 'run_status', 'ban_datetime')
-            ->get();
-
-        foreach ($res as $data) {
-
-            $check = BotUserBanSchedule::where('ban_datetime', $data->ban_datetime)->where('bot_user_id', $data->bot_user_id)->count();
-
-            if ($check == 0) {
-                BotUserBanSchedule::create(
-                    [
-                        'bot_user_id' => $data->bot_user_id,
-                        'run_status' => $data->run_status,
-                        'ban_datetime' => $data->ban_datetime
-                    ]
-                );
-            }
-
-        }
-
-        /*
-        $sheetName = 'test';
-
-        $data = [
-            [
-                'ID',
-                'Name',
-            ],
-            [
-                'U001',
-                'John',
-            ],
-            [
-                'U002',
-                'Harry',
-            ],
-        ];
-
-        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->addSheet($sheetName);
-        Sheets::sheet($sheetName)->append($data);
-        */
-
-        /*
-        $result = [];
-
-        $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
-
-        $res = BotUser::where('date_end', '<=', '2025-10-04')->where('ban', 0)->get();
-
-        foreach ($res as $data) {
-            $status = $telegram->getChatMember(['chat_id' => -1002225281436, 'user_id' => $data->telegram_chat_id]);
-            if ($status->status == 'member') {
-                $result[] = $data->telegram_chat_id;
-            }
-
-        }
-
-        return BotUser::whereIn('telegram_chat_id', $result)->where('date_end', '<', '2025-10-04')->get();
-        */
     }
 }

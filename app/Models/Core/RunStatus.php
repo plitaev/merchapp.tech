@@ -9,7 +9,6 @@ class RunStatus extends Model
 {
     use HasFactory;
 
-    protected $table = 'run_statuses';
 
     protected $fillable = [
         'name'
