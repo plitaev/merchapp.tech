@@ -288,39 +288,15 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ->description('')
                     ->schema([
                         Forms\Components\Hidden::make('sending_id'),
-
                         Select::make('bot_user_id')
                             ->label('Пользователь')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно выберите пользователя',
                             ])
-                            ->options(BotUser::select(\DB::raw("CONCAT_WS('-', email, username) as fullname, CONCAT(last_name,' ', first_name, ' (', username, ')') as fullname_view"),'bot_user_id')
-                                ->leftjoin('telegram_send_message_schedules', 'telegram_send_message_schedules.bot_user_id', '=', 'bot_users.id')
-                                ->pluck('fullname_view','bot_user_id'))
-                            ->searchable('fullname'),
-//                        Select::make('bot_user_id')
-//                            ->label('Пользователь')
-//                            ->required()
-//                            ->validationMessages([
-//                                'required' => 'Обязательно выберите пользователя',
-//                            ])
-//                            ->options(BotUser::select(\DB::raw("CONCAT_WS('-', email, username) as fullname"),'bot_user_id')
-//                                ->join('variable_groups', 'variable_groups.id', '=', 'variables_systems.variable_group_id')
-//                                ->pluck('fullname','bot_user_id'))
-//                            ->searchable(),
-//                        Checkbox::make('run_status')
-//                            ->label('Статус'),
-//                        Select::make('message_id')
-//                            ->label('Сообщение')
-//                            ->required()
-//                            ->validationMessages([
-//                                'required' => 'Обязательно выберите сообщение',
-//                            ])
-//                            ->options(
-//                                BotMessage::query()->pluck('name', 'id')
-//                            )
-//                            ->searchable(),
+                            ->options(BotUser::where('bot_id', $this->bot_id)->get()->map(function ($bot_user) {
+                                return ['key' => $bot_user->id, 'value' => (isset($bot_user->first_name) && $bot_user->first_name!='none'?$bot_user->first_name:'')." ".(isset($bot_user->last_name) && $bot_user->last_name!='none'?$bot_user->last_name:'')." ".(isset($bot_user->username) && $bot_user->username!='none'?"(".$bot_user->username.")":'')];
+                            })->pluck('value', 'key')->toArray())
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
@@ -328,8 +304,8 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                             $formdata = $this->form_bot_user->getState();
 
                             TelegramSendMessageSchedule::upsert(
-                                ['sending_id' => $this->id, 'bot_user_id' => $formdata['bot_user_id'], 'message_id' => $formdata['message_id'], 'run_status' => $formdata['run_status']],
-                                ['sending_id', 'bot_user_id', 'message_id', 'run_status'],
+                                ['sending_id' => $this->id, 'bot_user_id' => $formdata['bot_user_id']],
+                                ['sending_id', 'bot_user_id'],
                                 ['updated_at' => now()]
                             );
 
