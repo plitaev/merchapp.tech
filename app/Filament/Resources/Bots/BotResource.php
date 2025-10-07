@@ -157,6 +157,7 @@ class BotResource extends Resource
             'pay-guests' => BotPayGuests::route('/{bot_id}/pay-guests'),
             'pay-guest-admin' => BotPayGuestAdmin::route('/{bot_id}/{id}/pay-guest-admin'),
             'sendings' => BotSendings::route('/{bot_id}/sendings'),
+            'sending-admin' => BotSendingAdmin::route('/{bot_id}/{id}/sending-admin'),
             'supergroups' => BotSupergroups::route('/{bot_id}/supergroups'),
             'supergroup-admin' => BotSupergroupAdmin::route('/{bot_id}/{id}/supergroup-admin'),
             'products' => BotProducts::route('/{bot_id}/products'),
