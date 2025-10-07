@@ -5,7 +5,7 @@
             <nav class="fi-breadcrumbs">
                 <ol class="fi-breadcrumbs-list">
                     <li class="fi-breadcrumbs-item">
-                        <a href="https://magiclife.merchapp.bot/admin/bots" class="fi-breadcrumbs-item-label">
+                        <a href="/admin/bots" class="fi-breadcrumbs-item-label">
                             Боты
                         </a>
                     </li>
@@ -28,7 +28,7 @@
         <div class="fi-header-actions-ctn">
             <div class="fi-ac fi-align-start">
                 <a href="/admin/bots/create" class="fi-color fi-color-primary fi-bg-color-400 hover:fi-bg-color-300 dark:fi-bg-color-600 dark:hover:fi-bg-color-500 fi-text-color-900 hover:fi-text-color-800 dark:fi-text-color-950 dark:hover:fi-text-color-950 fi-btn fi-size-md  fi-ac-btn-action">
-                    Добавить бот
+                    Создать
                 </a>
             </div>
         </div>
