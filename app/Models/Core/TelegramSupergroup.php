@@ -14,6 +14,7 @@ class TelegramSupergroup extends Model
         'telegram_id',
         'give_access',
         'unban',
+        'decline_chat_join_request',
         'supergroup_delete_parameter_id',
         'supergroup_delete_days',
         'statistic_recurrent_fail',
