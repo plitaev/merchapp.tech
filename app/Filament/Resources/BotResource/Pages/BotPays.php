@@ -157,7 +157,7 @@ class BotPays extends Page implements HasTable
                                 $dateEndCacheForPay->handle($bulk["bot_user_id"]);
                             }
 
-                            $bot_users = BotUser::whereIn('id', $this->pay_bot_user_id)->get();
+                            $bot_users = BotUser::whereIn('id', $this->pay_bulk_delete_ids)->get();
                             foreach ($bot_users as $bot_user) {
                                 $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
                             }
