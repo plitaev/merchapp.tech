@@ -11,6 +11,7 @@ class RunStatus extends Model
 
 
     protected $fillable = [
+        'id',
         'name'
     ];
 

@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Schema;
 
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Core\RunStatus;
+
 return new class extends Migration
 {
     /**
@@ -14,19 +16,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::dropIfExists('run_statuses');
-
-        Schema::create('run_statuses', function (Blueprint $table) {
-            $table->unsignedBigInteger('id');
-            $table->string('name', 50);
-            $table->timestamps();
-
-            $table->unique('id');
-
-            RunStatus::create(['id' => 0, 'name' => 'Не отправлено']);
-            RunStatus::create(['id' => 1, 'name' => 'Отправлено']);
-            RunStatus::create(['id' => 2, 'name' => 'Зарезервировано']);
-            RunStatus::create(['id' => 3, 'name' => 'Отменено']);
-        });
     }
 
     /**
