@@ -1,6 +1,4 @@
 <x-filament-panels::page>
-    @include('filament.resources.bot-resource.pages.navigation-bot', ['category' => "funnels", 'bot_id' => $this->bot_id])
-
     <div class="fi-header fi-header-has-breadcrumbs">
         <div>
             <nav class="fi-breadcrumbs">
