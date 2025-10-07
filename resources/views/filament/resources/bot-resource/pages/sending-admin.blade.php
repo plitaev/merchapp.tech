@@ -6,7 +6,7 @@
         <div class="flex shrink-0 items-center gap-3">
             <x-filament::modal id="add-page-modal">
                 <x-slot name="trigger">
-                    <x-filament::button>Добавить получателей</x-filament::button>
+                    <x-filament::button>Добавить одного пользователя</x-filament::button>
                 </x-slot>
 
                 <form wire:submit.prevent="submit">{{$this->form_bot_user}}</form>
