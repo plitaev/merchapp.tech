@@ -19,6 +19,8 @@ use App\Filament\Resources\Bots\Pages\BotPays;
 use App\Filament\Resources\Bots\Pages\BotPayAdmin;
 use App\Filament\Resources\Bots\Pages\BotPayGuests;
 use App\Filament\Resources\Bots\Pages\BotPayGuestAdmin;
+use App\Filament\Resources\Bots\Pages\BotSendings;
+use App\Filament\Resources\Bots\Pages\BotSendingAdmin;
 use App\Filament\Resources\Bots\Pages\BotSupergroups;
 use App\Filament\Resources\Bots\Pages\BotSupergroupAdmin;
 use App\Filament\Resources\Bots\Pages\BotProducts;
