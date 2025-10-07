@@ -30,5 +30,26 @@ use Illuminate\Support\Str;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $sheetName = 'test';
+
+        $data = [
+            [
+                'ID',
+                'Name',
+            ],
+            [
+                'U001',
+                'John',
+            ],
+            [
+                'U002',
+                'Harry',
+            ],
+        ];
+
+        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->addSheet($sheetName);
+        Sheets::sheet($sheetName)->append($data);
+
     }
 }
