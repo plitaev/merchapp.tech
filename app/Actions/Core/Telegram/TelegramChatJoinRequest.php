@@ -33,21 +33,20 @@ class TelegramChatJoinRequest
                 if (isset($bot_user->date_end)) {
 
                     if ($bot_user->date_end > date("Y-m-d H:i:s", time())) {
-                        $botSendMessage->handle($bot_user, 'SYS_APPROVE_CHAT_JOIN_REQUEST');
-                        $telegramChatJoinRequestCreate->handle($bot_id, $json, 1);
+                        $telegramChatJoinRequestCreate->handle($bot_user, $json, 1);
                     } else {
                         $botSendMessage->handle($bot_user, 'SYS_DECLINE_CHAT_JOIN_REQUEST');
-                        $telegramChatJoinRequestCreate->handle($bot_id, $json, 0);
+                        $telegramChatJoinRequestCreate->handle($bot_user, $json, 0);
                     }
 
                 } else {
                     $botSendMessage->handle($bot_user, 'SYS_DECLINE_CHAT_JOIN_REQUEST');
-                    $telegramChatJoinRequestCreate->handle($bot_id, $json, 0);
+                    $telegramChatJoinRequestCreate->handle($bot_user, $json, 0);
                 }
 
             } else {
                 $botSendMessage->handle($bot_user, 'SYS_DECLINE_CHAT_JOIN_REQUEST');
-                $telegramChatJoinRequestCreate->handle($bot_id, $json, 0);
+                $telegramChatJoinRequestCreate->handle($bot_user, $json, 0);
             }
         }
 
