@@ -131,6 +131,7 @@ class BotPayGuestAdmin extends Page implements HasForms
                                 }
 
                             }),
+                        ]),
                         Section::make('Цена и почта')
                             ->description('Проверьте, и в случае необходимости измените стоимость в рублях и количество дней')
                             ->columns([
@@ -184,7 +185,6 @@ class BotPayGuestAdmin extends Page implements HasForms
                                 })
                                 ->label('Отменить и вернуться назад')
                         ]),
-                    ]),
             ])->statePath('data');
     }
 
