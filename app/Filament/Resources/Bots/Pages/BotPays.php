@@ -2,21 +2,26 @@
 
 namespace App\Filament\Resources\Bots\Pages;
 
-use Filament\Tables\Columns\TextColumn;
+use App\Filament\Resources\Bots\BotResource;
+
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Actions\Core\DateEnd\DateEndCacheForPay;
-use App\Filament\Resources\Bots\BotResource;
-use App\Models\Core\Bot;
-use App\Models\Core\Pay;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+
+use App\Actions\Core\BotSendMessage\BotSendMessage;
+use App\Actions\Core\DateEnd\DateEndCacheForPay;
+
+use App\Models\Core\Bot;
+use App\Models\Core\BotUser;
+use App\Models\Core\Pay;
 
 class BotPays extends Page implements HasTable
 {
@@ -118,13 +123,12 @@ class BotPays extends Page implements HasTable
                         $this->pay_bot_user_id = $bot_user_id;
                     })
                     ->after(function ($record) {
+                        $botSendMessage = new BotSendMessage();
                         $dateEndCacheForPay = new DateEndCacheForPay();
-                        $date_end_cache = $dateEndCacheForPay->handle($this->pay_bot_user_id);
+                        $dateEndCacheForPay->handle($this->pay_bot_user_id);
 
-                        Notification::make()
-                            ->title("Установлена дата окончания участия: " . $date_end_cache)
-                            ->success()
-                            ->send();
+                        $bot_user = BotUser::find($this->pay_bot_user_id);
+                        $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
                     }),
 
             ])
@@ -143,9 +147,16 @@ class BotPays extends Page implements HasTable
                         })
                         ->after(function ($records) {
                             foreach ($this->pay_bulk_delete_ids as $bulk) {
+                                $botSendMessage = new BotSendMessage();
                                 $dateEndCacheForPay = new DateEndCacheForPay();
                                 $dateEndCacheForPay->handle($bulk["bot_user_id"]);
                             }
+
+                            $bot_users = BotUser::whereIn('id', $this->pay_bot_user_id)->get();
+                            foreach ($bot_users as $bot_user) {
+                                $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
+                            }
+
                         })
                 ]),
             ]);
