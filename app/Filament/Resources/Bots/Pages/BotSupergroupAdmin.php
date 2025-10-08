@@ -18,6 +18,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use App\Models\Core\SupergroupDeleteParameter;
+use Filament\Schemas\Components\Utilities\Get;
 
 class BotSupergroupAdmin extends Page implements HasForms
 {
@@ -164,7 +165,7 @@ class BotSupergroupAdmin extends Page implements HasForms
                                 }
                             })
                             ->maxLength(255)
-                            ->visible(function (Forms\Get $get) {
+                            ->visible(function (Get $get) {
                                 if (is_callable($get)) {
                                     return $get('supergroup_delete_parameter_id') == 2 || $get('supergroup_delete_parameter_id') == 3;
                                 }
