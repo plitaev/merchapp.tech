@@ -74,7 +74,7 @@ class BotTelegramUnBanSchedules extends Page implements HasTable
                     ->searchable(),
                 TextColumn::make('bot_user.email')
                     ->label('Email'),
-                TextColumn::make('ban_datetime')
+                TextColumn::make('unban_datetime')
                     ->label('Дата и время разбана')
                     ->dateTime('d.m.Y H:i:s')
             ])
