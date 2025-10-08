@@ -87,7 +87,7 @@ class AdminBotMessageButtonCallback extends Page implements HasForms
                             ->validationMessages([
                                 'required' => 'Обязательно укажите system_name',
                                 ])
-                            ->label('System_name')
+                            ->label('Псевдоним')
                             ->maxLength(50),
                         ]),
                 Actions::make([
