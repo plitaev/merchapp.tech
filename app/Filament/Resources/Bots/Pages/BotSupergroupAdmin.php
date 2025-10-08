@@ -90,10 +90,10 @@ class BotSupergroupAdmin extends Page implements HasForms
         return ['form'];
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('Параметры супергруппы')
                     ->description('Укажите название супергруппы и её ID в Telegram. ID в Telegram - это число, начинающееся с -100 (например, -10012345678998765)')
                     ->columns([
