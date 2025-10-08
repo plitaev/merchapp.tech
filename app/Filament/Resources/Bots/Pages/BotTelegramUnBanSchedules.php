@@ -10,6 +10,7 @@ use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\TelegramUnbanSchedule;
+use App\Models\Core\BotUserUnbanSchedule;
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -55,35 +56,37 @@ class BotTelegramUnBanSchedules extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->defaultSort('updated_at', 'desc')
             ->query(
-                TelegramUnbanSchedule::where('bot_id', $this->bot_id)
+                BotUserUnbanSchedule::whereHas('bot_user', function ($query) {
+                    $query->where('bot_id', $this->bot_id);
+                })
             )
             ->columns([
-                TextColumn::make('telegram_chat.first_name')
+                TextColumn::make('bot_user.first_name')
                     ->label('Имя')
                     ->searchable(),
-                TextColumn::make('telegram_chat.last_name')
+                TextColumn::make('bot_user.last_name')
                     ->label('Фамилия')
                     ->searchable(),
-                TextColumn::make('telegram_chat.username')
+                TextColumn::make('bot_user.username')
                     ->label('Ник')
                     ->searchable(),
-                TextColumn::make('telegram_chat.email')
+                TextColumn::make('bot_user.email')
                     ->label('Email'),
-                TextColumn::make('run_status_name.name')
-                    ->label('Статус удаления'),
-                TextColumn::make('unban_status_name.name')
-                    ->label('Статус разблокировки'),
+                TextColumn::make('ban_datetime')
+                    ->label('Дата и время разбана')
+                    ->dateTime('d.m.Y H:i:s')
             ])
             ->filters([
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/telegram-unban-schedule-admin"),
+                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/telegram-ban-schedule-admin"),
                 DeleteAction::make(),
 
             ])
-            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/telegram-unban-schedule-admin")
+            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/telegram-ban-schedule-admin")
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
