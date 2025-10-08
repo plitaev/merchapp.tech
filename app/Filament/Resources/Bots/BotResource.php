@@ -19,6 +19,7 @@ use Filament\Tables\Columns\IconColumn;
 
 use Filament\Schemas\Schema;
 
+
 use App\Filament\Resources\Bots\Pages\AdvancedListBot;
 use App\Filament\Resources\Bots\Pages\CreateBot;
 use App\Filament\Resources\Bots\Pages\AdminBot;
@@ -31,6 +32,7 @@ use App\Filament\Resources\Bots\Pages\BotPays;
 use App\Filament\Resources\Bots\Pages\BotPayAdmin;
 use App\Filament\Resources\Bots\Pages\BotPayGuests;
 use App\Filament\Resources\Bots\Pages\BotPayGuestAdmin;
+use App\Filament\Resources\Bots\Pages\BotPaySystemAdmin;
 use App\Filament\Resources\Bots\Pages\BotSendings;
 use App\Filament\Resources\Bots\Pages\BotSendingAdmin;
 use App\Filament\Resources\Bots\Pages\BotSupergroups;
@@ -147,35 +149,35 @@ class BotResource extends Resource
     public static function getPages(): array
     {
         return [
-            //'index' => Pages\ListBots::route('/'),
             'index' => AdvancedListBot::route('/'),
             'create' => CreateBot::route('/create'),
             'edit' => AdminBot::route('/{record}/edit'),
             'admin' => AdminBot::route('/{record}/admin'),
+            'bot-wizard' => BotWizard::route('/bot-wizard'),
             'button-admin' => BotMessageButtonAdmin::route('/{bot_message_id}/{id}/button-admin'),
             'chats' => BotChats::route('/{bot_id}/chats'),
             'chat-admin' => BotChatAdmin::route('/{bot_id}/{id}/chat-admin'),
+            'funnels' => BotFunnels::route('/{bot_id}/funnels'),
+            'funnel-admin' => BotFunnelAdmin::route('/{bot_id}/{id}/funnel-admin'),
+            'getcourse-settings' => BotGetCourseSettings::route('/{bot_id}/getcourse-settings'),
+            'getcourse-webhooks' => BotGetCourseWebhooks::route('/{bot_id}/getcourse-webhooks'),
             'messages' => BotMessages::route('/{bot_id}/messages'),
             'message-admin' => BotMessageAdmin::route('/{bot_id}/{id}/message-admin'),
             'pays' => BotPays::route('/{bot_id}/pays'),
             'pay-admin' => BotPayAdmin::route('/{bot_id}/{id}/pay-admin'),
+            'pay-system-admin' => BotPaySystemAdmin::route('/{bot_id}/pay-admin'),
             'pay-guests' => BotPayGuests::route('/{bot_id}/pay-guests'),
             'pay-guest-admin' => BotPayGuestAdmin::route('/{bot_id}/{id}/pay-guest-admin'),
+            'products' => BotProducts::route('/{bot_id}/products'),
+            'product-admin' => BotProductAdmin::route('/{bot_id}/{id}/product-admin'),
             'sendings' => BotSendings::route('/{bot_id}/sendings'),
             'sending-admin' => BotSendingAdmin::route('/{bot_id}/{id}/sending-admin'),
             'supergroups' => BotSupergroups::route('/{bot_id}/supergroups'),
             'supergroup-admin' => BotSupergroupAdmin::route('/{bot_id}/{id}/supergroup-admin'),
-            'products' => BotProducts::route('/{bot_id}/products'),
-            'product-admin' => BotProductAdmin::route('/{bot_id}/{id}/product-admin'),
-            'getcourse-settings' => BotGetCourseSettings::route('/{bot_id}/getcourse-settings'),
-            'getcourse-webhooks' => BotGetCourseWebhooks::route('/{bot_id}/getcourse-webhooks'),
             'telegram-ban-schedules' => BotTelegramBanSchedules::route('/{bot_id}/telegram-ban-schedules'),
             'telegram-ban-schedule-admin' => BotTelegramBanScheduleAdmin::route('/{bot_id}/{id}/telegram-ban-schedule-admin'),
             'telegram-unban-schedules' => BotTelegramUnBanSchedules::route('/{bot_id}/telegram-unban-schedules'),
             'telegram-unban-schedule-admin' => BotTelegramUnBanScheduleAdmin::route('/{bot_id}/{id}/telegram-unban-schedule-admin'),
-            'funnels' => BotFunnels::route('/{bot_id}/funnels'),
-            'funnel-admin' => BotFunnelAdmin::route('/{bot_id}/{id}/funnel-admin'),
-            'bot-wizard' => BotWizard::route('/bot-wizard'),
         ];
     }
 }
