@@ -1,21 +1,22 @@
 <?php
-namespace App\Filament\Resources\BotResource\Pages;
+namespace App\Filament\Resources\Bots\Pages;
 
-use App\Filament\Resources\BotResource;
-
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Checkbox;
+use Filament\Schemas\Components\Actions;
+use Filament\Actions\Action;
+use App\Filament\Resources\Bots\BotResource;
+use App\Models\Core\Bot;
+use App\Models\Core\TelegramSupergroup;
+use App\Models\Core\TelegramSupergroupLinkBot\TelegramSupergroupLinkBot;
 use Filament\Forms;
-use Filament\Forms\Components\Actions;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
-
-use App\Models\Core\Bot;
-use App\Models\Core\SupergroupDeleteParameter;
-use App\Models\Core\TelegramSupergroup;
 
 class BotSupergroupAdmin extends Page implements HasForms
 {
@@ -23,7 +24,7 @@ class BotSupergroupAdmin extends Page implements HasForms
 
     protected static string $resource = BotResource::class;
 
-    protected static string $view = 'filament.resources.bot-resource.pages.bot-supergroup-admin';
+    protected string $view = 'filament.resources.bot-resource.pages.bot-supergroup-admin';
 
     protected static ?string $model = TelegramSupergroup::class;
 
