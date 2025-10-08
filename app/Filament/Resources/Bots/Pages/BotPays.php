@@ -116,8 +116,8 @@ class BotPays extends Page implements HasTable
                 //
             ])
             ->actions([
-                Filament\Actions\EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin"),
-                Filament\Actions\DeleteAction::make()
+                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin"),
+                DeleteAction::make()
                     ->before(function ($record) {
                         $pay = Pay::with('bot')->find($record->id);
 
@@ -139,8 +139,8 @@ class BotPays extends Page implements HasTable
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin")
             ->bulkActions([
-                Filament\Actions\BulkActionGroup::make([
-                    Filament\Actions\DeleteBulkAction::make()
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
                         ->before(function ($records) {
                             foreach ($records as $record) {
                                 $pay = Pay::with('bot')->find($record->id);
