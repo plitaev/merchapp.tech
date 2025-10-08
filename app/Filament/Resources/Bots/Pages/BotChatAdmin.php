@@ -19,6 +19,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 
 use App\Actions\Core\BotSendMessage\BotSendMessage;
+use App\Actions\Core\Pay\PayCreateByPayGuest;
 
 class BotChatAdmin extends Page implements HasForms
 {

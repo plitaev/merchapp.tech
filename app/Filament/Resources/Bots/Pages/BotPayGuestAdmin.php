@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Models\Core\BotUser;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
@@ -21,6 +22,8 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
+
+use App\Actions\Core\Pay\PayCreateByPayGuest;
 
 class BotPayGuestAdmin extends Page implements HasForms
 {
@@ -163,9 +166,11 @@ class BotPayGuestAdmin extends Page implements HasForms
                                 ->action(function () {
                                     $data = $this->form->getState();
 
-                                    if ($this->id>0) {
-                                        PayGuest::where('id', $this->id)->update($data);
-                                    }
+                                    PayGuest::where('id', $this->id)->update($data);
+
+                                    $payCreateByPayGuest = new PayCreateByPayGuest();
+                                    $bot_user = BotUser::find($this->id);
+                                    $payCreateByPayGuest->handle($bot_user, $data['email']);
 
 
                                     Notification::make()
