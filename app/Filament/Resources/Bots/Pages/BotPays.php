@@ -127,6 +127,7 @@ class BotPays extends Page implements HasTable
                         $this->pay_bot_user_id = $bot_user_id;
                     })
                     ->after(function ($record) {
+                        $botSendMessage = new BotSendMessage();
                         $dateEndCacheForPay = new DateEndCacheForPay();
                         $date_end_cache = $dateEndCacheForPay->handle($this->pay_bot_user_id);
 
@@ -134,6 +135,9 @@ class BotPays extends Page implements HasTable
                             ->title("Установлена дата окончания участия: " . $date_end_cache)
                             ->success()
                             ->send();
+
+                        $bot_user = BotUser::find($this->pay_bot_user_id);
+                        $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
                     }),
 
             ])
@@ -151,10 +155,18 @@ class BotPays extends Page implements HasTable
                             }
                         })
                         ->after(function ($records) {
+                            $botSendMessage = new BotSendMessage();
+
                             foreach ($this->pay_bulk_delete_ids as $bulk) {
                                 $dateEndCacheForPay = new DateEndCacheForPay();
                                 $dateEndCacheForPay->handle($bulk["bot_user_id"]);
                             }
+
+                            $bot_users = BotUser::whereIn('id', $this->pay_bulk_delete_ids)->get();
+                            foreach ($bot_users as $bot_user) {
+                                $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
+                            }
+
                         })
                 ]),
             ]);
