@@ -139,11 +139,7 @@ class BotFunnelAdmin extends Page implements HasForms
                                 ->success()
                                 ->send();
 
-                            if ($this->id>0) {
-                                return redirect('/admin/bots/' . $this->bot_id .'/funnels');
-                            } else {
-                                return redirect('/admin/bots/' . $this->bot_id . '/' . $this->id . '/funnel-admin');
-                            }
+                            return redirect('/admin/bots/' . $this->bot_id .'/funnels');
                         }),
                     Action::make('Cancel')
                         ->action(function () {
