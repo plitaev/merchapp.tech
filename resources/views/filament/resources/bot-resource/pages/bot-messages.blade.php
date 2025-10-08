@@ -3,7 +3,7 @@
 
     <div class="fi-header fi-header-has-breadcrumbs">
         <div>
-            <h1 class="fi-header-heading">Сообщения</h1>
+            <h1 class="fi-header-heading"></h1>
         </div>
 
         <div class="fi-header-actions-ctn">
