@@ -180,9 +180,10 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                                 }
                             }
 
-
-
-                            $this->dispatch('close-modal', id: 'add-page-modal');
+                            Notification::make()
+                                ->title('Данные успешно загружины!')
+                                ->success()
+                                ->send();
                         }),
                     Action::make('Отмена')
                         ->action(function () {
