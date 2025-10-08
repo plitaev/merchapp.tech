@@ -152,7 +152,7 @@ class BotSupergroupAdmin extends Page implements HasForms
                             ->live()
                             ->searchable(),
                         Forms\Components\TextInput::make('supergroup_delete_days')
-                            ->label(function (Forms\Get $get) {
+                            ->label(function (Get $get) {
                                 if (is_callable($get)) {
                                     if ($get('supergroup_delete_parameter_id') == 2) {
                                         return 'За сколько дней до окончания подписки';
