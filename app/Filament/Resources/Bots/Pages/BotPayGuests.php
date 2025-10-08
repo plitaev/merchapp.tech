@@ -51,41 +51,45 @@ class BotPayGuests extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->query(PayGuest::with('bot')
-            ->with('product')
-            ->whereHas('bot', function ($query) {
-                $query->where('bot_id', $this->bot_id);
-            }))
+                ->with('product')
+                ->where('status', 0)
+                ->whereHas('bot', function ($query) {
+                    $query->where('bot_id', $this->bot_id);
+                }))
             ->columns([
-                TextColumn::make('product.name')
-                    ->label('Продукт')
+                Tables\Columns\TextColumn::make('created_at')
+                    ->date('d.m.Y H:i:s')
+                    ->label('Дата')
+                    ->sortable()
                     ->searchable(),
-                TextColumn::make('price')
-                    ->label('Стоимость')
-                    ->searchable(),
-                TextColumn::make('days')
-                    ->label('Дни')
-                    ->searchable(),
-                TextColumn::make('email')
+                Tables\Columns\TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
-                TextColumn::make('gift_name.name')
-                    ->label('Подарок')
+                Tables\Columns\TextColumn::make('product.name')
+                    ->label('Продукт')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('price')
+                    ->label('Стоимость')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('days')
+                    ->label('Дни')
+                    ->searchable()
             ])
             ->filters([
                 //
             ])
-            ->recordActions([
+            ->actions([
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-guest-admin"),
                 DeleteAction::make(),
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-guest-admin")
-            ->toolbarActions([
+            ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
             ]);
-        }
+    }
 
 }
