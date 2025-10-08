@@ -110,7 +110,7 @@ class AdminFunnelCondition extends Page implements HasForms
                                 ->success()
                                 ->send();
 
-                            return redirect('/admin/funnel-conditions/'.$output_id.'/admin');
+                            return redirect('/admin/funnel-conditions');
                         }),
                 ])
             ])->statePath('data');
