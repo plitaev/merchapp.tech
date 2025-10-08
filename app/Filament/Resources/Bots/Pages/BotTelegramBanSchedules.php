@@ -55,8 +55,12 @@ class BotTelegramBanSchedules extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->defaultSort('updated_at', 'desc')
             ->query(
-                BotUserBanSchedule::where('bot_id', $this->bot_id))
+                BotUserBanSchedule::whereHas('bot_user', function ($query) {
+                    $query->where('bot_id', $this->bot_id);
+                })
+            )
             ->columns([
                 TextColumn::make('telegram_chat.first_name')
                     ->label('Имя')
