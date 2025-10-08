@@ -66,6 +66,7 @@ class BotPays extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->query(
                 Pay::with('bot_user:id,first_name,last_name,username,email')
                     ->with('product:id,name')
@@ -73,47 +74,50 @@ class BotPays extends Page implements HasTable
                     ->with('bot')
                     ->with('recurrent_name:id,name')
                     ->with('recurrent_status_name:id,name')
-                    ->select('id', 'bot_user_id', 'product_id', 'price', 'days', 'recurrent', 'recurrent_status')
+                    ->select('id', 'bot_user_id', 'product_id', 'price', 'days', 'recurrent', 'recurrent_status', 'created_at')
                     ->whereHas('bot', function ($query) {
                         $query->where('bot_id', $this->bot_id);
                     })
                     ->where('status', 1)
-                    ->orderByDesc('updated_at')
             )
             ->columns([
-
-                TextColumn::make('bot_user.first_name')
-                    ->label('Имя')
+                Tables\Columns\TextColumn::make('created_at')
+                    ->date('d.m.Y H:i:s')
+                    ->label('Дата')
+                    ->sortable()
                     ->searchable(),
-                TextColumn::make('bot_user.last_name')
-                    ->label('Фамилия')
-                    ->searchable(),
-                TextColumn::make('bot_user.email')
+                Tables\Columns\TextColumn::make('bot_user.email')
                     ->label('Email')
                     ->searchable(),
-                TextColumn::make('bot_user.username')
+                Tables\Columns\TextColumn::make('bot_user.username')
                     ->label('Ник')
                     ->searchable(),
-                TextColumn::make('product.name')
+                Tables\Columns\TextColumn::make('bot_user.first_name')
+                    ->label('Имя')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('bot_user.last_name')
+                    ->label('Фамилия')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('product.name')
                     ->label('Тариф')
                     ->searchable(),
-                TextColumn::make('price')
+                Tables\Columns\TextColumn::make('price')
                     ->label('Стоимость'),
-                TextColumn::make('days')
+                Tables\Columns\TextColumn::make('days')
                     ->label('Дни'),
-                TextColumn::make('product_type.name')
-                    ->label('Способ оплаты'),
-                TextColumn::make('recurrent_name.name')
-                    ->label('Рекуррент'),
-                TextColumn::make('recurrent_status_name.name')
-                    ->label('Статус рекуррента'),
+                Tables\Columns\IconColumn::make('recurrent')
+                    ->boolean()
+                    ->label('Рекуррент')
+                    ->alignCenter()
+                    ->trueColor('info')
+                    ->falseColor('warning'),
             ])
             ->filters([
                 //
             ])
-            ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin"),
-                DeleteAction::make()
+            ->actions([
+                Tables\Actions\EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin"),
+                Tables\Actions\DeleteAction::make()
                     ->before(function ($record) {
                         $pay = Pay::with('bot')->find($record->id);
 
@@ -123,19 +127,20 @@ class BotPays extends Page implements HasTable
                         $this->pay_bot_user_id = $bot_user_id;
                     })
                     ->after(function ($record) {
-                        $botSendMessage = new BotSendMessage();
                         $dateEndCacheForPay = new DateEndCacheForPay();
-                        $dateEndCacheForPay->handle($this->pay_bot_user_id);
+                        $date_end_cache = $dateEndCacheForPay->handle($this->pay_bot_user_id);
 
-                        $bot_user = BotUser::find($this->pay_bot_user_id);
-                        $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
+                        Notification::make()
+                            ->title("Установлена дата окончания участия: " . $date_end_cache)
+                            ->success()
+                            ->send();
                     }),
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin")
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make()
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make()
                         ->before(function ($records) {
                             foreach ($records as $record) {
                                 $pay = Pay::with('bot')->find($record->id);
@@ -150,14 +155,6 @@ class BotPays extends Page implements HasTable
                                 $dateEndCacheForPay = new DateEndCacheForPay();
                                 $dateEndCacheForPay->handle($bulk["bot_user_id"]);
                             }
-
-                            $botSendMessage = new BotSendMessage();
-
-                            $bot_users = BotUser::whereIn('id', $this->pay_bulk_delete_ids)->get();
-                            foreach ($bot_users as $bot_user) {
-                                $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
-                            }
-
                         })
                 ]),
             ]);
