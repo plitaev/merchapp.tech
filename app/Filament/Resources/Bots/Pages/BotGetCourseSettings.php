@@ -71,8 +71,7 @@ class BotGetCourseSettings extends Page implements HasTable
             ])
             ->recordActions([
 
-            ])
-            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/product-admin");
+            ]);
 
     }
 }

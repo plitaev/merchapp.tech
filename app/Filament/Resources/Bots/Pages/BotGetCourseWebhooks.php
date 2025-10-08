@@ -83,7 +83,6 @@ class BotGetCourseWebhooks extends Page implements HasTable
             ->recordActions([
 
             ])
-            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/product-admin")
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
