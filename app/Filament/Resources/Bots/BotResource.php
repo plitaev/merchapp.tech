@@ -35,6 +35,7 @@ use App\Filament\Resources\Bots\Pages\BotPayGuestAdmin;
 use App\Filament\Resources\Bots\Pages\BotPaySystemAdmin;
 use App\Filament\Resources\Bots\Pages\BotSendings;
 use App\Filament\Resources\Bots\Pages\BotSendingAdmin;
+use App\Filament\Resources\Bots\Pages\BotSendingSome;
 use App\Filament\Resources\Bots\Pages\BotSupergroups;
 use App\Filament\Resources\Bots\Pages\BotSupergroupAdmin;
 use App\Filament\Resources\Bots\Pages\BotProducts;
@@ -172,7 +173,7 @@ class BotResource extends Resource
             'product-admin' => BotProductAdmin::route('/{bot_id}/{id}/product-admin'),
             'sendings' => BotSendings::route('/{bot_id}/sendings'),
             'sending-admin' => BotSendingAdmin::route('/{bot_id}/{id}/sending-admin'),
-            'sending-some' => BotSendingAdmin::route('/{bot_id}/{id}/sending-some'),
+            'sending-some' => BotSendingSome::route('/{bot_id}/{id}/sending-some'),
             'supergroups' => BotSupergroups::route('/{bot_id}/supergroups'),
             'supergroup-admin' => BotSupergroupAdmin::route('/{bot_id}/{id}/supergroup-admin'),
             'telegram-ban-schedules' => BotTelegramBanSchedules::route('/{bot_id}/telegram-ban-schedules'),
