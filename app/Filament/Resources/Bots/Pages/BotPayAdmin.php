@@ -127,45 +127,46 @@ class BotPayAdmin extends Page implements HasForms
                                 }
 
                             }),
-                        Section::make('Цена и продолжительность')
-                            ->description('Проверьте, и в случае необходимости измените стоимость в рублях и количество дней')
-                            ->columns([
-                                'sm' => 2,
-                                'md' => 2,
-                                'lg' => 2,
-                                'xl' => 2,
-                                '2xl' => 2
-                            ])
-                            ->schema([
+                ]),
+                Section::make('Цена и продолжительность')
+                    ->description('Проверьте, и в случае необходимости измените стоимость в рублях и количество дней')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2
+                    ])
+                    ->schema([
 
-                                TextInput::make('price')
-                                    ->required()
-                                    ->validationMessages(['required' => 'Обязательно укажите стоимость'])
-                                    ->label('Стоимость')
-                                    ->maxLength(50),
-                                TextInput::make('days')
-                                    ->required()
-                                    ->validationMessages(['required' => 'Обязательно укажите дни'])
-                                    ->label('Дни')
-                                    ->maxLength(50),
-                            ]),
-                        Section::make('Email')
-                            ->description('Введите почту пользователя, который совершил платёж')
-                            ->columns([
-                                'sm' => 1,
-                                'md' => 1,
-                                'lg' => 1,
-                                'xl' => 1,
-                                '2xl' => 1
-                            ])
-                            ->schema([
-                                TextInput::make('email')
-                                    ->required()
-                                    ->validationMessages(['required' => 'Обязательно укажите email'])
-                                    ->label('Email')
-                                    ->maxLength(255)
-                            ])
-                            ->visible($this->id > 0?0:1),
+                        TextInput::make('price')
+                            ->required()
+                            ->validationMessages(['required' => 'Обязательно укажите стоимость'])
+                            ->label('Стоимость')
+                            ->maxLength(50),
+                        TextInput::make('days')
+                            ->required()
+                            ->validationMessages(['required' => 'Обязательно укажите дни'])
+                            ->label('Дни')
+                            ->maxLength(50),
+                    ]),
+                Section::make('Email')
+                    ->description('Введите почту пользователя, который совершил платёж')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1
+                    ])
+                    ->schema([
+                        TextInput::make('email')
+                            ->required()
+                            ->validationMessages(['required' => 'Обязательно укажите email'])
+                            ->label('Email')
+                            ->maxLength(255)
+                    ])
+                    ->visible($this->id > 0?0:1),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
@@ -209,7 +210,6 @@ class BotPayAdmin extends Page implements HasForms
                             return redirect('/admin/bots/'.$this->bot_id.'/pays');
                         })
                         ->label('Отменить и вернуться назад')
-                ]),
                 ]),
             ])->statePath('data');
     }
