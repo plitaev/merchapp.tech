@@ -83,6 +83,13 @@ class AdminFunnelCondition extends Page implements HasForms
                                 ])
                             ->label('Наименование')
                             ->maxLength(50),
+                        TextInput::make('alias')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите псевдоним',
+                            ])
+                            ->label('Псевдоним')
+                            ->maxLength(50),
                         ]),
                 Actions::make([
                     Action::make('Сохранить')
