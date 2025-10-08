@@ -62,16 +62,16 @@ class BotTelegramBanSchedules extends Page implements HasTable
                 })
             )
             ->columns([
-                TextColumn::make('telegram_chat.first_name')
+                TextColumn::make('bot_user.first_name')
                     ->label('Имя')
                     ->searchable(),
-                TextColumn::make('telegram_chat.last_name')
+                TextColumn::make('bot_user.last_name')
                     ->label('Фамилия')
                     ->searchable(),
-                TextColumn::make('telegram_chat.username')
+                TextColumn::make('bot_user.username')
                     ->label('Ник')
                     ->searchable(),
-                TextColumn::make('telegram_chat.email')
+                TextColumn::make('bot_user.email')
                     ->label('Email'),
                 TextColumn::make('ban_date')
                     ->label('Дата бана')
