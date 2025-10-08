@@ -30,7 +30,7 @@ class AdvancedListFunnelCondition extends Page implements HasTable
     public static function table(Table $table): Table
     {
         return $table
-            ->query(FunnelCondition::select('*'))
+            ->query(FunnelCondition::query())
             ->columns([
                 TextColumn::make('name')
                     ->label('Наименование')
@@ -50,7 +50,8 @@ class AdvancedListFunnelCondition extends Page implements HasTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->recordUrl(fn($record) => "/admin/funnel-conditions/".$record->id."/admin");
     }
 }
 
