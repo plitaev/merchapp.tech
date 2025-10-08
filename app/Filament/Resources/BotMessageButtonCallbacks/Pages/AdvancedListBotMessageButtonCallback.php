@@ -52,7 +52,8 @@ class AdvancedListBotMessageButtonCallback extends Page implements HasTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->recordUrl(fn($record) => "/admin/bot-message-button-callbacks/".$record->id."/admin");
     }
 }
 
