@@ -5,6 +5,7 @@ use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
 use App\Filament\Resources\Bots\BotResource;
