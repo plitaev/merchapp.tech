@@ -76,26 +76,21 @@ class AdminListener extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Section::make('Основные сведения')
-                            ->description('')
-                            ->schema([
-                                TextInput::make('name')
-                                    ->required()
-                                    ->validationMessages([
-                                        'required' => 'Обязательно укажите наименование',
-                                    ])
-                                    ->label('Наименование')
-                                    ->maxLength(50),
-                                TextInput::make('alias')
-                                    ->required()
-                                    ->validationMessages([
-                                        'required' => 'Обязательно укажите alias',
-                                    ])
-                                    ->label('Alias')
-                                    ->maxLength(50),
-                            ]),
-
-                    ]),
+                        TextInput::make('name')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите наименование',
+                                ])
+                            ->label('Наименование')
+                            ->maxLength(50),
+                        TextInput::make('alias')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите alias',
+                                ])
+                            ->label('Alias')
+                            ->maxLength(50)
+                        ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {

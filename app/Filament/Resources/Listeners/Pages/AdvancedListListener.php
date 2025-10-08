@@ -50,7 +50,8 @@ class AdvancedListListener extends Page implements HasTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->recordUrl(fn($record) => "/admin/listeners/".$record->id."/admin");
     }
 }
 
