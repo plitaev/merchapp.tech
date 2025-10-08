@@ -181,7 +181,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                             }
 
                             Notification::make()
-                                ->title('Данные успешно загружины!')
+                                ->title('Данные успешно загружены!')
                                 ->success()
                                 ->send();
                         }),
