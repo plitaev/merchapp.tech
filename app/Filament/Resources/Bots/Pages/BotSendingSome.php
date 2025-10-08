@@ -128,7 +128,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
     public function form(Schema $schema): Schema
     {
         return $schema
-            ->schema([
+            ->components([
                 Section::make('Получатели рассылки')
                     ->description('')
                     ->schema([
@@ -145,10 +145,10 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
-                            $form = $this->form>getState();
+                            $data = $this->form>getState();
 
                             $bot_user_id = '';
-                            $email_str  = $form['email_string'];
+                            $email_str  = $data['email_string'];
                             $email_mass[] = explode(",", $email_str);
 
                             if($email_mass) {
@@ -164,7 +164,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                                 }
                             }
 
-                            $username_str  = $form['username_string'];
+                            $username_str  = $data['username_string'];
                             $username_mass[] = explode(",", $username_str);
 
                             if($username_mass) {
