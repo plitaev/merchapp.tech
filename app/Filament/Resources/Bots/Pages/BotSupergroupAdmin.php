@@ -17,6 +17,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
+use App\Models\Core\SupergroupDeleteParameter;
 
 class BotSupergroupAdmin extends Page implements HasForms
 {
