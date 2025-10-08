@@ -359,12 +359,20 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                             $username_str  = $formdata_some['username_string'];
                             $username_mass[] = explode(",", $username_str);
 
+                            if($username_mass) {
+                                foreach ($username_mass as $username) {
+                                    $bot_user_id = BotUser::where('username', $username)->first();
+                                    if($bot_user_id) {
+                                        TelegramSendMessageSchedule::upsert(
+                                            ['sending_id' => $this->id, 'bot_user_id' => $bot_user_id],
+                                            ['sending_id', 'bot_user_id'],
+                                            ['updated_at' => now()]
+                                        );
+                                    }
+                                }
+                            }
 
-                            TelegramSendMessageSchedule::upsert(
-                                ['sending_id' => $this->id, 'email_string' => $formdata_some['email_string'], 'username_string' => $formdata_some['username_string']],
-                                ['sending_id', 'email_string', 'username_string'],
-                                ['updated_at' => now()]
-                            );
+
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         }),
