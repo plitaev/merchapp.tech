@@ -317,9 +317,9 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
             ])->statePath('data_bot_user');
     }
 
-    public function form_sending_some(Form $form): Form
+    public function form_sending_some(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Section::make('Получатели рассылки')
                     ->description('')
