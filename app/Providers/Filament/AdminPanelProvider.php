@@ -61,13 +61,6 @@ class AdminPanelProvider extends PanelProvider
             ->url("/admin/funnel-conditions")
             ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/funnel-conditions");
 
-        $A[] = NavigationItem::make('funnel-messages')
-            ->label('Сообшения воронок')
-            ->group('Справочники')
-            ->icon('heroicon-o-chat-bubble-bottom-center-text')
-            ->url("/admin/funnel-messages")
-            ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/funnel-messages");
-
         $A[] = NavigationItem::make('directories')
             ->label('Назначение сообщений')
             ->group('Справочники')
