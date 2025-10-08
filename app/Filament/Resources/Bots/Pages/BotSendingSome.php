@@ -132,7 +132,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                 Section::make('Получатели рассылки')
                     ->description('')
                     ->schema([
-                        Forms\Components\Hidden::make('sending_id'),
+                        Hidden::make('sending_id'),
                         Section::make('Значения для загрузки контактов')
                             ->description('Строка, cо значениями через запятую')
                             ->schema([
@@ -145,7 +145,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
-                            $data = $this->form>getState();
+                            $data = $this->form->getState();
 
                             $bot_user_id = '';
                             $email_str  = $data['email_string'];

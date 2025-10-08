@@ -74,7 +74,6 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
     public ?array $data_bot_message_link_listener = [];
     public ?array $data_bot_user = [];
 
-    public ?array $data_sending_some = [];
 
 
 
@@ -115,7 +114,6 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
         $bot = Bot::select('name')->find($bot_id);
         $this->bot_name = $bot->name;
         $this->form_bot_user->fill([]);
-        $this->form_sending_some->fill([]);
         $this->form->fill($data);
     }
 
@@ -126,7 +124,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
 
     protected function getForms(): array
     {
-        return ['form', 'form_bot_user', 'form_sending_some'];
+        return ['form', 'form_bot_user'];
     }
 
     public function form(Schema $schema): Schema
