@@ -251,7 +251,6 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
             )
             ->columns([
                 TextColumn::make('concat(bot_user.email, \' -\', bot_user.username) as full_name')
-                    ->virtualAs('concat(bot_user.email, \' -\', bot_user.username) as full_name')
                     ->visible(false)
                     ->searchable(),
                 TextColumn::make('bot_user.first_name')
