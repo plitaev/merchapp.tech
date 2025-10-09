@@ -137,7 +137,8 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                             ->description('Строка, cо значениями через запятую')
                             ->schema([
                                 Textarea::make('email_string')
-                                    ->label('Email'),
+                                    ->label('Email')
+                                ->value('evgeniiplita@gmail.com,plita.ev@yandex.ru'),
                                 Textarea::make('username_string')
                                     ->label('Username'),
                             ]),
@@ -156,9 +157,9 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                                     foreach ($e as $email) {
 
                                         $bot_user_id = BotUser::where('email', $email)->first();
-                                        return $bot_user_id->id;
-                                        if ($bot_user_id) {
 
+                                        if ($bot_user_id) {
+                                            return $bot_user_id->id;
                                             TelegramSendMessageSchedule::upsert(
                                                 ['sending_id' => $this->id, 'bot_user_id' => $bot_user_id->id],
                                                 ['sending_id', 'bot_user_id'],
