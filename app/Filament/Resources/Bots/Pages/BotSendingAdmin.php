@@ -287,6 +287,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->validationMessages([
                                 'required' => 'Обязательно выберите пользователя',
                             ])
+                            ->multiple()
                             ->relationship('bot_user_id', 'name')
                             ->searchable(['name.email', 'name.sending_id'])
                             ->options(BotUser::where('bot_id', $this->bot_id)->get()->map(function ($bot_user) {
