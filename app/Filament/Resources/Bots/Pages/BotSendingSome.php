@@ -159,7 +159,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                                         $bot_user_id = BotUser::where('email', $email)->first();
 
                                         if ($bot_user_id) {
-                                            echo $bot_user_id->id;
+                                            echo $this->id;
                                             TelegramSendMessageSchedule::upsert(
                                                 ['sending_id' => $this->id, 'bot_user_id' => $bot_user_id->id],
                                                 ['sending_id', 'bot_user_id'],
