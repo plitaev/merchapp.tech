@@ -24,7 +24,12 @@ class PayController
 
 
         $bot_user = BotUser::find($bot_user_id);
-        $bot = Bot::find($bot_user->bot_id);
+        $bot = Bot::query()
+            ->with('yookassa_tax_system_code')
+            ->with('yookassa_vat_code')
+            ->with('yookassa_payment_mode')
+            ->with('yookassa_payment_subject')
+            ->find($bot_user->bot_id);
         $product = Product::find($product_id);
 
         $client = new Client();
