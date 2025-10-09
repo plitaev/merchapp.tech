@@ -154,21 +154,20 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
 
                             if($email_mass) {
                                 foreach ($email_mass as $email) {
-                                  //  foreach ($e as $email) {
+                                    $bot_user_id = BotUser::where('email', $email)->first();
 
-                                        $bot_user_id = BotUser::where('email', $email)->first();
+                                    if ($bot_user_id) {
                                         $count = TelegramSendMessageSchedule::where('bot_user_id', $bot_user_id->id)
                                             ->where('sending_id', $this->id)
                                             ->count();
-                                        if ($bot_user_id && $count == 0) {
-                                            echo $this->id;
+                                        if ($count == 1) {
                                             TelegramSendMessageSchedule::upsert(
                                                 ['sending_id' => $this->id, 'bot_user_id' => $bot_user_id->id],
                                                 ['sending_id', 'bot_user_id'],
                                                 ['updated_at' => now()]
                                             );
                                         }
-                                    //}
+                                    }
                                 }
                             }
 
@@ -177,19 +176,19 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
 
                             if($username_mass) {
                                 foreach ($username_mass as $username) {
-                                 //   foreach ($u as $username) {
-                                        $bot_user_id = BotUser::where('username', $username)->first();
+                                    $bot_user_id = BotUser::where('username', $username)->first();
+                                    if ($bot_user_id) {
                                         $count = TelegramSendMessageSchedule::where('bot_user_id', $bot_user_id->id)
                                             ->where('sending_id', $this->id)
                                             ->count();
-                                        if ($bot_user_id && $count == 0) {
+                                        if ($count == 1) {
                                             TelegramSendMessageSchedule::upsert(
                                                 ['sending_id' => $this->id, 'bot_user_id' => $bot_user_id->id],
                                                 ['sending_id', 'bot_user_id'],
                                                 ['updated_at' => now()]
                                             );
                                         }
-                                  //  }
+                                    }
                                 }
                             }
 
