@@ -195,6 +195,8 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                                 ->title('Данные успешно загружены!')
                                 ->success()
                                 ->send();
+
+                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->id.'/sending-admin');
                         }),
                     Action::make('Отмена')
                         ->action(function () {
