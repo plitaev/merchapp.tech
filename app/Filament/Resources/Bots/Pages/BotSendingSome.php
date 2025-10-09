@@ -127,7 +127,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
     {
         return $schema
             ->components([
-                Section::make('Получатели рассылки')
+                Section::make('Получатели рассылки!')
                     ->description('')
                     ->schema([
                         Hidden::make('sending_id'),
