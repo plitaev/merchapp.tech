@@ -281,14 +281,6 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ->description('')
                     ->schema([
                         Hidden::make('sending_id'),
-                        Select::make('bot_user_id')
-                            ->label('Пользователь')
-                            ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно выберите пользователя',
-                            ])
-                            ->options(BotUser::where('bot_id', $this->bot_id)->pluck('value', 'key')->toArray())
-                            ->searchable()
 
                     ]),
                 Actions::make([
