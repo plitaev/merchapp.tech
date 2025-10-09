@@ -74,10 +74,6 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
     public ?array $data_bot_message_link_listener = [];
     public ?array $data_bot_user = [];
 
-    public ?array $data_sending_some = [];
-
-
-
     public function getRecord(): ?Model
     {
         return Sending::class;
@@ -115,7 +111,6 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
         $bot = Bot::select('name')->find($bot_id);
         $this->bot_name = $bot->name;
         $this->form_bot_user->fill([]);
-        $this->form_sending_some->fill([]);
         $this->form->fill($data);
     }
 
@@ -126,7 +121,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
 
     protected function getForms(): array
     {
-        return ['form', 'form_bot_user', 'form_sending_some'];
+        return ['form', 'form_bot_user'];
     }
 
     public function form(Schema $schema): Schema
@@ -289,6 +284,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                         Select::make('bot_user_id')
                             ->label('Пользователь')
                             ->required()
+                            ->searchable()
                             ->validationMessages([
                                 'required' => 'Обязательно выберите пользователя',
                             ])
@@ -315,73 +311,6 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                         })
                 ])
             ])->statePath('data_bot_user');
-    }
-
-    public function form_sending_some(Schema $schema): Schema
-    {
-        return $schema
-            ->schema([
-                Section::make('Получатели рассылки')
-                    ->description('')
-                    ->schema([
-                        Forms\Components\Hidden::make('sending_id'),
-                        Section::make('Значения для загрузки контактов')
-                            ->description('Строка, cо значениями через запятую')
-                            ->schema([
-                                Textarea::make('email_string')
-                                    ->label('Email'),
-                                Textarea::make('username_string')
-                                    ->label('Username'),
-                            ]),
-                    ]),
-                Actions::make([
-                    Action::make('Сохранить')
-                        ->action(function () {
-                            $formdata_some = $this->form_bot_some_user->getState();
-
-                            $bot_user_id = '';
-                            $email_str  = $formdata_some['email_string'];
-                            $email_mass[] = explode(",", $email_str);
-
-                            if($email_mass) {
-                                foreach ($email_mass as $email) {
-                                    $bot_user_id = BotUser::where('email', $email)->first();
-                                    if($bot_user_id) {
-                                        TelegramSendMessageSchedule::upsert(
-                                            ['sending_id' => $this->id, 'bot_user_id' => $bot_user_id],
-                                            ['sending_id', 'bot_user_id'],
-                                            ['updated_at' => now()]
-                                        );
-                                    }
-                                }
-                            }
-
-                            $username_str  = $formdata_some['username_string'];
-                            $username_mass[] = explode(",", $username_str);
-
-                            if($username_mass) {
-                                foreach ($username_mass as $username) {
-                                    $bot_user_id = BotUser::where('username', $username)->first();
-                                    if($bot_user_id) {
-                                        TelegramSendMessageSchedule::upsert(
-                                            ['sending_id' => $this->id, 'bot_user_id' => $bot_user_id],
-                                            ['sending_id', 'bot_user_id'],
-                                            ['updated_at' => now()]
-                                        );
-                                    }
-                                }
-                            }
-
-
-
-                            $this->dispatch('close-modal', id: 'add-page-modal');
-                        }),
-                    Action::make('Отмена')
-                        ->action(function () {
-                            $this->dispatch('close-modal', id: 'add-page-modal');
-                        })
-                ])
-            ])->statePath('data_sending_some');
     }
 
 }

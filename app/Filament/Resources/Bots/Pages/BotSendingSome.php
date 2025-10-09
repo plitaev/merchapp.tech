@@ -137,8 +137,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                             ->description('Строка, cо значениями через запятую')
                             ->schema([
                                 Textarea::make('email_string')
-                                    ->label('Email')
-                                    ->placeholder('evgeniiplita@gmail.com,plita.ev@yandex.ru'),
+                                    ->label('Email'),
                                 Textarea::make('username_string')
                                     ->label('Username'),
                             ]),
@@ -196,6 +195,8 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                                 ->title('Данные успешно загружены!')
                                 ->success()
                                 ->send();
+
+                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->id.'/sending-admin');
                         }),
                     Action::make('Отмена')
                         ->action(function () {
