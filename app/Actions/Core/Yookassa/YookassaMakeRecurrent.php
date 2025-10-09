@@ -35,7 +35,7 @@ class YookassaMakeRecurrent
             array(
                 'amount' => array(
                     'value' => $data->prevous_pay->price,
-                    'currency' => 'RUB',
+                    'currency' => $data->bot_user->yookassa_currency,
                 ),
                 'capture' => true,
                 'payment_method_id' => $data->prevous_pay->pay_system_payment_method_id,
