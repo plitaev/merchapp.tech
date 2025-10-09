@@ -146,9 +146,10 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                             $data = $this->form->getState();
 
                             $bot_user_id = '';
-                            $email_str  = $data['email_string'];
-                            $email_mass = multiexplode(array(',',', ',' ','\n',' \n', '\n '), $email_str);
+                            $splits = array(',',', ',' ','\n',' \n', '\n ');
 
+                            $email_str  = $data['email_string'];
+                            $email_mass = explode('\n', $email_str);
                             if($email_mass) {
                                 foreach ($email_mass as $email) {
                                     $bot_user_id = BotUser::where('email', $email)->first();
@@ -169,7 +170,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                             }
 
                             $username_str  = $data['username_string'];
-                            $username_mass = multiexplode(array(',',', ',' ','\n',' \n', '\n '), $username_str);
+                            $username_mass = explode('\n', $username_str);
 
                             if($username_mass) {
                                 foreach ($username_mass as $username) {
