@@ -81,22 +81,17 @@ class BotPays extends Page implements HasTable
                     ->where('status', 1)
             )
             ->columns([
-                Tables\Columns\TextColumn::make('created_at')
-                    ->date('d.m.Y H:i:s')
-                    ->label('Дата')
-                    ->sortable()
+                Tables\Columns\TextColumn::make('bot_user.first_name')
+                    ->label('Имя')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('bot_user.last_name')
+                    ->label('Фамилия')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('bot_user.email')
                     ->label('Email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('bot_user.username')
                     ->label('Ник')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('bot_user.first_name')
-                    ->label('Имя')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('bot_user.last_name')
-                    ->label('Фамилия')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('product.name')
                     ->label('Тариф')
@@ -105,12 +100,17 @@ class BotPays extends Page implements HasTable
                     ->label('Стоимость'),
                 Tables\Columns\TextColumn::make('days')
                     ->label('Дни'),
+                Tables\Columns\TextColumn::make('product_type.name')
+                    ->label('Способ оплаты'),
                 Tables\Columns\IconColumn::make('recurrent')
                     ->boolean()
                     ->label('Рекуррент')
                     ->alignCenter()
                     ->trueColor('info')
                     ->falseColor('warning'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->date('d.m.Y H:i:s')
+                    ->label('Дата'),
             ])
             ->filters([
                 //
