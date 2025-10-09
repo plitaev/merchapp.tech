@@ -147,7 +147,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
 
                             $bot_user_id = '';
                             $email_str  = $data['email_string'];
-                            $email_mass = explode(",", $email_str);
+                            $email_mass = multiexplode(array(',',', ',' ','\n',' \n', '\n '), $email_str);
 
                             if($email_mass) {
                                 foreach ($email_mass as $email) {
@@ -169,7 +169,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                             }
 
                             $username_str  = $data['username_string'];
-                            $username_mass = explode(",", $username_str);
+                            $username_mass = multiexplode(array(',',', ',' ','\n',' \n', '\n '), $username_str);
 
                             if($username_mass) {
                                 foreach ($username_mass as $username) {
