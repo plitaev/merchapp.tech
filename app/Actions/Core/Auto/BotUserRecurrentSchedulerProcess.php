@@ -23,6 +23,7 @@ class BotUserRecurrentSchedulerProcess
             ->where('run_status', 0)
             ->take(1)
             ->get();
+        return $res;
 
         foreach ($res as $data) {
             BotUserRecurrentSchedule::where('id', $data->id)->update(['run_status' => 1]);
