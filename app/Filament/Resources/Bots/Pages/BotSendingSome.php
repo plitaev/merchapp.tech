@@ -138,7 +138,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                             ->schema([
                                 Textarea::make('email_string')
                                     ->label('Email')
-                                ->value('evgeniiplita@gmail.com,plita.ev@yandex.ru'),
+                                ->text('evgeniiplita@gmail.com,plita.ev@yandex.ru'),
                                 Textarea::make('username_string')
                                     ->label('Username'),
                             ]),
