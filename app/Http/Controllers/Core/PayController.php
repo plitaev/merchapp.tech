@@ -30,6 +30,7 @@ class PayController
             ->with('yookassa_payment_mode')
             ->with('yookassa_payment_subject')
             ->find($bot_user->bot_id);
+        return $bot;
         $product = Product::find($product_id);
 
         $client = new Client();
