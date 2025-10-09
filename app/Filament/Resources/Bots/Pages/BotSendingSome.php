@@ -170,7 +170,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                             }
 
                             $username_str  = $data['username_string'];
-                            $username_mass = explode('\n', $username_str);
+                            $username_mass = explode("\n", $username_str);
 
                             if($username_mass) {
                                 foreach ($username_mass as $username) {
