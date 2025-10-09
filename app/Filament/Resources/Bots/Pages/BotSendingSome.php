@@ -153,8 +153,8 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                             $email_mass = explode(",", $email_str);
 
                             if($email_mass) {
-                                foreach ($email_mass as $e) {
-                                    foreach ($e as $email) {
+                                foreach ($email_mass as $email) {
+                                  //  foreach ($e as $email) {
 
                                         $bot_user_id = BotUser::where('email', $email)->first();
                                         $count = TelegramSendMessageSchedule::where('bot_user_id', $bot_user_id->id)
@@ -168,7 +168,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                                                 ['updated_at' => now()]
                                             );
                                         }
-                                    }
+                                    //}
                                 }
                             }
 
