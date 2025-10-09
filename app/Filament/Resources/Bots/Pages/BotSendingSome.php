@@ -132,7 +132,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                     ->schema([
                         Hidden::make('sending_id'),
                         Section::make('Значения для загрузки контактов')
-                            ->description('Строка, cо значениями через запятую')
+                            ->description('Строка, cо значениями через новую строку')
                             ->schema([
                                 Textarea::make('email_string')
                                     ->label('Email'),
