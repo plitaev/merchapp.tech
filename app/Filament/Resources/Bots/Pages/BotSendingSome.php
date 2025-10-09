@@ -149,7 +149,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                             $splits = array(',',', ',' ','\n',' \n', '\n ');
 
                             $email_str  = $data['email_string'];
-                            $email_mass = explode('\n', $email_str);
+                            $email_mass = explode("\n", $email_str);
                             if($email_mass) {
                                 foreach ($email_mass as $email) {
                                     $bot_user_id = BotUser::where('email', $email)->first();
