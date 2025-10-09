@@ -11,12 +11,12 @@ class YookassaMakeProductJSON
                 'quantity' => '1.00',
                 'amount' => [
                     'value' => $price,
-                    'currency' => 'RUB'
+                    'currency' => $bot->yookassa_currency
                 ],
-                'tax_system_code' => 6,
-                'vat_code' => '1',
-                'payment_mode' => 'full_payment',
-                'payment_subject' => 'service',
+                'tax_system_code' => $bot->yookassa_tax_system_code->code,
+                'vat_code' => $bot->yookassa_vat_code->code,
+                'payment_mode' => $bot->yookassa_payment_mode->code,
+                'payment_subject' => $bot->yookassa_payment_subject->code,
                 'save_payment_method' => $save_payment_method
             ]
         ];
