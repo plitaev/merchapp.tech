@@ -160,7 +160,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                                         $count = TelegramSendMessageSchedule::where('bot_user_id', $bot_user_id->id)
                                             ->where('sending_id', $this->id)
                                             ->count();
-                                        if ($count == 1) {
+                                        if ($count == 0) {
                                             TelegramSendMessageSchedule::upsert(
                                                 ['sending_id' => $this->id, 'bot_user_id' => $bot_user_id->id],
                                                 ['sending_id', 'bot_user_id'],
@@ -181,7 +181,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                                         $count = TelegramSendMessageSchedule::where('bot_user_id', $bot_user_id->id)
                                             ->where('sending_id', $this->id)
                                             ->count();
-                                        if ($count == 1) {
+                                        if ($count == 0) {
                                             TelegramSendMessageSchedule::upsert(
                                                 ['sending_id' => $this->id, 'bot_user_id' => $bot_user_id->id],
                                                 ['sending_id', 'bot_user_id'],
