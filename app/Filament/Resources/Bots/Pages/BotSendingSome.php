@@ -74,8 +74,6 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
     public static ?string $title = "Рассылка";
     public ?array $data = [];
 
-
-
     public function getRecord(): ?Model
     {
         return Sending::class;
