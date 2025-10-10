@@ -31,7 +31,18 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        return BotUser::where('date_end', '<', date('Y-m-d', time()))->where('ban', 0)->get();
+        $bot_users = BotUser::where('date_end', '<', date('Y-m-d', time()))->where('ban', 0)->get();
+        foreach ($bot_users as $bot_user) {
+            BotUserBanSchedule::create(
+                [
+                    'bot_user_id' => $bot_user->id,
+                    'run_status' => 0,
+                    'ban_datetime' => date('Y-m-d H:i:s', time())
+                ]
+            );
+        }
+
+        return 'ok';
 
         $sheetName = 'test';
 
