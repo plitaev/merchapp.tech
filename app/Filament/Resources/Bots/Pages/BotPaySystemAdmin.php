@@ -153,6 +153,12 @@ class BotPaySystemAdmin extends Page implements HasForms
                         TextInput::make('prodamus_sys')
                             ->label('Параметр sys')
                             ->maxLength(255),
+                        TextInput::make('prodamus_url')
+                            ->label('Ссылка на платежную страницу')
+                            ->maxLength(255),
+                        TextInput::make('prodamus_key')
+                            ->label('Ключ')
+                            ->maxLength(255),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
