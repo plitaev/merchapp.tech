@@ -17,6 +17,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 
 use App\Actions\Core\BotSendMessage\BotSendMessage;
+use App\Actions\Core\BotUser\BotUserBanByDeletePay;
 use App\Actions\Core\DateEnd\DateEndCacheForPay;
 
 use App\Models\Core\Bot;
@@ -129,14 +130,18 @@ class BotPays extends Page implements HasTable
                     ->after(function ($record) {
                         $botSendMessage = new BotSendMessage();
                         $dateEndCacheForPay = new DateEndCacheForPay();
-                        $date_end_cache = $dateEndCacheForPay->handle($this->pay_bot_user_id);
+                        $date_end = $dateEndCacheForPay->handle($this->pay_bot_user_id);
 
                         Notification::make()
-                            ->title("Установлена дата окончания участия: " . $date_end_cache)
+                            ->title("Установлена дата окончания участия: " . $date_end)
                             ->success()
                             ->send();
 
-                        $bot_user = BotUser::find($this->pay_bot_user_id);
+                        $bot_user = BotUser::with('bot')->find($this->pay_bot_user_id);
+
+                        $botUserBanByDeletePay = new BotUserBanByDeletePay();
+                        $botUserBanByDeletePay->handle($bot_user);
+
                         $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
                     }),
 
@@ -156,14 +161,16 @@ class BotPays extends Page implements HasTable
                         })
                         ->after(function ($records) {
                             $botSendMessage = new BotSendMessage();
+                            $botUserBanByDeletePay = new BotUserBanByDeletePay();
 
                             foreach ($this->pay_bulk_delete_ids as $bulk) {
                                 $dateEndCacheForPay = new DateEndCacheForPay();
                                 $dateEndCacheForPay->handle($bulk["bot_user_id"]);
                             }
 
-                            $bot_users = BotUser::whereIn('id', $this->pay_bulk_delete_ids)->get();
+                            $bot_users = BotUser::with('bot')->whereIn('id', $this->pay_bulk_delete_ids)->get();
                             foreach ($bot_users as $bot_user) {
+                                $botUserBanByDeletePay->handle($bot_user);
                                 $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
                             }
 
