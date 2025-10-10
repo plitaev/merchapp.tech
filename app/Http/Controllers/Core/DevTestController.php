@@ -30,7 +30,7 @@ use Illuminate\Support\Str;
 class DevTestController extends Controller
 {
     public function devtest() {
-
+        /*
         $bot_users = BotUser::where('date_end', '<', date('Y-m-d', time()))->where('ban', 0)->get();
         foreach ($bot_users as $bot_user) {
             BotUserBanSchedule::create(
@@ -41,8 +41,8 @@ class DevTestController extends Controller
                 ]
             );
         }
-
         return 'ok';
+        */
 
         $sheetName = 'test';
 
