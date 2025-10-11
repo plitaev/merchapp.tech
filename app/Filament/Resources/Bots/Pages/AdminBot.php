@@ -191,7 +191,7 @@ class AdminBot extends Page implements HasForms
                     ])
                     ->schema([
                         TextInput::make('telegram_token')
-                            ->label('Telegram-токен (из BotFather)1')
+                            ->label('Telegram-токен (из BotFather)')
                             ->required()
                             ->maxLength(255),
                         TextInput::make('telegram_webhook')
@@ -218,7 +218,7 @@ class AdminBot extends Page implements HasForms
                                 ->send();
                         }),
                     Action::make('webhook')
-                    ->label('Запросить статус Webhook')
+                    ->label('Запросить статус Webhook1')
                         ->action(function () {
                             $data = $this->form->getState();
 
