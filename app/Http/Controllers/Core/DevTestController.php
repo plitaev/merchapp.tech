@@ -34,7 +34,7 @@ class DevTestController extends Controller
     public function devtest() {
         return Carbon::parse('2025-08-12')->addDays(30);
 
-        $diff_days=Carbon::parse('2025-08-12')->startOfDay()->diffInDays('2025-09-05');
+        $diff_days=Carbon::parse('2025-08-12')->startOfDay()->diffInDays('2025-09-05')->format('Y-m-d');
         return $diff_days;
     }
 }
