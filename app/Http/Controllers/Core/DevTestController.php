@@ -48,6 +48,7 @@ class DevTestController extends Controller
             ->where('bot_user_id', $bot_user->id)
             ->where('gift', 0)
             ->where('status', 1)
+            ->whereNot('id', 41224)
             ->get();
 
 
@@ -59,6 +60,7 @@ class DevTestController extends Controller
             ->where('gift_bot_user_id', $bot_user->id)
             ->where('gift', 1)
             ->where('status', 1)
+            ->whereNot('id', 41224)
             ->get();
 
         $alldays = [];
@@ -93,10 +95,11 @@ class DevTestController extends Controller
             }
         }
 
-        return $Adiffs_in_days;
+        //return $Adiffs_in_days;
 
         foreach ($Adates_end as $date) {
             $date_end=$date;
+            return $date;
         }
 
 
