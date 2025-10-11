@@ -11,7 +11,7 @@ use App\Filament\Resources\BotResource\RelationManagers;
 use App\Livewire\Agency\Inbox\ActiveTasksTable;
 use App\Models\Core\Bot;
 use App\Models\Core\TelegramSupergroupLinkBot\TelegramSupergroupLinkBot;
-use App\Actions\Core\Telegram;
+use App\Actions\Core\Telegram\TelegramWebhookInfo;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -190,14 +190,6 @@ class AdminBot extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
-                        TextInput::make('telegram_token')
-                            ->label('Telegram-токен (из BotFather)')
-                            ->required()
-                            ->maxLength(255),
-                        TextInput::make('telegram_webhook')
-                            ->label('Адрес вебхука Telegram')
-                            ->required()
-                            ->maxLength(255),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
