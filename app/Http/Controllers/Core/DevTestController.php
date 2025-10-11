@@ -101,7 +101,7 @@ class DevTestController extends Controller
             $date_end=$date;
         }
 
-        return $date_end;
+        return $date_end->format('Y-m-d');
 
     }
 }
