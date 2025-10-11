@@ -43,7 +43,7 @@ class AdminBot extends Page implements HasForms
 
     public int $telegram_token;
     public int $telegram_webhook;
-    public string $telegramWebhookInfo;
+    public string $telegramWebhookInfo = '';
 
     public array $hours = [
         '0' => '0',
@@ -192,7 +192,7 @@ class AdminBot extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Text::make('')
+                        Text::make('', $this->telegramWebhookInfo)
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
