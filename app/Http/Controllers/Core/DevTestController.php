@@ -48,6 +48,7 @@ class DevTestController extends Controller
             ->where('bot_user_id', $bot_user->id)
             ->where('gift', 0)
             ->where('status', 1)
+            ->whereNot('id', 33090)
             ->get();
 
 
@@ -59,6 +60,7 @@ class DevTestController extends Controller
             ->where('gift_bot_user_id', $bot_user->id)
             ->where('gift', 1)
             ->where('status', 1)
+            ->whereNot('id', 33090)
             ->get();
 
         $alldays = [];
