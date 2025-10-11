@@ -35,7 +35,7 @@ class GoogleController
         $datetime_start = $date.' 00:00:00';
         $datetime_end = $date.' 23:59:59';
 
-        $sheet_name = 'Неудачные  рекурентные списания';
+        $sheet_name = 'Неудачные рекурентные списания';
 
         $result = [];
 
