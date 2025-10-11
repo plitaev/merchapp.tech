@@ -218,7 +218,7 @@ class AdminBot extends Page implements HasForms
                                 ->send();
                         }),
                     Action::make('webhook')
-                        ->label('Запросить статус Webhook1')
+                        ->label('Запросить статус Webhook12')
                         ->action(function () {
                             $data = $this->form->getState();
 
