@@ -32,7 +32,7 @@ use Carbon\Carbon;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $diff_days=Carbon::parse('2025-07-14')->startOfDay()->diffInDays('2025-08-12');
+        $diff_days=Carbon::parse('2025-08-12')->startOfDay()->diffInDays('2025-09-05');
         return $diff_days;
     }
 }
