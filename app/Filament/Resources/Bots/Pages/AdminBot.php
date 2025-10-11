@@ -182,8 +182,8 @@ class AdminBot extends Page implements HasForms
                             ->label('Не отправлять сообщение в бизнес-бот после ответа оператора (в минутах)')
                             ->maxLength(255),
                     ]),
-                Section::make('Telegram webhook')
-                    ->description('Настройки webhook')
+                Section::make('Telegram Webhook')
+                    ->description('Настройки Webhook')
                     ->columns([
                         'sm' => 2,
                         'md' => 2,
