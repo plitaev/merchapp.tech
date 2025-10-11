@@ -95,7 +95,7 @@ class DevTestController extends Controller
             }
         }
 
-        return $Adiffs_in_days;
+        //return $Adiffs_in_days;
 
         foreach ($Adates_end as $date) {
             $date_end=$date;
