@@ -192,7 +192,7 @@ class AdminBot extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Text::make()
+                        Text::make('')
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
