@@ -62,7 +62,7 @@ class DevTestController extends Controller
         ];
 
         //Sheets::spreadsheet(config('google.post_spreadsheet_id'))->addSheet($sheetName);
-        Sheets::sheet($sheetName)->append($data);
+        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheetName)->append($data);
 
     }
 }
