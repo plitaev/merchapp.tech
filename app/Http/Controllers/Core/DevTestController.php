@@ -27,29 +27,12 @@ use Revolution\Google\Sheets\Facades\Sheets;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+use Carbon\Carbon;
+
 class DevTestController extends Controller
 {
     public function devtest() {
-
-        $sheetName = 'test';
-
-        $data = [
-            [
-                'ID',
-                'Name',
-            ],
-            [
-                'U001',
-                'Hi',
-            ],
-            [
-                'U002',
-                'Magic',
-            ],
-        ];
-
-        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->addSheet($sheetName);
-        Sheets::sheet($sheetName)->append($data);
-
+        $diff_days=Carbon::parse('2025-07-14')->startOfDay()->diffInDays('2025-08-12');
+        return $diff_days;
     }
 }
