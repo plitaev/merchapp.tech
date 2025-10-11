@@ -181,7 +181,7 @@ class AdminBot extends Page implements HasForms
                             ->maxLength(255),
                     ]),
                 Section::make('Telegram webhook1')
-                    ->description('Настройки webhook')
+                    ->description('Настройки webhook 123')
                     ->columns([
                         'sm' => 2,
                         'md' => 2,
