@@ -142,7 +142,7 @@ class AdminBot extends Page implements HasForms
         return $this->name;
     }
 
-    public function form(Schema $schema, $telegramWebhookInfo): Schema
+    public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
@@ -192,7 +192,7 @@ class AdminBot extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Text::make($telegramWebhookInfo)
+                        Text::make()
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
