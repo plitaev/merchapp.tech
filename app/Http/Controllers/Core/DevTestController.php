@@ -89,7 +89,7 @@ class DevTestController extends Controller
                     $Adiffs_in_days[]=$diff_days;
                     if ($diff_days>0) {
                         $days_to_add=$days_to_add+$diff_days;
-                        $Adates_end[$next_pos]=$Adates_end[$next_pos]->addDay($diff_days);
+                        $Adates_end[$next_pos]=Carbon::parse($Adates_end[$next_pos])->addDay($diff_days);
                     }
                 }
             }
