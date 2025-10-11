@@ -1,6 +1,8 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Actions\Core\Telegram\TelegramDeleteWebhook;
+use App\Actions\Core\Telegram\TelegramSetWebhook;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -223,9 +225,39 @@ class AdminBot extends Page implements HasForms
                             $telegram_webhook = $data['telegram_webhook'];
 
                             $telegramWebhookInfo = new TelegramWebhookInfo($telegram_token, $telegram_webhook);
-                            return $telegramWebhookInfo;
+                            //return $telegramWebhookInfo;
                             Notification::make()
                                 ->title('Данные успешно получены!')
+                                ->success()
+                                ->send();
+                        }),
+                    Action::make('webhook_set')
+                        ->label('Установить Webhook')
+                        ->action(function () {
+                            $data = $this->form->getState();
+
+                            $telegram_token = $data['telegram_token'];
+                            $telegram_webhook = $data['telegram_webhook'];
+
+                            $telegramSetWebhook = new TelegramSetWebhook($telegram_token, $telegram_webhook);
+                            //return $telegramSetWebhook;
+                            Notification::make()
+                                ->title('Данные успешно установлены!')
+                                ->success()
+                                ->send();
+                        }),
+                    Action::make('webhook_delete')
+                        ->label('Удалить Webhook')
+                        ->action(function () {
+                            $data = $this->form->getState();
+
+                            $telegram_token = $data['telegram_token'];
+                            $telegram_webhook = $data['telegram_webhook'];
+
+                            $telegramDeleteWebhook= new TelegramDeleteWebhook($telegram_token, $telegram_webhook);
+                            //return $telegramDeleteWebhook;
+                            Notification::make()
+                                ->title('Данные успешно удалены!')
                                 ->success()
                                 ->send();
                         }),
