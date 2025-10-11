@@ -32,12 +32,12 @@ use Carbon\Carbon;
 class DevTestController extends Controller
 {
     public function devtest() {
-        /*
+
         return Carbon::parse('2025-09-05')->addDays(30)->format('Y-m-d');
         $diff_days=Carbon::parse('2025-08-12')->startOfDay()->diffInDays('2025-09-05');
         return $diff_days;
-        */
 
+        /*
         $bot_user = BotUser::find(1115);
 
         $alldays1 = Pay::with('bot')
@@ -100,6 +100,6 @@ class DevTestController extends Controller
         }
 
         return $date_end->format('Y-m-d');
-
+        */
     }
 }
