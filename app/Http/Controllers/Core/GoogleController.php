@@ -15,6 +15,7 @@ class GoogleController
 
         $res = BotUser::where('date_end', $date_end)->get();
         foreach ($res as $data) {
+            /*
             $A = [
                 (isset($data->email)?$data->email:''),
                 ($data->first_name != 'none'?$data->first_name:''),
@@ -22,6 +23,10 @@ class GoogleController
                 date('d.m.Y', strtotime($date_end)),
                 ($data->username != 'none'?$data->username:'')
             ];
+            */
+
+            $A = ['1', '2', '3', '4', '5'];
+
             //return $A;
 
             $data[] = $A;
