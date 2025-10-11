@@ -99,9 +99,9 @@ class DevTestController extends Controller
 
         foreach ($Adates_end as $date) {
             $date_end=$date;
-            return $date_end;
         }
 
+        return $date_end;
 
     }
 }
