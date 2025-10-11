@@ -177,6 +177,42 @@ class AdminBot extends Page implements HasForms
                             ->label('Не отправлять сообщение в бизнес-бот после ответа оператора (в минутах)')
                             ->maxLength(255),
                     ]),
+                Section::make('Telegram webhook')
+                    ->description('Настройки webhook')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Название (Только в панели администратора)')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('alias')
+                            ->label('Username в Telegram')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('telegram_token')
+                            ->label('Telegram-токен (из BotFather)')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('telegram_webhook')
+                            ->label('Адрес вебхука Telegram')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('message_worktime_after_minutes')
+                            ->label('Время ответа техподдержки до отправки автосообщения бизнес-ботом')
+                            ->maxLength(255),
+                        TextInput::make('business_bot_delay_after_bot_sent_message_in_minutes')
+                            ->label('Не отправлять сообщение в бизнес-бот после ответа бота (в минутах)')
+                            ->maxLength(255),
+                        TextInput::make('business_bot_delay_after_operator_sent_message_in_minutes')
+                            ->label('Не отправлять сообщение в бизнес-бот после ответа оператора (в минутах)')
+                            ->maxLength(255),
+                    ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
@@ -192,6 +228,18 @@ class AdminBot extends Page implements HasForms
 
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
+                        }),
+                    Action::make('Запросить статус Webhook')
+                        ->action(function () {
+                            $data = $this->form->getState();
+
+                            return redirect('/telegram/get_webhook_info/'.$data->telegram_token.'/'.$data->telegram_webhook);
+
+
+                            Notification::make()
+                                ->title('Данные успешно отправлены!')
                                 ->success()
                                 ->send();
                         }),
