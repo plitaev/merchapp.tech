@@ -223,7 +223,7 @@ class AdminBot extends Page implements HasForms
                             $telegram_webhook = $data['telegram_webhook'];
 
                             $telegramWebhookInfo = new TelegramWebhookInfo($telegram_token, $telegram_webhook);
-
+                            return $telegram_token.' '.$telegram_webhook;
                             Notification::make()
                                 ->title('Данные успешно получены!')
                                 ->success()
