@@ -15,4 +15,14 @@ class GetcourseEventWebhook extends Model
         'bot_id'
     ];
 
+    public function bot(): BelongsTo
+    {
+        return $this->belongsTo(Bot::class);
+    }
+
+    public function bot_user(): BelongsTo
+    {
+        return $this->belongsTo(BotUser::class, 'email', 'email');
+    }
+
 }

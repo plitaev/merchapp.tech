@@ -54,33 +54,33 @@ class BotChats extends Page implements HasTable
         return $table
             ->query(BotUser::where('bot_id', $this->bot_id))
             ->columns([
-                TextColumn::make('telegram_chat_id')
+                Tables\Columns\TextColumn::make('telegram_chat_id')
                     ->label('ID')
                     ->searchable(),
-                TextColumn::make('first_name')
+                Tables\Columns\TextColumn::make('first_name')
                     ->label('Имя')
                     ->searchable(),
-                TextColumn::make('last_name')
+                Tables\Columns\TextColumn::make('last_name')
                     ->label('Фамилия')
                     ->searchable(),
-                TextColumn::make('hand_name')
-                    ->label('Отчество')
-                    ->searchable(),
-                TextColumn::make('username')
+                Tables\Columns\TextColumn::make('username')
                     ->label('Имя пользователя')
                     ->searchable(),
-                TextColumn::make('email')
+                Tables\Columns\TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
-                TextColumn::make('ban_name.name')
+                Tables\Columns\TextColumn::make('date_end')
+                    ->date('d.m.Y')
+                    ->label('Дата подписки'),
+                Tables\Columns\TextColumn::make('ban_name.name')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Да' => 'danger',
+                        'Нет' => 'success',
+                    })
                     ->label('Бан'),
-                TextColumn::make('ban_time')
-                    ->label('Дата/время бана'),
-                TextColumn::make('unban_name.name')
-                    ->label('Разбан'),
-                TextColumn::make('unban_time')
-                    ->label('Дата/время разбана'),
-
+                Tables\Columns\TextColumn::make('ban_time')
+                    ->label('Дата/время бана')
             ])
             ->filters([
                 Filter::make('Все')
@@ -96,13 +96,13 @@ class BotChats extends Page implements HasTable
                         return $query->where('unban', 1);
                     })
             ])
-            ->recordActions([
+            ->actions([
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/chat-admin"),
                 DeleteAction::make(),
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/chat-admin")
-            ->toolbarActions([
+            ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

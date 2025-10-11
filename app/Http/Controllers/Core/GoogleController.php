@@ -1,0 +1,63 @@
+<?php
+namespace App\Http\Controllers\Core;
+
+use Revolution\Google\Sheets\Facades\Sheets;
+
+use App\Models\Core\BotUser;
+use App\Models\Core\GetcourseEventWebhook;
+
+class GoogleController
+{
+    public function send_banneds() {
+        $date_end = date('Y-m-d', time());
+        $sheet_name = 'Отписавшиеся пользователи (удалены из клуба)';
+
+        $result = [];
+
+        $res = BotUser::where('date_end', $date_end)->get();
+        foreach ($res as $data) {
+            $A = [
+                (isset($data->email)?$data->email:''),
+                ($data->first_name != 'none'?$data->first_name:''),
+                ($data->last_name != 'none'?$data->last_name:''),
+                date('d.m.Y', strtotime($date_end)),
+                ($data->username != 'none'?$data->username:'')
+            ];
+
+            $result[] = $A;
+        }
+
+        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
+    }
+
+    public function send_recurrent_fail() {
+        $date = date('Y-m-d', time());
+        $datetime_start = $date.' 00:00:00';
+        $datetime_end = $date.' 23:59:59';
+
+        $sheet_name = 'Неудачные рекурентные списания';
+
+        $result = [];
+
+        $res = GetcourseEventWebhook::with('bot_user')
+            ->where('event', 'recurrent_fail')
+            ->where('created_at', '>=', $datetime_start)
+            ->where('created_at', '<=', $datetime_end)
+            ->get();
+
+        foreach ($res as $data) {
+            $A = [
+                $data->email,
+                (isset($data->bot_user->first_name) && $data->bot_user->first_name != 'none'?$data->bot_user->first_name:''),
+                (isset($data->bot_user->last_name) && $data->bot_user->last_name != 'none'?$data->bot_user->last_name:''),
+                date('d.m.Y', strtotime($date)),
+                (isset($data->bot_user->username) && $data->bot_user->username != 'none'?$data->bot_user->username:'')
+            ];
+
+            $result[] = $A;
+        }
+
+        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
+    }
+
+}

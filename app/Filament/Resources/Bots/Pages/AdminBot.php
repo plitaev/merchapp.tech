@@ -1,16 +1,22 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Actions\Core\Telegram\TelegramDeleteWebhook;
+use App\Actions\Core\Telegram\TelegramSetWebhook;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Text;
+use Illuminate\Support\HtmlString;
+
 use Filament\Actions\Action;
 use App\Filament\Resources\Bots\BotResource;
 use App\Filament\Resources\BotResource\RelationManagers;
 use App\Livewire\Agency\Inbox\ActiveTasksTable;
 use App\Models\Core\Bot;
 use App\Models\Core\TelegramSupergroupLinkBot\TelegramSupergroupLinkBot;
+use App\Actions\Core\Telegram\TelegramWebhookInfo;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -38,6 +44,10 @@ class AdminBot extends Page implements HasForms
     public int $id;
 
     public string $name;
+
+    public int $telegram_token;
+    public int $telegram_webhook;
+    public string $telegramWebhookInfo = '';
 
     public array $hours = [
         '0' => '0',
@@ -122,7 +132,6 @@ class AdminBot extends Page implements HasForms
             $bot = [];
             $this->name = 'Новый бот';
         }
-
         $data = ($record>0?Bot::find($record)->toArray():[]);
         $this->form->fill($data);
     }
@@ -177,6 +186,18 @@ class AdminBot extends Page implements HasForms
                             ->label('Не отправлять сообщение в бизнес-бот после ответа оператора (в минутах)')
                             ->maxLength(255),
                     ]),
+                Section::make('Telegram Webhook')
+                    ->description('Настройки Webhook')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
+                        Text::make(new HtmlString('', $this->telegramWebhookInfo))
+                    ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
@@ -192,6 +213,51 @@ class AdminBot extends Page implements HasForms
 
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
+                        }),
+                    Action::make('webhook_view')
+                        ->label('Запросить статус Webhook')
+                        ->action(function () {
+                            $data = $this->form->getState();
+
+                            $telegram_token = $data['telegram_token'];
+                            $telegram_webhook = $data['telegram_webhook'];
+
+                            $telegramWebhookInfo = new TelegramWebhookInfo($telegram_token, $telegram_webhook);
+                            //return $telegramWebhookInfo;
+                            Notification::make()
+                                ->title('Данные успешно получены!')
+                                ->success()
+                                ->send();
+                        }),
+                    Action::make('webhook_set')
+                        ->label('Установить Webhook')
+                        ->action(function () {
+                            $data = $this->form->getState();
+
+                            $telegram_token = $data['telegram_token'];
+                            $telegram_webhook = $data['telegram_webhook'];
+
+                            $telegramSetWebhook = new TelegramSetWebhook($this->id, $telegram_token, $telegram_webhook);
+                            //return $telegramSetWebhook;
+                            Notification::make()
+                                ->title('Данные успешно установлены!')
+                                ->success()
+                                ->send();
+                        }),
+                    Action::make('webhook_delete')
+                        ->label('Удалить Webhook')
+                        ->action(function () {
+                            $data = $this->form->getState();
+
+                            $telegram_token = $data['telegram_token'];
+                            $telegram_webhook = $data['telegram_webhook'];
+
+                            $telegramDeleteWebhook= new TelegramDeleteWebhook($telegram_token, $telegram_webhook);
+                            //return $telegramDeleteWebhook;
+                            Notification::make()
+                                ->title('Данные успешно удалены!')
                                 ->success()
                                 ->send();
                         }),

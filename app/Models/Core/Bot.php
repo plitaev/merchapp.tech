@@ -72,5 +72,4 @@ class Bot extends Model
         return $this->belongsTo(ProdamusNpdIncomeType::class, 'prodamus_npd_income_type_id', 'id');
     }
 
-
 }
