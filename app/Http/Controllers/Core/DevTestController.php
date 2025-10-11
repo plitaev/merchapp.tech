@@ -48,6 +48,7 @@ class DevTestController extends Controller
             ->where('bot_user_id', $bot_user->id)
             ->where('gift', 0)
             ->where('status', 1)
+            ->whereNot('id', 41224)
             ->get();
 
 
@@ -59,6 +60,7 @@ class DevTestController extends Controller
             ->where('gift_bot_user_id', $bot_user->id)
             ->where('gift', 1)
             ->where('status', 1)
+            ->whereNot('id', 41224)
             ->get();
 
         $alldays = [];
@@ -72,8 +74,8 @@ class DevTestController extends Controller
 
         foreach ($alldays as $allday) {
 
-            $Adates_start[]=$allday->created_at;
-            $Adates_end[]=$allday->created_at->addDays($allday->days);
+            $Adates_start[]=$allday->created_at->format('Y-m-d');
+            $Adates_end[]=$allday->created_at->addDays($allday->days)->format('Y-m-d');
         }
 
         $days_to_add=0;
