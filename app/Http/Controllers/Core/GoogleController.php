@@ -31,7 +31,7 @@ class GoogleController
     }
 
     public function send_recurrent_fail() {
-        $date = '2025-10-10';
+        $date = date('Y-m-d', time());
         $datetime_start = $date.' 00:00:00';
         $datetime_end = $date.' 23:59:59';
 
