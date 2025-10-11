@@ -11,6 +11,7 @@ use App\Filament\Resources\BotResource\RelationManagers;
 use App\Livewire\Agency\Inbox\ActiveTasksTable;
 use App\Models\Core\Bot;
 use App\Models\Core\TelegramSupergroupLinkBot\TelegramSupergroupLinkBot;
+use App\Actions\Core\Telegram;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -125,7 +126,6 @@ class AdminBot extends Page implements HasForms
             $bot = [];
             $this->name = 'Новый бот';
         }
-
         $data = ($record>0?Bot::find($record)->toArray():[]);
         $this->form->fill($data);
     }
@@ -180,8 +180,8 @@ class AdminBot extends Page implements HasForms
                             ->label('Не отправлять сообщение в бизнес-бот после ответа оператора (в минутах)')
                             ->maxLength(255),
                     ]),
-                Section::make('Telegram webhook1')
-                    ->description('Настройки webhook 123')
+                Section::make('Telegram webhook')
+                    ->description('Настройки webhook')
                     ->columns([
                         'sm' => 2,
                         'md' => 2,
@@ -217,18 +217,18 @@ class AdminBot extends Page implements HasForms
                                 ->success()
                                 ->send();
                         }),
-                    Action::make('webhook')
-                        ->label('Запросить статус Webhook12')
+                    Action::make('webhook_view')
+                        ->label('Запросить статус Webhook')
                         ->action(function () {
                             $data = $this->form->getState();
 
                             $telegram_token = $data['telegram_token'];
                             $telegram_webhook = $data['telegram_webhook'];
 
-                            return redirect('/telegram/get_webhook_info/'.$telegram_token.'/'.$telegram_webhook);
+                            $telegramWebhookInfo = new TelegramWebhookInfo($telegram_token, $telegram_webhook);
 
                             Notification::make()
-                                ->title('Данные успешно отправлены!')
+                                ->title('Данные успешно получены!')
                                 ->success()
                                 ->send();
                         }),
