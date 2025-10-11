@@ -31,18 +31,26 @@ class GoogleController
     }
 
     public function send_recurrent_fail() {
-        $date_end = '2025-10-10';
+        $date = '2025-10-10';
+        $datetime_start = $date.' 00:00:00';
+        $datetime_end = $date.' 23:59:59';
+
         $sheet_name = 'Неудачные  рекурентные списания';
 
         $result = [];
 
-        $res = GetcourseEventWebhook::with('bot')->where('date_end', $date_end)->get();
+        $res = GetcourseEventWebhook::with('bot')
+            ->where('event', 'recurrent_fail')
+            ->where('created_at', '>=', $datetime_start)
+            ->where('created_at', '<=', $datetime_end)
+            ->get();
+
         foreach ($res as $data) {
             $A = [
                 (isset($data->bot->email)?$data->bot->email:''),
                 ($data->bot->first_name != 'none'?$data->bot->first_name:''),
                 ($data->bot->last_name != 'none'?$data->bot->last_name:''),
-                date('d.m.Y', strtotime($date_end)),
+                date('d.m.Y', strtotime($date)),
                 ($data->bot->username != 'none'?$data->bot->username:'')
             ];
 
