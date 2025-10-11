@@ -46,6 +46,7 @@ class GoogleController
             ->get();
 
         foreach ($res as $data) {
+            return $data;
             $A = [
                 (isset($data->bot->email)?$data->bot->email:''),
                 ($data->bot->first_name != 'none'?$data->bot->first_name:''),
