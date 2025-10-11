@@ -52,16 +52,16 @@ class DevTestController extends Controller
                 'Name',
             ],
             [
-                'U001',
-                'Hi',
+                'U003',
+                'ааа',
             ],
             [
-                'U002',
-                'Magic',
+                'U004',
+                'иии',
             ],
         ];
 
-        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->addSheet($sheetName);
+        //Sheets::spreadsheet(config('google.post_spreadsheet_id'))->addSheet($sheetName);
         Sheets::sheet($sheetName)->append($data);
 
     }
