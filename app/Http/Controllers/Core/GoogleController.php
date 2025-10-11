@@ -22,7 +22,7 @@ class GoogleController
                 date('d.m.Y', strtotime($date_end)),
                 ($data->username != 'none'?$data->username:'')
             ];
-            return $A;
+            //return $A;
 
             $data[] = $A;
         }
