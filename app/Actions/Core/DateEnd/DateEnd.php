@@ -16,7 +16,6 @@ class DateEnd
             ->where('bot_user_id', $bot_user->id)
             ->where('gift', 0)
             ->where('status', 1)
-            ->whereNot('id', 41224)
             ->get();
 
 
@@ -28,7 +27,6 @@ class DateEnd
             ->where('gift_bot_user_id', $bot_user->id)
             ->where('gift', 1)
             ->where('status', 1)
-            ->whereNot('id', 41224)
             ->get();
 
         $alldays = [];
