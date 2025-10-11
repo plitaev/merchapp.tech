@@ -46,16 +46,13 @@ class GoogleController
             ->get();
 
         foreach ($res as $data) {
-            return $data;
             $A = [
-                (isset($data->bot->email)?$data->bot->email:''),
-                ($data->bot->first_name != 'none'?$data->bot->first_name:''),
-                ($data->bot->last_name != 'none'?$data->bot->last_name:''),
+                $data->email,
+                (isset($data->bot_user->first_name) && $data->bot_user->first_name != 'none'?$data->bot_user->first_name:''),
+                (isset($data->bot_user->last_name) && $data->bot_user->last_name != 'none'?$data->bot_user->last_name:''),
                 date('d.m.Y', strtotime($date)),
-                ($data->bot->username != 'none'?$data->bot->username:'')
+                (isset($data->bot_user->username) && $data->bot_user->username != 'none'?$data->bot_user->username:'')
             ];
-
-            return $A;
 
             $result[] = $A;
         }
