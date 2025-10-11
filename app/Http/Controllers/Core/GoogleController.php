@@ -54,6 +54,8 @@ class GoogleController
                 ($data->bot->username != 'none'?$data->bot->username:'')
             ];
 
+            return $A;
+
             $result[] = $A;
         }
 
