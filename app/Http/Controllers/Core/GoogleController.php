@@ -46,7 +46,6 @@ class GoogleController
             ->get();
 
         foreach ($res as $data) {
-            return $data;
             $A = [
                 $data->email,
                 ($data->bot_user->first_name != 'none'?$data->bot_user->first_name:''),
@@ -54,8 +53,6 @@ class GoogleController
                 date('d.m.Y', strtotime($date)),
                 ($data->bot_user->username != 'none'?$data->bot_user->username:'')
             ];
-
-            return $A;
 
             $result[] = $A;
         }
