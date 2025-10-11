@@ -6,6 +6,8 @@ use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Text;
+use Illuminate\Support\HtmlString;
+
 use Filament\Actions\Action;
 use App\Filament\Resources\Bots\BotResource;
 use App\Filament\Resources\BotResource\RelationManagers;
@@ -192,7 +194,7 @@ class AdminBot extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Text::make('', $this->telegramWebhookInfo)
+                        Text::make(new HtmlString('', $this->telegramWebhookInfo))
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
