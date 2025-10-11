@@ -5,6 +5,7 @@ use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Text;
 use Filament\Actions\Action;
 use App\Filament\Resources\Bots\BotResource;
 use App\Filament\Resources\BotResource\RelationManagers;
@@ -42,6 +43,7 @@ class AdminBot extends Page implements HasForms
 
     public int $telegram_token;
     public int $telegram_webhook;
+    public string $telegramWebhookInfo;
 
     public array $hours = [
         '0' => '0',
@@ -190,6 +192,7 @@ class AdminBot extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
+                        Text::make($this->telegramWebhookInfo)
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
