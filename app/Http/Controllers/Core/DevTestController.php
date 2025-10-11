@@ -38,7 +38,7 @@ class DevTestController extends Controller
         return $diff_days;
         */
 
-        $bot_user = BotUser::find(1115);
+        $bot_user = BotUser::find(2435);
 
         $alldays1 = Pay::with('bot')
             ->select('id', 'product_id')
