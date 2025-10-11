@@ -1,6 +1,9 @@
 <?php
 namespace App\Http\Controllers\Core;
+
 use Revolution\Google\Sheets\Facades\Sheets;
+
+use App\Models\Core\BotUser;
 
 class GoogleController
 {
@@ -10,7 +13,7 @@ class GoogleController
 
         $data = [];
 
-        $res = BotUsers::where('date_end', $date_end)->get();
+        $res = BotUser::where('date_end', $date_end)->get();
         foreach ($res as $data) {
             $data[] = [
                 (isset($data->email)?$data->email:''),
