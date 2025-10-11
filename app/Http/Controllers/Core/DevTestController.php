@@ -86,16 +86,16 @@ class DevTestController extends Controller
             if (isset($Adates_start[$next_pos])) {
                 if ($Adates_start[$next_pos] < $date) {
                     $diff_days=$Adates_start[$next_pos]->startOfDay()->diffInDays($date);
-                    $Adiffs_in_days[]=round($diff_days, 0);
+                    $Adiffs_in_days[]=$diff_days;
                     if ($diff_days>0) {
-                        $days_to_add=$days_to_add+0;
+                        $days_to_add=$days_to_add+$diff_days;
                         $Adates_end[$next_pos]=$Adates_end[$next_pos]->addDay($diff_days);
                     }
                 }
             }
         }
 
-        //return $Adiffs_in_days;
+        return $Adiffs_in_days;
 
         foreach ($Adates_end as $date) {
             $date_end=$date;
