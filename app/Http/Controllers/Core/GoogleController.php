@@ -11,11 +11,10 @@ class GoogleController
         $date_end = '2025-10-10';
         $sheet_name = 'Отписавшиеся пользователи (удалены из клуба)';
 
-        $data = [];
+        $result = [];
 
         $res = BotUser::where('date_end', $date_end)->get();
         foreach ($res as $data) {
-            /*
             $A = [
                 (isset($data->email)?$data->email:''),
                 ($data->first_name != 'none'?$data->first_name:''),
@@ -23,15 +22,10 @@ class GoogleController
                 date('d.m.Y', strtotime($date_end)),
                 ($data->username != 'none'?$data->username:'')
             ];
-            */
 
-            $A = ['1', '2', '3', '4', '5'];
-
-            //return $A;
-
-            $data[] = $A;
+            $result[] = $A;
         }
 
-        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($data);
+        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
     }
 }
