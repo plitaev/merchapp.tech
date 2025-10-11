@@ -75,7 +75,7 @@ class DevTestController extends Controller
         foreach ($alldays as $allday) {
 
             $Adates_start[]=$allday->created_at->format('Y-m-d');
-            $Adates_end[]=$allday->created_at->addDays($allday->days)->format('Y-m-d');
+            $Adates_end[]=$allday->created_at->addDays($allday->days);
         }
 
         $days_to_add=0;
