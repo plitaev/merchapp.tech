@@ -48,10 +48,10 @@ class GoogleController
         foreach ($res as $data) {
             $A = [
                 $data->email,
-                ($data->bot_user->first_name != 'none'?$data->bot_user->first_name:''),
-                ($data->bot_user->last_name != 'none'?$data->bot_user->last_name:''),
+                (isset($data->bot_user->first_name) && $data->bot_user->first_name != 'none'?$data->bot_user->first_name:''),
+                (isset($data->bot_user->last_name) && $data->bot_user->last_name != 'none'?$data->bot_user->last_name:''),
                 date('d.m.Y', strtotime($date)),
-                ($data->bot_user->username != 'none'?$data->bot_user->username:'')
+                (isset($data->bot_user->username) && $data->bot_user->username != 'none'?$data->bot_user->username:'')
             ];
 
             $result[] = $A;
