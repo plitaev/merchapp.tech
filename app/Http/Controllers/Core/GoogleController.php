@@ -39,7 +39,7 @@ class GoogleController
 
         $result = [];
 
-        $res = GetcourseEventWebhook::with('bot')
+        $res = GetcourseEventWebhook::with('bot_user')
             ->where('event', 'recurrent_fail')
             ->where('created_at', '>=', $datetime_start)
             ->where('created_at', '<=', $datetime_end)
