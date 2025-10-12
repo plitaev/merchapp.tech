@@ -61,6 +61,10 @@ class BotMessages extends Page implements HasTable
                     ->label('Тип сообщения'),
                 TextColumn::make('bot_message_appointment.name')
                     ->label('Назначение'),
+                TextColumn::make('bot_branch.name')
+                    ->label('Ветка'),
+                TextColumn::make('bot_funnel.name')
+                    ->label('Воронка'),
             ])
             ->filters([
                 //

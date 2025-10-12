@@ -62,11 +62,19 @@ class BotMessage extends Model
         return $this->belongsTo(Bot::class);
     }
 
-    public function bml(): BelongsTo
+    public function bot_message_listener(): BelongsTo
     {
         return $this->belongsTo(BotMessageListener::class);
     }
 
+    public function funnel(): BelongsTo
+    {
+        return $this->belongsTo(Funnel::class);
+    }
 
+    public function bot_branch(): BelongsTo
+    {
+        return $this->belongsTo(BotBranch::class);
+    }
 
 }
