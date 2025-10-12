@@ -69,12 +69,12 @@ class BotMessage extends Model
 
     public function funnel(): BelongsTo
     {
-        return $this->belongsTo(Funnel::class);
+        return $this->belongsTo(Funnel::class, 'funnel_id', 'id');
     }
 
     public function bot_branch(): BelongsTo
     {
-        return $this->belongsTo(BotBranch::class);
+        return $this->belongsTo(BotBranch::class, 'bot_branch_id', 'id');
     }
 
 }
