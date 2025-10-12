@@ -1,5 +1,5 @@
 @php
-    $categories = ['edit' => 'Основные', 'pay-system-admin' => 'Платежные системы', 'messages' => 'Сообщения', 'chats' => 'Подписчики', 'pays' => 'Платежи', 'pay-guests' => 'В ожидании', 'supergroups' => 'Супергруппы', 'products' => 'Тарифы', 'getcourse-settings' => 'Настройки GetCourse','getcourse-webhooks' => 'Вебхуки GetCourse','telegram-ban-schedules' => 'Баны','telegram-unban-schedules' => 'Разбаны','funnels' => 'Воронки','sendings' => 'Рассылки'];
+    $categories = ['edit' => 'Основные', 'pay-system-admin' => 'Платежные системы', 'messages' => 'Сообщения', 'chats' => 'Подписчики', 'pays' => 'Платежи', 'pay-guests' => 'В ожидании', 'supergroups' => 'Супергруппы', 'products' => 'Тарифы', 'getcourse-settings' => 'Настройки GetCourse','getcourse-webhooks' => 'Вебхуки GetCourse','telegram-ban-schedules' => 'Баны','telegram-unban-schedules' => 'Разбаны','funnels' => 'Воронки','sendings' => 'Рассылки', 'branches' => 'Акции'];
 @endphp
 
 <div class="fi-sc-tabs fi-contained">
