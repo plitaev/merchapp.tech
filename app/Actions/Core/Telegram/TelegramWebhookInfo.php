@@ -5,7 +5,6 @@ namespace App\Actions\Core\Telegram;
 class TelegramWebhookInfo
 {
     public function handle(string $token, string $webhook) {
-        return $webhook.' '.$token;
         $webhook=str_replace("-","/",$webhook);
 
         $curl = curl_init();
