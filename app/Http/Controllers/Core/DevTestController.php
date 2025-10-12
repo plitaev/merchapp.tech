@@ -32,6 +32,12 @@ use Carbon\Carbon;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $res = Pay::select('bot_user_id')->where('days', 1)->groupBy('bot_user_id')->pluck('bot_user_id')->toArray();
+        return BotUser::where('date_end', '>', '2025-10-12')->whereIn('id', $res)->get();
+
+        return 'ok';
+
         /*
         return Carbon::parse('2025-09-05')->addDays(30)->format('Y-m-d');
         $diff_days=Carbon::parse('2025-08-12')->startOfDay()->diffInDays('2025-09-05');
