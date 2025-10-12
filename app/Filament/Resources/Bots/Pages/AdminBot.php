@@ -219,15 +219,19 @@ class AdminBot extends Page implements HasForms
                         }),
                     Action::make('webhook_view')
                         ->label('Запросить статус Webhook')
+                       // ->url(fn (Post $telegram_token, $telegram_webhook): string => route('/telegram/get_webhook_info/{{$telegram_token}}/{{$telegram_webhook}}'))
+
                         ->action(function () {
                             $data = $this->form->getState();
 
                             $telegram_token = $data['telegram_token'];
                             $telegram_webhook = $data['telegram_webhook'];
 
-                            $telegramWebhookInfo_temp = new TelegramWebhookInfo();
+                            $telegramWebhookInfo = new TelegramWebhookInfo();
 
-                            $telegramWebhookInfo = $telegramWebhookInfo_temp->handle($telegram_token, $telegram_webhook);
+                            $telegramWebhookInfo->handle($telegram_token, $telegram_webhook);
+
+                           return $telegramWebhookInfo;
 
                             Notification::make()
                                 ->title('Данные успешно получены!')
@@ -271,19 +275,4 @@ class AdminBot extends Page implements HasForms
     }
 
 }
-
 ?>
-<script>
-    function getWebhookInfo() {
-        fetch('/telegram/get_webhook_info/{{$record->telegram_token}}/{{$record->telegram_webhook}}', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            data: {'token': '{{$record->telegram_token}}', 'webhook': '{{$record->telegram_webhook}}'}
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        }).then(data => document.getElementById('result').innerHTML = JSON.stringify(data)).catch(error => console.error('Error:', error));
-    }
-</script>
