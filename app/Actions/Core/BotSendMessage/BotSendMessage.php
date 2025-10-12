@@ -23,7 +23,31 @@ class BotSendMessage
 
         if ($bot_message_appointment) {
 
-            $bot_message = BotMessage::select('id', 'pause_after_message')->where('bot_id', $bot_user->bot_id)->where('bot_message_appointment_id', $bot_message_appointment->id)->first();
+            if (isset($bot_user->bot_branch_id)) {
+
+                $bot_message = BotMessage::select('id', 'pause_after_message')
+                    ->where('bot_id', $bot_user->bot_id)
+                    ->where('bot_branch_id', $bot_user->bot_branch_id)
+                    ->where('bot_message_appointment_id', $bot_message_appointment->id)
+                    ->first();
+
+                if (!$bot_message) {
+
+                    $bot_message = BotMessage::select('id', 'pause_after_message')
+                        ->where('bot_id', $bot_user->bot_id)
+                        ->where('bot_message_appointment_id', $bot_message_appointment->id)
+                        ->first();
+
+                }
+
+            } else {
+
+                $bot_message = BotMessage::select('id', 'pause_after_message')
+                    ->where('bot_id', $bot_user->bot_id)
+                    ->where('bot_message_appointment_id', $bot_message_appointment->id)
+                    ->first();
+
+            }
 
             if ($bot_message) {
 
