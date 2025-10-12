@@ -8,6 +8,7 @@ class BotMessage extends Model
 {
     protected $fillable = [
         'bot_id',
+        'bot_branch_id',
         'bot_message_type_id',
         'bot_message_appointment_id',
         'funnel_id',
