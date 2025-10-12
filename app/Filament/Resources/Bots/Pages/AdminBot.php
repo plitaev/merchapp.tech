@@ -224,8 +224,10 @@ class AdminBot extends Page implements HasForms
                             $telegram_token = $data['telegram_token'];
                             $telegram_webhook = $data['telegram_webhook'];
 
-                            $telegramWebhookInfo = new TelegramWebhookInfo($telegram_token, $telegram_webhook);
-                            //return $telegramWebhookInfo;
+                            $telegramWebhookInfo = new TelegramWebhookInfo();
+
+                            $telegramWebhookInfo->handle($telegram_token, $telegram_webhook);
+
                             Notification::make()
                                 ->title('Данные успешно получены!')
                                 ->success()
@@ -239,7 +241,8 @@ class AdminBot extends Page implements HasForms
                             $telegram_token = $data['telegram_token'];
                             $telegram_webhook = $data['telegram_webhook'];
 
-                            $telegramSetWebhook = new TelegramSetWebhook($this->id, $telegram_token, $telegram_webhook);
+                            $telegramSetWebhook = new TelegramSetWebhook();
+                            $telegramSetWebhook ->handle ($this->id, $telegram_token, $telegram_webhook);
                             //return $telegramSetWebhook;
                             Notification::make()
                                 ->title('Данные успешно установлены!')
@@ -254,7 +257,8 @@ class AdminBot extends Page implements HasForms
                             $telegram_token = $data['telegram_token'];
                             $telegram_webhook = $data['telegram_webhook'];
 
-                            $telegramDeleteWebhook= new TelegramDeleteWebhook($telegram_token, $telegram_webhook);
+                            $telegramDeleteWebhook = new TelegramDeleteWebhook();
+                            $telegramDeleteWebhook -> handle($telegram_token, $telegram_webhook);
                             //return $telegramDeleteWebhook;
                             Notification::make()
                                 ->title('Данные успешно удалены!')
