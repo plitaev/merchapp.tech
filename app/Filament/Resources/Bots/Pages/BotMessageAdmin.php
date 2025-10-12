@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Models\Core\BotBranch;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
@@ -192,6 +193,21 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
     {
         return $schema
             ->components([
+                Section::make('Ветка')
+                    ->description('Если необходимо, укажите ветку, к которой будет прикреплено данное сообщение')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->schema([
+                        Select::make('bot_branch_id')
+                            ->label('Ветка')
+                            ->options(BotBranch::all()->pluck('name', 'id'))
+                            ->searchable()
+                    ]),
                 Section::make('Бот и воронка')
                     ->description('Если необходимо, укажите воронку, к которой будет прикреплено данное сообщение')
                     ->columns([
