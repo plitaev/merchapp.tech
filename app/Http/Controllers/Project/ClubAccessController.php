@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Project;
 
+use App\Models\Core\BotBranch;
 use Telegram\Bot\Api;
 
 use App\Actions\Core\Bot\BotGetByID;
@@ -8,6 +9,7 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotSupergroup\BotSupergroups;
 use App\Actions\Core\BotUser\BotUserCreateFromTelegram;
 use App\Actions\Core\BotUser\BotUserGetFromTelegram;
+use App\Actions\Core\BotUser\BotUserSetBranch;
 use App\Actions\Core\Telegram\TelegramGetChatIDFromWebhook;
 use App\Actions\Core\Telegram\TelegramMessageGetStartParams;
 use App\Actions\Core\Telegram\TelegramWebhookWrite;
@@ -35,11 +37,12 @@ class ClubAccessController extends Controller
         //== Инициализируем основные классы
         $botGetByID = new BotGetByID();
         $botSendMessage = new BotSendMessage();
-        $botUserCreateFromTelegram = new BotUserCreateFromTelegram();
-        $telegramGetChatIDFromWebhook = new TelegramGetChatIDFromWebhook();
-        $botUserGetFromTelegram = new BotUserGetFromTelegram();
-        $telegramMessageGetStartParams = new TelegramMessageGetStartParams();
         $botSupergroupsByBot = new BotSupergroups();
+        $botUserCreateFromTelegram = new BotUserCreateFromTelegram();
+        $botUserGetFromTelegram = new BotUserGetFromTelegram();
+        $botUserSetBranch = new BotUserSetBranch();
+        $telegramGetChatIDFromWebhook = new TelegramGetChatIDFromWebhook();
+        $telegramMessageGetStartParams = new TelegramMessageGetStartParams();
         $telegramWebhookWrite = new TelegramWebhookWrite();
 
         //== Инициализируем классы проекта
@@ -95,6 +98,17 @@ class ClubAccessController extends Controller
 
             //== Если это /start, тут обрабатываем старт
             if ($Astart[0] == "/start") {
+
+                if (count($Astart) == 2) {
+                    $branch = BotBranch::where('alias', $Astart[1])->first();
+                    if ($branch) {
+                        $botUserSetBranch->handle($bot_user, $Astart[1]);
+                    } else {
+                        $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
+                    }
+                } else {
+                    $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
+                }
 
                 if ($bot_user->date_end != NULL && $bot_user->date_end > date('Y-m-d', time())) {
                     $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
