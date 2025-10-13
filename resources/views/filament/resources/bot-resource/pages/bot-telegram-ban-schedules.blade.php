@@ -6,7 +6,7 @@
         <div class="flex shrink-0 items-center gap-3">
             <x-filament::modal id="add-page-modal">
                 <x-slot name="trigger">
-                    <x-filament::button>Заблокировать пользователя</x-filament::button>
+                    <x-filament::button>Забанить пользователя</x-filament::button>
                 </x-slot>
 
                 <form wire:submit.prevent="submit">{{$this->form_ban_user}}</form>
@@ -14,5 +14,5 @@
         </div>
     </div>
 
-    {{$this->table}}
+    {{$this->table}}!
 </x-filament-panels::page>
