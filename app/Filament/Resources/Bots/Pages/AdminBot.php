@@ -196,7 +196,7 @@ class AdminBot extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Text::make($this->telegramWebhookInfo)
+                        Text::make('')
                             ->id('result')
                     ]),
                 Actions::make([
