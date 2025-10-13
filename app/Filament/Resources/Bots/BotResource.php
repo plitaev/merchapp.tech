@@ -1,7 +1,6 @@
 <?php
 namespace App\Filament\Resources\Bots;
 
-use App\Filament\Resources\Bots\Pages\BotBranches;
 use Illuminate\Contracts\View\View;
 
 use Filament\Actions\EditAction;
@@ -50,6 +49,8 @@ use App\Filament\Resources\Bots\Pages\BotTelegramUnBanScheduleAdmin;
 use App\Filament\Resources\Bots\Pages\BotFunnels;
 use App\Filament\Resources\Bots\Pages\BotFunnelAdmin;
 use App\Filament\Resources\Bots\Pages\BotWizard;
+use App\Filament\Resources\Bots\Pages\BotBranches;
+use App\Filament\Resources\Bots\Pages\BotBranchAdmin;
 
 use App\Models\Core\Bot;
 
