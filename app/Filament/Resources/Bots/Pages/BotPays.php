@@ -88,15 +88,67 @@ class BotPays extends Page implements HasTable
                     ->searchable()
                     ->label('Дата'),
                 Tables\Columns\TextColumn::make('bot_user.email')
+                    ->icon('heroicon-m-clipboard')
+                    ->iconPosition(IconPosition::Before)
+                    ->iconColor('gray')
+                    ->extraAttributes(fn (BotUser $record) => [
+                        'x-data' => '{}',
+                        'x-on:click.prevent' => "
+                        if (\$event.target.closest('svg')) {
+                         navigator.clipboard.writeText('{$record->email}');
+                         \$tooltip('Скопировано', { timeout: 1500 });
+                        } else {
+                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
+                        }"
+                    ])
                     ->label('Email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('bot_user.username')
+                    ->icon('heroicon-m-clipboard')
+                    ->iconPosition(IconPosition::Before)
+                    ->iconColor('gray')
+                    ->extraAttributes(fn (BotUser $record) => [
+                        'x-data' => '{}',
+                        'x-on:click.prevent' => "
+                        if (\$event.target.closest('svg')) {
+                         navigator.clipboard.writeText('{$record->email}');
+                         \$tooltip('Скопировано', { timeout: 1500 });
+                        } else {
+                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
+                        }"
+                    ])
                     ->label('Ник')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('bot_user.first_name')
+                    ->icon('heroicon-m-clipboard')
+                    ->iconPosition(IconPosition::Before)
+                    ->iconColor('gray')
+                    ->extraAttributes(fn (BotUser $record) => [
+                        'x-data' => '{}',
+                        'x-on:click.prevent' => "
+                        if (\$event.target.closest('svg')) {
+                         navigator.clipboard.writeText('{$record->first_name}');
+                         \$tooltip('Скопировано', { timeout: 1500 });
+                        } else {
+                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
+                        }"
+                    ])
                     ->label('Имя')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('bot_user.last_name')
+                    ->icon('heroicon-m-clipboard')
+                    ->iconPosition(IconPosition::Before)
+                    ->iconColor('gray')
+                    ->extraAttributes(fn (BotUser $record) => [
+                        'x-data' => '{}',
+                        'x-on:click.prevent' => "
+                        if (\$event.target.closest('svg')) {
+                         navigator.clipboard.writeText('{$record->last_name}');
+                         \$tooltip('Скопировано', { timeout: 1500 });
+                        } else {
+                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
+                        }"
+                    ])
                     ->label('Фамилия')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('product.name')
