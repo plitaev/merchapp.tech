@@ -15,6 +15,8 @@ class YookassaMakeRecurrent
 {
     public function handle($data) {
 
+        return $data;
+
         $botUserGetFullName = new BotUserGetFullName();
         $payCreateIntoBot = new PayCreateIntoBot();
         $payGetAdditionalData = new PayGetAdditionalData();
