@@ -61,7 +61,8 @@ class BotBranches extends Page implements HasTable
 
     public function table(Table $table): Table
     {
-        return $table->orderByDesc('created_at')
+        return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('name')
                     ->label('Название')
