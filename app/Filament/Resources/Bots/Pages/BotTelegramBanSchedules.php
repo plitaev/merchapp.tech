@@ -43,6 +43,8 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
     public int $bot_id;
     public string $bot_name;
 
+    public ?array $data_ban_users = [];
+
     public function mount(int $bot_id): void
     {
         $this->bot_id = $bot_id;
@@ -50,12 +52,12 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
 
         $this->bot_name = $bot->name;
 
-        $this->form_ban_user->fill([]);
+        $this->form_ban_users->fill([]);
     }
 
     protected function getForms(): array
     {
-        return ['form_ban_user'];
+        return ['form_ban_users'];
     }
 
     public function getHeading(): string
@@ -109,7 +111,7 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
             ]);
     }
 
-    public function form_ban_user(Schema $schema): Schema
+    public function form_ban_users(Schema $schema): Schema
     {
         return $schema
             ->components([
@@ -138,7 +140,7 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
             Actions::make([
                 Action::make('Сохранить')
                     ->action(function () {
-                        $formdata = $this->form_ban_user->getState();
+                        $formdata = $this->form_ban_users->getState();
 
                         $count_ban = BotUserBanSchedule::where('bot_user_id',$formdata['bot_user_id'])->count();
 
@@ -159,6 +161,6 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                         $this->dispatch('close-modal', id: 'add-page-modal');
                     })
         ])
-    ])->statePath('data_ban_user');
+    ])->statePath('data_ban_users');
     }
 }
