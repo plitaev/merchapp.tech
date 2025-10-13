@@ -113,7 +113,7 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                 DeleteAction::make(),
 
             ])
-            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/telegram-ban-schedule-admin")
+            //->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/telegram-ban-schedule-admin")
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
