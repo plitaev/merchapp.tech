@@ -15,8 +15,6 @@ class YookassaMakeRecurrent
 {
     public function handle($data) {
 
-        return $data;
-
         $botUserGetFullName = new BotUserGetFullName();
         $payCreateIntoBot = new PayCreateIntoBot();
         $payGetAdditionalData = new PayGetAdditionalData();
@@ -37,7 +35,7 @@ class YookassaMakeRecurrent
             array(
                 'amount' => array(
                     'value' => $data->prevous_pay->price,
-                    'currency' => $data->bot_user->yookassa_currency,
+                    'currency' => $data->bot->yookassa_currency,
                 ),
                 'capture' => true,
                 'payment_method_id' => $data->prevous_pay->pay_system_payment_method_id,
