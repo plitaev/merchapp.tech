@@ -2,6 +2,18 @@
 
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Models\Core\BotUser;
+use App\Models\Core\BotUserUnbanSchedule;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
+use DB;
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Actions;
+use Filament\Actions\Action;
+use Filament\Schemas\Components\Text;
+
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
@@ -10,7 +22,6 @@ use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\TelegramUnbanSchedule;
-use App\Models\Core\BotUserUnbanSchedule;
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -18,9 +29,10 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 
 
-class BotTelegramUnBanSchedules extends Page implements HasTable
+class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
 {
     use InteractsWithTable;
+    use InteractsWithForms;
 
 
     protected static string $resource = BotResource::class;
@@ -35,12 +47,22 @@ class BotTelegramUnBanSchedules extends Page implements HasTable
     public int $bot_id;
     public string $bot_name;
 
+    public ?array $data_unban_user = [];
+
     public function mount(int $bot_id): void
     {
         $this->bot_id = $bot_id;
         $bot = Bot::select('name')->find($bot_id);
 
         $this->bot_name = $bot->name;
+
+        $this->form_unban_user->fill([]);
+
+    }
+
+    protected function getForms(): array
+    {
+        return ['form_unban_user'];
     }
 
     public function getHeading(): string
@@ -76,7 +98,9 @@ class BotTelegramUnBanSchedules extends Page implements HasTable
                     ->label('Email'),
                 TextColumn::make('unban_datetime')
                     ->label('Дата и время разбана')
-                    ->dateTime('d.m.Y H:i:s')
+                    ->dateTime('d.m.Y H:i:s'),
+                TextColumn::make('run_status_name.name')
+                    ->label('Статус')
             ])
             ->filters([
                 //
@@ -92,5 +116,62 @@ class BotTelegramUnBanSchedules extends Page implements HasTable
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public function form_unban_user(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Section::make('Пользователи')
+                    ->description('')
+                    ->schema([
+                        Select::make('bot_user_id')
+                            ->label('Пользователь')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно выберите пользователя',
+                            ])
+                            ->searchable()
+                            ->options(BotUser::where('bot_id', $this->bot_id)->get()->map(function ($bot_user) {
+                                return ['key' => $bot_user->id, 'value' => (isset($bot_user->first_name) && $bot_user->first_name!='none'?$bot_user->first_name:'')." ".(isset($bot_user->last_name) && $bot_user->last_name!='none'?$bot_user->last_name:'')." ".(isset($bot_user->username) && $bot_user->username!='none'?"(".$bot_user->username.")":'')];
+                            })->pluck('value', 'key')->toArray())
+                    ]),
+                Actions::make([
+                    Action::make('Сохранить')
+                        ->action(function () {
+                            $formdata = $this->form_unban_user->getState();
+
+                            $count_unban = BotUserUnbanSchedule::where('bot_user_id',$formdata['bot_user_id'])->count();
+
+                            $count_bot_user = BotUser::where('id',$formdata['bot_user_id'])->count();
+
+                            if($count_unban <= 1 && $count_bot_user <= 1) {
+                                BotUserUnbanSchedule::upsert(
+                                    ['ban_datetime' => now(), 'bot_user_id' => $formdata['bot_user_id']],
+                                    ['ban_datetime', 'bot_user_id'],
+                                    ['updated_at' => now()]
+                                );
+
+                                Notification::make()
+                                    ->title('Данные успешно сохранены!')
+                                    ->success()
+                                    ->send();
+
+                            } else {
+
+                                Notification::make()
+                                    ->title('Разбанить пользователя можно только один раз!')
+                                    ->success()
+                                    ->send();
+                            }
+
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        }),
+                    Action::make('Отмена')
+                        ->action(function () {
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        })
+                ])
+            ])->statePath('data_unban_user');
     }
 }

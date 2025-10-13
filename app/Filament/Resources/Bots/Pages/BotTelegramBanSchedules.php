@@ -12,7 +12,6 @@ use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
 use Filament\Schemas\Components\Text;
 
-use Illuminate\Support\HtmlString;
 use App\Models\Core\BotUser;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
@@ -50,7 +49,7 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
     public int $bot_id;
     public string $bot_name;
 
-    public ?array $data_ban_users = [];
+    public ?array $data_ban_user = [];
 
     public function mount(int $bot_id): void
     {
@@ -59,12 +58,12 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
 
         $this->bot_name = $bot->name;
 
-        $this->form_ban_users->fill([]);
+        $this->form_ban_user->fill([]);
     }
 
     protected function getForms(): array
     {
-        return ['form_ban_users'];
+        return ['form_ban_user'];
     }
 
     public function getHeading(): string
@@ -100,7 +99,9 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                     ->label('Email'),
                 TextColumn::make('ban_datetime')
                     ->label('Дата и время бана')
-                    ->dateTime('d.m.Y H:i:s')
+                    ->dateTime('d.m.Y H:i:s'),
+                TextColumn::make('run_status_name.name')
+                    ->label('Статус')
             ])
             ->filters([
                 //
@@ -118,7 +119,7 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
             ]);
     }
 
-    public function form_ban_users(Schema $schema): Schema
+    public function form_ban_user(Schema $schema): Schema
     {
         return $schema
             ->components([
@@ -139,18 +140,30 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
-                            $formdata = $this->form_ban_users->getState();
+                            $formdata = $this->form_ban_user->getState();
 
                             $count_ban = BotUserBanSchedule::where('bot_user_id',$formdata['bot_user_id'])->count();
 
-                            $bot_user = BotUser::where('id',$formdata['bot_user_id'])->count();
+                            $count_bot_user = BotUser::where('id',$formdata['bot_user_id'])->count();
 
-                            if($count_ban <= 1) {
+                            if($count_ban <= 1 && $count_bot_user <= 1) {
                                 BotUserBanSchedule::upsert(
                                     ['ban_datetime' => now(), 'bot_user_id' => $formdata['bot_user_id']],
                                     ['ban_datetime', 'bot_user_id'],
                                     ['updated_at' => now()]
                                 );
+
+                                Notification::make()
+                                    ->title('Данные успешно сохранены!')
+                                    ->success()
+                                    ->send();
+
+                            } else {
+
+                                Notification::make()
+                                    ->title('Забанить пользователя можно только один раз!')
+                                    ->success()
+                                    ->send();
                             }
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
@@ -160,6 +173,6 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         })
                 ])
-            ])->statePath('data_ban_users');
+            ])->statePath('data_ban_user');
     }
 }
