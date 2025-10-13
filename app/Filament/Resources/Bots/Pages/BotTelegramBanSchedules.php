@@ -50,7 +50,7 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
 
     protected function getForms(): array
     {
-        return ['form', 'form_ban_user'];
+        return ['form_ban_user'];
     }
 
     public function getHeading(): string
