@@ -146,7 +146,7 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
 
                             $count_bot_user = BotUser::where('id',$formdata['bot_user_id'])->count();
 
-                            if($count_ban == 0 && $count_bot_user == 0) {
+                            if($count_ban == 0 && $count_bot_user == 1) {
                                 BotUserBanSchedule::upsert(
                                     ['ban_datetime' => now(), 'bot_user_id' => $formdata['bot_user_id']],
                                     ['ban_datetime', 'bot_user_id'],
