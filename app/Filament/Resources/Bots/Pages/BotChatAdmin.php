@@ -63,7 +63,7 @@ class BotChatAdmin extends Page implements HasForms
 
         $this->id = $id;
 
-        $data = ($id>0?BotUser::find($id)->toArray():[]);
+        $data = ($id>0?BotUser::find($id):[]);
 
         $this->form->fill($data);
     }
