@@ -61,23 +61,14 @@ class BotBranches extends Page implements HasTable
 
     public function table(Table $table): Table
     {
-        return $table
-            ->query(
-                BotBranches::whereHas('bot_message', function ($query) {
-                    $query->where('bot_id', $this->bot_id);
-                })
-                    ->orderByDesc('send_datetime')
-            )
+        return $table->orderByDesc('created_at')
             ->columns([
                 TextColumn::make('name')
-                    ->label('Рассылка')
+                    ->label('Название')
                     ->searchable(),
-                TextColumn::make('bot_message.name')
-                    ->label('Сообщение')
-                    ->searchable(),
-                TextColumn::make('send_datetime')
-                    ->label('Отправка')
-                    ->dateTime('d.m.Y H:i:s')
+                TextColumn::make('alias')
+                    ->label('Параметр в ссылке')
+                    ->searchable()
             ])
 
             ->filters([
