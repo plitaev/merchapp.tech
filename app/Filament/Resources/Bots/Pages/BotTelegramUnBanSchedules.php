@@ -84,9 +84,9 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
             ->defaultSort('updated_at', 'desc')
             ->query(
                 BotUserUnbanSchedule::with('run_status_name')
-                    ->whereHas('bot_user', function ($query) {
-                        $query->where('bot_id', $this->bot_id);
-                    })
+                ->whereHas('bot_user', function ($query) {
+                    $query->where('bot_id', $this->bot_id);
+                })
             )
             ->columns([
                 TextColumn::make('bot_user.first_name')
@@ -103,12 +103,12 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                 TextColumn::make('unban_datetime')
                     ->label('Дата и время разбана')
                     ->dateTime('d.m.Y H:i:s'),
-                TextColumn::make('run_status_name.name')
-                    ->label('Статус')
-                    ->color(fn (string $state): string => match ($state) {
-                        'Да' => 'danger',
-                        'Нет' => 'success',
-                    })
+                 TextColumn::make('run_status_name.name')
+                     ->label('Статус')
+                     ->color(fn (string $state): string => match ($state) {
+                         'Да' => 'danger',
+                         'Нет' => 'success',
+                     })
             ])
             ->filters([
                 //
@@ -118,7 +118,7 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                 DeleteAction::make(),
 
             ])
-            // ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/telegram-ban-schedule-admin")
+           // ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/telegram-ban-schedule-admin")
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
@@ -133,6 +133,8 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                 Section::make('Пользователи')
                     ->description('')
                     ->schema([
+                        Hidden::make('ban_datetime')
+                            ->format('Y-m-d H:i:s'),
                         Select::make('bot_user_id')
                             ->label('Пользователь')
                             ->required()
