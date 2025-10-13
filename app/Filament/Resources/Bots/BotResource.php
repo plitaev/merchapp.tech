@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Bots;
 
+use App\Filament\Resources\Bots\Pages\BotBranches;
 use Illuminate\Contracts\View\View;
 
 use Filament\Actions\EditAction;
@@ -180,8 +181,8 @@ class BotResource extends Resource
             'telegram-ban-schedule-admin' => BotTelegramBanScheduleAdmin::route('/{bot_id}/{id}/telegram-ban-schedule-admin'),
             'telegram-unban-schedules' => BotTelegramUnBanSchedules::route('/{bot_id}/telegram-unban-schedules'),
             'telegram-unban-schedule-admin' => BotTelegramUnBanScheduleAdmin::route('/{bot_id}/{id}/telegram-unban-schedule-admin'),
-            'branches' => BotSendings::route('/{bot_id}/branches'),
-            'branch-admin' => BotSendingAdmin::route('/{bot_id}/{id}/branch-admin'),
+            'branches' => BotBranches::route('/{bot_id}/branches'),
+            'branch-admin' => BotBranchAdmin::route('/{bot_id}/{id}/branch-admin'),
         ];
     }
 }
