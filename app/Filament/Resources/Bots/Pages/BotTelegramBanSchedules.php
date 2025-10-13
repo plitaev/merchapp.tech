@@ -83,7 +83,7 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                 TextColumn::make('bot_user.email')
                     ->label('Email'),
                 TextColumn::make('ban_datetime')
-                    ->label('Дата и время бана')
+                    ->label('Дата и время бана1')
                     ->dateTime('d.m.Y H:i:s')
             ])
             ->filters([
