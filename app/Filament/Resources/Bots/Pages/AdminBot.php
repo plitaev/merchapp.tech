@@ -197,6 +197,7 @@ class AdminBot extends Page implements HasForms
                     ])
                     ->schema([
                         Text::make($this->telegramWebhookInfo)
+                            ->id('result')
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
@@ -218,17 +219,19 @@ class AdminBot extends Page implements HasForms
                         }),
                     Action::make('webhook_view')
                         ->label('Запросить статус Webhook')
+                       // ->url(fn (Post $telegram_token, $telegram_webhook): string => route('/telegram/get_webhook_info/{{$telegram_token}}/{{$telegram_webhook}}'))
+
                         ->action(function () {
                             $data = $this->form->getState();
 
                             $telegram_token = $data['telegram_token'];
                             $telegram_webhook = $data['telegram_webhook'];
 
-                            $telegramWebhookInfo_temp = new TelegramWebhookInfo();
+                            $telegramWebhookInfo = new TelegramWebhookInfo();
 
-                            $telegramWebhookInfo= $telegramWebhookInfo_temp->handle($telegram_token, $telegram_webhook);
+                            $telegramWebhookInfo->handle($telegram_token, $telegram_webhook);
 
-                            //return 'h'.$jsonString["components"];
+                           //return $telegramWebhookInfo;
 
                             Notification::make()
                                 ->title('Данные успешно получены!')
@@ -272,3 +275,4 @@ class AdminBot extends Page implements HasForms
     }
 
 }
+?>

@@ -37,6 +37,8 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
     public static ?string $title = "Бан";
 
     public ?array $data = [];
+    public ?array $data_ban_user = [];
+
 
     public int $bot_id;
     public string $bot_name;
@@ -72,6 +74,7 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
         $this->bot_name = $bot->name;
 
         $this->form->fill($data);
+        $this->form_ban_user->fill([]);
     }
 
     public function getHeading(): string
@@ -90,7 +93,7 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
 
     protected function getForms(): array
     {
-        return ['form'];
+        return ['form', 'form_ban_user'];
     }
 
     public function form(Schema $schema): Schema
@@ -155,4 +158,6 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
               ]),
             ])->statePath('data');
     }
+
+
 }
