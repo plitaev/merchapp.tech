@@ -67,6 +67,19 @@ class BotChats extends Page implements HasTable
                     ->label('Имя пользователя')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->icon('heroicon-m-clipboard')
+                    ->iconPosition(\Filament\Tables\Columns\TextColumn\IconPosition::After)
+                    ->iconColor('gray')
+                    ->extraAttributes(fn (BotUser $record) => [
+                        'x-data' => '{}',
+                        'x-on:click.prevent' => "
+                        if (\$event.target.closest('svg')) {
+                         navigator.clipboard.writeText('{$record->email}');
+                         \$tooltip('Скопировано', { timeout: 1500 });
+                        } else {
+                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
+                        }"
+                    ])
                     ->label('Email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date_end')
