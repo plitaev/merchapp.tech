@@ -37,6 +37,8 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
     public static ?string $title = "Бан";
 
     public ?array $data = [];
+    public ?array $data_ban_user = [];
+
 
     public int $bot_id;
     public string $bot_name;
@@ -72,6 +74,7 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
         $this->bot_name = $bot->name;
 
         $this->form->fill($data);
+        $this->form_ban_user->fill([]);
     }
 
     public function getHeading(): string
@@ -90,7 +93,7 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
 
     protected function getForms(): array
     {
-        return ['form'];
+        return ['form', 'form_ban_user'];
     }
 
     public function form(Schema $schema): Schema
@@ -154,5 +157,51 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
                       ->label('Отменить и вернуться назад')
               ]),
             ])->statePath('data');
+    }
+
+    public function form_ban_user(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Section::make('Пользователи')
+                    ->description('')
+                    ->schema([
+                        Select::make('bot_user_id')
+                            ->label('Пользователь')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно выберите пользователя',
+                            ])
+                            ->searchable()
+                            ->options(BotUser::where('bot_id', $this->bot_id)->get()->map(function ($bot_user) {
+                                return ['key' => $bot_user->id, 'value' => (isset($bot_user->first_name) && $bot_user->first_name!='none'?$bot_user->first_name:'')." ".(isset($bot_user->last_name) && $bot_user->last_name!='none'?$bot_user->last_name:'')." ".(isset($bot_user->username) && $bot_user->username!='none'?"(".$bot_user->username.")":'')];
+                            })->pluck('value', 'key')->toArray())
+
+                    ]),
+                Actions::make([
+                    Action::make('Сохранить')
+                        ->action(function () {
+                            $formdata = $this->form_ban_user->getState();
+
+                            $count_ban = BotUserBanSchedule::where('bot_user_id',$formdata['bot_user_id'])->count();
+
+                            $bot_user = BotUser::where('id',$formdata['bot_user_id'])->count();
+
+                            if($count_ban <= 1) {
+                                BotUserBanSchedule::upsert(
+                                    ['ban_datetime' => now(), 'bot_user_id' => $formdata['bot_user_id']],
+                                    ['ban_datetime', 'bot_user_id'],
+                                    ['updated_at' => now()]
+                                );
+                            }
+
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        }),
+                    Action::make('Отмена')
+                        ->action(function () {
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        })
+                ])
+            ])->statePath('data_ban_user');
     }
 }
