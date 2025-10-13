@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Bots\Pages;
 
+use Filament\Schemas\Schema;
 use App\Models\Core\BotUser;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
@@ -85,7 +86,7 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                 TextColumn::make('bot_user.email')
                     ->label('Email'),
                 TextColumn::make('ban_datetime')
-                    ->label('Дата и время бана1')
+                    ->label('Дата и время бана')
                     ->dateTime('d.m.Y H:i:s')
             ])
             ->filters([
