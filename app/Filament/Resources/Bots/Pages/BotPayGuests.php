@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Models\Core\BotUser;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
@@ -65,6 +66,19 @@ class BotPayGuests extends Page implements HasTable
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->icon('heroicon-m-clipboard')
+                    ->iconPosition(IconPosition::Before)
+                    ->iconColor('gray')
+                    ->extraAttributes(fn (PayGuest $record) => [
+                        'x-data' => '{}',
+                        'x-on:click.prevent' => "
+                        if (\$event.target.closest('svg')) {
+                         navigator.clipboard.writeText('{$record->email}');
+                         \$tooltip('Скопировано', { timeout: 1500 });
+                        } else {
+                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/pay-guest-admin';
+                        }"
+                    ])
                     ->label('Email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('product.name')

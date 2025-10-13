@@ -99,7 +99,7 @@ class BotPays extends Page implements HasTable
                          navigator.clipboard.writeText('{$record->bot_user->email}');
                          \$tooltip('Скопировано', { timeout: 1500 });
                         } else {
-                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
+                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/pay-admin';
                         }"
                     ])
                     ->label('Email')
@@ -115,7 +115,7 @@ class BotPays extends Page implements HasTable
                          navigator.clipboard.writeText('{$record->bot_user->username}');
                          \$tooltip('Скопировано', { timeout: 1500 });
                         } else {
-                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
+                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/pay-admin';
                         }"
                     ])
                     ->label('Ник')
@@ -131,7 +131,7 @@ class BotPays extends Page implements HasTable
                          navigator.clipboard.writeText('{$record->bot_user->first_name}');
                          \$tooltip('Скопировано', { timeout: 1500 });
                         } else {
-                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
+                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/pay-admin';
                         }"
                     ])
                     ->label('Имя')
@@ -147,7 +147,7 @@ class BotPays extends Page implements HasTable
                          navigator.clipboard.writeText('{$record->bot_user->last_name}');
                          \$tooltip('Скопировано', { timeout: 1500 });
                         } else {
-                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
+                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/pay-admin';
                         }"
                     ])
                     ->label('Фамилия')
