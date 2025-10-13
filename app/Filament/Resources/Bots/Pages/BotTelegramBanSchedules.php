@@ -57,6 +57,9 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
         $bot = Bot::select('name')->find($bot_id);
 
         $this->bot_name = $bot->name;
+
+        $this->form_ban_user->fill([]);
+
     }
 
     protected function getForms(): array
@@ -100,10 +103,10 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                     ->dateTime('d.m.Y H:i:s'),
                 TextColumn::make('run_status')
                     ->label('Статус')
-                    ->color(fn (string $state): string => match ($state) {
-                        'Да' => 'danger',
-                        'Нет' => 'success',
-                    })
+//                    ->color(fn (string $state): string => match ($state) {
+//                        'Да' => 'danger',
+//                        'Нет' => 'success',
+//                    })
             ])
             ->filters([
                 //
