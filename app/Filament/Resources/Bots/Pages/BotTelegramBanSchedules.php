@@ -130,8 +130,6 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                 Section::make('Пользователи')
                     ->description('')
                     ->schema([
-                        Hidden::make('ban_datetime')
-                            ->format('Y-m-d H:i:s'),
                         Select::make('bot_user_id')
                             ->label('Пользователь')
                             ->required()

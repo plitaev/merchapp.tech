@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Models\Core\TelegramUnbanSchedule;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
@@ -37,7 +38,6 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
     public static ?string $title = "Бан";
 
     public ?array $data = [];
-   /// public ?array $data_ban_user = [];
 
 
     public int $bot_id;
@@ -93,7 +93,7 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
 
     protected function getForms(): array
     {
-        return ['form', 'form_ban_user'];
+        return ['form'];
     }
 
     public function form(Schema $schema): Schema
