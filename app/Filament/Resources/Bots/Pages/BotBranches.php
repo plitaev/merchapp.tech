@@ -1,25 +1,25 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
 use App\Filament\Resources\Bots\BotResource;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
 
-use Filament\Resources\Pages\Page;
 use Filament\Tables;
+use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
+
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Resources\Pages\Page;
 use Filament\Notifications\Notification;
-use Filament\Tables\Table;
 
 use App\Actions\Core\BotSendingAdmin\BotSendingAdminDeleteRecord;
 
 use App\Models\Core\Bot;
 use App\Models\Core\Sending;
-use App\Models\Core\TelegramSendMessageSchedule;
 
 
 class BotBranches extends Page implements HasTable
@@ -63,7 +63,7 @@ class BotBranches extends Page implements HasTable
     {
         return $table
             ->query(
-                Sending::whereHas('bot_message', function ($query) {
+                BotBranches::whereHas('bot_message', function ($query) {
                     $query->where('bot_id', $this->bot_id);
                 })
                     ->orderByDesc('send_datetime')
