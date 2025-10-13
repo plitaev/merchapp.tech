@@ -69,7 +69,7 @@ class BotChats extends Page implements HasTable
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->icon('heroicon-m-clipboard')
-                    ->iconPosition(IconPosition::After)
+                    ->iconPosition(IconPosition::Before)
                     ->iconColor('gray')
                     ->extraAttributes(fn (BotUser $record) => [
                         'x-data' => '{}',
