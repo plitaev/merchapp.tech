@@ -2,8 +2,6 @@
 
 namespace App\Filament\Resources\Bots\Pages;
 
-use App\Models\Core\BotUser;
-use App\Models\Core\BotUserUnbanSchedule;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -21,6 +19,8 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
+use App\Models\Core\BotUser;
+use App\Models\Core\BotUserUnbanSchedule;
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -83,9 +83,10 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
         return $table
             ->defaultSort('updated_at', 'desc')
             ->query(
-                BotUserUnbanSchedule::whereHas('bot_user', function ($query) {
-                    $query->where('bot_id', $this->bot_id);
-                })
+                BotUserUnbanSchedule::with('run_status_name')
+                    ->whereHas('bot_user', function ($query) {
+                        $query->where('bot_id', $this->bot_id);
+                    })
             )
             ->columns([
                 TextColumn::make('bot_user.first_name')
@@ -104,6 +105,10 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                     ->dateTime('d.m.Y H:i:s'),
                 TextColumn::make('run_status_name.name')
                     ->label('Статус')
+                    ->color(fn (string $state): string => match ($state) {
+                        'Да' => 'danger',
+                        'Нет' => 'success',
+                    })
             ])
             ->filters([
                 //
@@ -113,7 +118,7 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                 DeleteAction::make(),
 
             ])
-            //->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/telegram-ban-schedule-admin")
+            // ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/telegram-ban-schedule-admin")
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
@@ -148,9 +153,9 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
 
                             $count_bot_user = BotUser::where('id',$formdata['bot_user_id'])->count();
 
-                            if($count_unban == 0 && $count_bot_user == 1) {
+                            if($count_unban == 0 && $count_bot_user >= 1) {
                                 BotUserUnbanSchedule::upsert(
-                                    ['unban_datetime' => now(), 'bot_user_id' => $formdata['bot_user_id']],
+                                    ['unban_datetime' => now(), 'run_status' => 0, 'bot_user_id' => $formdata['bot_user_id']],
                                     ['unban_datetime', 'bot_user_id'],
                                     ['updated_at' => now()]
                                 );
