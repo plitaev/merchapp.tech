@@ -181,7 +181,9 @@ class BotResource extends Resource
             'telegram-ban-schedules' => BotTelegramBanSchedules::route('/{bot_id}/telegram-ban-schedules'),
             'telegram-ban-schedule-admin' => BotTelegramBanScheduleAdmin::route('/{bot_id}/{id}/telegram-ban-schedule-admin'),
             'telegram-unban-schedules' => BotTelegramUnBanSchedules::route('/{bot_id}/telegram-unban-schedules'),
-            'telegram-unban-schedule-admin' => BotTelegramUnBanScheduleAdmin::route('/{bot_id}/{id}/telegram-unban-schedule-admin')
+            'telegram-unban-schedule-admin' => BotTelegramUnBanScheduleAdmin::route('/{bot_id}/{id}/telegram-unban-schedule-admin'),
+            'branches' => BotBranches::route('/{bot_id}/branches'),
+            'branch-admin' => BotBranchAdmin::route('/{bot_id}/{id}/branch-admin'),
         ];
     }
 }
