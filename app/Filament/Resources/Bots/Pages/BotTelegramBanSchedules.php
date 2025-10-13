@@ -44,8 +44,6 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
         $bot = Bot::select('name')->find($bot_id);
 
         $this->bot_name = $bot->name;
-
-        $this->form_ban_user->fill([]);
     }
 
     protected function getForms(): array
