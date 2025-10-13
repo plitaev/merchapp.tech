@@ -59,12 +59,51 @@ class BotChats extends Page implements HasTable
                     ->label('ID')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('first_name')
+                    ->icon('heroicon-m-clipboard')
+                    ->iconPosition(IconPosition::Before)
+                    ->iconColor('gray')
+                    ->extraAttributes(fn (BotUser $record) => [
+                        'x-data' => '{}',
+                        'x-on:click.prevent' => "
+                        if (\$event.target.closest('svg')) {
+                         navigator.clipboard.writeText('{$record->email}');
+                         \$tooltip('Скопировано', { timeout: 1500 });
+                        } else {
+                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
+                        }"
+                    ])
                     ->label('Имя')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('last_name')
+                    ->icon('heroicon-m-clipboard')
+                    ->iconPosition(IconPosition::Before)
+                    ->iconColor('gray')
+                    ->extraAttributes(fn (BotUser $record) => [
+                        'x-data' => '{}',
+                        'x-on:click.prevent' => "
+                        if (\$event.target.closest('svg')) {
+                         navigator.clipboard.writeText('{$record->email}');
+                         \$tooltip('Скопировано', { timeout: 1500 });
+                        } else {
+                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
+                        }"
+                    ])
                     ->label('Фамилия')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('username')
+                    ->icon('heroicon-m-clipboard')
+                    ->iconPosition(IconPosition::Before)
+                    ->iconColor('gray')
+                    ->extraAttributes(fn (BotUser $record) => [
+                        'x-data' => '{}',
+                        'x-on:click.prevent' => "
+                        if (\$event.target.closest('svg')) {
+                         navigator.clipboard.writeText('{$record->email}');
+                         \$tooltip('Скопировано', { timeout: 1500 });
+                        } else {
+                         window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
+                        }"
+                    ])
                     ->label('Имя пользователя')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
