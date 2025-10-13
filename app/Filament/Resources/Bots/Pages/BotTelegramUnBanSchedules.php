@@ -150,8 +150,8 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
 
                             if($count_unban == 1 && $count_bot_user == 1) {
                                 BotUserUnbanSchedule::upsert(
-                                    ['ban_datetime' => now(), 'bot_user_id' => $formdata['bot_user_id']],
-                                    ['ban_datetime', 'bot_user_id'],
+                                    ['unban_datetime' => now(), 'bot_user_id' => $formdata['bot_user_id']],
+                                    ['unban_datetime', 'bot_user_id'],
                                     ['updated_at' => now()]
                                 );
 
