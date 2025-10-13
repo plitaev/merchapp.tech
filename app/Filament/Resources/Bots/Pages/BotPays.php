@@ -92,7 +92,7 @@ class BotPays extends Page implements HasTable
                     ->icon('heroicon-m-clipboard')
                     ->iconPosition(IconPosition::Before)
                     ->iconColor('gray')
-                    ->extraAttributes(fn (BotUser $record) => [
+                    ->extraAttributes(fn (Pay $record) => [
                         'x-data' => '{}',
                         'x-on:click.prevent' => "
                         if (\$event.target.closest('svg')) {
@@ -108,7 +108,7 @@ class BotPays extends Page implements HasTable
                     ->icon('heroicon-m-clipboard')
                     ->iconPosition(IconPosition::Before)
                     ->iconColor('gray')
-                    ->extraAttributes(fn (BotUser $record) => [
+                    ->extraAttributes(fn (Pay $record) => [
                         'x-data' => '{}',
                         'x-on:click.prevent' => "
                         if (\$event.target.closest('svg')) {
@@ -124,7 +124,7 @@ class BotPays extends Page implements HasTable
                     ->icon('heroicon-m-clipboard')
                     ->iconPosition(IconPosition::Before)
                     ->iconColor('gray')
-                    ->extraAttributes(fn (BotUser $record) => [
+                    ->extraAttributes(fn (Pay $record) => [
                         'x-data' => '{}',
                         'x-on:click.prevent' => "
                         if (\$event.target.closest('svg')) {
@@ -140,7 +140,7 @@ class BotPays extends Page implements HasTable
                     ->icon('heroicon-m-clipboard')
                     ->iconPosition(IconPosition::Before)
                     ->iconColor('gray')
-                    ->extraAttributes(fn (BotUser $record) => [
+                    ->extraAttributes(fn (Pay $record) => [
                         'x-data' => '{}',
                         'x-on:click.prevent' => "
                         if (\$event.target.closest('svg')) {
