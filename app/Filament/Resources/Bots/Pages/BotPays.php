@@ -96,7 +96,7 @@ class BotPays extends Page implements HasTable
                         'x-data' => '{}',
                         'x-on:click.prevent' => "
                         if (\$event.target.closest('svg')) {
-                         navigator.clipboard.writeText('{$record->email}');
+                         navigator.clipboard.writeText('{$record->bot_user->email}');
                          \$tooltip('Скопировано', { timeout: 1500 });
                         } else {
                          window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
@@ -112,7 +112,7 @@ class BotPays extends Page implements HasTable
                         'x-data' => '{}',
                         'x-on:click.prevent' => "
                         if (\$event.target.closest('svg')) {
-                         navigator.clipboard.writeText('{$record->email}');
+                         navigator.clipboard.writeText('{$record->bot_user->username}');
                          \$tooltip('Скопировано', { timeout: 1500 });
                         } else {
                          window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
@@ -128,7 +128,7 @@ class BotPays extends Page implements HasTable
                         'x-data' => '{}',
                         'x-on:click.prevent' => "
                         if (\$event.target.closest('svg')) {
-                         navigator.clipboard.writeText('{$record->first_name}');
+                         navigator.clipboard.writeText('{$record->bot_user->first_name}');
                          \$tooltip('Скопировано', { timeout: 1500 });
                         } else {
                          window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
@@ -144,7 +144,7 @@ class BotPays extends Page implements HasTable
                         'x-data' => '{}',
                         'x-on:click.prevent' => "
                         if (\$event.target.closest('svg')) {
-                         navigator.clipboard.writeText('{$record->last_name}');
+                         navigator.clipboard.writeText('{$record->bot_user->last_name}');
                          \$tooltip('Скопировано', { timeout: 1500 });
                         } else {
                          window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
