@@ -127,8 +127,8 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
     {
         return $schema
             ->components([
-                Section::make('Рассылка')
-                    ->description('')
+                Section::make('Акция')
+                    ->description('Укажите название и пседоним (системное имя)')
                     ->columns([
                         'sm' => 3,
                         'md' => 3,
