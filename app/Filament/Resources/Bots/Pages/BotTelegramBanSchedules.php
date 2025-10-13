@@ -25,6 +25,7 @@ use App\Models\Core\BotUserBanSchedule;
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Contracts\HasTable;
@@ -48,7 +49,6 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
 
     public int $bot_id;
     public string $bot_name;
-
     public ?array $data_ban_user = [];
 
     public function mount(int $bot_id): void
@@ -146,7 +146,7 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
 
                             $count_bot_user = BotUser::where('id',$formdata['bot_user_id'])->count();
 
-                            if($count_ban <= 1 && $count_bot_user <= 1) {
+                            if($count_ban == 0 && $count_bot_user == 0) {
                                 BotUserBanSchedule::upsert(
                                     ['ban_datetime' => now(), 'bot_user_id' => $formdata['bot_user_id']],
                                     ['ban_datetime', 'bot_user_id'],

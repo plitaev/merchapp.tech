@@ -21,14 +21,15 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
-use App\Models\Core\TelegramUnbanSchedule;
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+
 
 
 class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
@@ -147,7 +148,7 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
 
                             $count_bot_user = BotUser::where('id',$formdata['bot_user_id'])->count();
 
-                            if($count_unban <= 1 && $count_bot_user <= 1) {
+                            if($count_unban == 1 && $count_bot_user == 1) {
                                 BotUserUnbanSchedule::upsert(
                                     ['ban_datetime' => now(), 'bot_user_id' => $formdata['bot_user_id']],
                                     ['ban_datetime', 'bot_user_id'],
