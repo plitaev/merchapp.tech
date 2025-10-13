@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Models\Core\BotBranch;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
@@ -65,26 +66,26 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
     public int $sent_users;
     public int $new_bot_id;
 
-    protected static ?string $model = Sending::class;
+    protected static ?string $model = BotBranch::class;
 
-    public static ?string $label = "Рассылка";
-    public static ?string $navigationLabel = "Рассылка";
-    public static ?string $title = "Рассылка";
+    public static ?string $label = "Акция";
+    public static ?string $navigationLabel = "Акция";
+    public static ?string $title = "Акция";
     public ?array $data = [];
     public ?array $data_bot_message_link_listener = [];
     public ?array $data_bot_user = [];
 
     public function getRecord(): ?Model
     {
-        return Sending::class;
+        return BotBranch::class;
     }
 
     public function getHeading(): string
     {
         if ($this->id > 0) {
-            return "Редактировать рассылку";
+            return "Редактировать акцию";
         } else {
-            return "Добавить рассылку";
+            return "Добавить акцию";
         }
     }
 
@@ -100,12 +101,10 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->id = $id;
 
         if ($id > 0) {
-            $data = ($id>0?Sending::with('bot_message')->find($id)->toArray():["bot_id" => $bot_id]);
-            $this->sent_users = TelegramSendMessageSchedule::where('run_status', '>', 0)->where('sending_id', $id)->count();
+            $data = ($id>0?BotBranch::find($id)->toArray():["bot_id" => $bot_id]);
         } else {
             $data = [];
             $data['bot_id'] = $bot_id;
-            $this->sent_users = 0;
         }
 
         $bot = Bot::select('name')->find($bot_id);
@@ -139,40 +138,15 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ])
                     ->schema([
                         Hidden::make('id'),
-                        // Forms\Components\Hidden::make('bot_id'),
                         TextInput::make('name')
                             ->label('Название рассылки')
                             ->required()
                             ->maxLength(255),
-                        Select::make('bot_message_id')
-                            ->label('Сообщение')
-                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
+                        TextInput::make('alias')
+                            ->label('Псевдоним')
                             ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно выберите сообщение',
-                            ])
-                            ->searchable(),
-                        DateTimePicker::make('send_datetime')
-                            ->label('Дата и время отправки')
-                            ->format('Y-m-d H:i:s')
-
-                            ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно укажите дату',
-                            ])
+                            ->maxLength(255),
                     ]),
-                Section::make('Вы не можете изменить эту рассылку')
-                    ->description('В рассылке уже есть пользователи, получившие сообщение. Если нужно отменить отправку тем, кто еще не получил письмо, нажмите кнопку Удалить рассылку')
-                    ->columns([
-                        'sm' => 3,
-                        'md' => 3,
-                        'lg' => 3,
-                        'xl' => 3,
-                        '2xl' => 3,
-                    ])
-                    ->schema([
-                    ])
-                    ->visible($this->id > 0 && $this->sent_users > 0),
 
                 Actions::make([
                     Action::make('Сохранить')
