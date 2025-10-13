@@ -37,7 +37,7 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
     public static ?string $title = "Бан";
 
     public ?array $data = [];
-    public ?array $data_ban_user = [];
+   /// public ?array $data_ban_user = [];
 
 
     public int $bot_id;
