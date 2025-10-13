@@ -15,6 +15,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Filament\Support\Enums\IconPosition;
 
 class BotChats extends Page implements HasTable
 {
@@ -68,7 +69,7 @@ class BotChats extends Page implements HasTable
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->icon('heroicon-m-clipboard')
-                    ->iconPosition(\Filament\Tables\Columns\TextColumn\IconPosition::After)
+                    ->iconPosition(IconPosition::After)
                     ->iconColor('gray')
                     ->extraAttributes(fn (BotUser $record) => [
                         'x-data' => '{}',
