@@ -14,5 +14,5 @@
         </div>
     </div>
 
-    {{$this->table}}
+    {{$this->table}}0
 </x-filament-panels::page>
