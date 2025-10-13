@@ -2,6 +2,7 @@
 namespace App\Filament\Resources\Bots\Pages;
 use App\Filament\Resources\Bots\BotResource;
 
+use App\Models\Core\BotBranch;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
 
@@ -63,6 +64,7 @@ class BotBranches extends Page implements HasTable
     {
         return $table
             ->defaultSort('created_at', 'desc')
+            ->query(BotBranch::where('bot_id', $this->bot_id))
             ->columns([
                 TextColumn::make('name')
                     ->label('Название')
