@@ -18,12 +18,21 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 
+use Filament\Infolists\Concerns\InteractsWithInfolists;
+use Filament\Infolists\Contracts\HasInfolists;
+use Filament\Tables;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\Pay\PayCreateByPayGuest;
 
-class BotChatAdmin extends Page implements HasForms
+class BotChatAdmin extends Page implements HasForms,HasTable, HasInfolists
 {
     use InteractsWithForms;
+    use InteractsWithInfolists;
+    use InteractsWithTable;
 
     protected static string $resource = BotResource::class;
 
@@ -167,6 +176,39 @@ class BotChatAdmin extends Page implements HasForms
                         ->label('Отменить и вернуться назад')
                 ]),
             ])->statePath('data');
+    }
+
+    public function table(Table $table): Table
+    {
+        return $table
+            ->query(
+                TelegramSendMessageSchedule::query()->with('sending')->with('bot_user')->with('run_status_name')
+                    ->whereHas('bot_message', function ($query) {
+                        $query->where('bot_id', $this->bot_id);
+                    })->where('sending_id', $this->id)
+            )
+            ->columns([
+                TextColumn::make('concat(bot_user.email, \' -\', bot_user.username) as full_name')
+                    ->visible(false)
+                    ->searchable(),
+                TextColumn::make('bot_user.first_name')
+                    ->label('Имя'),
+                TextColumn::make('bot_user.last_name')
+                    ->label('Фамилия'),
+                TextColumn::make('bot_user.username')
+                    ->label('Имя пользователя'),
+                TextColumn::make('bot_user.email')
+                    ->label('Email'),
+                TextColumn::make('run_status_name.name')
+                    ->label('Статус'),
+            ])
+
+            ->filters([
+                //
+            ])
+            ->recordActions([
+                DeleteAction::make()
+            ]);
     }
 
 }
