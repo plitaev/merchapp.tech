@@ -32,7 +32,7 @@ use Carbon\Carbon;
 class DevTestController extends Controller
 {
     public function devtest() {
-
+        /*
         $date_end = new DateEnd();
         $bot_users = BotUser::get();
         foreach ($bot_users as $bot_user) {
@@ -46,6 +46,7 @@ class DevTestController extends Controller
 
             }
         }
+        */
 
         //$emails = BotUser::select('email')->whereNotNull('email')->pluck('email')->toArray();
         //return GetCourseWebhook::select('email')->where('created_at', '>=', '2025-10-04 00:00:00')->whereNotIn('email', $emails)->groupBy('email')->orderBy('email')->pluck('email')->toArray();
