@@ -50,6 +50,7 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
     public int $bot_id;
     public string $bot_name;
 
+
     public ?array $data_unban_user = [];
 
     public function mount(int $bot_id): void
@@ -83,7 +84,7 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
         return $table
             ->defaultSort('updated_at', 'desc')
             ->query(
-                BotUserUnbanSchedule::with('run_status_name')
+                BotUserUnbanSchedule::with('bot_user','run_status_name')
                 ->whereHas('bot_user', function ($query) {
                     $query->where('bot_id', $this->bot_id);
                 })

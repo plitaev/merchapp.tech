@@ -82,7 +82,8 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
         return $table
             ->defaultSort('updated_at', 'desc')
             ->query(
-                BotUserBanSchedule::whereHas('bot_user', function ($query) {
+                BotUserBanSchedule::with('bot_user', 'run_status_name')
+                    ->whereHas('bot_user', function ($query) {
                     $query->where('bot_id', $this->bot_id);
                 })
             )
@@ -101,7 +102,7 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                 TextColumn::make('ban_datetime')
                     ->label('Дата и время бана')
                     ->dateTime('d.m.Y H:i:s'),
-                TextColumn::make('run_status')
+                TextColumn::make('run_status_name.name')
                     ->label('Статус')
 //                    ->color(fn (string $state): string => match ($state) {
 //                        'Да' => 'danger',
