@@ -32,7 +32,7 @@ use Carbon\Carbon;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $emails = BotUser::select('email')->whereNotNull('email')->pluck('email')->toArray();
-        return GetCourseWebhook::select('email')->where('created_at', '>=', '2025-10-04 00:00:00')->whereNotIn('email', $emails)->groupBy('email')->orderBy('email')->pluck('email')->toArray();
+        //$emails = BotUser::select('email')->whereNotNull('email')->pluck('email')->toArray();
+        //return GetCourseWebhook::select('email')->where('created_at', '>=', '2025-10-04 00:00:00')->whereNotIn('email', $emails)->groupBy('email')->orderBy('email')->pluck('email')->toArray();
     }
 }
