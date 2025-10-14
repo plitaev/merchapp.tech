@@ -192,7 +192,7 @@ class BotChatAdmin extends Page implements HasForms,HasTable, HasInfolists
             ->filters([
                 //
             ])
-            ->recordUrl(fn($record) => "/admin/bot-users/{$this->id}/ telegram-send-message-logs");
+            ->recordUrl(fn($record) => "/admin/bot-users/{$this->id}/ elegram-send-message-logs");
     }
 
 }
