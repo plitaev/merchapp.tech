@@ -149,7 +149,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->required()
                             ->maxLength(255),
                     ]),
-                Section::make('Новые пользователи')
+                Section::make('Доступ для новых пользователей')
                     ->description('Укажите, должны ли новые пользователи получать доступ к участию в акции')
                     ->columns([
                         'sm' => 2,
@@ -175,7 +175,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             }),
                     ]),
 
-                Section::make('Гости')
+                Section::make('Доступ для гостей')
                     ->description('Укажите, должны ли гости получать доступ к участию в акции')
                     ->columns([
                         'sm' => 2,
@@ -201,7 +201,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             }),
                     ]),
 
-                Section::make('Текущие участники')
+                Section::make('Доступ для текущих участников')
                     ->description('Укажите, должны ли текущие участники получать доступ к участию в акции')
                     ->columns([
                         'sm' => 2,
@@ -227,7 +227,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             }),
                     ]),
 
-                Section::make('Прошлые участники')
+                Section::make('Доступ для прошлых участников')
                     ->description('Укажите, должны ли прошлые участники получать доступ к участию в акции')
                     ->columns([
                         'sm' => 2,
