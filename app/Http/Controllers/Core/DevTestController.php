@@ -33,6 +33,6 @@ class DevTestController extends Controller
 {
     public function devtest() {
         $emails = BotUser::select('email')->whereNotNull('email')->pluck('email')->toArray();
-        return GetCourseWebhook::where('created_at', '>=', '2025-10-04 00:00:00')->whereNotIn('email', $emails)->get();
+        return GetCourseWebhook::select('email')->where('created_at', '>=', '2025-10-04 00:00:00')->whereNotIn('email', $emails)->pluck('email')->toArray();
     }
 }
