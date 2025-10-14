@@ -109,7 +109,6 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
 
         $bot = Bot::select('name')->find($bot_id);
         $this->bot_name = $bot->name;
-        $this->form_bot_user->fill([]);
         $this->form->fill($data);
     }
 
@@ -120,7 +119,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
 
     protected function getForms(): array
     {
-        return ['form', 'form_bot_user'];
+        return ['form'];
     }
 
     public function form(Schema $schema): Schema
