@@ -49,6 +49,7 @@ class BotUserSetBanScheduler
             ->whereNull('date_end')
             ->where('listen_success_message_status', 1)
             ->whereNotIn('id', $non_runned_users)
+            ->where('ban', 0)
             ->get();
 
         $botUserSetBanSchedulerCreate->handle($bot_users, date('Y-m-d', time()));
