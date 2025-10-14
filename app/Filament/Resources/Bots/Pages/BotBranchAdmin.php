@@ -225,6 +225,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                     return $get('members_bot_branch_access_id') == 0;
                                 }
                             }),
+                    ]),
 
                 Section::make('Прошлые участники')
                     ->description('Укажите, должны ли прошлые участники получать доступ к участию в акции')
@@ -250,7 +251,6 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                     return $get('banneds_bot_branch_access_id') == 0;
                                 }
                             })
-                    ]),
                     ]),
 
                 Actions::make([
