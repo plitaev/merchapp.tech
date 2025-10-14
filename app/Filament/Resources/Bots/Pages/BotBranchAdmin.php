@@ -170,7 +170,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->searchable()
                             ->visible(function (Get $get) {
                                 if (is_callable($get)) {
-                                    return $get('new_users_bot_branch_access_id') == 0;
+                                    return $get('new_users_bot_branch_access_id') == 1;
                                 }
                             })
                     ]),
