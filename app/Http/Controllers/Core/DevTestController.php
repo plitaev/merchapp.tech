@@ -33,7 +33,7 @@ class DevTestController extends Controller
 {
     public function devtest() {
         $date_end = new DateEnd();
-        $bot_user = BotUser::find(1);
+        $bot_user = BotUser::find(314);
         return $date_end->handle($bot_user, 'Y-m-d');
 
         //$emails = BotUser::select('email')->whereNotNull('email')->pluck('email')->toArray();
