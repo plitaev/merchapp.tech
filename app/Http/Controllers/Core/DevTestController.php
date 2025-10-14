@@ -40,7 +40,7 @@ class DevTestController extends Controller
 
             if ($date_end != $bot_user->date_end || !isset($bot_user->date_end)) {
 
-                if ($date_end != '') {
+                if ($date_end_result != '') {
                     BotUser::where('id', $bot_user->id)->update(['date_end' => $date_end_result]);
                 }
 
