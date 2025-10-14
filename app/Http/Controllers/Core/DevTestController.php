@@ -37,6 +37,10 @@ class DevTestController extends Controller
         $bot_users = BotUser::get();
         foreach ($bot_users as $bot_user) {
             $date_end->handle($bot_user, 'Y-m-d');
+
+            if ($date_end != $bot_user->date_end) {
+                BotUser::where('id', $bot_user->id)->update(['date_end' => $date_end]);
+            }
         }
 
         //$emails = BotUser::select('email')->whereNotNull('email')->pluck('email')->toArray();
