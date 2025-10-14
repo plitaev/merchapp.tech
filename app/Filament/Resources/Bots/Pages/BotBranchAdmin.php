@@ -159,9 +159,14 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                     $data['hash'] = $hash;
                                     BotBranch::where('id', $this->id)->update($data);
                                 }
+
+                                return redirect('/admin/bots/'.$this->bot_id.'/branches');
+
                             } else {
                                 $data['hash'] = $hash;
                                 $new = BotBranch::create($data);
+
+                                return redirect('/admin/bots/'.$this->bot_id.'/'.$new->id.'/branch-admin');
                             }
 
                         }),
