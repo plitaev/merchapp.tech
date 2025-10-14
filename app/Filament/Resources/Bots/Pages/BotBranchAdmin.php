@@ -172,6 +172,51 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                 if (is_callable($get)) {
                                     return $get('new_users_bot_branch_access_id') == 0;
                                 }
+                            }),
+
+                        Select::make('guests_bot_branch_access_id')
+                            ->label('Гости')
+                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->live(),
+                        Select::make('access_for_guests_decline_bot_message_id')
+                            ->label('Сообщение по отказу')
+                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
+                            ->searchable()
+                            ->visible(function (Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('guests_bot_branch_access_id') == 0;
+                                }
+                            }),
+
+                        Select::make('members_bot_branch_access_id')
+                            ->label('Текущие участники')
+                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->live(),
+                        Select::make('access_for_members_decline_bot_message_id')
+                            ->label('Сообщение по отказу')
+                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
+                            ->searchable()
+                            ->visible(function (Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('members_bot_branch_access_id') == 0;
+                                }
+                            }),
+
+                        Select::make('banneds_bot_branch_access_id')
+                            ->label('Прошлые участники')
+                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->live(),
+                        Select::make('access_for_banneds_decline_bot_message_id')
+                            ->label('Сообщение по отказу')
+                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
+                            ->searchable()
+                            ->visible(function (Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('banneds_bot_branch_access_id') == 0;
+                                }
                             })
                     ]),
 
