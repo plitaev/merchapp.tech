@@ -149,8 +149,8 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->required()
                             ->maxLength(255),
                     ]),
-                Section::make('Доступ')
-                    ->description('Укажите сегменты, которым нужно предоставлять и отклонять доступ к участию в акции')
+                Section::make('Новые пользователи')
+                    ->description('Укажите, должны ли новые пользователи получать доступ к участию в акции')
                     ->columns([
                         'sm' => 2,
                         'md' => 2,
@@ -160,7 +160,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ])
                     ->schema([
                         Select::make('new_users_bot_branch_access_id')
-                            ->label('Новые пользователи')
+                            ->label('Режим доступа')
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
                             ->searchable()
                             ->live(),
@@ -173,9 +173,20 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                     return $get('new_users_bot_branch_access_id') == 0;
                                 }
                             }),
+                    ]),
 
+                Section::make('Гости')
+                    ->description('Укажите, должны ли гости получать доступ к участию в акции')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
                         Select::make('guests_bot_branch_access_id')
-                            ->label('Гости')
+                            ->label('Режим доступа')
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
                             ->searchable()
                             ->live(),
@@ -188,9 +199,20 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                     return $get('guests_bot_branch_access_id') == 0;
                                 }
                             }),
+                    ]),
 
+                Section::make('Текущие участники')
+                    ->description('Укажите, должны ли текущие участники получать доступ к участию в акции')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
                         Select::make('members_bot_branch_access_id')
-                            ->label('Текущие участники')
+                            ->label('Режим доступа')
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
                             ->searchable()
                             ->live(),
@@ -204,6 +226,16 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                 }
                             }),
 
+                Section::make('Прошлые участники')
+                    ->description('Укажите, должны ли прошлые участники получать доступ к участию в акции')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
                         Select::make('banneds_bot_branch_access_id')
                             ->label('Прошлые участники')
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
@@ -218,6 +250,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                     return $get('banneds_bot_branch_access_id') == 0;
                                 }
                             })
+                    ]),
                     ]),
 
                 Actions::make([
