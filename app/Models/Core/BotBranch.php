@@ -10,13 +10,13 @@ class BotBranch extends Model
         'name',
         'alias',
         'hash',
-        'access_for_new_users',
+        'new_users_bot_branch_access_id',
         'access_for_new_users_decline_bot_message_id',
-        'access_for_guests',
+        'guests_bot_branch_access_id',
         'access_for_guests_decline_bot_message_id',
-        'access_for_members',
+        'members_bot_branch_access_id',
         'access_for_members_decline_bot_message_id',
-        'access_for_banneds',
+        'banneds_bot_branch_access_id',
         'access_for_banneds_decline_bot_message_id'
     ];
 }
