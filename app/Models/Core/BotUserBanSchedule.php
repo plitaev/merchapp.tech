@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
+use App\Models\Core\Boolean;
 
 class BotUserBanSchedule extends Model
 {
@@ -29,7 +30,7 @@ class BotUserBanSchedule extends Model
 
     public function run_status_name(): BelongsTo
     {
-        return $this->belongsTo(RunStatus::class);
+        return $this->belongsTo(Boolean::class);
     }
 
 }
