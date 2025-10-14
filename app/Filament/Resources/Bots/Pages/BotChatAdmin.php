@@ -1,6 +1,8 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Models\Core\TelegramBanScheduleLogs;
+use App\Models\Core\TelegramSendMessageSchedule;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -181,34 +183,16 @@ class BotChatAdmin extends Page implements HasForms,HasTable, HasInfolists
     public function table(Table $table): Table
     {
         return $table
-            ->query(
-                TelegramSendMessageSchedule::query()->with('sending')->with('bot_user')->with('run_status_name')
-                    ->whereHas('bot_message', function ($query) {
-                        $query->where('bot_id', $this->bot_id);
-                    })->where('sending_id', $this->id)
-            )
+            ->query(BotMessage::select('id as count')->count())
             ->columns([
-                TextColumn::make('concat(bot_user.email, \' -\', bot_user.username) as full_name')
-                    ->visible(false)
-                    ->searchable(),
-                TextColumn::make('bot_user.first_name')
-                    ->label('Имя'),
-                TextColumn::make('bot_user.last_name')
-                    ->label('Фамилия'),
-                TextColumn::make('bot_user.username')
-                    ->label('Имя пользователя'),
-                TextColumn::make('bot_user.email')
-                    ->label('Email'),
-                TextColumn::make('run_status_name.name')
-                    ->label('Статус'),
+                TextColumn::make('count')
+                    ->label('Сообщения от бота (кол-во записей сообщений в БД)')
             ])
 
             ->filters([
                 //
             ])
-            ->recordActions([
-                DeleteAction::make()
-            ]);
+            ->recordUrl(fn($record) => "/admin/bot-users/{$this->id}/ telegram-send-message-logs");
     }
 
 }
