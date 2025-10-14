@@ -152,64 +152,25 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                     Action::make('Сохранить')
                         ->action(function () {
                             $data = $this->form->getState();
-                            $this->bot_message_id = $data['bot_message_id'];
-                            $datetime = date('Y-m-d H:i:s', time());
+                            $hash=hash('sha256', $data['alias']);
 
-
-                            if ($data['send_datetime'] >= $datetime) {
-                                if ($this->id>0) {
-
-                                    if ($this->sent_users > 0) {
-                                        Notification::make()
-                                            ->title('Рассылка уже доставлена пользователям, удаление невозможно.')
-                                            ->danger()
-                                            ->send();
-                                    } else {
-                                        Sending::where('id', $this->id)->update($data);
-
-                                        Notification::make()
-                                            ->title('Данные успешно сохранены!')
-                                            ->success()
-                                            ->send();
-
-                                        return redirect('/admin/bots/' . $this->bot_id . '/sendings');
-                                    }
-                                } else {
-                                    $new_sending = Sending::create($data);
-
-                                    Notification::make()
-                                        ->title('Данные успешно сохранены!')
-                                        ->success()
-                                        ->send();
-
-                                    return redirect('/admin/bots/' . $this->bot_id . '/' . $new_sending->id . '/sending-admin');
+                            if ($this->id > 0) {
+                                $branch = BotBranch::find($this->id);
+                                if (!$branch->hash) {
+                                    $data['hash'] = $hash;
+                                    BotBranch::where('id', $this->id)->update($data);
                                 }
                             } else {
-                                Notification::make()
-                                    ->title('Дата и время отправки меньше текущей!')
-                                    ->danger()
-                                    ->send();
+                                $data['hash'] = $hash;
+                                $new = BotBranch::create($data);
                             }
 
                         }),
                     Action::make('Cancel')
                         ->action(function () {
-                            return redirect('/admin/bots/' . $this->bot_id . '/sendings');
+                            return redirect('/admin/bots/'.$this->bot_id.'/branches');
                         })
-                        ->label('Вернуться назад'),
-                    Action::make('Delete')
-                        ->action(function () {
-
-                            if ($this->sent_users > 0) {
-                                TelegramSendMessageSchedule::where('sending_id', $this->id)->where('run_status', 0)->update(['run_status' => 3]);
-                            } else {
-                                TelegramSendMessageSchedule::where('sending_id', $this->id)->delete();
-                                Sending::destroy($this->id);
-                            }
-
-                            return redirect('/admin/bots/' . $this->bot_id . '/sendings');
-                        })
-                        ->label('Удалить')
+                        ->label('Вернуться назад')
                 ])
             ])->statePath('data');
     }
@@ -245,47 +206,6 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
             ->recordActions([
                 DeleteAction::make()
             ]);
-    }
-
-    public function form_bot_user(Schema $schema): Schema
-    {
-        return $schema
-            ->components([
-                Section::make('Получатели рассылки')
-                    ->description('')
-                    ->schema([
-                        Hidden::make('sending_id'),
-                        Select::make('bot_user_id')
-                            ->label('Пользователь')
-                            ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно выберите пользователя',
-                            ])
-                            ->searchable()
-                            ->options(BotUser::where('bot_id', $this->bot_id)->get()->map(function ($bot_user) {
-                                return ['key' => $bot_user->id, 'value' => (isset($bot_user->first_name) && $bot_user->first_name!='none'?$bot_user->first_name:'')." ".(isset($bot_user->last_name) && $bot_user->last_name!='none'?$bot_user->last_name:'')." ".(isset($bot_user->username) && $bot_user->username!='none'?"(".$bot_user->username.")":'')];
-                            })->pluck('value', 'key')->toArray())
-
-                    ]),
-                Actions::make([
-                    Action::make('Сохранить')
-                        ->action(function () {
-                            $formdata = $this->form_bot_user->getState();
-
-                            TelegramSendMessageSchedule::upsert(
-                                ['sending_id' => $this->id, 'bot_user_id' => $formdata['bot_user_id']],
-                                ['sending_id', 'bot_user_id'],
-                                ['updated_at' => now()]
-                            );
-
-                            $this->dispatch('close-modal', id: 'add-page-modal');
-                        }),
-                    Action::make('Отмена')
-                        ->action(function () {
-                            $this->dispatch('close-modal', id: 'add-page-modal');
-                        })
-                ])
-            ])->statePath('data_bot_user');
     }
 
 }
