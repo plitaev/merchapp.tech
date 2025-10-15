@@ -114,7 +114,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
             $this->bot_branch_hash = '';
         }
 
-        $bot = Bot::select('name')->find($bot_id);
+        $bot = Bot::select('name', 'alias')->find($bot_id);
         $this->bot_name = $bot->name;
         $this->bot_alias = $bot->alias;
 
