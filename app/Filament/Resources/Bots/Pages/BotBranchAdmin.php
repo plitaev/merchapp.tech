@@ -176,97 +176,37 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ])
                     ->schema([
                         Select::make('new_users_bot_branch_access_id')
-                            ->label('Режим доступа')
+                            ->label('Доступ для новых пользователей')
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable()
-                            ->live(),
+                            ->searchable(),
                         Select::make('new_users_bot_message_id')
-                            ->label('Сообщение по отказу')
+                            ->label('Отправлять сообщение')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable()
-                            ->visible(function (Get $get) {
-                                if (is_callable($get)) {
-                                    return $get('new_users_bot_branch_access_id') == 0;
-                                }
-                            }),
-                    ]),
-
-                Section::make('Доступ для гостей')
-                    ->description('Укажите, должны ли гости получать доступ к участию в акции')
-                    ->columns([
-                        'sm' => 2,
-                        'md' => 2,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
-                    ])
-                    ->schema([
+                            ->searchable(),
                         Select::make('guests_bot_branch_access_id')
-                            ->label('Режим доступа')
+                            ->label('Доступ для гостей')
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable()
-                            ->live(),
+                            ->searchable(),
                         Select::make('guests_bot_message_id')
-                            ->label('Сообщение по отказу')
+                            ->label('Отправлять сообщение')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable()
-                            ->visible(function (Get $get) {
-                                if (is_callable($get)) {
-                                    return $get('guests_bot_branch_access_id') == 0;
-                                }
-                            }),
-                    ]),
-
-                Section::make('Доступ для текущих участников')
-                    ->description('Укажите, должны ли текущие участники получать доступ к участию в акции')
-                    ->columns([
-                        'sm' => 2,
-                        'md' => 2,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
-                    ])
-                    ->schema([
+                            ->searchable(),
                         Select::make('members_bot_branch_access_id')
-                            ->label('Режим доступа')
+                            ->label('Доступ для текущих участников')
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable()
-                            ->live(),
+                            ->searchable(),
                         Select::make('members_bot_message_id')
-                            ->label('Сообщение по отказу')
+                            ->label('Отправлять сообщение')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable()
-                            ->visible(function (Get $get) {
-                                if (is_callable($get)) {
-                                    return $get('members_bot_branch_access_id') == 0;
-                                }
-                            }),
-                    ]),
-
-                Section::make('Доступ для прошлых участников')
-                    ->description('Укажите, должны ли прошлые участники получать доступ к участию в акции')
-                    ->columns([
-                        'sm' => 2,
-                        'md' => 2,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
-                    ])
-                    ->schema([
+                            ->searchable(),
                         Select::make('banneds_bot_branch_access_id')
-                            ->label('Прошлые участники')
+                            ->label('Доступ для выбывших участников')
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable()
-                            ->live(),
+                            ->searchable(),
                         Select::make('banneds_bot_message_id')
-                            ->label('Сообщение по отказу')
+                            ->label('Отправлять сообщение')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
-                            ->visible(function (Get $get) {
-                                if (is_callable($get)) {
-                                    return $get('banneds_bot_branch_access_id') == 0;
-                                }
-                            })
                     ]),
 
                 Actions::make([
