@@ -33,6 +33,9 @@ class BotBranchRun
 
             $member = 0;
             $member_end = $bot_user->date_end." ".$bot_user->bot->ban_time;
+
+            return $member_end." | ".date('Y-m-d H:i:s', time());
+
             if (date('Y-m-d H:i:s', time()) > $member_end) $member = 1;
 
             $banned = $bot_user->ban;
