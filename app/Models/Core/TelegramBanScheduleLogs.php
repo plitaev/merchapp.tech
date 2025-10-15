@@ -4,6 +4,8 @@ namespace App\Models\Core;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class TelegramBanScheduleLogs extends Model
 {
@@ -15,4 +17,10 @@ class TelegramBanScheduleLogs extends Model
         'chat_id',
         'status'
     ];
+
+    public function bot_user(): BelongsTo
+    {
+        return $this->belongsTo(BotUser::class);
+    }
+
 }
