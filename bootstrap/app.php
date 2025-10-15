@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
             '/telegram/*',
             '/pdf/*',
             '/yookassa/*',
+            '/prodamus/*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
