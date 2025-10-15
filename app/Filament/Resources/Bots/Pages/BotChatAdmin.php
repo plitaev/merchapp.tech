@@ -188,7 +188,7 @@ class BotChatAdmin extends Page implements HasForms, HasTable, HasInfolists
         return $table
             ->query(BotMessage::select('id')->where('bot_id',$this->bot_id))
             ->columns([
-                TextColumn::make('name')
+                TextColumn::make('id')
                     ->label('Сообщения от бота (кол-во записей сообщений в БД)?')
             ])
             ->filters([
