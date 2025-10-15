@@ -61,6 +61,8 @@ class BotBranchRun
                 $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
             }
 
+            die();
+
         } else {
             $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
         }
