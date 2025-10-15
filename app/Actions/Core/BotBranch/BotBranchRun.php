@@ -1,6 +1,8 @@
 <?php
 namespace App\Actions\Core\BotBranch;
 
+use Carbon\Carbon;
+
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserSetBranch;
 
@@ -34,7 +36,7 @@ class BotBranchRun
             $member = 0;
             $member_end = $bot_user->date_end." ".$bot_user->bot->ban_time;
 
-            if (date('Y-m-d H:i:s', time()) > $member_end) {
+            if (Carbon::parse(date('Y-m-d H:i:s', time())) > Carbon::parse($member_end)) {
                 return 'yes';
                 $member = 1;
             } else {
