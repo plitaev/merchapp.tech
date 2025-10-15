@@ -105,6 +105,7 @@ class ClubAccessController extends Controller
             if ($Astart[0] == "/start") {
 
                 if (count($Astart) == 2) {
+                    return 'ok';
                     $botBranchRun->handle($bot_user, $Astart[1]);
                 } else {
                     $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
