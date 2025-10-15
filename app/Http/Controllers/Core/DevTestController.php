@@ -4,7 +4,7 @@ use App\Actions\Core\DateEnd\DateEnd;
 use App\Actions\Core\GetCourseWebhook\GetCourseWebhookCreate;
 use App\Actions\Core\Telegram\TelegramChatJoinRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\HMACController;
+use App\Http\Controllers\Core\HMACController;
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
