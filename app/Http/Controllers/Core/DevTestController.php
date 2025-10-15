@@ -4,6 +4,7 @@ use App\Actions\Core\DateEnd\DateEnd;
 use App\Actions\Core\GetCourseWebhook\GetCourseWebhookCreate;
 use App\Actions\Core\Telegram\TelegramChatJoinRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\HMACController;
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
@@ -33,27 +34,33 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $date1 = '2025-10-19 19:00:15';
-        $date1 = Carbon::parse($date1);
-        return $date1->addDays(3)->format('d.m.Y');
+        $Aproducts = [];
 
-        /*
-        $date_end = new DateEnd();
-        $bot_users = BotUser::get();
-        foreach ($bot_users as $bot_user) {
-            $date_end_result = $date_end->handle($bot_user, 'Y-m-d');
+        $products = [
+            'name' => 'Акция',
+            'price' => 50,
+            'quantity' => '1',
+            'tax' => [
+                'paymentMethod' => 4,
+                'paymentObject' => 4
+            ]];
 
-            if ($date_end != $bot_user->date_end || !isset($bot_user->date_end)) {
+        $Aproducts[] = $products;
 
-                if ($date_end_result != '') {
-                    BotUser::where('id', $bot_user->id)->update(['date_end' => $date_end_result]);
-                }
+        $data = ['binding_id' => '0ea05b9efc8ff41556f0818f750c636e', 'client_id' => 7874, 'sys' => 'magiclife', 'order_sum' => 50];
 
-            }
-        }
-        */
+        $HMACController = new HMACController();
+        $data['signature'] = $HMACController->create($data, 'a46d78365afc4e146ed48c736d3ef106546dab3e516efd1d15c44ac2eaac15ac');
 
-        //$emails = BotUser::select('email')->whereNotNull('email')->pluck('email')->toArray();
-        //return GetCourseWebhook::select('email')->where('created_at', '>=', '2025-10-04 00:00:00')->whereNotIn('email', $emails)->groupBy('email')->orderBy('email')->pluck('email')->toArray();
+        $link = sprintf('%s?%s', 'https://formagiclife.payform.ru/rest/payment/do/', http_build_query($data));
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $link);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $responce = curl_exec($curl);
+        curl_close($curl);
+
+        return $responce;
+
     }
 }
