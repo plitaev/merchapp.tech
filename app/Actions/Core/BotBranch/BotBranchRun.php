@@ -40,28 +40,52 @@ class BotBranchRun
             $banned = $bot_user->ban;
 
             if ($newbie == 1) {
-                if ($branch->new_users_bot_branch_access_id == 1) $botUserSetBranch->handle($bot_user, $hash);
+
+                if ($branch->new_users_bot_branch_access_id == 1) {
+                    $botUserSetBranch->handle($bot_user, $hash);
+                } else {
+                    $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
+                }
+
                 $bot_message = BotMessage::with('bot_message_appointment')->find($branch->new_users_bot_message_id);
                 $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
                 die();
             }
 
             if ($guest == 1) {
-                if ($branch->guests_bot_branch_access_id == 1) $botUserSetBranch->handle($bot_user, $hash);
+
+                if ($branch->guests_bot_branch_access_id == 1) {
+                    $botUserSetBranch->handle($bot_user, $hash);
+                } else {
+                    $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
+                }
+
                 $bot_message = BotMessage::with('bot_message_appointment')->find($branch->guests_bot_message_id);
                 $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
                 die();
             }
 
             if ($member == 1) {
-                if ($branch->members_bot_branch_access_id == 1) $botUserSetBranch->handle($bot_user, $hash);
+
+                if ($branch->members_bot_branch_access_id == 1) {
+                    $botUserSetBranch->handle($bot_user, $hash);
+                } else {
+                    $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
+                }
+
                 $bot_message = BotMessage::with('bot_message_appointment')->find($branch->members_bot_message_id);
                 $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
                 die();
             }
 
             if ($banned == 1) {
-                if ($branch->banneds_bot_branch_access_id == 1) $botUserSetBranch->handle($bot_user, $hash);
+
+                if ($branch->banneds_bot_branch_access_id == 1) {
+                    $botUserSetBranch->handle($bot_user, $hash);
+                } else {
+                    $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
+                }
+
                 $bot_message = BotMessage::with('bot_message_appointment')->find($branch->banneds_bot_message_id);
                 $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
                 die();
