@@ -11,7 +11,7 @@ use App\Models\Core\Pay;
 class BotBranchRun
 {
     public function handle($bot_user, string $hash) {
-        $botMessage = BotMessage();
+        $botMessage = new BotMessage();
         $botSendMessage = new BotSendMessage();
         $botUserSetBranch = new BotUserSetBranch();
 
