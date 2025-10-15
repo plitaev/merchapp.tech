@@ -49,6 +49,7 @@ use App\Models\Core\Funnel;
 use App\Models\Core\FunnelCondition;
 use App\Models\Core\FunnelConditionTrigger;
 use App\Models\Core\Listener;
+use App\Models\Core\Product;
 
 
 class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
@@ -264,6 +265,27 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Отправлять сообщение')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
+                    ]),
+                Section::make('Завершение акции')
+                    ->description('Укажите, когда пользователь должен выйти из ветки акции')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
+                        Forms\Components\Checkbox::make('end_by_product_sale')->label('По покупке продукта'),
+                        Select::make('new_users_bot_branch_access_id')
+                            ->label('Доступ для новых пользователей')
+                            ->options(Product::where('bot_id', $this->bot_id)->pluck('name', 'id'))
+                            ->searchable()
+                            ->visible(function (Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('end_by_product_sale') == 1;
+                                }
+                            })
                     ]),
 
                 Actions::make([
