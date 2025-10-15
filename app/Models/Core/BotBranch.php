@@ -10,6 +10,8 @@ class BotBranch extends Model
         'name',
         'alias',
         'hash',
+        'datetime_start',
+        'datetime_end',
         'new_users_bot_branch_access_id',
         'new_users_bot_message_id',
         'guests_bot_branch_access_id',

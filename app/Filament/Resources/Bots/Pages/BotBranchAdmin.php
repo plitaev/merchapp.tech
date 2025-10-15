@@ -138,11 +138,11 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                 Section::make('Акция')
                     ->description('Укажите название и пседоним (системное имя)')
                     ->columns([
-                        'sm' => 3,
-                        'md' => 3,
-                        'lg' => 3,
-                        'xl' => 3,
-                        '2xl' => 3,
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
                     ])
                     ->schema([
                         Hidden::make('id'),
@@ -154,6 +154,20 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Псевдоним')
                             ->required()
                             ->maxLength(255),
+                        DateTimePicker::make('datetime_start')
+                            ->label('Дата и время начала акции')
+                            ->format('Y-m-d H:i:s')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите дату и время начала акции',
+                            ]),
+                        DateTimePicker::make('datetime_end')
+                            ->label('Дата и время окончания акции')
+                            ->format('Y-m-d H:i:s')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите дату и время окончания акции',
+                            ])
                     ]),
                 Section::make('Акция')
                     ->description(new HtmlString('Ссылка на запуск к акции в боте: <a href="https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.'" style="text-decoration: underline" target="_blank">https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.'</a>'))
