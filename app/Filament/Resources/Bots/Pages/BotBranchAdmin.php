@@ -49,6 +49,7 @@ use App\Models\Core\Funnel;
 use App\Models\Core\FunnelCondition;
 use App\Models\Core\FunnelConditionTrigger;
 use App\Models\Core\Listener;
+use App\Models\Core\Product;
 
 
 class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
@@ -222,8 +223,8 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
                     ]),
-                Section::make('Доступ для новых пользователей')
-                    ->description('Укажите, должны ли новые пользователи получать доступ к участию в акции')
+                Section::make('Завершение акции')
+                    ->description('Укажите, когда пользователь должен выйти из ветки акции')
                     ->columns([
                         'sm' => 2,
                         'md' => 2,
@@ -232,38 +233,18 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         '2xl' => 2,
                     ])
                     ->schema([
+                        Forms\Components\Checkbox::make('end_by_product_sale')
+                            ->label('По покупке продукта')
+                            ->live(),
                         Select::make('new_users_bot_branch_access_id')
                             ->label('Доступ для новых пользователей')
-                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('new_users_bot_message_id')
-                            ->label('Отправлять сообщение')
-                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('guests_bot_branch_access_id')
-                            ->label('Доступ для гостей')
-                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('guests_bot_message_id')
-                            ->label('Отправлять сообщение')
-                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('members_bot_branch_access_id')
-                            ->label('Доступ для текущих участников')
-                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('members_bot_message_id')
-                            ->label('Отправлять сообщение')
-                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('banneds_bot_branch_access_id')
-                            ->label('Доступ для выбывших участников')
-                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('banneds_bot_message_id')
-                            ->label('Отправлять сообщение')
-                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
+                            ->options(Product::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
+                            ->visible(function (Get $get) {
+                                if (is_callable($get)) {
+                                    return $get('end_by_product_sale') == 1;
+                                }
+                            })
                     ]),
 
                 Actions::make([
