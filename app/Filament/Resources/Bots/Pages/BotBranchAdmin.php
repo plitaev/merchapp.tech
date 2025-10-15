@@ -237,7 +237,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('По покупке продукта')
                             ->live(),
                         Select::make('new_users_bot_branch_access_id')
-                            ->label('Доступ для новых пользователей')
+                            ->label('Выберите продукт')
                             ->options(Product::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
                             ->visible(function (Get $get) {
