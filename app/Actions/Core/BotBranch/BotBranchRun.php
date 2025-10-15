@@ -39,8 +39,6 @@ class BotBranchRun
 
             $banned = $bot_user->ban;
 
-            return $newbie." - ".$guest." - ".$member." - ".$pays;
-
             if ($newbie == 1) {
 
                 if ($branch->new_users_bot_branch_access_id == 1) {
