@@ -190,7 +190,6 @@ class BotChatAdmin extends Page implements HasForms, HasTable, HasInfolists
                 TextColumn::make('name')
                     ->label('Сообщения от бота (кол-во записей сообщений в БД)?')
             ])
-
             ->filters([
                 //
             ])
