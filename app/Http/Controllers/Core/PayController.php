@@ -91,8 +91,6 @@ class PayController
             'sys' => $bot->prodamus_sys,'discount_value' => 0.00,
             'npd_income_type' => $bot->prodamus_npd_income_type->code];
 
-        return $data;
-
         $data['client_id'] = $bot_user->id;
         $data['return_all_methods'] = 1;
 
