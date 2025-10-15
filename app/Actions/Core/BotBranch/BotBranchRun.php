@@ -37,6 +37,8 @@ class BotBranchRun
 
             $banned = $bot_user->ban;
 
+            return $newbie." | ".$guest." | ".$member." | ".$banned;
+
             if ($newbie == 1) {
                 if ($branch->new_users_bot_branch_access_id == 1) $botUserSetBranch->handle($bot_user, $hash);
                 $bot_message = BotMessage::with('bot_message_appointment')->find($branch->new_users_bot_message_id);
