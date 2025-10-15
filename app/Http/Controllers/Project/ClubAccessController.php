@@ -100,7 +100,7 @@ class ClubAccessController extends Controller
             if ($Astart[0] == "/start") {
 
                 if (count($Astart) == 2) {
-                    $branch = BotBranch::where('alias', $Astart[1])->first();
+                    $branch = BotBranch::where('hash', $Astart[1])->first();
                     if ($branch) {
                         $botUserSetBranch->handle($bot_user, $Astart[1]);
                     } else {
