@@ -180,7 +180,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
                             ->searchable()
                             ->live(),
-                        Select::make('access_for_new_users_decline_bot_message_id')
+                        Select::make('new_users_bot_message_id')
                             ->label('Сообщение по отказу')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
@@ -206,7 +206,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
                             ->searchable()
                             ->live(),
-                        Select::make('access_for_guests_decline_bot_message_id')
+                        Select::make('guests_bot_message_id')
                             ->label('Сообщение по отказу')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
@@ -232,7 +232,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
                             ->searchable()
                             ->live(),
-                        Select::make('access_for_members_decline_bot_message_id')
+                        Select::make('members_bot_message_id')
                             ->label('Сообщение по отказу')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
@@ -258,7 +258,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
                             ->searchable()
                             ->live(),
-                        Select::make('access_for_banneds_decline_bot_message_id')
+                        Select::make('banneds_bot_message_id')
                             ->label('Сообщение по отказу')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
