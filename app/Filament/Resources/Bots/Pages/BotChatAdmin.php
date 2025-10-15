@@ -5,6 +5,7 @@ use App\Models\Core\TelegramBanScheduleLogs;
 use App\Models\Core\TelegramSendMessageSchedule;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
@@ -183,9 +184,9 @@ class BotChatAdmin extends Page implements HasForms,HasTable, HasInfolists
     public function table(Table $table): Table
     {
         return $table
-            ->query(BotMessage::select('id as count')->get())
+            ->query(BotMessage::select('id'))
             ->columns([
-                TextColumn::make('count')
+                TextColumn::make('name')
                     ->label('Сообщения от бота (кол-во записей сообщений в БД)')
             ])
 
