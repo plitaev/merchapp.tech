@@ -104,16 +104,15 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                     ->dateTime('d.m.Y H:i:s'),
                 TextColumn::make('run_status_name.name')
                     ->label('Статус')
-//                    ->color(fn (string $state): string => match ($state) {
-//                        'Да' => 'danger',
-//                        'Нет' => 'success',
-//                    })
+                    ->color(fn (string $state): string => match ($state) {
+                        'Да' => 'danger',
+                        'Нет' => 'success',
+                    })
             ])
             ->filters([
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/bots/" . $this->bot_id . "/" . $record->id . "/telegram-ban-schedule-admin"),
                 DeleteAction::make(),
 
             ])
