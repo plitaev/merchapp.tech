@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bot_branches', function (Blueprint $table) {
-            $table->datetime('datetime_start')->after('hash');
-            $table->datetime('datetime_end')->after('datetime_start');
+            $table->boolean('end_by_product_sale')->after('datetime_end')->default(0);
+            $table->unsignedBigInteger('end_by_product_sale_product_id')->after('end_by_product_sale')->null();
+            $table->boolean('end_by_restart')->after('end_by_product_sale_product_id')->default(0);
         });
     }
 
