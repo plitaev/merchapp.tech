@@ -60,7 +60,7 @@ class DevTestController extends Controller
         $responce = curl_exec($curl);
         curl_close($curl);
 
-        return $responce;
+        return json_decode($responce, true);
 
     }
 }
