@@ -66,6 +66,8 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
     public int $bot_id;
     public int $bot_message_id;
     public string $bot_name;
+    public string $bot_alias;
+    public string $bot_branch_hash;
     public int $sent_users;
     public int $new_bot_id;
 
@@ -104,14 +106,18 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->id = $id;
 
         if ($id > 0) {
-            $data = ($id>0?BotBranch::find($id)->toArray():["bot_id" => $bot_id]);
+            $data = BotBranch::find($id)->toArray();
+            $this->bot_branch_hash = $data["hash"];
         } else {
             $data = [];
             $data['bot_id'] = $bot_id;
+            $this->bot_branch_hash = '';
         }
 
         $bot = Bot::select('name')->find($bot_id);
         $this->bot_name = $bot->name;
+        $this->bot_alias = $bot->alias;
+
         $this->form->fill($data);
     }
 
@@ -149,6 +155,16 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->required()
                             ->maxLength(255),
                     ]),
+                Section::make('Акция')
+                    ->description('Ссылка на запуск к акции в боте: https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash)
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1
+                    ])
+                    ->schema([]),
                 Section::make('Доступ для новых пользователей')
                     ->description('Укажите, должны ли новые пользователи получать доступ к участию в акции')
                     ->columns([
