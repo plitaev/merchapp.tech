@@ -47,7 +47,7 @@ class DevTestController extends Controller
 
         $Aproducts[] = $products;
 
-        $data = ['binding_id' => '16666803afe48518df41596e9f2ed8af', 'client_id' => 7874, 'sys' => 'magiclife', 'order_sum' => 150];
+        $data = ['binding_id' => 'af8c60fd6a8d21fdf3fd7d15cf706070', 'client_id' => 19193, 'sys' => 'magiclife', 'order_sum' => 150];
 
         $HMACController = new HMACController();
         $data['signature'] = $HMACController->create($data, 'a46d78365afc4e146ed48c736d3ef106546dab3e516efd1d15c44ac2eaac15ac');
