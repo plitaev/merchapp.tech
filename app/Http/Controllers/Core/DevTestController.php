@@ -33,7 +33,7 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $date1 = '2025-10-17 09:00:15';
+        $date1 = '2025-10-18 09:00:15';
         $date1 = Carbon::parse($date1);
         return $date1->addDays(3)->format('d.m.Y');
 
