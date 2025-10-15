@@ -16,5 +16,8 @@ class ProdamusController
         if ($_POST['payment_status']=='success') {
             $payMakeSuccessful->handle($source, $_POST['order_num'], 111, 222, $_POST['comission']);
         }
+
+        http_response_code(200);
+        return 'success';
     }
 }
