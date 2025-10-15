@@ -35,13 +35,7 @@ class BotBranchRun
 
             $member = 0;
             $member_end = $bot_user->date_end." ".$bot_user->bot->ban_time;
-
-            if (Carbon::now() < Carbon::parse($member_end)) {
-                return 'yes';
-                $member = 1;
-            } else {
-                return 'none';
-            }
+            if (Carbon::now() < Carbon::parse($member_end)) $member = 1;
 
             $banned = $bot_user->ban;
 
