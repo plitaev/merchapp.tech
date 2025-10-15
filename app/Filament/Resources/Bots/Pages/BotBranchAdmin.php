@@ -233,7 +233,9 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Forms\Components\Checkbox::make('end_by_product_sale')->label('По покупке продукта'),
+                        Forms\Components\Checkbox::make('end_by_product_sale')
+                            ->label('По покупке продукта')
+                            ->live(),
                         Select::make('new_users_bot_branch_access_id')
                             ->label('Доступ для новых пользователей')
                             ->options(Product::where('bot_id', $this->bot_id)->pluck('name', 'id'))
