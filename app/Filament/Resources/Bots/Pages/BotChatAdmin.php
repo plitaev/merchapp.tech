@@ -5,7 +5,7 @@ use App\Models\Core\TelegramBanScheduleLogs;
 use App\Models\Core\TelegramSendMessageSchedule;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
-use Filament\Tables\Columns\TextColumn;
+
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
@@ -24,6 +24,7 @@ use Filament\Resources\Pages\Page;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
@@ -31,7 +32,7 @@ use Filament\Tables\Table;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\Pay\PayCreateByPayGuest;
 
-class BotChatAdmin extends Page implements HasForms,HasTable, HasInfolists
+class BotChatAdmin extends Page implements HasForms, HasTable, HasInfolists
 {
     use InteractsWithForms;
     use InteractsWithInfolists;
