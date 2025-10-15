@@ -208,6 +208,49 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
                     ]),
+                Section::make('Доступ для новых пользователей')
+                    ->description('Укажите, должны ли новые пользователи получать доступ к участию в акции')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
+                        Select::make('new_users_bot_branch_access_id')
+                            ->label('Доступ для новых пользователей')
+                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
+                            ->searchable(),
+                        Select::make('new_users_bot_message_id')
+                            ->label('Отправлять сообщение')
+                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
+                            ->searchable(),
+                        Select::make('guests_bot_branch_access_id')
+                            ->label('Доступ для гостей')
+                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
+                            ->searchable(),
+                        Select::make('guests_bot_message_id')
+                            ->label('Отправлять сообщение')
+                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
+                            ->searchable(),
+                        Select::make('members_bot_branch_access_id')
+                            ->label('Доступ для текущих участников')
+                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
+                            ->searchable(),
+                        Select::make('members_bot_message_id')
+                            ->label('Отправлять сообщение')
+                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
+                            ->searchable(),
+                        Select::make('banneds_bot_branch_access_id')
+                            ->label('Доступ для выбывших участников')
+                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
+                            ->searchable(),
+                        Select::make('banneds_bot_message_id')
+                            ->label('Отправлять сообщение')
+                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
+                            ->searchable()
+                    ]),
 
                 Actions::make([
                     Action::make('Сохранить')
@@ -236,7 +279,12 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         ->action(function () {
                             return redirect('/admin/bots/'.$this->bot_id.'/branches');
                         })
-                        ->label('Вернуться назад')
+                        ->label('Вернуться назад'),
+                    Action::make('Stop')
+                        ->action(function () {
+                            return redirect('/admin/bots/'.$this->bot_id.'/branches');
+                        })
+                        ->label('Завершить акцию сейчас')
                 ])
             ])->statePath('data');
     }
