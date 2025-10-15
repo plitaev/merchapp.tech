@@ -87,6 +87,11 @@ class BotChatAdmin extends Page implements HasForms, HasTable, HasInfolists
         return ['form'];
     }
 
+    protected function getTables(): array
+    {
+        return ['table'];
+    }
+
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -186,9 +191,9 @@ class BotChatAdmin extends Page implements HasForms, HasTable, HasInfolists
     public function table(Table $table): Table
     {
         return $table
-            ->query(BotMessage::select('id'))
+            ->query(BotMessage::select('id as count')->where('bot_id',$this->bot_id))
             ->columns([
-                TextColumn::make('id')
+                TextColumn::make('name')
                     ->label('Сообщения от бота (кол-во записей сообщений в БД)?')
             ])
             ->filters([
