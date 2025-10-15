@@ -79,8 +79,8 @@ class PayController
             'price' => $product->price,
             'quantity' => '1',
             'tax' => [
-                'paymentMethod' => $bot->prodamus_payment_method->alias,
-                'paymentObject' => $bot->prodamus_payment_object->alias
+                'paymentMethod' => $bot->prodamus_payment_method->code,
+                'paymentObject' => $bot->prodamus_payment_object->code
             ]];
 
         $Aproducts[] = $products;
@@ -89,7 +89,7 @@ class PayController
             'urlSuccess' => env('APP_URL').'/prodamus/callback',
             'urlNotification' => env('APP_URL').'/thank-you/'.$bot->id,
             'sys' => $bot->prodamus_sys,'discount_value' => 0.00,
-            'npd_income_type' => $bot->prodamus_npd_income_type->alias];
+            'npd_income_type' => $bot->prodamus_npd_income_type->code];
 
         return $data;
 
