@@ -156,7 +156,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->maxLength(255),
                     ]),
                 Section::make('Акция')
-                    ->description(new HtmlString('Ссылка на запуск к акции в боте: <a href="https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.' style="text-decoration: underline">https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.'</a>'))
+                    ->description(new HtmlString('Ссылка на запуск к акции в боте: <a href="https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.'" style="text-decoration: underline">https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.'</a>'))
                     ->columns([
                         'sm' => 1,
                         'md' => 1,
