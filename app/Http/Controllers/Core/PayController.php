@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Core;
 
-use App\Http\Controllers\HMACController;
+use App\Http\Controllers\Core\HMACController;
 use YooKassa\Client;
 
 use App\Actions\Core\BotUser\BotUserGetFullName;
