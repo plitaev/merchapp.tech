@@ -11,6 +11,7 @@ class ProdamusController
         $paySystemCallbackCreate = new PaySystemCallbackCreate();
 
         $source = file_get_contents('php://input');
+        return $source;
         $paySystemCallbackCreate->handle($source, 'prodamus');
 
         if ($_POST['payment_status']=='success') {
