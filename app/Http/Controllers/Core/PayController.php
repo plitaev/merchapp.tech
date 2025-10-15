@@ -86,8 +86,8 @@ class PayController
         $Aproducts[] = $products;
 
         $data = ['order_id'=>$pay->id, 'customer_email' => $bot_user->email, 'products' => $Aproducts, 'do' => 'pay',
-            'urlSuccess' => env('APP_URL').'/prodamus/callback',
-            'urlNotification' => env('APP_URL').'/thank-you/'.$bot->id,
+            'urlNotification' => env('APP_URL').'/prodamus/callback',
+            'urlSuccess' => env('APP_URL').'/thank-you/'.$bot->id,
             'sys' => $bot->prodamus_sys,'discount_value' => 0.00,
             'npd_income_type' => $bot->prodamus_npd_income_type->code];
 
