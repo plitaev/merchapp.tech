@@ -183,7 +183,7 @@ class BotChatAdmin extends Page implements HasForms,HasTable, HasInfolists
     public function table(Table $table): Table
     {
         return $table
-            ->query(BotMessage::select('id as count')->count())
+            ->query(BotMessage::select('id as count')->get())
             ->columns([
                 TextColumn::make('count')
                     ->label('Сообщения от бота (кол-во записей сообщений в БД)')
