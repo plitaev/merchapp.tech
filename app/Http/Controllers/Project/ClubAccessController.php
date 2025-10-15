@@ -1,9 +1,12 @@
 <?php
+
 namespace App\Http\Controllers\Project;
 
-use App\Models\Core\BotBranch;
+use App\Http\Controllers\Controller;
+
 use Telegram\Bot\Api;
 
+use App\Actions\Core\BotBranch\BotBranchRun;
 use App\Actions\Core\Bot\BotGetByID;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotSupergroup\BotSupergroups;
@@ -28,13 +31,15 @@ use App\Actions\Project\ClubAccess\BotRequestAndConfirmEmail;
 use App\Actions\Project\ClubAccess\BotResetUser;
 use App\Actions\Project\ClubAccess\BotUserRecurrentDisable;
 use App\Actions\Project\ClubAccess\BotWelcomeMessage;
-use App\Http\Controllers\Controller;
+
+use App\Models\Core\BotBranch;
 
 class ClubAccessController extends Controller
 {
     public function club_access(int $bot_id) {
 
         //== Инициализируем основные классы
+        $botBranchRun = new BotBranchRun();
         $botGetByID = new BotGetByID();
         $botSendMessage = new BotSendMessage();
         $botSupergroupsByBot = new BotSupergroups();
@@ -100,17 +105,7 @@ class ClubAccessController extends Controller
             if ($Astart[0] == "/start") {
 
                 if (count($Astart) == 2) {
-
-                    $branch = BotBranch::where('hash', $Astart[1])
-                        ->where('datetime_start', '<=', date('Y-m-d H:i:s', time()))
-                        ->where('datetime_end', '>=', date('Y-m-d H:i:s', time()))
-                        ->first();
-
-                    if ($branch) {
-                        $botUserSetBranch->handle($bot_user, $Astart[1]);
-                    } else {
-                        $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
-                    }
+                    $botBranchRun->handle($bot_user, $Astart[1]);
                 } else {
                     $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
                 }
