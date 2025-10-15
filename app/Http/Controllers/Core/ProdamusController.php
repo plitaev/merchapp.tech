@@ -11,11 +11,12 @@ class ProdamusController
         $paySystemCallbackCreate = new PaySystemCallbackCreate();
 
         $source = file_get_contents('php://input');
-        return $_POST;
+        $Adata=json_decode($source,true);
+
         $paySystemCallbackCreate->handle($source, 'prodamus');
 
-        if ($_POST['payment_status']=='success') {
-            $payMakeSuccessful->handle($source, $_POST['order_num'], 111, 222, $_POST['comission']);
+        if ($Adata['payment_status']=='success') {
+            $payMakeSuccessful->handle($source, $Adata['order_num'], 111, 222, $Adata['comission']);
         }
 
         http_response_code(200);
