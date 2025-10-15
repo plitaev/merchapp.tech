@@ -98,7 +98,7 @@ class PayController
         $data['signature'] = $HMACController->create($data, $bot->prodamus_key);
         $link = sprintf('%s?%s', $bot->prodamus_url, http_build_query($data));
 
-        return redirect($link);
+        return $link;
     }
 
     public function thank_you(int $bot_id) {
