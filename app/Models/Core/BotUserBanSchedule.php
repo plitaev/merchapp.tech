@@ -30,7 +30,7 @@ class BotUserBanSchedule extends Model
 
     public function run_status_name(): BelongsTo
     {
-        return $this->belongsTo(Boolean::class);
+        return $this->belongsTo(Boolean::class, 'unban_status', 'id');
     }
 
 }
