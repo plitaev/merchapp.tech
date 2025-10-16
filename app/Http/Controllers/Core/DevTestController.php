@@ -36,9 +36,9 @@ class DevTestController extends Controller
 
         //10254
 
-        $bot_user = BotUser::find(7874);
+        $bot_user = BotUser::find(10254);
         $botSendMessage = new BotSendMessage();
-        $botSendMessage->handle($bot_user, 'MAGICLIFE_TEST_ACCESS_NOT_BUY_2');
+        $botSendMessage->handle($bot_user, 'MAGICLIFE_TEST_ACCESS_NOT_BUY_1');
 
         /*
         $Aproducts = [];
