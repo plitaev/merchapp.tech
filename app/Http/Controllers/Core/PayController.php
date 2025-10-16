@@ -75,7 +75,7 @@ class PayController
         $pay = $payCreateIntoBot->handle($bot_user, $product, $payGetAdditionalData->handle($pay_system_id));
 
         $products = [
-            'name' => $product->name,
+            'name' => $product->description,
             'price' => $product->price,
             'quantity' => '1',
             'tax' => [
