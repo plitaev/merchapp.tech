@@ -54,9 +54,11 @@ class PayController
         return redirect($confirmationUrl);
     }
 
-    public function create_prodamus(string $pay_system_alias, int $bot_user_id, int $product_id) {
+    public function create_prodamus(int $bot_user_id, int $product_id) {
         $payCreateIntoBot = new PayCreateIntoBot();
         $payGetAdditionalData = new PayGetAdditionalData();
+
+        $pay_system_alias = 'prodamus';
 
         $bot_user = BotUser::find($bot_user_id);
 

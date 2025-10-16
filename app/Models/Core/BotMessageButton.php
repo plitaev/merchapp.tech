@@ -24,4 +24,14 @@ class BotMessageButton extends Model
         return $this->belongsTo(BotMessageButtonCallback::class, 'bot_message_callback_id', 'id');
     }
 
+    public function pay_system(): BelongsTo
+    {
+        return $this->belongsTo(PaySystem::class, 'pay_system_id', 'id');
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
 }

@@ -39,18 +39,19 @@ class TelegramSendMessage
 
             if ($bot_message_appointment == 'SYS_PAY_IN_BOT') {
 
-                $products = $productListByBot->handle($bot_user->bot_id);
+                $buttons = BotMessageButton::with('bot_message_button_callbacks')->where('bot_message_id', $bot_message_id)->orderBy('pos')->get();
 
-                foreach ($products as $product) {
+                foreach ($buttons as $button) {
 
                     $btn = [
                         [
-                            'url' => env("APP_URL")."/pay/create/yookassa/".$bot_user->id."/".$product->id,
-                            "text" => $product->name." - ".$product->price." руб."
+                            'url' => env("APP_URL")."/pay/create/".$button->pay_system->alias."/".$bot_user->id."/".$button->product_id,
+                            "text" => $button->name
                         ]
                     ];
 
                     $kb[] = $btn;
+
                 }
 
             } else {
