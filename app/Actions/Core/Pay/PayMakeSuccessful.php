@@ -39,8 +39,8 @@ class PayMakeSuccessful
         $dateEnd->handle($bot_user, 'Y-m-d');
         $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
 
-        $branches = BotBranch::select('id')->where('end_by_product_sale_product_id', $pay->product_id)->pluck('id')->toArray();
-        BotUser::whereIn('bot_branch_id', $branches)->update(['bot_branch_id' => 1]);
+        //$branches = BotBranch::select('id')->where('end_by_product_sale_product_id', $pay->product_id)->pluck('id')->toArray();
+        //BotUser::whereIn('bot_branch_id', $branches)->update(['bot_branch_id' => 1]);
 
     }
 }
