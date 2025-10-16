@@ -142,9 +142,9 @@ class BotProductAdmin extends Page implements HasForms
                     ->columns([
                         'sm' => 1,
                         'md' => 1,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
                     ])
                     ->schema([
                         Textarea::make('description')->label('Описание')
