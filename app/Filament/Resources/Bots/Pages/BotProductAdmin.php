@@ -147,7 +147,7 @@ class BotProductAdmin extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Textarea::make('description')
+                        Textarea::make('description')->label('Описание')
                     ]),
 
                         Actions::make([
