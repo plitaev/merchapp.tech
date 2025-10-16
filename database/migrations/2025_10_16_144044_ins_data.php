@@ -15,7 +15,7 @@ return new class extends Migration
     public function up(): void
     {
         BotMessageAppointment::create(['name' => 'Оплата всех тарифов полностью', 'alias' => 'SYS_PAY_IN_BOT_ALL_TARIFFS']);
-        BotMessageButtonCallback::create(['name' => 'Оплата всех тарифов полностью', 'alias' => 'GoToFullTariffs']);
+        BotMessageButtonCallback::create(['name' => 'Оплата всех тарифов полностью', 'system_name' => 'GoToFullTariffs']);
     }
 
     /**
