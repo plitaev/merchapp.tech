@@ -17,6 +17,8 @@ use App\Models\Core\BotMessage;
 use App\Models\Core\BotMessageButton;
 use App\Models\Core\BotMessageButtonCallback;
 use App\Models\Core\BotMessageButtonType;
+use App\Models\Core\PaySystem;
+use App\Models\Core\Product;
 use Filament\Forms;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -164,6 +166,22 @@ class BotMessageButtonAdmin extends Page implements HasForms
                     ->visible(function (Get $get) {
                         if (is_callable($get)) {
                             return $get('bot_message_button_type_id') == 3;
+                        }
+                    }),
+                Section::make('Тариф')
+                    ->schema([
+                        Select::make('pay_system_id')
+                            ->label('Платёжная система')
+                            ->options(PaySystem::all()->pluck('name', 'id'))
+                            ->searchable(),
+                        Select::make('product_id')
+                            ->label('Продукт')
+                            ->options(Product::all()->pluck('name', 'id'))
+                            ->searchable()
+                    ])
+                    ->visible(function (Get $get) {
+                        if (is_callable($get)) {
+                            return $get('bot_message_button_type_id') == 4;
                         }
                     }),
                 Actions::make([
