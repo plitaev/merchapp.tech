@@ -127,6 +127,7 @@ class ClubAccessController extends Controller
             //== Если это /cabinet, тут обрабатываем личный кабинет
             if ($Astart[0] == "/cabinet") {
                 $botCabinetRecurrentCheck->handle($bot_user);
+                die();
             }
 
             //== Если это /subscription, тут обрабатываем регистрацию
