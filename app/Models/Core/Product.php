@@ -10,6 +10,7 @@ class Product extends Model
         'bot_id',
         'product_type_id',
         'name',
+        'description',
         'price',
         'days',
         'credit'

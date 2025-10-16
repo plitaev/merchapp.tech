@@ -136,6 +136,19 @@ class BotProductAdmin extends Page implements HasForms
                             ->live(),
                     ]),
 
+                Section::make('Описание')
+                    ->description('Полное название товара или услуги для кассового чека')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
+                        Textarea::make('description')
+                    ]),
+
                         Actions::make([
                             Action::make('Сохранить')
                                 ->action(function () {
