@@ -159,6 +159,17 @@ class BotChatAdmin extends Page implements HasForms, HasTable, HasInfolists
 
                             return redirect('/admin/bots/'.$this->bot_id.'/chats');
                         }),
+                    Action::make('updateAuthor')
+                        ->schema([
+                            Select::make('authorId')
+                                ->label('Author')
+                                ->options(User::query()->pluck('name', 'id'))
+                                ->required(),
+                        ])
+                        ->action(function (array $data, Post $record): void {
+                            $record->author()->associate($data['authorId']);
+                            $record->save();
+                        }),
                     Action::make('send_message')
                         ->label('Отправить сообщение')
                         ->form([
