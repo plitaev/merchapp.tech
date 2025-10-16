@@ -188,20 +188,5 @@ class BotChatAdmin extends Page implements HasForms, HasTable, HasInfolists
             ])->statePath('data');
     }
 
-    public function table(Table $table): Table
-    {
-        return $table
-            ->query(BotMessage::select('id as count')->where('bot_id', $this->bot_id)->count())
-            ->columns([
-                TextColumn::make('count')
-                    ->label('Сообщения от бота (кол-во записей сообщений в БД)?')
-            ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-            ])->recordUrl(fn($record) => "/admin/bot-users/{$this->id}/telegram-send-message-logs");
-    }
-
 }
 
