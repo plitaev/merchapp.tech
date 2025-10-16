@@ -33,6 +33,8 @@ use Filament\Tables\Table;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\Pay\PayCreateByPayGuest;
 
+use App\Models\Core\User;
+
 class BotChatAdmin extends Page implements HasForms, HasTable, HasInfolists
 {
     use InteractsWithForms;
