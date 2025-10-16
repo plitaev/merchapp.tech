@@ -33,7 +33,7 @@ use Carbon\Carbon;
 class DevTestController extends Controller
 {
     public function devtest() {
-
+        /*
         $Aproducts = [];
 
         $products = [
@@ -61,6 +61,6 @@ class DevTestController extends Controller
         curl_close($curl);
 
         return json_decode($responce, true);
-
+        */
     }
 }
