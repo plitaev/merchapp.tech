@@ -9,6 +9,7 @@ class BotMessageButton extends Model
     protected $fillable = [
         'bot_message_id',
         'bot_message_button_type_id',
+        'pay_system_id',
         'product_id',
         'name',
         'url',
