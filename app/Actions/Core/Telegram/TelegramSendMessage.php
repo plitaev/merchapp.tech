@@ -37,7 +37,7 @@ class TelegramSendMessage
 
             $kb = [];
 
-            if ($bot_message_appointment == 'SYS_PAY_IN_BOT') {
+            if ($bot_message_appointment == 'SYS_PAY_IN_BOT' || $bot_message_appointment == 'SYS_PAY_IN_BOT_ALL_TARIFFS') {
 
                 $buttons = BotMessageButton::with('bot_message_button_callbacks')->where('bot_message_id', $bot_message_id)->orderBy('pos')->get();
 
