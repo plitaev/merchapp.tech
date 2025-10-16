@@ -33,6 +33,11 @@ use Carbon\Carbon;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $bot_user = BotUser::find(7874);
+        $botSendMessage = new BotSendMessage();
+        $botSendMessage->handle($bot_user, 'MAGICLIFE_TEST_ACCESS_BUY_1');
+
         /*
         $Aproducts = [];
 
