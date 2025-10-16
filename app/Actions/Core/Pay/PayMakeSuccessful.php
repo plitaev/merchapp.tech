@@ -5,6 +5,7 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserGetByID;
 use App\Actions\Core\DateEnd\DateEnd;
 
+use App\Models\Core\BotBranch;
 use App\Models\Core\BotUser;
 use App\Models\Core\Pay;
 
@@ -37,5 +38,9 @@ class PayMakeSuccessful
         $bot_user = $botUserGetByID->handle($pay->bot_user_id);
         $dateEnd->handle($bot_user, 'Y-m-d');
         $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+
+        $branches = BotBranch::select('id')->where('end_by_product_sale_product_id', $pay->product_id)->pluck('id')->toArray();
+        BotUser::whereIn('bot_branch_id', $branches)->update('bot_branch_id', 1);
+
     }
 }
