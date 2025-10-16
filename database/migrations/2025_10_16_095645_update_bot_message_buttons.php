@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bot_message_buttons', function (Blueprint $table) {
-            $table->unsignedBigInteger('product_id')->after('bot_message_button_type_id')->nullable();
+            $table->unsignedBigInteger('pay_system_id')->after('bot_message_button_type_id')->nullable();
+            $table->unsignedBigInteger('product_id')->after('pay_system_id')->nullable();
         });
     }
 
