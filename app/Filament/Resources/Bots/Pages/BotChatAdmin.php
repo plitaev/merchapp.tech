@@ -172,6 +172,11 @@ class BotChatAdmin extends Page implements HasForms, HasTable, HasInfolists
                         ])
                         ->action(function (array $data): void {
 
+                            Notification::make()
+                                ->title('test')
+                                ->success()
+                                ->send();
+
                             $bot_message = BotMessage::with('bot_message_appointment')->where('id', $data['bot_message_id'])->first();
                             if ($bot_message) {
                                 $botSendMessage = new BotSendMessage();
