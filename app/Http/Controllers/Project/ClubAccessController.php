@@ -216,6 +216,16 @@ class ClubAccessController extends Controller
 
                 }
 
+                if ($callback == 'GoToFullTariffs') {
+
+                    if (isset($webhook['callback_query']['message']['message_id'])) {
+                        $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
+                    }
+
+                    $botSendMessage->handle($bot_user, 'SYS_PAY_IN_BOT_ALL_TARIFFS');
+                    die();
+                }
+
             } else {
                 //== Если ни сообщение, ни колбэк, то возвращаем ошибку
                 return "MESSAGE_NOT_FOUND";
