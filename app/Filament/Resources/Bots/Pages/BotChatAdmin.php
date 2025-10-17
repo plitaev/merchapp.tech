@@ -2,15 +2,20 @@
 namespace App\Filament\Resources\Bots\Pages;
 
 use App\Models\Core\TelegramBanScheduleLogs;
+use App\Models\Core\TelegramSendMessageLog;
 use App\Models\Core\TelegramSendMessageSchedule;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
-
+use Illuminate\Support\HtmlString;
+use DB;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
+use Filament\Tables\Columns\Summarizers\Count;
+
+use Filament\Tables\Columns\Summarizers\Sum;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\BotMessage;
@@ -20,7 +25,6 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
-
 
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
@@ -37,7 +41,6 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 {
     use InteractsWithForms;
     use InteractsWithInfolists;
-    //use InteractsWithTable;
 
     protected static string $resource = BotResource::class;
 
@@ -54,6 +57,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
     public int $bot_id;
     public string $bot_name;
+
+    public int $count;
 
     public function getRecord(): ?Model
     {
@@ -77,7 +82,14 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
         $this->id = $id;
 
-        $data = ($id>0?BotUser::find($id)->toArray():[]);
+        $data = ($id > 0 ? BotUser::find($id)->toArray() : []);
+
+        $this->count = TelegramSendMessageLog::query()
+            ->with('bot_message:bot_id')
+            ->selectRaw('COUNT(bot_message_id) as total_rows')
+            ->whereHas('bot_message', function ($query)  {
+                $query->where('bot_id', $this->bot_id);
+            })->count();
 
         $this->form->fill($data);
     }
@@ -86,11 +98,6 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
     {
         return ['form'];
     }
-
-//    protected function getTables(): array
-//    {
-//        return ['table'];
-//    }
 
     public function form(Schema $schema): Schema
     {
@@ -137,12 +144,22 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             ->label('Автоплатеж включен')
 
                     ]),
+                Section::make('Сообщения от бота (кол-во записей сообщений в БД)')
+                    ->description(new HtmlString($this->count))
+                    ->columns([
+                        'sm' => 4,
+                        'md' => 4,
+                        'lg' => 4,
+                        'xl' => 4,
+                        '2xl' => 4,
+                    ])
+                    ->schema([]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
                             $data = $this->form->getState();
 
-                            if ($this->id>0) {
+                            if ($this->id > 0) {
                                 BotUser::where('id', $this->id)->update($data);
                                 $output_id = $this->id;
 
@@ -157,7 +174,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 ->success()
                                 ->send();
 
-                            return redirect('/admin/bots/'.$this->bot_id.'/chats');
+                            return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         }),
                     Action::make('send_message')
                         ->label('Отправить сообщение')
@@ -181,27 +198,13 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                         }),
                     Action::make('Cancel')
                         ->action(function () {
-                            return redirect('/admin/bots/'.$this->bot_id.'/chats');
+                            return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         })
                         ->label('Отменить и вернуться назад')
                 ]),
+
             ])->statePath('data');
     }
-
-//    public function table(Table $table): Table
-//    {
-//        return $table
-//            ->query(BotMessage::select('id as count')->where('bot_id', $this->bot_id)->count())
-//            ->columns([
-//                TextColumn::make('count')
-//                    ->label('Сообщения от бота (кол-во записей сообщений в БД)?')
-//            ])
-//            ->filters([
-//                //
-//            ])
-//            ->recordActions([
-//            ])->recordUrl(fn($record) => "/admin/bot-users/{$this->id}/telegram-send-message-logs");
-//    }
 
 }
 
