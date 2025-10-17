@@ -78,6 +78,10 @@ class TelegramSendMessage
                         $btn = [["text" => $button->name, "callback_data" => $button->bot_message_button_callbacks->system_name]];
                     }
 
+                    if ($button->bot_message_button_type_id == 4) {
+                        $btn = [['url' => env("APP_URL")."/pay/create/".$button->pay_system->alias."/".$bot_user->id."/".$button->product_id, "text" => $button->name]];
+                    }
+
                     $kb[] = $btn;
                 }
 
