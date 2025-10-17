@@ -21,6 +21,7 @@ use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\BotMessage;
 use App\Models\Core\BotUser;
+use App\Models\Core\User;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -92,7 +93,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
             ->whereHas('bot_message', function ($query)  {
                 $query->where('bot_id', $this->bot_id);
             })->count();
-        $this->bot_user_id = auth()->user();
+        $this->bot_user_id = auth()->user()->id;
 
         $this->form->fill($data);
     }
