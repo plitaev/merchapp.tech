@@ -33,11 +33,11 @@ use Filament\Tables\Table;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\Pay\PayCreateByPayGuest;
 
-class BotChatAdmin extends Page implements HasForms, HasTable, HasInfolists
+class BotChatAdmin extends Page implements HasForms, HasInfolists
 {
     use InteractsWithForms;
     use InteractsWithInfolists;
-    use InteractsWithTable;
+    //use InteractsWithTable;
 
     protected static string $resource = BotResource::class;
 
@@ -87,10 +87,10 @@ class BotChatAdmin extends Page implements HasForms, HasTable, HasInfolists
         return ['form'];
     }
 
-    protected function getTables(): array
-    {
-        return ['table'];
-    }
+//    protected function getTables(): array
+//    {
+//        return ['table'];
+//    }
 
     public function form(Schema $schema): Schema
     {
@@ -187,6 +187,21 @@ class BotChatAdmin extends Page implements HasForms, HasTable, HasInfolists
                 ]),
             ])->statePath('data');
     }
+
+//    public function table(Table $table): Table
+//    {
+//        return $table
+//            ->query(BotMessage::select('id as count')->where('bot_id', $this->bot_id)->count())
+//            ->columns([
+//                TextColumn::make('count')
+//                    ->label('Сообщения от бота (кол-во записей сообщений в БД)?')
+//            ])
+//            ->filters([
+//                //
+//            ])
+//            ->recordActions([
+//            ])->recordUrl(fn($record) => "/admin/bot-users/{$this->id}/telegram-send-message-logs");
+//    }
 
 }
 
