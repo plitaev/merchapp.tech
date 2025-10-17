@@ -149,7 +149,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
                     ]),
                 Section::make('Сообщения от бота (кол-во записей сообщений в БД)')
-                    ->description(new HtmlString("<b><a href='/admin/bot-users/{$this->bot_user_id}/telegram-send-message-logs'>".$this->count."<a></b>"))
+                    ->description(new HtmlString("<b><a href='/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs'>".$this->count."<a></b>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
