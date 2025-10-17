@@ -104,7 +104,7 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
 
     public function getTitle(): string
     {
-        return $this->bot_name;
+        return '';
     }
 
     public function table(Table $table): Table
