@@ -97,7 +97,7 @@ class PayController
 
             $payment = $client->createPayment(array('amount' => array('value' => $product->price, 'currency' => $bot->yookassa_currency),
                 'confirmation' => array('type' => 'redirect', 'return_url' => env("APP_URL").'/thank-you/'.$bot_user->bot_id),
-                'save_payment_method' => true,
+                'save_payment_method' => true, 'available_payment_methods' => 'AC,SBP,sbol,ACUSDGTL,ACEURGTL,ACBYNGTL,ACkztjp,ACkz,ACUSDKB,ACEURKB',
                 'receipt' => array('customer' => array('full_name' => $botUserGetFullName->handle($bot_user), 'email' => $bot_user->email), 'items' => $yookassaMakeProductJSON->handle($bot, $product, $product->price, true)),
                 'capture' => true,'description' => $bot_user->telegram_chat_id, 'metadata' => ['order_number' => $pay->id]),uniqid('', true));
 
