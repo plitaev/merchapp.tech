@@ -16,7 +16,8 @@ class ProdamusController
         $paySystemCallbackCreate->handle($source, 'prodamus');
 
         if ($Adata['payment_status']=='success') {
-            $payMakeSuccessful->handle($source, $Adata['order_num'], $Adata['order_id'], $Adata['binding_id'], $Adata['commission_sum']);
+            $binding_id = (isset($Adata['binding_id'])?$Adata['binding_id']:NULL);
+            $payMakeSuccessful->handle($source, $Adata['order_num'], $Adata['order_id'], $binding_id, $Adata['commission_sum']);
         }
 
         http_response_code(200);
