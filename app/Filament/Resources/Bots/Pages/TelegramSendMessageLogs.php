@@ -91,6 +91,10 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
         return [];
     }
 
+    protected function getTables(): array
+    {
+        return ['table'];
+    }
 
     public function mount(int $bot_id, int $bot_user_id): void
     {
