@@ -114,7 +114,7 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
                         $query->where('bot_id', $this->bot_id);
                     })
                     ->whereHas('bot_chat', function ($query) {
-                        $query->where('id', $this->bot_user_id);
+                        $query->where('id', $this->bot_user_id?? $this->id);
                     })
 
             )
