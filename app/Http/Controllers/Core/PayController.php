@@ -61,6 +61,7 @@ class PayController
                 'sys' => $bot->prodamus_sys,'discount_value' => 0.00,
                 'npd_income_type' => $bot->prodamus_npd_income_type->code,
                 'callbackType' => 'json',
+                'available_payment_methods' => 'AC|ACUSDGTL|ACEURGTL|ACBYNGTL|ACkztjp|ACkz|ACUSDKB|ACEURKB',
                 'type' => 'service'];
 
             $data['client_id'] = $bot_user->id;
@@ -97,7 +98,7 @@ class PayController
 
             $payment = $client->createPayment(array('amount' => array('value' => $product->price, 'currency' => $bot->yookassa_currency),
                 'confirmation' => array('type' => 'redirect', 'return_url' => env("APP_URL").'/thank-you/'.$bot_user->bot_id),
-                'save_payment_method' => true, 'available_payment_methods' => 'AC|ACUSDGTL|ACEURGTL|ACBYNGTL|ACkztjp|ACkz|ACUSDKB|ACEURKB',
+                'save_payment_method' => true,
                 'receipt' => array('customer' => array('full_name' => $botUserGetFullName->handle($bot_user), 'email' => $bot_user->email), 'items' => $yookassaMakeProductJSON->handle($bot, $product, $product->price, true)),
                 'capture' => true,'description' => $bot_user->telegram_chat_id, 'metadata' => ['order_number' => $pay->id]),uniqid('', true));
 
