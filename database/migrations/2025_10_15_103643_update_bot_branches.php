@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bot_branches', function (Blueprint $table) {
-            $table->datetime('datetime_start')->after('hash');
-            $table->datetime('datetime_end')->after('datetime_start');
+            $table->datetime('datetime_start')->after('hash')->nullable();
+            $table->datetime('datetime_end')->after('datetime_start')->nullable();
         });
     }
 
