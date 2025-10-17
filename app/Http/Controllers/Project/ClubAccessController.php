@@ -136,6 +136,12 @@ class ClubAccessController extends Controller
                 die();
             }
 
+            //== Если это /subscription, тут обрабатываем регистрацию
+            if ($Astart[0] == "/subscription") {
+                $botSendMessage->handle($bot_user, 'SYS_PAY_IN_BOT_ALL_TARIFFS');
+                die();
+            }
+
             //== Если это /oferta, тут обрабатываем регистрацию
             if ($Astart[0] == "/oferta") {
                 $botSendMessage->handle($bot_user, 'SYS_OFERTA');
