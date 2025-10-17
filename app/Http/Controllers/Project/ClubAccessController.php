@@ -137,7 +137,7 @@ class ClubAccessController extends Controller
             }
 
             //== Если это /subscription, тут обрабатываем регистрацию
-            if ($Astart[0] == "/subscription") {
+            if ($Astart[0] == "/subscribe") {
                 $botSendMessage->handle($bot_user, 'SYS_PAY_IN_BOT_ALL_TARIFFS');
                 die();
             }
