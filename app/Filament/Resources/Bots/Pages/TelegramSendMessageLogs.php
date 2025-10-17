@@ -63,10 +63,11 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
 
     public int $bot_id;
     public int $bot_message_id;
-    public string $bot_name;
-    public int $sent_users;
-    public int $user_id;
+
+    public int $b_user_id;
     public int $bot_user_id;
+    public int $bot_user;
+
 
     protected static ?string $model = Sending::class;
 
@@ -97,6 +98,9 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
     {
         $this->bot_id = $bot_id;
         $this->bot_user_id = $bot_user_id;
+
+        $bot_user = BotUser::select('telegram_chat_id')->find($this->bot_user_id);
+        $b_user_id = $bot_user->telegram_chat_id;
     }
 
     public function getTitle(): string
@@ -109,13 +113,11 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
         return $table
             ->defaultSort('updated_at', 'desc')
             ->query(
-                TelegramSendMessageLog::with('bot_message','bot_chat')
+                TelegramSendMessageLog::with('bot_message')
                     ->whereHas('bot_message', function ($query)  {
                         $query->where('bot_id', $this->bot_id);
                     })
-                    ->whereHas('bot_chat', function ($query) {
-                        $query->where('id', $this->bot_user_id?? $this->id);
-                    })
+                    ->where('chat_id', $this->b_user_id)
 
             )
             ->columns([
