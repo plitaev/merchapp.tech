@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Actions\Core\Telegram\TelegramSendMessage;
 use App\Models\Core\TelegramBanScheduleLogs;
 use App\Models\Core\TelegramSendMessageLog;
 use App\Models\Core\TelegramSendMessageSchedule;
@@ -145,7 +146,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
                     ]),
                 Section::make('Сообщения от бота (кол-во записей сообщений в БД)')
-                    ->description(new HtmlString($this->count))
+                    ->description(new HtmlString("<b>".$this->count."</b>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
