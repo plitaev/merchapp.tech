@@ -66,6 +66,7 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
     public string $bot_name;
     public int $sent_users;
     public int $user_id;
+    public int $bot_user_id;
 
     protected static ?string $model = Sending::class;
 
@@ -91,10 +92,6 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
         return [];
     }
 
-    protected function getTables(): array
-    {
-        return ['table'];
-    }
 
     public function mount(int $bot_id, int $bot_user_id): void
     {
@@ -104,7 +101,7 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
 
     public function getTitle(): string
     {
-        return '';
+        return "Сообщения пользователя";
     }
 
     public function table(Table $table): Table
