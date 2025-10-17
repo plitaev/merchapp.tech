@@ -82,6 +82,7 @@ class BotListenerEmail
             } else {
                 //== А если не почта - выкидываем сообщение о неверно введенной почте
                 $botSendMessage->handle($bot_user, 'SYS_ENTERED_EMAIL_INCORRECT');
+                die();
             }
 
         }
