@@ -19,6 +19,6 @@ class TelegramSendMessageLog extends Model
 
     public function bot_message(): BelongsTo
     {
-        return $this->belongsTo(BotMessage::class, 'bot_message_id', 'id');
+        return $this->belongsTo(BotMessage::class, 'bot_message', 'id');
     }
 }
