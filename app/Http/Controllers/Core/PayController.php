@@ -61,7 +61,7 @@ class PayController
                 'sys' => $bot->prodamus_sys,'discount_value' => 0.00,
                 'npd_income_type' => $bot->prodamus_npd_income_type->code,
                 'callbackType' => 'json',
-                'available_payment_methods' => 'AC|sbol|ACUSDGTL|ACEURGTL|ACBYNGTL|ACkztjp|ACkz|ACUSDKB|ACEURKB',
+                'available_payment_methods' => 'AC|ACUSDGTL|ACEURGTL|ACBYNGTL|ACkztjp|ACkz|ACUSDKB|ACEURKB',
                 'type' => 'service'];
 
             $data['client_id'] = $bot_user->id;
