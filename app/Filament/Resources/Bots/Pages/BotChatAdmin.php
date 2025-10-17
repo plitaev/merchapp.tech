@@ -87,13 +87,17 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
         $data = ($id > 0 ? BotUser::find($id)->toArray() : []);
 
+        $this->bot_user_id = auth()->user()->id;
+
         $this->count = TelegramSendMessageLog::query()
-            ->with('bot_message:bot_id')
+            ->with('bot_message:bot_id,bot_chat')
             ->selectRaw('COUNT(bot_message_id) as total_rows')
             ->whereHas('bot_message', function ($query)  {
                 $query->where('bot_id', $this->bot_id);
+            })
+            ->whereHas('bot_chat', function ($query) {
+                $query->where('id', auth()->user()->id);
             })->count();
-        $this->bot_user_id = auth()->user()->id;
 
         $this->form->fill($data);
     }
