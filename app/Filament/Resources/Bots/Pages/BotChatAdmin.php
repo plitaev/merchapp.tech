@@ -60,6 +60,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
     public string $bot_name;
 
     public int $count;
+    public int $bot_user_id;
 
     public function getRecord(): ?Model
     {
@@ -91,6 +92,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
             ->whereHas('bot_message', function ($query)  {
                 $query->where('bot_id', $this->bot_id);
             })->count();
+        $this->bot_user_id = auth()->user();
 
         $this->form->fill($data);
     }
@@ -146,7 +148,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
                     ]),
                 Section::make('Сообщения от бота (кол-во записей сообщений в БД)')
-                    ->description(new HtmlString("<b>".$this->count."</b>"))
+                    ->description(new HtmlString("<b><a href='/admin/bot-users/{$this->bot_user_id}/telegram-send-message-logs'>".$this->count."<a></b>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
