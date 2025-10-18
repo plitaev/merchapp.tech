@@ -44,6 +44,8 @@ class AdminBot extends Page implements HasForms
 
     public string $name;
 
+    public string $webhook;
+
     public array $hours = [
         '0' => '0',
         '1' => '1',
@@ -125,10 +127,11 @@ class AdminBot extends Page implements HasForms
 
         $data = ($record>0?Bot::find($record)->toArray():[]);
         $this->name = ($record > 0?$data['name']:'Новый бот');
+        $this->webhook = ($record > 0?$data['name']:'Новый бот');
 
         if ($record > 0) {
             $webhook_address = $telegramWebhookMake->handle($record, $data['telegram_webhook']);
-            $data['telegram_webhook'] = $telegramWebhookInfo->handle($data['telegram_token'], $webhook_address);
+            $data['telegram_webhook_status'] = $telegramWebhookInfo->handle($data['telegram_token'], $webhook_address);
         }
 
         $this->form->fill($data);
@@ -192,7 +195,7 @@ class AdminBot extends Page implements HasForms
                         'xl' => 1,
                         '2xl' => 1
                     ])->schema([
-                        Textarea::make('telegram_webhook')
+                        Textarea::make('telegram_webhook_status')
                             ->readOnly()
                             ->extraInputAttributes(['readonly' => true])
                     ]),
@@ -217,7 +220,15 @@ class AdminBot extends Page implements HasForms
                     Action::make('webhook_view')
                         ->label('Запросить статус Webhook')
                         ->action(function (Set $set) {
-                            $set('telegram_webhook', 'default value');
+                            $telegramWebhookInfo = new TelegramWebhookInfo();
+                            $telegramWebhookMake = new TelegramWebhookMake();
+
+                            $formdata = $this->form_ban_user->getState();
+
+                            $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
+                            $status = $telegramWebhookInfo->handle($formdata['telegram_token'], $webhook_address);
+
+                            $set('telegram_webhook_status', $status);
                         }),
                     Action::make('webhook_set')
                         ->label('Установить Webhook')
