@@ -125,8 +125,13 @@ class AdminBot extends Page implements HasForms
 
     public function mount(int $record): void
     {
+        $telegramWebhookInfo = new TelegramWebhookInfo();
+
         $this->id = $record;
-        $this->telegram_webhook = "t k l";
+
+        $data = ($record>0?Bot::find($record)->toArray():[]);
+        $webhook_address = env('APP_URL').'/telegram/webhook/'.$record.'/'.$data['telegram_webhook'];
+        $this->telegram_webhook = $telegramWebhookInfo->handle($data['telegram_token'], $webhook_address);
 
         if ($record > 0) {
             $bot = Bot::find($record)->toArray();
@@ -135,7 +140,6 @@ class AdminBot extends Page implements HasForms
             $bot = [];
             $this->name = 'Новый бот';
         }
-        $data = ($record>0?Bot::find($record)->toArray():[]);
         $this->form->fill($data);
         /*
         if ($record > 0) {
