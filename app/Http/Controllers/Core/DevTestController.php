@@ -51,6 +51,20 @@ class DevTestController extends Controller
             ->pluck('id')
             ->toArray();
 
-        return $bot_users;
+        //return $bot_users;
+
+        // === Купившие из первого дня за 150 и не купившие полный
+
+        $pays_full = Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3])->where('created_at', '>=', $datetime_start)->pluck('bot_user_id')->toArray();
+
+        $bot_users = BotUser::select('id')
+            ->where('bot_branch_id', 2)
+            ->whereNotIn('id', $pays_full)
+            ->whereIn('id', $pays_full)
+            ->where('updated_at', '>=', $datetime_start)
+            ->where('updated_at', '<=', $datetime_end)
+            ->pluck('id')
+            ->toArray();
+
     }
 }
