@@ -1,35 +1,30 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
-use App\Actions\Core\Pay\PayCreateByPayGuest;
-use App\Actions\Core\Telegram\TelegramDeleteWebhook;
-use App\Actions\Core\Telegram\TelegramSetWebhook;
-use App\Models\Core\BotUser;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Components\Actions;
-use Filament\Schemas\Components\Text;
 use Illuminate\Support\HtmlString;
 
 use Filament\Actions\Action;
-use App\Filament\Resources\Bots\BotResource;
-use App\Filament\Resources\BotResource\RelationManagers;
-use App\Livewire\Agency\Inbox\ActiveTasksTable;
-use App\Models\Core\Bot;
-use App\Models\Core\TelegramSupergroupLinkBot\TelegramSupergroupLinkBot;
-use App\Actions\Core\Telegram\TelegramWebhookInfo;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Text;
 
+use App\Filament\Resources\Bots\BotResource;
+
+use App\Actions\Core\Telegram\TelegramWebhookInfo;
+use App\Actions\Core\Telegram\TelegramWebhookMake;
+
+use App\Models\Core\Bot;
 
 class AdminBot extends Page implements HasForms
 {
     use InteractsWithForms;
-
 
     protected static string $resource = BotResource::class;
 
@@ -126,33 +121,17 @@ class AdminBot extends Page implements HasForms
     public function mount(int $record): void
     {
         $telegramWebhookInfo = new TelegramWebhookInfo();
+        $telegramWebhookMake = new TelegramWebhookMake();
 
         $this->id = $record;
 
         $data = ($record>0?Bot::find($record)->toArray():[]);
-        $webhook_address = env('APP_URL').'/telegram/webhook/'.$record.'/'.$data['telegram_webhook'];
+        $this->name = ($record > 0?$data['name']:'Новый бот');
+
+        $webhook_address = $telegramWebhookMake->handle($record, $data['telegram_webhook']);
         $this->telegram_webhook = $telegramWebhookInfo->handle($data['telegram_token'], $webhook_address);
 
-        if ($record > 0) {
-            $bot = Bot::find($record)->toArray();
-            $this->name = $bot['name'];
-        } else {
-            $bot = [];
-            $this->name = 'Новый бот';
-        }
         $this->form->fill($data);
-        /*
-        if ($record > 0) {
-            $telegramWebhookInfo = new TelegramWebhookInfo();
-            $webhook_address = env('APP_URL').'/telegram/webhook/'.$record.'/'.$data['telegram_webhook'];
-            //$this->telegram_webhook = $telegramWebhookInfo->handle($data['telegram_token'], $webhook_address);
-            $this->telegram_webhook = "t k l";
-        } else {
-            $telegramWebhookInfo = new TelegramWebhookInfo();
-            $this->telegram_webhook = 'Создайте бота, чтобы работать с вебхуком Telegram';
-        }
-        */
-
     }
 
     public function getHeading(): string
@@ -250,6 +229,5 @@ class AdminBot extends Page implements HasForms
                 ])
             ])->statePath('data');
     }
-
 }
 ?>
