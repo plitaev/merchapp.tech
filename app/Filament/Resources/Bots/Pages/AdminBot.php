@@ -48,7 +48,7 @@ class AdminBot extends Page implements HasForms
     public string $name;
 
     public int $telegram_token;
-    public string $telegram_webhook;
+    public string $telegram_webhook = "";
     public string $telegramWebhookInfo = '';
 
     public array $hours = [
