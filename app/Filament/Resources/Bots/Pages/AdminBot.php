@@ -46,7 +46,7 @@ class AdminBot extends Page implements HasForms
     public string $name;
 
     public int $telegram_token;
-    public int $telegram_webhook;
+    public string $telegram_webhook;
     public string $telegramWebhookInfo = '';
 
     public array $hours = [
@@ -134,6 +134,16 @@ class AdminBot extends Page implements HasForms
         }
         $data = ($record>0?Bot::find($record)->toArray():[]);
         $this->form->fill($data);
+
+        if ($record > 0) {
+            $telegramWebhookInfo = new TelegramWebhookInfo();
+            $webhook_address = env('APP_URL').'/telegram/webhook/'.$record.'/'.$data->telegram_webhook;
+            $this->telegramWebhookInfo = $telegramWebhookInfo->handle($data->telegram_token, $data->telegram_webhook);
+        } else {
+            $telegramWebhookInfo = new TelegramWebhookInfo();
+            $this->telegramWebhookInfo = 'Создайте бота, чтобы работать с вебхуком Telegram';
+        }
+
     }
 
     public function getHeading(): string
@@ -186,19 +196,15 @@ class AdminBot extends Page implements HasForms
                             ->label('Не отправлять сообщение в бизнес-бот после ответа оператора (в минутах)')
                             ->maxLength(255),
                     ]),
-                Section::make('Telegram Webhook')
-                    ->description('Настройки Webhook')
+                Section::make('Статус вебхука в Telegram')
+                    ->description(new HtmlString($this->telegram_webhook))
                     ->columns([
-                        'sm' => 2,
-                        'md' => 2,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
-                    ])
-                    ->schema([
-                        Text::make($this->telegramWebhookInfo)
-                            ->id('result')
-                    ]),
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1
+                    ])->schema([]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
