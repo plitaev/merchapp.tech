@@ -40,8 +40,8 @@ class DevTestController extends Controller
 
         // === Не оплатившие из первого дня - Рассылка на их второй день
 
-        $datetime_start = '2025-10-17 00:00:00';
-        $datetime_end = '2025-10-17 23:59:59';
+        $datetime_start = '2025-10-18 00:00:00';
+        $datetime_end = '2025-10-18 23:59:59';
 
         $bot_users = BotUser::select('id')
             ->where('bot_branch_id', 2)
@@ -56,7 +56,6 @@ class DevTestController extends Controller
         // === Купившие из первого дня за 150 и не купившие полный - Рассылка на их второй день
 
         $pays_full = Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3])->where('created_at', '>=', $datetime_start)->pluck('bot_user_id')->toArray();
-        return $pays_full;
 
         $bot_users = BotUser::select('id')
             ->where('bot_branch_id', 2)
