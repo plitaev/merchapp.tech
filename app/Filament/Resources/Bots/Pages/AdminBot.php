@@ -43,10 +43,6 @@ class AdminBot extends Page implements HasForms
 
     public string $name;
 
-    public int $telegram_token;
-    public string $telegram_webhook;
-    public string $telegramWebhookInfo = '';
-
     public array $hours = [
         '0' => '0',
         '1' => '1',
@@ -188,7 +184,6 @@ class AdminBot extends Page implements HasForms
                             ->maxLength(255),
                     ]),
                 Section::make('Статус бота в Telegram')
-                    ->description(new HtmlString($this->telegram_webhook))
                     ->columns([
                         'sm' => 1,
                         'md' => 1,
