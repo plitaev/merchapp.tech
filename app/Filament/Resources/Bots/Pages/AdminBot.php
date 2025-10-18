@@ -5,6 +5,7 @@ use Illuminate\Support\HtmlString;
 
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -128,8 +129,10 @@ class AdminBot extends Page implements HasForms
         $data = ($record>0?Bot::find($record)->toArray():[]);
         $this->name = ($record > 0?$data['name']:'Новый бот');
 
-        $webhook_address = $telegramWebhookMake->handle($record, $data['telegram_webhook']);
-        $this->telegram_webhook = $telegramWebhookInfo->handle($data['telegram_token'], $webhook_address);
+        if ($record > 0) {
+            $webhook_address = $telegramWebhookMake->handle($record, $data['telegram_webhook']);
+            $data['telegram_webhook'] = $telegramWebhookInfo->handle($data['telegram_token'], $webhook_address);
+        }
 
         $this->form->fill($data);
     }
@@ -192,7 +195,9 @@ class AdminBot extends Page implements HasForms
                         'lg' => 1,
                         'xl' => 1,
                         '2xl' => 1
-                    ])->schema([]),
+                    ])->schema([
+                        Textarea::make('telegram_webhook')->readOnly()
+                    ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
