@@ -140,10 +140,10 @@ class AdminBot extends Page implements HasForms
         if ($record > 0) {
             $telegramWebhookInfo = new TelegramWebhookInfo();
             $webhook_address = env('APP_URL').'/telegram/webhook/'.$record.'/'.$data->telegram_webhook;
-            $this->telegramWebhookInfo = $telegramWebhookInfo->handle($data->telegram_token, $data->telegram_webhook);
+            $this->telegram_webhook = $telegramWebhookInfo->handle($data->telegram_token, $data->telegram_webhook);
         } else {
             $telegramWebhookInfo = new TelegramWebhookInfo();
-            $this->telegramWebhookInfo = 'Создайте бота, чтобы работать с вебхуком Telegram';
+            $this->telegram_webhook = 'Создайте бота, чтобы работать с вебхуком Telegram';
         }
 
     }
