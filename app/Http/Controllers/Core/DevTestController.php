@@ -38,5 +38,6 @@ class DevTestController extends Controller
 
         $pays = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->pluck('bot_user_id')->toArray();
         $bot_users = BotUser::where('bot_branch_id', 2)->whereNotIn('id', $pays)->get();
+        return $bot_users;
     }
 }
