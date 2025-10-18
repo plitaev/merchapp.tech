@@ -37,7 +37,18 @@ class DevTestController extends Controller
         //return Pay::whereIn('bot_user_id', $bot_users)->where('status', 1)->where('product_id', 27)->where('created_at', '>=', '2025-10-17 10:00:00')->where('created_at', '<=', '2025-10-17 23:59:59')->whereNotNull('pay_system_payment_method_id')->count();
 
         $pays = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->pluck('bot_user_id')->toArray();
-        $bot_users = BotUser::where('bot_branch_id', 2)->whereNotIn('id', $pays)->get();
+
+        // === Не оплатившие из первого дня
+
+        $datetime_start = '2025-10-17 00:00:00';
+        $datetime_end = '2025-10-17 23:59:59';
+
+        $bot_users = BotUser::where('bot_branch_id', 2)
+            ->whereNotIn('id', $pays)
+            ->where('updated_at', '>=', $datetime_start)
+            ->where('updated_at', '<=', $datetime_end)
+            ->get();
+
         return $bot_users;
     }
 }
