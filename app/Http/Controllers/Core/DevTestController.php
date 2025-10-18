@@ -37,6 +37,11 @@ class DevTestController extends Controller
         //return Pay::whereIn('bot_user_id', $bot_users)->where('status', 1)->where('product_id', 27)->where('created_at', '>=', '2025-10-17 10:00:00')->where('created_at', '<=', '2025-10-17 23:59:59')->whereNotNull('pay_system_payment_method_id')->count();
 
         $pays = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->pluck('bot_user_id')->toArray();
+        return Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3])->where('created_at', '>=', '2025-10-17 00:00:00')->pluck('bot_user_id')->toArray();
+
+        //Выборки
+
+        $pays = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->pluck('bot_user_id')->toArray();
 
         // === Не оплатившие из первого дня - Рассылка на их второй день
 
