@@ -57,13 +57,12 @@ class DevTestController extends Controller
 
         // === Купившие из первого дня за 150 и не купившие полный - Рассылка на их второй день
 
-        $pays = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->where('created_at', '>=', $datetime_start)->where('created_at', '<=', $datetime_end)->pluck('bot_user_id')->toArray();
-        return Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3])->where('created_at', '>=', '2025-10-17 00:00:00')->whereIn('bot_user_id', $pays)->pluck('bot_user_id')->toArray();
+        $pays_full = Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3])->where('created_at', '>=', $datetime_start)->pluck('bot_user_id')->toArray();
 
         $bot_users = BotUser::select('id')
             ->where('bot_branch_id', 2)
             ->whereNotIn('id', $pays_full)
-            ->whereIn('id', $pays_full)
+            ->whereIn('id', $pays)
             ->where('updated_at', '>=', $datetime_start)
             ->where('updated_at', '<=', $datetime_end)
             ->pluck('id')
