@@ -33,42 +33,10 @@ use Carbon\Carbon;
 class DevTestController extends Controller
 {
     public function devtest() {
+        //$bot_users = BotUser::select('id')->pluck('id')->toArray();
+        //return Pay::whereIn('bot_user_id', $bot_users)->where('status', 1)->where('product_id', 27)->where('created_at', '>=', '2025-10-17 10:00:00')->where('created_at', '<=', '2025-10-17 23:59:59')->whereNotNull('pay_system_payment_method_id')->count();
 
-        $bot_users = BotUser::select('id')->pluck('id')->toArray();
-        return Pay::whereIn('bot_user_id', $bot_users)->where('status', 1)->where('product_id', 27)->where('created_at', '>=', '2025-10-17 10:00:00')->where('created_at', '<=', '2025-10-17 23:59:59')->whereNotNull('pay_system_payment_method_id')->count();
-
-        //$users = Pay::select('bot_user_id')->where('product_id', 27)->where('status', 1)->where('created_at', '>=', '2025-10-17 10:00:00')->groupBy('bot_user_id')->pluck('bot_user_id')->toArray();
-        //$fulls = Pay::whereIn('product_id', [1,2,3])->where('status', 1)->whereIn('bot_user_id', $users)->where('created_at', '>=', '2025-10-17 10:00:00')->count();
-        //return $fulls;
-
-        /*
-        $Aproducts = [];
-
-        $products = [
-            'name' => 'Акция',
-            'price' => 150,
-            'quantity' => '1',
-            'tax' => [
-                'paymentMethod' => 4,
-                'paymentObject' => 4
-            ]];
-
-        $Aproducts[] = $products;
-
-        $data = ['binding_id' => '0ea05b9efc8ff41556f0818f750c636e', 'client_id' => 7874, 'sys' => 'magiclife', 'order_sum' => 150];
-
-        $HMACController = new HMACController();
-        $data['signature'] = $HMACController->create($data, 'a46d78365afc4e146ed48c736d3ef106546dab3e516efd1d15c44ac2eaac15ac');
-
-        $link = sprintf('%s?%s', 'https://formagiclife.payform.ru/rest/payment/do/', http_build_query($data));
-
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $link);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $responce = curl_exec($curl);
-        curl_close($curl);
-
-        return json_decode($responce, true);
-        */
+        $pays = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->pluck('bot_user_id')->toArray();
+        $bot_users = BotUser::where('bot_branch_id', 2)->whereNotIn('id', $pays)->get();
     }
 }
