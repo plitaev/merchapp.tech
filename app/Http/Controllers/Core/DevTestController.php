@@ -66,5 +66,7 @@ class DevTestController extends Controller
             ->pluck('id')
             ->toArray();
 
+        return $bot_users;
+
     }
 }
