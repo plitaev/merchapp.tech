@@ -126,6 +126,7 @@ class AdminBot extends Page implements HasForms
     public function mount(int $record): void
     {
         $this->id = $record;
+        $this->telegram_webhook = "t k l";
 
         if ($record > 0) {
             $bot = Bot::find($record)->toArray();
@@ -136,8 +137,6 @@ class AdminBot extends Page implements HasForms
         }
         $data = ($record>0?Bot::find($record)->toArray():[]);
         $this->form->fill($data);
-
-        $this->telegram_webhook = "t k l";
         /*
         if ($record > 0) {
             $telegramWebhookInfo = new TelegramWebhookInfo();
