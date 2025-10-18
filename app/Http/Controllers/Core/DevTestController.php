@@ -36,9 +36,6 @@ class DevTestController extends Controller
         //$bot_users = BotUser::select('id')->pluck('id')->toArray();
         //return Pay::whereIn('bot_user_id', $bot_users)->where('status', 1)->where('product_id', 27)->where('created_at', '>=', '2025-10-17 10:00:00')->where('created_at', '<=', '2025-10-17 23:59:59')->whereNotNull('pay_system_payment_method_id')->count();
 
-        $pays = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->pluck('bot_user_id')->toArray();
-        return Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3])->where('created_at', '>=', '2025-10-17 00:00:00')->whereIn('bot_user_id', $pays)->pluck('bot_user_id')->toArray();
-
         //Выборки
 
         $pays = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->pluck('bot_user_id')->toArray();
@@ -60,7 +57,8 @@ class DevTestController extends Controller
 
         // === Купившие из первого дня за 150 и не купившие полный - Рассылка на их второй день
 
-        $pays_full = Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3])->where('created_at', '>=', $datetime_start)->pluck('bot_user_id')->toArray();
+        $pays = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->where('created_at', '>=', $datetime_start)->where('created_at', '<=', $datetime_end)->pluck('bot_user_id')->toArray();
+        return Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3])->where('created_at', '>=', '2025-10-17 00:00:00')->whereIn('bot_user_id', $pays)->pluck('bot_user_id')->toArray();
 
         $bot_users = BotUser::select('id')
             ->where('bot_branch_id', 2)
