@@ -34,8 +34,8 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $users = Pay::select('bot_user_id')->where('product_id', 27)->where('status', 1)->where('created_at', '>=', '2025-10-18 10:00:00')->groupBy('bot_user_id')->pluck('bot_user_id')->toArray();
-        $fulls = Pay::where('product_id', 1)->where('status', 1)->whereIn('bot_user_id', $users)->where('created_at', '>=', '2025-10-18 10:00:00')->count();
+        $users = Pay::select('bot_user_id')->where('product_id', 27)->where('status', 1)->where('created_at', '>=', '2025-10-17 10:00:00')->groupBy('bot_user_id')->pluck('bot_user_id')->toArray();
+        $fulls = Pay::where('product_id', 1)->where('status', 1)->whereIn('bot_user_id', $users)->where('created_at', '>=', '2025-10-17 10:00:00')->count();
         return $fulls;
 
         /*
