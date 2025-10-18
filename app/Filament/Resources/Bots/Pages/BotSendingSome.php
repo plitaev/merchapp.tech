@@ -138,8 +138,8 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                                     ->label('Email'),
                                 Textarea::make('username_string')
                                     ->label('Username'),
-                                Textarea::make('telegram_ids')
-                                    ->label('Username'),
+                                Textarea::make('bot_user_ids')
+                                    ->label('BotUserID'),
                             ]),
                     ]),
                 Actions::make([
@@ -192,26 +192,25 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                                 }
                             }
 
-                            $telegram_ids  = $data['telegram_ids'];
-                            $telegram_ids = explode("\n", $telegram_ids);
+                            $bot_user_ids  = $data['bot_user_ids'];
+                            $bot_user_ids = explode("\n", $bot_user_ids);
 
-                            if($telegram_ids) {
-                                foreach ($telegram_ids as $telegram_id) {
-                                    $bot_user_id = BotUser::where('telegram_chat_id', $telegram_id)->first();
-                                    if ($bot_user_id) {
-                                        $count = TelegramSendMessageSchedule::where('bot_user_id', $bot_user_id->id)
-                                            ->where('sending_id', $this->id)
-                                            ->count();
+                            if ($bot_user_ids) {
+                                foreach ($bot_user_ids as $bot_user_id) {
+                                    $count = TelegramSendMessageSchedule::where('bot_user_id', $bot_user_id)
+                                        ->where('sending_id', $this->id)
+                                        ->count();
+
                                         if ($count == 0) {
                                             TelegramSendMessageSchedule::upsert(
-                                                ['sending_id' => $this->id, 'bot_user_id' => $bot_user_id->id],
+                                                ['sending_id' => $this->id, 'bot_user_id' => $bot_user_id],
                                                 ['sending_id', 'bot_user_id'],
                                                 ['updated_at' => now()]
                                             );
                                         }
+
                                     }
                                 }
-                            }
 
                             Notification::make()
                                 ->title('Данные успешно загружены!')
