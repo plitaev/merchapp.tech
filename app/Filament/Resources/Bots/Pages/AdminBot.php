@@ -196,7 +196,7 @@ class AdminBot extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Text::make('')
+                        Text::make($this->telegramWebhookInfo)
                             ->id('result')
                     ]),
                 Actions::make([
@@ -219,22 +219,22 @@ class AdminBot extends Page implements HasForms
                         }),
                     Action::make('webhook_view')
                         ->label('Запросить статус Webhook')
-                       // ->url(fn (Post $telegram_token, $telegram_webhook): string => route('/telegram/get_webhook_info/{{$telegram_token}}/{{$telegram_webhook}}'))
-
+                      //  ->url(fn (Post $telegram_token, $telegram_webhook): string => route('/telegram/get_webhook_info/{{$telegram_token}}/{{$telegram_webhook}}'))
+                       //->description(new HtmlString("<b><a href='/telegram/get_webhook_info/{{$telegram_token}}/{{$telegram_webhook}}'>".$this->count."<a></b>"))
+                       ->url(fn (): string => route('get_webhook_info', ['telegram_token' => $this->telegram_token,'telegram_webhook' => $this->telegram_webhook]))
                         ->action(function () {
                             $data = $this->form->getState();
 
-                            $telegram_token = $data['telegram_token'];
-                            $telegram_webhook = $data['telegram_webhook'];
+                            $this->telegram_token = $data['telegram_token'];
+                            $this->telegram_webhook = $data['telegram_webhook'];
 
-                            $telegramWebhookInfo = new TelegramWebhookInfo();
+                            //$telegramWebhookInfo = new TelegramWebhookInfo();
 
-                            $test = $telegramWebhookInfo->handle($telegram_token, $telegram_webhook);
-
-                           //return $telegramWebhookInfo;
+                            //$telegramWebhookInfo->handle($telegram_token, $telegram_webhook);
+                          // '/telegram/get_webhook_info/{{$telegram_token}}/{{$telegram_webhook}}';
 
                             Notification::make()
-                                ->title('Данные успешно получены!'.$test)
+                                ->title('Данные успешно получены!')
                                 ->success()
                                 ->send();
                         }),
