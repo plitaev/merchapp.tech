@@ -43,12 +43,12 @@ class DevTestController extends Controller
         $datetime_start = '2025-10-17 00:00:00';
         $datetime_end = '2025-10-17 23:59:59';
 
-        $bot_users = BotUser::select('username')
+        $bot_users = BotUser::select('id')
             ->where('bot_branch_id', 2)
             ->whereNotIn('id', $pays)
             ->where('updated_at', '>=', $datetime_start)
             ->where('updated_at', '<=', $datetime_end)
-            ->pluck('username')
+            ->pluck('id')
             ->toArray();
 
         return $bot_users;
