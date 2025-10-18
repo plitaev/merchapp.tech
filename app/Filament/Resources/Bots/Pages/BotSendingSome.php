@@ -138,6 +138,8 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                                     ->label('Email'),
                                 Textarea::make('username_string')
                                     ->label('Username'),
+                                Textarea::make('telegram_ids')
+                                    ->label('Username'),
                             ]),
                     ]),
                 Actions::make([
@@ -175,6 +177,27 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                             if($username_mass) {
                                 foreach ($username_mass as $username) {
                                     $bot_user_id = BotUser::where('username', $username)->first();
+                                    if ($bot_user_id) {
+                                        $count = TelegramSendMessageSchedule::where('bot_user_id', $bot_user_id->id)
+                                            ->where('sending_id', $this->id)
+                                            ->count();
+                                        if ($count == 0) {
+                                            TelegramSendMessageSchedule::upsert(
+                                                ['sending_id' => $this->id, 'bot_user_id' => $bot_user_id->id],
+                                                ['sending_id', 'bot_user_id'],
+                                                ['updated_at' => now()]
+                                            );
+                                        }
+                                    }
+                                }
+                            }
+
+                            $telegram_ids  = $data['telegram_ids'];
+                            $telegram_ids = explode("\n", $telegram_ids);
+
+                            if($telegram_ids) {
+                                foreach ($telegram_ids as $telegram_id) {
+                                    $bot_user_id = BotUser::where('telegram_chat_id', $telegram_id)->first();
                                     if ($bot_user_id) {
                                         $count = TelegramSendMessageSchedule::where('bot_user_id', $bot_user_id->id)
                                             ->where('sending_id', $this->id)
