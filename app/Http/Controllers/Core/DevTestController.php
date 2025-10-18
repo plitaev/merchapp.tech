@@ -34,11 +34,8 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        //10254
-
-        $bot_user = BotUser::find(10254);
-        $botSendMessage = new BotSendMessage();
-        $botSendMessage->handle($bot_user, 'MAGICLIFE_TEST_ACCESS_NOT_BUY_2');
+        $users = Pay::select('bot_user_id')->where('product_id', 27)->where('status', 1)->where('created_at', '>=', '2025-10-18 10:00:00')->groupBy('bot_user_id')->toArray();
+        $fulls = Pay::where('product_id', 1)->where('status', 1)->whereIn('bot_user_id', $users)->count();
 
         /*
         $Aproducts = [];
