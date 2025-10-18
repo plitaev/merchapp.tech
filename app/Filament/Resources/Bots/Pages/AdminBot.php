@@ -12,9 +12,10 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Text;
+use Filament\Schemas\Components\Utilities\Set;
 
 use App\Filament\Resources\Bots\BotResource;
 
@@ -191,7 +192,9 @@ class AdminBot extends Page implements HasForms
                         'xl' => 1,
                         '2xl' => 1
                     ])->schema([
-                        Textarea::make('telegram_webhook')->readOnly()
+                        Textarea::make('telegram_webhook')
+                            ->readOnly()
+                            ->extraInputAttributes(['readonly' => true])
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
@@ -213,8 +216,8 @@ class AdminBot extends Page implements HasForms
                         }),
                     Action::make('webhook_view')
                         ->label('Запросить статус Webhook')
-                        ->action(function () {
-                            $data = $this->form->getState();
+                        ->action(function (Set $set) {
+                            $set('telegram_webhook', 'default value');
                         }),
                     Action::make('webhook_set')
                         ->label('Установить Webhook')
