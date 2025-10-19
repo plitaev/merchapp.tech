@@ -18,7 +18,7 @@ class BotUserUnbanProcess
 
         $supergroups = $botSupergroupsAll->handle();
 
-        $unbans = BotUserUnBanSchedule::with('bot', 'bot_user')
+        $unbans = BotUserUnbanSchedule::with('bot', 'bot_user')
             ->where('run_status', 0)
             ->where('unban_datetime', '<=', $datetime)
             ->get();
