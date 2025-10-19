@@ -67,6 +67,8 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
     public int $b_user_id;
     public int $bot_user_id;
     public int $bot_user;
+   
+    public string $bot_name;
 
 
     protected static ?string $model = Sending::class;
@@ -84,7 +86,7 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
     public function getHeading(): string
     {
 
-        return "";
+        return $this->bot_name;
 
     }
 
@@ -96,11 +98,14 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
 
     public function mount(int $bot_id, int $bot_user_id): void
     {
+        $bot = Bot::select('name')->find($bot_id);
+        $this->bot_name = $bot->name;
+
         $this->bot_id = $bot_id;
         $this->bot_user_id = $bot_user_id;
 
         $bot_user = BotUser::select('telegram_chat_id')->find($this->bot_user_id);
-        $b_user_id = $bot_user->telegram_chat_id;
+        $this->b_user_id = $bot_user->telegram_chat_id;
     }
 
     public function getTitle(): string
@@ -125,6 +130,7 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
                     ->label('Текст')
                     ->searchable(),
             ])
+
             ->filters([
                 //
             ]);
