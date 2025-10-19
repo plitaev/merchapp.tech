@@ -90,9 +90,9 @@ class DevTestController extends Controller
         $datetime_start = '2025-10-17 00:00:00';
         $datetime_end = '2025-10-17 23:59:59';
 
-        $pays = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->where('created_at', '>=', $datetime_start)->where('created_at', '<=', $datetime_end)->pluck('bot_user_id')->toArray();
-
         $pays_full = Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3])->where('created_at', '>=', $datetime_start)->pluck('bot_user_id')->toArray();
+
+        $pays = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->whereNotIn('bot_user_id', $pays_full)->where('created_at', '>=', $datetime_start)->where('created_at', '<=', $datetime_end)->pluck('bot_user_id')->toArray();
 
         $bot_users = BotUser::select('id')
             ->where('bot_branch_id', 2)
