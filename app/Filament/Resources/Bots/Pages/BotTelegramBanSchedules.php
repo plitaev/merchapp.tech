@@ -147,12 +147,13 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                         ->action(function () {
                             $formdata = $this->form_ban_user->getState();
 
-
                             BotUserBanSchedule::upsert(
                                 ['ban_datetime' => now(), 'run_status' => 0, 'bot_user_id' => $formdata['bot_user_id']],
                                 ['ban_datetime', 'bot_user_id'],
                                 ['updated_at' => now()]
                             );
+
+                            BotUser::where('id', $formdata['bot_user_id'])->update(['date_end' => now()]);
 
                             BotAdminLog::create(['bot_user_id' =>  $formdata['bot_user_id'], 'user_id' => auth()->id(), 'name' =>'Бан пользователя']);
 
@@ -160,10 +161,6 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                                     ->title('Данные успешно сохранены!')
                                     ->success()
                                     ->send();
-
-                                $ban_user = BotUser::where('telegram_chat_id', $data->chat_id)->first();
-
-                                BotAdminLog::create(['bot_user_id' => ($ban_user->id??1), 'user_id' => Auth::id(), 'name' =>'Бан пользователя']);
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         }),
