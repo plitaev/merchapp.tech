@@ -23,6 +23,8 @@ class BotUserUnbanProcess
             ->where('unban_datetime', '<=', $datetime)
             ->get();
 
+        return $unbans;
+
         foreach ($unbans as $unban) {
             $telegram = new Api($unban->bot->telegram_token);
             $botUserUnban->handle($unban->bot_user, $supergroups, $telegram);
