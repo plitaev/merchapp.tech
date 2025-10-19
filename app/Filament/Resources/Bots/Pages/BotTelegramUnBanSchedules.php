@@ -160,7 +160,7 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                                 ->success()
                                 ->send();
 
-                            BotAdminLog::create(['bot_user_id' =>  $formdata['bot_user_id'], 'user_id' => Auth::id(), 'name' =>'Разбан пользователя']);
+                            BotAdminLog::create(['bot_user_id' =>  $formdata['bot_user_id'], 'user_id' => auth()->id(), 'name' =>'Разбан пользователя']);
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         }),

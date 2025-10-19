@@ -147,7 +147,7 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                         ->action(function () {
                             $formdata = $this->form_ban_user->getState();
 
-                            BotAdminLog::create(['bot_user_id' =>  $formdata['bot_user_id'], 'user_id' => Auth::id(), 'name' =>'Бан пользователя']);
+                            BotAdminLog::create(['bot_user_id' =>  $formdata['bot_user_id'], 'user_id' => auth()->id(), 'name' =>'Бан пользователя']);
 
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
