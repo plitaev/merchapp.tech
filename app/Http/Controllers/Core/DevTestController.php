@@ -94,12 +94,9 @@ class DevTestController extends Controller
 
         $pays_full = Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3])->where('created_at', '>=', $datetime_start)->pluck('bot_user_id')->toArray();
 
-        return $pays_full;
-
         $bot_users = BotUser::select('id')
             ->where('bot_branch_id', 2)
             ->whereNotIn('id', $pays_full)
-            ->whereIn('id', $pays)
             ->where('updated_at', '>=', $datetime_start)
             ->where('updated_at', '<=', $datetime_end)
             ->pluck('id')
