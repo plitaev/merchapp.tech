@@ -255,7 +255,7 @@ class AdminBot extends Page implements HasForms
                             $formdata = $this->form->getState();
 
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
-                            $status = $telegramDeleteWebhook->handle($this->id, $formdata['telegram_token'], $webhook_address);
+                            $status = $telegramDeleteWebhook->handle($formdata['telegram_token'], $webhook_address);
 
                             $set('telegram_webhook_status', $status);
                         }),
