@@ -12,6 +12,7 @@ use App\Models\Core\BotUserRecurrentSchedule;
 use App\Models\Core\Pay;
 use App\Models\Core\Product;
 use App\Models\Core\TelegramSendMessageSchedule;
+use App\Models\Core\TelegramUnbanSchedule;
 use App\Models\Core\TelegramWebhook;
 use App\Models\Core\Sending;
 
@@ -34,9 +35,14 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
+        $bot_users = BotUser::select('id')->pluck('id')->toArray();
+        return TelegramUnbanSchedule::select('bot_user_id')->whereNotIn('bot_user_id', $bot_users)->pluck('bot_user_id')->toArray();
+
+        /*
         $olds = Pay::select('bot_user_id')->where('status', 1)->where('created_at', '<=', '2025-10-17 10:00:00')->pluck('bot_user_id')->toArray();
         $pays = Pay::select('bot_user_id')->whereNotIn('bot_user_id', $olds)->where('status', 1)->where('product_id', 27)->where('created_at', '>=', '2025-10-17 10:00:00')->groupBy('bot_user_id')->pluck('bot_user_id')->toArray();
         return $pays;
+        */
 
         //$bot_users = BotUser::select('id')->pluck('id')->toArray();
         //$pays = Pay::select('bot_user_id')->whereIn('bot_user_id', $bot_users)->where('status', 1)->where('product_id', 27)->where('created_at', '>=', '2025-10-17 10:00:00')->pluck('bot_user_id')->toArray();
