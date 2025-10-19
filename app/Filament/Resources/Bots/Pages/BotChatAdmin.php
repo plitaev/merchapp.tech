@@ -146,8 +146,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                         Forms\Components\Checkbox::make('recurrent')
                             ->label('Автоплатеж включен')
                     ]),
-                Section::make('Сообщения от бота (кол-во записей сообщений в БД)')
-                    ->description(new HtmlString("<b><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs'>".$this->count."<a></b>"))
+                Section::make('Статистика')
+                    ->description(new HtmlString("<b>Сообщения от бота: <a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs'>".$this->count."<a></b>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,

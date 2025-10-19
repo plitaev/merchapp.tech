@@ -130,12 +130,7 @@ class BotTelegramUnBanScheduleAdmin extends Page implements HasForms
                                      $new_unban= TelegramUnBanSchedule::create($data);
                                  }
 
-                                 $ban_user_id = BotUser::where('telegram_chat_id', $data->chat_id)->first();
-
-                                 AdminLog::create(['bot_user_id' => $ban_user_id->id, 'user_id' => Auth::id(), 'name' =>'Бан пользователя']);
-
-
-                                     Notification::make()
+                                 Notification::make()
                                      ->title('Данные успешно сохранены!')
                                      ->success()
                                      ->send();

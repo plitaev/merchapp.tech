@@ -15,6 +15,7 @@ use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
+use App\Models\Core\BotAdminLog;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TimePicker;
@@ -109,56 +110,52 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
                         'xl' => 2,
                         '2xl' => 2,
                     ])
-            ->schema([
+                    ->schema([
 
-                Hidden::make('bot_id'),
-                Select::make('chat_id')
-                    ->label('Пользователь')
-                    ->options(BotUser::select([DB::raw("CONCAT(last_name,' ', first_name, ' (', username, ')') as fullname"), 'chat_id'])->pluck('fullname','chat_id'))
-                    ->searchable()
-                    ->live(),
-                DatePicker::make('ban_date')
-                    ->label('Дата блокировки'),
-                TimePicker::make('ban_time')
-                    ->label('Время блокировки'),
-                Checkbox::make('ban_status')
-                    ->label('Статус блокировки'),
-                Checkbox::make('run_status')
-                    ->label('Статус удаления'),
-                //
-            ]),
-              Actions::make([
-                  Action::make('Сохранить')
-                      ->action(function () {
-                          $data = $this->form->getState();
+                        Hidden::make('bot_id'),
+                        Select::make('chat_id')
+                            ->label('Пользователь')
+                            ->options(BotUser::select([DB::raw("CONCAT(last_name,' ', first_name, ' (', username, ')') as fullname"), 'chat_id'])->pluck('fullname','chat_id'))
+                            ->searchable()
+                            ->live(),
+                        DatePicker::make('ban_date')
+                            ->label('Дата блокировки'),
+                        TimePicker::make('ban_time')
+                            ->label('Время блокировки'),
+                        Checkbox::make('ban_status')
+                            ->label('Статус блокировки'),
+                        Checkbox::make('run_status')
+                            ->label('Статус удаления'),
+                        //
+                    ]),
+                Actions::make([
+                    Action::make('Сохранить')
+                        ->action(function () {
+                            $data = $this->form->getState();
 
-                          if ($this->id>0) {
-                              BotUserBanSchedule::where('id', $this->id)->update($data);
-                          } else {
-                              BotUserBanSchedule::create($data);
-                          }
+                            if ($this->id>0) {
+                                BotUserBanSchedule::where('id', $this->id)->update($data);
+                            } else {
+                                BotUserBanSchedule::create($data);
+                            }
 
-                          $ban_user_id = BotUser::where('telegram_chat_id', $data->chat_id)->first();
+                            Notification::make()
+                                ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
 
-                          AdminLog::create(['bot_user_id' => $ban_user_id->id, 'user_id' => Auth::id(), 'name' =>'Разбан пользователя']);
-
-                          Notification::make()
-                              ->title('Данные успешно сохранены!')
-                              ->success()
-                              ->send();
-
-                          if ($this->id>0) {
-                              return redirect('/admin/bots/'.$this->bot_id.'/telegram-ban-schedules');
-                          } else {
-                              return redirect('/admin/bots/' . $this->bot_id . '/' . $this->id . '/telegram-ban-schedule-admin');
-                          }
-                      }),
-                  Action::make('Cancel')
-                      ->action(function () {
-                          return redirect('/admin/bots/'.$this->bot_id.'/telegram-ban-schedules');
-                      })
-                      ->label('Отменить и вернуться назад')
-              ]),
+                            if ($this->id>0) {
+                                return redirect('/admin/bots/'.$this->bot_id.'/telegram-ban-schedules');
+                            } else {
+                                return redirect('/admin/bots/' . $this->bot_id . '/' . $this->id . '/telegram-ban-schedule-admin');
+                            }
+                        }),
+                    Action::make('Cancel')
+                        ->action(function () {
+                            return redirect('/admin/bots/'.$this->bot_id.'/telegram-ban-schedules');
+                        })
+                        ->label('Отменить и вернуться назад')
+                ]),
             ])->statePath('data');
     }
 

@@ -5,9 +5,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AdminLog extends Model
+class BotAdminLog extends Model
 {
     use HasFactory;
+
+    protected $table='bot_admin_log';
 
     protected $fillable = [
         'user_id',
