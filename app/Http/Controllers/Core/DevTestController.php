@@ -97,6 +97,7 @@ class DevTestController extends Controller
         $bot_users = BotUser::select('id')
             ->where('bot_branch_id', 2)
             ->whereNotIn('id', $pays_full)
+            ->whereIn('id', $pays)
             ->where('updated_at', '>=', $datetime_start)
             ->where('updated_at', '<=', $datetime_end)
             ->pluck('id')
