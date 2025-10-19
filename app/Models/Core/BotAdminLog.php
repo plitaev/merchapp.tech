@@ -9,6 +9,8 @@ class BotAdminLog extends Model
 {
     use HasFactory;
 
+    protected $table='bot_admin_log';
+
     protected $fillable = [
         'user_id',
         'bot_user_id',
