@@ -138,6 +138,9 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
                               BotUserBanSchedule::create($data);
                           }
 
+                          $ban_user_id = BotUser::where('telegram_chat_id', $data->chat_id)->first();
+
+                          AdminLog::create(['bot_user_id' => $ban_user_id->id, 'user_id' => Auth::id(), 'name' =>'Разбан пользователя']);
 
                           Notification::make()
                               ->title('Данные успешно сохранены!')
