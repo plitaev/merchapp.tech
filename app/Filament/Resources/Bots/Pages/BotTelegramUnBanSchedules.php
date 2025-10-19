@@ -21,6 +21,7 @@ use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
+use App\Models\Core\User;
 use App\Models\Core\BotUserUnbanSchedule;
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
@@ -155,12 +156,12 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                                 ['updated_at' => now()]
                             );
 
+                            BotAdminLog::create(['bot_user_id' =>  $formdata['bot_user_id'], 'user_id' => auth()->id(), 'name' =>'Разбан пользователя']);
+
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
                                 ->success()
                                 ->send();
-
-                            BotAdminLog::create(['bot_user_id' =>  $formdata['bot_user_id'], 'user_id' => auth()->id(), 'name' =>'Разбан пользователя']);
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         }),
