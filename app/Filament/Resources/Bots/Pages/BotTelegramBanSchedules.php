@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Models\Core\BotAdminLog;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -146,16 +147,13 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                         ->action(function () {
                             $formdata = $this->form_ban_user->getState();
 
-                            BotUserBanSchedule::upsert(
-                                ['ban_datetime' => now(), 'run_status' => 0, 'bot_user_id' => $formdata['bot_user_id']],
-                                ['ban_datetime', 'bot_user_id'],
-                                ['updated_at' => now()]
-                            );
+                            BotAdminLog::create(['bot_user_id' =>  $formdata['bot_user_id'], 'user_id' => Auth::id(), 'name' =>'Бан пользователя']);
 
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
                                 ->success()
                                 ->send();
+
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         }),

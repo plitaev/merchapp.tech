@@ -15,6 +15,7 @@ use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
+use App\Models\Core\BotAdminLog;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TimePicker;
@@ -137,10 +138,6 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
                             } else {
                                 BotUserBanSchedule::create($data);
                             }
-
-                            $ban_user = BotUser::where('telegram_chat_id', $data->chat_id)->first();
-
-                            BotAdminLog::create(['bot_user_id' => $ban_user->id, 'user_id' => Auth::id(), 'name' =>'Бан пользователя']);
 
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
