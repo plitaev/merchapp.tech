@@ -109,8 +109,8 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                  TextColumn::make('run_status_name.name')
                      ->label('Статус')
                      ->color(fn (string $state): string => match ($state) {
-                         'Да' => 'danger',
-                         'Нет' => 'success',
+                         'Да' => 'success',
+                         'Нет' => 'danger',
                      })
             ])
             ->filters([
