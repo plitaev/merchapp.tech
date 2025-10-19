@@ -196,6 +196,7 @@ class AdminBot extends Page implements HasForms
                         '2xl' => 1
                     ])->schema([
                         Textarea::make('telegram_webhook_status')
+                            ->label('Ответ Telegram')
                             ->readOnly()
                             ->extraInputAttributes(['readonly' => true])
                     ]),
