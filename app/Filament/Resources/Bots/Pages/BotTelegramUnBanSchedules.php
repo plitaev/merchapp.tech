@@ -148,29 +148,16 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                         ->action(function () {
                             $formdata = $this->form_unban_user->getState();
 
-                            $count_unban = BotUserUnbanSchedule::where('bot_user_id',$formdata['bot_user_id'])->count();
+                            BotUserUnbanSchedule::upsert(
+                                ['unban_datetime' => now(), 'run_status' => 0, 'bot_user_id' => $formdata['bot_user_id']],
+                                ['unban_datetime', 'bot_user_id'],
+                                ['updated_at' => now()]
+                            );
 
-                            $count_bot_user = BotUser::where('id',$formdata['bot_user_id'])->count();
-
-                            if($count_unban == 0 && $count_bot_user >= 1) {
-                                BotUserUnbanSchedule::upsert(
-                                    ['unban_datetime' => now(), 'run_status' => 0, 'bot_user_id' => $formdata['bot_user_id']],
-                                    ['unban_datetime', 'bot_user_id'],
-                                    ['updated_at' => now()]
-                                );
-
-                                Notification::make()
-                                    ->title('Данные успешно сохранены!')
-                                    ->success()
-                                    ->send();
-
-                            } else {
-
-                                Notification::make()
-                                    ->title('Разбанить пользователя можно только один раз!')
-                                    ->success()
-                                    ->send();
-                            }
+                            Notification::make()
+                                ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         }),

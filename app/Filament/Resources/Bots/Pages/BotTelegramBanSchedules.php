@@ -146,29 +146,16 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                         ->action(function () {
                             $formdata = $this->form_ban_user->getState();
 
-                            $count_ban = BotUserBanSchedule::where('bot_user_id', $formdata['bot_user_id'])->count();
+                            BotUserBanSchedule::upsert(
+                                ['ban_datetime' => now(), 'run_status' => 0, 'bot_user_id' => $formdata['bot_user_id']],
+                                ['ban_datetime', 'bot_user_id'],
+                                ['updated_at' => now()]
+                            );
 
-                            $count_bot_user = BotUser::where('id', $formdata['bot_user_id'])->count();
-
-                            if ($count_ban == 0 && $count_bot_user >= 1) {
-                                BotUserBanSchedule::upsert(
-                                    ['ban_datetime' => now(), 'run_status' => 0, 'bot_user_id' => $formdata['bot_user_id']],
-                                    ['ban_datetime', 'bot_user_id'],
-                                    ['updated_at' => now()]
-                                );
-
-                                Notification::make()
-                                    ->title('Данные успешно сохранены!')
-                                    ->success()
-                                    ->send();
-
-                            } else {
-
-                                Notification::make()
-                                    ->title('Забанить пользователя можно только один раз!')
-                                    ->success()
-                                    ->send();
-                            }
+                            Notification::make()
+                                ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         }),

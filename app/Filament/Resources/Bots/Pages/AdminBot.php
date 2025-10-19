@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Actions\Core\Telegram\TelegramDeleteWebhook;
 use Illuminate\Support\HtmlString;
 
 use Filament\Actions\Action;
@@ -19,8 +20,9 @@ use Filament\Schemas\Components\Utilities\Set;
 
 use App\Filament\Resources\Bots\BotResource;
 
-use App\Actions\Core\Telegram\TelegramWebhookInfo;
 use App\Actions\Core\Telegram\TelegramWebhookMake;
+use App\Actions\Core\Telegram\TelegramWebhookInfo;
+use App\Actions\Core\Telegram\TelegramSetWebhook;
 
 use App\Models\Core\Bot;
 
@@ -233,13 +235,29 @@ class AdminBot extends Page implements HasForms
                         }),
                     Action::make('webhook_set')
                         ->label('Установить Webhook')
-                        ->action(function () {
-                            $data = $this->form->getState();
+                        ->action(function (Set $set) {
+                            $telegramSetWebhook = new TelegramSetWebhook();
+                            $telegramWebhookMake = new TelegramWebhookMake();
+
+                            $formdata = $this->form->getState();
+
+                            $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
+                            $status = $telegramSetWebhook->handle($this->id, $formdata['telegram_token'], $webhook_address);
+
+                            $set('telegram_webhook_status', $status);
                         }),
                     Action::make('webhook_delete')
                         ->label('Удалить Webhook')
-                        ->action(function () {
-                            $data = $this->form->getState();
+                        ->action(function (Set $set) {
+                            $telegramDeleteWebhook = new TelegramDeleteWebhook();
+                            $telegramWebhookMake = new TelegramWebhookMake();
+
+                            $formdata = $this->form->getState();
+
+                            $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
+                            $status = $telegramDeleteWebhook->handle($this->id, $formdata['telegram_token'], $webhook_address);
+
+                            $set('telegram_webhook_status', $status);
                         }),
                 ])
             ])->statePath('data');

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Core;
 use App\Actions\Core\Telegram\TelegramDeleteWebhook;
 use App\Actions\Core\Telegram\TelegramSetWebhook;
 use App\Actions\Core\Telegram\TelegramWebhookInfo;
+use App\Actions\Core\Telegram\TelegramWebhookMake;
 use App\Http\Controllers\Controller;
 
 class TelegramController extends Controller
