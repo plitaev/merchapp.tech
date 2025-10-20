@@ -159,6 +159,9 @@ class BotPaySystemAdmin extends Page implements HasForms
                         TextInput::make('prodamus_key')
                             ->label('Ключ')
                             ->maxLength(255),
+                        TextInput::make('prodamus_key_recurrent')
+                            ->label('Ключ рекуррента')
+                            ->maxLength(255),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')

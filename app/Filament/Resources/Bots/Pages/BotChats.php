@@ -98,7 +98,7 @@ class BotChats extends Page implements HasTable
                         'x-data' => '{}',
                         'x-on:click.prevent' => "
                         if (\$event.target.closest('svg')) {
-                         navigator.clipboard.writeText('{$record->email}');
+                         navigator.clipboard.writeText('{$record->username}');
                          \$tooltip('Скопировано', { timeout: 1500 });
                         } else {
                          window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
