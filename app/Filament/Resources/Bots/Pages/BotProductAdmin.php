@@ -135,6 +135,7 @@ class BotProductAdmin extends Page implements HasForms
                             ->options(ProductType::all()->pluck('name', 'id'))
                             ->searchable()
                             ->live(),
+                        Forms\Components\Checkbox::make('enabled')->label('Доступен для покупки'),
                     ]),
 
                 Section::make('Описание')
