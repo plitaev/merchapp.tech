@@ -13,7 +13,7 @@ class Product extends Model
         'description',
         'price',
         'days',
-        'credit'
+        'enabled'
     ];
 
     public function product_type(): BelongsTo

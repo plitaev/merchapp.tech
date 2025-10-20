@@ -18,6 +18,11 @@ class PayController
 {
     public function create(string $pay_system_alias, int $bot_user_id, int $product_id) {
 
+        $product = Product::find($product_id);
+        if ($product->enabled == 0) {
+            return "Покупка продукта недоступна";
+        }
+
         $botUserGetFullName = new BotUserGetFullName();
         $payCreateIntoBot = new PayCreateIntoBot();
         $payGetAdditionalData = new PayGetAdditionalData();
