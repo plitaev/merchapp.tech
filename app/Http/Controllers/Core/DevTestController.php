@@ -12,6 +12,8 @@ use App\Models\Core\BotUserRecurrentSchedule;
 use App\Models\Core\BotUserUnbanSchedule;
 use App\Models\Core\Pay;
 use App\Models\Core\Product;
+use App\Models\Core\TelegramScheduleDeleteMessage;
+use App\Models\Core\TelegramSendMessageLog;
 use App\Models\Core\TelegramSendMessageSchedule;
 use App\Models\Core\TelegramUnbanSchedule;
 use App\Models\Core\TelegramWebhook;
@@ -36,8 +38,18 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $bot_users = BotUser::select('id')->pluck('id')->toArray();
-        return Pay::where('status', 1)->where('product_id', 27)->whereIn('bot_user_id', $bot_users)->count();
+        $res = TelegramSendMessageLog::where('bot_message_id', 40)->get();
+        foreach ($res as $data) {
+            TelegramScheduleDeleteMessage::create(
+                [
+                    'bot_message_id' => $data->bot_message_id,
+                    'telegram_message_id' => $data->telegram_message_id,
+                    'chat_id' => $data->chat_id,
+                    'delete_datetime' => '2025-10-20 09:00:00',
+                ]
+            );
+        }
+
 
         //$bot_users = BotUser::select('id')->pluck('id')->toArray();
         //return BotUserUnbanSchedule::select('bot_user_id')->whereNotIn('bot_user_id', $bot_users)->pluck('bot_user_id')->toArray();
