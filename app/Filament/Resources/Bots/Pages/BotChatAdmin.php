@@ -60,7 +60,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
     public int $bot_id;
     public string $bot_name;
 
-    public int $count;
+    public int $bot_user_message_count;
     public int $bot_user_id;
 
     public function getRecord(): ?Model
@@ -91,7 +91,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
         if ($id > 0) {
             $bot_user = BotUser::select('telegram_chat_id')->find($id);
-            $this->count = TelegramSendMessageLog::where('chat_id', $bot_user->telegram_chat_id)->count();
+            $this->bot_user_message_count = TelegramSendMessageLog::where('chat_id', $bot_user->telegram_chat_id)->count();
         }
 
         $this->form->fill($data);
@@ -147,7 +147,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             ->label('Автоплатеж включен')
                     ]),
                 Section::make('Статистика')
-                    ->description(new HtmlString("<b><a href='/admin/bots/".$this->bot_id."/.".$this->bot_user_id."/telegram-send-message-logs'>Сообщения от бота: 5</a> </b>"))
+                    ->description(new HtmlString("<b><a href='/admin/bots/".$this->bot_id."/.".$this->bot_user_id."/telegram-send-message-logs'>Сообщения от бота: ".$this->bot_user_message_count."</a> </b>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
