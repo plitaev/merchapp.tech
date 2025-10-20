@@ -2,6 +2,7 @@
 namespace App\Filament\Resources\Bots\Pages;
 
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Checkbox;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
