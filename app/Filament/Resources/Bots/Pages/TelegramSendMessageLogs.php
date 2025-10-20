@@ -67,7 +67,7 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
     public int $b_user_id;
     public int $bot_user_id;
     public int $bot_user;
-   
+
     public string $bot_name;
 
 
@@ -129,6 +129,8 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
                 TextColumn::make('bot_message.text')
                     ->label('Текст')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Дата/время отправки')
             ])
 
             ->filters([
