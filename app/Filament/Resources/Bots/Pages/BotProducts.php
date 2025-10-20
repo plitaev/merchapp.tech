@@ -65,8 +65,7 @@ class BotProducts extends Page implements HasTable
                 TextColumn::make('price')
                     ->label('Стоимость'),
                 TextColumn::make('days')
-                    ->label('Дни'),
-                Forms\Components\Checkbox::make('enabled')->label('Включен')
+                    ->label('Дни')
             ])
             ->filters([
                 //
