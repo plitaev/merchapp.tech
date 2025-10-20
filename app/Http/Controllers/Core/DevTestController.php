@@ -39,7 +39,7 @@ class DevTestController extends Controller
     public function devtest() {
 
         $bot_users = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->pluck('bot_user_id')->toArray();
-        return BotUser::select('date_end')->whereIn('id', $bot_users)->pluck('date_end')->toArray();
+        return BotUser::select('date_end')->whereIn('id', $bot_users)->groupBy('date_end')->pluck('date_end')->toArray();
 
         /*
         $bot_users = BotUser::select('id')->pluck('id')->toArray();
