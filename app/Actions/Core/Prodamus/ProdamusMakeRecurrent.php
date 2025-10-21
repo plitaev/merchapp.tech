@@ -50,7 +50,7 @@ class ProdamusMakeRecurrent
 
         }
 
-        return ['new_pay_id' => $pay->id, 'pay_system_responce' => json_encode($responce)];
+        return ['new_pay_id' => $pay->id, 'pay_system_responce' => http_build_query($prodamus_data)];
 
     }
 }
