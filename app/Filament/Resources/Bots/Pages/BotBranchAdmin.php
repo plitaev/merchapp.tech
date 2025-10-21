@@ -40,6 +40,7 @@ use Filament\Schemas\Components\Utilities\Get;
 use App\Actions\Core\Sending\SendingSave;
 
 use App\Models\Core\Bot;
+use App\Models\Core\Product;
 use App\Models\Core\SendingAppointment;
 use App\Models\Core\SendingButton;
 use App\Models\Core\SendingListener;
@@ -103,7 +104,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->bot_id = $bot_id;
         $this->id = $id;
 
-        $this->end_by_products = Products::all()->pluck('name', 'id')->toArray();
+        $this->end_by_products = Product::all()->pluck('name', 'id')->toArray();
         $this->end_by_products_in_branch = BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->pluck('product_id')->toArray();
 
         if ($id > 0) {
