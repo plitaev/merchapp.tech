@@ -37,55 +37,35 @@ class TelegramSendMessage
 
             $kb = [];
 
-            if ($bot_message_appointment == 'SYS_PAY_IN_BOT' || $bot_message_appointment == 'SYS_PAY_IN_BOT_ALL_TARIFFS') {
+            $buttons = BotMessageButton::with('bot_message_button_callbacks')->where('bot_message_id', $bot_message_id)->orderBy('pos')->get();
+            foreach ($buttons as $button) {
 
-                $buttons = BotMessageButton::with('bot_message_button_callbacks')->where('bot_message_id', $bot_message_id)->orderBy('pos')->get();
+                if ($button->url) {
 
-                foreach ($buttons as $button) {
+                    if ($button->tracking == 1) {
+                        $url = env("APP_URL")."/go/".base64_encode($button->id)."/".base64_encode($bot_user->id);
+                    } else {
+                        $url = $button->url;
+                    }
 
-                    $btn = [
-                        [
-                            'url' => env("APP_URL")."/pay/create/".$button->pay_system->alias."/".$bot_user->id."/".$button->product_id,
-                            "text" => $button->name
-                        ]
-                    ];
-
-                    $kb[] = $btn;
-
+                    $btn = [["text" => $button->name, "url" => $url]];
                 }
 
-            } else {
-
-                $buttons = BotMessageButton::with('bot_message_button_callbacks')->where('bot_message_id', $bot_message_id)->orderBy('pos')->get();
-                foreach ($buttons as $button) {
-
-                    if ($button->url) {
-
-                        if ($button->tracking == 1) {
-                            $url = env("APP_URL")."/go/".base64_encode($button->id)."/".base64_encode($bot_user->id);
-                        } else {
-                            $url = $button->url;
-                        }
-
-                        $btn = [["text" => $button->name, "url" => $url]];
-                    }
-
-                    if ($button->callback) {
-                        $btn = [["text" => $button->name, "callback_data" => $button->callback]];
-                    }
-
-                    if ($button->bot_message_button_callbacks) {
-                        $btn = [["text" => $button->name, "callback_data" => $button->bot_message_button_callbacks->system_name]];
-                    }
-
-                    if ($button->bot_message_button_type_id == 4) {
-                        $btn = [['url' => env("APP_URL")."/pay/create/".$button->pay_system->alias."/".$bot_user->id."/".$button->product_id, "text" => $button->name]];
-                    }
-
-                    $kb[] = $btn;
+                if ($button->callback) {
+                    $btn = [["text" => $button->name, "callback_data" => $button->callback]];
                 }
 
+                if ($button->bot_message_button_callbacks) {
+                    $btn = [["text" => $button->name, "callback_data" => $button->bot_message_button_callbacks->system_name]];
+                }
+
+                if ($button->bot_message_button_type_id == 4) {
+                    $btn = [['url' => env("APP_URL")."/pay/create/".$button->pay_system->alias."/".$bot_user->id."/".$button->product_id, "text" => $button->name]];
+                }
+
+                $kb[] = $btn;
             }
+
 
             if (count($kb) > 0) {
                 $keyboard = ["inline_keyboard" => $kb];
