@@ -16,18 +16,6 @@
 
         {{$this->table}}
 
-        <div class="fi-header flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <h1 class="fi-header-heading text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">Ожидания</h1>
-            <div class="flex shrink-0 items-center gap-3">
-                <x-filament::modal id="add-page-modal">
-                    <x-slot name="trigger">
-                        <x-filament::button>Добавить ожидание</x-filament::button>
-                    </x-slot>
-
-                    <form wire:submit.prevent="submit">{{$this->form_bot_message_link_listener}}</form>
-                </x-filament::modal>
-            </div>
-        </div>
     @endif
 
 </x-filament-panels::page>
