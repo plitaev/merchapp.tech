@@ -103,7 +103,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->bot_id = $bot_id;
         $this->id = $id;
 
-        $this->end_by_products = BotBranchAccess::all()->pluck('name', 'id');
+        $this->end_by_products = BotBranchAccess::all()->pluck('name', 'id')->toArray();
         $this->end_by_products_in_branch = BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->pluck('product_id')->toArray();
 
         if ($id > 0) {
