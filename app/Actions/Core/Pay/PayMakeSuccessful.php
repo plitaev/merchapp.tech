@@ -13,7 +13,7 @@ use App\Models\Core\Pay;
 
 class PayMakeSuccessful
 {
-    public function handle(string $source, int $order_number, string $pay_system_payment_id, $pay_system_payment_method_id, $pay_system_comission) {
+    public function handle(string $source, int $order_number, $pay_system_payment_id, $pay_system_payment_method_id, $pay_system_comission) {
         $botSendMessage = new BotSendMessage();
         $botUserGetByID = new BotUserGetByID();
         $botUserSetBranch = new BotUserSetBranch();

@@ -13,7 +13,7 @@ class BotUserSetRecurrentScheduler
     public function handle() {
         $innoDBUpsertStopIncrementIncreasing = new InnoDBUpsertStopIncrementIncreasing();
 
-        $bot_users = BotUser::where('recurrent', 1)->where('date_end', date('Y-m-d', time()))->get();
+        $bot_users = BotUser::where('recurrent', 1)->where('date_end', '2025-10-20')->get();
         foreach ($bot_users as $bot_user) {
             $innoDBUpsertStopIncrementIncreasing->handle(new BotUserRecurrentSchedule());
 
