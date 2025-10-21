@@ -52,7 +52,7 @@ use App\Filament\Resources\Bots\Pages\BotWizard;
 use App\Filament\Resources\Bots\Pages\BotBranches;
 use App\Filament\Resources\Bots\Pages\BotBranchAdmin;
 use App\Filament\Resources\Bots\Pages\TelegramSendMessageLogs;
-use App\Filament\Resources\Bots\Pages\BotMessageListenerLogs;
+use App\Filament\Resources\Bots\Pages\BotMessageListeners;
 
 use App\Models\Core\Bot;
 
@@ -163,7 +163,7 @@ class BotResource extends Resource
             'chats' => BotChats::route('/{bot_id}/chats'),
             'chat-admin' => BotChatAdmin::route('/{bot_id}/{id}/chat-admin'),
             'telegram-send-message-logs' => TelegramSendMessageLogs::route('/{bot_id}/{bot_user_id}/telegram-send-message-logs'),
-            'message-listener-logs' => BotMessageListenerLogs::route('/{bot_id}/{id}/message-listener-logs'),
+            'message-listeners' => BotMessageListeners::route('/{bot_id}/{id}/message-listeners'),
             'funnels' => BotFunnels::route('/{bot_id}/funnels'),
             'funnel-admin' => BotFunnelAdmin::route('/{bot_id}/{id}/funnel-admin'),
             'getcourse-settings' => BotGetCourseSettings::route('/{bot_id}/getcourse-settings'),
