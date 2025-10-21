@@ -37,10 +37,8 @@ use Carbon\Carbon;
 class DevTestController extends Controller
 {
     public function devtest() {
-
-        $bot_user = BotUser::find(19835);
-        $date_end = new DateEnd();
-        $date_end->handle($bot_user, 'Y-m-d');
+        $bot_users = Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3, 4])->where('created_at', '>=', '2025-10-17 10:00:00')->pluck('bot_user_id')->toArray();
+        BotUser::whereIn('id', $bot_users)->update(['bot_branch_id' => 1]);
 
         //$bot_users = BotUser::select('id')->pluck('id')->toArray();
         //return BotUserUnbanSchedule::select('bot_user_id')->whereNotIn('bot_user_id', $bot_users)->pluck('bot_user_id')->toArray();

@@ -31,6 +31,10 @@ class PayMakeSuccessful
 
         $pay = Pay::find($order_number);
 
+        if ($pay->product_id == 1 || $pay->product_id == 2 || $pay->product_id == 3 || $pay->product_id == 4) {
+            BotUser::where('id', $pay->bot_user_id)->update(['bot_branch_id' => 1]);
+        }
+
         if (isset($pay_system_payment_method_id)) {
             BotUser::where('id', $pay->bot_user_id)->update(['recurrent' => 1]);
         }
