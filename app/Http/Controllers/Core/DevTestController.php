@@ -38,18 +38,9 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $res = TelegramSendMessageLog::where('bot_message_id', 40)->get();
-        foreach ($res as $data) {
-            TelegramScheduleDeleteMessage::create(
-                [
-                    'bot_message_id' => $data->bot_message_id,
-                    'telegram_message_id' => $data->telegram_message_id,
-                    'chat_id' => $data->chat_id,
-                    'delete_datetime' => '2025-10-20 09:00:00',
-                ]
-            );
-        }
-
+        $bot_user = BotUser::find(19835);
+        $date_end = new DateEnd();
+        $date_end->handle($bot_user, 'Y-m-d');
 
         //$bot_users = BotUser::select('id')->pluck('id')->toArray();
         //return BotUserUnbanSchedule::select('bot_user_id')->whereNotIn('bot_user_id', $bot_users)->pluck('bot_user_id')->toArray();
