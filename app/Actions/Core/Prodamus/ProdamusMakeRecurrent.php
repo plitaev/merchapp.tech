@@ -28,7 +28,7 @@ class ProdamusMakeRecurrent
 
         $products = [
             'name' => 'Предоставление доступа к Мэджик клубу - Тариф "1 месяц"',
-            'price' => 100,
+            'price' => 1490,
             'quantity' => '1',
             'tax' => [
                 'paymentMethod' => $data->bot->prodamus_payment_method->code,
@@ -37,7 +37,7 @@ class ProdamusMakeRecurrent
 
         $Aproducts[] = $products;
 
-        $prodamus_data = ['binding_id' => $data->prevous_pay->pay_system_payment_method_id, 'client_id' => $data->bot_user_id, 'sys' => $data->bot->prodamus_sys, 'order_sum' => 100];
+        $prodamus_data = ['binding_id' => $data->prevous_pay->pay_system_payment_method_id, 'client_id' => $data->bot_user_id, 'sys' => $data->bot->prodamus_sys, 'order_sum' => 1490];
 
         $HMACController = new HMACController();
         $prodamus_data['signature'] = $HMACController->create($prodamus_data, $data->bot->prodamus_key_recurrent);
