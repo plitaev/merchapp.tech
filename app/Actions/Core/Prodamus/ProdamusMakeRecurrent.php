@@ -22,7 +22,7 @@ class ProdamusMakeRecurrent
 
         $products = [
             'name' => 'Предоставление доступа к Мэджик клубу - Тариф "1 месяц"',
-            'price' => 1490,
+            'price' => 100,
             'quantity' => '1',
             'tax' => [
                 'paymentMethod' => $data->bot->prodamus_payment_method->code,
@@ -31,7 +31,7 @@ class ProdamusMakeRecurrent
 
         $Aproducts[] = $products;
 
-        $data = ['binding_id' => $data->prevous_pay->pay_system_payment_method_id, 'client_id' => $data->bot_user_id, 'sys' => $data->bot->prodamus_sys, 'order_sum' => 1490];
+        $data = ['binding_id' => $data->prevous_pay->pay_system_payment_method_id, 'client_id' => $data->bot_user_id, 'sys' => $data->bot->prodamus_sys, 'order_sum' => 100];
 
         $HMACController = new HMACController();
         $data['signature'] = $HMACController->create($data, $data->bot->prodamus_key_recurrent);
@@ -43,6 +43,14 @@ class ProdamusMakeRecurrent
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $responce = curl_exec($curl);
         curl_close($curl);
+
+        $responce = json_decode($responce, true);
+
+        return $responce;
+
+        if ($responce['success'] == true) {
+
+        }
 
     }
 }
