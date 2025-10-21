@@ -50,14 +50,14 @@ use App\Models\Core\FunnelConditionTrigger;
 use App\Models\Core\BotTeleramListener;
 
 
-class BotMessageListenerLogs extends Page implements HasTable, HasInfolists
+class BotMessageListeners extends Page implements HasTable, HasInfolists
 {
     use InteractsWithInfolists;
     use InteractsWithTable;
 
     protected static string $resource = BotResource::class;
 
-    protected string $view = 'filament.resources.bot-resource.pages.bot-message-listener-logs';
+    protected string $view = 'filament.resources.bot-resource.pages.bot-message-listeners';
 
     public int $id;
 
@@ -69,14 +69,14 @@ class BotMessageListenerLogs extends Page implements HasTable, HasInfolists
 
     protected static ?string $model = Listener::class;
 
-    public static ?string $label = "Сообщение";
-    public static ?string $navigationLabel = "Сообщение";
-    public static ?string $title = "Сообщение";
+    public static ?string $label = "Ожидание";
+    public static ?string $navigationLabel = "Ожидание";
+    public static ?string $title = "Ожидание";
     public ?array $data = [];
 
     public function getRecord(): ?Model
     {
-        return BotTelegramListener::class;
+        return BotMessageListener::class;
     }
 
     public function getHeading(): string
@@ -104,7 +104,7 @@ class BotMessageListenerLogs extends Page implements HasTable, HasInfolists
 
     public function getTitle(): string
     {
-        return "Сообщения пользователя";
+        return "Ожидание";
     }
 
     public function table(Table $table): Table
@@ -113,7 +113,7 @@ class BotMessageListenerLogs extends Page implements HasTable, HasInfolists
             ->defaultSort('updated_at', 'desc')
             ->query(
                 BotMessageListener::with('bot_message')->with('listener')
-                    ->where('listener_id', $this->id)
+                    ->where('bot_message_id', $this->id)
 
             )
             ->columns([
