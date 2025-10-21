@@ -10,7 +10,7 @@ class InnoDBUpsertStopIncrementIncreasing
     public function handle(Model $model, $column = 'id') {
         $table = app($model::class)->getTable();
 
-        $count = TelegramScheduleDeleteMessage::count();
+        $count = $model::count();
         if ($count > 0) {
             DB::unprepared("SET @NEW_AI = (SELECT MAX(`".$column."`)+1 FROM `".$table."`);");
             DB::unprepared("SET @ALTER_SQL = CONCAT('ALTER TABLE `".$table."` AUTO_INCREMENT =', @NEW_AI);");
