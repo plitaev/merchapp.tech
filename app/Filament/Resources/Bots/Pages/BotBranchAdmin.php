@@ -237,6 +237,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         Forms\Components\Checkbox::make('end_by_restart')
                             ->label('По нажатию Меню - Старт'),
                         Forms\Components\CheckboxList::make('end_by_products')
+                            ->label('По покупке продуктов')
                             ->options($this->end_by_products)
                             ->afterStateHydrated(function ($component, $state) {
                                 if (! filled($state)) {
