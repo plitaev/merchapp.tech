@@ -250,6 +250,8 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                     Action::make('Сохранить')
                         ->action(function () {
                             $data = $this->form->getState();
+                            unset($data['end_by_products']);
+
                             $hash=hash('sha256', $data['alias']);
 
                             if ($this->id > 0) {
