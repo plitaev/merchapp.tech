@@ -46,6 +46,7 @@ class PayMakeSuccessful
 
         if (count($branches) > 0) {
             BotUser::where('id', $pay->bot_user_id)->whereIn('bot_branch_id', $branches)->update(['bot_branch_id' => 1]);
+            $bot_user = $botUserGetByID->handle($pay->bot_user_id);
         }
 
         //==
