@@ -146,7 +146,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->bot_name = $bot->name;
 
         if ($id > 0) {
-            $data = BotMessage::with('bot_message_type')->with('bot')->find($id)->toArray();
+            $data = BotMessage::with('bot_message_type')->with('bot')->where('id', $id)->toArray();
 
             $bot_user = BotUser::select('telegram_chat_id')->where('bot_id', $data['bot_id'])->where('email', auth()->user()->email)->first();
             if ($bot_user) {
