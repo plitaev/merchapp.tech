@@ -57,7 +57,7 @@ class ProdamusMakeRecurrent
             BotUserBanSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
         }
 
-        return ['new_pay_id' => $pay->id, 'pay_system_responce' => json_encode($responce)];
+        return ['new_pay_id' => $pay->id, 'pay_system_responce' => json_encode($responce_array)];
 
     }
 }
