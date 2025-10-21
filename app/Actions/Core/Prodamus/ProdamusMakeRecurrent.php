@@ -19,7 +19,7 @@ class ProdamusMakeRecurrent
 
         $additional_data = $payGetAdditionalData->handle($data->paysystem->id);
         $additional_data['recurrent'] = 1;
-        $additional_data['price'] = $data->prevous_pay->price;
+        $additional_data['price'] = 1490;
 
         $product = Product::find(1);
 
