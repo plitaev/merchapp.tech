@@ -25,18 +25,18 @@ class ProdamusMakeRecurrent
             'price' => 1490,
             'quantity' => '1',
             'tax' => [
-                'paymentMethod' => 4,
-                'paymentObject' => 4
+                'paymentMethod' => $data->bot->prodamus_payment_method->code,
+                'paymentObject' => $data->bot->prodamus_payment_object->code
             ]];
 
         $Aproducts[] = $products;
 
-        $data = ['binding_id' => $result->binding_id, 'client_id' => $result->id, 'sys' => 'lvrse', 'order_sum' => 790];
+        $data = ['binding_id' => $data->prevous_pay->pay_system_payment_method_id, 'client_id' => $data->bot_user_id, 'sys' => $data->bot->prodamus_sys, 'order_sum' => 1490];
 
         $HMACController = new HMACController();
-        $data['signature'] = $HMACController->create($data, 'e395a7b4827a9a480afd68fdbc817caa420420cfb3490d71b49a6c71839f5ad9');
+        $data['signature'] = $HMACController->create($data, $data->bot->prodamus_key_recurrent);
 
-        $link = sprintf('%s?%s', 'https://missalena.payform.ru/rest/payment/do/', http_build_query($data));
+        $link = sprintf('%s?%s', $data->bot->prodamus_url.'rest/payment/do/', http_build_query($data));
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $link);
