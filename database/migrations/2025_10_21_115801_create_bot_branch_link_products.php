@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('bot_branch_id');
             $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('bot_branch_link_product_id');
+            $table->unsignedBigInteger('bot_branch_link_product_type_id');
             $table->timestamps();
 
-            $table->unique(['bot_branch_id', 'product_id', 'bot_branch_link_product_id']);
+            $table->unique(['bot_branch_id', 'product_id', 'bot_branch_link_product_type_id']);
         });
     }
 

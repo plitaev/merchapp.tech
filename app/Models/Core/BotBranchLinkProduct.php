@@ -13,6 +13,6 @@ class BotBranchLinkProduct extends Model
     protected $fillable = [
         'bot_branch_id',
         'product_id',
-        'bot_branch_link_product_id'
+        'bot_branch_link_product_type_id'
     ];
 }
