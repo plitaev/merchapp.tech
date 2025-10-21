@@ -46,11 +46,11 @@ class ProdamusMakeRecurrent
 
         $responce = json_decode($responce, true);
 
-        return $responce;
-
         if ($responce['success'] == true) {
 
         }
+
+        return ['new_pay_id' => $pay->id, 'pay_system_responce' => json_encode($responce)];
 
     }
 }
