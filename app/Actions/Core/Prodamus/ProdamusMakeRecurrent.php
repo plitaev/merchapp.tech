@@ -7,6 +7,7 @@ use App\Http\Controllers\Core\HMACController;
 use App\Actions\Core\Pay\PayCreateIntoBot;
 use App\Actions\Core\Pay\PayGetAdditionalData;
 use App\Models\Core\BotUserBanSchedule;
+use App\Models\Core\Product;
 
 class ProdamusMakeRecurrent
 {
@@ -20,7 +21,9 @@ class ProdamusMakeRecurrent
         $additional_data['recurrent'] = 1;
         $additional_data['price'] = $data->prevous_pay->price;
 
-        $pay = $payCreateIntoBot->handle($data->bot_user, $data->product, $additional_data);
+        $product = Product::find(1);
+
+        $pay = $payCreateIntoBot->handle($data->bot_user, $product, $additional_data);
         if (!$pay) return ["new_pay_id" => NULL, "pay_system_responce" => '{"error":"prevous_pay_not_found"}'];
 
         $products = [
