@@ -59,6 +59,8 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
     public string $name;
     public string $bot_name;
 
+    public int $bot_message_listener = 0;
+
     protected static ?string $model = BotMessage::class;
 
     public static ?string $label = "Сообщение";
@@ -146,16 +148,18 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->bot_name = $bot->name;
 
         if ($id > 0) {
-            $data = BotMessage::with('bot_message_type')->with('bot')->where('id', $id);
+            $data = BotMessage::with('bot_message_type')->with('bot')->find($id);
+            if ($data) {
+                $bot_user = BotUser::select('telegram_chat_id')->where('bot_id', $data['bot_id'])->where('email', auth()->user()->email)->first();
+                if ($bot_user) {
+                    $this->send_message_self = '<a href="/bot/' . $id . '/send_to_admin" target="_blank">Нажмите <span style="text-decoration: underline">на эту ссылку</a>, чтобы отправить это сообщение себе в боте</a>';
+                } else {
+                    $this->send_message_self = 'В настоящее время ваш аккаунт администратора не связан с ботом в Telegram, чтобы отправить сообщение самому себе для проверки. Для привязки аккаунта администратора к боту перейдите в бот по ссылке: <a href="https://t.me/' . $data['bot']['alias'] . '">https://t.me/' . $data['bot']['alias'] . '</a> и нажмите Меню - Регистрация';
+                }
 
-            $bot_user = BotUser::select('telegram_chat_id')->where('bot_id', $data['bot_id'])->where('email', auth()->user()->email)->first();
-            if ($bot_user) {
-                $this->send_message_self = '<a href="/bot/'.$id.'/send_to_admin" target="_blank">Нажмите <span style="text-decoration: underline">на эту ссылку</a>, чтобы отправить это сообщение себе в боте</a>';
-            } else {
-                $this->send_message_self = 'В настоящее время ваш аккаунт администратора не связан с ботом в Telegram, чтобы отправить сообщение самому себе для проверки. Для привязки аккаунта администратора к боту перейдите в бот по ссылке: <a href="https://t.me/'.$data['bot']['alias'].'">https://t.me/'.$data['bot']['alias'].'</a> и нажмите Меню - Регистрация';
+                $this->bot_message_listener = BotMessageListener::select('listener_id')->where('bot_message_id', $data['id'])->count();
+
             }
-
-            $bot_message_listener = BotMessageListener::select('listener_id')->where('bot_message_id', $data['id'])->count();
 
 
         } else {
@@ -409,6 +413,17 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ])
                     ->schema([])
                     ->visible($this->id > 0?true:false),
+                Section::make('Статистика')
+                    ->description(new HtmlString("<a style='font-weight: bold' href='/admin/bots/".$this->bot_id."/".$this->id."/message-listener-logs'>Сообщения от бота: ".$this->bot_message_listener." ▶️</a>"))
+                    ->columns([
+                        'sm' => 4,
+                        'md' => 4,
+                        'lg' => 4,
+                        'xl' => 4,
+                        '2xl' => 4,
+                    ])
+                    ->schema([]),
+
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
