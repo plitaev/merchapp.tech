@@ -1,7 +1,7 @@
 <?php
 namespace App\Actions\Core\Prodamus;
 
-use App\Http\Controllers\HMACController;
+use App\Http\Controllers\Core\HMACController;
 
 use App\Actions\Core\Pay\PayCreateIntoBot;
 use App\Actions\Core\Pay\PayGetAdditionalData;
