@@ -43,8 +43,6 @@ class BotBranchRun
 
                 if ($branch->new_users_bot_branch_access_id == 1) {
                     $botUserSetBranch->handle($bot_user, $hash);
-                } else {
-                    //$botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
                 }
 
                 $bot_message = BotMessage::with('bot_message_appointment')->find($branch->new_users_bot_message_id);
@@ -56,8 +54,6 @@ class BotBranchRun
 
                 if ($branch->guests_bot_branch_access_id == 1) {
                     $botUserSetBranch->handle($bot_user, $hash);
-                } else {
-                    //$botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
                 }
 
                 $bot_message = BotMessage::with('bot_message_appointment')->find($branch->guests_bot_message_id);
@@ -69,8 +65,6 @@ class BotBranchRun
 
                 if ($branch->members_bot_branch_access_id == 1) {
                     $botUserSetBranch->handle($bot_user, $hash);
-                } else {
-                    //$botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
                 }
 
                 $bot_message = BotMessage::with('bot_message_appointment')->find($branch->members_bot_message_id);
@@ -82,8 +76,6 @@ class BotBranchRun
 
                 if ($branch->banneds_bot_branch_access_id == 1) {
                     $botUserSetBranch->handle($bot_user, $hash);
-                } else {
-                    //$botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
                 }
 
                 $bot_message = BotMessage::with('bot_message_appointment')->find($branch->banneds_bot_message_id);

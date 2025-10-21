@@ -3,6 +3,7 @@ namespace App\Filament\Resources\Bots\Pages;
 
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchAccess;
+use App\Models\Core\BotBranchLinkProduct;
 use App\Models\Core\BotMessageAppointment;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
@@ -37,19 +38,14 @@ use Filament\Tables\Table;
 use Filament\Schemas\Components\Utilities\Get;
 
 use App\Actions\Core\Sending\SendingSave;
+use App\Actions\Core\BotBranch\BotBranchSetEndByProducts;
 
 use App\Models\Core\Bot;
-use App\Models\Core\Sending;
+use App\Models\Core\Product;
 use App\Models\Core\SendingAppointment;
 use App\Models\Core\SendingButton;
 use App\Models\Core\SendingListener;
 use App\Models\Core\SendingType;
-use App\Models\Core\BotUser;
-use App\Models\Core\Funnel;
-use App\Models\Core\FunnelCondition;
-use App\Models\Core\FunnelConditionTrigger;
-use App\Models\Core\Listener;
-use App\Models\Core\Product;
 
 
 class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
@@ -81,6 +77,9 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
     public ?array $data_bot_message_link_listener = [];
     public ?array $data_bot_user = [];
 
+    public ?array $end_by_products = [];
+    public ?array $end_by_products_in_branch = [];
+
     public function getRecord(): ?Model
     {
         return BotBranch::class;
@@ -105,6 +104,9 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
     {
         $this->bot_id = $bot_id;
         $this->id = $id;
+
+        $this->end_by_products = Product::all()->pluck('name', 'id')->toArray();
+        $this->end_by_products_in_branch = BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->pluck('product_id')->toArray();
 
         if ($id > 0) {
             $data = BotBranch::find($id)->toArray();
@@ -233,26 +235,28 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         '2xl' => 1,
                     ])
                     ->schema([
-                        Forms\Components\Checkbox::make('end_by_product_sale')
-                            ->label('По покупке продукта')
-                            ->live(),
-                        Select::make('end_by_product_sale_product_id')
-                            ->label('Выберите продукт')
-                            ->options(Product::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable()
-                            ->visible(function (Get $get) {
-                                if (is_callable($get)) {
-                                    return $get('end_by_product_sale') == 1;
-                                }
-                            }),
                         Forms\Components\Checkbox::make('end_by_restart')
-                            ->label('По нажатию Меню - Старт')
+                            ->label('По нажатию Меню - Старт'),
+                        Forms\Components\CheckboxList::make('end_by_products')
+                            ->label('По покупке продуктов')
+                            ->options($this->end_by_products)
+                            ->afterStateHydrated(function ($component, $state) {
+                                if (! filled($state)) {
+                                    $component->state($this->end_by_products_in_branch);
+                                }
+                            })
                     ]),
 
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
+
+                            $botBranchSetEndByProducts = new BotBranchSetEndByProducts();
+
                             $data = $this->form->getState();
+                            $end_by_products = $data['end_by_products'];
+                            unset($data['end_by_products']);
+
                             $hash=hash('sha256', $data['alias']);
 
                             if ($this->id > 0) {
@@ -262,11 +266,13 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                 }
 
                                 BotBranch::where('id', $this->id)->update($data);
+                                $botBranchSetEndByProducts->handle($this->id, $end_by_products);
                                 return redirect('/admin/bots/'.$this->bot_id.'/branches');
 
                             } else {
                                 $data['hash'] = $hash;
                                 $new = BotBranch::create($data);
+                                $botBranchSetEndByProducts->handle($new->id, $end_by_products);
 
                                 return redirect('/admin/bots/'.$this->bot_id.'/'.$new->id.'/branch-admin');
                             }
