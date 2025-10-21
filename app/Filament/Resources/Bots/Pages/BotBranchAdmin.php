@@ -3,6 +3,7 @@ namespace App\Filament\Resources\Bots\Pages;
 
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchAccess;
+use App\Models\Core\BotBranchLinkProduct;
 use App\Models\Core\BotMessageAppointment;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
@@ -39,17 +40,10 @@ use Filament\Schemas\Components\Utilities\Get;
 use App\Actions\Core\Sending\SendingSave;
 
 use App\Models\Core\Bot;
-use App\Models\Core\Sending;
 use App\Models\Core\SendingAppointment;
 use App\Models\Core\SendingButton;
 use App\Models\Core\SendingListener;
 use App\Models\Core\SendingType;
-use App\Models\Core\BotUser;
-use App\Models\Core\Funnel;
-use App\Models\Core\FunnelCondition;
-use App\Models\Core\FunnelConditionTrigger;
-use App\Models\Core\Listener;
-use App\Models\Core\Product;
 
 
 class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
@@ -81,6 +75,9 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
     public ?array $data_bot_message_link_listener = [];
     public ?array $data_bot_user = [];
 
+    public ?array $end_by_products = [];
+    public ?array $end_by_products_in_branch = [];
+
     public function getRecord(): ?Model
     {
         return BotBranch::class;
@@ -105,6 +102,9 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
     {
         $this->bot_id = $bot_id;
         $this->id = $id;
+
+        $this->end_by_products = BotBranchAccess::all()->pluck('name', 'id');
+        $this->end_by_products_in_branch = BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->pluck('product_id')->toArray();
 
         if ($id > 0) {
             $data = BotBranch::find($id)->toArray();
@@ -233,6 +233,15 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         '2xl' => 1,
                     ])
                     ->schema([
+                        Forms\Components\Checkbox::make('end_by_restart')
+                            ->label('По нажатию Меню - Старт'),
+                        Forms\Components\CheckboxList::make('end_by_products')
+                            ->options($this->end_by_products)
+                            ->afterStateHydrated(function ($component, $state) {
+                                if (! filled($state)) {
+                                    $component->state($this->end_by_products_in_branch);
+                                }
+                            })
                     ]),
 
                 Actions::make([
