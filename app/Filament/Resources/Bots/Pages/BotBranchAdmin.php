@@ -38,6 +38,7 @@ use Filament\Tables\Table;
 use Filament\Schemas\Components\Utilities\Get;
 
 use App\Actions\Core\Sending\SendingSave;
+use App\Actions\Core\BotBranch\BotBranchSetEndByProducts;
 
 use App\Models\Core\Bot;
 use App\Models\Core\Product;
@@ -249,7 +250,11 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
+
+                            $botBranchSetEndByProducts = new BotBranchSetEndByProducts();
+
                             $data = $this->form->getState();
+                            $end_by_products = $data['end_by_products'];
                             unset($data['end_by_products']);
 
                             $hash=hash('sha256', $data['alias']);
@@ -261,11 +266,13 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                 }
 
                                 BotBranch::where('id', $this->id)->update($data);
+                                $botBranchSetEndByProducts->handle($this->id, $end_by_products);
                                 return redirect('/admin/bots/'.$this->bot_id.'/branches');
 
                             } else {
                                 $data['hash'] = $hash;
                                 $new = BotBranch::create($data);
+                                $botBranchSetEndByProducts->handle($new->id, $end_by_products);
 
                                 return redirect('/admin/bots/'.$this->bot_id.'/'.$new->id.'/branch-admin');
                             }
