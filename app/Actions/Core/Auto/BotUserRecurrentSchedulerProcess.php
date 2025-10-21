@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Actions\Core\Auto;
 
+use App\Actions\Core\Prodamus\ProdamusMakeRecurrent;
 use App\Actions\Core\Yookassa\YookassaMakeRecurrent;
 
 use App\Models\Core\BotUser;
@@ -11,6 +11,7 @@ class BotUserRecurrentSchedulerProcess
 {
     public function handle() {
 
+        $prodamusMakeRecurrent = new ProdamusMakeRecurrent();
         $yookassaMakeRecurrent = new YookassaMakeRecurrent();
 
         $res = BotUserRecurrentSchedule::with('prevous_pay:id,pay_system_payment_method_id,price')
@@ -27,12 +28,13 @@ class BotUserRecurrentSchedulerProcess
             ->take(1)
             ->get();
 
+        return $res;
+
         foreach ($res as $data) {
             BotUserRecurrentSchedule::where('id', $data->id)->update(['run_status' => 1]);
 
-            if ($data->paysystem->alias == "yookassa") {
-                $result = $yookassaMakeRecurrent->handle($data);
-            }
+            if ($data->paysystem->alias == "yookassa") $result = $yookassaMakeRecurrent->handle($data);
+            if ($data->paysystem->alias == "prodamus") $result = $prodamusMakeRecurrent->handle($data);
 
             BotUserRecurrentSchedule::where('id', $data->id)->update(['new_pay_id' => $result['new_pay_id'], 'pay_system_responce' => $result['pay_system_responce']]);
         }
