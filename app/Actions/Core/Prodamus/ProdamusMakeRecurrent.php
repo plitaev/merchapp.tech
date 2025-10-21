@@ -44,9 +44,9 @@ class ProdamusMakeRecurrent
         $responce = curl_exec($curl);
         curl_close($curl);
 
-        $responce = json_decode($responce, true);
+        $responce_array = json_decode($responce, true);
 
-        if ($responce['success'] == true) {
+        if ($responce_array['success'] == true) {
 
         }
 
