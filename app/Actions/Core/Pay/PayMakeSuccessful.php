@@ -45,7 +45,7 @@ class PayMakeSuccessful
             ->toArray();
 
         if (count($branches) > 0) {
-            BotUser::where('bot_user_id', $pay->bot_user_id)->whereIn('bot_branch_id', $branches)->update(['bot_branch_id' => 1]);
+            BotUser::where('id', $pay->bot_user_id)->whereIn('bot_branch_id', $branches)->update(['bot_branch_id' => 1]);
         }
 
         //==
