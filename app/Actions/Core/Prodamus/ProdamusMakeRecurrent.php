@@ -1,10 +1,12 @@
 <?php
 namespace App\Actions\Core\Prodamus;
 
+use App\Actions\Core\Pay\PayMakeSuccessful;
 use App\Http\Controllers\Core\HMACController;
 
 use App\Actions\Core\Pay\PayCreateIntoBot;
 use App\Actions\Core\Pay\PayGetAdditionalData;
+use App\Models\Core\BotUserBanSchedule;
 
 class ProdamusMakeRecurrent
 {
@@ -12,6 +14,7 @@ class ProdamusMakeRecurrent
 
         $payCreateIntoBot = new PayCreateIntoBot();
         $payGetAdditionalData = new PayGetAdditionalData();
+        $payMakeSuccessful = new PayMakeSuccessful();
 
         $additional_data = $payGetAdditionalData->handle($data->paysystem->id);
         $additional_data['recurrent'] = 1;
@@ -44,10 +47,11 @@ class ProdamusMakeRecurrent
         $responce = curl_exec($curl);
         curl_close($curl);
 
-        $responce = json_decode($responce, true);
+        $responce_array = json_decode($responce, true);
 
-        if ($responce['success'] == true) {
-
+        if ($responce_array['success'] == true) {
+            $payMakeSuccessful->handle(json_encode($responce), $pay->id, NULL, $data->prevous_pay->pay_system_payment_method_id, NULL);
+            BotUserBanSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
         }
 
         return ['new_pay_id' => $pay->id, 'pay_system_responce' => json_encode($responce)];
