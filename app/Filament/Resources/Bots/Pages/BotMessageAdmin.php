@@ -148,7 +148,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->bot_name = $bot->name;
 
         if ($id > 0) {
-            $data = BotMessage::with('bot_message_type')->with('bot')->find($id);
+            $data = BotMessage::with('bot_message_type')->with('bot')->find($id)->toArray();
             if ($data) {
                 $bot_user = BotUser::select('telegram_chat_id')->where('bot_id', $data['bot_id'])->where('email', auth()->user()->email)->first();
                 if ($bot_user) {
@@ -414,7 +414,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ->schema([])
                     ->visible($this->id > 0?true:false),
                 Section::make('Статистика')
-                    ->description(new HtmlString("<a style='font-weight: bold' href='/admin/bots/".$this->bot_id."/".$this->id."/message-listeners'>Ожидания: ".$this->bot_message_listener." ▶️</a>"))
+                    ->description(new HtmlString("<a style='font-weight: bold' href='/admin/bots/".$this->bot_id."/".$this->id."/message-listener-logs'>Сообщения от бота: ".$this->bot_message_listener." ▶️</a>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
