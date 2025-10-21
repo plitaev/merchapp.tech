@@ -12,6 +12,7 @@ class BotBranch extends Model
         'hash',
         'datetime_start',
         'datetime_end',
+        'end_by_restart',
         'new_users_bot_branch_access_id',
         'new_users_bot_message_id',
         'guests_bot_branch_access_id',
