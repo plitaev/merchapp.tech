@@ -36,8 +36,6 @@ class ProdamusMakeRecurrent
         $HMACController = new HMACController();
         $prodamus_data['signature'] = $HMACController->create($prodamus_data, $data->bot->prodamus_key_recurrent);
 
-        return ['new_pay_id' => $pay->id, 'pay_system_responce' => http_build_query($prodamus_data)];
-
         $link = sprintf('%s?%s', $data->bot->prodamus_url.'rest/payment/do/', http_build_query($prodamus_data));
 
         $curl = curl_init();
