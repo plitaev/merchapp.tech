@@ -64,10 +64,10 @@ class DateEnd
         }
 
         if (isset($date_end)) {
-            BotUser::where('id', $bot_user->id)->update(['date_end' => date('Y-m-d', strtotime($date_end))]);
+            //BotUser::where('id', $bot_user->id)->update(['date_end' => date('Y-m-d', strtotime($date_end))]);
             return date($format, strtotime($date_end));
         } else {
-            BotUser::where('id', $bot_user->id)->update(['date_end' => NULL]);
+            //BotUser::where('id', $bot_user->id)->update(['date_end' => NULL]);
             return '';
         }
 

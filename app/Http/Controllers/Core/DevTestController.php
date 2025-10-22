@@ -42,10 +42,15 @@ use Spatie\Permission\Models\Permission;
 class DevTestController extends Controller
 {
     public function devtest() {
-
         $date_end = new DateEnd();
-        $bot_user = BotUser::find(16687);
-        return $date_end->handle($bot_user, 'Y-m-d');
+
+        $bot_users = BotUser::all();
+        foreach ($bot_users as $bot_user) {
+            $date_end_user = $date_end->handle($bot_user, 'Y-m-d');
+            if ($date_end_user != '') {
+                BotUser::where('id', $bot_user->id)->whereNull('date_end')->update(['date_end' => $date_end_user]);
+            }
+        }
 
         //$role = Role::create(['name' => 'bots']);
         //Permission::create(['name' => 'view bots']);
