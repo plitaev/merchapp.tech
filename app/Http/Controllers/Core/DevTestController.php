@@ -42,7 +42,7 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $role = Role::create(['name' => 'bots']);
+        //$role = Role::create(['name' => 'bots']);
         Permission::create(['name' => 'view bots']);
         Permission::create(['name' => 'add bots']);
         Permission::create(['name' => 'edit bots']);
