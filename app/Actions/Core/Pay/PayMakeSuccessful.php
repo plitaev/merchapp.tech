@@ -35,7 +35,6 @@ class PayMakeSuccessful
         $bot_user = $botUserGetByID->handle($pay->bot_user_id);
 
         $dateEnd->handle($bot_user, 'Y-m-d');
-        $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
 
         //== Завершаем ветку по покупке продукта
 
@@ -50,6 +49,8 @@ class PayMakeSuccessful
             BotUser::where('id', $pay->bot_user_id)->whereIn('bot_branch_id', $branches)->update(['bot_branch_id' => 1]);
             $bot_user = $botUserGetByID->handle($pay->bot_user_id);
         }
+
+        $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
 
         //==
 
