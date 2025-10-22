@@ -56,7 +56,7 @@ class DevTestController extends Controller
         //Выборки
 
         $bot_users = BotUser::select('id')->pluck('id')->toArray();
-        $pays = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->pluck('bot_user_id')->toArray();
+        $pays = Pay::select('bot_user_id')->where('status', 1)->where('product_id', 27)->where('created_at', '>=', '2025-10-17 10:00:00')->pluck('bot_user_id')->toArray();
         return $pays;
 
         // === Не оплатившие из 17.10 - Рассылка на их третий день
