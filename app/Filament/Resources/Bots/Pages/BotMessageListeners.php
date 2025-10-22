@@ -11,6 +11,8 @@ use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+
 use App\Models\Core\BotMessage;
 use App\Models\Core\TelegramSendMessageSchedule;
 use Illuminate\Support\HtmlString;
@@ -50,10 +52,12 @@ use App\Models\Core\FunnelConditionTrigger;
 use App\Models\Core\BotTeleramListener;
 
 
-class BotMessageListeners extends Page implements HasTable, HasInfolists
+
+class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfolists
 {
     use InteractsWithInfolists;
     use InteractsWithTable;
+    use InteractsWithForms;
 
     protected static string $resource = BotResource::class;
 
@@ -65,6 +69,8 @@ class BotMessageListeners extends Page implements HasTable, HasInfolists
     public int $bot_message_id;
 
     public string $bot_name;
+
+    public ?array $data_bot_message_link_listener = [];
 
 
     protected static ?string $model = Listener::class;
@@ -91,6 +97,11 @@ class BotMessageListeners extends Page implements HasTable, HasInfolists
         return [];
     }
 
+    protected function getForms(): array
+    {
+        return ['form_bot_message_link_listener'];
+    }
+
 
     public function mount(int $bot_id, int $id): void
     {
@@ -100,11 +111,53 @@ class BotMessageListeners extends Page implements HasTable, HasInfolists
         $this->bot_id = $bot_id;
         $this->id = $id;
 
+        $this->form_bot_message_link_listener->fill([]);
+
     }
 
     public function getTitle(): string
     {
         return "Ожидание";
+    }
+
+    public function form_bot_message_link_listener(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Section::make('Выберите параметр')
+                    ->description('')
+                    ->schema([
+                        Hidden::make('bot_message_id'),
+                        Select::make('listener_id')
+                            ->label('Параметр')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно выберите значение из списка',
+                            ])
+                            ->options(
+                                Listener::query()->pluck('name', 'id')
+                            )
+                            ->searchable()
+                    ]),
+                Actions::make([
+                    Action::make('Сохранить')
+                        ->action(function () {
+                            $formdata = $this->form_bot_message_link_listener->getState();
+
+                            BotMessageListener::upsert(
+                                ['bot_message_id' => $this->id, 'listener_id' => $formdata['listener_id']],
+                                ['listener_id', 'bot_message_id'],
+                                ['updated_at' => now()]
+                            );
+
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        }),
+                    Action::make('Отмена')
+                        ->action(function () {
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        })
+                ])
+            ])->statePath('data_bot_message_link_listener');
     }
 
     public function table(Table $table): Table
@@ -117,14 +170,18 @@ class BotMessageListeners extends Page implements HasTable, HasInfolists
 
             )
             ->columns([
-                TextColumn::make('bot_message.name')
+                TextColumn::make('listener.name')
                     ->label('Название')
                     ->searchable(),
-                TextColumn::make('bot_message.text')
-                    ->label('Текст')
+                TextColumn::make('listener.alias')
+                    ->label('Alias')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата/время отправки')
+            ])
+            ->recordActions([
+                DeleteAction::make(),
+
             ])
 
             ->filters([
