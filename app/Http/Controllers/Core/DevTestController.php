@@ -43,6 +43,9 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
+        $bot_users = BotUser::select('id')->where('recurrent', 0)->pluck('id')->toArray();
+        BotUserRecurrentSchedule::whereIn('bot_user_id', $bot_users)->where('run_status', 0)->update(['run_status' => 3]);
+
         //$role = Role::create(['name' => 'bots']);
         //Permission::create(['name' => 'view bots']);
         //Permission::create(['name' => 'add bots']);
