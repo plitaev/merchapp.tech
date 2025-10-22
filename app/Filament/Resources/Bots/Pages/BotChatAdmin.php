@@ -219,7 +219,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                     $date_add = Carbon::parse($pay['created_at'])->subDays($data['day_add'])->format('Y-m-d');
 
                                     if($date_add > now()) {
-
+    
                                         PayGuest::create([
                                             'product_id' => $pay->product_id,
                                             'email' => $pay->email,
@@ -233,7 +233,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                             'created_at' => $pay->created_at,
                                             'updated_at' => $pay->updated_at
                                         ]);
-
+    
                                         Pay::update('status', 0)->update('created_at', date('Y-m-d H:i:s', $date_add))->where('id', $pay->id);
                                     }
                                 }
@@ -244,6 +244,10 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
                                 BotUser::where('id', $this->bot_user_id)->update(['email' => NULL, 'ban'=> 1]);
 
+                                Notification::make()
+                                    ->title('Пользователь забанен!')
+                                    ->success()
+                                    ->send();
                             }
                         }),
                     Action::make('Cancel')
