@@ -35,7 +35,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permissiom;
+use Spatie\Permission\Models\Permission;
 
 
 class DevTestController extends Controller
