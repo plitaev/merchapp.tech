@@ -43,10 +43,15 @@ class DevTestController extends Controller
     public function devtest() {
 
         //$role = Role::create(['name' => 'bots']);
-        Permission::create(['name' => 'view bots']);
-        Permission::create(['name' => 'add bots']);
-        Permission::create(['name' => 'edit bots']);
-        Permission::create(['name' => 'delete bots']);
+        //Permission::create(['name' => 'view bots']);
+        //Permission::create(['name' => 'add bots']);
+        //Permission::create(['name' => 'edit bots']);
+        //Permission::create(['name' => 'delete bots']);
+
+        $role = Role::find(1);
+        $permission = Permission::find(1);
+
+        $role->givePermission($role);
 
         //$bot_users = BotUser::select('id')->pluck('id')->toArray();
         //return BotUserUnbanSchedule::select('bot_user_id')->whereNotIn('bot_user_id', $bot_users)->pluck('bot_user_id')->toArray();
