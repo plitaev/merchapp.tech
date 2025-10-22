@@ -21,6 +21,7 @@ use App\Models\Core\Sending;
 
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 
+use App\Models\Core\User;
 use YooKassa\Client;
 use Telegram\Bot\Api;
 
@@ -48,10 +49,8 @@ class DevTestController extends Controller
         //Permission::create(['name' => 'edit bots']);
         //Permission::create(['name' => 'delete bots']);
 
-        $role = Role::find(1);
-        $permission = Permission::find(1);
-
-        $role->givePermission($role);
+        $user = User::find(7874);
+        return $user->permissions;
 
         //$bot_users = BotUser::select('id')->pluck('id')->toArray();
         //return BotUserUnbanSchedule::select('bot_user_id')->whereNotIn('bot_user_id', $bot_users)->pluck('bot_user_id')->toArray();
