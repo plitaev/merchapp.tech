@@ -18,7 +18,6 @@ class PayMakeSuccessful
         $botUserGetByID = new BotUserGetByID();
         $botUserSetBranch = new BotUserSetBranch();
         $dateEnd = new DateEnd();
-        $dateEnd = new DateEnd();
 
         Pay::query()
             ->where('id', $order_number)
@@ -34,6 +33,9 @@ class PayMakeSuccessful
 
         $pay = Pay::find($order_number);
         $bot_user = $botUserGetByID->handle($pay->bot_user_id);
+
+        $dateEnd->handle($bot_user, 'Y-m-d');
+        $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
 
         //== Завершаем ветку по покупке продукта
 
@@ -58,9 +60,6 @@ class PayMakeSuccessful
         if ($pay->recurrent == 1) {
             Pay::where('id', $order_number)->update(['recurrent_status' => 1]);
         }
-
-        $dateEnd->handle($bot_user, 'Y-m-d');
-        $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
 
     }
 }
