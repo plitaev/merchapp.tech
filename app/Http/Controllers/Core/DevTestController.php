@@ -34,9 +34,16 @@ use Illuminate\Support\Str;
 
 use Carbon\Carbon;
 
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permissiom;
+
+
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $role = Role::create(['name' => 'bots']);
+        return $role;
 
         //$bot_users = BotUser::select('id')->pluck('id')->toArray();
         //return BotUserUnbanSchedule::select('bot_user_id')->whereNotIn('bot_user_id', $bot_users)->pluck('bot_user_id')->toArray();
