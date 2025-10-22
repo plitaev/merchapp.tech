@@ -2,6 +2,9 @@
 namespace App\Filament\Resources\Bots\Pages;
 
 use App\Actions\Core\Telegram\TelegramSendMessage;
+use App\Actions\Core\DateEnd\DateEnd;
+use App\Models\Core\Pay;
+use App\Models\Core\PayGuest;
 use App\Models\Core\TelegramBanScheduleLogs;
 use App\Models\Core\TelegramSendMessageLog;
 use App\Models\Core\TelegramSendMessageSchedule;
@@ -22,6 +25,7 @@ use App\Models\Core\Bot;
 use App\Models\Core\BotMessage;
 use App\Models\Core\BotUser;
 use App\Models\Core\User;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -38,6 +42,7 @@ use Filament\Tables\Table;
 
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\Pay\PayCreateByPayGuest;
+use Symfony\Component\Console\Input\Input;
 
 class BotChatAdmin extends Page implements HasForms, HasInfolists
 {
@@ -60,7 +65,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
     public int $bot_id;
     public string $bot_name;
 
-    public int $bot_user_message_count;
+    public int $count;
     public int $bot_user_id;
 
     public function getRecord(): ?Model
@@ -91,7 +96,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
         if ($id > 0) {
             $bot_user = BotUser::select('telegram_chat_id')->find($id);
-            $this->bot_user_message_count = TelegramSendMessageLog::where('chat_id', $bot_user->telegram_chat_id)->count();
+            $this->count = TelegramSendMessageLog::where('chat_id', $bot_user->telegram_chat_id)->count();
         }
 
         $this->form->fill($data);
@@ -147,7 +152,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             ->label('Автоплатеж включен')
                     ]),
                 Section::make('Статистика')
-                    ->description(new HtmlString("<a style='font-weight: bold' href='/admin/bots/".$this->bot_id."/".$this->bot_user_id."/telegram-send-message-logs'>Сообщения от бота: ".$this->bot_user_message_count." ▶️</a>"))
+                    ->description(new HtmlString("<b><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs'>Сообщения от бота: ".$this->count."️ ⬇</a> </b>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
@@ -196,6 +201,49 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 $botSendMessage = new BotSendMessage();
                                 $bot_user = BotUser::find($this->id);
                                 $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
+                            }
+
+                        }),
+                    Action::make('update_user')
+                        ->label('Сменить пользователя')
+                        ->form([
+                            TextInput::make('day_add')
+                                ->label('Количество дней')
+                                ->required()
+                        ])
+                        ->action(function (array $data): void {
+                            $pays = Pay::where('status',1)->where('bot_user_id', $this->bot_user_id)->get();
+
+                            if($pays->count() > 0){
+                                foreach ($pays as $pay){
+                                    $date_add = Carbon::parse($pay['created_at'])->subDays($data['day_add'])->format('Y-m-d');
+
+                                    if($date_add > now()) {
+
+                                        PayGuest::create([
+                                            'product_id' => $pay->product_id,
+                                            'email' => $pay->email,
+                                            'price' => $pay->price,
+                                            'days' => $pay->days,
+                                            'gift' => $pay->gift,
+                                            'status' => $pay->status,
+                                            'recurrent' => $pay->recurrent,
+                                            'recurrent_status' => $pay->recurrent_status,
+                                            'bot_user_id' => $pay->bot_user_id,
+                                            'created_at' => $pay->created_at,
+                                            'updated_at' => $pay->updated_at
+                                        ]);
+
+                                        Pay::update('status', 0)->update('created_at', date('Y-m-d H:i:s', $date_add))->where('id', $pay->id);
+                                    }
+                                }
+
+                                $dateEnd = new DateEnd();
+                                $bot_user = BotUser::select('id', 'bot_id')->where('id', $this->bot_user_id)->where('bot_id',$this->bot_id)->first();
+                                $dateEnd->handle($bot_user, 'd.m.Y');
+
+                                BotUser::where('id', $this->bot_user_id)->update(['email' => NULL, 'ban'=> 1]);
+
                             }
                         }),
                     Action::make('Cancel')
