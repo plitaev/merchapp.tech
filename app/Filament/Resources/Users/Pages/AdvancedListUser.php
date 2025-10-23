@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Listeners\Pages;
+namespace App\Filament\Resources\Users\Pages;
 
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
