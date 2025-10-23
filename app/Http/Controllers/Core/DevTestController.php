@@ -44,13 +44,15 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
+        //==
+
         $bot_users = Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3])->pluck('bot_user_id')->toArray();
         return $bot_users;
 
         return BotUser::whereIn('id', $bot_users)->get();
 
         /*
-        $dateEnd = new DateEnd();
+        $dateEnd = new DateEnd(); /
 
         $bot_users = BotUser::where('run_status', 0)->take(1000)->get();
         foreach ($bot_users as $bot_user) {
