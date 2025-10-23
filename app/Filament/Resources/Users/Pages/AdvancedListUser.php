@@ -30,7 +30,7 @@ class AdvancedListUser extends Page implements HasTable
     public static function table(Table $table): Table
     {
         return $table
-            ->query(User::all)
+            ->query(User::all())
             ->columns([
                 TextColumn::make('id')
                     ->label('ID'),
