@@ -48,7 +48,7 @@ class DevTestController extends Controller
         //Permission::create(['name' => 'edit bots']);
         //Permission::create(['name' => 'delete bots']);
 
-        $user = User::find(7874);
+        $user = User::find(1);
         return $user->givePermissionTo('view bots');
         //return $user->permissions;
 
