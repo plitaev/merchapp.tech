@@ -42,16 +42,6 @@ use Spatie\Permission\Models\Permission;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $date_end = new DateEnd();
-
-        $bot_users = BotUser::all();
-        foreach ($bot_users as $bot_user) {
-            $date_end_user = $date_end->handle($bot_user, 'Y-m-d');
-            if ($date_end_user != '') {
-                BotUser::where('id', $bot_user->id)->whereNull('date_end')->update(['date_end' => $date_end_user]);
-            }
-        }
-
         //$role = Role::create(['name' => 'bots']);
         //Permission::create(['name' => 'view bots']);
         //Permission::create(['name' => 'add bots']);
@@ -70,11 +60,11 @@ class DevTestController extends Controller
         return $pays;
         */
 
-        /*
+
         $bot_users = BotUser::select('id')->pluck('id')->toArray();
         $pays = Pay::select('bot_user_id')->whereIn('bot_user_id', $bot_users)->where('status', 1)->where('product_id', 27)->where('created_at', '>=', '2025-10-17 10:00:00')->pluck('bot_user_id')->toArray();
         return Pay::whereIn('bot_user_id', $pays)->where('status', 1)->whereIn('product_id', [1, 2, 3])->where('created_at', '>=', '2025-10-17 10:00:00')->get();
-        */
+
 
         //Выборки
         /*
