@@ -219,6 +219,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
                                         PayGuest::create([
                                             'product_id' => $pay->product_id,
+                                            'email' => $bot_user->email,
                                             'price' => $pay->price,
                                             'days' => $pay->days,
                                             'gift' => $pay->gift,
