@@ -217,18 +217,20 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
                                     if($date_add >= date('Y-m-d', time())) {
 
-                                        PayGuest::create([
-                                            'product_id' => $pay->product_id,
-                                            'email' => $bot_user->email,
-                                            'price' => $pay->price,
-                                            'days' => $pay->days,
-                                            'gift' => $pay->gift,
-                                            'recurrent' => $pay->recurrent,
-                                            'recurrent_status' => $pay->recurrent_status,
-                                            'bot_user_id' => $pay->bot_user_id,
-                                            'created_at' => $pay->created_at,
-                                            'updated_at' => $pay->updated_at
-                                        ]);
+                                        if ($bot_user->email !='') {
+                                            PayGuest::create([
+                                                'product_id' => $pay->product_id,
+                                                'email' => $bot_user->email,
+                                                'price' => $pay->price,
+                                                'days' => $pay->days,
+                                                'gift' => $pay->gift,
+                                                'recurrent' => $pay->recurrent,
+                                                'recurrent_status' => $pay->recurrent_status,
+                                                'bot_user_id' => $pay->bot_user_id,
+                                                'created_at' => $pay->created_at,
+                                                'updated_at' => $pay->updated_at
+                                            ]);
+                                        }
 
                                         Pay::update('status', 0)->where('id', $pay->id);
                                     }
