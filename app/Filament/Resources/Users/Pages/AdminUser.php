@@ -7,7 +7,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
-use App\Filament\Resources\User\UserResource;
+use App\Filament\Resources\Users\UserResource;
 use App\Models\Core\User;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
