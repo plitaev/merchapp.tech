@@ -21,7 +21,7 @@ class AdvancedListUser extends Page implements HasTable
 
     protected static string $resource = UserResource::class;
 
-    protected string $view = 'filament.resources.user-resource.pages.advanced-list-listener';
+    protected string $view = 'filament.resources.user-resource.pages.advanced-list-user';
 
     public static ?string $label = "Ожидания";
     public static ?string $navigationLabel = "Ожидания";
