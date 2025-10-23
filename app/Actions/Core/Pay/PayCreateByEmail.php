@@ -1,8 +1,8 @@
 <?php
 namespace App\Actions\Core\Pay;
 
+use App\Actions\Core\BotBranch\BotBranchEndByProducts;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
-use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
 use App\Actions\Core\DateEnd\DateEnd;
 
 use App\Models\Core\BotUser;
@@ -12,7 +12,7 @@ use App\Models\Core\Product;
 class PayCreateByEmail
 {
     public function handle(string $email, int $product_id, int $recurrent, int $recurrent_status, int $days = 0, int $price = 0) {
-
+        $botBranchEndByProducts = new BotBranchEndByProducts();
         $botSendMessage = new BotSendMessage();
         $dateEnd = new DateEnd();
 
@@ -37,6 +37,9 @@ class PayCreateByEmail
             ]);
 
             $dateEnd->handle($bot_user, 'Y-m-d');
+
+            //== Завершаем ветку по покупке продукта
+            $botBranchEndByProducts->handle($product_id, $bot_user->id);
 
             $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
 
