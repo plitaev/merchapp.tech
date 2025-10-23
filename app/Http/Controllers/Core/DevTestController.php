@@ -49,8 +49,8 @@ class DevTestController extends Controller
         //Permission::create(['name' => 'delete bots']);
 
         $user = User::find(1);
-        return $user->givePermissionTo('view bots');
-        //return $user->permissions;
+        //return $user->givePermissionTo('view bots');
+        return $user->permissions;
 
         //$bot_users = BotUser::select('id')->pluck('id')->toArray();
         //return BotUserUnbanSchedule::select('bot_user_id')->whereNotIn('bot_user_id', $bot_users)->pluck('bot_user_id')->toArray();
