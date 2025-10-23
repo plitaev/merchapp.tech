@@ -123,14 +123,14 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
 
             )
             ->columns([
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Дата/время отправки'),
                 TextColumn::make('bot_message.name')
                     ->label('Название')
                     ->searchable(),
                 TextColumn::make('bot_message.text')
                     ->label('Текст')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Дата/время отправки')
+                    ->searchable()
             ])
 
             ->filters([
