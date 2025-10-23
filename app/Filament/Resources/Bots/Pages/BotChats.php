@@ -104,7 +104,7 @@ class BotChats extends Page implements HasTable
                          window.location.href = '/admin/bots/".$this->bot_id."/".$record->id."/chat-admin';
                         }"
                     ])
-                    ->label('Имя пользователя')
+                    ->label('Ник')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->icon('heroicon-m-clipboard')
