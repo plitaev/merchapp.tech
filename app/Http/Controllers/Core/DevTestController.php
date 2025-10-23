@@ -49,6 +49,10 @@ class DevTestController extends Controller
             ->where('listen_success_message_status', 0)
             ->update(['listen_success_message_status' => 1, 'listen_success_message_status_timestamp' => now()]);
 
+        BotUser::whereIn('telegram_chat_id', $chats)
+            ->whereNull('listen_success_message_status')
+            ->update(['listen_success_message_status' => 1, 'listen_success_message_status_timestamp' => now()]);
+
         /*
         $dateEnd = new DateEnd();
 
