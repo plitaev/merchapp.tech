@@ -8,6 +8,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
 use App\Filament\Resources\Users\UserResource;
+use App\Models\Core\Role;
 use App\Models\Core\User;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -34,6 +35,8 @@ class AdminUser extends Page implements HasForms
 
     public int $id;
 
+    public ?array $roles = [];
+
     public function getRecord(): ?Model
     {
         return User::class;
@@ -53,9 +56,10 @@ class AdminUser extends Page implements HasForms
     public function mount(int $id): void
     {
         $this->id = $id;
-
         $data = ($id>0?User::find($id)->toArray():[]);
         $this->form->fill($data);
+
+        $this->roles = Role::all()->pluck('name', 'id')->toArray();
     }
 
     protected function getForms(): array
@@ -77,6 +81,14 @@ class AdminUser extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
+                        Forms\Components\CheckboxList::make('end_by_products')
+                            ->label('По покупке продуктов')
+                            ->options($this->roles)
+                            ->afterStateHydrated(function ($component, $state) {
+                                if (! filled($state)) {
+                                    $component->state($this->end_by_products_in_branch);
+                                }
+                            })
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
