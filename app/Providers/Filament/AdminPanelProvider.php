@@ -125,7 +125,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
-                ->label('test')
+                    ->group('Настройки')
             ])
             ->authMiddleware([
                 Authenticate::class,
