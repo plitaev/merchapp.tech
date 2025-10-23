@@ -23,7 +23,7 @@ class AdminUser extends Page implements HasForms
 
     protected static string $resource = UserResource::class;
 
-    protected string $view = 'filament.resources.user-resource.pages.admin-user.blade.php';
+    protected string $view = 'filament.resources.user-resource.pages.admin-user';
 
 
     public static ?string $label = "Пользователь";
