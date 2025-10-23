@@ -413,7 +413,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ])
                     ->schema([])
                     ->visible($this->id > 0?true:false),
-                Section::make('Статистика')
+                Section::make('Дополнительные настройки')
                     ->description(new HtmlString("<a style='font-weight: bold' href='/admin/bots/".$this->bot_id."/".$this->id."/message-listeners'>Ожидания: ".$this->bot_message_listener." ▶️</a>"))
                     ->columns([
                         'sm' => 4,
