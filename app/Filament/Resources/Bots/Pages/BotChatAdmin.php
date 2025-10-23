@@ -3,6 +3,7 @@ namespace App\Filament\Resources\Bots\Pages;
 
 use App\Actions\Core\Telegram\TelegramSendMessage;
 use App\Actions\Core\DateEnd\DateEnd;
+use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\Pay;
 use App\Models\Core\PayGuest;
 use App\Models\Core\TelegramBanScheduleLogs;
@@ -204,48 +205,47 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             }
 
                         }),
-                    Action::make('update_user')
+                    Action::make('change_user')
                         ->label('Сменить пользователя')
-                        ->form([
-                            TextInput::make('day_add')
-                                ->label('Количество дней')
-                                ->required()
-                        ])
-                        ->action(function (array $data): void {
+                        ->action(function () {
                             $pays = Pay::where('status',1)->where('bot_user_id', $this->bot_user_id)->get();
+                            $bot_user = BotUser::select('id', 'bot_id','email')->find($this->bot_user_id);
 
                             if($pays->count() > 0){
                                 foreach ($pays as $pay){
-                                    $date_add = Carbon::parse($pay['created_at'])->subDays($data['day_add'])->format('Y-m-d');
+                                    $date_add = Carbon::parse($pay->created_at)->subDays($pay->days)->format('Y-m-d');
 
-                                    if($date_add > now()) {
-    
+                                    if($date_add >= date('Y-m-d', time())) {
+
                                         PayGuest::create([
                                             'product_id' => $pay->product_id,
-                                            'email' => $pay->email,
                                             'price' => $pay->price,
                                             'days' => $pay->days,
                                             'gift' => $pay->gift,
-                                            'status' => $pay->status,
                                             'recurrent' => $pay->recurrent,
                                             'recurrent_status' => $pay->recurrent_status,
                                             'bot_user_id' => $pay->bot_user_id,
                                             'created_at' => $pay->created_at,
                                             'updated_at' => $pay->updated_at
                                         ]);
-    
-                                        Pay::update('status', 0)->update('created_at', date('Y-m-d H:i:s', $date_add))->where('id', $pay->id);
+
+                                        Pay::update('status', 0)->where('id', $pay->id);
                                     }
                                 }
 
                                 $dateEnd = new DateEnd();
-                                $bot_user = BotUser::select('id', 'bot_id')->where('id', $this->bot_user_id)->where('bot_id',$this->bot_id)->first();
                                 $dateEnd->handle($bot_user, 'd.m.Y');
 
-                                BotUser::where('id', $this->bot_user_id)->update(['email' => NULL, 'ban'=> 1]);
+                                BotUser::where('id', $this->bot_user_id)->update(['email' => NULL]);
+
+                                BotUserBanSchedule::create([
+                                    'bot_user_id' => $this->bot_user_id,
+                                    'run_status' => 1,
+                                    'ban_datetime' => date('Y-m-d H:i:s', time()),
+                                ]);
 
                                 Notification::make()
-                                    ->title('Пользователь забанен!')
+                                    ->title('Смена пользователя завершена!')
                                     ->success()
                                     ->send();
                             }
