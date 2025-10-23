@@ -43,15 +43,9 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $chats = TelegramSendMessageLog::select('chat_id')->where('bot_message_id', 36)->pluck('chat_id')->toArray();
-
-        BotUser::whereIn('telegram_chat_id', $chats)
-            ->where('listen_success_message_status', 0)
-            ->update(['listen_success_message_status' => 1, 'listen_success_message_status_timestamp' => now()]);
-
-        BotUser::whereIn('telegram_chat_id', $chats)
-            ->whereNull('listen_success_message_status')
-            ->update(['listen_success_message_status' => 1, 'listen_success_message_status_timestamp' => now()]);
+        $schedules = BotUserBanSchedule::select('bot_user_id')->groupBy('bot_user_id')->pluck('bot_user_id')->toArray();
+        $bot_users = BotUser::where('date_end', '<', date('Y-m-d', time()))->whereNotIn('id', $schedules)->get();
+        return $bot_users;
 
         /*
         $dateEnd = new DateEnd();
