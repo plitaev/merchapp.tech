@@ -1,0 +1,29 @@
+<x-filament-panels::page>
+    <div class="fi-header fi-header-has-breadcrumbs">
+        <div>
+            <nav class="fi-breadcrumbs">
+                <ol class="fi-breadcrumbs-list">
+                    <li class="fi-breadcrumbs-item">
+                        <a href="/admin/listeners" class="fi-breadcrumbs-item-label">
+                            Пользователи
+                        </a>
+                    </li>
+                    <li class="fi-breadcrumbs-item">
+                        <svg class="fi-icon fi-size-md fi-breadcrumbs-item-separator fi-ltr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg class="fi-icon fi-size-md fi-breadcrumbs-item-separator fi-rtl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd"></path>
+                        </svg>
+
+                        <span class="fi-breadcrumbs-item-label">Список</span>
+                    </li>
+                </ol>
+            </nav>
+
+            <h1 class="fi-header-heading">Пользователи</h1>
+        </div>
+    </div>
+
+    {{$this->table}}
+</x-filament-panels::page>
