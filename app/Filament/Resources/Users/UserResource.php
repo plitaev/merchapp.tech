@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Filament\Resources\Listeners;
+namespace App\Filament\Resources\Users;
 
 use Filament\Schemas\Schema;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Resources\Listeners\Pages\AdvancedListListener;
-use App\Filament\Resources\Listeners\Pages\AdminListener;
+use App\Filament\Resources\Users\Pages\AdvancedListUser;
+use App\Filament\Resources\Users\Pages\AdminUser;
 use App\Filament\Resources\ListenerResource\Pages;
 use App\Filament\Resources\ListenerResource\RelationManagers;
-use App\Models\Core\Listener;
+use App\Models\Core\User;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -18,15 +18,15 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ListenerResource extends Resource
+class UserResource extends Resource
 {
-    protected static ?string $model = Listener::class;
+    protected static ?string $model = User::class;
 
-    public static ?string $label = "Ожидания";
-    public static ?string $navigationLabel = "Ожидания";
-    public static ?string $title = "Ожидания";
+    public static ?string $label = "Пользователи";
+    public static ?string $navigationLabel = "Пользователи";
+    public static ?string $title = "Пользователи";
 
-    public static function getPluralLabel(): ?string {return "Ожидания";}
+    public static function getPluralLabel(): ?string {return "Пользователи";}
 
     protected static bool $shouldRegisterNavigation = false;
 
@@ -69,10 +69,10 @@ class ListenerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => AdvancedListListener::route('/'),
-            'create' => AdminListener::route('/{id}/admin'),
-            'edit' => AdminListener::route('/{id}/admin'),
-            'admin' => AdminListener::route('/{id}/admin'),
+            'index' => AdvancedListUser::route('/'),
+            'create' => AdminUser::route('/{id}/admin'),
+            'edit' => AdminUser::route('/{id}/admin'),
+            'admin' => AdminUser::route('/{id}/admin'),
 
         ];
     }

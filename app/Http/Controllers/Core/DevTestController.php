@@ -42,15 +42,22 @@ use Spatie\Permission\Models\Permission;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $date_end = new DateEnd();
 
-        $bot_users = BotUser::all();
+        $schedules = BotUserBanSchedule::select('bot_user_id')->groupBy('bot_user_id')->pluck('bot_user_id')->toArray();
+        $banneds = BotUser::select('id')->where('ban', 1)->pluck('id')->toArray();
+
+        $bot_users = BotUser::where('date_end', '<', date('Y-m-d', time()))->whereNotIn('id', $schedules)->whereNotIn('id', $banneds)->get();
+        return $bot_users;
+
+        /*
+        $dateEnd = new DateEnd();
+
+        $bot_users = BotUser::where('run_status', 0)->take(1000)->get();
         foreach ($bot_users as $bot_user) {
-            $date_end_user = $date_end->handle($bot_user, 'Y-m-d');
-            if ($date_end_user != '') {
-                BotUser::where('id', $bot_user->id)->whereNull('date_end')->update(['date_end' => $date_end_user]);
-            }
+            $dateEnd->handle($bot_user, 'Y-m-d');
+            BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
         }
+        */
 
         //$role = Role::create(['name' => 'bots']);
         //Permission::create(['name' => 'view bots']);
@@ -58,7 +65,8 @@ class DevTestController extends Controller
         //Permission::create(['name' => 'edit bots']);
         //Permission::create(['name' => 'delete bots']);
 
-        //$user = User::find(7874);
+        //$user = User::find(1);
+        //return $user->givePermissionTo('view bots');
         //return $user->permissions;
 
         //$bot_users = BotUser::select('id')->pluck('id')->toArray();
