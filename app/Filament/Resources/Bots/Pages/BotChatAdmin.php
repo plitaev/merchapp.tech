@@ -234,17 +234,16 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 }
 
                                 $dateEnd = new DateEnd();
-                                $bot_user = BotUser::select('id', 'bot_id')->find($this->bot_user_id);
+                                $bot_user = BotUser::select('id', 'bot_id','telegram_chat_id')->find($this->bot_user_id);
                                 $dateEnd->handle($bot_user, 'd.m.Y');
 
                                 BotUser::where('id', $this->bot_user_id)->update(['email' => NULL]);
 
                                 BotUserBanSchedule::create([
-                                    'bot_id' => $this->bot_id,
-                                    'chat_id' => $bot_user->chat_id,
-                                    'ban_date' => date('Y-m-d', time()),
-                                    'ban_time' => date('H:i:s', time()),
-                                    ]);
+                                    'bot_user_id' => $this->bot_user_id,
+                                    'run_status' => 1,
+                                    'ban_datetime' => date('Y-m-d H:i:s', time()),
+                                ]);
 
                                 Notification::make()
                                     ->title('Смена пользователя завершена!')
