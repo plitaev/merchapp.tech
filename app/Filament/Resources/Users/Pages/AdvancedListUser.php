@@ -7,7 +7,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Resources\Listeners\ListenerResource;
+use App\Filament\Resources\Users\UserResource;
 use App\Models\Core\Listener;
 use Filament\Resources\Pages\Page;
 use Filament\Tables;

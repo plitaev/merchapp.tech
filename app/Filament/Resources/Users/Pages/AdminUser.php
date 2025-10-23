@@ -7,7 +7,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
-use App\Filament\Resources\Listeners\ListenerResource;
+use App\Filament\Resources\User\UserResource;
 use App\Models\Core\User;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -21,7 +21,7 @@ class AdminUser extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static string $resource = ListenerResource::class;
+    protected static string $resource = UserResource::class;
 
     protected string $view = 'filament.resources.user-resource.pages.admin-user.blade.php';
 
