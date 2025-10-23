@@ -209,6 +209,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                         ->label('Сменить пользователя')
                         ->action(function () {
                             $pays = Pay::where('status',1)->where('bot_user_id', $this->bot_user_id)->get();
+                            $bot_user = BotUser::select('id', 'bot_id','email')->find($this->bot_user_id);
 
                             if($pays->count() > 0){
                                 foreach ($pays as $pay){
@@ -218,7 +219,6 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
                                         PayGuest::create([
                                             'product_id' => $pay->product_id,
-                                            'email' => $pay->email,
                                             'price' => $pay->price,
                                             'days' => $pay->days,
                                             'gift' => $pay->gift,
@@ -234,7 +234,6 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 }
 
                                 $dateEnd = new DateEnd();
-                                $bot_user = BotUser::select('id', 'bot_id','telegram_chat_id')->find($this->bot_user_id);
                                 $dateEnd->handle($bot_user, 'd.m.Y');
 
                                 BotUser::where('id', $this->bot_user_id)->update(['email' => NULL]);
