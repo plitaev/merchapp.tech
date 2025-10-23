@@ -10,7 +10,7 @@ use App\Filament\Resources\Listeners\Pages\AdvancedListListener;
 use App\Filament\Resources\Listeners\Pages\AdminListener;
 use App\Filament\Resources\ListenerResource\Pages;
 use App\Filament\Resources\ListenerResource\RelationManagers;
-use App\Models\Listener\Listener;
+use App\Models\Core\Listener;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;

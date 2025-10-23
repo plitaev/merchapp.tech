@@ -28,7 +28,7 @@ return [
     /*
     |--------------------------------------------------------------------------
     | Multi-Tenancy
-    |---------------------------------------------------------------------------
+    |--------------------------------------------------------------------------
     |
     | When your application supports teams, Shield will automatically detect
     | and configure the tenant model during setup. This enables tenant-scoped
