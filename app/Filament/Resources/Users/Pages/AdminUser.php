@@ -54,7 +54,7 @@ class AdminUser extends Page implements HasForms
     {
         $this->id = $id;
 
-        $data = ($id>0?Listener::find($id)->toArray():[]);
+        $data = ($id>0?User::find($id)->toArray():[]);
         $this->form->fill($data);
     }
 
