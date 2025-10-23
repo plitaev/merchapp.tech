@@ -30,20 +30,18 @@ class AdvancedListUser extends Page implements HasTable
     public static function table(Table $table): Table
     {
         return $table
-            ->query(Listener::select('*'))
+            ->query(User::all)
             ->columns([
+                TextColumn::make('id')
+                    ->label('ID'),
                 TextColumn::make('name')
-                    ->label('Наименование')
-                    ->searchable(),
-                TextColumn::make('alias')
-                    ->label('Alias')
-                    ->searchable()
+                    ->label('Имя')
             ])
             ->filters([
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/listeners/".$record->id."/admin"),
+                EditAction::make()->url(fn($record) => "/admin/users/".$record->id."/admin"),
                 DeleteAction::make(),
             ])
             ->toolbarActions([
@@ -51,7 +49,7 @@ class AdvancedListUser extends Page implements HasTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->recordUrl(fn($record) => "/admin/listeners/".$record->id."/admin");
+            ->recordUrl(fn($record) => "/admin/users/".$record->id."/admin");
     }
 }
 
