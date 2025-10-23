@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Core;
+use App\Actions\Core\Auto\BotUserSetBanSchedulerCreate;
 use App\Actions\Core\DateEnd\DateEnd;
 use App\Actions\Core\GetCourseWebhook\GetCourseWebhookCreate;
 use App\Actions\Core\Telegram\TelegramChatJoinRequest;
@@ -43,11 +44,13 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
+        $botUserSetBanSchedulerCreate = new BotUserSetBanSchedulerCreate();
+
         $schedules = BotUserBanSchedule::select('bot_user_id')->groupBy('bot_user_id')->pluck('bot_user_id')->toArray();
         $banneds = BotUser::select('id')->where('ban', 1)->pluck('id')->toArray();
 
         $bot_users = BotUser::where('date_end', '<', date('Y-m-d', time()))->whereNotIn('id', $schedules)->whereNotIn('id', $banneds)->get();
-        return $bot_users;
+        $botUserSetBanSchedulerCreate->handle($bot_users, date('Y-m-d', time()));
 
         /*
         $dateEnd = new DateEnd();
