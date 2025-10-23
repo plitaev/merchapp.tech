@@ -42,6 +42,14 @@ use Spatie\Permission\Models\Permission;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $chats = TelegramSendMessageLog::select('chat_id')->where('bot_message_id', 36)->pluck('chat_id')->toArray();
+
+        BotUser::whereIn('telegram_chat_id', $chats)
+            ->where('listen_success_message_status', 0)
+            ->update(['listen_success_message_status' => 1, 'listen_success_message_status_timestamp' => now()]);
+
+        /*
         $dateEnd = new DateEnd();
 
         $bot_users = BotUser::where('run_status', 0)->take(1000)->get();
@@ -49,6 +57,7 @@ class DevTestController extends Controller
             $dateEnd->handle($bot_user, 'Y-m-d');
             BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
         }
+        */
 
         //$role = Role::create(['name' => 'bots']);
         //Permission::create(['name' => 'view bots']);
