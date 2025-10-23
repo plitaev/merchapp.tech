@@ -47,6 +47,7 @@ class DevTestController extends Controller
         //==
 
         $bot_users = Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3])->groupBy('bot_user_id')->pluck('bot_user_id')->toArray();
+        return $bot_users;
         return BotUser::whereIn('id', $bot_users)->get();
 
         /*
