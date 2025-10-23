@@ -55,7 +55,7 @@ class AdminUser extends Page implements HasForms
         $this->id = $id;
 
         $data = ($id>0?User::find($id)->toArray():[]);
-        //$this->form->fill($data);
+        $this->form->fill($data);
     }
 
     protected function getForms(): array
@@ -77,9 +77,6 @@ class AdminUser extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Forms\Components\CheckboxList::make('roles')
-                            ->relationship('roles', 'name')
-                            ->searchable(),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
