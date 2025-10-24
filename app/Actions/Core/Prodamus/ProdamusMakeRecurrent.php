@@ -42,7 +42,7 @@ class ProdamusMakeRecurrent
             'client_id' => $data->bot_user_id,
             'sys' => $data->bot->prodamus_sys,
             'order_sum' => 1490,
-            'order_num' => $pay->id
+            'order_id' => $pay->id
         ];
 
         $HMACController = new HMACController();
