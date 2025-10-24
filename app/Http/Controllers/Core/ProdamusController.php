@@ -17,6 +17,9 @@ class ProdamusController
 
         if ($Adata['payment_status']=='success') {
             $binding_id = (isset($Adata['binding_id'])?$Adata['binding_id']:NULL);
+
+            if ($Adata['order_num'] == '') return 'success';
+
             $payMakeSuccessful->handle($source, $Adata['order_num'], $Adata['order_id'], $binding_id, $Adata['commission_sum']);
         }
 
