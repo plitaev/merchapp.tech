@@ -205,6 +205,41 @@ class BotPayAdmin extends Page implements HasForms
 
                             return redirect('/admin/bots/'.$this->bot_id.'/pays');
                         }),
+                    Action::make('Вернуть платеж')
+                        ->action(function () {
+                            $dateEndCacheForPay = new DateEndCacheForPay();
+                            $payCreateByEmail = new PayCreateByEmail();
+                            $data = $this->form->getState();
+                            $data['status'] = 0;
+                            if ($this->id>0) {
+
+                                unset($data['email']);
+                                unset($data['bot_id']);
+
+                                Pay::where('id', $this->id)->update($data);
+
+                                $pay_all_data = Pay::with('bot')->find($this->id);
+
+                                Notification::make()
+                                    ->title($pay_all_data)
+                                    ->success()
+                                    ->send();
+
+                                $bot_user_id = ($pay_all_data->gift_bot_user_id ?? $pay_all_data->bot_user_id);
+                                $dateEndCacheForPay->handle($bot_user_id);
+
+                                $output_id = $this->id;
+                            } else {
+                                $payCreateByEmail->handle($data['email'], $data['product_id'], 0, 0, $data['days'], $data['price']);
+                                $output_id = $this->id;
+                            }
+                            Notification::make()
+                                ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
+
+                            return redirect('/admin/bots/'.$this->bot_id.'/pays');
+                        }),
                     Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/'.$this->bot_id.'/pays');

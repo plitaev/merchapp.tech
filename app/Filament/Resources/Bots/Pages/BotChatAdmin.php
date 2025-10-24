@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Bots\Pages;
 use App\Actions\Core\Telegram\TelegramSendMessage;
 use App\Actions\Core\DateEnd\DateEnd;
 use App\Models\Core\BotUserBanSchedule;
+use App\Models\Core\BotUserUnbanSchedule;
 use App\Models\Core\Pay;
 use App\Models\Core\PayGuest;
 use App\Models\Core\TelegramBanScheduleLogs;
@@ -67,6 +68,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
     public string $bot_name;
 
     public int $count;
+    public int $count_ban;
+    public int $count_unban;
     public int $bot_user_id;
 
     public function getRecord(): ?Model
@@ -98,6 +101,10 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
         if ($id > 0) {
             $bot_user = BotUser::select('telegram_chat_id')->find($id);
             $this->count = TelegramSendMessageLog::where('chat_id', $bot_user->telegram_chat_id)->count();
+            $this->count_ban = BotUserBanSchedule::where('bot_user_id', $this->bot_user_id)->count();
+            $this->count_unban = BotUserUnBanSchedule::where('bot_user_id', $this->bot_user_id)->count();
+
+
         }
 
         $this->form->fill($data);
@@ -153,7 +160,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             ->label('Автоплатеж включен')
                     ]),
                 Section::make('Статистика')
-                    ->description(new HtmlString("<b><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs'>Сообщения от бота: ".$this->count."️ ⬇</a> </b>"))
+                    ->description(new HtmlString("<b><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs'>Сообщения от бота: ".$this->count."️ ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs'>Бан: ".$this->count_ban."️ ⬇</a> <br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs'>Разбаны: ".$this->count_unban."️ ⬇</a> </br>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
