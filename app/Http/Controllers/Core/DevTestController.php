@@ -44,12 +44,6 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        //==
-
-        $bot_users = Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [1, 2, 3])->groupBy('bot_user_id')->pluck('bot_user_id')->toArray();
-        return $bot_users;
-        return BotUser::whereIn('id', $bot_users)->get();
-
         /*
         $dateEnd = new DateEnd(); /
 
@@ -79,11 +73,9 @@ class DevTestController extends Controller
         return $pays;
         */
 
-        /*
         $bot_users = BotUser::select('id')->pluck('id')->toArray();
         $pays = Pay::select('bot_user_id')->whereIn('bot_user_id', $bot_users)->where('status', 1)->where('product_id', 27)->where('created_at', '>=', '2025-10-17 10:00:00')->pluck('bot_user_id')->toArray();
         return Pay::whereIn('bot_user_id', $pays)->where('status', 1)->whereIn('product_id', [1, 2, 3])->where('created_at', '>=', '2025-10-17 10:00:00')->get();
-        */
 
         //Выборки
         /*
