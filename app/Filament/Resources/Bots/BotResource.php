@@ -54,6 +54,11 @@ use App\Filament\Resources\Bots\Pages\BotBranches;
 use App\Filament\Resources\Bots\Pages\BotBranchAdmin;
 use App\Filament\Resources\Bots\Pages\TelegramSendMessageLogs;
 use App\Filament\Resources\Bots\Pages\BotMessageListeners;
+use App\Filament\Resources\Bots\Pages\BotTelegramBanScheduleLogs;
+use App\Filament\Resources\Bots\Pages\BotTelegramUnBanScheduleLogs;
+use App\Filament\Resources\Bots\Pages\BotTelegramBanScheduleErrorLogs;
+
+
 
 use App\Models\Core\Bot;
 
@@ -164,6 +169,9 @@ class BotResource extends Resource
             'chats' => BotChats::route('/{bot_id}/chats'),
             'chat-admin' => BotChatAdmin::route('/{bot_id}/{id}/chat-admin'),
             'telegram-send-message-logs' => TelegramSendMessageLogs::route('/{bot_id}/{bot_user_id}/telegram-send-message-logs'),
+            'telegram-ban-schedule-logs' => BotTelegramBanScheduleLogs::route('/{bot_id}/{bot_user_id}/telegram-ban-schedule-logs'),
+            'telegram-unban-schedule-logs' => BotTelegramUnBanScheduleLogs::route('/{bot_id}/{bot_user_id}/telegram-unban-schedule-logs'),
+            'bot-telegram-ban-schedule-error-logs' => BotTelegramBanScheduleErrorLogs::route('/{bot_id}/{bot_user_id}/bot-telegram-ban-schedule-error-logs'),
             'message-listeners' => BotMessageListeners::route('/{bot_id}/{id}/message-listeners'),
             'funnels' => BotFunnels::route('/{bot_id}/funnels'),
             'funnel-admin' => BotFunnelAdmin::route('/{bot_id}/{id}/funnel-admin'),
@@ -189,7 +197,7 @@ class BotResource extends Resource
             'telegram-unban-schedule-admin' => BotTelegramUnBanScheduleAdmin::route('/{bot_id}/{id}/telegram-unban-schedule-admin'),
             'branches' => BotBranches::route('/{bot_id}/branches'),
             'branch-admin' => BotBranchAdmin::route('/{bot_id}/{id}/branch-admin'),
-            'shop-segments' => BotShopSegments::route('/{bot_id}/shop-segments'),
+            'shop-segments' => BotShopSegments::route('/{bot_id}/{id}/shop-segments'),
 
         ];
     }
