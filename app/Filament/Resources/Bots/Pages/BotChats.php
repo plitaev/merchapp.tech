@@ -125,6 +125,12 @@ class BotChats extends Page implements HasTable
                 Tables\Columns\TextColumn::make('date_end')
                     ->date('d.m.Y')
                     ->label('Дата подписки'),
+                Tables\Columns\IconColumn::make('recurrent')
+                    ->boolean()
+                    ->label('Рекуррент')
+                    ->alignCenter()
+                    ->trueColor('info')
+                    ->falseColor('warning'),
                 Tables\Columns\TextColumn::make('ban_name.name')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -132,12 +138,6 @@ class BotChats extends Page implements HasTable
                         'Нет' => 'success',
                     })
                     ->label('Бан'),
-                Tables\Columns\IconColumn::make('recurrent')
-                    ->boolean()
-                    ->label('Рекуррент')
-                    ->alignCenter()
-                    ->trueColor('info')
-                    ->falseColor('warning'),
                 Tables\Columns\TextColumn::make('ban_time')
                     ->label('Дата/время бана')
             ])
