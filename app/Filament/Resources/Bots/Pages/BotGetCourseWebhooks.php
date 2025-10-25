@@ -73,6 +73,12 @@ class BotGetCourseWebhooks extends Page implements HasTable
                 TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
+                Tables\Columns\IconColumn::make('recurrent')
+                    ->boolean()
+                    ->label('Рекуррент')
+                    ->alignCenter()
+                    ->trueColor('info')
+                    ->falseColor('warning'),
                 TextColumn::make('recurrent_name.name')
                     ->label('Рекуррент'),
                 TextColumn::make('recurrent_status_name.name')
