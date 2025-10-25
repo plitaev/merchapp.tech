@@ -59,6 +59,9 @@ class BotGetCourseWebhooks extends Page implements HasTable
                     $query->where('bot_id', $this->bot_id);
                 }))
             ->columns([
+                TextColumn::make('created_at')
+                    ->label('Создан')
+                    ->dateTime('d.m.Y H:i:s'),
                 TextColumn::make('product.name')
                     ->label('Продукт')
                     ->searchable(),
@@ -73,10 +76,7 @@ class BotGetCourseWebhooks extends Page implements HasTable
                 TextColumn::make('recurrent_name.name')
                     ->label('Рекуррент'),
                 TextColumn::make('recurrent_status_name.name')
-                    ->label('Статус рекуррента'),
-                TextColumn::make('created_at')
-                    ->label('Создан')
-                    ->dateTime('d.m.Y H:i:s')
+                    ->label('Статус рекуррента')
             ])
             ->filters([
                 //
