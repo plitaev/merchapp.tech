@@ -163,7 +163,7 @@ class BotPays extends Page implements HasTable
                     ->label('Способ оплаты'),
                 Tables\Columns\IconColumn::make('recurrent')
                     ->boolean()
-                    ->label('Рекуррент')
+                    ->label('Рекуррентный тип платежа')
                     ->alignCenter()
                     ->trueColor('info')
                     ->falseColor('warning'),
