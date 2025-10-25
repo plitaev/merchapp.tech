@@ -132,6 +132,12 @@ class BotChats extends Page implements HasTable
                         'Нет' => 'success',
                     })
                     ->label('Бан'),
+                Tables\Columns\IconColumn::make('recurrent')
+                    ->boolean()
+                    ->label('Рекуррент')
+                    ->alignCenter()
+                    ->trueColor('info')
+                    ->falseColor('warning'),
                 Tables\Columns\TextColumn::make('ban_time')
                     ->label('Дата/время бана')
             ])
