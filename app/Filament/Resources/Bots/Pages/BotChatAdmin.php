@@ -8,6 +8,9 @@ use App\Models\Core\BotUserUnbanSchedule;
 use App\Models\Core\Pay;
 use App\Models\Core\PayGuest;
 use App\Models\Core\TelegramBanScheduleErrorLogs;
+use App\Models\Core\TelegramUnbanScheduleErrorLog;
+use App\Models\Core\TelegramChatMemberErrorLog;
+use App\Models\Core\TelegramSendMessageErrorLog;
 use App\Models\Core\TelegramBanScheduleLogs;
 use App\Models\Core\TelegramSendMessageLog;
 use App\Models\Core\TelegramSendMessageSchedule;
@@ -73,6 +76,11 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
     public int $count_unban;
 
     public int $count_ban_error;
+    public int $count_unban_error;
+
+    public int $count_chat_member_error;
+    public int $count_send_message_error;
+
     public int $bot_user_id;
 
     public function getRecord(): ?Model
@@ -107,8 +115,9 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
             $this->count_ban = BotUserBanSchedule::where('bot_user_id', $this->bot_user_id)->count();
             $this->count_unban = BotUserUnBanSchedule::where('bot_user_id', $this->bot_user_id)->count();
             $this->count_ban_error = TelegramBanScheduleErrorLogs::where('bot_user_id', $this->bot_user_id)->count();
-
-
+            $this->count_unban_error = TelegramUnbanScheduleErrorLog::where('bot_user_id', $this->bot_user_id)->count();
+            $this->count_chat_member_error = TelegramChatMemberErrorLog::where('bot_user_id', $this->bot_user_id)->count();
+            $this->count_send_message_error = TelegramSendMessageErrorLog::where('chat_id', $bot_user->telegram_chat_id)->count();
 
         }
 
@@ -175,7 +184,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                     ])
                     ->schema([]),
                 Section::make('Ошибки')
-                    ->description(new HtmlString("<b><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/bot-telegram-ban-schedule-error-logs'>Баны: ".$this->count_ban_error."️ ⬇</a></b>"))
+                    ->description(new HtmlString("<b><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-error-logs'>Баны: ".$this->count_ban_error."️ ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-error-logs'>Разбаны: ".$this->count_unban_error."️ ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-chat-member-error-logs'>Чаты: ".$this->count_chat_member_error."️ ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-error-logs'>Отправки сообщений: ".$this->count_ban_error."️ ⬇</a></b>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,

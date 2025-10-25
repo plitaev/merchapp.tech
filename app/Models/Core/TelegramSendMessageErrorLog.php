@@ -3,6 +3,8 @@
 namespace App\Models\Core;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class TelegramSendMessageErrorLog extends Model
 {
@@ -11,4 +13,5 @@ class TelegramSendMessageErrorLog extends Model
         'bot_message_id',
         'text'
     ];
+
 }

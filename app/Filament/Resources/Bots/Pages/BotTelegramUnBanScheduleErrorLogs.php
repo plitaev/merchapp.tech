@@ -3,7 +3,7 @@ namespace App\Filament\Resources\Bots\Pages;
 
 use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\BotUserUnbanSchedule;
-use App\Models\Core\TelegramBanScheduleErrorLogs;
+use App\Models\Core\TelegramUnbanScheduleErrorLog;
 use App\Models\Core\TelegramSendMessageLog;
 use App\Models\Core\TelegramUnbanSchedule;
 use Filament\Schemas\Schema;
@@ -54,14 +54,14 @@ use App\Models\Core\FunnelConditionTrigger;
 use App\Models\Core\Listener;
 
 
-class BotTelegramBanScheduleErrorLogs extends Page implements HasTable, HasInfolists
+class BotTelegramUnBanScheduleErrorLogs extends Page implements HasTable, HasInfolists
 {
     use InteractsWithInfolists;
     use InteractsWithTable;
 
     protected static string $resource = BotResource::class;
 
-    protected string $view = 'filament.resources.bot-resource.pages.bot-telegram-ban-schedule-error-logs';
+    protected string $view = 'filament.resources.bot-resource.pages.bot-telegram-unban-schedule-error-logs';
 
     public int $id;
 
@@ -122,7 +122,7 @@ class BotTelegramBanScheduleErrorLogs extends Page implements HasTable, HasInfol
         return $table
             ->defaultSort('updated_at', 'desc')
             ->query(
-                TelegramBanScheduleErrorLogs::with('bot_user')
+                TelegramUnbanScheduleErrorLog::with('bot_user')
                     ->whereHas('bot_user', function ($query) {
                         $query->where('bot_id', $this->bot_id);
                         $query->where('bot_user_id', $this->bot_user_id);
@@ -132,7 +132,7 @@ class BotTelegramBanScheduleErrorLogs extends Page implements HasTable, HasInfol
             )
             ->columns([
                 TextColumn::make('unban_datetime')
-                    ->label('Дата и время бана')
+                    ->label('Дата и время разбана')
                     ->dateTime('d.m.Y H:i:s'),
                 TextColumn::make('text')
                     ->label('Текст'),

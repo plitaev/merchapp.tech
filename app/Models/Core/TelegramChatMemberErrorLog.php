@@ -3,6 +3,8 @@
 namespace App\Models\Core;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class TelegramChatMemberErrorLog extends Model
 {
@@ -12,4 +14,9 @@ class TelegramChatMemberErrorLog extends Model
         'chat_id',
         'text'
     ];
+
+    public function bot_user(): BelongsTo
+    {
+        return $this->belongsTo(BotUser::class);
+    }
 }
