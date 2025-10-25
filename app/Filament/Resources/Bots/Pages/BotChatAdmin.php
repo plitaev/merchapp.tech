@@ -174,7 +174,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             ->label('Автоплатеж включен')
                     ]),
                 Section::make('Статистика')
-                    ->description(new HtmlString("<b><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs'>Сообщения от бота: ".$this->count."️ ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs'>Бан: ".$this->count_ban."️ ⬇</a> <br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs'>Разбаны: ".$this->count_unban."️ ⬇</a> </b>"))
+                    ->description(new HtmlString("<b><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs'>Сообщения от бота: {$this->count} ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs'>Бан: {$this->count_ban}️ ⬇</a> <br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs'>Разбаны: {$this->count_unban} ⬇</a> </b>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
@@ -184,7 +184,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                     ])
                     ->schema([]),
                 Section::make('Ошибки')
-                    ->description(new HtmlString("<b><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-error-logs'>Баны: ".$this->count_ban_error."️ ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-error-logs'>Разбаны: ".$this->count_unban_error."️ ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-chat-member-error-logs'>Чаты: ".$this->count_chat_member_error."️ ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-error-logs'>Отправки сообщений: ".$this->count_send_message_error."️ ⬇</a></b>"))
+                    ->description(new HtmlString("<b><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-error-logs'>Баны: {$this->count_ban_error}️ ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-error-logs'>Разбаны: {$this->count_unban_error} ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-chat-member-error-logs'>Чаты: {$this->count_chat_member_error}️ ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-error-logs'>Отправки сообщений: {$this->count_send_message_error}️ ⬇</a></b>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
