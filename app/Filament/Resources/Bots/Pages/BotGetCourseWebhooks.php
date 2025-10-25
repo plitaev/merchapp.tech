@@ -53,6 +53,7 @@ class BotGetCourseWebhooks extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->query(GetcourseWebhook::with('recurrent_name', 'recurrent_status_name')
                 ->whereHas('bot', function ($query) {
                     $query->where('bot_id', $this->bot_id);
