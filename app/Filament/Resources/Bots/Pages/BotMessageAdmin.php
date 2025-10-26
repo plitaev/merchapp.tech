@@ -318,7 +318,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                 Section::make('Файл')
                     ->schema([
                         FileUpload::make('custom_file')
-                            ->label('Аудио, которое будет отправляться пользователю')
+                            ->label('Файл, который будет отправляться пользователю')
                             ->disk('local')
                             ->directory('bot_message_custom_files')
                             ->visibility('public')
