@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class BotBranch extends Model
 {
     protected $fillable = [
+        'bot_id',
         'name',
         'alias',
         'hash',
