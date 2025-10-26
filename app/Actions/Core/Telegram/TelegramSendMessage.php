@@ -76,7 +76,7 @@ class TelegramSendMessage
 
             $A = [];
 
-            if ($bot_message->image || $bot_message->video || $bot_message->audio) {
+            if ($bot_message->image || $bot_message->video || $bot_message->audio || $bot_message->custom_file) {
                 $A['caption'] = $text;
             } else {
                 $A['text'] = $text;
