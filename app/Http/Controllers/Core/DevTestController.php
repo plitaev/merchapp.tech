@@ -44,8 +44,6 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        return \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/bot_message_custom_files/01K8GMD7XRPPE03FRVDSDD10M2.pdf');
-
         /*
         $dateEnd = new DateEnd(); /
 

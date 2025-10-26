@@ -139,7 +139,7 @@ class TelegramSendMessage
             //=========================================================================================================================
 
             if ($bot_message->custom_file && $send_status == 0) {
-                $A['document'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->custom_file);
+                $A['document'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->custom_file, 'Мой файл');
 
                 try {
                     $message = $telegram->sendDocument($A);
