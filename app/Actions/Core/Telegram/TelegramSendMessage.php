@@ -138,7 +138,22 @@ class TelegramSendMessage
 
             //=========================================================================================================================
 
-            if (!$bot_message->image && !$bot_message->video && !$bot_message->audio && $send_status == 0) {
+            if ($bot_message->custom_file && $send_status == 0) {
+                $A['document'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->custom_file);
+
+                try {
+                    $message = $telegram->sendDocument($A);
+                    $entities = $message->caption_entities;
+                } catch (\Exception $exception) {
+                    TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
+                }
+
+                $send_status = 1;
+            }
+
+            //=========================================================================================================================
+
+            if (!$bot_message->image && !$bot_message->video && !$bot_message->audio && !$bot_message->custom_file && $send_status == 0) {
                 try {
                     $message = $telegram->sendMessage($A);
                     $entities = $message->entities;
