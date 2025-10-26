@@ -25,6 +25,8 @@ use App\Actions\Core\Telegram\TelegramWebhookInfo;
 use App\Actions\Core\Telegram\TelegramSetWebhook;
 
 use App\Models\Core\Bot;
+use App\Models\Core\BotBranch;
+
 
 class AdminBot extends Page implements HasForms
 {
@@ -217,6 +219,7 @@ class AdminBot extends Page implements HasForms
                                 return redirect('/admin/bots/'.$this->id.'/edit');
                             } else {
                                 $new = Bot::create($data);
+                                BotBranch::create(['alias' => 'BRANCH_MAIN', 'hash' => 'BRANCH_MAIN']);
                                 return redirect('/admin/bots/'.$new->id.'/edit');
                             }
                         }),
