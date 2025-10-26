@@ -101,9 +101,11 @@ class PayController
 
             $pay = $payCreateIntoBot->handle($bot_user, $product, $payGetAdditionalData->handle($pay_system_id));
 
+            $save_payment_method = ($bot->yookassa_recurrent == 1?true:false);
+
             $payment = $client->createPayment(array('amount' => array('value' => $product->price, 'currency' => $bot->yookassa_currency),
                 'confirmation' => array('type' => 'redirect', 'return_url' => env("APP_URL").'/thank-you/'.$bot_user->bot_id),
-                'save_payment_method' => false,
+                'save_payment_method' => $save_payment_method,
                 'receipt' => array('customer' => array('full_name' => $botUserGetFullName->handle($bot_user), 'email' => $bot_user->email), 'items' => $yookassaMakeProductJSON->handle($bot, $product, $product->price, true)),
                 'capture' => true,'description' => $bot_user->telegram_chat_id, 'metadata' => ['order_number' => $pay->id]),uniqid('', true));
 
