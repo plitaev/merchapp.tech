@@ -1,7 +1,6 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
-use App\Models\Core\BotBranch;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -196,7 +195,6 @@ class AdminBotMessage extends Page implements HasForms, HasTable
                                 return redirect('/admin/bots');
                             } else {
                                 $new = Bot::create($data);
-
                                 return redirect('/admin/bots/'.$new->id.'/edit');
                             }
 
