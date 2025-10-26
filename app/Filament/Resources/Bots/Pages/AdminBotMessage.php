@@ -197,8 +197,6 @@ class AdminBotMessage extends Page implements HasForms, HasTable
                             } else {
                                 $new = Bot::create($data);
 
-                                BotBranch::create(['bot_id' => $new->id, 'name' => 'Главная ветка', 'alias' => 'BRANCH_MAIN', 'hash' => 'BRANCH_MAIN']);
-
                                 return redirect('/admin/bots/'.$new->id.'/edit');
                             }
 
