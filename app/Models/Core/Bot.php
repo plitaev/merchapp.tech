@@ -26,6 +26,7 @@ class Bot extends Model
         'yookassa_vat_code_id',
         'yookassa_payment_mode_id',
         'yookassa_payment_subject_id',
+        'yookassa_recurrent',
         'prodamus_payment_method_id',
         'prodamus_payment_object_id',
         'prodamus_npd_income_type_id',

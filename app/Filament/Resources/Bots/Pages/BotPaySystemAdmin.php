@@ -23,6 +23,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
+use Filament\Forms\Components\Toggle;
 
 
 class BotPaySystemAdmin extends Page implements HasForms
@@ -125,8 +126,9 @@ class BotPaySystemAdmin extends Page implements HasForms
                         Select::make('yookassa_payment_subject_id')
                             ->label('Признак предмета расчета')
                             ->options(YookassaPaymentSubject::query()->pluck('name', 'id'))
-                            ->searchable()
-
+                            ->searchable(),
+                        Toggle::make('yookassa_recurrent')
+                            ->label('Рекуррентные платежи подключены')
                     ]),
                 Section::make('Продамус')
                     ->description('Настройки платежной системы Продамус')
