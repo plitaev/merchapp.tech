@@ -321,7 +321,10 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Файл, который будет отправляться пользователю')
                             ->disk('local')
                             ->directory('bot_message_custom_files')
-                            ->visibility('public')
+                            ->visibility('public'),
+                        TextInput::make('custom_file_name')
+                            ->label('Имя файла, которое увидит пользователь в Telegram')
+                            ->maxLength(255)
                     ])
                     ->visible(function (Get $get) {
                         if (is_callable($get)) {
