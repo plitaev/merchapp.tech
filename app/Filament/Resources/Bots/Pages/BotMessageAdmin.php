@@ -307,12 +307,25 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Аудио, которое будет отправляться пользователю')
                             ->acceptedFileTypes(['audio/mp3'])
                             ->disk('local')
-                            ->directory('bot_message_videos')
+                            ->directory('bot_message_audios')
                             ->visibility('public')
                     ])
                     ->visible(function (Get $get) {
                         if (is_callable($get)) {
                             return $get('bot_message_type_id') == 4;
+                        }
+                    }),
+                Section::make('Файл')
+                    ->schema([
+                        FileUpload::make('custom_file')
+                            ->label('Аудио, которое будет отправляться пользователю')
+                            ->disk('local')
+                            ->directory('bot_message_custom_files')
+                            ->visibility('public')
+                    ])
+                    ->visible(function (Get $get) {
+                        if (is_callable($get)) {
+                            return $get('bot_message_type_id') == 5;
                         }
                     }),
                 Section::make('Удалить сообщение (не более, чем 47 часов с момента отправки)')
