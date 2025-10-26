@@ -23,6 +23,7 @@ class BotMessage extends Model
         'video',
         'audio',
         'custom_file',
+        'custom_file_name',
         'delete_through',
         'delete_through_hours',
         'delete_through_minutes',
