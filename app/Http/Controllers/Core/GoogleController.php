@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Core;
 
 use Revolution\Google\Sheets\Facades\Sheets;
+use Carbon\Carbon;
 
 use App\Models\Core\BotUser;
 use App\Models\Core\GetcourseEventWebhook;
@@ -58,6 +59,36 @@ class GoogleController
         }
 
         Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
+    }
+
+    public function send_non_active() {
+        $date = Carbon::now()->subDays(2);
+        $datetime_start = $date.' 00:00:00';
+        $datetime_end = $date.' 23:59:59';
+
+        $sheet_name = 'Неактивные пользователи';
+
+        $res = BotUser::query()
+            ->where('created_at', '>=', $datetime_start)
+            ->where('created_at', '<=', $datetime_end)
+            ->whereNonNull('email')
+            ->whereNull('date_end')
+            ->get();
+
+        foreach ($res as $data) {
+            $A = [
+                (isset($data->email)?$data->email:''),
+                ($data->first_name != 'none'?$data->first_name:''),
+                ($data->last_name != 'none'?$data->last_name:''),
+                date('d.m.Y', strtotime($data->date_end)),
+                ($data->username != 'none'?$data->username:'')
+            ];
+
+            $result[] = $A;
+        }
+
+        return $result;
+
     }
 
 }
