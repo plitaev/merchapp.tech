@@ -24,7 +24,7 @@ class BotUserSetRecurrentScheduler
                     [
                         'bot_user_id' => $bot_user->id,
                         'prevous_pay_id' => $pay->id,
-                        'recurrent_datetime' => date('Y-m-d', time())." 12:00:00",
+                        'recurrent_datetime' => date('Y-m-d', time())." 10:00:00",
                         'run_status' => 0
                     ],
                     ['bot_user_id', 'recurrent_datetime'],
