@@ -83,7 +83,7 @@ class GoogleController
                 (isset($data->email)?$data->email:''),
                 ($data->first_name != 'none'?$data->first_name:''),
                 ($data->last_name != 'none'?$data->last_name:''),
-                date('d.m.Y', strtotime($data->date_end)),
+                date('d.m.Y', strtotime($date)),
                 ($data->username != 'none'?$data->username:'')
             ];
 
