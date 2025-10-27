@@ -2,6 +2,7 @@
 namespace App\Filament\Resources\Bots\Pages;
 
 use App\Actions\Core\Telegram\TelegramSendMessage;
+use App\Models\Core\BotAdminLog;
 use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\BotUserUnbanSchedule;
 use App\Models\Core\Pay;
@@ -238,6 +239,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                     Action::make('change_user')
                         ->label('Сменить пользователя')
                         ->action(function () {
+                            BotAdminLog::create(['bot_user_id' =>  $this->bot_user_id, 'user_id' => auth()->id(), 'name' =>'Смена пользователя']);
+
                             $pays = Pay::where('status', 1)->where('bot_user_id', $this->bot_user_id)->get();
                             $bot_user = BotUser::select('id', 'bot_id', 'email')->find($this->bot_user_id);
 
