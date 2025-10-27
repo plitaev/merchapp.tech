@@ -89,8 +89,7 @@ class GoogleController
             $result[] = $A;
         }
 
-        return $result;
-
+        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
     }
 
 }
