@@ -93,8 +93,8 @@ class GoogleController
     }
 
     public function send_recurrent_plan() {
-        $date_start = Carbon::now()->format('Y-m-d');
-        $date_end = Carbon::now()->addMonth(1)->format('Y-m-d');
+        $date_next = Carbon::now()->addMonth(1)->format('Y-m-d');
+        return $date_next;
 
         $sheet_name = 'План рекуррентов';
 
