@@ -239,16 +239,16 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                     Action::make('change_user')
                         ->label('Сменить пользователя')
                         ->action(function () {
-                            $pays = Pay::where('status',1)->where('bot_user_id', $this->bot_user_id)->get();
-                            $bot_user = BotUser::select('id', 'bot_id','email')->find($this->bot_user_id);
+                            $pays = Pay::where('status', 1)->where('bot_user_id', $this->bot_user_id)->get();
+                            $bot_user = BotUser::select('id', 'bot_id', 'email')->find($this->bot_user_id);
 
-                            if($pays->count() > 0){
-                                foreach ($pays as $pay){
-                                    $date_add = Carbon::parse($pay->created_at)->subDays($pay->days)->format('Y-m-d');
+                            if(count($pays) > 0) {
+                                foreach ($pays as $pay) {
+                                    $date_add = Carbon::parse($pay->created_at)->addDays($pay->days)->format('Y-m-d');
 
-                                    if($date_add >= date('Y-m-d', time())) {
+                                    if ($date_add >= date('Y-m-d', time())) {
 
-                                        if ($bot_user->email !='') {
+                                        if ($bot_user->email) {
                                             PayGuest::create([
                                                 'product_id' => $pay->product_id,
                                                 'email' => $bot_user->email,
@@ -263,26 +263,26 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                             ]);
                                         }
 
-                                        Pay::update('status', 0)->where('id', $pay->id);
+                                        Pay::where('id', $pay->id)->update(['status' => 0]);
                                     }
                                 }
-
-                                $dateEnd = new DateEnd();
-                                $dateEnd->handle($bot_user, 'd.m.Y');
-
-                                BotUser::where('id', $this->bot_user_id)->update(['email' => NULL]);
-
-                                BotUserBanSchedule::create([
-                                    'bot_user_id' => $this->bot_user_id,
-                                    'run_status' => 1,
-                                    'ban_datetime' => date('Y-m-d H:i:s', time()),
-                                ]);
-
-                                Notification::make()
-                                    ->title('Смена пользователя завершена!')
-                                    ->success()
-                                    ->send();
                             }
+
+                            $dateEnd = new DateEnd();
+                            $dateEnd->handle($bot_user, 'Y-m-d');
+
+                            BotUser::where('id', $this->bot_user_id)->update(['email' => NULL]);
+
+                            BotUserBanSchedule::create([
+                                'bot_user_id' => $this->bot_user_id,
+                                'run_status' => 1,
+                                'ban_datetime' => date('Y-m-d H:i:s', time())
+                            ]);
+
+                            Notification::make()
+                                ->title('Смена пользователя завершена!')
+                                ->success()
+                                ->send();
                         }),
                     Action::make('Cancel')
                         ->action(function () {
