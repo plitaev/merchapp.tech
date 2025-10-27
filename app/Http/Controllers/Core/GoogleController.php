@@ -92,4 +92,34 @@ class GoogleController
         Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
     }
 
+    public function send_recurrent_plan() {
+        $date_start = Carbon::now()->format('Y-m-d');
+        $date_end = Carbon::now()->addMonth(1)->format('Y-m-d');
+
+        $sheet_name = 'План рекуррентов';
+
+        $result = [];
+
+        $res = BotUser::query()
+            ->where('date_end', '>=', $date_start)
+            ->where('created_at', '<=', $date_end)
+            ->where('recurrent', 1)
+            ->orderBy('date_end')
+            ->get();
+
+        foreach ($res as $data) {
+            $A = [
+                (isset($data->email)?$data->email:''),
+                ($data->first_name != 'none'?$data->first_name:''),
+                ($data->last_name != 'none'?$data->last_name:''),
+                date('d.m.Y', strtotime($data->date_end))." 12:00:00",
+                ($data->username != 'none'?$data->username:'')
+            ];
+
+            $result[] = $A;
+        }
+
+        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
+    }
+
 }
