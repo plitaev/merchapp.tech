@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Core;
 
+use App\Models\Core\StatBotUserOnDay;
 use Revolution\Google\Sheets\Facades\Sheets;
 use Carbon\Carbon;
 
@@ -168,6 +169,19 @@ class GoogleController
     public function send_common_stat() {
         $sheet_name = 'Общая статистика';
         Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->clear();
+
+        $result = [];
+
+        $users_on_day = StatBotUserOnDay::select('stat_date', 'bot_user_count')->where('bot_id', 1)->orderByDesc('created_at')->first();
+        $users_expired = BotUser::where('date_end', '<', date('Y-m-d', time()))->whereNotNull('date_end')->count();
+        $users_pay_in_bot = Pay::where('status', 1)->where('pay_system_id', 2)->where('created_at', '<', date('Y-m-d', time()))->whereNot('product_id', 27)->count();
+
+
+        $result[] = ['Данные сформированы на', date('d.m.Y', $users_on_day->stat_date)." 23:59:59"];
+        $result[] = ['Активный статус', $users_on_day->bot_user_count];
+        $result[] = ['Отписались от клуба', $users_expired];
+        $result[] = ['Всего покупок клуба через бот (Продамус)', $users_pay_in_bot];
+
     }
 
 }
