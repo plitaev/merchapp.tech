@@ -255,6 +255,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                                 'price' => $pay->price,
                                                 'days' => $pay->days,
                                                 'gift' => $pay->gift,
+                                                'status' => 0,
                                                 'recurrent' => $pay->recurrent,
                                                 'recurrent_status' => $pay->recurrent_status,
                                                 'bot_user_id' => $pay->bot_user_id,
