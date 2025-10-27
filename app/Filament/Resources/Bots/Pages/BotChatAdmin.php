@@ -274,7 +274,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
                             BotUserBanSchedule::create([
                                 'bot_user_id' => $this->bot_user_id,
-                                'run_status' => 1,
+                                'run_status' => 0,
                                 'ban_datetime' => date('Y-m-d H:i:s', time())
                             ]);
 
