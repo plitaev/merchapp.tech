@@ -182,6 +182,7 @@ class GoogleController
         $result[] = ['Активный статус', $users_on_day->bot_user_count];
         $result[] = ['Отписались от клуба', $users_expired];
         $result[] = ['Всего покупок клуба через бот (Продамус)', $users_pay_in_bot];
+        $result[] = ['Сумма покупок клуба через бот (Продамус)', $users_cost_in_bot];
 
         Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
     }
