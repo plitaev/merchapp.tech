@@ -68,6 +68,8 @@ class GoogleController
 
         $sheet_name = 'Неактивные пользователи';
 
+        $result = [];
+
         $res = BotUser::query()
             ->where('created_at', '>=', $datetime_start)
             ->where('created_at', '<=', $datetime_end)
