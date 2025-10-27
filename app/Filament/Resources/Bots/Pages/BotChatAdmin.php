@@ -249,7 +249,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                     if ($date_add >= date('Y-m-d', time())) {
 
                                         if ($bot_user->email) {
-                                            PayGuest::create([
+                                            PayGuest::insert([
                                                 'product_id' => $pay->product_id,
                                                 'email' => $bot_user->email,
                                                 'price' => $pay->price,
