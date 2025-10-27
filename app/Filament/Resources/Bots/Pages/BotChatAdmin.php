@@ -284,6 +284,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 ->title('Смена пользователя завершена!')
                                 ->success()
                                 ->send();
+
+                            return redirect("/admin/bots/".$this->bot_id."/".$this->bot_user_id."/chat-admin");
                         }),
                     Action::make('Cancel')
                         ->action(function () {
