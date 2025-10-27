@@ -102,7 +102,7 @@ class GoogleController
 
         $res = BotUser::query()
             ->where('date_end', '>=', $date_start)
-            ->where('created_at', '<=', $date_end)
+            ->where('date_end', '<=', $date_end)
             ->where('recurrent', 1)
             ->orderBy('date_end')
             ->get();
