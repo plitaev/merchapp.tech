@@ -93,18 +93,15 @@ class GoogleController
     }
 
     public function send_recurrent_plan() {
-        $date_next = Carbon::now()->addMonth(1)->subdays(1)->format('Y-m-d');
-        return $date_next;
+        $date_end = Carbon::now()->addMonth(1)->subdays(1)->format('Y-m-d');
 
         $sheet_name = 'План рекуррентов';
 
         $result = [];
 
         $res = BotUser::query()
-            ->where('date_end', '>=', $date_start)
-            ->where('date_end', '<=', $date_end)
+            ->where('date_end', $date_end)
             ->where('recurrent', 1)
-            ->orderBy('date_end')
             ->get();
 
         foreach ($res as $data) {
