@@ -141,7 +141,7 @@ class TelegramSendMessage
             if ($bot_message->custom_file && $send_status == 0) {
 
                 $Aext = explode('.', $bot_message->custom_file);
-                $file_ext = $Aext[count($Aext)];
+                $file_ext = $Aext[count($Aext)-1];
 
                 $filename = (isset($bot_message->custom_file_name)?$bot_message->custom_file_name:'Файл');
 
