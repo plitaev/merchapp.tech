@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Models\Core\BotAdminLog;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
@@ -8,6 +9,7 @@ use Filament\Schemas\Components\Utilities\Set;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
+use App\Actions\Core\DateEnd\DateEnd;
 use App\Actions\Core\DateEnd\DateEndCacheForPay;
 use App\Actions\Core\Pay\PayCreateByEmail;
 use App\Filament\Resources\Bots\BotResource;
@@ -207,39 +209,22 @@ class BotPayAdmin extends Page implements HasForms
                         }),
                     Action::make('Вернуть платеж')
                         ->action(function () {
-                            $dateEndCacheForPay = new DateEndCacheForPay();
-                            $payCreateByEmail = new PayCreateByEmail();
-                            $data = $this->form->getState();
-                            $data['status'] = 0;
-                            if ($this->id>0) {
+                            $pay = Pay::with('bot_user')->find($this->id);
+                            Pay::where('id', $this->id)->update(['status' => 0]);
 
-                                unset($data['email']);
-                                unset($data['bot_id']);
+                            $dateEnd = new DateEnd();
+                            $dateEnd->handle($pay->bot_user, 'Y-m-d');
 
-                                Pay::where('id', $this->id)->update($data);
+                            BotAdminLog::create(['bot_user_id' =>  $pay->bot_user_id, 'user_id' => auth()->id(), 'name' =>'Возврат платежа']);
 
-                                $pay_all_data = Pay::with('bot')->find($this->id);
-
-                                Notification::make()
-                                    ->title($pay_all_data)
-                                    ->success()
-                                    ->send();
-
-                                $bot_user_id = ($pay_all_data->gift_bot_user_id ?? $pay_all_data->bot_user_id);
-                                $dateEndCacheForPay->handle($bot_user_id);
-
-                                $output_id = $this->id;
-                            } else {
-                                $payCreateByEmail->handle($data['email'], $data['product_id'], 0, 0, $data['days'], $data['price']);
-                                $output_id = $this->id;
-                            }
                             Notification::make()
-                                ->title('Данные успешно сохранены!')
+                                ->title('Платёж успешно возвращен')
                                 ->success()
                                 ->send();
 
                             return redirect('/admin/bots/'.$this->bot_id.'/pays');
-                        }),
+                        })
+                    ->label('Вернуть платёж'),
                     Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/'.$this->bot_id.'/pays');
