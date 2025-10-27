@@ -175,6 +175,7 @@ class GoogleController
         $users_on_day = StatBotUserOnDay::select('stat_date', 'bot_user_count')->where('bot_id', 1)->orderByDesc('created_at')->first();
         $users_expired = BotUser::where('date_end', '<', date('Y-m-d', time()))->whereNotNull('date_end')->count();
         $users_pay_in_bot = Pay::where('status', 1)->where('pay_system_id', 2)->where('created_at', '<', date('Y-m-d', time()))->whereNot('product_id', 27)->count();
+        $users_cost_in_bot = Pay::where('status', 1)->where('pay_system_id', 2)->where('created_at', '<', date('Y-m-d', time()))->whereNot('product_id', 27)->sum('price');
 
 
         $result[] = ['Данные сформированы на', date('d.m.Y', strtotime($users_on_day->stat_date))." 23:59:59"];
