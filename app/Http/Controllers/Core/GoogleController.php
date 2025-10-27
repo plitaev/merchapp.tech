@@ -119,4 +119,48 @@ class GoogleController
         Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
     }
 
+    public function send_recurrent_fail_prodamus() {
+        $date = date('Y-m-d', time());
+        $datetime_start = $date.' 00:00:00';
+        $datetime_end = $date.' 23:59:59';
+
+        $sheet_name = 'Неудачные рекурентные списания - Продамус';
+
+        $result = [];
+
+        $successes = Pay::select('bot_user_id')
+            ->where('created_at', '>=', $datetime_start)
+            ->where('created_at', '<=', $datetime_end)
+            ->where('status', 1)
+            ->pluck('bot_user_id')
+            ->toArray();
+
+        $fails = Pay::select('bot_user_id')
+            ->where('created_at', '>=', $datetime_start)
+            ->where('created_at', '<=', $datetime_end)
+            ->where('status', 0)
+            ->where('recurrent', 1)
+            ->where('recurrent_status', 0)
+            ->where('pay_system_id', 2)
+            ->whereNotIn('bot_user_id', $successes)
+            ->pluck('bot_user_id')
+            ->toArray();
+
+        $res = BotUser::whereIn('id', $fails)->get();
+
+        foreach ($res as $data) {
+            $A = [
+                (isset($data->email)?$data->email:''),
+                ($data->first_name != 'none'?$data->first_name:''),
+                ($data->last_name != 'none'?$data->last_name:''),
+                ($data->username != 'none'?$data->username:''),
+                date('d.m.Y', strtotime(time()))
+            ];
+
+            $result[] = $A;
+        }
+
+        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
+
+    }
 }
