@@ -177,7 +177,7 @@ class GoogleController
         $users_pay_in_bot = Pay::where('status', 1)->where('pay_system_id', 2)->where('created_at', '<', date('Y-m-d', time()))->whereNot('product_id', 27)->count();
 
 
-        $result[] = ['Данные сформированы на', date('d.m.Y', $users_on_day->stat_date)." 23:59:59"];
+        $result[] = ['Данные сформированы на', date('d.m.Y', strtotime($users_on_day->stat_date))." 23:59:59"];
         $result[] = ['Активный статус', $users_on_day->bot_user_count];
         $result[] = ['Отписались от клуба', $users_expired];
         $result[] = ['Всего покупок клуба через бот (Продамус)', $users_pay_in_bot];
