@@ -215,7 +215,7 @@ class BotPayAdmin extends Page implements HasForms
                             $botSendMessage = new BotSendMessage();
 
                             $pay = Pay::find($this->id);
-                            Pay::where('id', $this->id)->update(['status' => 0]);
+                            Pay::where('id', $this->id)->update(['status' => 2]);
 
                             $bot_user = BotUser::with('bot')->find($pay->bot_user_id);
 
