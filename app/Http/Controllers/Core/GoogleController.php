@@ -163,6 +163,11 @@ class GoogleController
         }
 
         Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
-
     }
+
+    public function send_common_stat() {
+        $sheet_name = 'Общая статистика';
+        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->clear();
+    }
+
 }
