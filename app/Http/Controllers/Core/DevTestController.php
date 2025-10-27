@@ -46,7 +46,7 @@ class DevTestController extends Controller
 
         $bot_users = BotUser::select('id')->pluck('id')->toArray();
         $pays = Pay::select('bot_user_id')->whereIn('bot_user_id', $bot_users)->where('status', 1)->where('product_id', 27)->where('created_at', '>=', '2025-10-17 10:00:00')->pluck('bot_user_id')->toArray();
-        $ids = Pay::select('bot_user_id')->whereIn('bot_user_id', $pays)->where('status', 1)->where('product_id', 1)->where('created_at', '>=', '2025-10-17 10:00:00')->pluck('bot_user_id')->toArray();
+        $ids = Pay::select('bot_user_id')->whereIn('bot_user_id', $pays)->where('status', 1)->where('product_id', 2)->where('created_at', '>=', '2025-10-17 10:00:00')->pluck('bot_user_id')->toArray();
         $bot_users = BotUser::select('email')->whereIn('id', $ids)->orderBy('email')->pluck('email')->toArray();
         return implode('<br>', $bot_users);
 
