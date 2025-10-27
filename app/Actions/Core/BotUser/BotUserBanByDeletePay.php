@@ -20,6 +20,11 @@ class BotUserBanByDeletePay
             $ban_datetime = date('Y-m-d H:i:s', time());
         }
 
+        if ($bot_user->date_end == NULL) {
+            $run_ban = 1;
+            $ban_datetime = date('Y-m-d H:i:s', time());
+        }
+
         if ($run_ban == 1) {
 
             BotUserBanSchedule::create(
