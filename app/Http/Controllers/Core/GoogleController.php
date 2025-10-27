@@ -71,7 +71,7 @@ class GoogleController
         $res = BotUser::query()
             ->where('created_at', '>=', $datetime_start)
             ->where('created_at', '<=', $datetime_end)
-            ->whereNonNull('email')
+            ->whereNotNull('email')
             ->whereNull('date_end')
             ->get();
 
