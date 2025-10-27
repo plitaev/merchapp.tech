@@ -111,7 +111,8 @@ class GoogleController
                 ($data->first_name != 'none'?$data->first_name:''),
                 ($data->last_name != 'none'?$data->last_name:''),
                 ($data->username != 'none'?$data->username:''),
-                date('d.m.Y', strtotime($data->date_end))." 12:00:00"
+                1490,
+                date('d.m.Y', strtotime($data->date_end))." 10:00:00"
             ];
 
             $result[] = $A;
