@@ -6,6 +6,7 @@ use Carbon\Carbon;
 
 use App\Models\Core\BotUser;
 use App\Models\Core\GetcourseEventWebhook;
+use App\Models\Core\Pay;
 
 class GoogleController
 {
