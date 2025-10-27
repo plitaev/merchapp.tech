@@ -122,7 +122,7 @@ class GoogleController
 
     public function send_recurrent_fail_prodamus() {
         $date = date('Y-m-d', time());
-        $date = '2025-10-27';
+        $date = '2025-10-23';
         $datetime_start = $date.' 00:00:00';
         $datetime_end = $date.' 23:59:59';
 
