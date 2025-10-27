@@ -37,5 +37,6 @@ class BotUserBanByDeletePay
 
         }
 
+        return $run_ban;
     }
 }

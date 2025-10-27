@@ -220,17 +220,17 @@ class BotPayAdmin extends Page implements HasForms
                             $bot_user = BotUser::with('bot')->find($pay->bot_user_id);
 
                             $dateEnd = new DateEnd();
-                            $date_end = $dateEnd->handle($pay->bot_user, 'Y-m-d');
+                            $dateEnd->handle($pay->bot_user, 'Y-m-d');
 
                             $botUserBanByDeletePay = new BotUserBanByDeletePay();
-                            $botUserBanByDeletePay->handle($bot_user);
+                            $a = $botUserBanByDeletePay->handle($bot_user);
 
                             $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
 
                             BotAdminLog::create(['bot_user_id' =>  $pay->bot_user_id, 'user_id' => auth()->id(), 'name' =>'Возврат платежа']);
 
                             Notification::make()
-                                ->title('Платёж успешно возвращен')
+                                ->title($a)
                                 ->success()
                                 ->send();
 
