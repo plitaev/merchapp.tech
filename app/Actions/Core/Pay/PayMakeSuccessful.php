@@ -35,7 +35,7 @@ class PayMakeSuccessful
         $pay = Pay::find($order_number);
         $bot_user = $botUserGetByID->handle($pay->bot_user_id);
 
-        //$dateEnd->handle($bot_user, 'Y-m-d');
+        $dateEnd->handle($bot_user, 'Y-m-d');
 
         //== Завершаем ветку по покупке продукта
         $botBranchEndByProducts->handle($pay->product_id, $pay->bot_user_id);
