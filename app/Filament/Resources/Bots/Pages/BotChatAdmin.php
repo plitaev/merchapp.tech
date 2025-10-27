@@ -2,7 +2,6 @@
 namespace App\Filament\Resources\Bots\Pages;
 
 use App\Actions\Core\Telegram\TelegramSendMessage;
-use App\Actions\Core\DateEnd\DateEnd;
 use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\BotUserUnbanSchedule;
 use App\Models\Core\Pay;
@@ -268,10 +267,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 }
                             }
 
-                            $dateEnd = new DateEnd();
-                            $dateEnd->handle($bot_user, 'Y-m-d');
-
-                            BotUser::where('id', $this->bot_user_id)->update(['email' => NULL]);
+                            BotUser::where('id', $this->bot_user_id)->update(['email' => NULL, 'date_end' => date('Y-m-d', time())]);
 
                             BotUserBanSchedule::create([
                                 'bot_user_id' => $this->bot_user_id,
