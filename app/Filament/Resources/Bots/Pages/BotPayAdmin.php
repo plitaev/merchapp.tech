@@ -227,7 +227,7 @@ class BotPayAdmin extends Page implements HasForms
 
                             $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
 
-                            BotAdminLog::create(['bot_user_id' =>  $pay->bot_user_id, 'user_id' => auth()->id(), 'name' =>'Возврат платежа']);
+                            BotAdminLog::create(['bot_user_id' =>  $pay->bot_user_id, 'user_id' => auth()->id(), 'name' =>'Возврат платежа '.$this->id]);
 
                             Notification::make()
                                 ->title($a)
