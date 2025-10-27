@@ -44,8 +44,8 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $pays = Pay::with('bot_user')->with('product')->where('created_at', '>=', '2025-09-24 00:00:00')->get();
-        return $pays;
+        $pays = Pay::with('bot_user')->with('product')->where('created_at', '>=', '2025-09-24 00:00:00')->where('status', 1)->get();
+        return view('core.devtest.devtest', ['pays' => $pays]);
 
         /*
         $dateEnd = new DateEnd(); /
