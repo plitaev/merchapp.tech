@@ -108,7 +108,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
         $this->end_by_products_in_branch = BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->pluck('product_id')->toArray();
 
 
-        $this->end_by_products2 = Product::all()->pluck('name', 'id')->toArray();
+        //$this->end_by_products2 = Product::all()->pluck('name', 'id')->toArray();
         $this->end_by_products_in_branch2 = BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->whereNotIn('product_id',$this->end_by_products_in_branch)->pluck('product_id')->toArray();
 
 //        $this->end_by_products_in_branch2 = Product::join('bot_branch_link_products', 'bot_branch_link_products.product_id', '=', 'products.id')
@@ -145,7 +145,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
         return $schema
             ->components([
                 Section::make('Купил')
-                    ->description('Укажите, когда пользователь должен выйти из ветки акции')
+                    ->description('Укажите, продукты, которые пользователь покупал')
                     ->columns([
                         'sm' => 1,
                         'md' => 1,
@@ -164,7 +164,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                             })
                     ]),
                 Section::make('Не Купил')
-                    ->description('Укажите, когда пользователь должен выйти из ветки акции')
+                    ->description('Укажите, продукты, которые пользователь не купил')
                     ->columns([
                         'sm' => 1,
                         'md' => 1,
