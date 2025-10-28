@@ -5,6 +5,7 @@ use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchAccess;
 use App\Models\Core\BotBranchLinkProduct;
 use App\Models\Core\BotMessageAppointment;
+use App\Models\Core\Pay;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
@@ -77,11 +78,11 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
     public ?array $data_bot_message_link_listener = [];
     public ?array $data_bot_user = [];
 
-    public ?array $end_by_products = [];
-    public ?array $end_by_products_in_branch = [];
+    public ?array $all_product = [];
+    public ?array $shop_product = [];
+    public ?array $no_shop_product = [];
 
-    public ?array $end_by_products2 = [];
-    public ?array $end_by_products_in_branch2 = [];
+    public ?array $pay = [];
 
     public function getRecord(): ?Model
     {
@@ -104,19 +105,13 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
         $this->bot_id = $bot_id;
         $this->id = $id;
 
-        $this->end_by_products = Product::all()->pluck('name', 'id')->toArray();
-        $this->end_by_products_in_branch = BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->pluck('product_id')->toArray();
+        $this->all_product = Product::all()->pluck('name', 'id')->toArray();
+        $this->shop_product = Pay::select('product_id')->where('bot_user_id', $id)->pluck('product_id')->toArray();
 
-
-        //$this->end_by_products2 = Product::all()->pluck('name', 'id')->toArray();
-        $this->end_by_products_in_branch2 = BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->whereNotIn('product_id',$this->end_by_products_in_branch)->pluck('product_id')->toArray();
-
-//        $this->end_by_products_in_branch2 = Product::join('bot_branch_link_products', 'bot_branch_link_products.product_id', '=', 'products.id')
-//        ->whereNotIn('product_id', $this->end_by_products_in_branch)
-//            ->where('bot_branch_id', $id)
-//            ->pluck('product_id')->toArray();
-        //BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->pluck('product_id')->toArray();
-
+        $pay[] = 0;
+        $pay = Pay::select('product_id')->where('bot_user_id', $id)->pluck('product_id')->toArray();
+//echo $pay['product_id'];
+        $this->no_shop_product = Product::select('id as product_id')->whereNotIn('product_id',$pay)->pluck('product_id')->toArray();
 
         $data = [];
         $data['bot_id'] = $bot_id;
@@ -154,12 +149,12 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                         '2xl' => 1,
                     ])
                     ->schema([
-                        Forms\Components\CheckboxList::make('end_by_products')
+                        Forms\Components\CheckboxList::make('all_product')
                             ->label('По покупке продуктов')
-                            ->options($this->end_by_products)
+                            ->options($this->all_product)
                             ->afterStateHydrated(function ($component, $state) {
                                 if (! filled($state)) {
-                                    $component->state($this->end_by_products_in_branch);
+                                    $component->state($this->shop_product);
                                 }
                             })
                     ]),
@@ -173,12 +168,12 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                         '2xl' => 1,
                     ])
                     ->schema([
-                        Forms\Components\CheckboxList::make('end_by_products')
+                        Forms\Components\CheckboxList::make('all_product')
                             ->label('По покупке продуктов')
-                            ->options($this->end_by_products)
+                            ->options($this->all_product)
                             ->afterStateHydrated(function ($component, $state) {
                                 if (! filled($state)) {
-                                    $component->state(!$this->end_by_products_in_branch2);
+                                    $component->state(!$this->no_shop_product);
                                 }
                             })
                     ]),
@@ -187,31 +182,9 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                     Action::make('Сохранить')
                         ->action(function () {
 
-                            $botBranchSetEndByProducts = new BotBranchSetEndByProducts();
 
-                            $data = $this->form->getState();
-                            $end_by_products = $data['end_by_products'];
-                            unset($data['end_by_products']);
+                                //return redirect('/admin/bots/'.$this->bot_id.'/'.$new->id.'/branch-admin');
 
-                            $hash=hash('sha256', $data['alias']);
-
-                            if ($this->id > 0) {
-                                $branch = BotBranch::find($this->id);
-                                if (!$branch->hash) {
-                                    $data['hash'] = $hash;
-                                }
-
-                                BotBranch::where('id', $this->id)->update($data);
-                                $botBranchSetEndByProducts->handle($this->id, $end_by_products);
-                                return redirect('/admin/bots/'.$this->bot_id.'/branches');
-
-                            } else {
-                                $data['hash'] = $hash;
-                                $new = BotBranch::create($data);
-                                $botBranchSetEndByProducts->handle($new->id, $end_by_products);
-
-                                return redirect('/admin/bots/'.$this->bot_id.'/'.$new->id.'/branch-admin');
-                            }
 
                         }),
                     Action::make('Cancel')
@@ -219,11 +192,6 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                             return redirect('/admin/bots/'.$this->bot_id.'/branches');
                         })
                         ->label('Вернуться назад'),
-                    Action::make('Stop')
-                        ->action(function () {
-                            return redirect('/admin/bots/'.$this->bot_id.'/branches');
-                        })
-                        ->label('Завершить акцию сейчас')
                 ])
             ])->statePath('data');
     }
