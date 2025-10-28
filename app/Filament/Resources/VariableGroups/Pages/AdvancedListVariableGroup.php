@@ -27,6 +27,8 @@ class AdvancedListVariableGroup extends Page implements HasTable
     public static ?string $navigationLabel = "Переменные";
     public static ?string $title = "";
 
+    protected static bool $hasTitleCaseModelLabel = false;
+
     protected string $view = 'filament.resources.variable-group-resource.pages.advanced-list-variable-group';
 
     public static function table(Table $table): Table
