@@ -32,7 +32,7 @@ class AdvancedListBot extends Page implements HasTable
 
     public int $category = 1;
 
-    public function getMaxContentWidth(): Width{return Width::Full;}
+    public function getMaxContentWidth(): Width{return Width::TwoExtraLarge;}
 
     public static function table(Table $table): Table
     {
