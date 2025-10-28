@@ -20,6 +20,8 @@ use Filament\Tables\Columns\IconColumn;
 
 use Filament\Schemas\Schema;
 
+use Filament\Support\Enums\Width;
+
 
 use App\Filament\Resources\Bots\Pages\AdvancedListBot;
 use App\Filament\Resources\Bots\Pages\CreateBot;
@@ -80,6 +82,8 @@ class BotResource extends Resource
     public static ?int $navigationSort = 2;
 
     public static function getPluralLabel(): ?string {return "Боты";}
+
+    public function getMaxContentWidth(): Width{return Width::Full;}
 
     public static function form(Schema $schema): Schema
     {
