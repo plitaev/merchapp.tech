@@ -46,6 +46,8 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
 
     public int $id;
 
+    public int $count_variable_group;
+
     public int $variables_system_types_id;
 
     public function getRecord(): ?Model
@@ -69,6 +71,8 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
         $this->$id = $id;
 
         $data = ($id>0?VariableGroup::find($id)->toArray():[]);
+
+        $count_variable_group = VariableGroup::count();
 
         $this->form->fill($data);
     }
@@ -114,7 +118,6 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
                     Action::make('Сохранить')
                         ->action(function () {
                             $data = $this->form->getState();
-
                             if ($this->id > 0) {
                                 VariableGroup::where('id', $this->id)->update($data);
                                 $output_id = $this->id;
@@ -122,6 +125,8 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
                                 $new = VariableGroup::create($data);
                                 $output_id = $new->id;
                             }
+
+                            $data['count_variable_group'] = $this->count_variable_group;
 
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
