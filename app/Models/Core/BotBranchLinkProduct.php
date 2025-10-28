@@ -15,4 +15,9 @@ class BotBranchLinkProduct extends Model
         'product_id',
         'bot_branch_link_product_type_id'
     ];
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
 }
