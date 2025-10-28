@@ -15,6 +15,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
+use Illuminate\Contracts\Support\Htmlable;
+
 class VariableGroupResource extends Resource
 {
 
