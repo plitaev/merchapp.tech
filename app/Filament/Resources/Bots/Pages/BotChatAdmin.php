@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Bots\Pages;
 use App\Actions\Core\Telegram\TelegramSendMessage;
 use App\Models\Core\BotAdminLog;
 use App\Models\Core\BotUserBanSchedule;
+use App\Models\Core\BotUserRecurrentSchedule;
 use App\Models\Core\BotUserUnbanSchedule;
 use App\Models\Core\Pay;
 use App\Models\Core\PayGuest;
@@ -75,6 +76,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
     public int $count_ban;
     public int $count_unban;
 
+    public int $count_p = 0;
+
     public int $count_ban_error;
     public int $count_unban_error;
 
@@ -109,6 +112,15 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
         $this->bot_user_id = $id;
 
+        $pay = Pay::where('bot_user_id', $id)
+            ->where('status',0)
+            ->where('recurrent',1)
+            ->where('recurrent_status',0)
+            ->orderBy('created_at', 'desc')
+            ->limit(1)
+            ->get();
+
+
         if ($id > 0) {
             $bot_user = BotUser::select('telegram_chat_id')->find($id);
             $this->count = TelegramSendMessageLog::where('chat_id', $bot_user->telegram_chat_id)->count();
@@ -119,6 +131,9 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
             $this->count_chat_member_error = TelegramChatMemberErrorLog::where('bot_user_id', $this->bot_user_id)->count();
             $this->count_send_message_error = TelegramSendMessageErrorLog::where('chat_id', $bot_user->telegram_chat_id)->count();
 
+            if($bot_user->recurrent == 0 && $pay->count() > 0){
+                $this->count_p = 1;
+            }
         }
 
         $this->form->fill($data);
@@ -280,6 +295,22 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 ->send();
 
                             return redirect("/admin/bots/".$this->bot_id."/".$this->bot_user_id."/chat-admin");
+                        }),
+                    Action::make('Списать рекуррент повторно')
+                        ->visible( $this->count_p == 1 )
+                        ->action(function () {
+                            $data = $this->form->getState();
+                            $botUserRecurrentSchedule = new BotUserRecurrentSchedule();
+
+                            $botUserRecurrentSchedule->handle($data);
+
+
+                            Notification::make()
+                                ->title('Рекуррент успешно списан!')
+                                ->success()
+                                ->send();
+
+                            return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         }),
                     Action::make('Cancel')
                         ->action(function () {
