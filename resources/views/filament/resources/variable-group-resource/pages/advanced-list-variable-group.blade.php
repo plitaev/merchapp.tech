@@ -1,6 +1,6 @@
 <x-filament-panels::page>
 
-    <style>nav{display: none}</style>
+    <style>.fi-breadcrumbs{display: none}</style>
 
     <div class="fi-header fi-header-has-breadcrumbs">
         <div>
