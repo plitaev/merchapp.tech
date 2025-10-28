@@ -21,8 +21,8 @@ class VariableGroupResource extends Resource
     public static ?string $label = "Переменные";
     public static ?string $navigationLabel = "Переменные";
     public static ?string $title = "Переменные";
-    public static ?string $pluralLabel = "";
-    public static ?string $pluralModelLabel = "";
+    public static ?string $pluralLabel = null;
+    public static ?string $pluralModelLabel = null;
 
     public static function getPluralLabel(): ?string {return "Переменные";}
     protected static bool $shouldRegisterNavigation = false;
