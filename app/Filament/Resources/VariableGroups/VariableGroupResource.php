@@ -15,22 +15,18 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-use Illuminate\Contracts\Support\Htmlable;
-
 class VariableGroupResource extends Resource
 {
 
     public static ?string $label = "Переменные";
     public static ?string $navigationLabel = "Переменные";
     public static ?string $title = "Переменные";
+
+    public static function getPluralLabel(): ?string {return "Переменные";}
+    protected static bool $shouldRegisterNavigation = false;
     protected static ?string $model = VariableGroup::class;
 
-    protected static bool $hasTitleCaseModelLabel = false;
-
-    public function getTitle(): string|Htmlable
-    {
-        return '';
-    }
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-variable';
 
     public static function form(Schema $schema): Schema
     {
