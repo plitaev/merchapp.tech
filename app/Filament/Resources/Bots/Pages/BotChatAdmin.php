@@ -174,7 +174,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             ->label('Автоплатеж включен')
                     ]),
                 Section::make('Статистика')
-                    ->description(new HtmlString("<b><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs'>Сообщения от бота: {$this->count} ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs'>Бан: {$this->count_ban}️ ⬇</a> <br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs'>Разбаны: {$this->count_unban} ⬇</a> </b>"))
+                    ->description(new HtmlString("<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs' class='bold mb-10'>Сообщения от бота: {$this->count}</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs' class='bold mt-10 mb-10'>Баны: {$this->count_ban}️</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs' class='bold mb-10'>Разбаны: {$this->count_unban}</a>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
