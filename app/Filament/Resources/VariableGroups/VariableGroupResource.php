@@ -23,6 +23,13 @@ class VariableGroupResource extends Resource
     public static ?string $title = "Переменные";
     protected static ?string $model = VariableGroup::class;
 
+    protected static bool $hasTitleCaseModelLabel = false;
+
+    public function getTitle(): string|Htmlable
+    {
+        return '';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema
