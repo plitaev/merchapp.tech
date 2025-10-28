@@ -144,16 +144,6 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
     {
         return $schema
             ->components([
-                Section::make('Акция')
-                    ->description(new HtmlString('Ссылка на запуск к акции в боте: <a href="https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.'" style="text-decoration: underline" target="_blank">https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.'</a>'))
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1
-                    ])
-                    ->schema([]),
                 Section::make('Купил')
                     ->description('Укажите, когда пользователь должен выйти из ветки акции')
                     ->columns([
