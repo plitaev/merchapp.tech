@@ -80,6 +80,9 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
     public ?array $end_by_products = [];
     public ?array $end_by_products_in_branch = [];
 
+    public ?array $end_by_products2 = [];
+    public ?array $end_by_products_in_branch2 = [];
+
     public function getRecord(): ?Model
     {
         return BotBranch::class;
@@ -87,11 +90,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
 
     public function getHeading(): string
     {
-        if ($this->id > 0) {
-            return "Редактировать акцию";
-        } else {
-            return "Добавить акцию";
-        }
+        return "Добавить по покупкам";
     }
 
     protected function getHeaderActions(): array
@@ -108,14 +107,21 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
         $this->end_by_products = Product::all()->pluck('name', 'id')->toArray();
         $this->end_by_products_in_branch = BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->pluck('product_id')->toArray();
 
-        if ($id > 0) {
-            $data = BotBranch::find($id)->toArray();
-            $this->bot_branch_hash = $data["hash"];
-        } else {
-            $data = [];
-            $data['bot_id'] = $bot_id;
-            $this->bot_branch_hash = '';
-        }
+
+        $this->end_by_products2 = Product::all()->pluck('name', 'id')->toArray();
+        $this->end_by_products_in_branch2 = BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->whereNotIn('product_id',$this->end_by_products_in_branch)->pluck('product_id')->toArray();
+
+//        $this->end_by_products_in_branch2 = Product::join('bot_branch_link_products', 'bot_branch_link_products.product_id', '=', 'products.id')
+//        ->whereNotIn('product_id', $this->end_by_products_in_branch)
+//            ->where('bot_branch_id', $id)
+//            ->pluck('product_id')->toArray();
+        //BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->pluck('product_id')->toArray();
+
+
+        $data = [];
+        $data['bot_id'] = $bot_id;
+        $this->bot_branch_hash = '';
+
 
         $bot = Bot::select('name', 'alias')->find($bot_id);
         $this->bot_name = $bot->name;
@@ -138,93 +144,6 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
     {
         return $schema
             ->components([
-                Section::make('Акция')
-                    ->description('Укажите название и пседоним (системное имя)')
-                    ->columns([
-                        'sm' => 2,
-                        'md' => 2,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
-                    ])
-                    ->schema([
-                        Hidden::make('id'),
-                        TextInput::make('name')
-                            ->label('Название рассылки')
-                            ->required()
-                            ->maxLength(255),
-                        TextInput::make('alias')
-                            ->label('Псевдоним')
-                            ->required()
-                            ->maxLength(255),
-                        DateTimePicker::make('datetime_start')
-                            ->label('Дата и время начала акции')
-                            ->format('Y-m-d H:i:s')
-                            ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно укажите дату и время начала акции',
-                            ]),
-                        DateTimePicker::make('datetime_end')
-                            ->label('Дата и время окончания акции')
-                            ->format('Y-m-d H:i:s')
-                            ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно укажите дату и время окончания акции',
-                            ])
-                    ]),
-                Section::make('Акция')
-                    ->description(new HtmlString('Ссылка на запуск к акции в боте: <a href="https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.'" style="text-decoration: underline" target="_blank">https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.'</a>'))
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1
-                    ])
-                    ->schema([]),
-                Section::make('Доступ для новых пользователей')
-                    ->description('Укажите, должны ли новые пользователи получать доступ к участию в акции')
-                    ->columns([
-                        'sm' => 2,
-                        'md' => 2,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
-                    ])
-                    ->schema([
-                        Select::make('new_users_bot_branch_access_id')
-                            ->label('Доступ для новых пользователей')
-                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('new_users_bot_message_id')
-                            ->label('Отправлять сообщение')
-                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('guests_bot_branch_access_id')
-                            ->label('Доступ для гостей')
-                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('guests_bot_message_id')
-                            ->label('Отправлять сообщение')
-                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('members_bot_branch_access_id')
-                            ->label('Доступ для текущих участников')
-                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('members_bot_message_id')
-                            ->label('Отправлять сообщение')
-                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('banneds_bot_branch_access_id')
-                            ->label('Доступ для выбывших участников')
-                            ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable(),
-                        Select::make('banneds_bot_message_id')
-                            ->label('Отправлять сообщение')
-                            ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable()
-                    ]),
                 Section::make('Купил')
                     ->description('Укажите, когда пользователь должен выйти из ветки акции')
                     ->columns([
@@ -235,14 +154,31 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                         '2xl' => 1,
                     ])
                     ->schema([
-                        Forms\Components\Checkbox::make('end_by_restart')
-                            ->label('По нажатию Меню - Старт'),
                         Forms\Components\CheckboxList::make('end_by_products')
                             ->label('По покупке продуктов')
                             ->options($this->end_by_products)
                             ->afterStateHydrated(function ($component, $state) {
                                 if (! filled($state)) {
                                     $component->state($this->end_by_products_in_branch);
+                                }
+                            })
+                    ]),
+                Section::make('Не Купил')
+                    ->description('Укажите, когда пользователь должен выйти из ветки акции')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->schema([
+                        Forms\Components\CheckboxList::make('end_by_products')
+                            ->label('По покупке продуктов')
+                            ->options($this->end_by_products2)
+                            ->afterStateHydrated(function ($component, $state) {
+                                if (! filled($state)) {
+                                    $component->state(!$this->end_by_products_in_branch2);
                                 }
                             })
                     ]),
@@ -290,39 +226,6 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                         ->label('Завершить акцию сейчас')
                 ])
             ])->statePath('data');
-    }
-
-    public function table(Table $table): Table
-    {
-        return $table
-            ->query(
-                TelegramSendMessageSchedule::query()->with('sending')->with('bot_user')->with('run_status_name')
-                    ->whereHas('bot_message', function ($query) {
-                        $query->where('bot_id', $this->bot_id);
-                    })->where('sending_id', $this->id)
-            )
-            ->columns([
-                TextColumn::make('concat(bot_user.email, \' -\', bot_user.username) as full_name')
-                    ->visible(false)
-                    ->searchable(),
-                TextColumn::make('bot_user.first_name')
-                    ->label('Имя'),
-                TextColumn::make('bot_user.last_name')
-                    ->label('Фамилия'),
-                TextColumn::make('bot_user.username')
-                    ->label('Имя пользователя'),
-                TextColumn::make('bot_user.email')
-                    ->label('Email'),
-                TextColumn::make('run_status_name.name')
-                    ->label('Статус'),
-            ])
-
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                DeleteAction::make()
-            ]);
     }
 
 }
