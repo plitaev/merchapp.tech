@@ -1,8 +1,10 @@
 <x-filament-panels::page>
 
+    <style>.fi-breadcrumbs:not(#merchapp-top-nav){display: none}</style>
+
     <div class="fi-header fi-header-has-breadcrumbs">
         <div>
-            <nav class="fi-breadcrumbs">
+            <nav class="fi-breadcrumbs" id="merchapp-top-nav">
                 <ol class="fi-breadcrumbs-list">
                     <li class="fi-breadcrumbs-item">
                         <a href="/admin/bots" class="fi-breadcrumbs-item-label">
