@@ -26,13 +26,9 @@ class BotUserUnbanSchedule extends Model
     public function bot_user(): BelongsTo {
         return $this->belongsTo(BotUser::class, 'bot_user_id', 'id');
     }
-    public function run_status_name(): BelongsTo {
-        return $this->belongsTo(Boolean::class, 'run_status', 'id');
-    }
-
-    public function unban_name(): BelongsTo
+    public function run_status_name(): BelongsTo
     {
-        return $this->belongsTo(Boolean::class, 'unban', 'id');
+        return $this->belongsTo(RunStatus::class, 'run_status', 'id');
     }
 
 }
