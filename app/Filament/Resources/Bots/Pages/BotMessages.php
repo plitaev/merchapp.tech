@@ -16,6 +16,8 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 
+use Filament\Support\Enums\Width;
+
 class BotMessages extends Page implements HasTable
 {
     use InteractsWithTable;
@@ -30,6 +32,8 @@ class BotMessages extends Page implements HasTable
 
     public int $bot_id;
     public string $bot_name;
+
+    public function getMaxContentWidth(): Width{return Width::ScreenTwoExtraLarge;}
 
     public function mount(int $bot_id): void
     {
