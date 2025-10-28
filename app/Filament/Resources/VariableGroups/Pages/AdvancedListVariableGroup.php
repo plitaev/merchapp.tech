@@ -22,6 +22,11 @@ class AdvancedListVariableGroup extends Page implements HasTable
     protected static string $resource = VariableGroupResource::class;
     protected static bool $shouldRegisterNavigation = false;
 
+
+    public static ?string $label = "Переменные";
+    public static ?string $navigationLabel = "Переменные";
+    public static ?string $title = "";
+
     protected string $view = 'filament.resources.variable-group-resource.pages.advanced-list-variable-group';
 
     public static function table(Table $table): Table
