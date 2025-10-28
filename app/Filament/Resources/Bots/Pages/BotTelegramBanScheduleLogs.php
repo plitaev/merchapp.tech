@@ -128,8 +128,10 @@ class BotTelegramBanScheduleLogs extends Page implements HasTable, HasInfolists
                 TextColumn::make('run_status_name.name')
                     ->label('Статус')
                     ->color(fn (string $state): string => match ($state) {
-                        'Да' => 'success',
-                        'Нет' => 'danger',
+                        'Завершено' => 'success',
+                        'Ожидание' => 'danger',
+                        'Зарезервировано' => 'info',
+                        'Отменено' => 'info',
                     })
             ])
 
