@@ -15,6 +15,8 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 
+use Filament\Support\Enums\Width;
+
 
 class AdvancedListBot extends Page implements HasTable
 {
@@ -29,6 +31,8 @@ class AdvancedListBot extends Page implements HasTable
     public static ?string $title = "";
 
     public int $category = 1;
+
+    public function getMaxContentWidth(): Width{return Width::Full;}
 
     public static function table(Table $table): Table
     {

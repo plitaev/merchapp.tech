@@ -22,7 +22,6 @@ use Filament\Schemas\Schema;
 
 use Filament\Support\Enums\Width;
 
-
 use App\Filament\Resources\Bots\Pages\AdvancedListBot;
 use App\Filament\Resources\Bots\Pages\CreateBot;
 use App\Filament\Resources\Bots\Pages\AdminBot;
@@ -63,9 +62,6 @@ use App\Filament\Resources\Bots\Pages\BotTelegramBanScheduleErrorLogs;
 use App\Filament\Resources\Bots\Pages\BotTelegramUnBanScheduleErrorLogs;
 use App\Filament\Resources\Bots\Pages\BotTelegramChatMemberErrorLogs;
 use App\Filament\Resources\Bots\Pages\BotTelegramSendMessageErrorLogs;
-
-
-
 
 use App\Models\Core\Bot;
 
