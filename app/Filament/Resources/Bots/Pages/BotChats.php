@@ -34,7 +34,7 @@ class BotChats extends Page implements HasTable
     public int $bot_id;
     public string $bot_name;
 
-    public function getMaxContentWidth(): Width{return Width::TwoExtraLarge;}
+    public function getMaxContentWidth(): Width{return Width::ScreenExtraLarge;}
 
     public function mount(int $bot_id): void
     {
