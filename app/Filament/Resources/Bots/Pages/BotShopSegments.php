@@ -175,7 +175,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                     ->schema([
                         Forms\Components\CheckboxList::make('end_by_products')
                             ->label('По покупке продуктов')
-                            ->options($this->end_by_products2)
+                            ->options($this->end_by_products)
                             ->afterStateHydrated(function ($component, $state) {
                                 if (! filled($state)) {
                                     $component->state(!$this->end_by_products_in_branch2);
