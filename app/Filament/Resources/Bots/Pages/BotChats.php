@@ -17,6 +17,8 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Filament\Support\Enums\IconPosition;
 
+use Filament\Support\Enums\Width;
+
 class BotChats extends Page implements HasTable
 {
     use InteractsWithTable;
@@ -31,6 +33,8 @@ class BotChats extends Page implements HasTable
 
     public int $bot_id;
     public string $bot_name;
+
+    public function getMaxContentWidth(): Width{return Width::TwoExtraLarge;}
 
     public function mount(int $bot_id): void
     {
