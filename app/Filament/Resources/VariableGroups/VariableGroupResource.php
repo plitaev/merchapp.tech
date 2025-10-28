@@ -24,7 +24,6 @@ class VariableGroupResource extends Resource
 
     public static function getPluralLabel(): ?string {return "Переменные";}
     protected static bool $shouldRegisterNavigation = false;
-    protected static ?string $pluralModelLabel = "";
     protected static ?string $model = VariableGroup::class;
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-variable';
