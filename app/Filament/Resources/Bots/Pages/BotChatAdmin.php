@@ -261,27 +261,23 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
                             if(count($pays) > 0) {
                                 foreach ($pays as $pay) {
-                                    $date_add = Carbon::parse($pay->created_at)->addDays($pay->days)->format('Y-m-d');
 
-                                    if ($date_add >= date('Y-m-d', time())) {
-
-                                        if ($bot_user->email) {
-                                            PayGuest::insert([
-                                                'product_id' => $pay->product_id,
-                                                'email' => $bot_user->email,
-                                                'price' => $pay->price,
-                                                'days' => $pay->days,
-                                                'gift' => $pay->gift,
-                                                'status' => 0,
-                                                'recurrent' => $pay->recurrent,
-                                                'recurrent_status' => $pay->recurrent_status,
-                                                'created_at' => $pay->created_at,
-                                                'updated_at' => $pay->updated_at
-                                            ]);
-                                        }
-
-                                        Pay::where('id', $pay->id)->update(['status' => 0]);
+                                    if ($bot_user->email) {
+                                        PayGuest::insert([
+                                            'product_id' => $pay->product_id,
+                                            'email' => $bot_user->email,
+                                            'price' => $pay->price,
+                                            'days' => $pay->days,
+                                            'gift' => $pay->gift,
+                                            'status' => 0,
+                                            'recurrent' => $pay->recurrent,
+                                            'recurrent_status' => $pay->recurrent_status,
+                                            'created_at' => $pay->created_at,
+                                            'updated_at' => $pay->updated_at
+                                        ]);
                                     }
+
+                                    Pay::where('id', $pay->id)->update(['status' => 0]);
                                 }
                             }
 
