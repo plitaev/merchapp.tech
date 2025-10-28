@@ -20,6 +20,7 @@ class AdvancedListVariableGroup extends Page implements HasTable
     use InteractsWithTable;
 
     protected static string $resource = VariableGroupResource::class;
+    protected static bool $shouldRegisterNavigation = false;
 
     protected string $view = 'filament.resources.variable-group-resource.pages.advanced-list-variable-group';
 
