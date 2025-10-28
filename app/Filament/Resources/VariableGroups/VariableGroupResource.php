@@ -29,6 +29,11 @@ class VariableGroupResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-variable';
 
+    public function getTitle(): string
+    {
+        return "";
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema
