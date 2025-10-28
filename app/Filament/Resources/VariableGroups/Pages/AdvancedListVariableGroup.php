@@ -26,7 +26,7 @@ class AdvancedListVariableGroup extends Page implements HasTable
 
     public static ?string $label = "Переменные";
     public static ?string $navigationLabel = "Переменные";
-    public static ?string $title = "Переменные";
+    public static ?string $title = "";
 
     public static function table(Table $table): Table
     {
