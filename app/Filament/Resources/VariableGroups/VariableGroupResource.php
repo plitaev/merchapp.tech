@@ -21,18 +21,9 @@ class VariableGroupResource extends Resource
     public static ?string $label = "Переменные";
     public static ?string $navigationLabel = "Переменные";
     public static ?string $title = "Переменные";
-    protected static bool $shouldRegisterNavigation = false;
     protected static ?string $model = VariableGroup::class;
 
-    //protected static ?string $modelLabel = null;
-    protected static bool $hasTitleCaseModelLabel = false;
-
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-variable';
-
-    public function getTitle(): string
-    {
-        return "";
-    }
 
     public static function form(Schema $schema): Schema
     {
