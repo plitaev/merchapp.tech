@@ -15,7 +15,9 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+
 use Filament\Support\Enums\IconPosition;
+use Filament\Support\Enums\Width;
 
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserBanByDeletePay;
@@ -46,6 +48,8 @@ class BotPays extends Page implements HasTable
     public int $pay_bot_user_id;
 
     public array $pay_bulk_delete_ids;
+
+    public function getMaxContentWidth(): Width{return Width::ScreenTwoExtraLarge;}
 
     public function mount(int $bot_id): void
     {
