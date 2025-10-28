@@ -24,7 +24,7 @@ class VariableGroupResource extends Resource
     protected static bool $shouldRegisterNavigation = false;
     protected static ?string $model = VariableGroup::class;
 
-    protected static ?string $modelLabel = "test";
+    protected static ?string $modelLabel = "";
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-variable';
 
