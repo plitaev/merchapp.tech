@@ -184,7 +184,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                     ])
                     ->schema([]),
                 Section::make('Ошибки')
-                    ->description(new HtmlString("<b><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-error-logs'>Баны: {$this->count_ban_error}️ ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-error-logs'>Разбаны: {$this->count_unban_error} ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-chat-member-error-logs'>Чаты: {$this->count_chat_member_error}️ ⬇</a><br><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-error-logs'>Отправки сообщений: {$this->count_send_message_error}️ ⬇</a></b>"))
+                    ->description(new HtmlString("<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-error-logs' style='display: block; margin-bottom: 10px; font-weight:bold'>Баны: {$this->count_ban_error}</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-error-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Разбаны: {$this->count_unban_error}</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-chat-member-error-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Чаты: {$this->count_chat_member_error}</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-error-logs' style='display: block; margin-top: 10px; font-weight:bold'>Отправки сообщений: {$this->count_send_message_error}</a>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
