@@ -17,50 +17,8 @@ use Filament\Tables\Table;
 
 class VariableGroupResource extends Resource
 {
-
-    public static ?string $label = "Переменные";
-    public static ?string $navigationLabel = "Переменные";
-    public static ?string $title = "Переменные";
-
-    public static function getPluralLabel(): ?string {return "Переменные";}
     protected static bool $shouldRegisterNavigation = false;
     protected static ?string $model = VariableGroup::class;
-
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-variable';
-
-    public static function form(Schema $schema): Schema
-    {
-        return $schema
-            ->components([
-                //
-            ]);
-    }
-
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                //
-            ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
 
     public static function getPages(): array
     {
