@@ -15,6 +15,8 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 
+use Illuminate\Contracts\Support\Htmlable;
+
 class AdvancedListVariableGroup extends Page implements HasTable
 {
     use InteractsWithTable;
@@ -28,9 +30,11 @@ class AdvancedListVariableGroup extends Page implements HasTable
 
     protected string $view = 'filament.resources.variable-group-resource.pages.advanced-list-variable-group';
 
-    public function getTitle(): string
+    protected static bool $hasTitleCaseModelLabel = false;
+
+    public function getTitle(): string|Htmlable
     {
-        return "";
+        return '';
     }
 
     public static function table(Table $table): Table
