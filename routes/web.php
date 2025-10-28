@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {return view('welcome');})->name('welcome');
 
+Route::get('/phpinfo', function () {phpinfo();})->name('phpinfo');
+
 require 'core/auto.php';
 require 'core/bot.php';
 require 'core/bot_message.php';
