@@ -20,6 +20,10 @@ class VariableGroupResource extends Resource
     protected static bool $shouldRegisterNavigation = false;
     protected static ?string $model = VariableGroup::class;
 
+    //public static ?string $label = "Группы переменных";
+    //public static ?string $navigationLabel = "Переменные";
+    public static ?string $title = "Группы переменны";
+
     public static function getPages(): array
     {
         return [
