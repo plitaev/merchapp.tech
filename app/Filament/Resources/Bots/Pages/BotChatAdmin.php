@@ -174,7 +174,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             ->label('Автоплатеж включен')
                     ]),
                 Section::make('Статистика')
-                    ->description(new HtmlString("<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs' class='bold mb-10'>Сообщения от бота: {$this->count}</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs' class='bold mt-10 mb-10'>Баны: {$this->count_ban}️</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs' class='bold mb-10'>Разбаны: {$this->count_unban}</a>"))
+                    ->description(new HtmlString("<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs' style='display: block; margin-bottom: 10px; font-weight:bold'>Сообщения от бота: {$this->count}</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Баны: {$this->count_ban}</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs' style='display: block; margin-top: 10px; font-weight:bold'>Разбаны: {$this->count_unban}</a>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
