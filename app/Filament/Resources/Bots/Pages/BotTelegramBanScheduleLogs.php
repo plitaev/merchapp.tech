@@ -119,13 +119,7 @@ class BotTelegramBanScheduleLogs extends Page implements HasTable, HasInfolists
         return $table
             ->defaultSort('updated_at', 'desc')
             ->query(
-                BotUserBanSchedule::with('bot_user', 'run_status_name')
-                    ->whereHas('bot_user', function ($query) {
-                        $query->where('bot_id', $this->bot_id);
-                        $query->where('bot_user_id', $this->bot_user_id);
-
-                    })
-
+                BotUserBanSchedule::with('run_status_name')->where('bot_user_id', $this->bot_user_id)
             )
             ->columns([
                 TextColumn::make('ban_datetime')
