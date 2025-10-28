@@ -23,8 +23,6 @@ class VariableGroupResource extends Resource
     public static ?string $title = "Переменные";
     protected static ?string $model = VariableGroup::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-variable';
-
     public static function form(Schema $schema): Schema
     {
         return $schema
