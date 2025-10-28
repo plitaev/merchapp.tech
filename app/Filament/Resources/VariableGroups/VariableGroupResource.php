@@ -22,7 +22,8 @@ class VariableGroupResource extends Resource
 
     public static ?string $label = "Группы переменных";
     public static ?string $navigationLabel = "Переменные";
-    public static ?string $title = "Группы переменны";
+    public static ?string $title = "Группы переменных";
+    public static function getPluralLabel(): ?string {return "Группы переменных";}
 
     public static function getPages(): array
     {
