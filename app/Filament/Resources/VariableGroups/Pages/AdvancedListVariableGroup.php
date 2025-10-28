@@ -23,6 +23,11 @@ class AdvancedListVariableGroup extends Page implements HasTable
 
     protected string $view = 'filament.resources.variable-group-resource.pages.advanced-list-variable-group';
 
+
+    public static ?string $label = "Переменные";
+    public static ?string $navigationLabel = "Переменные";
+    public static ?string $title = "";
+
     public static function table(Table $table): Table
     {
         return $table
