@@ -272,6 +272,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ->schema([
                         Textarea::make('text')
                             ->label('Текст сообщения')
+                            ->rows(20)
                     ]),
                 Section::make('Изображение')
                     ->schema([
