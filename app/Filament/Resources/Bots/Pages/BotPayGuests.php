@@ -54,6 +54,7 @@ class BotPayGuests extends Page implements HasTable
     {
         return $table
             ->defaultSort('created_at', 'desc')
+            ->persistSearchInSession()
             ->query(PayGuest::with('bot')
                 ->with('product')
                 ->where('status', 0)
