@@ -33,6 +33,7 @@ class AdvancedListBotMessageButtonCallback extends Page implements HasTable
     {
         return $table
             ->query(BotMessageButtonCallback::select('*'))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('name')
                     ->label('Наименование')

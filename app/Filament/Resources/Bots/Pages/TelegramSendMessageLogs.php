@@ -122,6 +122,7 @@ class TelegramSendMessageLogs extends Page implements HasTable, HasInfolists
                     ->where('chat_id', $this->b_user_id)
 
             )
+            ->persistSearchInSession()
             ->columns([
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата/время отправки')

@@ -1,4 +1,9 @@
 <x-filament-panels::page>
+
+    <style>
+        .fi-ta-search-field{min-width: 300px}
+    </style>
+
     @include('filament.resources.bot-resource.pages.navigation-bot', ['category' => "telegram-unban-schedules", 'bot_id' => $this->bot_id])
 
     <div class="fi-header flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

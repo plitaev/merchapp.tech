@@ -130,6 +130,8 @@ class BotTelegramChatMemberErrorLogs extends Page implements HasTable, HasInfoli
                     })
 
             )
+            ->persistSearchInSession()
+
             ->columns([
                 TextColumn::make('unban_datetime')
                     ->label('Дата и время')

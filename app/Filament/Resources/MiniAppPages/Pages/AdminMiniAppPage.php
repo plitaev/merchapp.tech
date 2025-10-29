@@ -133,6 +133,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
         return $table
             ->query(MiniAppBannerLinkPage::query()->with('miniapp_banner')->where('mini_app_page_id', $this->record))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('pos')
                     ->label('№')

@@ -42,6 +42,7 @@ class AdminBannerByApp extends Page implements HasTable
     {
         return $table
             ->query(MiniAppBannerLinkPage::with('miniapp_banner')->whereIn('mini_app_page_id', MiniAppPage::select('id')->where('mini_app_id', $this->mini_app_id)->pluck('id')->toArray()))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('miniapp_page.name')
                     ->label('Страница')

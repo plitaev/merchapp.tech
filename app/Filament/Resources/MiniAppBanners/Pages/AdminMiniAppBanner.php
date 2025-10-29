@@ -257,6 +257,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
     {
         return $table
             ->query(MiniAppBannerLinkPage::query()->with('miniapp_page')->where('mini_app_banner_id', $this->banner_id))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('miniapp_page.name')
                     ->label('Страница')

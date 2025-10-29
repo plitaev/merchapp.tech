@@ -1,4 +1,10 @@
 <x-filament-panels::page>
+
+    <style>
+        .fi-ta-search-field{min-width: 300px}
+    </style>
+
+
     <form wire:submit.prevent="submit">{{$this->form}}</form>
 
     <div class="fi-header flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

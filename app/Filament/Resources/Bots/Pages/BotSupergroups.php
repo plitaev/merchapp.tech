@@ -52,6 +52,7 @@ class BotSupergroups extends Page implements HasTable
     {
         return $table
             ->query(TelegramSupergroup::where('bot_id', $this->bot_id))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('name')
                     ->label('Название (Только в панели администратора)')

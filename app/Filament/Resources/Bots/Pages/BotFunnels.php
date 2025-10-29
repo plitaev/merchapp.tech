@@ -56,6 +56,7 @@ class BotFunnels extends Page implements HasTable
     {
         return $table
             ->query(Funnel::where('bot_id', $this->bot_id))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('name')
                     ->label('Наименование')

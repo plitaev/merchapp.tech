@@ -31,6 +31,7 @@ class AdvancedListUser extends Page implements HasTable
     {
         return $table
             ->query(User::query())
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('id')
                     ->label('ID'),

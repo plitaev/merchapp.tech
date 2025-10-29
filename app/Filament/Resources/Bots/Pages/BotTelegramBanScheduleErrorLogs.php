@@ -130,6 +130,7 @@ class BotTelegramBanScheduleErrorLogs extends Page implements HasTable, HasInfol
                     })
 
             )
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('unban_datetime')
                     ->label('Дата и время бана')

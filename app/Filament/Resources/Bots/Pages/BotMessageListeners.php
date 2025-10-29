@@ -169,6 +169,7 @@ class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfoli
                     ->where('bot_message_id', $this->id)
 
             )
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('listener.name')
                     ->label('Название')

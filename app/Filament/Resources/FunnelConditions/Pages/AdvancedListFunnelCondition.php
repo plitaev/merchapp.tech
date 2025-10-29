@@ -31,6 +31,7 @@ class AdvancedListFunnelCondition extends Page implements HasTable
     {
         return $table
             ->query(FunnelCondition::query())
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('name')
                     ->label('Наименование')

@@ -1,4 +1,9 @@
 <x-filament-panels::page>
+
+    <style>
+        .fi-ta-search-field{min-width: 300px}
+    </style>
+
     <x-filament-panels::page>
         <div class="fi-header flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex justify-between shrink-0 items-center gap-3 w-full">

@@ -249,6 +249,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                         $query->where('bot_id', $this->bot_id);
                     })->where('sending_id', $this->id)
             )
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('concat(bot_user.email, \' -\', bot_user.username) as full_name')
                     ->visible(false)

@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Models\Core\BotBranch;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -195,6 +196,7 @@ class AdminBotMessage extends Page implements HasForms, HasTable
                                 return redirect('/admin/bots');
                             } else {
                                 $new = Bot::create($data);
+
                                 return redirect('/admin/bots/'.$new->id.'/edit');
                             }
 
@@ -447,6 +449,7 @@ class AdminBotMessage extends Page implements HasForms, HasTable
     {
         return $table
             ->query(BotMessage::query())
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('bot.name')
                     ->label('Бот')
@@ -477,6 +480,7 @@ class AdminBotMessage extends Page implements HasForms, HasTable
     {
         return $table
             ->query(TelegramSupergroupLinkBot::query()->with('telegramsupergroups')->where('bot_id', $this->record))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('telegramsupergroups.name')
                     ->label('Супергруппа')

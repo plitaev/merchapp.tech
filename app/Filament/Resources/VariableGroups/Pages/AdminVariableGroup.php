@@ -149,6 +149,7 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
 
         return $table
             ->query(VariablesSystem::query()->with('variable_system_variable_system_type')->where('variable_group_id', $this->id))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('name')
                     ->label('Название')

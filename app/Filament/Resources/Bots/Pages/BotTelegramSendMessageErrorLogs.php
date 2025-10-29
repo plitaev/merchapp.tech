@@ -124,6 +124,7 @@ class BotTelegramSendMessageErrorLogs extends Page implements HasTable, HasInfol
             ->query(
                 TelegramSendMessageErrorLog::where('chat_id', $this->b_user_id)
             )
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('created_at')
                     ->label('Дата и время создания')

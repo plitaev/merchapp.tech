@@ -1,4 +1,9 @@
 <x-filament::page>
+
+    <style>
+        .fi-ta-search-field{min-width: 300px}
+    </style>
+
     <form wire:submit.prevent="submit">{{$this->form}}</form>
 
     @if ($this->banner_id>0)

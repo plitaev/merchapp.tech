@@ -65,6 +65,7 @@ class BotBranches extends Page implements HasTable
         return $table
             ->defaultSort('created_at', 'desc')
             ->query(BotBranch::where('bot_id', $this->bot_id))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('name')
                     ->label('Название')

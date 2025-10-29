@@ -1,5 +1,9 @@
 <x-filament-panels::page>
 
+    <style>
+        .fi-ta-search-field{min-width: 300px}
+    </style>
+
     <style>.fi-breadcrumbs:not(#merchapp-top-nav){display: none}</style>
 
     <div class="fi-header fi-header-has-breadcrumbs">

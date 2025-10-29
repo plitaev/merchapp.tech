@@ -60,6 +60,7 @@ class MiniAppPageResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('miniapp.name')
                     ->label('Название приложения')

@@ -1,4 +1,9 @@
 <x-filament-panels::page>
+
+    <style>
+        .fi-ta-search-field{min-width: 300px}
+    </style>
+
     {{$this->form}}
 
     @if ($this->id > 0)

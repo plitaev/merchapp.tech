@@ -38,6 +38,7 @@ class AdvancedListBot extends Page implements HasTable
     {
         return $table
             ->query(Bot::query())
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('name')
                     ->label('Название (Только в панели администратора)')

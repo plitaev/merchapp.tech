@@ -91,6 +91,7 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                     $query->where('bot_id', $this->bot_id);
                 })
             )
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('bot_user.first_name')
                     ->label('Имя')

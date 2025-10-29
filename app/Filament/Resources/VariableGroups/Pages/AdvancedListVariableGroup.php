@@ -27,6 +27,7 @@ class AdvancedListVariableGroup extends Page implements HasTable
     {
         return $table
             ->query(VariableGroup::query())
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('name')
                     ->label('Название')

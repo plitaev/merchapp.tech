@@ -484,6 +484,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
     {
         return $table
             ->query(BotMessageButton::query()->where('bot_message_id', $this->id))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('pos')
                     ->label('№')
@@ -513,6 +514,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
     {
         return $table
             ->query(BotMessageButton::query()->where('bot_message_id', $this->id))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('pos')
                     ->label('№')

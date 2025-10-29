@@ -66,6 +66,7 @@ class MiniAppResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('name')
                     ->label('Название (Только в панели администратора)')

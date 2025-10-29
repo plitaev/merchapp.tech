@@ -31,6 +31,7 @@ class AdvancedListListener extends Page implements HasTable
     {
         return $table
             ->query(Listener::select('*'))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('name')
                     ->label('Наименование')

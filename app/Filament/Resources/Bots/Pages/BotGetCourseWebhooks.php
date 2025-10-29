@@ -58,6 +58,7 @@ class BotGetCourseWebhooks extends Page implements HasTable
                 ->whereHas('bot', function ($query) {
                     $query->where('bot_id', $this->bot_id);
                 }))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('created_at')
                     ->label('Создан')

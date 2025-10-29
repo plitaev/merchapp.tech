@@ -2,6 +2,10 @@
 
     <style>.fi-breadcrumbs:not(#merchapp-top-nav){display: none}</style>
 
+    <style>
+        .fi-ta-search-field{min-width: 300px}
+    </style>
+
     <div class="fi-header fi-header-has-breadcrumbs">
         <div>
             <nav class="fi-breadcrumbs"  id="merchapp-top-nav">

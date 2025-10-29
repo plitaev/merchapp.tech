@@ -68,6 +68,7 @@ class BotSendings extends Page implements HasTable
                 })
                     ->orderByDesc('send_datetime')
             )
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('name')
                     ->label('Рассылка')

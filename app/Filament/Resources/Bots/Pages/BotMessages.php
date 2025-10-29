@@ -57,6 +57,7 @@ class BotMessages extends Page implements HasTable
     {
         return $table
             ->query(BotMessage::where('bot_id', $this->bot_id))
+            ->persistSearchInSession()
             ->columns([
                 TextColumn::make('name')
                     ->label('Название (Только в панели администратора)')

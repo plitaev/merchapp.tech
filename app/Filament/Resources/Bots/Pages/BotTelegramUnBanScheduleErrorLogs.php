@@ -54,7 +54,7 @@ use App\Models\Core\FunnelConditionTrigger;
 use App\Models\Core\Listener;
 
 
-class BotTelegramUnBanScheduleErrorLogs extends Page implements HasTable, HasInfolists
+class fBotTelegramUnBanScheduleErrorLogs extends Page implements HasTable, HasInfolists
 {
     use InteractsWithInfolists;
     use InteractsWithTable;
@@ -130,6 +130,8 @@ class BotTelegramUnBanScheduleErrorLogs extends Page implements HasTable, HasInf
                     })
 
             )
+            ->persistSearchInSession()
+
             ->columns([
                 TextColumn::make('unban_datetime')
                     ->label('Дата и время разбана')

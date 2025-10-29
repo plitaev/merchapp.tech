@@ -53,6 +53,7 @@ class BotGetCourseSettings extends Page implements HasTable
     {
         return $table
             ->query(Product::with('product_type')->where(['bot_id' => $this->bot_id]))
+            ->persistSearchInSession()
             ->columns([
                 ViewColumn::make('webhook')->view('filament.resources.product-resource.columns.getcourse_webhook')
                     ->label('Вебхук'),
