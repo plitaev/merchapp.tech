@@ -41,6 +41,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\RichEditor;
 
 class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
 {
@@ -270,7 +271,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                 Section::make('Текст сообщения')
                     ->description('Сообщение, которое будет отправляться пользователю')
                     ->schema([
-                        Textarea::make('text')
+                        RichEditor::make('text')
                             ->label('Текст сообщения')
                             ->rows(20)
                     ]),
