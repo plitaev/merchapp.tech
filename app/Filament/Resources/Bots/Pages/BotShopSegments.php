@@ -113,16 +113,20 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
 
         $this->pay = Pay::select('product_id')->where('bot_user_id', auth()->user()->id)->pluck('product_id')->toArray();
 
-        //$this->pay  = explode(", ", $this->pay);
-        //echo $this->pay;
         $this->no_shop_product = Product::select('id as product_id')->whereNotIn('id',$this->pay )->pluck('product_id')->toArray();
+        echo "shop_product= ";
+        foreach ($this->shop_product as $product) {
+            echo $product;
+        }
+        echo "pay=";
+
+        foreach ($this->pay as $product) {
+            echo $product;
+        }
+        echo "shop_product= ";
 
         foreach ($this->no_shop_product as $product) {
-            echo "jj".$product;
-        }
-
-        foreach ($this->shop_product as $productb) {
-            echo "oo".$productb;
+            echo $product;
         }
 
         $data = [];
