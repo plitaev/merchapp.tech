@@ -54,7 +54,7 @@ use App\Models\Core\FunnelConditionTrigger;
 use App\Models\Core\Listener;
 
 
-class fBotTelegramUnBanScheduleErrorLogs extends Page implements HasTable, HasInfolists
+class BotTelegramUnBanScheduleErrorLogs extends Page implements HasTable, HasInfolists
 {
     use InteractsWithInfolists;
     use InteractsWithTable;
