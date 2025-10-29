@@ -73,6 +73,7 @@ class BotPays extends Page implements HasTable
     {
         return $table
             ->defaultSort('created_at', 'desc')
+            ->persistSearchInSession()
             ->query(
                 Pay::with('bot_user:id,first_name,last_name,username,email')
                     ->with('product:id,name')
