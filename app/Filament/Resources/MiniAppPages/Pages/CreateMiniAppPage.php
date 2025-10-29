@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateMiniAppPage extends CreateRecord
 {
     protected static string $resource = MiniAppPageResource::class;
+
+    public function mount(): void {
+        $data['url'] = hash('sha256', time());
+        $this->form->fill($data);
+    }
+
 }
