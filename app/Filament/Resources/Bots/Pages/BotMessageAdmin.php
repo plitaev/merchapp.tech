@@ -274,7 +274,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         RichEditor::make('text')
                             ->label('Текст сообщения')
                             ->toolbarButtons(['bold', 'italic', 'underline', 'strike', 'link', 'undo', 'redo'])
-                            ->extraInputAttributes(['height' => '500px'])
+                            ->extraInputAttributes(['style' => 'height: 500px'])
                     ]),
                 Section::make('Изображение')
                     ->schema([
