@@ -5,6 +5,7 @@ use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchAccess;
 use App\Models\Core\BotBranchLinkProduct;
 use App\Models\Core\BotMessageAppointment;
+use App\Models\Core\BotUser;
 use App\Models\Core\Pay;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
@@ -106,12 +107,23 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
         $this->id = $id;
 
         $this->all_product = Product::all()->pluck('name', 'id')->toArray();
-        $this->shop_product = Pay::select('product_id')->where('bot_user_id', $id)->pluck('product_id')->toArray();
+        $this->shop_product = Pay::select('product_id')->where('bot_user_id', auth()->user()->id)->pluck('product_id')->toArray();
 
-        $pay[] = 0;
-        $pay = Pay::select('product_id')->where('bot_user_id', $id)->pluck('product_id')->toArray();
-//echo $pay['product_id'];
-        $this->no_shop_product = Product::select('id as product_id')->whereNotIn('product_id',$pay)->pluck('product_id')->toArray();
+        $bot_user = BotUser::select('id')->where('bot_id', $this->bot_id)->where('email', auth()->user()->email)->first();
+
+        $this->pay = Pay::select('product_id')->where('bot_user_id', auth()->user()->id)->pluck('product_id')->toArray();
+
+        //$this->pay  = explode(", ", $this->pay);
+        //echo $this->pay;
+        $this->no_shop_product = Product::select('id as product_id')->whereNotIn('id',$this->pay )->pluck('product_id')->toArray();
+
+        foreach ($this->no_shop_product as $product) {
+            echo "jj".$product;
+        }
+
+        foreach ($this->shop_product as $productb) {
+            echo "oo".$productb;
+        }
 
         $data = [];
         $data['bot_id'] = $bot_id;
