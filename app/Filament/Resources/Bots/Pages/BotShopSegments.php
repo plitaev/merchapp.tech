@@ -198,7 +198,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                     ['sending_id', 'bot_user_id'],
                                     ['updated_at' => now()]
                                 );
-                                
+
 
                                 Notification::make()
                                     ->title('Данные успешно сохранены!')
@@ -206,7 +206,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                     ->send();
 
                                 return redirect('/admin/bots/' . $this->bot_id . '/sendings');
-
+                            }
                         }),
                     Action::make('Cancel')
                         ->action(function () {
