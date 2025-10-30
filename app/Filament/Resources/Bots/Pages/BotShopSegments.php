@@ -152,7 +152,6 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                         'xl' => 1,
                         '2xl' => 1,
                     ])
-                    ->label('Купил')
                     ->schema([
                         Forms\Components\CheckboxList::make('all_product')
                             ->label('По покупке продуктов')
@@ -172,7 +171,6 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                         'xl' => 1,
                         '2xl' => 1,
                     ])
-                    ->label('Не купил')
                     ->schema([
                         Forms\Components\CheckboxList::make('no_all_product')
                             ->label('По не покупке продуктов')
