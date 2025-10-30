@@ -188,8 +188,8 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                             $data = $this->form->getState();
 
                             $bot_users = Pay::select('bot_user_id')
-                                ->where('product_Id', $data['all_product'])
-                                ->whereBot('product_Id', $data['no_all_product'])
+                                ->where('product_id', $data['all_product'])
+                                ->whereNot('product_id', $data['no_all_product'])
                                 ->pluck('bot_user_id')->get();
 
                             foreach ($bot_users as $bot_user) {
