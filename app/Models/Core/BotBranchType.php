@@ -2,7 +2,9 @@
 
 namespace App\Models\Core;
 
-class BotBranchType
+use Illuminate\Database\Eloquent\Model;
+
+class BotBranchType extends Model
 {
     protected $fillable = [
         'name',
