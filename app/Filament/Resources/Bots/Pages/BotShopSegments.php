@@ -108,11 +108,9 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
         $this->id = $id;
 
         $this->all_product = Product::all()->pluck('name', 'id')->toArray();
-        $this->shop_product = Pay::select('product_id as id')->where('bot_user_id', auth()->user()->id)->pluck('id')->toArray();
-
-        $botUserGetByEmail = new BotUserGetByEmail();
-
-        $this->pay = Pay::select('product_id as id')->where('bot_user_id', auth()->user()->id)->pluck('id')->toArray();
+        $this->shop_product = Pay::select('product_id as id')->pluck('id')->toArray();
+        
+        $this->pay = Pay::select('product_id as id')->pluck('id')->toArray();
 
         $this->no_shop_product = Product::select('id')->whereNotIn('id',$this->pay )->pluck('id')->toArray();
 
@@ -156,7 +154,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                             ->label('По покупке продуктов')
                             ->options($this->all_product)
                             ->afterStateHydrated(function ($component, $state) {
-                                if (!  filled($state)) {
+                                if (! filled($state)) {
                                     $component->state($this->shop_product);
                                 }
                             })
@@ -184,10 +182,14 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
+                            $formdata = $this->form_bot_user->getState();
 
 
-                                //return redirect('/admin/bots/'.$this->bot_id.'/'.$new->id.'/branch-admin');
-
+                            TelegramSendMessageSchedule::upsert(
+                                ['sending_id' => $this->id, 'bot_user_id' => $formdata['bot_user_id']],
+                                ['sending_id', 'bot_user_id'],
+                                ['updated_at' => now()]
+                            );
 
                         }),
                     Action::make('Cancel')
