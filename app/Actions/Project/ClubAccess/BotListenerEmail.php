@@ -50,6 +50,9 @@ class BotListenerEmail
 
                         if ($pays > 0) {
                             $date_end = $dateEnd->handle($bot_user, 'Y-m-d');
+
+                            $bot_user = BotUser::find($bot_user->id);
+
                             if ($date_end > date('Y-m-d', time())) {
                                 $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
 
