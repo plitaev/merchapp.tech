@@ -38,6 +38,8 @@ class PayCreateByEmail
 
             $dateEnd->handle($bot_user, 'Y-m-d');
 
+            $bot_user = BotUser::find($bot_user->id);
+
             //== Завершаем ветку по покупке продукта
             $botBranchEndByProducts->handle($product_id, $bot_user->id);
 
