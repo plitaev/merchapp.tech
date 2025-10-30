@@ -29,6 +29,8 @@ class BotUserBanProcess
             ->take(25)
             ->get();
 
+        return $bans;
+
 
         foreach ($bans as $ban) {
             BotUserBanSchedule::where('id', $ban->id)->update(['run_status' => 1]);
