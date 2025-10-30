@@ -185,7 +185,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
-                            $formdata = $this->form_bot_user->getState();
+                            $formdata = $this->form->getState();
 
                             $bot_users = Pay::select('bot_user_id')
                                 ->where('product_Id', $formdata['all_product'])
