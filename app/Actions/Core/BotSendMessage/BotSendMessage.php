@@ -42,7 +42,7 @@ class BotSendMessage
 
             } else {
 
-                $bot_message = BotMessage::select('id', 'pause_after_message')
+                $bot_message = BotMessage::select('id', 'pause_after_message', 'text')
                     ->where('bot_id', $bot_user->bot_id)
                     ->where('bot_message_appointment_id', $bot_message_appointment->id)
                     ->first();
@@ -50,6 +50,10 @@ class BotSendMessage
             }
 
             if ($bot_message) {
+
+                if (stripos(strtolower($bot_message->text), 'VAR_USER_DATE_END')) {
+                    $bot_user = BotUser::find($bot_user->id);
+                }
 
                 //== Отправляем само сообщение
                 $message = $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
