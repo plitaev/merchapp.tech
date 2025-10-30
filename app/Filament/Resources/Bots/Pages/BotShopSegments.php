@@ -81,6 +81,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
     public ?array $data_bot_user = [];
 
     public ?array $all_product = [];
+    public ?array $no_all_product = [];
     public ?array $shop_product = [];
     public ?array $no_shop_product = [];
 
@@ -108,6 +109,8 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
         $this->id = $id;
 
         $this->all_product = Product::all()->where('bot_id', $this->bot_id)->pluck('name', 'id')->toArray();
+        $this->no_all_product = Product::all()->where('bot_id', $this->bot_id)->pluck('name', 'id')->toArray();
+
         $this->shop_product = Pay::select('product_id as id')->pluck('id')->toArray();
 
         $this->pay = Pay::select('product_id as id')->pluck('id')->toArray();
@@ -169,9 +172,9 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                         '2xl' => 1,
                     ])
                     ->schema([
-                        Forms\Components\CheckboxList::make('all_product')
+                        Forms\Components\CheckboxList::make('no_all_product')
                             ->label('По не покупке продуктов')
-                            ->options($this->all_product)
+                            ->options($this->no_all_product)
                             ->afterStateHydrated(function ($component, $state) {
                                 if (!filled($state)) {
                                     $component->state($this->no_shop_product);
@@ -184,12 +187,25 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                         ->action(function () {
                             $formdata = $this->form_bot_user->getState();
 
+                            $bot_users = Pay::select('bot_user_id')
+                                ->where('product_Id', $formdata['all_product'])
+                                ->whereBot('product_Id', $formdata['no_all_product'])
+                                ->pluck('bot_user_id')->get();
 
-                            TelegramSendMessageSchedule::upsert(
-                                ['sending_id' => $this->id, 'bot_user_id' => $formdata['bot_user_id']],
-                                ['sending_id', 'bot_user_id'],
-                                ['updated_at' => now()]
-                            );
+                            foreach ($bot_users as $bot_user) {
+                                TelegramSendMessageSchedule::upsert(
+                                    ['sending_id' => $this->id, 'bot_user_id' => $bot_user->bot_user_id],
+                                    ['sending_id', 'bot_user_id'],
+                                    ['updated_at' => now()]
+                                );
+                                
+
+                                Notification::make()
+                                    ->title('Данные успешно сохранены!')
+                                    ->success()
+                                    ->send();
+
+                                return redirect('/admin/bots/' . $this->bot_id . '/sendings');
 
                         }),
                     Action::make('Cancel')
