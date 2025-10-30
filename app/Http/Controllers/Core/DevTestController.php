@@ -44,7 +44,13 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $pay = Pay::with('bot_user')->find(68816);
+        $pay = Pay::with('bot_user')->find(14389);
+
+        $dateEnd = new DateEnd();
+        $dateEnd->handle($pay->bot_user, 'Y-m-d');
+
+
+        $pay = Pay::with('bot_user')->find(15451);
 
         $dateEnd = new DateEnd();
         $dateEnd->handle($pay->bot_user, 'Y-m-d');
