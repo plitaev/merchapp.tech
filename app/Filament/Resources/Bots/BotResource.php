@@ -206,7 +206,6 @@ class BotResource extends Resource
             'telegram-unban-schedule-admin' => BotTelegramUnBanScheduleAdmin::route('/{bot_id}/{id}/telegram-unban-schedule-admin'),
             'branches' => BotBranches::route('/{bot_id}/branches'),
             'branch-admin' => BotBranchAdmin::route('/{bot_id}/{id}/branch-admin'),
-            'shop-segments' => BotShopSegments::route('/{bot_id}/{id}/shop-segments'),
 
         ];
     }
