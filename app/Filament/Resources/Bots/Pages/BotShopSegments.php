@@ -186,11 +186,18 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                     Action::make('Сохранить')
                         ->action(function () {
                             $data = $this->form->getState();
+                            unset($data['all_product']);
+                            unset($data['no_all_product']);
+
+                            $data_all_product = $data['all_product'];
+                            $data_no_all_product = $data['no_all_product'];
+
 
                             $bot_users = Pay::select('bot_user_id')
-                                ->where('product_id', $data['all_product'])
-                                ->whereNot('product_id', $data['no_all_product'])
-                                ->pluck('bot_user_id')->get();
+                                ->where('product_id', $data_all_product)
+                                ->whereNot('product_id', $data_no_all_product)
+
+                                ->get();
 
                             foreach ($bot_users as $bot_user) {
                                 TelegramSendMessageSchedule::upsert(
@@ -198,6 +205,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                     ['sending_id', 'bot_user_id'],
                                     ['updated_at' => now()]
                                 );
+                            }
 
 
                                 Notification::make()
@@ -206,7 +214,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                     ->send();
 
                                 return redirect('/admin/bots/' . $this->bot_id . '/sendings');
-                            }
+
                         }),
                     Action::make('Cancel')
                         ->action(function () {
