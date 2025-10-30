@@ -113,7 +113,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
 
         $this->shop_product = Pay::select('product_id as id')->pluck('id')->toArray();
 
-        $this->pay = Pay::select('product_id as id')->pluck('id')->toArray();
+        $this->pay = Pay::select('product_id as id')->groupBy('id')->pluck('id')->toArray();
 
         $this->no_shop_product = Product::select('id')->where('bot_id', $this->bot_id)->whereNotIn('id',$this->pay )->pluck('id')->toArray();
 
@@ -152,12 +152,13 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                         'xl' => 1,
                         '2xl' => 1,
                     ])
+                    ->label('Купил')
                     ->schema([
                         Forms\Components\CheckboxList::make('all_product')
                             ->label('По покупке продуктов')
                             ->options($this->all_product)
                             ->afterStateHydrated(function ($component, $state) {
-                                if (! filled($state)) {
+                                if (!filled($state)) {
                                     $component->state($this->shop_product);
                                 }
                             })
@@ -171,6 +172,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                         'xl' => 1,
                         '2xl' => 1,
                     ])
+                    ->label('Не купил')
                     ->schema([
                         Forms\Components\CheckboxList::make('no_all_product')
                             ->label('По не покупке продуктов')
