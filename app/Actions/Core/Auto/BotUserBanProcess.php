@@ -24,7 +24,6 @@ class BotUserBanProcess
         $supergroups = $botSupergroupsAll->handle();
 
         $bans = BotUserBanSchedule::with('bot', 'bot_user')
-            ->where('run_status', 0)
             ->where('ban_datetime', '<=', $datetime)
             ->take(25)
             ->get();
