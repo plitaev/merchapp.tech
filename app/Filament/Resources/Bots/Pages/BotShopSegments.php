@@ -163,7 +163,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                             })
                     ]),
                 Section::make('Не Купил')
-                    ->description('Укажите, продукты, которые пользователь не купил')
+                    ->description('Укажите, продукты, которые пользователь не покупал')
                     ->columns([
                         'sm' => 1,
                         'md' => 1,
