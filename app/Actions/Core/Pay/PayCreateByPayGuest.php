@@ -4,6 +4,7 @@ namespace App\Actions\Core\Pay;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\DateEnd\DateEnd;
 
+use App\Models\Core\BotUser;
 use App\Models\Core\Pay;
 use App\Models\Core\PayGuest;
 use App\Models\Core\Product;
@@ -37,6 +38,7 @@ class PayCreateByPayGuest
         }
 
         if (count($res) > 0) {
+            $bot_user = BotUser::find($bot_user->id);
             $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
         }
 
