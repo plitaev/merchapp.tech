@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Actions\Core\BotUser\BotUserGetByEmail;
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchAccess;
 use App\Models\Core\BotBranchLinkProduct;
@@ -107,27 +108,13 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
         $this->id = $id;
 
         $this->all_product = Product::all()->pluck('name', 'id')->toArray();
-        $this->shop_product = Pay::select('product_id')->where('bot_user_id', auth()->user()->id)->pluck('product_id')->toArray();
+        $this->shop_product = Pay::select('product_id as id')->where('bot_user_id', auth()->user()->id)->pluck('id')->toArray();
 
-        $bot_user = BotUser::select('id')->where('bot_id', $this->bot_id)->where('email', auth()->user()->email)->first();
+        $botUserGetByEmail = new BotUserGetByEmail();
 
-        $this->pay = Pay::select('product_id')->where('bot_user_id', auth()->user()->id)->pluck('product_id')->toArray();
+        $this->pay = Pay::select('product_id as id')->where('bot_user_id', auth()->user()->id)->pluck('id')->toArray();
 
-        $this->no_shop_product = Product::select('id as product_id')->whereNotIn('id',$this->pay )->pluck('product_id')->toArray();
-        echo "shop_product= ";
-        foreach ($this->shop_product as $product) {
-            echo $product;
-        }
-        echo "pay=";
-
-        foreach ($this->pay as $product) {
-            echo $product;
-        }
-        echo "shop_product= ";
-
-        foreach ($this->no_shop_product as $product) {
-            echo $product;
-        }
+        $this->no_shop_product = Product::select('id')->whereNotIn('id',$this->pay )->pluck('id')->toArray();
 
         $data = [];
         $data['bot_id'] = $bot_id;
@@ -169,7 +156,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                             ->label('По покупке продуктов')
                             ->options($this->all_product)
                             ->afterStateHydrated(function ($component, $state) {
-                                if (! filled($state)) {
+                                if (!  filled($state)) {
                                     $component->state($this->shop_product);
                                 }
                             })
@@ -185,11 +172,11 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                     ])
                     ->schema([
                         Forms\Components\CheckboxList::make('all_product')
-                            ->label('По покупке продуктов')
+                            ->label('По не покупке продуктов')
                             ->options($this->all_product)
                             ->afterStateHydrated(function ($component, $state) {
-                                if (! filled($state)) {
-                                    $component->state(!$this->no_shop_product);
+                                if (!filled($state)) {
+                                    $component->state($this->no_shop_product);
                                 }
                             })
                     ]),
