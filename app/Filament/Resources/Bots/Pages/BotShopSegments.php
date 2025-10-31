@@ -41,6 +41,8 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Wizard\Step;
 
 use App\Actions\Core\Sending\SendingSave;
 use App\Actions\Core\BotBranch\BotBranchSetEndByProducts;
@@ -84,10 +86,6 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
 
     public ?array $all_product = [];
     public ?array $no_all_product = [];
-    public ?array $shop_product = [];
-    public ?array $no_shop_product = [];
-
-    public ?array $pay = [];
 
     public function getRecord(): ?Model
     {
@@ -113,12 +111,6 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
         $this->all_product = Product::all()->where('bot_id', $this->bot_id)->pluck('name', 'id')->toArray();
         $this->no_all_product = Product::all()->where('bot_id', $this->bot_id)->pluck('name', 'id')->toArray();
 
-        $this->shop_product = Pay::select('product_id as id')->pluck('id')->toArray();
-
-        $this->pay = Pay::select('product_id as id')->groupBy('id')->pluck('id')->toArray();
-
-        $this->no_shop_product = Product::select('id')->where('bot_id', $this->bot_id)->whereNotIn('id', $this->pay)->pluck('id')->toArray();
-
         $data = [];
         $data['bot_id'] = $bot_id;
         $this->bot_branch_hash = '';
@@ -143,133 +135,85 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
 
     public function form(Schema $schema): Schema
     {
-        $key = '';
-        return $schema
-            ->components([
-                Section::make('Купил')
-                    ->description('Укажите, продукты, которые пользователь покупал')
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1,
-                    ])
-                    ->schema([
-                        Forms\Components\CheckboxList::make('all_product')
-                            ->label('По покупке продуктов')
-                            ->options($this->all_product)
-                            ->rules(['exists:products,id'])
-                            ->live()
-                            ->afterStateHydrated(function ($component, $state) {
-                                if (!filled($state)) {
-                                    $component->state($this->shop_product);
-                                }
-                            })
-                            ->afterStateUpdated(function (Set $set, $state) use ($key) {
-                                if ($state === false) {
-                                    $set("no_all_product",[$key], true); // Unsets optionalItems if assignedItems is unchecked
-                                }
-                            })
-                            ->disabled(function (Get $get) {
-
-                                if (is_callable($get)) {
-                                    foreach ($get('all_product') as $all_product) {
-                                        foreach ($get('no_all_product') as $no_all_product) {
-                                            if ($get('all_product').$all_product->accepted() && $get('no_all_product').$no_all_product->accepted()) {
-                                                $get('no_all_product').value($no_all_product)->inline(false);
-                                                return $no_all_product;
-                                            }else{
-                                                $get('no_all_product').value($all_product)->inline(true);
-                                                return $all_product;
-                                            }
-                                        }
-                                    }
-
-
-
-                                }
-                            }),
-                    ]),
-                Section::make('Не купил')
-                    ->description('Укажите, продукты, которые пользователь не покупал')
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1,
-                    ])
-                    ->schema([
-                        Forms\Components\CheckboxList::make('no_all_product')
-                            ->label('По не покупке продуктов')
-                            ->options($this->no_all_product)
-                            ->exists(table: Product::class, column: 'id')
-                            ->live()
-                            ->afterStateHydrated(function ($component, $state) {
-                                if (!filled($state)) {
-                                    $component->state($this->no_shop_product);
-                                }
-                            })
-                            ->afterStateUpdated(function (Set $set, $state) use ($key) {
-                                if ($state === true) {
-                                    $set("all_product",[$key], false); // Unsets optionalItems if assignedItems is unchecked
-                                }
-                            })
-                            ->disabled(function (Get $get) {
-
-                                if (is_callable($get)) {
-                                    foreach ($get('no_all_product') as $no_all_product) {
-                                        foreach ($get('all_product') as $all_product) {
-                                            if ($get('all_product').$all_product->declined() && $get('no_all_product').$no_all_product->declined()) {
-                                                $get('no_all_product').value($all_product)->inline(true);
-                                                return $all_product;
-                                            }else{
-                                                $get('no_all_product').value($no_all_product)->inline(false);
-                                                return $all_product;
-                                            }
-                                        }
-                                    }
-                                }
-
-                            }),
-
-                    ]),
-
-                Actions::make([
-                    Action::make('Сохранить')
-                        ->action(function () {
-                            $data = $this->form->getState();
-
-                            $bot_users = Pay::select('bot_user_id')
-                                ->where('product_id', $data['all_product'])
-                                ->whereNot('product_id', $data['no_all_product'])
-                                ->get();
-
-                            foreach ($bot_users as $bot_user) {
-                                TelegramSendMessageSchedule::upsert(
-                                    ['sending_id' => $this->id, 'bot_user_id' => $bot_user->bot_user_id],
-                                    ['sending_id', 'bot_user_id'],
-                                    ['updated_at' => now()]
-                                );
-                            }
-
-
-                            Notification::make()
-                                ->title('Данные успешно сохранены!')
-                                ->success()
-                                ->send();
-
-                            return redirect('/admin/bots/' . $this->bot_id . '/sendings');
-
-                        }),
-                    Action::make('Cancel')
-                        ->action(function () {
-                            return redirect('/admin/bots/' . $this->bot_id . '/branches');
-                        })
-                        ->label('Вернуться назад'),
+        $key='';
+        return [
+            Step::make('Купил')
+                ->description('Укажите, продукты, которые пользователь покупал')
+                ->columns([
+                    'sm' => 1,
+                    'md' => 1,
+                    'lg' => 1,
+                    'xl' => 1,
+                    '2xl' => 1,
                 ])
-            ])->statePath('data');
+                ->schema([
+                    Forms\Components\CheckboxList::make('all_product')
+                        ->label('По покупке продуктов')
+                        ->options($this->all_product)
+                        ->rules(['exists:products,id'])
+                        ->live()
+                        ->afterStateHydrated(function ($component, $state) {
+                            if (!filled($state)) {
+                                $component->state($this->all_product);
+                            }
+                        })
+                ]),
+            Step::make('Не купил')
+                ->description('Укажите, продукты, которые пользователь не покупал')
+                ->columns([
+                    'sm' => 1,
+                    'md' => 1,
+                    'lg' => 1,
+                    'xl' => 1,
+                    '2xl' => 1,
+                ])
+                ->schema([
+                    Forms\Components\CheckboxList::make('no_all_product.{$key}')
+                        ->label('По не покупке продуктов')
+                        ->options($this->no_all_product)
+                        ->exists(table: Product::class, column: 'id')
+                        ->live()
+                        ->afterStateHydrated(function ($component, $state) {
+                            if (!filled($state)) {
+                                $component->state($this->no_all_product);
+                            }
+                        })
+                ]),
+
+            Actions::make([
+                Action::make('Сохранить')
+                    ->action(function () {
+                        $data = $this->form->getState();
+
+                        $bot_users = Pay::select('bot_user_id')
+                            ->where('product_id', $data['all_product'])
+                            ->whereNot('product_id', $data['no_all_product'])
+                            ->get();
+
+                        foreach ($bot_users as $bot_user) {
+                            TelegramSendMessageSchedule::upsert(
+                                ['sending_id' => $this->id, 'bot_user_id' => $bot_user->bot_user_id],
+                                ['sending_id', 'bot_user_id'],
+                                ['updated_at' => now()]
+                            );
+                        }
+
+
+                        Notification::make()
+                            ->title('Данные успешно сохранены!')
+                            ->success()
+                            ->send();
+
+                        return redirect('/admin/bots/' . $this->bot_id . '/sendings');
+
+                    }),
+                Action::make('Cancel')
+                    ->action(function () {
+                        return redirect('/admin/bots/' . $this->bot_id . '/branches');
+                    })
+                    ->label('Вернуться назад'),
+            ])
+        ])->statePath('data');
     }
 
 }
