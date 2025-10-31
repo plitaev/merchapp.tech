@@ -151,7 +151,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ->schema([
                         Hidden::make('id'),
                         TextInput::make('name')
-                            ->label('Название рассылки')
+                            ->label('Название')
                             ->required()
                             ->maxLength(255),
                         TextInput::make('alias')
