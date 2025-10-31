@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Bots\Pages;
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchAccess;
 use App\Models\Core\BotBranchLinkProduct;
+use App\Models\Core\BotBranchType;
 use App\Models\Core\BotMessageAppointment;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
@@ -170,7 +171,11 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите дату и время окончания акции',
-                            ])
+                            ]),
+                        Select::make('bot_branch_type')
+                            ->label('Тип ветки')
+                            ->options(BotBranchType::all()->pluck('name', 'id'))
+                            ->searchable(),
                     ]),
                 Section::make('Акция')
                     ->description(new HtmlString('Ссылка на запуск к акции в боте: <a href="https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.'" style="text-decoration: underline" target="_blank">https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.'</a>'))
