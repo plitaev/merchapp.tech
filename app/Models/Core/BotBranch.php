@@ -8,6 +8,7 @@ class BotBranch extends Model
 {
     protected $fillable = [
         'bot_id',
+        'bot_branch_type',
         'name',
         'alias',
         'hash',
