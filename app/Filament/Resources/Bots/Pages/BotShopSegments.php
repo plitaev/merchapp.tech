@@ -170,8 +170,8 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                 if (is_callable($get)) {
                                     foreach ($get('all_product') as $all_product) {
                                         foreach ($get('no_all_product') as $no_all_product) {
-                                            if ($this->all_product==1 && $this->no_all_product==1) {
-                                                $this->all_product->inline(false);
+                                            if ($all_product == $no_all_product) {
+                                                // $no_all_product->inline(false);
                                                 return $no_all_product;
                                             }
                                         }
@@ -205,10 +205,10 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                             ->disabled(function (Get $get) {
 
                                 if (is_callable($get)) {
-                                    foreach ($get('all_product') as $all_product) {
-                                        foreach ($get('no_all_product') as $no_all_product) {
-                                            if ($this->all_product==1 && $this->no_all_product==1) {
-                                                $this->no_all_product->inline(false);
+                                    foreach ($get('no_all_product') as $no_all_product) {
+                                        foreach ($get('all_product') as $all_product) {
+                                            if ($all_product == $no_all_product) {
+                                                // $this->all_product->inline(false);
                                                 return $all_product;
                                             }
                                         }
