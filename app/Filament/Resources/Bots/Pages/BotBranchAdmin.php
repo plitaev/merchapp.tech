@@ -305,6 +305,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             return redirect('/admin/bots/'.$this->bot_id.'/branches');
                         })
                         ->label('Завершить акцию сейчас')
+                        ->visible($this->id > 0 && $this->bot_branch_type == 2)
                 ])
             ])->statePath('data');
     }
