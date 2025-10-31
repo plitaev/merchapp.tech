@@ -186,7 +186,8 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         'xl' => 1,
                         '2xl' => 1
                     ])
-                    ->schema([]),
+                    ->schema([])
+                    ->visible($this->id),
                 Section::make('Доступ для новых пользователей')
                     ->description('Укажите, должны ли новые пользователи получать доступ к участию в акции')
                     ->columns([
