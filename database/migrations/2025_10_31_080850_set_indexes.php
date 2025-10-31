@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bot_users', function (Blueprint $table) {
-            $table->index('email');
+            $table->index('email', 'email');
         });
 
         Schema::table('pay_guests', function (Blueprint $table) {
-            $table->index('email');
+            $table->index('email', 'email');
         });
     }
 
