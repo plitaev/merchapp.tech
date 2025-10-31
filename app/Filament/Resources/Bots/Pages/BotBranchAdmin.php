@@ -113,7 +113,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
         if ($id > 0) {
             $data = BotBranch::find($id)->toArray();
             $this->bot_branch_hash = $data["hash"];
-            $this->bot_branch_type = $data['$bot_branch_type'];
+            $this->bot_branch_type = $data['bot_branch_type'];
         } else {
             $data = [];
             $data['bot_id'] = $bot_id;
