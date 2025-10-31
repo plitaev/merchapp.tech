@@ -45,7 +45,7 @@ class DevTestController extends Controller
     public function devtest() {
         $result = [];
 
-        $emails = BotUser::select('email')->groupBy('email')->orderBy('email')->skip(0)->take(5000)->pluck('email')->toArray();
+        $emails = BotUser::select('email')->groupBy('email')->orderBy('email')->pluck('email')->toArray();
         foreach ($emails as $email) {
             $chk = BotUser::where('email', $email)->count();
             if ($chk > 1) $result[] = $email;
