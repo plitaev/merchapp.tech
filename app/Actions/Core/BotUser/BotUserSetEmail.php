@@ -14,8 +14,8 @@ class BotUserSetEmail
         if ($other_telegram_user > 0) {
             $botSendMessage->handle($bot_user, 'SYS_OTHER_USER_WITH_ENTERED_EMAIL');
             die();
+        } else {
+            BotUser::where('id', $bot_user->id)->update(['email' => $email]);
         }
-        //\App\Models\Core\BotUser::where('id', $bot_user->id)->update(['email' => $email, 'listen_email_status' => 0, 'listen_email_status_timestamp' => now()]);
-        BotUser::where('id', $bot_user->id)->update(['email' => $email]);
     }
 }
