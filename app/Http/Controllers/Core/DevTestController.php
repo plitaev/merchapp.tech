@@ -43,14 +43,15 @@ use Spatie\Permission\Models\Permission;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $result = [];
 
-        $dateEnd = new DateEnd();
+        $emails = BotUser::select('email')->groupBy('email')->pluck('email')->toArray();
+        foreach ($emails as $email) {
+            $chk = BotUser::where('email', $email)->count();
+            if ($chk > 1) $result[] = $email;
+        }
 
-        $bot_user = BotUser::find(14389);
-        $dateEnd->handle($bot_user, 'Y-m-d');
-
-        $bot_user = BotUser::find(15451);
-        $dateEnd->handle($bot_user, 'Y-m-d');
+        return $result;
 
         /*
         $bot_users = BotUser::select('id')->pluck('id')->toArray();
