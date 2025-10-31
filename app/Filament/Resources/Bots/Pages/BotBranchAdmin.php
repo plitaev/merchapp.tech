@@ -62,6 +62,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
     public int $id;
 
     public int $bot_id;
+    public int $bot_branch_type;
     public int $bot_message_id;
     public string $bot_name;
     public string $bot_alias;
@@ -112,9 +113,11 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
         if ($id > 0) {
             $data = BotBranch::find($id)->toArray();
             $this->bot_branch_hash = $data["hash"];
+            $this->bot_branch_type = $data['$bot_branch_type'];
         } else {
             $data = [];
             $data['bot_id'] = $bot_id;
+            $this->bot_branch_type = 0;
             $this->bot_branch_hash = '';
 
             $data['new_users_bot_branch_access_id'] = 1;
@@ -192,7 +195,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         '2xl' => 1
                     ])
                     ->schema([])
-                    ->visible($this->id > 0),
+                    ->visible($this->id > 0 && $this->bot_branch_type == 2),
                 Section::make('Доступ для категорий пользователей')
                     ->description('Укажите, должны ли новые пользователи получать доступ к участию в акции')
                     ->columns([
