@@ -283,6 +283,8 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
 
                             } else {
                                 $data['hash'] = $hash;
+                                $data['bot_id'] = $this->bot_id;
+
                                 $new = BotBranch::create($data);
                                 $botBranchSetEndByProducts->handle($new->id, $end_by_products);
 
