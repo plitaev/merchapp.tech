@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Filament\Resources\Bots\Pages;
 
 use App\Actions\Core\BotUser\BotUserGetByEmail;
@@ -39,6 +40,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 
 use App\Actions\Core\Sending\SendingSave;
 use App\Actions\Core\BotBranch\BotBranchSetEndByProducts;
@@ -115,7 +117,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
 
         $this->pay = Pay::select('product_id as id')->groupBy('id')->pluck('id')->toArray();
 
-        $this->no_shop_product = Product::select('id')->where('bot_id', $this->bot_id)->whereNotIn('id',$this->pay )->pluck('id')->toArray();
+        $this->no_shop_product = Product::select('id')->where('bot_id', $this->bot_id)->whereNotIn('id', $this->pay)->pluck('id')->toArray();
 
         $data = [];
         $data['bot_id'] = $bot_id;
@@ -163,9 +165,20 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                     $component->state($this->shop_product);
                                 }
                             })
-                            ->visible(function (Get $get) {
+                            ->disabled(function (Get $get) {
+
                                 if (is_callable($get)) {
-                                    return $get('no_all_product') == $get('all_product');
+                                    foreach ($get('all_product') as $all_product) {
+                                        foreach ($get('no_all_product') as $no_all_product) {
+                                            if ($this->all_product==1 && $this->no_all_product==1) {
+                                                $this->all_product->inline(false);
+                                                return $no_all_product;
+                                            }
+                                        }
+                                    }
+
+
+
                                 }
                             }),
                     ]),
@@ -189,6 +202,20 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                     $component->state($this->no_shop_product);
                                 }
                             })
+                            ->disabled(function (Get $get) {
+
+                                if (is_callable($get)) {
+                                    foreach ($get('all_product') as $all_product) {
+                                        foreach ($get('no_all_product') as $no_all_product) {
+                                            if ($this->all_product==1 && $this->no_all_product==1) {
+                                                $this->no_all_product->inline(false);
+                                                return $all_product;
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }),
 
                     ]),
 
@@ -221,7 +248,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                         }),
                     Action::make('Cancel')
                         ->action(function () {
-                            return redirect('/admin/bots/'.$this->bot_id.'/branches');
+                            return redirect('/admin/bots/' . $this->bot_id . '/branches');
                         })
                         ->label('Вернуться назад'),
                 ])
