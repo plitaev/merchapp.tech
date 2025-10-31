@@ -143,6 +143,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
 
     public function form(Schema $schema): Schema
     {
+        $key = '';
         return $schema
             ->components([
                 Section::make('Купил')
@@ -165,12 +166,17 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                     $component->state($this->shop_product);
                                 }
                             })
+                            ->afterStateUpdated(function (Set $set, $state) use ($key) {
+                                if ($state === false) {
+                                    $set("no_all_product",[$key], true); // Unsets optionalItems if assignedItems is unchecked
+                                }
+                            })
                             ->disabled(function (Get $get) {
 
                                 if (is_callable($get)) {
                                     foreach ($get('all_product') as $all_product) {
                                         foreach ($get('no_all_product') as $no_all_product) {
-                                            if ($all_product->accepted() == $no_all_product->accepted()) {
+                                            if ($get('all_product').$all_product->accepted() && $get('no_all_product').$no_all_product->accepted()) {
                                                 $get('no_all_product').value($no_all_product)->inline(false);
                                                 return $no_all_product;
                                             }else{
@@ -205,19 +211,23 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                     $component->state($this->no_shop_product);
                                 }
                             })
+                            ->afterStateUpdated(function (Set $set, $state) use ($key) {
+                                if ($state === true) {
+                                    $set("all_product",[$key], false); // Unsets optionalItems if assignedItems is unchecked
+                                }
+                            })
                             ->disabled(function (Get $get) {
 
                                 if (is_callable($get)) {
                                     foreach ($get('no_all_product') as $no_all_product) {
                                         foreach ($get('all_product') as $all_product) {
-                                            if ($get('no_all_product')->declined() == $get('no_all_product')->declined()) {
+                                            if ($get('all_product').$all_product->declined() && $get('no_all_product').$no_all_product->declined()) {
                                                 $get('no_all_product').value($all_product)->inline(true);
                                                 return $all_product;
                                             }else{
                                                 $get('no_all_product').value($no_all_product)->inline(false);
                                                 return $all_product;
                                             }
-
                                         }
                                     }
                                 }
