@@ -184,6 +184,10 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Тип ветки')
                             ->options(BotBranchType::all()->pluck('name', 'id'))
                             ->searchable(),
+                        Select::make('bot_branch_product_id')
+                            ->label('Продукт, участвующий в акции')
+                            ->options(Product::all()->pluck('name', 'id'))
+                            ->searchable(),
                     ]),
                 Section::make('Акция')
                     ->description(new HtmlString('Ссылка на запуск к акции в боте: <a href="https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.'" style="text-decoration: underline" target="_blank">https://t.me/'.$this->bot_alias.'?start='.$this->bot_branch_hash.'</a>'))

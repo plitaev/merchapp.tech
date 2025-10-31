@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-
+        Schema::create('bot_branches', function (Blueprint $table) {
+            $table->usignedBigInteger('bot_branch_product_id')->after('bot_branch_type');
+        });
     }
 
     /**
