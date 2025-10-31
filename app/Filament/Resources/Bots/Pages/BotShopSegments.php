@@ -170,9 +170,12 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                 if (is_callable($get)) {
                                     foreach ($get('all_product') as $all_product) {
                                         foreach ($get('no_all_product') as $no_all_product) {
-                                            if ($all_product == $no_all_product) {
-                                                // $no_all_product->inline(false);
+                                            if ($all_product->accepted() == $no_all_product->accepted()) {
+                                                $get('no_all_product').value($no_all_product)->inline(false);
                                                 return $no_all_product;
+                                            }else{
+                                                $get('no_all_product').value($all_product)->inline(true);
+                                                return $all_product;
                                             }
                                         }
                                     }
@@ -207,10 +210,14 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                 if (is_callable($get)) {
                                     foreach ($get('no_all_product') as $no_all_product) {
                                         foreach ($get('all_product') as $all_product) {
-                                            if ($all_product == $no_all_product) {
-                                                // $this->all_product->inline(false);
+                                            if ($get('no_all_product')->declined() == $get('no_all_product')->declined()) {
+                                                $get('no_all_product').value($all_product)->inline(true);
+                                                return $all_product;
+                                            }else{
+                                                $get('no_all_product').value($no_all_product)->inline(false);
                                                 return $all_product;
                                             }
+
                                         }
                                     }
                                 }
