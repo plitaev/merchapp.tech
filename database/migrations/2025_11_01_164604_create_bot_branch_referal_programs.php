@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('bot_branch_referral_programs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('bot_branch_id');
-            $table->unsignedBigInteger('referral_branch_id');
-            $table->unsignedBigInteger('referrer_bot_user_id')->nullable();
+            $table->unsignedBigInteger('referrer_bot_user_id');
+            $table->unsignedBigInteger('referral_bot_user_id')->nullable();
             $table->timestamps();
 
-            $table->unique(['bot_branch_id', 'referral_branch_id', 'referrer_bot_user_id'], 'unique');
+            $table->unique(['bot_branch_id', 'referrer_bot_user_id', 'referral_bot_user_id'], 'unique');
         });
     }
 
