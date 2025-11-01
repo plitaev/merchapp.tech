@@ -17,6 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('referral_branch_id');
             $table->unsignedBigInteger('referrer_bot_user_id')->nullable();
             $table->timestamps();
+
+            $table->unique(['bot_branch_id', 'referral_branch_id', 'referrer_bot_user_id'], 'unique');
         });
     }
 
