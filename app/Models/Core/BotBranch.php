@@ -23,6 +23,7 @@ class BotBranch extends Model
         'members_bot_branch_access_id',
         'members_bot_message_id',
         'banneds_bot_branch_access_id',
-        'banneds_bot_message_id'
+        'banneds_bot_message_id',
+        'referal_program_max_referrals_count'
     ];
 }

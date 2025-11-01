@@ -1,11 +1,17 @@
 <?php
+
 namespace App\Actions\Core\ReferralProgram;
+
+use App\Actions\Core\BotSendMessage\BotSendMessage;
 
 use App\Models\Core\BotBranch;
 
 class ReferralProgramRunForReferrer
 {
     public function handle($bot_user) {
+
+        $botSendMessage = new BotSendMessage();
+
         $date = date('Y-m-d', time());
         $datetime = date('Y-m-d H:i:s', time());
 
@@ -15,8 +21,10 @@ class ReferralProgramRunForReferrer
             ->where('datetime_start', '<=', $datetime)
             ->first();
 
-        if ($rp_actual) {
-
+        if ($rp_actual && isset($bot_user->date_end) && $bot_user->date_end >= $date) {
+            $botSendMessage->handle($bot_user, 'SYS_RP_REFERRER_GENERATE_LINK');
+        } else {
+            $botSendMessage->handle($bot_user, 'SYS_RP_REFERRER_IS_NOT_A_MEMBER');
         }
 
     }
