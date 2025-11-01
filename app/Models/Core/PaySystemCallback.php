@@ -8,6 +8,7 @@ class PaySystemCallback extends Model
 {
     protected $fillable = [
         'pay_system_id',
-        'callback'
+        'callback',
+        'run_status'
     ];
 }
