@@ -9,7 +9,7 @@ use App\Actions\Core\Auto\BotUserRecurrentSchedulerProcess;
 use App\Actions\Core\Auto\BotUserSetRecurrentScheduler;
 use App\Actions\Core\Auto\BotUserSetBanScheduler;
 use App\Actions\Core\Auto\BotUserUnbanProcess;
-
+use App\Actions\Core\Auto\ProdamusFinishPay;
 use App\Actions\Core\Auto\TelegramBusinessOpeningHours;
 use App\Actions\Core\Auto\TelegramBusinessResponceInOpeningHours;
 use App\Actions\Core\Auto\TelegramSendMessageScheduleProcess;
@@ -54,6 +54,11 @@ class AutoController extends Controller
     {
         $botUserUnbanProcess = new BotUserUnbanProcess();
         return $botUserUnbanProcess->handle();
+    }
+
+    public function prodamus_process() {
+        $ProdamusFinishPay = new ProdamusFinishPay();
+        return $ProdamusFinishPay->handle();
     }
 
     public function telegram_business_opening_hours()
