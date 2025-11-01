@@ -25,8 +25,6 @@ class ReferralProgramRunForReferrer
 
         if ($rp_actual && isset($bot_user->date_end) && $bot_user->date_end >= $date) {
 
-            return $bot_user;
-
             BotBranchReferralProgram::create(
                 [
                     'bot_branch_id' => $rp_actual->id,
