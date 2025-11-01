@@ -4,7 +4,7 @@ namespace App\Models\Core;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BotBranchReferalProgram extends Model
+class BotBranchReferralProgram extends Model
 {
     protected $fillable = [
         'bot_branch_id',

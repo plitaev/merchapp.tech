@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bot_branch_referal_programs', function (Blueprint $table) {
+        Schema::create('bot_branch_referral_programs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('bot_branch_id');
             $table->unsignedBigInteger('referral_branch_id');
