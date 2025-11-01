@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers\Project;
 
-use App\Http\Controllers\Controller;
-
-use Telegram\Bot\Api;
-
-use App\Actions\Core\BotBranch\BotBranchRun;
 use App\Actions\Core\Bot\BotGetByID;
+use App\Actions\Core\BotBranch\BotBranchRun;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotSupergroup\BotSupergroups;
 use App\Actions\Core\BotUser\BotUserCreateFromTelegram;
 use App\Actions\Core\BotUser\BotUserGetFromTelegram;
 use App\Actions\Core\BotUser\BotUserSetBranch;
+use App\Actions\Core\ReferralProgram\ReferralProgramRunForReferrer;
 use App\Actions\Core\Telegram\TelegramGetChatIDFromWebhook;
 use App\Actions\Core\Telegram\TelegramMessageGetStartParams;
 use App\Actions\Core\Telegram\TelegramWebhookWrite;
@@ -31,8 +28,8 @@ use App\Actions\Project\ClubAccess\BotRequestAndConfirmEmail;
 use App\Actions\Project\ClubAccess\BotResetUser;
 use App\Actions\Project\ClubAccess\BotUserRecurrentDisable;
 use App\Actions\Project\ClubAccess\BotWelcomeMessage;
-
-use App\Models\Core\BotBranch;
+use App\Http\Controllers\Controller;
+use Telegram\Bot\Api;
 
 class ClubAccessController extends Controller
 {
@@ -46,6 +43,7 @@ class ClubAccessController extends Controller
         $botUserCreateFromTelegram = new BotUserCreateFromTelegram();
         $botUserGetFromTelegram = new BotUserGetFromTelegram();
         $botUserSetBranch = new BotUserSetBranch();
+        $referralProgramRunForReferrer = new ReferralProgramRunForReferrer();
         $telegramGetChatIDFromWebhook = new TelegramGetChatIDFromWebhook();
         $telegramMessageGetStartParams = new TelegramMessageGetStartParams();
         $telegramWebhookWrite = new TelegramWebhookWrite();
@@ -122,6 +120,12 @@ class ClubAccessController extends Controller
             //== Если это /registration, тут обрабатываем регистрацию
             if ($Astart[0] == "/registration") {
                 $botRequestAndConfirmEmail->handle($bot_user);
+            }
+
+            //== Если это /referral, тут обрабатываем реферальную программу
+            if ($Astart[0] == "/referral") {
+                $referralProgramRunForReferrer->handle($bot_user);
+                die();
             }
 
             //== Если это /cabinet, тут обрабатываем личный кабинет
