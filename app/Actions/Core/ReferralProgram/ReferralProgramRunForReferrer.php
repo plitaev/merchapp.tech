@@ -19,11 +19,11 @@ class ReferralProgramRunForReferrer
         $rp_actual = BotBranch::select('id')
             ->where('bot_branch_type', 3)
             ->where('bot_id', $bot_user->bot_id)
-            ->where('datetime_start', '>=', $datetime)
-            ->where('datetime_end', '<=', $datetime)
+            ->where('datetime_start', '<=', $datetime)
+            ->where('datetime_end', '>=', $datetime)
             ->first();
 
-        return $bot_user;
+        return $rp_actual;
 
         if ($rp_actual && isset($bot_user->date_end) && $bot_user->date_end >= $date) {
 
