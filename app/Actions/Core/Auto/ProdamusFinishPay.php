@@ -8,7 +8,7 @@ class ProdamusFinishPay {
     public function handle() {
         $payMakeSuccessful = new PayMakeSuccessful();
 
-        $res = PaySystemCallback::where('pay_system_id', 2)->where('run_status', 0)->get();
+        $res = PaySystemCallback::where('pay_system_id', 2)->where('run_status', 0)->orderBy('created_at')->take(1)->get();
         foreach ($res as $data) {
             PaySystemCallback::where('id', $data->id)->update(['run_status' => 1]);
 
