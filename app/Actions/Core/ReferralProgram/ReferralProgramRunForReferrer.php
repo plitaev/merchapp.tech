@@ -23,7 +23,7 @@ class ReferralProgramRunForReferrer
             ->where('datetime_end', '<=', $datetime)
             ->first();
 
-        return $rp_actual;
+        return $bot_user;
 
         if ($rp_actual && isset($bot_user->date_end) && $bot_user->date_end >= $date) {
 
