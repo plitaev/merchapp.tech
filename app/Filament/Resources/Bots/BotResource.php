@@ -187,7 +187,6 @@ class BotResource extends Resource
             'getcourse-settings' => BotGetCourseSettings::route('/{bot_id}/getcourse-settings'),
             'getcourse-webhooks' => BotGetCourseWebhooks::route('/{bot_id}/getcourse-webhooks'),
             'messages' => BotMessages::route('/{bot_id}/messages'),
-            'message-admin' => BotMessageAdmin::route('/{bot_id}/{id}/message-admin'),
             'pays' => BotPays::route('/{bot_id}/pays'),
             'pay-admin' => BotPayAdmin::route('/{bot_id}/{id}/pay-admin'),
             'pay-system-admin' => BotPaySystemAdmin::route('/{record}/pay-system-admin'),
