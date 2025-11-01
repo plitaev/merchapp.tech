@@ -20,7 +20,7 @@ class ReferralProgramRunForReferrer
             ->where('bot_branch_type', 3)
             ->where('bot_id', $bot_user->bot_id)
             ->where('datetime_start', '>=', $datetime)
-            ->where('datetime_start', '<=', $datetime)
+            ->where('datetime_end', '<=', $datetime)
             ->first();
 
         return $rp_actual;
