@@ -6,6 +6,7 @@ use App\Models\Core\BotBranch;
 class ReferralProgramRunForReferrer
 {
     public function handle($bot_user) {
+        $date = date('Y-m-d', time());
         $datetime = date('Y-m-d H:i:s', time());
 
         $rp_actual = BotBranch::where('bot_branch_type', 3)
