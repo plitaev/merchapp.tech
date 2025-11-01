@@ -24,13 +24,16 @@ class ReferralProgramRunForReferrer
             ->first();
 
         if ($rp_actual && isset($bot_user->date_end) && $bot_user->date_end >= $date) {
+            $check = BotBranchReferralProgram::where('bot_branch_id', $rp_actual->id)->where('referrer_bot_user_id', $bot_user->id)->count();
 
-            BotBranchReferralProgram::create(
-                [
-                    'bot_branch_id' => $rp_actual->id,
-                    'referrer_bot_user_id' => $bot_user->id
-                ]
-            );
+            if ($check == 0) {
+                BotBranchReferralProgram::create(
+                    [
+                        'bot_branch_id' => $rp_actual->id,
+                        'referrer_bot_user_id' => $bot_user->id
+                    ]
+                );
+            }
 
             $botSendMessage->handle($bot_user, 'SYS_RP_REFERRER_GENERATE_LINK');
         } else {
