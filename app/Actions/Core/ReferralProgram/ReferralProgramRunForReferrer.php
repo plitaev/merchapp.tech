@@ -23,8 +23,6 @@ class ReferralProgramRunForReferrer
             ->where('datetime_end', '>=', $datetime)
             ->first();
 
-        return $rp_actual;
-
         if ($rp_actual && isset($bot_user->date_end) && $bot_user->date_end >= $date) {
 
             BotBranchReferralProgram::create(
