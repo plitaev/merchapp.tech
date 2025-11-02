@@ -212,6 +212,8 @@ class BotPayAdmin extends Page implements HasForms
                             return redirect('/admin/bots/'.$this->bot_id.'/pays');
                         }),
                     Action::make('Вернуть платеж')
+                        ->color('info')
+                        ->requiresConfirmation()
                         ->action(function () {
                             $payRefund = new PayRefund();
                             $payRefund->handle($this->id);
