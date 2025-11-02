@@ -212,6 +212,8 @@ class BotPayAdmin extends Page implements HasForms
                             return redirect('/admin/bots/'.$this->bot_id.'/pays');
                         }),
                     Action::make('Вернуть платеж')
+                        ->color('info')
+                        ->requiresConfirmation()
                         ->action(function () {
                             $payRefund = new PayRefund();
                             $payRefund->handle($this->id);
@@ -220,6 +222,7 @@ class BotPayAdmin extends Page implements HasForms
                     ->label('Вернуть платёж')
                     ->visible($this->id > 0),
                     Action::make('Cancel')
+                        ->color('gray')
                         ->action(function () {
                             return redirect('/admin/bots/'.$this->bot_id.'/pays');
                         })

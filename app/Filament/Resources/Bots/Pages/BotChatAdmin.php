@@ -189,7 +189,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             ->label('Автоплатеж включен')
                     ]),
                 Section::make('Статистика')
-                    ->description(new HtmlString("<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs' style='display: block; margin-bottom: 10px; font-weight:bold'>Сообщения от бота: {$this->count} 👉</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Баны: {$this->count_ban} 👉</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs' style='display: block; margin-top: 10px; font-weight:bold'>Разбаны: {$this->count_unban} 👉</a>"))
+                    ->description(new HtmlString("<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs' style='display: block; margin-bottom: 10px; font-weight:bold'>Сообщения от бота: {$this->count} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Баны: {$this->count_ban} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs' style='display: block; margin-top: 10px; font-weight:bold'>Разбаны: {$this->count_unban} 🔍</a>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
@@ -199,7 +199,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                     ])
                     ->schema([]),
                 Section::make('Ошибки')
-                    ->description(new HtmlString("<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-error-logs' style='display: block; margin-bottom: 10px; font-weight:bold'>Баны: {$this->count_ban_error} 👉</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-error-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Разбаны: {$this->count_unban_error} 👉</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-chat-member-error-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Заявки на вступление: {$this->count_chat_member_error} 👉</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-error-logs' style='display: block; margin-top: 10px; font-weight:bold'>Отправки сообщений: {$this->count_send_message_error} 👉</a>"))
+                    ->description(new HtmlString("<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-error-logs' style='display: block; margin-bottom: 10px; font-weight:bold'>Баны: {$this->count_ban_error} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-error-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Разбаны: {$this->count_unban_error} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-chat-member-error-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Заявки на вступление: {$this->count_chat_member_error} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-error-logs' style='display: block; margin-top: 10px; font-weight:bold'>Отправки сообщений: {$this->count_send_message_error} 🔍</a>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
@@ -231,6 +231,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         }),
                     Action::make('send_message')
+                        ->color('success')
                         ->label('Отправить сообщение')
                         ->form([
                             Select::make('bot_message_id')
@@ -253,6 +254,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                         }),
                     Action::make('change_user')
                         ->label('Сменить пользователя')
+                        ->color('danger')
+                        ->requiresConfirmation()
                         ->action(function () {
                             BotAdminLog::create(['bot_user_id' =>  $this->bot_user_id, 'user_id' => auth()->id(), 'name' =>'Смена пользователя']);
 
@@ -297,6 +300,9 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             return redirect("/admin/bots/".$this->bot_id."/".$this->bot_user_id."/chat-admin");
                         }),
                     Action::make('Списать рекуррент повторно')
+                        ->label('Списать рекуррент повторно')
+                        ->color('success')
+                        ->requiresConfirmation()
                         ->visible( $this->count_p == 1 )
                         ->action(function () {
                             $data = $this->form->getState();
@@ -313,6 +319,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         }),
                     Action::make('Cancel')
+                        ->color('gray')
                         ->action(function () {
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         })
