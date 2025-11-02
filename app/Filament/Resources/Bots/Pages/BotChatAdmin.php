@@ -231,6 +231,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         }),
                     Action::make('send_message')
+                        ->color('warning')
                         ->label('Отправить сообщение')
                         ->form([
                             Select::make('bot_message_id')
@@ -253,6 +254,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                         }),
                     Action::make('change_user')
                         ->label('Сменить пользователя')
+                        ->color('danger')
+                        ->requiresConfirmation()
                         ->action(function () {
                             BotAdminLog::create(['bot_user_id' =>  $this->bot_user_id, 'user_id' => auth()->id(), 'name' =>'Смена пользователя']);
 
@@ -297,6 +300,9 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             return redirect("/admin/bots/".$this->bot_id."/".$this->bot_user_id."/chat-admin");
                         }),
                     Action::make('Списать рекуррент повторно')
+                        ->label('Списать рекуррент повторно')
+                        ->color('success')
+                        ->requiresConfirmation()
                         ->visible( $this->count_p == 1 )
                         ->action(function () {
                             $data = $this->form->getState();
@@ -313,6 +319,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         }),
                     Action::make('Cancel')
+                        ->color('gray')
                         ->action(function () {
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         })
