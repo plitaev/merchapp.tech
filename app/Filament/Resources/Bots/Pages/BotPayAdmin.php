@@ -15,6 +15,7 @@ use Filament\Actions\Action;
 use App\Actions\Core\DateEnd\DateEnd;
 use App\Actions\Core\DateEnd\DateEndCacheForPay;
 use App\Actions\Core\Pay\PayCreateByEmail;
+use App\Actions\Core\Pay\PayRefund;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\Pay;
@@ -212,28 +213,8 @@ class BotPayAdmin extends Page implements HasForms
                         }),
                     Action::make('Вернуть платеж')
                         ->action(function () {
-                            $botSendMessage = new BotSendMessage();
-
-                            $pay = Pay::find($this->id);
-                            Pay::where('id', $this->id)->update(['status' => 2]);
-
-                            $bot_user = BotUser::with('bot')->find($pay->bot_user_id);
-
-                            $dateEnd = new DateEnd();
-                            $dateEnd->handle($pay->bot_user, 'Y-m-d');
-
-                            $botUserBanByDeletePay = new BotUserBanByDeletePay();
-                            $a = $botUserBanByDeletePay->handle($bot_user);
-
-                            $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
-
-                            BotAdminLog::create(['bot_user_id' =>  $pay->bot_user_id, 'user_id' => auth()->id(), 'name' =>'Возврат платежа '.$this->id]);
-
-                            Notification::make()
-                                ->title($a)
-                                ->success()
-                                ->send();
-
+                            $payRefund = new PayRefund();
+                            $payRefund->handle($this->id);
                             return redirect('/admin/bots/'.$this->bot_id.'/pays');
                         })
                     ->label('Вернуть платёж')

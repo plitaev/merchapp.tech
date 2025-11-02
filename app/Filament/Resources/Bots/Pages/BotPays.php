@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Bots\Pages;
 
 use App\Filament\Resources\Bots\BotResource;
 
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
@@ -22,6 +23,7 @@ use Filament\Support\Enums\Width;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserBanByDeletePay;
 use App\Actions\Core\DateEnd\DateEndCacheForPay;
+use App\Actions\Core\Pay\PayRefund;
 
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
@@ -177,6 +179,9 @@ class BotPays extends Page implements HasTable
                 //
             ])
             ->actions([
+                Action::make('refund')
+                    ->url(fn (Post $record): string => route('posts.edit', $record))
+                    ->openUrlInNewTab(),
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin"),
                 DeleteAction::make()
                     ->before(function ($record) {
