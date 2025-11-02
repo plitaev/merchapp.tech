@@ -34,6 +34,10 @@ class BotUserInsertVariables {
             $text = str_replace('VAR_USER_DATE_END', $date_end, $text);
         }
 
+        if (stripos(strtolower($text), 'VAR_RP_REFERRER_LINK')) {
+
+        }
+
         return $text;
     }
 
