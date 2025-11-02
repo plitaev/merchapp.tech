@@ -150,7 +150,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                 ->beforeValidation(function (){
                                     ShopProduct::select('product_id')->whereNotNull('product_id')->delete();
                                 })
-                                ->afterValidation(function () {
+                                ->afterValidation(function ($set) {
                                     $data = $this->form->getState();
                                     foreach ($data['all_product'] as $product) {
                                         ShopProduct::create(['product_id' => $product]);
