@@ -120,7 +120,6 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
         $data['bot_id'] = $bot_id;
         $this->bot_branch_hash = '';
 
-
         $bot = Bot::select('name', 'alias')->find($bot_id);
         $this->bot_name = $bot->name;
         $this->bot_alias = $bot->alias;
@@ -149,14 +148,15 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
 
                             Step::make('Купил')
                                 ->beforeValidation(function (){
-                                    ShopProduct::delete();
+                                    ShopProduct::select('product_id')->whereNotNull('product_id')->delete();
                                 })
                                 ->afterValidation(function () {
                                     $data = $this->form->getState();
                                     foreach ($data['all_product'] as $product) {
                                         ShopProduct::create(['product_id' => $product]);
                                     }
-                                    $this->no_all_product2 = ShopProduct::pluck('product_id')->toArray();
+                                    $this->no_all_product2 = ShopProduct::select('product_id')->pluck('product_id')->toArray();
+                                    $this->no_all_product = Product::where('bot_id', $this->bot_id)->whereNotIn('id', $this->no_all_product2)->pluck('name', 'id')->toArray();
 
                                 })
                                 ->schema([
@@ -167,10 +167,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
 
 
                             Step::make('Не купил')
-                                ->beforeValidation(function () {
-                                    $this->no_all_product2 = ShopProduct::pluck('product_id')->groupby('product_id')->toArray();
-                                    $this->no_all_product = Product::all()->where('bot_id', $this->bot_id)->whereNotIn('id', $this->no_all_product2)->pluck('name', 'id')->toArray();
-                                })
+
                                 ->schema([
                                     Forms\Components\CheckboxList::make('no_all_product')
                                         ->label('По не покупке продуктов')
@@ -192,7 +189,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                                         ['updated_at' => now()]
                                                     );
                                                 }
-                                                ShopProduct::delete();
+                                                ShopProduct::select('product_id')->whereNotNull('product_id')->delete();
 
 
                                                 Notification::make()
