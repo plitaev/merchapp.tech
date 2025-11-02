@@ -160,7 +160,6 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
 
                                     $products_step2 = Product::all()->where('bot_id', $this->bot_id)->whereNotIn('id', $this->no_all_product2)->pluck('name', 'id')->toArray()
 
-                                    $set('products_step2', $products_step2);
                                 })
                                 ->schema([
                                     Forms\Components\CheckboxList::make('all_product')
