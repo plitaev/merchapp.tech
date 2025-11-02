@@ -150,15 +150,13 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                 ->beforeValidation(function (){
                                     ShopProduct::select('product_id')->whereNotNull('product_id')->delete();
                                 })
-                                ->afterValidation(function (Set $set) {
+                                ->afterValidation(function () {
                                     $data = $this->form->getState();
                                     foreach ($data['all_product'] as $product) {
                                         ShopProduct::create(['product_id' => $product]);
                                     }
                                     $this->no_all_product2 = ShopProduct::select('product_id')->pluck('product_id')->toArray();
                                     $this->no_all_product = Product::where('bot_id', $this->bot_id)->whereNotIn('id', $this->no_all_product2)->pluck('name', 'id')->toArray();
-
-                                    $products_step2 = Product::all()->where('bot_id', $this->bot_id)->whereNotIn('id', $this->no_all_product2)->pluck('name', 'id')->toArray()
 
                                 })
                                 ->schema([
@@ -173,7 +171,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                 ->schema([
                                     Forms\Components\CheckboxList::make('no_all_product')
                                         ->label('По не покупке продуктов')
-                                        ->options(fn($get) => $get('products_step2') ?: []),
+                                        ->options(Product::all()->where('bot_id', $this->bot_id)->whereNotIn('id', $this->no_all_product2)->pluck('name', 'id')->toArray()),
                                     Actions::make([
                                         Action::make('Сохранить')
                                             ->action(function () {
