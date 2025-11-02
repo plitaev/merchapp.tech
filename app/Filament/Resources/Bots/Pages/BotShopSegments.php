@@ -147,31 +147,26 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                         Wizard::make([
 
                             Step::make('Купил')
-                                ->beforeValidation(function (){
-                                    ShopProduct::select('product_id')->whereNotNull('product_id')->delete();
-                                })
-                                ->afterValidation(function () {
-                                    $data = $this->form->getState();
-                                    foreach ($data['all_product'] as $product) {
-                                        ShopProduct::create(['product_id' => $product]);
-                                    }
-                                    $this->no_all_product2 = ShopProduct::select('product_id')->pluck('product_id')->toArray();
-                                    $this->no_all_product = Product::where('bot_id', $this->bot_id)->whereNotIn('id', $this->no_all_product2)->pluck('name', 'id')->toArray();
-
-                                })
                                 ->schema([
                                     Forms\Components\CheckboxList::make('all_product')
                                         ->label('По покупке продуктов')
                                         ->options($this->all_product)
-                                ]),
+                                ])
+                                ->afterValidation(function (Set $set) {
+                                    $data = $this->form->getState();
 
+                                    if (is_callable($set)) {
+                                        $products_step2 = Product::all()->where('bot_id', $this->bot_id)->whereNotIn('id', $data['all_product'])->pluck('name', 'id')->toArray();
+                                    }
+
+                                }),
 
                             Step::make('Не купил')
 
                                 ->schema([
                                     Forms\Components\CheckboxList::make('no_all_product')
                                         ->label('По не покупке продуктов')
-                                        ->options(Product::all()->where('bot_id', $this->bot_id)->whereNotIn('id', $this->no_all_product2)->pluck('name', 'id')->toArray()),
+                                        ->options(fn($get) => $get('products_step2') ?: []),
                                     Actions::make([
                                         Action::make('Сохранить')
                                             ->action(function () {
