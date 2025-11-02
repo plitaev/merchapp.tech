@@ -180,7 +180,7 @@ class BotPays extends Page implements HasTable
             ])
             ->actions([
                 Action::make('refund')
-                    ->url(fn (Pay $record): string => route('posts.edit', $record))
+                    ->url(fn (Pay $record): string => '/refund/'.$this->id)
                     ->openUrlInNewTab(),
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin"),
                 DeleteAction::make()
@@ -218,9 +218,7 @@ class BotPays extends Page implements HasTable
                         ->before(function ($records) {
                             foreach ($records as $record) {
                                 $pay = Pay::with('bot')->find($record->id);
-
                                 $bot_user_id = ($pay->gift_bot_user_id ?? $pay->bot_user_id);
-
                                 $this->pay_bulk_delete_ids[] = ["bot_user_id" => $bot_user_id];
                             }
                         })

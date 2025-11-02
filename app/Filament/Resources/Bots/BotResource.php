@@ -192,6 +192,7 @@ class BotResource extends Resource
             'pay-admin' => BotPayAdmin::route('/{bot_id}/{id}/pay-admin'),
             'pay-system-admin' => BotPaySystemAdmin::route('/{record}/pay-system-admin'),
             'pay-guests' => BotPayGuests::route('/{bot_id}/pay-guests'),
+
             'pay-guest-admin' => BotPayGuestAdmin::route('/{bot_id}/{id}/pay-guest-admin'),
             'products' => BotProducts::route('/{bot_id}/products'),
             'product-admin' => BotProductAdmin::route('/{bot_id}/{id}/product-admin'),
