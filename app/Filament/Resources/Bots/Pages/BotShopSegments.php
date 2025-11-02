@@ -9,6 +9,7 @@ use App\Models\Core\BotBranchLinkProduct;
 use App\Models\Core\BotMessageAppointment;
 use App\Models\Core\BotUser;
 use App\Models\Core\Pay;
+use App\Models\Core\ShopProduct;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
@@ -148,24 +149,25 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                         Wizard::make([
 
                             Step::make('Купил')
+                                ->afterValidation(function () {
+                                    $data = $this->form->getState();
+                                    foreach ($data['all_product'] as $product) {
+                                        ShopProduct::create(['product_id' => $product]);
+                                    }
+
+
+                                })
                                 ->schema([
                                     Forms\Components\CheckboxList::make('all_product')
                                         ->label('По покупке продуктов')
                                         ->options($this->all_product)
-                                        ->rules([
-                                            new Exists('products', 'id'),
-                                        ])
-                                        ->disabled(function (Get $get) {
-
-                                            if (is_callable($get)) {
-                                                //$this->no_all_product2 = get('all_product');
-
-                                            }
-                                        }),
-
                                 ]),
 
+
                             Step::make('Не купил')
+                                ->beforeValidation(function () {
+                                    $this->no_all_product2 = ShopProduct::select('product_id')->pluck('product_id')->toArray();
+                                })
                                 ->schema([
                                     Forms\Components\CheckboxList::make('no_all_product')
                                         ->label('По не покупке продуктов')
@@ -190,6 +192,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                                         ['updated_at' => now()]
                                                     );
                                                 }
+                                                ShopProduct::delete();
 
 
                                                 Notification::make()
