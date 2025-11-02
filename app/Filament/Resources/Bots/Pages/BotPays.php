@@ -180,7 +180,7 @@ class BotPays extends Page implements HasTable
             ])
             ->actions([
                 Action::make('refund')
-                    ->url(fn (Pay $record): string => '/refund/'.$this->id)
+                    ->url(fn($record) => "/refund/".$record->id)
                     ->openUrlInNewTab(),
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin"),
                 DeleteAction::make()
