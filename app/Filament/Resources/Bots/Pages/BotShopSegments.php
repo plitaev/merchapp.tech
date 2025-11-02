@@ -157,6 +157,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
 
                                     if (is_callable($set)) {
                                         $products_step2 = Product::all()->where('bot_id', $this->bot_id)->whereNotIn('id', $data['all_product'])->pluck('name', 'id')->toArray();
+                                        $set('products_step2', $products_step2);
                                     }
 
                                 }),
