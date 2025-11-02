@@ -172,7 +172,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                 ->schema([
                                     Forms\Components\CheckboxList::make('no_all_product')
                                         ->label('По не покупке продуктов')
-                                        ->options(Product::all()->where('bot_id', $this->bot_id)->whereNotIn('id', fn($get) => $get('exclude_products') ?: [])->pluck('name', 'id')->toArray()),
+                                        ->options(Product::all()->where('bot_id', $this->bot_id)->whereNotIn('id', fn($get) => $get('exclude_products') ?$get('exclude_products'): [])->pluck('name', 'id')->toArray()),
                                     Actions::make([
                                         Action::make('Сохранить')
                                             ->action(function () {
