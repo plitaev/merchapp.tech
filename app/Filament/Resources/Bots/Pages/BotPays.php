@@ -182,6 +182,7 @@ class BotPays extends Page implements HasTable
                 Action::make('refund')
                     ->label('Вернуть')
                     ->color('info')
+                    ->heroicon('fas-undo')
                     ->requiresConfirmation()
                     ->action(function (Pay $record) {
                         $payRefund = new PayRefund();
