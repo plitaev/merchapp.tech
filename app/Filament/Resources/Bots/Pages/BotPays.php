@@ -181,8 +181,12 @@ class BotPays extends Page implements HasTable
             ->actions([
                 Action::make('refund')
                     ->label('Вернуть')
-                    ->action(fn (Pay $record) => "/refund/".$record->id)
-                    ->requiresConfirmation(),
+                    ->color('info')
+                    ->requiresConfirmation()
+                    ->action(function (Pay $record) {
+                        $payRefund = new PayRefund();
+                        $payRefund->handle($record->id);
+                    }),
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin"),
                 DeleteAction::make()
                     ->before(function ($record) {
