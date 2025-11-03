@@ -153,24 +153,39 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                             ->action(function () {
                                                 $data = $this->form->getState();
 
-                                                $bot_users = Pay::select('bot_user_id')
-                                                    ->where('product_id', $data['all_product'])
-                                                    ->whereNot('product_id', $data['no_all_product'])
-                                                    ->get();
-
-                                                foreach ($bot_users as $bot_user) {
-                                                    TelegramSendMessageSchedule::upsert(
-                                                        ['sending_id' => $this->id, 'bot_user_id' => $bot_user->bot_user_id],
-                                                        ['sending_id', 'bot_user_id'],
-                                                        ['updated_at' => now()]
-                                                    );
+                                                if($data['all_product']) {
+                                                    $bot_users = Pay::select('bot_user_id')
+                                                        ->where('product_id', $data['all_product'])
+                                                        ->get();
                                                 }
 
+                                                if($data['no_all_product']) {
+                                                    $bot_users = Pay::select('bot_user_id')
+                                                        ->whereNot('product_id', $data['no_all_product'])
+                                                        ->get();
+                                                }
 
-                                                Notification::make()
-                                                    ->title('Данные успешно сохранены!')
-                                                    ->success()
-                                                    ->send();
+                                                if($data['no_all_product'] && $data['no_all_product']) {
+                                                    $bot_users = Pay::select('bot_user_id')
+                                                        ->where('product_id', $data['all_product'])
+                                                        ->whereNot('product_id', $data['no_all_product'])
+                                                        ->get();
+                                                }
+
+                                                if($bot_users) {
+                                                    foreach ($bot_users as $bot_user) {
+                                                        TelegramSendMessageSchedule::upsert(
+                                                            ['sending_id' => $this->id, 'bot_user_id' => $bot_user->bot_user_id],
+                                                            ['sending_id', 'bot_user_id'],
+                                                            ['updated_at' => now()]
+                                                        );
+                                                    }
+
+                                                    Notification::make()
+                                                        ->title('Данные успешно сохранены!')
+                                                        ->success()
+                                                        ->send();
+                                                }
 
                                                 return redirect('/admin/bots/' . $this->bot_id . '/sendings');
 
