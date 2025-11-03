@@ -2,6 +2,8 @@
 
 namespace App\Actions\Core\BotUser;
 
+use App\Models\Core\BotBranch;
+use App\Models\Core\BotBranchReferralProgram;
 use App\Models\Core\BotUser;
 
 class BotUserInsertVariables {
@@ -35,7 +37,12 @@ class BotUserInsertVariables {
         }
 
         if (stripos(strtolower($text), 'VAR_RP_REFERRER_LINK')) {
-
+            $branches = BotBranch::select('id')->where('bot_branch_type', 3)->pluck('id')->toArray();
+            $rp = BotBranchReferralProgram::select('bot_branch_id')->orderByDesc('created_at')->first();
+            if ($rp) {
+                $link = "https://t.me/".$bot_user->bot->alias."?start=".base64_encode($rp->bot_branch_id."|".$bot_user->id."|".$bot_user->created_at);
+                $text = str_replace('VAR_RP_REFERRER_LINK', $link, $text);
+            }
         }
 
         return $text;
