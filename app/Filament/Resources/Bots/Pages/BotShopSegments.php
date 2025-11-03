@@ -158,16 +158,16 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                                 if($data['all_product'] && !$data['no_all_product']) {
                                                     $bot_users = $bot_users
                                                         ->where('product_id', $data['all_product'])
-                                                        ->toArray();
+                                                        ->get();
                                                 } elseif ($data['no_all_product'] && !$data['all_product']) {
                                                     $bot_users = Pay::select('bot_user_id')
                                                         ->whereNot('product_id', $data['no_all_product'])
-                                                        ->toArray();
+                                                        ->get();
                                                 }elseif($data['no_all_product'] && $data['no_all_product']) {
                                                     $bot_users = Pay::select('bot_user_id')
                                                         ->where('product_id', $data['all_product'])
                                                         ->whereNot('product_id', $data['no_all_product'])
-                                                        ->toArray();
+                                                        ->get();
                                                 }
 
                                                 if($bot_users) {
