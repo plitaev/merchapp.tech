@@ -10,6 +10,7 @@ use App\Actions\Core\BotUser\BotUserCreateFromTelegram;
 use App\Actions\Core\BotUser\BotUserGetFromTelegram;
 use App\Actions\Core\BotUser\BotUserSetBranch;
 use App\Actions\Core\ReferralProgram\ReferralProgramRunForReferrer;
+use App\Actions\Core\ReferralProgram\ReferralProgramRunForReferral;
 use App\Actions\Core\Telegram\TelegramGetChatIDFromWebhook;
 use App\Actions\Core\Telegram\TelegramMessageGetStartParams;
 use App\Actions\Core\Telegram\TelegramWebhookWrite;
@@ -44,6 +45,7 @@ class ClubAccessController extends Controller
         $botUserGetFromTelegram = new BotUserGetFromTelegram();
         $botUserSetBranch = new BotUserSetBranch();
         $referralProgramRunForReferrer = new ReferralProgramRunForReferrer();
+        $referralProgramRunForReferral = new ReferralProgramRunForReferral();
         $telegramGetChatIDFromWebhook = new TelegramGetChatIDFromWebhook();
         $telegramMessageGetStartParams = new TelegramMessageGetStartParams();
         $telegramWebhookWrite = new TelegramWebhookWrite();
@@ -103,7 +105,12 @@ class ClubAccessController extends Controller
             if ($Astart[0] == "/start") {
 
                 if (count($Astart) == 2) {
-                    $botBranchRun->handle($bot_user, $Astart[1]);
+
+                    $branch_data = base64_decode($Astart[1]);
+                    if ($branch_data[0] == 1) $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
+                    if ($branch_data[0] == 2) $botBranchRun->handle($bot_user, $branch_data[1]);
+                    if ($branch_data[0] == 3) $botBranchRun->handle($bot_user, $branch_data);
+
                 } else {
                     $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
                 }
