@@ -148,6 +148,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                     Forms\Components\CheckboxList::make('no_all_product')
                                         ->label('По не покупке продуктов')
                                         ->options(fn($get) => $get('products_step2') ?: []),
+
                                     Actions::make([
                                         Action::make('Сохранить')
                                             ->action(function () {
@@ -157,16 +158,16 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                                 if($data['all_product'] && !$data['no_all_product']) {
                                                     $bot_users = $bot_users
                                                         ->where('product_id', $data['all_product'])
-                                                        ->get();
+                                                        ->toArray();
                                                 } elseif ($data['no_all_product'] && !$data['all_product']) {
                                                     $bot_users = Pay::select('bot_user_id')
                                                         ->whereNot('product_id', $data['no_all_product'])
-                                                        ->get();
-                                                }if($data['no_all_product'] && $data['no_all_product']) {
+                                                        ->toArray();
+                                                }elseif($data['no_all_product'] && $data['no_all_product']) {
                                                     $bot_users = Pay::select('bot_user_id')
                                                         ->where('product_id', $data['all_product'])
                                                         ->whereNot('product_id', $data['no_all_product'])
-                                                        ->get();
+                                                        ->toArray();
                                                 }
 
                                                 if($bot_users) {
