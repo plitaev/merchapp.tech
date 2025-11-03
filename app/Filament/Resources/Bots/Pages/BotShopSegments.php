@@ -147,26 +147,31 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                 ->schema([
                                     Forms\Components\CheckboxList::make('no_all_product')
                                         ->label('По не покупке продуктов')
-                                        ->options(fn($get) => $get('products_step2') ?: []),
+                                        ->options(fn($get) => $get('products_step2') ?: [])
+                                        ->afterStateHydrated(function ($component, $state) {
+                                            if (! filled($state)) {
+                                                $component->state($this->no_all_product);
+                                            }
+                                        }),
 
                                     Actions::make([
                                         Action::make('Сохранить')
                                             ->action(function () {
                                                 $data = $this->form->getState();
-                                                $bot_users = Pay::select('bot_user_id')->get();
+                                                $bot_users = Pay::select('bot_user_id');
 
                                                 if($data['all_product'] && !$data['no_all_product']) {
                                                     $bot_users = $bot_users
                                                         ->where('product_id', $data['all_product'])
                                                         ->get();
                                                 } elseif ($data['no_all_product'] && !$data['all_product']) {
-                                                    $bot_users = Pay::select('bot_user_id')
-                                                        ->whereNot('product_id', $data['no_all_product'])
+                                                    $bot_users = $bot_users
+                                                        ->whereNotIn('product_id', $data['no_all_product'])
                                                         ->get();
                                                 }elseif($data['no_all_product'] && $data['no_all_product']) {
-                                                    $bot_users = Pay::select('bot_user_id')
+                                                    $bot_users = $bot_users
                                                         ->where('product_id', $data['all_product'])
-                                                        ->whereNot('product_id', $data['no_all_product'])
+                                                        ->whereNotIn('product_id', $data['no_all_product'])
                                                         ->get();
                                                 }
 
