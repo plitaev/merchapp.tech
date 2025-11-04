@@ -44,7 +44,7 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $bot_user = BotUser::find(15451);
+        $bot_user = BotUser::find(17653);
 
         $dateEnd = new DateEnd();
         $dateEnd->handle($bot_user, 'Y-m-d');
