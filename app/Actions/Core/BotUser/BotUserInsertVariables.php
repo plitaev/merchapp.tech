@@ -37,10 +37,12 @@ class BotUserInsertVariables {
         }
 
         if (stripos(strtolower($text), 'VAR_RP_REFERRER_LINK')) {
-            $branches = BotBranch::select('id')->where('bot_branch_type', 3)->pluck('id')->toArray();
-            $rp = BotBranchReferralProgram::select('bot_branch_id')->orderByDesc('created_at')->first();
+            $rp = BotBranchReferralProgram::whereHas('bot_branch', function ($query) use ($bot_user) {
+                $query->where('bot_branch_type', 3);
+            })->orderByDesc(' bot_branch_referral_programs.created_at')->first();
+
             if ($rp) {
-                $link = "https://t.me/".$bot_user->bot->alias."?start=".base64_encode($rp->bot_branch_id."|".$bot_user->id."|".$bot_user->created_at);
+                $link = "https://t.me/".$bot_user->bot->alias."?start=".base64_encode("3|".$rp->id."|".$bot_user->id);
                 $text = str_replace('VAR_RP_REFERRER_LINK', $link, $text);
             }
         }
