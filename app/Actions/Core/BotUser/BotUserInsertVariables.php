@@ -45,7 +45,7 @@ class BotUserInsertVariables {
                 ->first();
 
             if ($rp) {
-                $link = "https://t.me/".$bot_user->bot->alias."?start=".base64_encode("3|".$rp->id."|".$bot_user->id);
+                $link = "https://t.me/".$bot_user->bot->alias."?start=".base64_encode("3|".$rp->bot_branch_id."|".$bot_user->id);
                 $text = str_replace('VAR_RP_REFERRER_LINK', $link, $text);
             }
         }
