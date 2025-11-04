@@ -107,6 +107,9 @@ class ClubAccessController extends Controller
                 if (count($Astart) == 2) {
 
                     $branch_data = base64_decode($Astart[1]);
+
+                    return $branch_data;
+
                     if ($branch_data[0] == 1) $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
                     if ($branch_data[0] == 2) $botBranchRun->handle($bot_user, $branch_data[1]);
                     if ($branch_data[0] == 3) $referralProgramRunForReferral->handle($bot_user, $branch_data);
