@@ -39,7 +39,10 @@ class BotUserInsertVariables {
         if (stripos(strtolower($text), 'VAR_RP_REFERRER_LINK')) {
             $rp = BotBranchReferralProgram::whereHas('bot_branch', function ($query) use ($bot_user) {
                 $query->where('bot_branch_type', 3);
-            })->orderByDesc('bot_branch_referral_programs.created_at')->first();
+            })
+                ->where('referrer_bot_user_id', $bot_user->id)
+                ->orderByDesc('bot_branch_referral_programs.created_at')
+                ->first();
 
             if ($rp) {
                 $link = "https://t.me/".$bot_user->bot->alias."?start=".base64_encode("3|".$rp->id."|".$bot_user->id);
