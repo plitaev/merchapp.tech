@@ -38,7 +38,7 @@ class ReferralProgramRunForReferral
             die();
         }
 
-        //== Проверяем, есть ли юзер в этой реф. программе, и если нет - прикрепляем его
+        //== Проверяем, есть ли юзер в этой реф. программе, и если нет - прикрепляем его и назначаем referral_record_id
         $check_in_rp = BotBranchReferralProgram::select('id')->where('bot_branch_id', $branch_data[1])
             ->where('referrer_bot_user_id', $branch_data[2])
             ->where('referral_bot_user_id', $bot_user->id)
@@ -63,7 +63,17 @@ class ReferralProgramRunForReferral
             $referral_record_id = $check_in_rp->id;
         }
 
-        $botSendMessage->handle($bot_user, 'SYS_RP_REFERRAL_JOIN_LINK_SUCCESSFUL');
+        //== Повторно достаем параметры из $referral_record, чтобы обновить их
+        $referral_record = BotBranchReferralProgram::select('referral_got_product_special')->find($referral_record_id);
+
+        //== Отправляем сообщение в зависимости от того, купил или нет реферрер акционный (реферальный) продукт
+        if ($referral_record->referral_got_product_special == 0) {
+            $botSendMessage->handle($bot_user, 'SYS_RP_REFERRAL_JOIN_LINK_SUCCESSFUL');
+            die();
+        } else {
+            $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+            die();
+        }
 
     }
 }
