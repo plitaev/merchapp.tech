@@ -37,5 +37,24 @@ class ReferralProgramRunForReferral
             die();
         }
 
+        //== Проверяем, есть ли юзер в этой реф. программе, и если нет - прикрепляем его
+        $check_in_rp = BotBranchReferralProgram::where('bot_branch_id', $branch_data[1])
+            ->where('referral_bot_user_id', $bot_user->id)
+            ->where('referrer_bot_user_id', $branch_data[2])
+            ->count();
+
+        if ($check_in_rp == 0) {
+            $non_referral_record = BotBranchReferralProgram::select('id')
+                ->where('bot_branch_id', $branch_data[1])
+                ->where('referrer_bot_user_id', $branch_data[2])
+                ->whereNull('referral_bot_user_id')
+                ->first();
+
+            if ($non_referral_record) {
+                BotBranchReferralProgram::where('id', $non_referral_record->id)->update(['referral_bot_user_id' => $bot_user->id]);
+            }
+
+        }
+
     }
 }
