@@ -69,6 +69,14 @@ return [
         'intercept_gate' => 'before',
     ],
 
+
+    'read_only' => [
+        'enabled' => true,
+        'name' => 'read_only',
+        'define_via_gate' => false,
+        'intercept_gate' => 'before',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Panel User
