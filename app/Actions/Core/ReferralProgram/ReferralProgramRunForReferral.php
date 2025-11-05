@@ -5,6 +5,7 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchReferralProgram;
+use App\Models\Core\BotUser;
 
 class ReferralProgramRunForReferral
 {
@@ -53,6 +54,8 @@ class ReferralProgramRunForReferral
             if ($non_referral_record) {
                 BotBranchReferralProgram::where('id', $non_referral_record->id)->update(['referral_bot_user_id' => $bot_user->id]);
             }
+
+            BotUser::where('id', $bot_user->id)->update(['bot_branch_id' => $branch_data[1]]);
 
         }
 
