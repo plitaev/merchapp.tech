@@ -29,7 +29,13 @@ class ReferralProgramRunForReferral
         }
 
         //== Проверяем, сколько людей уже прошло по ссылке
+        $bot_branch = BotBranch::select('referal_program_max_referrals_count')->find($branch_data[1]);
+        $referrals = BotBranchReferralProgram::where('bot_branch_id', $branch_data[1])->where('referrer_bot_user_id', $branch_data[2])->whereNotNull('referral_bot_user_id')->count();
 
+        if ($referrals >= $bot_branch->referal_program_max_referrals_count) {
+            $botSendMessage->handle($bot_user, 'SYS_RP_REFERRAL_JOIN_LINK_FULL');
+            die();
+        }
 
     }
 }
