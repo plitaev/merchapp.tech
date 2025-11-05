@@ -28,5 +28,8 @@ class ReferralProgramRunForReferral
             die();
         }
 
+        //== Проверяем, сколько людей уже прошло по ссылке
+
+
     }
 }

@@ -188,6 +188,9 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Продукт, участвующий в акции')
                             ->options(Product::all()->pluck('name', 'id'))
                             ->searchable(),
+                        TextInput::make('referal_program_max_referrals_count')
+                            ->label('Максимальное число рефералов')
+                            ->visible($this->id > 0 && $this->bot_branch_type == 3)
                     ]),
                 Section::make('Акция')
                     ->description(new HtmlString('Ссылка на запуск к акции в боте: <a href="https://t.me/'.$this->bot_alias.'?start='.base64_encode($this->bot_branch_type.'|'.$this->bot_branch_hash.'|0').'" style="text-decoration: underline" target="_blank">https://t.me/'.$this->bot_alias.'?start='.base64_encode($this->bot_branch_type.'|'.$this->bot_branch_hash.'|0').'</a>'))
