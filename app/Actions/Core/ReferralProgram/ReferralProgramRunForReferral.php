@@ -39,12 +39,13 @@ class ReferralProgramRunForReferral
         }
 
         //== Проверяем, есть ли юзер в этой реф. программе, и если нет - прикрепляем его
-        $check_in_rp = BotBranchReferralProgram::where('bot_branch_id', $branch_data[1])
-            ->where('referral_bot_user_id', $bot_user->id)
+        $check_in_rp = BotBranchReferralProgram::select('id')->where('bot_branch_id', $branch_data[1])
             ->where('referrer_bot_user_id', $branch_data[2])
-            ->count();
+            ->where('referral_bot_user_id', $bot_user->id)
+            ->first();
 
-        if ($check_in_rp == 0) {
+        if (!$check_in_rp) {
+
             $non_referral_record = BotBranchReferralProgram::select('id')
                 ->where('bot_branch_id', $branch_data[1])
                 ->where('referrer_bot_user_id', $branch_data[2])
@@ -53,11 +54,16 @@ class ReferralProgramRunForReferral
 
             if ($non_referral_record) {
                 BotBranchReferralProgram::where('id', $non_referral_record->id)->update(['referral_bot_user_id' => $bot_user->id]);
+                $referral_record_id = $non_referral_record->id;
             }
 
             BotUser::where('id', $bot_user->id)->update(['bot_branch_id' => $branch_data[1]]);
 
+        } else {
+            $referral_record_id = $check_in_rp->id;
         }
+
+        $botSendMessage->handle($bot_user, 'SYS_RP_REFERRAL_JOIN_LINK_SUCCESSFUL');
 
     }
 }
