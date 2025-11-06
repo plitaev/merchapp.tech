@@ -10,6 +10,9 @@ use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
 use App\Models\Core\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
@@ -36,12 +39,16 @@ class BotChats extends Page implements HasTable
     public int $bot_id;
     public string $bot_name;
 
+    public int $edit_bots;
+
     public function getMaxContentWidth(): Width{return Width::ScreenTwoExtraLarge;}
 
     public function mount(int $bot_id): void
     {
         $this->bot_id = $bot_id;
         $bot = Bot::select('name')->find($bot_id);
+
+        $this->edit_bots = Permission::where('name', 'edit bots')->count();
 
         $this->bot_name = $bot->name;
     }
@@ -163,8 +170,9 @@ class BotChats extends Page implements HasTable
                     })
             ])
             ->actions([
+
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/chat-admin")
-                    ->visible(fn () => auth()->user()->can('edit bots')),
+                    ->visible(fn() => auth()->user()->hasRole('super_admin')),
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/chat-admin");
