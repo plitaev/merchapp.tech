@@ -172,7 +172,8 @@ class BotChats extends Page implements HasTable
             ->actions([
 
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/chat-admin")
-                    ->visible(fn() => auth()->user()->hasRole('super_admin')),
+                    //->visible(fn() => auth()->user()->hasRole('super_admin')),
+                    ->visible(fn() => auth()->id()->givePermissionTo('edit bots')),
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/chat-admin");
