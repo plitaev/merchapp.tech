@@ -19,7 +19,7 @@ class ProdamusMakeRecurrent
 
         $additional_data = $payGetAdditionalData->handle($data->paysystem->id);
         $additional_data['recurrent'] = 1;
-        $additional_data['price'] = 1490;
+        $additional_data['price'] = 100;
 
         $product = Product::find(1);
 
@@ -28,7 +28,7 @@ class ProdamusMakeRecurrent
 
         $products = [
             'name' => 'Предоставление доступа к Мэджик клубу - Тариф "1 месяц"',
-            'price' => 1490,
+            'price' => 100,
             'quantity' => '1',
             'tax' => [
                 'paymentMethod' => $data->bot->prodamus_payment_method->code,
@@ -41,7 +41,7 @@ class ProdamusMakeRecurrent
             'binding_id' => $data->prevous_pay->pay_system_payment_method_id,
             'client_id' => $data->bot_user_id,
             'sys' => $data->bot->prodamus_sys,
-            'order_sum' => 1490,
+            'order_sum' => 100,
             'order_id' => $pay->id
         ];
 
