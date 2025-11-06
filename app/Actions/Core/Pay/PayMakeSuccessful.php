@@ -6,6 +6,7 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserGetByID;
 use App\Actions\Core\BotUser\BotUserSetBranch;
 use App\Actions\Core\DateEnd\DateEnd;
+use App\Actions\Core\ReferralProgram\ReferralBuySpecialProduct;
 
 use App\Models\Core\BotBranchLinkProduct;
 use App\Models\Core\BotUser;
@@ -19,6 +20,7 @@ class PayMakeSuccessful
         $botUserGetByID = new BotUserGetByID();
         $botUserSetBranch = new BotUserSetBranch();
         $dateEnd = new DateEnd();
+        $referralBuySpecialProduct = new ReferralBuySpecialProduct();
 
         Pay::query()
             ->where('id', $order_number)
@@ -37,10 +39,12 @@ class PayMakeSuccessful
 
         $dateEnd->handle($bot_user, 'Y-m-d');
 
-        //== Завершаем ветку по покупке продукта
-        $botBranchEndByProducts->handle($pay->product_id, $pay->bot_user_id);
-        $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+        //== Обрабатываем продукт в реферальной ветке
+        $referralBuySpecialProduct->handle($pay);
 
+        //== Завершаем ветку по покупке продукта
+        $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+        $botBranchEndByProducts->handle($pay->product_id, $pay->bot_user_id);
         //==
 
         if (isset($pay_system_payment_method_id)) {
