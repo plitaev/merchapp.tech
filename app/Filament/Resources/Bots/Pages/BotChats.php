@@ -9,6 +9,8 @@ use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
+use App\Models\Core\User;
+
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -161,7 +163,8 @@ class BotChats extends Page implements HasTable
                     })
             ])
             ->actions([
-                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/chat-admin"),
+                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/chat-admin")
+                    ->visible(fn () => auth()->user()->can('edit bots')),
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/chat-admin");
