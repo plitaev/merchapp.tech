@@ -29,10 +29,17 @@ class ReferralBuySpecialProduct
                 ->first();
 
             if ($bot_branch) {
-                BotBranchReferralProgram::where('bot_branch_id', $bot_branch->id)
+                $referral_record = BotBranchReferralProgram::select('id', 'referrer_bot_user_id')
+                    ->where('bot_branch_id', $bot_branch->id)
                     ->where('referral_bot_user_id', $pay->bot_user_id)
                     ->where('referral_got_product_special', 0)
-                    ->update(['referral_got_product_special' => 1]);
+                    ->first();
+
+                if ($referral_record) {
+                    BotBranchReferralProgram::where('id', $referral_record->id)->update(['referral_got_product_special' => 1]);
+                    //и тут кидаем сообщение реферреру
+                }
+
             }
 
         }
