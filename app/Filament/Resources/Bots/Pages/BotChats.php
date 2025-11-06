@@ -49,7 +49,6 @@ class BotChats extends Page implements HasTable
         $bot = Bot::select('name')->find($bot_id);
 
         $this->edit_bots = Permission::where('name', 'edit bots')->count();
-
         $this->bot_name = $bot->name;
     }
 
@@ -172,8 +171,8 @@ class BotChats extends Page implements HasTable
             ->actions([
 
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/chat-admin")
-                    //->visible(fn() => auth()->user()->hasRole('super_admin')),
-                    ->visible(fn() => auth()->id()->givePermissionTo('edit bots')),
+                  ->visible(fn() => auth()->user()->can('Update:Bot')),
+
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/chat-admin");
