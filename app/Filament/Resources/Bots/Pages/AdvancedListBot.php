@@ -79,8 +79,12 @@ class AdvancedListBot extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/bots/".$record->id."/edit"),
-                DeleteAction::make(),
+                EditAction::make()->url(fn($record) => "/admin/bots/".$record->id."/edit")
+                    ->visible(fn() => auth()->user()->can('Edit:Bot')),
+
+                DeleteAction::make()
+                    ->visible(fn() => auth()->user()->can('Delete:Bot')),
+
             ])
             ->toolbarActions([
                 //

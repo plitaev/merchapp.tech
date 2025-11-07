@@ -207,7 +207,7 @@ class AdminBotMessage extends Page implements HasForms, HasTable
                                 ->success()
                                 ->send();
                         })
-                        ->visible(fn() => auth()->user()->can('Create:BotBranch')),
+                        ->visible(fn() => auth()->user()->can('Create:Bot')),
 
                 ])
             ])->statePath('data');
@@ -471,6 +471,8 @@ class AdminBotMessage extends Page implements HasForms, HasTable
             ])
             ->recordActions([
                 EditAction::make()->url(fn($record) => "/admin/bot-messages/".$record->id."/admin")
+                    ->visible(fn() => auth()->user()->can('Edit:Bot')),
+
             ])
             ->recordUrl(fn($record) => "/admin/bot-messages/".$record->id."/admin")
             ->toolbarActions([
