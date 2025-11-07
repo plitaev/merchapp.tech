@@ -151,7 +151,9 @@ class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfoli
                             );
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
-                        }),
+                        })
+                        ->visible(fn() => auth()->user()->can('Create:BotMessageListener')),
+
                     Action::make('Отмена')
                         ->action(function () {
                             $this->dispatch('close-modal', id: 'add-page-modal');
@@ -181,7 +183,9 @@ class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfoli
                     ->label('Дата/время отправки')
             ])
             ->recordActions([
-                DeleteAction::make(),
+                DeleteAction::make()
+                    ->visible(fn() => auth()->user()->can('Delete:BotMessageListener')),
+
 
             ])
 
