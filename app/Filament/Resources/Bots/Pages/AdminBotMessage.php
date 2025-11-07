@@ -471,7 +471,7 @@ class AdminBotMessage extends Page implements HasForms, HasTable
             ])
             ->recordActions([
                 EditAction::make()->url(fn($record) => "/admin/bot-messages/".$record->id."/admin")
-                    ->visible(fn() => auth()->user()->can('Edit:Bot')),
+                    ->visible(fn() => auth()->user()->can('Update:Bot')),
 
             ])
             ->recordUrl(fn($record) => "/admin/bot-messages/".$record->id."/admin")
