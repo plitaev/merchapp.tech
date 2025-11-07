@@ -224,7 +224,10 @@ class BotPayAdmin extends Page implements HasForms
                             return redirect('/admin/bots/'.$this->bot_id.'/pays');
                         })
                     ->label('Вернуть платёж')
-                    ->visible($this->id > 0),
+                    ->visible($this->id > 0)
+                        ->visible(fn() => auth()->user()->can('Update:Pay')),
+
+
                     Action::make('Cancel')
                         ->color('gray')
                         ->action(function () {
