@@ -6,6 +6,7 @@
 
         <div class="fi-header flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <h1 class="fi-header-heading text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">Ожидания</h1>
+            @if (auth()->user()->can('Create:BotMessageListener'))
             <div class="flex shrink-0 items-center gap-3">
                 <x-filament::modal id="add-page-modal">
                     <x-slot name="trigger">
@@ -15,6 +16,7 @@
                     <form wire:submit.prevent="submit">{{$this->form_bot_message_link_listener}}</form>
                 </x-filament::modal>
             </div>
+            @endif
         </div>
             {{$this->table}}
         <div class="fi-header-actions-ctn">

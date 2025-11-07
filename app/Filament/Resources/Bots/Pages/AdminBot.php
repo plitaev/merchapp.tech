@@ -238,7 +238,9 @@ class AdminBot extends Page implements HasForms
                             $status = $telegramWebhookInfo->handle($formdata['telegram_token'], $webhook_address);
 
                             $set('telegram_webhook_status', $status);
-                        }),
+                        })
+                        ->visible(fn() => auth()->user()->can('Create:Bot')),
+
                     Action::make('webhook_set')
                         ->label('Установить Webhook')
                         ->action(function (Set $set) {
@@ -251,7 +253,9 @@ class AdminBot extends Page implements HasForms
                             $status = $telegramSetWebhook->handle($this->id, $formdata['telegram_token'], $formdata['telegram_webhook']);
 
                             $set('telegram_webhook_status', $status);
-                        }),
+                        })
+                        ->visible(fn() => auth()->user()->can('Create:Bot')),
+
                     Action::make('webhook_delete')
                         ->label('Удалить Webhook')
                         ->action(function (Set $set) {
@@ -264,7 +268,9 @@ class AdminBot extends Page implements HasForms
                             $status = $telegramDeleteWebhook->handle($formdata['telegram_token'], $webhook_address);
 
                             $set('telegram_webhook_status', $status);
-                        }),
+                        })
+                        ->visible(fn() => auth()->user()->can('Delete:Bot')),
+
                 ])
             ])->statePath('data');
     }
