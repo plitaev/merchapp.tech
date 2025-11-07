@@ -229,7 +229,9 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 ->send();
 
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
-                        }),
+                        })
+                        ->visible(fn() => auth()->user()->can('Create:Funnel')),
+
                     Action::make('send_message')
                         ->color('success')
                         ->label('Отправить сообщение')

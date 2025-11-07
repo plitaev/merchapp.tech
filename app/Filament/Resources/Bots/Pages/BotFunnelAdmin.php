@@ -10,6 +10,8 @@ use Filament\Actions\Action;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\Funnel;
+use App\Models\Core\User;
+
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -140,7 +142,9 @@ class BotFunnelAdmin extends Page implements HasForms
                                 ->send();
 
                             return redirect('/admin/bots/' . $this->bot_id .'/funnels');
-                        }),
+                        })
+                        ->visible(fn() => auth()->user()->can('Create:Funnel')),
+
                     Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/'.$this->bot_id.'/funnels');

@@ -14,6 +14,8 @@ use Filament\Actions\Action;
 use Filament\Schemas\Components\Text;
 
 use App\Models\Core\BotUser;
+use App\Models\Core\User;
+
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
@@ -115,7 +117,8 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
                 //
             ])
             ->recordActions([
-                DeleteAction::make(),
+                DeleteAction::make()
+                    ->visible(fn() => auth()->user()->can('Delete:BotUserBanSchedule')),
 
             ])
             ->toolbarActions([

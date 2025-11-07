@@ -3,6 +3,8 @@ namespace App\Filament\Resources\Bots\Pages;
 
 use App\Actions\Core\Telegram\TelegramDeleteWebhook;
 use App\Models\Core\BotBranch;
+use App\Models\Core\User;
+
 use Illuminate\Support\HtmlString;
 
 use Filament\Actions\Action;
@@ -190,8 +192,10 @@ class BotAdmin extends Page implements HasForms
                                 ->title('Данные успешно сохранены!')
                                 ->success()
                                 ->send();
-                        }),
-                     Action::make('Cancel')
+                        })
+                        ->visible(fn() => auth()->user()->can('Create:Bot')),
+
+                    Action::make('Cancel')
                          ->action(function () {
                              return redirect('/admin/bots');
                          })

@@ -120,7 +120,8 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                 //
             ])
             ->recordActions([
-                DeleteAction::make(),
+                DeleteAction::make()
+                    ->visible(fn() => auth()->user()->can('Delete:BotUserUnbanSchedule')),
 
             ])
             ->toolbarActions([
@@ -167,7 +168,7 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                                 ->send();
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
-                        }),
+                        })->visible(fn() => auth()->user()->can('Create:BotUserUnbanSchedule')),
                     Action::make('Отмена')
                         ->action(function () {
                             $this->dispatch('close-modal', id: 'add-page-modal');

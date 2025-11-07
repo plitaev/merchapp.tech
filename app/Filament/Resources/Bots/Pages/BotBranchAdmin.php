@@ -6,6 +6,8 @@ use App\Models\Core\BotBranchAccess;
 use App\Models\Core\BotBranchLinkProduct;
 use App\Models\Core\BotBranchType;
 use App\Models\Core\BotMessageAppointment;
+use App\Models\Core\User;
+
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
@@ -301,7 +303,9 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                 return redirect('/admin/bots/'.$this->bot_id.'/'.$new->id.'/branch-admin');
                             }
 
-                        }),
+                        })
+                        ->visible(fn() => auth()->user()->can('Create:BotBranch')),
+
                     Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/'.$this->bot_id.'/branches');

@@ -18,6 +18,8 @@ use App\Models\Core\YookassaPaymentMode;
 use App\Models\Core\YookassaPaymentSubject;
 use App\Models\Core\YookassaTaxSystemCode;
 use App\Models\Core\YookassaVatCode;
+use App\Models\Core\User;
+
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -182,7 +184,8 @@ class BotPaySystemAdmin extends Page implements HasForms
                                 ->title('Данные успешно сохранены!')
                                 ->success()
                                 ->send();
-                        }),
+                        })
+                        ->visible(fn() => auth()->user()->can('Create:Bot')),
                 ])
             ])->statePath('data');
     }

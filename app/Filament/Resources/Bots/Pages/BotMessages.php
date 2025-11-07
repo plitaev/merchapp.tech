@@ -10,6 +10,8 @@ use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\BotMessage;
+use App\Models\Core\User;
+
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -75,8 +77,10 @@ class BotMessages extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/message-admin"),
+                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/message-admin")
+                    ->visible(fn() => auth()->user()->can('Update:BotMessage')),
                 DeleteAction::make()
+                    ->visible(fn() => auth()->user()->can('Delete:BotMessage'))
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/message-admin")
             ->toolbarActions([

@@ -16,6 +16,8 @@ use App\Models\Core\Pay;
 use App\Models\Core\PayGuest;
 use App\Models\Core\PayLinkBot\PayLinkBot;
 use App\Models\Core\Product;
+use App\Models\Core\User;
+
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -183,7 +185,9 @@ class BotPayGuestAdmin extends Page implements HasForms
                                     } else {
                                         return redirect('/admin/bots/'.$this->bot_id.'/'.$this->id.'/pay-guest-admin');
                                     }
-                                }),
+                                })
+                                ->visible(fn() => auth()->user()->can('Create:PayGuests')),
+
                             Action::make('Cancel')
                                 ->action(function () {
                                     return redirect('/admin/bots/'.$this->bot_id.'/pay-guests');

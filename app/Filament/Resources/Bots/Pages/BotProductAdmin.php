@@ -13,6 +13,7 @@ use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\Product;
 use App\Models\Core\ProductType;
+use App\Models\Core\User;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -170,7 +171,9 @@ class BotProductAdmin extends Page implements HasForms
                                         ->send();
 
                                     return redirect('/admin/bots/'.$this->bot_id.'/products');
-                                }),
+                                })
+                                ->visible(fn() => auth()->user()->can('Create:Product')),
+
                             Action::make('Cancel')
                                 ->action(function () {
                                     return redirect('/admin/bots/'.$this->bot_id.'/products');

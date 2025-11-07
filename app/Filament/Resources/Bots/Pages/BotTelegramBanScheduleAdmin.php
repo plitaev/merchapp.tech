@@ -16,6 +16,8 @@ use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\BotAdminLog;
+use App\Models\Core\User;
+
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TimePicker;
@@ -149,7 +151,8 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
                             } else {
                                 return redirect('/admin/bots/' . $this->bot_id . '/' . $this->id . '/telegram-ban-schedule-admin');
                             }
-                        }),
+                        })
+                        ->visible(fn() => auth()->user()->can('Create:BotUserBanSchedule')),
                     Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/'.$this->bot_id.'/telegram-ban-schedules');

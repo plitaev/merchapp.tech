@@ -28,6 +28,8 @@ use App\Actions\Core\Pay\PayRefund;
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
 use App\Models\Core\Pay;
+use App\Models\Core\User;
+
 
 class BotPays extends Page implements HasTable
 {
@@ -187,8 +189,10 @@ class BotPays extends Page implements HasTable
                     ->action(function (Pay $record) {
                         $payRefund = new PayRefund();
                         $payRefund->handle($record->id);
-                    }),
-                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin"),
+                    })
+                    ->visible(fn() => auth()->user()->can('Update:Pay')),
+                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin")
+                    ->visible(fn() => auth()->user()->can('Update:Pay')),
                 DeleteAction::make()
                     ->before(function ($record) {
                         $pay = Pay::with('bot')->find($record->id);
@@ -214,7 +218,8 @@ class BotPays extends Page implements HasTable
                         $botUserBanByDeletePay->handle($bot_user);
 
                         $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
-                    }),
+                    })
+                    ->visible(fn() => auth()->user()->can('Delete:Pay')),
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin")

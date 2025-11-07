@@ -10,6 +10,8 @@ use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\Product;
+use App\Models\Core\User;
+
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -72,8 +74,10 @@ class BotProducts extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/product-admin"),
-                DeleteAction::make(),
+                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/product-admin")
+                    ->visible(fn() => auth()->user()->can('Update:Product')),
+                DeleteAction::make()
+                    ->visible(fn() => auth()->user()->can('Delete:Product'))
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/product-admin")

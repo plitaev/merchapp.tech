@@ -26,6 +26,8 @@ use App\Models\Core\BotMessageAppointment;
 use App\Models\Core\BotMessageType;
 use App\Models\Core\TelegramSupergroup;
 use App\Models\Core\TelegramSupergroupLinkBot\TelegramSupergroupLinkBot;
+use App\Models\Core\User;
+
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -204,7 +206,9 @@ class AdminBotMessage extends Page implements HasForms, HasTable
                                 ->title('Данные успешно сохранены!')
                                 ->success()
                                 ->send();
-                        }),
+                        })
+                        ->visible(fn() => auth()->user()->can('Create:BotBranch')),
+
                 ])
             ])->statePath('data');
 

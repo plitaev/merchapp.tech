@@ -9,6 +9,8 @@ use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\TelegramSupergroup;
+use App\Models\Core\User;
+
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -66,8 +68,10 @@ class BotSupergroups extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/supergroup-admin"),
-                DeleteAction::make(),
+                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/supergroup-admin")
+                    ->visible(fn() => auth()->user()->can('Update:TelegramSupergroup')),
+                DeleteAction::make()
+                    ->visible(fn() => auth()->user()->can('Delete:TelegramSupergroup')),
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/supergroup-admin")

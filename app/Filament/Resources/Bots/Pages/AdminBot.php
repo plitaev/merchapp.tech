@@ -26,6 +26,8 @@ use App\Actions\Core\Telegram\TelegramWebhookInfo;
 use App\Actions\Core\Telegram\TelegramSetWebhook;
 
 use App\Models\Core\Bot;
+use App\Models\Core\User;
+
 
 class AdminBot extends Page implements HasForms
 {
@@ -221,7 +223,9 @@ class AdminBot extends Page implements HasForms
                                 $new = Bot::create($data);
                                 return redirect('/admin/bots/'.$new->id.'/edit');
                             }
-                        }),
+                        })
+                        ->visible(fn() => auth()->user()->can('Create:Bot')),
+
                     Action::make('webhook_view')
                         ->label('Запросить статус Webhook')
                         ->action(function (Set $set) {

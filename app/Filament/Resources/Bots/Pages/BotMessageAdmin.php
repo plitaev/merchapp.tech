@@ -28,6 +28,8 @@ use App\Models\Core\BotMessageType;
 use App\Models\Core\BotUser;
 use App\Models\Core\Funnel;
 use App\Models\Core\Listener;
+use App\Models\Core\User;
+
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -470,7 +472,9 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                                 return redirect('/admin/bots/'.$this->bot_id.'/'.$new_message->id.'/message-admin');
                             }
 
-                        }),
+                        })
+                        ->visible(fn() => auth()->user()->can('Create:BotMessage')),
+
                     Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/'.$this->bot_id.'/messages');
@@ -497,8 +501,10 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/bots/".$this->id."/".$record->id."/button-admin"),
+                EditAction::make()->url(fn($record) => "/admin/bots/".$this->id."/".$record->id."/button-admin")
+                    ->visible(fn() => auth()->user()->can('Update:BotMessageButton')),
                 DeleteAction::make()
+                    ->visible(fn() => auth()->user()->can('Delete:BotMessageButton')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
@@ -560,7 +566,8 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             );
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
-                        }),
+                        })
+                        ->visible(fn() => auth()->user()->can('Create:BotMessageListener')),
                     Action::make('Отмена')
                         ->action(function () {
                             $this->dispatch('close-modal', id: 'add-page-modal');
