@@ -88,13 +88,13 @@ class BotSendings extends Page implements HasTable
             ])
             ->recordActions([
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin")
-                    ->visible(fn() => auth()->user()->can('Update:Sending')),
+                    ->visible(fn() => auth()->user()->can(' v')),
                 DeleteAction::make()
                     ->before(function (DeleteAction $action, Sending $record) {
                         $botSendingAdminDeleteRecord = new BotSendingAdminDeleteRecord();
                         $botSendingAdminDeleteRecord->handle($record, $action);
                     })
-            ])->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin")
-            ->visible(fn() => auth()->user()->can('Delete:Sending'));
+                    ->visible(fn() => auth()->user()->can('Delete:Sending'))
+            ])->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin");
     }
 }
