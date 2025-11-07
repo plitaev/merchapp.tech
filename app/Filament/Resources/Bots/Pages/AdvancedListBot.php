@@ -63,7 +63,9 @@ class AdvancedListBot extends Page implements HasTable
                             ))
                             ->modalSubmitAction(false)
                             ->modalCancelAction(false)
-                    ),
+                    )
+                    ->visible(fn() => auth()->user()->can('Edit:Bot')),
+
                 TextColumn::make('created_at')
                     ->label('Создано')
                     ->dateTime()
