@@ -6,11 +6,13 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchReferralProgram;
 use App\Models\Core\BotUser;
+use App\Actions\Core\BotUser\BotUserSetBranch;
 
 class ReferralProgramRunForReferral
 {
     public function handle($bot_user, $branch_data) {
         $botSendMessage = new BotSendMessage();
+        $botUserSetBranch = new BotUserSetBranch();
 
         //== Проверяем, что реферал - не участник клуба и никогда не был в клубе
         if ($bot_user->date_end) {
@@ -63,11 +65,11 @@ class ReferralProgramRunForReferral
                 $referral_record_id = $non_referral_record->id;
             }
 
-            BotUser::where('id', $bot_user->id)->update(['bot_branch_id' => $branch_data[1]]);
-
         } else {
             $referral_record_id = $check_in_rp->id;
         }
+
+        BotUser::where('id', $bot_user->id)->update(['bot_branch_id' => $branch_data[1]]);
 
         //== Повторно достаем параметры из $referral_record, чтобы обновить их
         $referral_record = BotBranchReferralProgram::select('referral_got_product_special')->find($referral_record_id);

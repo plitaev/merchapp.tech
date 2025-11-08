@@ -53,6 +53,15 @@ class DevTestController extends Controller
                     'model_id' => 3
             ]
             );
+
+            DB::table('model_has_permissions')->insert(
+                [
+                    'model_type' => 'App\Models\Core\User',
+                    'permission_id' => $permission->id,
+                    'model_id' => 1
+                ]
+            );
+
         }
 
         return 'ok';
