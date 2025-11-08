@@ -2,6 +2,7 @@
 namespace App\Actions\Core\Auto;
 
 use App\Actions\Core\Pay\PayMakeSuccessful;
+
 use App\Models\Core\PaySystemCallback;
 
 class ProdamusFinishPay {
@@ -19,8 +20,7 @@ class ProdamusFinishPay {
 
                 if ($Adata['order_num'] == '') return 'success';
 
-                return 'ok';
-                $payMakeSuccessful->handle($data->callback, $Adata['order_num'], $Adata['order_id'], $binding_id, $Adata['commission_sum']);
+                return $payMakeSuccessful->handle($data->callback, $Adata['order_num'], $Adata['order_id'], $binding_id, $Adata['commission_sum']);
             }
 
         }

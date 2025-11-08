@@ -42,6 +42,8 @@ class PayMakeSuccessful
         //== Обрабатываем продукт в реферальной ветке
         $referralBuySpecialProduct->handle($pay);
 
+        return '123';
+
         //== Завершаем ветку по покупке продукта
         $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
         $botBranchEndByProducts->handle($pay->product_id, $pay->bot_user_id);
