@@ -600,18 +600,6 @@ return new class extends Migration
             'name' => 'Reorder:BotMessageButton',
             'guard_name' => 'web',
         ]);
-
-       $role_id =  Role::where('name', 'super-admin')->first()->id;
-
-       foreach ($permissions as $permission) {
-           Role::create([
-               'permission_id' => $permission,
-               'role_id' => $role_id,
-           ]);
-       }
-
-
-
     }
 
     /**
