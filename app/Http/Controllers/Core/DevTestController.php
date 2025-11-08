@@ -44,10 +44,28 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $bot_user = BotUser::find(17653);
+        $permissions = Permission::where('created_at', '>', '2025-11-08 11:11:00')->get();
+        foreach ($permissions as $permission) {
+            DB::table('model_has_permissions')->insert(
+                [
+                    'model_type' => 'App\Models\Core\User',
+                    'permission_id' => $permission->id,
+                    'model_id' => 3
+            ]
+            );
+        }
 
-        $dateEnd = new DateEnd();
-        $dateEnd->handle($bot_user, 'Y-m-d');
+        return 'ok';
+
+        //return auth()->user()->can('Delete:Pay');
+
+        $user = User::find(4);
+        $userPermissions = $user->getAllPermissions();
+
+        return $userPermissions;
+
+
+
 
 
         /*
