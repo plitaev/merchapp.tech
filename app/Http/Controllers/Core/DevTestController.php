@@ -44,6 +44,19 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
+        $permissions = Permission::where('created_at', '>', '2025-11-08 11:11:00')->get();
+        foreach ($permissions as $permission) {
+            DB::table('model_has_permissions')->insert(
+                [
+                    'model_type' => 'App\Models\Core\User',
+                    'permission_id' => $permission->id,
+                    'model_id' => 1
+            ]
+            );
+        }
+
+        return 'ok';
+
         //return auth()->user()->can('Delete:Pay');
 
         $user = User::find(4);
