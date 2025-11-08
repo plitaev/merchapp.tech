@@ -192,6 +192,11 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->searchable(),
                         TextInput::make('referal_program_max_referrals_count')
                             ->label('Максимальное число рефералов')
+                            ->visible($this->id > 0 && $this->bot_branch_type == 3),
+                        Select::make('referal_program_product_id_for_referrer')
+                            ->label('Продукт, участвующий в акции')
+                            ->options(Product::all()->pluck('name', 'id'))
+                            ->searchable()
                             ->visible($this->id > 0 && $this->bot_branch_type == 3)
                     ]),
                 Section::make('Акция')
