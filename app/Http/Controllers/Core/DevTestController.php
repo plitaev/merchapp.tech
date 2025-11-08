@@ -37,7 +37,6 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\RoleHasPermission;
 use Spatie\Permission\Models\Permission;
 
 
@@ -47,7 +46,7 @@ class DevTestController extends Controller
 
         $permissions = Permission::where('created_at', '>', '2025-11-08 11:11:00')->get();
         foreach ($permissions as $permission) {
-            RoleHasPermission::create(['role_id' => 1, 'permission_id' => $permission->id]);
+            DB::table('role_has_permissions')->insert(['role_id' => 1, 'permission_id' => $permission->id]);
         }
 
 
