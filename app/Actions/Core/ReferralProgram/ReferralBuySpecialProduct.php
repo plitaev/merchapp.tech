@@ -30,7 +30,7 @@ class ReferralBuySpecialProduct
                 ->where('bot_branch_type', 3)
                 ->where('datetime_start', '<=', $datetime)
                 ->where('datetime_end', '>=', $datetime)
-                ->where('product_id', $pay->product_id)
+                ->where('bot_branch_product_id', $pay->product_id)
                 ->first();
 
             if ($bot_branch) {

@@ -20,7 +20,7 @@ class ProdamusFinishPay {
 
                 if ($Adata['order_num'] == '') return 'success';
 
-                return $payMakeSuccessful->handle($data->callback, $Adata['order_num'], $Adata['order_id'], $binding_id, $Adata['commission_sum']);
+                $payMakeSuccessful->handle($data->callback, $Adata['order_num'], $Adata['order_id'], $binding_id, $Adata['commission_sum']);
             }
 
         }
