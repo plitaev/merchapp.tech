@@ -219,7 +219,7 @@ class BotPays extends Page implements HasTable
 
                         $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
                     })
-                    ->visible(fn() => auth()->user()->hasPermissionTo('Delete:Pay')),
+                    ->visible(can('Delete:Pay')),
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin")
