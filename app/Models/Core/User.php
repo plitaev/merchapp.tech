@@ -7,12 +7,14 @@ namespace App\Models\Core;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Traits\HasPermissions;
 
 
 class User extends Authenticatable
 
 {
     use HasRoles;
+    use HasPermissions;
 
     /**
      * The attributes that are mass assignable.
