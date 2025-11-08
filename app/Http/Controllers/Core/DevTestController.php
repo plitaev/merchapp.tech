@@ -45,7 +45,7 @@ class DevTestController extends Controller
     public function devtest() {
 
         $user = User::find(1);
-        return $user->hasPermissionViaRole('Delete:Pay');
+        return $user->hasPermissionTo('Delete:Pay');
 
         $permissions = Permission::where('created_at', '>', '2025-11-08 11:11:00')->get();
         foreach ($permissions as $permission) {
