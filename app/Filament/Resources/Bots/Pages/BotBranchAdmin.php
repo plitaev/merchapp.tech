@@ -197,6 +197,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Продукт, участвующий в акции')
                             ->options(Product::all()->pluck('name', 'id'))
                             ->searchable()
+                            ->label('Продукт, выдаваемый реферреру при присоединении реферала')
                             ->visible($this->id > 0 && $this->bot_branch_type == 3)
                     ]),
                 Section::make('Акция')
