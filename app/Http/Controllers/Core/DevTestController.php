@@ -37,6 +37,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\RoleHasPermission;
 use Spatie\Permission\Models\Permission;
 
 
@@ -44,10 +45,10 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $bot_user = BotUser::find(17653);
-
-        $dateEnd = new DateEnd();
-        $dateEnd->handle($bot_user, 'Y-m-d');
+        $permissions = Permission::where('created_at', '>', '2025-11-08 11:11:00')->get();
+        foreach ($permissions as $permission) {
+            RoleHasPermission::create(['role_id' => 1, 'permission_id' => $permission->id]);
+        }
 
 
         /*
