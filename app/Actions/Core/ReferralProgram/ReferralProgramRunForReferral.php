@@ -12,6 +12,11 @@ class ReferralProgramRunForReferral
     public function handle($bot_user, $branch_data) {
         $botSendMessage = new BotSendMessage();
 
+        //== Проверяем, что реферал - не участник клуба и никогда не был в клубе
+        if ($bot_user->date_end) {
+            die();
+        }
+
         //== Проверяем, проходил ли юзер по реф.ссылке другого пользователя
         $check_in_other_rp = BotBranchReferralProgram::whereNot('referrer_bot_user_id', $branch_data[2])
             ->where('bot_branch_id', $branch_data[1])
