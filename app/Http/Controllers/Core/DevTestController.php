@@ -50,7 +50,7 @@ class DevTestController extends Controller
                 [
                     'model_type' => 'App\Models\Core\User',
                     'permission_id' => $permission->id,
-                    'model_id' => 1
+                    'model_id' => 3
             ]
             );
         }
