@@ -14,6 +14,7 @@ class ReferralProgramRunForReferral
 
         //== Проверяем, что реферал - не участник клуба и никогда не был в клубе
         if ($bot_user->date_end) {
+            $botSendMessage->handle($bot_user, 'SYS_RP_REFERRAL_IS_CLUB_MEMBER');
             die();
         }
 
