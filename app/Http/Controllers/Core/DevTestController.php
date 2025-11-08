@@ -44,10 +44,11 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $permissions = Permission::where('created_at', '>', '2025-11-08 11:11:00')->get();
-        foreach ($permissions as $permission) {
-            DB::table('role_has_permissions')->insert(['role_id' => 1, 'permission_id' => $permission->id]);
-        }
+        $user = User::find(1);
+        $userPermissions = $user->getAllPermissions();
+
+        return $userPermissions;
+
 
 
         /*
