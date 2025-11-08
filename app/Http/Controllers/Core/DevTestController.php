@@ -44,7 +44,7 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        return auth()->user()->can('Delete:Pay');
+        //return auth()->user()->can('Delete:Pay');
 
         $user = User::find(1);
         $userPermissions = $user->getAllPermissions();
