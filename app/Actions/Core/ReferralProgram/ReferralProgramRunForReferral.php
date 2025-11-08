@@ -96,8 +96,12 @@ class ReferralProgramRunForReferral
             $botSendMessage->handle($bot_user, 'SYS_RP_REFERRAL_JOIN_LINK_SUCCESSFUL');
             die();
         } else {
-            $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
-            die();
+
+            if ($bot_user->date_end >= date('Y-m-d', time())) {
+                $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+                die();
+            }
+
         }
 
     }
