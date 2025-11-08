@@ -99,8 +99,9 @@ class ReferralProgramRunForReferral
 
             if ($bot_user->date_end >= date('Y-m-d', time())) {
                 $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
-                die();
             }
+
+            die();
 
         }
 
