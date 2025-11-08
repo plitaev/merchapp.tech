@@ -39,7 +39,7 @@ class PayMakeSuccessful
 
         $dateEnd->handle($bot_user, 'Y-m-d');
 
-        return $pay;
+        return 'kk';
 
         //== Обрабатываем продукт в реферальной ветке
         $referralBuySpecialProduct->handle($pay);
