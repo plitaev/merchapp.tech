@@ -58,6 +58,18 @@ class ReferralBuySpecialProduct
 
             }
 
+        } else {
+
+            $check_is_active_referral = BotBranchReferralProgram::select('id', 'referrer_bot_user_id')
+                ->where('referral_bot_user_id', $pay->bot_user_id)
+                ->where('referral_got_product_special', 1)
+                ->where('referral_got_product_full', 0)
+                ->first();
+
+            if ($check_is_active_referral) {
+
+            }
+
         }
 
     }
