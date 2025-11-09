@@ -50,7 +50,7 @@ class BotSendings extends Page implements HasTable
 
         $this->bot_name = $bot->name;
 
-        $up =
+
     }
 
     public function getHeading(): string
