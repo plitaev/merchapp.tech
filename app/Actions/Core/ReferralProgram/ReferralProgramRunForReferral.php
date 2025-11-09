@@ -1,16 +1,18 @@
 <?php
 namespace App\Actions\Core\ReferralProgram;
 
+use App\Actions\Core\BotUser\BotUserSetBranch;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
+use App\Actions\Project\ClubAccess\BotResetUser;
 
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchReferralProgram;
 use App\Models\Core\BotUser;
-use App\Actions\Core\BotUser\BotUserSetBranch;
 
 class ReferralProgramRunForReferral
 {
     public function handle($bot_user, $branch_data) {
+        $botResetUser = new BotResetUser();
         $botSendMessage = new BotSendMessage();
         $botUserSetBranch = new BotUserSetBranch();
 
@@ -56,6 +58,8 @@ class ReferralProgramRunForReferral
             ->where('referrer_bot_user_id', $branch_data[2])
             ->where('referral_bot_user_id', $bot_user->id)
             ->first();
+
+        $botResetUser->handle($bot_user->id);
 
         if (!$check_in_rp) {
 
