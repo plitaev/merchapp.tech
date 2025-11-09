@@ -117,7 +117,7 @@ class ClubAccessController extends Controller
                     if ($branch_data[0] == 3) $referralProgramRunForReferral->handle($bot_user, $branch_data);
 
                 } else {
-                    $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
+                    if (!$bot_user->bot_branch_id) $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
                 }
 
                 if ($bot_user->date_end != NULL && $bot_user->date_end > date('Y-m-d', time())) {
