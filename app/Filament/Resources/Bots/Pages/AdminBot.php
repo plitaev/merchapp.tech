@@ -224,7 +224,7 @@ class AdminBot extends Page implements HasForms
                                 return redirect('/admin/bots/'.$new->id.'/edit');
                             }
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Bot')),
+                        ->visible(fn() => auth()->user()->can('Create:Bot') && auth()->user()->hasRole('super_admin')),
 
                     Action::make('webhook_view')
                         ->label('Запросить статус Webhook')
@@ -239,7 +239,7 @@ class AdminBot extends Page implements HasForms
 
                             $set('telegram_webhook_status', $status);
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Bot')),
+                        ->visible(fn() => auth()->user()->can('Create:Bot') && auth()->user()->hasRole('super_admin')),
 
                     Action::make('webhook_set')
                         ->label('Установить Webhook')
