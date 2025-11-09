@@ -73,6 +73,8 @@ class ReferralBuySpecialProduct
                     ->find($check_is_active_referral->bot_branch_id);
 
                 if ($bot_branch) {
+                    BotBranchReferralProgram::where('id', $check_is_active_referral->id)->update(['referral_got_product_full' => 1]);
+
                     $bot_user_referrer = BotUser::select('email')->find($check_is_active_referral->referrer_bot_user_id);
                     $payCreateByEmail->handle($bot_user_referrer->email, $bot_branch->referal_program_product_id_for_referrer, 0, 0);
                 }
