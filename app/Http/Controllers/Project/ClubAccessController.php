@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Project;
 
+use App\Http\Controllers\Controller;
+use Telegram\Bot\Api;
+
 use App\Actions\Core\Bot\BotGetByID;
 use App\Actions\Core\BotBranch\BotBranchRun;
+use App\Actions\Core\BotBranch\BotBranchEndOnRestart;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotSupergroup\BotSupergroups;
 use App\Actions\Core\BotUser\BotUserCreateFromTelegram;
@@ -29,8 +33,6 @@ use App\Actions\Project\ClubAccess\BotRequestAndConfirmEmail;
 use App\Actions\Project\ClubAccess\BotResetUser;
 use App\Actions\Project\ClubAccess\BotUserRecurrentDisable;
 use App\Actions\Project\ClubAccess\BotWelcomeMessage;
-use App\Http\Controllers\Controller;
-use Telegram\Bot\Api;
 
 class ClubAccessController extends Controller
 {
@@ -38,6 +40,7 @@ class ClubAccessController extends Controller
 
         //== Инициализируем основные классы
         $botBranchRun = new BotBranchRun();
+        $botBranchEndOnRestart = new BotBranchEndOnRestart();
         $botGetByID = new BotGetByID();
         $botSendMessage = new BotSendMessage();
         $botSupergroupsByBot = new BotSupergroups();
@@ -122,7 +125,10 @@ class ClubAccessController extends Controller
                     die();
                 }
 
+
+
                 $botResetUser->handle($bot_user->id); //== Сбрасываем юзера
+                $botBranchEndOnRestart->handle($bot_user);
                 $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id); //== И повторно достаем его данные после сброса
             }
 
