@@ -20,10 +20,11 @@ class ReferralProgramRunForReferral
             die();
         }
 
-        //== Проверяем, проходил ли юзер по реф.ссылке другого пользователя
+        //== Проверяем, проходил ли юзер по реф.ссылке другого пользователя и оплатил ли он там
         $check_in_other_rp = BotBranchReferralProgram::whereNot('referrer_bot_user_id', $branch_data[2])
             ->where('bot_branch_id', $branch_data[1])
             ->where('referral_bot_user_id', $bot_user->id)
+            ->where('referral_got_product_special', 1)
             ->count();
 
         if ($check_in_other_rp > 0) {
@@ -65,6 +66,13 @@ class ReferralProgramRunForReferral
                 ->first();
 
             if ($non_referral_record) {
+
+                BotBranchReferralProgram::whereNot('referrer_bot_user_id', $branch_data[2])
+                    ->where('bot_branch_id', $branch_data[1])
+                    ->where('referral_bot_user_id', $bot_user->id)
+                    ->where('referral_got_product_special', 0)
+                    ->update(['referral_bot_user_id' => NULL]);
+
                 BotBranchReferralProgram::where('id', $non_referral_record->id)->update(['referral_bot_user_id' => $bot_user->id]);
                 $referral_record_id = $non_referral_record->id;
             } else {
