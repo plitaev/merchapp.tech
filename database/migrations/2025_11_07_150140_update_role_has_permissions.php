@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        for ($i = 146; $i < 280; $i++) {
 
+        $current_permissions = DB::table('role_has_permissions')->select('permission_id')->where('role_id', 1)->groupBy('permission_id')->pluck('permission_id')->toArray();
+        $new_permissions = DB::table('permissions')->select('id')->whereNotIn('id', $current_permissions)->groupBy('id')->pluck('id')->toArray();
+
+        foreach ($new_permissions as $permission) {
             DB::table('role_has_permissions')->insert([
-                'permission_id' => $i,
-                'role_id' => 1,
+                'permission_id' => $permission->id,
+                'role_id' => 1
             ]);
-
         }
     }
 
