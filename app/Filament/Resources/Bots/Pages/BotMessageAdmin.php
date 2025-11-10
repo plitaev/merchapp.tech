@@ -2,6 +2,7 @@
 namespace App\Filament\Resources\Bots\Pages;
 
 use App\Models\Core\BotBranch;
+use App\Models\Core\FunnelConditionTrigger;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
@@ -27,6 +28,7 @@ use App\Models\Core\BotMessageListener;
 use App\Models\Core\BotMessageType;
 use App\Models\Core\BotUser;
 use App\Models\Core\Funnel;
+use App\Models\Core\FunnelCondition;
 use App\Models\Core\Listener;
 use App\Models\Core\User;
 
@@ -231,6 +233,28 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->options(Funnel::all()->pluck('name', 'id'))
                             ->searchable()
                             ->live(),
+                        Select::make('funnel_condition_id')
+                            ->label('Условие')
+                            ->options(FunnelCondition::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->live(),
+                        Select::make('funnel_condition_trigger_id')
+                            ->label('Условие')
+                            ->options(FunnelConditionTrigger::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->live(),
+                        TextInput::make('funnel_days')
+                            ->required()
+                            ->label('Дней')
+                            ->maxLength(255),
+                        TextInput::make('funnel_hours')
+                            ->required()
+                            ->label('Часов')
+                            ->maxLength(255),
+                        TextInput::make('funnel_minutes')
+                            ->required()
+                            ->label('Минут')
+                            ->maxLength(255)
                     ]),
                 Section::make('Бот и назначение')
                     ->description('Если необходимо, укажите функцию, которую будет выполнять данное сообщение')
