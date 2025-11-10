@@ -185,7 +185,7 @@ class BotPaySystemAdmin extends Page implements HasForms
                                 ->success()
                                 ->send();
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Bot')),
+                        ->disabled(fn() => auth()->user()->can('Create:Bot')),
                 ])
             ])->statePath('data');
     }

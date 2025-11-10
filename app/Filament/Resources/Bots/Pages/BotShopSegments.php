@@ -193,7 +193,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                                 return redirect('/admin/bots/' . $this->bot_id . '/sendings');
 
                                             })
-                                            ->visible(fn() => auth()->user()->can('Create:TelegramSendMessageSchedule')),
+                                            ->visible(fn() => auth()->user()->disabled('Create:TelegramSendMessageSchedule')),
 
 
                                     ]),

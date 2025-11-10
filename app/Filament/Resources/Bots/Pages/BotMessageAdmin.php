@@ -473,7 +473,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             }
 
                         })
-                        ->visible(fn() => auth()->user()->can('Create:BotMessage')),
+                        ->disabled(fn() => auth()->user()->can('Create:BotMessage')),
 
                     Action::make('Cancel')
                         ->action(function () {
@@ -502,9 +502,9 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
             ])
             ->recordActions([
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->id."/".$record->id."/button-admin")
-                    ->visible(fn() => auth()->user()->can('Update:BotMessageButton')),
+                    ->disabled(fn() => auth()->user()->can('Update:BotMessageButton')),
                 DeleteAction::make()
-                    ->visible(fn() => auth()->user()->can('Delete:BotMessageButton')),
+                    ->disabled(fn() => auth()->user()->can('Delete:BotMessageButton')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
@@ -567,7 +567,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         })
-                        ->visible(fn() => auth()->user()->can('Create:BotMessageListener')),
+                        ->disabled(fn() => auth()->user()->can('Create:BotMessageListener')),
                     Action::make('Отмена')
                         ->action(function () {
                             $this->dispatch('close-modal', id: 'add-page-modal');

@@ -152,7 +152,7 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
                                 return redirect('/admin/bots/' . $this->bot_id . '/' . $this->id . '/telegram-ban-schedule-admin');
                             }
                         })
-                        ->visible(fn() => auth()->user()->can('Create:BotUserBanSchedule')),
+                        ->disabled(fn() => auth()->user()->can('Create:BotUserBanSchedule')),
                     Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/'.$this->bot_id.'/telegram-ban-schedules');

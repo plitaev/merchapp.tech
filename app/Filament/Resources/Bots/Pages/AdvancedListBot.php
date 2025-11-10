@@ -64,7 +64,7 @@ class AdvancedListBot extends Page implements HasTable
                             ->modalSubmitAction(false)
                             ->modalCancelAction(false)
                     )
-                    ->visible(fn() => auth()->user()->can('Update:Bot')),
+                    ->disabled(fn() => auth()->user()->can('Update:Bot')),
 
                 TextColumn::make('created_at')
                     ->label('Создано')
@@ -82,10 +82,10 @@ class AdvancedListBot extends Page implements HasTable
             ])
             ->recordActions([
                 EditAction::make()->url(fn($record) => "/admin/bots/".$record->id."/edit")
-                    ->visible(fn() => auth()->user()->can('Update:Bot')),
+                    ->disabled(fn() => auth()->user()->can('Update:Bot')),
 
                 DeleteAction::make()
-                    ->visible(fn() => auth()->user()->can('Delete:Bot')),
+                    ->disabled(fn() => auth()->user()->can('Delete:Bot')),
 
             ])
             ->toolbarActions([

@@ -220,7 +220,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                             }
 
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Sending')),
+                        ->disabled(fn() => auth()->user()->can('Create:Sending')),
                     Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/' . $this->bot_id . '/sendings');
@@ -237,7 +237,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                             }
 
                             return redirect('/admin/bots/' . $this->bot_id . '/sendings');
-                        }) ->visible(fn() => auth()->user()->can('Delete:Sending'))
+                        }) ->disabled(fn() => auth()->user()->can('Delete:Sending'))
                         ->label('Удалить')
                 ])
             ])->statePath('data');
@@ -274,7 +274,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
             ])
             ->recordActions([
                 DeleteAction::make()
-                    ->visible(fn() => auth()->user()->can('Delete:Sending'))
+                    ->disabled(fn() => auth()->user()->can('Delete:Sending'))
             ]);
     }
 
@@ -311,7 +311,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         })
-                        ->visible(fn() => auth()->user()->can('Create:TelegramSendMessageSchedule')),
+                        ->disabled(fn() => auth()->user()->can('Create:TelegramSendMessageSchedule')),
                     Action::make('Отмена')
                         ->action(function () {
                             $this->dispatch('close-modal', id: 'add-page-modal');

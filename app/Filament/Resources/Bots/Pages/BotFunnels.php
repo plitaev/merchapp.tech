@@ -73,9 +73,9 @@ class BotFunnels extends Page implements HasTable
             ])
             ->recordActions([
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/funnel-admin")
-                    ->visible(fn() => auth()->user()->can('Update:Funnel')),
+                    ->disabled(fn() => auth()->user()->can('Update:Funnel')),
                 DeleteAction::make()
-                    ->visible(fn() => auth()->user()->can('Delete:Funnel')),
+                    ->disabled(fn() => auth()->user()->can('Delete:Funnel')),
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/funnel-admin")

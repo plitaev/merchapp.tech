@@ -152,7 +152,7 @@ class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfoli
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         })
-                        ->visible(fn() => auth()->user()->can('Create:BotMessageListener')),
+                        ->disabled(fn() => auth()->user()->can('Create:BotMessageListener')),
 
                     Action::make('Отмена')
                         ->action(function () {
@@ -184,7 +184,7 @@ class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfoli
             ])
             ->recordActions([
                 DeleteAction::make()
-                    ->visible(fn() => auth()->user()->can('Delete:BotMessageListener')),
+                    ->disabled(fn() => auth()->user()->can('Delete:BotMessageListener')),
 
 
             ])

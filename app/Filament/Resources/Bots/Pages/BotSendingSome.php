@@ -219,7 +219,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
 
                             return redirect('/admin/bots/'.$this->bot_id.'/'.$this->id.'/sending-admin');
                         })
-                        ->visible(fn() => auth()->user()->can('Create:TelegramSendMessageSchedule')),
+                        ->visible(fn() => auth()->user()->disabled('Create:TelegramSendMessageSchedule')),
 
                     Action::make('Отмена')
                         ->action(function () {

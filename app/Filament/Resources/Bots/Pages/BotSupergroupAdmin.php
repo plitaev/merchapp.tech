@@ -206,7 +206,7 @@ class BotSupergroupAdmin extends Page implements HasForms
 
                             return redirect('/admin/bots/' . $this->bot_id . '/supergroups');
                         })
-                        ->visible(fn() => auth()->user()->can('Create:TelegramSupergroup')),
+                        ->visible(fn() => auth()->user()->disabled('Create:TelegramSupergroup')),
                 ])
             ])->statePath('data');
     }

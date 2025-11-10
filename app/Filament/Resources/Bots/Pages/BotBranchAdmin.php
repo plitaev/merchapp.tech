@@ -310,7 +310,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             }
 
                         })
-                        ->visible(fn() => auth()->user()->can('Create:BotBranch')),
+                        ->disabled(fn() => auth()->user()->can('Create:BotBranch')),
 
                     Action::make('Cancel')
                         ->action(function () {

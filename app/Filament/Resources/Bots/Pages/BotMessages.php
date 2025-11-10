@@ -78,9 +78,9 @@ class BotMessages extends Page implements HasTable
             ])
             ->recordActions([
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/message-admin")
-                    ->visible(fn() => auth()->user()->can('Update:BotMessage')),
+                    ->disabled(fn() => auth()->user()->can('Update:BotMessage')),
                 DeleteAction::make()
-                    ->visible(fn() => auth()->user()->can('Delete:BotMessage'))
+                    ->disabled(fn() => auth()->user()->can('Delete:BotMessage'))
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/message-admin")
             ->toolbarActions([

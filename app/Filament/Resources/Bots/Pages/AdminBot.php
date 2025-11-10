@@ -224,7 +224,7 @@ class AdminBot extends Page implements HasForms
                                 return redirect('/admin/bots/'.$new->id.'/edit');
                             }
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Bot') && auth()->user()->hasRole('super_admin')),
+                        ->disabled(fn() => auth()->user()->can('Create:Bot') && auth()->user()->hasRole('super_admin')),
 
                     Action::make('webhook_view')
                         ->label('Запросить статус Webhook')
@@ -239,7 +239,7 @@ class AdminBot extends Page implements HasForms
 
                             $set('telegram_webhook_status', $status);
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Bot') && auth()->user()->hasRole('super_admin')),
+                        ->disabled(fn() => auth()->user()->can('Create:Bot') && auth()->user()->hasRole('super_admin')),
 
                     Action::make('webhook_set')
                         ->label('Установить Webhook')
@@ -254,7 +254,7 @@ class AdminBot extends Page implements HasForms
 
                             $set('telegram_webhook_status', $status);
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Bot')),
+                        ->disabled(fn() => auth()->user()->can('Create:Bot')),
 
                     Action::make('webhook_delete')
                         ->label('Удалить Webhook')
@@ -269,7 +269,7 @@ class AdminBot extends Page implements HasForms
 
                             $set('telegram_webhook_status', $status);
                         })
-                        ->visible(fn() => auth()->user()->can('Delete:Bot')),
+                        ->disabled(fn() => auth()->user()->can('Delete:Bot')),
 
                 ])
             ])->statePath('data');

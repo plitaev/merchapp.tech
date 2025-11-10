@@ -186,7 +186,7 @@ class BotPayGuestAdmin extends Page implements HasForms
                                         return redirect('/admin/bots/'.$this->bot_id.'/'.$this->id.'/pay-guest-admin');
                                     }
                                 })
-                                ->visible(fn() => auth()->user()->can('Create:PayGuests')),
+                                ->disabled(fn() => auth()->user()->can('Create:PayGuests')),
 
                             Action::make('Cancel')
                                 ->action(function () {

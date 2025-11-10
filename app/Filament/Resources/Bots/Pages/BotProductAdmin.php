@@ -172,7 +172,7 @@ class BotProductAdmin extends Page implements HasForms
 
                                     return redirect('/admin/bots/'.$this->bot_id.'/products');
                                 })
-                                ->visible(fn() => auth()->user()->can('Create:Product')),
+                                ->disabled(fn() => auth()->user()->can('Create:Product')),
 
                             Action::make('Cancel')
                                 ->action(function () {

@@ -230,7 +230,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Funnel')),
+                        ->disabled(fn() => auth()->user()->can('Create:Funnel')),
 
                     Action::make('send_message')
                         ->color('success')
@@ -253,7 +253,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
                             }
 
-                        })->visible(fn() => auth()->user()->can('Update:BotUser')),
+                        })->disabled(fn() => auth()->user()->can('Update:BotUser')),
                     Action::make('change_user')
                         ->label('Сменить пользователя')
                         ->color('danger')
@@ -300,7 +300,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 ->send();
 
                             return redirect("/admin/bots/".$this->bot_id."/".$this->bot_user_id."/chat-admin");
-                        })->visible(fn() => auth()->user()->can('Update:BotUser')),
+                        })->disabled(fn() => auth()->user()->can('Update:BotUser')),
 
                     Action::make('Списать рекуррент повторно')
                         ->label('Списать рекуррент повторно')
@@ -320,7 +320,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 ->send();
 
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
-                        })->visible(fn() => auth()->user()->can('Update:BotUser')),
+                        })->disabled(fn() => auth()->user()->can('Update:BotUser')),
                     Action::make('Cancel')
                         ->color('gray')
                         ->action(function () {

@@ -236,7 +236,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
 
                             return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/message-admin');
                         })
-                        ->visible(fn() => auth()->user()->can('Create:BotMessageButton')),
+                        ->disabled(fn() => auth()->user()->can('Create:BotMessageButton')),
 
 
                     Action::make('Cancel')
