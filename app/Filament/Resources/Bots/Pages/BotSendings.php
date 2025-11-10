@@ -96,7 +96,7 @@ class BotSendings extends Page implements HasTable
                         $botSendingAdminDeleteRecord = new BotSendingAdminDeleteRecord();
                         $botSendingAdminDeleteRecord->handle($record, $action);
                     })
-                    ->visible(fn() => auth()->user()->disabled('Delete:Sending') && auth()->user()->hasRole('super_admin'))
+                    ->visible(fn() => auth()->user()->can('Delete:Sending'))
             ])->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin");
     }
 }
