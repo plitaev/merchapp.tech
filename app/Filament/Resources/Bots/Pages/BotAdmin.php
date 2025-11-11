@@ -158,7 +158,8 @@ class BotAdmin extends Page implements HasForms
                         TextInput::make('name')
                             ->label('Название (Только в панели администратора)')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(!FeatureFlag::active()),
                         TextInput::make('alias')
                             ->label('Username в Telegram')
                             ->required()
