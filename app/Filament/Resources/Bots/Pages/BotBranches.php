@@ -79,12 +79,14 @@ class BotBranches extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/branch-admin"),
+                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/branch-admin")
+                    ->visible(fn() => auth()->user()->can('Update:BotBranch')),
                 DeleteAction::make()
                     ->before(function (DeleteAction $action, Sending $record) {
                         $botSendingAdminDeleteRecord = new BotSendingAdminDeleteRecord();
                         $botSendingAdminDeleteRecord->handle($record, $action);
                     })
+                    ->visible(fn() => auth()->user()->can('Delete:BotBranch'))
             ])->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/branch-admin");
     }
 }
