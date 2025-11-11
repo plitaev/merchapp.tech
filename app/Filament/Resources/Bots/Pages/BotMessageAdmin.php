@@ -497,7 +497,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             }
 
                         })
-                        ->disabled(fn() => auth()->user()->can('Create:BotMessage')),
+                        ->visible(fn() => auth()->user()->can('Create:BotMessage')),
 
                     Action::make('Cancel')
                         ->action(function () {
