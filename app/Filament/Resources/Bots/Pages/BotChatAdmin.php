@@ -230,7 +230,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Funnel')),
+                        ->visible(fn() => auth()->user()->can('Update:BotUser')),
 
                     Action::make('send_message')
                         ->color('success')
@@ -306,7 +306,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                         ->label('Списать рекуррент повторно')
                         ->color('success')
                         ->requiresConfirmation()
-                        ->visible( $this->count_p == 1 )
+                        ->visible(fn() => auth()->user()->can('Update:BotUser'))
                         ->action(function () {
                             $data = $this->form->getState();
                             $botUserRecurrentSchedule = new BotUserRecurrentSchedule();
