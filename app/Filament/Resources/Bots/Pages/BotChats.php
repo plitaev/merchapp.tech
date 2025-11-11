@@ -171,7 +171,7 @@ class BotChats extends Page implements HasTable
             ->actions([
 
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/chat-admin")
-                    ->disabled(fn() => auth()->user()->can('Update:BotUser')),
+                    ->visible(fn() => auth()->user()->can('Update:BotUser')),
 
 
             ])
