@@ -143,7 +143,7 @@ class BotFunnelAdmin extends Page implements HasForms
 
                             return redirect('/admin/bots/' . $this->bot_id .'/funnels');
                         })
-                        ->disabled(fn() => auth()->user()->can('Create:Funnel')),
+                        ->visible(fn() => auth()->user()->can('Create:Funnel')),
 
                     Action::make('Cancel')
                         ->action(function () {

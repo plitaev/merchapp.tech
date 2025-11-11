@@ -69,9 +69,9 @@ class BotSupergroups extends Page implements HasTable
             ])
             ->recordActions([
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/supergroup-admin")
-                    ->disabled(fn() => auth()->user()->can('Update:TelegramSupergroup')),
+                    ->visible(fn() => auth()->user()->can('Update:TelegramSupergroup')),
                 DeleteAction::make()
-                    ->disabled(fn() => auth()->user()->can('Delete:TelegramSupergroup')),
+                    ->visible(fn() => auth()->user()->can('Delete:TelegramSupergroup')),
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/supergroup-admin")

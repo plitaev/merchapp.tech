@@ -230,7 +230,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         })
-                        ->disabled(fn() => auth()->user()->can('Create:Funnel')),
+                        ->visible(fn() => auth()->user()->can('Update:BotMessage')),
 
                     Action::make('send_message')
                         ->color('success')
@@ -253,7 +253,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
                             }
 
-                        })->disabled(fn() => auth()->user()->can('Update:BotUser')),
+                        })->visible(fn() => auth()->user()->can('Update:BotMessage')),
                     Action::make('change_user')
                         ->label('Сменить пользователя')
                         ->color('danger')
@@ -300,13 +300,13 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 ->send();
 
                             return redirect("/admin/bots/".$this->bot_id."/".$this->bot_user_id."/chat-admin");
-                        })->disabled(fn() => auth()->user()->can('Update:BotUser')),
+                        })->visible(fn() => auth()->user()->can('Update:BotMessage')),
 
                     Action::make('Списать рекуррент повторно')
                         ->label('Списать рекуррент повторно')
                         ->color('success')
                         ->requiresConfirmation()
-                        ->visible( $this->count_p == 1 )
+                        ->visible(fn() => auth()->user()->can('Update:BotMessage'))
                         ->action(function () {
                             $data = $this->form->getState();
                             $botUserRecurrentSchedule = new BotUserRecurrentSchedule();
@@ -320,7 +320,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 ->send();
 
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
-                        })->disabled(fn() => auth()->user()->can('Update:BotUser')),
+                        })->visible(fn() => auth()->user()->can('Update:BotMessage')),
                     Action::make('Cancel')
                         ->color('gray')
                         ->action(function () {
