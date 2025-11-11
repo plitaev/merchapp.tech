@@ -171,7 +171,7 @@ class AdminBot extends Page implements HasForms
                             ->label('Название (Только в панели администратора)')
                             ->required()
                             ->maxLength(255)
-                            ->disabled(!FeatureFlag::active()),
+                            ->disabled(),
                         TextInput::make('alias')
                             ->label('Username в Telegram')
                             ->required()
