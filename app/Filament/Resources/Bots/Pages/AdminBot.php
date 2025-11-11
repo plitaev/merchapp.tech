@@ -171,7 +171,7 @@ class AdminBot extends Page implements HasForms
                             ->label('Название (Только в панели администратора)')
                             ->required()
                             ->maxLength(255)
-                            ->disabled(auth()->user()->hasPermissionTo('Delete:Pay')?true:false),
+                            ->disabled(auth()->user()->hasPermissionTo('Delete:Pay')?false:true),
                         TextInput::make('alias')
                             ->label('Username в Telegram')
                             ->required()
