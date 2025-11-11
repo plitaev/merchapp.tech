@@ -75,9 +75,9 @@ class BotProducts extends Page implements HasTable
             ])
             ->recordActions([
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/product-admin")
-                    ->disabled(fn() => auth()->user()->can('Update:Product')),
+                    ->visible(fn() => auth()->user()->can('Update:Product')),
                 DeleteAction::make()
-                    ->disabled(fn() => auth()->user()->can('Delete:Product'))
+                    ->visible(fn() => auth()->user()->can('Delete:Product'))
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/product-admin")
