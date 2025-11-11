@@ -207,7 +207,7 @@ class AdminBotMessage extends Page implements HasForms, HasTable
                                 ->success()
                                 ->send();
                         })
-                        ->disabled(fn() => auth()->user()->can('Create:Bot')),
+                        ->visible(fn() => auth()->user()->can('Create:Bot')),
 
                 ])
             ])->statePath('data');
