@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Bots\Pages;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Bots\BotResource;
@@ -77,8 +78,10 @@ class BotMessages extends Page implements HasTable
                 //
             ])
             ->recordActions([
+                ViewAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/message-admin")
+                    ->visible(!auth()->user()->can('Update:BotMessage')),
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/message-admin")
-                    ->visible(fn() => auth()->user()->can('Update:BotMessage')),
+                    ->visible(auth()->user()->can('Update:BotMessage')),
                 DeleteAction::make()
                     ->visible(fn() => auth()->user()->can('Delete:BotMessage'))
             ])
