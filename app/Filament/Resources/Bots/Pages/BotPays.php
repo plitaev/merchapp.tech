@@ -192,7 +192,7 @@ class BotPays extends Page implements HasTable
                     })
                     ->disabled(auth()->user()->hasPermissionTo('Update:Pay')?false:true),
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin")
-                    ->disabled(auth()->user()->hasPermissionTo('Update:Pay')?false:true),
+                    ->visible(fn() => auth()->user()->can('Update:Pay')),
                 DeleteAction::make()
                     ->before(function ($record) {
                         $pay = Pay::with('bot')->find($record->id);
@@ -219,7 +219,7 @@ class BotPays extends Page implements HasTable
 
                         $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
                     })
-                    ->disabled(auth()->user()->hasPermissionTo('Delete:Pay')?false:true),
+                    ->visible(fn() => auth()->user()->can('Delete:Pay'))
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin")
