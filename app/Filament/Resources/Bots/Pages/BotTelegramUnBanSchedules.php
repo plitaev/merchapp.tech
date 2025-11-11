@@ -121,7 +121,7 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
             ])
             ->recordActions([
                 DeleteAction::make()
-                    ->visible(fn() => auth()->user()->can('Delete:BotUserUnbanSchedule')),
+                    ->visible(fn() => auth()->user()->can('Delete:TelegramUnbanSchedule')),
 
             ])
             ->toolbarActions([
