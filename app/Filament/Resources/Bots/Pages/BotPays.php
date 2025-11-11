@@ -190,7 +190,7 @@ class BotPays extends Page implements HasTable
                         $payRefund = new PayRefund();
                         $payRefund->handle($record->id);
                     })
-                    ->disabled(auth()->user()->hasPermissionTo('Update:Pay')?false:true),
+                    ->visible(fn() => auth()->user()->can('Delete:Pay')),
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin")
                     ->visible(fn() => auth()->user()->can('Update:Pay')),
                 DeleteAction::make()
@@ -220,6 +220,7 @@ class BotPays extends Page implements HasTable
                         $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
                     })
                     ->visible(fn() => auth()->user()->can('Delete:Pay'))
+
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin")
