@@ -184,7 +184,7 @@ class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfoli
             ])
             ->recordActions([
                 DeleteAction::make()
-                    ->disabled(fn() => auth()->user()->can('Delete:BotMessageListener')),
+                    ->visible(fn() => auth()->user()->can('Delete:BotMessageListener')),
 
 
             ])
