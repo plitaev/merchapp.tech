@@ -101,11 +101,11 @@ class BotPayGuests extends Page implements HasTable
             ])
             ->actions([
                 ViewAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/message-admin")
-                    ->visible(auth()->user()->can('Create:PayGuest')),
+                    ->visible(!auth()->user()->can('Create:PayGuest')),
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-guest-admin")
-                    ->visible(!auth()->user()->can('Update:PayGuest')),
+                    ->visible(auth()->user()->can('Update:PayGuest')),
               DeleteAction::make()
-                  ->visible(!auth()->user()->can('Delete:PayGuest')),
+                  ->visible(auth()->user()->can('Delete:PayGuest')),
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-guest-admin")
             ->bulkActions([
