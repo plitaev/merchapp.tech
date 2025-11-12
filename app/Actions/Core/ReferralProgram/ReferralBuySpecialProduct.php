@@ -28,7 +28,7 @@ class ReferralBuySpecialProduct
 
         if (in_array($pay->product_id, $products)) {
 
-            $bot_branch = BotBranch::select('id')
+            $bot_branch = BotBranch::select('id', 'bot_branch_referrer_sending_id')
                 ->where('bot_branch_type', 3)
                 ->where('datetime_start', '<=', $datetime)
                 ->where('datetime_end', '>=', $datetime)
@@ -46,6 +46,9 @@ class ReferralBuySpecialProduct
                     BotBranchReferralProgram::where('id', $referral_record->id)->update(['referral_got_product_special' => 1]);
 
                     //и тут кидаем сообщение реферреру
+
+                    $referrer_bot_user = BotUser::find($referral_record->referrer_bot_user_id);
+
                     $referrals_count = BotBranchReferralProgram::query()
                         ->where('bot_branch_id', $bot_branch->id)
                         ->where('referrer_bot_user_id', $referral_record->referrer_bot_user_id)
@@ -53,9 +56,16 @@ class ReferralBuySpecialProduct
                         ->where('referral_got_product_special', 1)
                         ->count();
 
-                    $referrer_bot_user = BotUser::find($referral_record->referrer_bot_user_id);
+                    if (isset($bot_branch->bot_branch_referrer_sending_id) && $bot_branch->bot_branch_referrer_sending_id == 1) {
+                        if ($referrals_count == 1) {
+                            $botSendMessage->handle($referrer_bot_user, 'SYS_RP_REFERRER_NOTICE_WHEN_REFERAL_JOIN_1');
+                        }
+                    }
 
-                    $botSendMessage->handle($referrer_bot_user, 'SYS_RP_REFERRER_NOTICE_WHEN_REFERAL_JOIN_'.$referrals_count);
+                    if (isset($bot_branch->bot_branch_referrer_sending_id) && $bot_branch->bot_branch_referrer_sending_id == 2) {
+                        $botSendMessage->handle($referrer_bot_user, 'SYS_RP_REFERRER_NOTICE_WHEN_REFERAL_JOIN_'.$referrals_count);
+                    }
+
                 }
 
             }
