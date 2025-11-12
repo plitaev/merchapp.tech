@@ -194,8 +194,6 @@ class BotPays extends Page implements HasTable
                         $payRefund->handle($record->id);
                     })
                     ->visible(auth()->user()->can('Update:Pay')),
-                ViewAction::make()->url(fn($record) => "//admin/bots/".$this->bot_id."/".$record->id."/pay-admin")
-                    ->visible(!auth()->user()->can('Update:BotMessage')),
                 EditAction::make()->url(fn($record) => "//admin/bots/".$this->bot_id."/".$record->id."/pay-admin")
                     ->visible(auth()->user()->can('Update:BotMessage')),
                 DeleteAction::make()
