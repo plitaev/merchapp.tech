@@ -221,7 +221,7 @@ class BotPayAdmin extends Page implements HasForms
 
                             return redirect('/admin/bots/'.$this->bot_id.'/pays');
                         })
-                        ->visible(auth()->user()->hasPermissionTo('Create:Pay')?false:true),
+                        ->visible(auth()->user()->hasPermissionTo('Create:Pay')),
 
                     Action::make('Вернуть платеж')
                         ->color('info')
