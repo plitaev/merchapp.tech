@@ -181,6 +181,7 @@ class BotSupergroupAdmin extends Page implements HasForms
                     ]),
                 Section::make('Отправка статистики')
                     ->description('Укажите, должен ли бот отправлять статистику в этот чат')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true)
                     ->columns([
                         'sm' => 1,
                         'md' => 1,
@@ -213,6 +214,12 @@ class BotSupergroupAdmin extends Page implements HasForms
                             return redirect('/admin/bots/' . $this->bot_id . '/supergroups');
                         })
                         ->visible(auth()->user()->hasPermissionTo('Create:TelegramSupergroup')),
+                    Action::make('Cancel')
+                        ->color('gray')
+                        ->action(function () {
+                            return redirect('/admin/bots/'.$this->bot_id.'/supergroups');
+                        })
+                        ->label('Отменить и вернуться назад')
                 ])
             ])->statePath('data');
     }
