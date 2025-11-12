@@ -233,7 +233,7 @@ class BotPayAdmin extends Page implements HasForms
                         })
                     ->label('Вернуть платёж')
                     ->visible($this->id > 0)
-                        ->visible(auth()->user()->hasPermissionTo('Update:Pay')?false:true),
+                        ->visible(auth()->user()->hasPermissionTo('Update:Pay')),
 
 
 
