@@ -243,23 +243,20 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->live(),
                         Select::make('funnel_condition_trigger_id')
-                            ->label('Условие')
+                            ->label('Триггер')
                             ->options(FunnelConditionTrigger::all()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->live(),
                         TextInput::make('funnel_days')
-                            ->required()
                             ->label('Дней')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255),
                         TextInput::make('funnel_hours')
-                            ->required()
                             ->label('Часов')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255),
                         TextInput::make('funnel_minutes')
-                            ->required()
                             ->label('Минут')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255)
