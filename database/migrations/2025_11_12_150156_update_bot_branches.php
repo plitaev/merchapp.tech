@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bot_branches', function (Blueprint $table) {
-            $table->integer('referal_program_max_referrals_count')->change();
+            $table->integer('referal_program_max_referrals_count')->nullable()->change();
         });
     }
 
