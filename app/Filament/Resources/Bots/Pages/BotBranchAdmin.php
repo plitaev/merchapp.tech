@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Bots\Pages;
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchAccess;
 use App\Models\Core\BotBranchLinkProduct;
+use App\Models\Core\BotBranchReferrerSending;
 use App\Models\Core\BotBranchType;
 use App\Models\Core\BotMessageAppointment;
 use App\Models\Core\User;
@@ -202,7 +203,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         Select::make('bot_branch_referrer_sending_id')
                             ->label('Сообщение реферреру в момент присоединения реферала')
-                            ->options(Product::all()->pluck('name', 'id'))
+                            ->options(BotBranchReferrerSending::all()->pluck('name', 'id'))
                             ->searchable()
                             ->visible($this->id > 0 && $this->bot_branch_type == 3)
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
