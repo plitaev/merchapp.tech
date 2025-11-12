@@ -119,15 +119,25 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
                             ->label('Пользователь')
                             ->options(BotUser::select([DB::raw("CONCAT(last_name,' ', first_name, ' (', username, ')') as fullname"), 'chat_id'])->pluck('fullname','chat_id'))
                             ->searchable()
-                            ->live(),
+                            ->live()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUserBanSchedule')?false:true),
+
                         DatePicker::make('ban_date')
-                            ->label('Дата блокировки'),
+                            ->label('Дата блокировки')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUserBanSchedule')?false:true),
+
                         TimePicker::make('ban_time')
-                            ->label('Время блокировки'),
+                            ->label('Время блокировки')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUserBanSchedule')?false:true),
+
                         Checkbox::make('ban_status')
-                            ->label('Статус блокировки'),
+                            ->label('Статус блокировки')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUserBanSchedule')?false:true),
+
                         Checkbox::make('run_status')
-                            ->label('Статус удаления'),
+                            ->label('Статус удаления')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUserBanSchedule')?false:true),
+
                         //
                     ]),
                 Actions::make([
@@ -152,7 +162,7 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
                                 return redirect('/admin/bots/' . $this->bot_id . '/' . $this->id . '/telegram-ban-schedule-admin');
                             }
                         })
-                        ->disabled(fn() => auth()->user()->can('Create:BotUserBanSchedule')),
+                        ->visible(auth()->user()->hasPermissionTo('Create:BotUserBanSchedule')),
                     Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/'.$this->bot_id.'/telegram-ban-schedules');

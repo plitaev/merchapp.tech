@@ -106,31 +106,47 @@ class BotPaySystemAdmin extends Page implements HasForms
                     ->schema([
                         TextInput::make('yookassa_shop_id')
                             ->label('ID магазина (ShopID)')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                         TextInput::make('yookassa_shop_secret')
                             ->label('Секретный ключ API (ShopSecret)')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                         TextInput::make('yookassa_currency')
                             ->label('Валюта (Currency)')
-                            ->maxLength(3),
+                            ->maxLength(3)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                         Select::make('yookassa_tax_system_code_id')
                             ->label('Коды систем налогообложения')
                             ->options(YookassaTaxSystemCode::query()->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                         Select::make('yookassa_vat_code_id')
                             ->label('Признак способа расчета')
                             ->options(YookassaVatCode::query()->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                         Select::make('yookassa_payment_mode_id')
                             ->label('Коды ставок НДС')
                             ->options(YookassaPaymentMode::query()->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                         Select::make('yookassa_payment_subject_id')
                             ->label('Признак предмета расчета')
                             ->options(YookassaPaymentSubject::query()->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                         Toggle::make('yookassa_recurrent')
                             ->label('Рекуррентные платежи подключены')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                     ]),
                 Section::make('Продамус')
                     ->description('Настройки платежной системы Продамус')
@@ -145,27 +161,41 @@ class BotPaySystemAdmin extends Page implements HasForms
                         Select::make('prodamus_payment_method_id')
                             ->label('Тип оплаты')
                             ->options(ProdamusPaymentMethod::query()->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                         Select::make('prodamus_payment_object_id')
                             ->label('Тип оплачиваемой позиции')
                             ->options(ProdamusPaymentObject::query()->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                         Select::make('prodamus_npd_income_type_id')
                             ->label('Тип плательщика')
                             ->options(ProdamusNpdIncomeType::query()->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                         TextInput::make('prodamus_sys')
                             ->label('Параметр sys')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                         TextInput::make('prodamus_url')
                             ->label('Ссылка на платежную страницу')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                         TextInput::make('prodamus_key')
                             ->label('Ключ')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                         TextInput::make('prodamus_key_recurrent')
                             ->label('Ключ рекуррента')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
@@ -185,8 +215,8 @@ class BotPaySystemAdmin extends Page implements HasForms
                                 ->success()
                                 ->send();
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Bot')),
-                ])
+                        ->visible(auth()->user()->hasPermissionTo('Create:Bot'))
+               ])
             ])->statePath('data');
     }
 

@@ -111,11 +111,17 @@ class BotTelegramUnBanScheduleAdmin extends Page implements HasForms
                             ->label('Пользователь')
                             ->options(BotUser::select([DB::raw("CONCAT(last_name,' ', first_name, ' (', username, ')') as fullname"), 'chat_id'])->pluck('fullname','chat_id'))
                             ->searchable()
-                            ->live(),
+                            ->live()
+                            ->disabled(fn() => ['readonly' => auth()->user()->can('Update:BotUserUnBanSchedule')?true:false]),
+
                         Checkbox::make('run_status')
-                            ->label('Статус удаления'),
+                            ->label('Статус удаления')
+                            ->disabled(fn() => ['readonly' => auth()->user()->can('Update:BotUserUnBanSchedule')?true:false]),
+
                         Checkbox::make('unban_status')
-                            ->label('Статус разблокировки'),
+                            ->label('Статус разблокировки')
+                            ->disabled(fn() => ['readonly' => auth()->user()->can('Update:BotUserUnBanSchedule')?true:false]),
+
                         //
                         ]),
 
@@ -141,7 +147,8 @@ class BotTelegramUnBanScheduleAdmin extends Page implements HasForms
                                      return redirect('/admin/bots/' . $this->bot_id .'/'.$this->id. '/telegram-unban-schedule-admin');
                                  }
 
-                             }),
+                             })
+                             ->disabled(fn() => ['readonly' => auth()->user()->can('Create:BotUserUnBanSchedule')?true:false]),
                          Action::make('Cancel')
                              ->action(function () {
                                  return redirect('/admin/bots/' . $this->bot_id . '/telegram-unban-schedules');

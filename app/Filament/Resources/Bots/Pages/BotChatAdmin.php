@@ -160,6 +160,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                     ->schema([
                         Forms\Components\TextInput::make('email')
                             ->label('Email')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
+
                     ]),
                 Section::make('Привязка аккаунта к бизнес-боту')
                     ->description('Поставьте галочку, если к данному аккаунту привязан бизнес-бот')
@@ -173,6 +175,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                     ->schema([
                         Forms\Components\Checkbox::make('business_bot_account')
                             ->label('Аккаунт привязан к бизнес-боту')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
+
 
                     ]),
                 Section::make('Автоплатеж')
@@ -187,6 +191,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                     ->schema([
                         Forms\Components\Checkbox::make('recurrent')
                             ->label('Автоплатеж включен')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
+
                     ]),
                 Section::make('Статистика')
                     ->description(new HtmlString("<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs' style='display: block; margin-bottom: 10px; font-weight:bold'>Сообщения от бота: {$this->count} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Баны: {$this->count_ban} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs' style='display: block; margin-top: 10px; font-weight:bold'>Разбаны: {$this->count_unban} 🔍</a>"))
@@ -230,7 +236,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         })
-                        ->visible(fn() => auth()->user()->can('Update:BotMessage')),
+                        ->visible(fn() => auth()->user()->can('Update:BotUser')),
 
                     Action::make('send_message')
                         ->color('success')
@@ -253,7 +259,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
                             }
 
-                        })->visible(fn() => auth()->user()->can('Update:BotMessage')),
+                        })
+                        ->visible(fn() => auth()->user()->can('Update:BotUser')),
                     Action::make('change_user')
                         ->label('Сменить пользователя')
                         ->color('danger')
@@ -300,7 +307,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 ->send();
 
                             return redirect("/admin/bots/".$this->bot_id."/".$this->bot_user_id."/chat-admin");
-                        })->visible(fn() => auth()->user()->can('Update:BotMessage')),
+                        })
+                        ->visible(fn() => auth()->user()->can('Update:BotUser')),
 
                     Action::make('Списать рекуррент повторно')
                         ->label('Списать рекуррент повторно')
@@ -320,7 +328,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                                 ->send();
 
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
-                        })->visible(fn() => auth()->user()->can('Update:BotMessage')),
+                        })
+                        ->visible(fn() => auth()->user()->can('Update:BotUser')),
                     Action::make('Cancel')
                         ->color('gray')
                         ->action(function () {

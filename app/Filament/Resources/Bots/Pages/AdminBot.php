@@ -7,6 +7,10 @@ use Illuminate\Support\HtmlString;
 
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Forms\Components\Toggle;
+//use Filament\Forms\Components\ToggleButtons;
+use Filament\Actions\ViewAction;
+
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -171,28 +175,34 @@ class AdminBot extends Page implements HasForms
                             ->label('Название (Только в панели администратора)')
                             ->required()
                             ->maxLength(255)
-                            ->disabled(auth()->user()->hasPermissionTo('Delete:Pay')?false:true),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                         TextInput::make('alias')
                             ->label('Username в Telegram')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                         TextInput::make('telegram_token')
                             ->label('Telegram-токен (из BotFather)')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                         TextInput::make('telegram_webhook')
                             ->label('Адрес вебхука Telegram')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                         TextInput::make('message_worktime_after_minutes')
                             ->label('Время ответа техподдержки до отправки автосообщения бизнес-ботом')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                         TextInput::make('business_bot_delay_after_bot_sent_message_in_minutes')
                             ->label('Не отправлять сообщение в бизнес-бот после ответа бота (в минутах)')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                         TextInput::make('business_bot_delay_after_operator_sent_message_in_minutes')
                             ->label('Не отправлять сообщение в бизнес-бот после ответа оператора (в минутах)')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                     ]),
                 Section::make('Статус бота в Telegram')
                     ->columns([
@@ -225,7 +235,7 @@ class AdminBot extends Page implements HasForms
                                 return redirect('/admin/bots/'.$new->id.'/edit');
                             }
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Bot')),
+                        ->visible(auth()->user()->hasPermissionTo('Create:Bot')?true:false),
 
                     Action::make('webhook_view')
                         ->label('Запросить статус Webhook')
@@ -238,11 +248,9 @@ class AdminBot extends Page implements HasForms
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
                             $status = $telegramWebhookInfo->handle($formdata['telegram_token'], $webhook_address);
 
-                            if (is_callable($set)) {
-                                $set('telegram_webhook_status', $status);
-                            }
+                            $set('telegram_webhook_status', $status);
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Bot')),
+                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')?true:false),
 
                     Action::make('webhook_set')
                         ->label('Установить Webhook')
@@ -255,11 +263,9 @@ class AdminBot extends Page implements HasForms
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
                             $status = $telegramSetWebhook->handle($this->id, $formdata['telegram_token'], $formdata['telegram_webhook']);
 
-                            if (is_callable($set)) {
-                                $set('telegram_webhook_status', $status);
-                            }
+                            $set('telegram_webhook_status', $status);
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Bot')),
+                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')?true:false),
 
                     Action::make('webhook_delete')
                         ->label('Удалить Webhook')
@@ -272,11 +278,9 @@ class AdminBot extends Page implements HasForms
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
                             $status = $telegramDeleteWebhook->handle($formdata['telegram_token'], $webhook_address);
 
-                            if (is_callable($set)) {
-                                $set('telegram_webhook_status', $status);
-                            }
+                            $set('telegram_webhook_status', $status);
                         })
-                        ->visible(fn() => auth()->user()->can('Delete:Bot')),
+                        ->visible(auth()->user()->hasPermissionTo('Delete:Bot')?true:false)
 
                 ])
             ])->statePath('data');

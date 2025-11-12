@@ -116,28 +116,39 @@ class BotProductAdmin extends Page implements HasForms
                                 'required' => 'Обязательно укажите название',
                             ])
                             ->label('Название')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Product')?false:true),
+
+
                         TextInput::make('price')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите стоимость',
                             ])
                             ->label('Стоимость')
-                            ->maxLength(50),
+                            ->maxLength(50)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Product')?false:true),
+
                         TextInput::make('days')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите дни',
                             ])
                             ->label('Дни')
-                            ->maxLength(50),
+                            ->maxLength(50)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Product')?false:true),
+
                         Select::make('product_type_id')
                             ->label('Тип продукта')
                             ->required()
                             ->options(ProductType::all()->pluck('name', 'id'))
                             ->searchable()
-                            ->live(),
-                        Forms\Components\Checkbox::make('enabled')->label('Доступен для покупки'),
+                            ->live()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Product')?false:true),
+
+                        Forms\Components\Checkbox::make('enabled')->label('Доступен для покупки')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Product')?false:true),
+
                     ]),
 
                 Section::make('Описание')
@@ -151,7 +162,9 @@ class BotProductAdmin extends Page implements HasForms
                     ])
                     ->schema([
                         Textarea::make('description')->label('Описание')
-                    ]),
+                        ->disabled(auth()->user()->hasPermissionTo('Update:Product')?false:true),
+
+                        ]),
 
                         Actions::make([
                             Action::make('Сохранить')
@@ -172,7 +185,7 @@ class BotProductAdmin extends Page implements HasForms
 
                                     return redirect('/admin/bots/'.$this->bot_id.'/products');
                                 })
-                                ->visible(fn() => auth()->user()->can('Create:Product')),
+                                ->visible(auth()->user()->can('Create:Product')),
 
                             Action::make('Cancel')
                                 ->action(function () {

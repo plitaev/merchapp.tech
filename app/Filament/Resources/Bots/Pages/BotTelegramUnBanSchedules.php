@@ -12,6 +12,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
 use Filament\Schemas\Components\Text;
+use Filament\Actions\ViewAction;
 
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
@@ -120,8 +121,9 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                 //
             ])
             ->recordActions([
+
                 DeleteAction::make()
-                    ->visible(fn() => auth()->user()->can('Delete:TelegramUnbanSchedule')),
+                    ->visible(auth()->user()->can('Delete:BotUserUnbanSchedule')),
 
             ])
             ->toolbarActions([
@@ -148,6 +150,8 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                             ->options(BotUser::where('bot_id', $this->bot_id)->get()->map(function ($bot_user) {
                                 return ['key' => $bot_user->id, 'value' => (isset($bot_user->first_name) && $bot_user->first_name!='none'?$bot_user->first_name:'')." ".(isset($bot_user->last_name) && $bot_user->last_name!='none'?$bot_user->last_name:'')." ".(isset($bot_user->username) && $bot_user->username!='none'?"(".$bot_user->username.")":'')];
                             })->pluck('value', 'key')->toArray())
+                            ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
+
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
@@ -168,7 +172,8 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                                 ->send();
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
-                        })->disabled(fn() => auth()->user()->can('Create:BotUserUnbanSchedule')),
+                        }),
+                       // ->visible(auth()->user()->hasPermissionTo('Create:BotUserUnbanSchedule')),
                     Action::make('Отмена')
                         ->action(function () {
                             $this->dispatch('close-modal', id: 'add-page-modal');

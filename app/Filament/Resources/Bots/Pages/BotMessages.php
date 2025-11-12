@@ -5,9 +5,9 @@ namespace App\Filament\Resources\Bots\Pages;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\ViewAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ViewAction;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\BotMessage;
@@ -64,15 +64,25 @@ class BotMessages extends Page implements HasTable
             ->columns([
                 TextColumn::make('name')
                     ->label('Название (Только в панели администратора)')
-                    ->searchable(),
+                    ->searchable()
+                    ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true),
+
                 TextColumn::make('bot_message_type.name')
-                    ->label('Тип сообщения'),
+                    ->label('Тип сообщения')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true),
+
                 TextColumn::make('bot_message_appointment.name')
-                    ->label('Назначение'),
+                    ->label('Назначение')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true),
+
                 TextColumn::make('bot_branch.name')
-                    ->label('Ветка'),
+                    ->label('Ветка')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true),
+
                 TextColumn::make('funnel.name')
-                    ->label('Воронка'),
+                    ->label('Воронка')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true),
+
             ])
             ->filters([
                 //
@@ -83,7 +93,7 @@ class BotMessages extends Page implements HasTable
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/message-admin")
                     ->visible(auth()->user()->can('Update:BotMessage')),
                 DeleteAction::make()
-                    ->visible(auth()->user()->can('Delete:BotMessage'))
+                    ->visible(!auth()->user()->can('Delete:BotMessage'))
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/message-admin")
             ->toolbarActions([

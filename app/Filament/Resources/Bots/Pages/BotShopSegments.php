@@ -131,6 +131,8 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                     Forms\Components\CheckboxList::make('all_product')
                                         ->label('По покупке продуктов')
                                         ->options($this->all_product)
+                                        ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSendMessageSchedule')?false:true),
+
                                 ])
                                 ->afterValidation(function (Set $set) {
                                     $data = $this->form->getState();
@@ -148,7 +150,9 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                     Forms\Components\CheckboxList::make('no_all_product')
                                         ->label('По не покупке продуктов')
                                         ->options(fn($get) => $get('products_step2') ?: [])
-                                        ->afterStateHydrated(function ($component, $state) {
+                                        ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSendMessageSchedule')?false:true)
+
+                                ->afterStateHydrated(function ($component, $state) {
                                             if (! filled($state)) {
                                                 $component->state($this->no_all_product);
                                             }
@@ -193,7 +197,7 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
                                                 return redirect('/admin/bots/' . $this->bot_id . '/sendings');
 
                                             })
-                                            ->visible(fn() => auth()->user()->disabled('Create:TelegramSendMessageSchedule')),
+                                            ->visible(auth()->user()->hasPermissionTo('Create:TelegramSendMessageSchedule')),
 
 
                                     ]),

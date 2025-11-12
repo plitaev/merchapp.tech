@@ -39,7 +39,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Filament\Schemas\Components\Utilities\Get;
-
+use Filament\Actions\ViewAction;
 use App\Actions\Core\Sending\SendingSave;
 use App\Actions\Core\BotBranch\BotBranchSetEndByProducts;
 
@@ -163,42 +163,43 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         TextInput::make('name')
                             ->label('Название')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         TextInput::make('alias')
                             ->label('Псевдоним')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         DateTimePicker::make('datetime_start')
                             ->label('Дата и время начала акции')
                             ->format('Y-m-d H:i:s')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите дату и время начала акции',
-                            ]),
+                            ])
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         DateTimePicker::make('datetime_end')
                             ->label('Дата и время окончания акции')
                             ->format('Y-m-d H:i:s')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите дату и время окончания акции',
-                            ]),
+                            ])
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         Select::make('bot_branch_type')
                             ->label('Тип ветки')
                             ->options(BotBranchType::all()->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         Select::make('bot_branch_product_id')
                             ->label('Продукт, участвующий в акции')
                             ->options(Product::all()->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         TextInput::make('referal_program_max_referrals_count')
                             ->label('Максимальное число рефералов')
-                            ->visible($this->id > 0 && $this->bot_branch_type == 3),
-                        Select::make('referal_program_product_id_for_referrer')
-                            ->label('Продукт, участвующий в акции')
-                            ->options(Product::all()->pluck('name', 'id'))
-                            ->searchable()
-                            ->label('Продукт, выдаваемый реферреру при присоединении реферала')
                             ->visible($this->id > 0 && $this->bot_branch_type == 3)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                     ]),
                 Section::make('Акция')
                     ->description(new HtmlString('Ссылка на запуск к акции в боте: <a href="https://t.me/'.$this->bot_alias.'?start='.base64_encode($this->bot_branch_type.'|'.$this->bot_branch_hash.'|0').'" style="text-decoration: underline" target="_blank">https://t.me/'.$this->bot_alias.'?start='.base64_encode($this->bot_branch_type.'|'.$this->bot_branch_hash.'|0').'</a>'))
@@ -210,7 +211,8 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         '2xl' => 1
                     ])
                     ->schema([])
-                    ->visible($this->id > 0 && $this->bot_branch_type == 2),
+                    ->visible($this->id > 0 && $this->bot_branch_type == 2)
+                    ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                 Section::make('Доступ для категорий пользователей')
                     ->description('Укажите, должны ли новые пользователи получать доступ к участию в акции')
                     ->columns([
@@ -224,35 +226,43 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         Select::make('new_users_bot_branch_access_id')
                             ->label('Доступ для категорий пользователей')
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         Select::make('new_users_bot_message_id')
                             ->label('Отправлять сообщение')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         Select::make('guests_bot_branch_access_id')
                             ->label('Доступ для гостей')
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         Select::make('guests_bot_message_id')
                             ->label('Отправлять сообщение')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         Select::make('members_bot_branch_access_id')
                             ->label('Доступ для текущих участников')
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         Select::make('members_bot_message_id')
                             ->label('Отправлять сообщение')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         Select::make('banneds_bot_branch_access_id')
                             ->label('Доступ для выбывших участников')
                             ->options(BotBranchAccess::all()->pluck('name', 'id'))
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         Select::make('banneds_bot_message_id')
                             ->label('Отправлять сообщение')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                     ]),
                 Section::make('Завершение акции')
                     ->description('Укажите, когда пользователь должен выйти из ветки акции')
@@ -265,7 +275,8 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ])
                     ->schema([
                         Forms\Components\Checkbox::make('end_by_restart')
-                            ->label('По нажатию Меню - Старт'),
+                            ->label('По нажатию Меню - Старт')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                         Forms\Components\CheckboxList::make('end_by_products')
                             ->label('По покупке продуктов')
                             ->options($this->end_by_products)
@@ -274,6 +285,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                     $component->state($this->end_by_products_in_branch);
                                 }
                             })
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                     ]),
 
                 Actions::make([
@@ -310,9 +322,10 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             }
 
                         })
-                        ->visible(fn() => auth()->user()->can('Create:BotBranch')),
+                        ->visible(auth()->user()->hasPermissionTo('Create:BotBranch')),
 
-                    Action::make('Cancel')
+
+                Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/'.$this->bot_id.'/branches');
                         })
@@ -323,6 +336,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         })
                         ->label('Завершить акцию сейчас')
                         ->visible($this->id > 0 && $this->bot_branch_type == 2)
+                        ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                 ])
             ])->statePath('data');
     }
@@ -350,15 +364,17 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                 TextColumn::make('bot_user.email')
                     ->label('Email'),
                 TextColumn::make('run_status_name.name')
-                    ->label('Статус'),
+                    ->label('Статус')
             ])
+            
 
             ->filters([
                 //
             ])
             ->recordActions([
                 DeleteAction::make()
-            ]);
+                    ->visible(auth()->user()->hasPermissionTo('Delete:BotBranch')),
+        ]);
     }
 
 }

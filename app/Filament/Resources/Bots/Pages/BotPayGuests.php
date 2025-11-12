@@ -8,6 +8,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Bots\BotResource;
+use Filament\Actions\ViewAction;
 use App\Models\Core\Bot;
 use App\Models\Core\PayGuest;
 use App\Models\Core\User;
@@ -99,10 +100,12 @@ class BotPayGuests extends Page implements HasTable
                 //
             ])
             ->actions([
+                ViewAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/message-admin")
+                    ->visible(auth()->user()->can('Create:PayGuests')),
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-guest-admin")
-                    ->visible(fn() => auth()->user()->can('Update:PayGuest')),
-                DeleteAction::make()
-                    ->visible(fn() => auth()->user()->can('Delete:PayGuest')),
+                    ->visible(!auth()->user()->can('Update:PayGuests')),
+              DeleteAction::make()
+                  ->visible(!auth()->user()->can('Delete:PayGuests')),
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-guest-admin")
             ->bulkActions([

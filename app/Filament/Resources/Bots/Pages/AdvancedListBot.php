@@ -6,6 +6,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use Filament\Resources\Pages\Page;
@@ -64,8 +65,7 @@ class AdvancedListBot extends Page implements HasTable
                             ->modalSubmitAction(false)
                             ->modalCancelAction(false)
                     )
-                    ->disabled(fn() => auth()->user()->can('Update:Bot')),
-
+                    ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                 TextColumn::make('created_at')
                     ->label('Создано')
                     ->dateTime()
@@ -81,11 +81,14 @@ class AdvancedListBot extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/bots/".$record->id."/edit")
-                    ->disabled(fn() => auth()->user()->can('Update:Bot')),
+                ViewAction::make()->url(fn($record) => "/admin/bots/".$record->id."/edit")
+                    ->visible(!auth()->user()->can('Update:Bot')),
 
+                EditAction::make()->url(fn($record) => "/admin/bots/".$record->id."/edit")
+                    ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
+               
                 DeleteAction::make()
-                    ->disabled(fn() => auth()->user()->can('Delete:Bot')),
+                    ->visible(auth()->user()->hasPermissionTo('Delete:Bot')),
 
             ])
             ->toolbarActions([

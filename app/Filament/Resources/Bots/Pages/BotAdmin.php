@@ -17,6 +17,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Actions;
+use Filament\Actions\ViewAction;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Text;
 use Filament\Schemas\Components\Utilities\Set;
@@ -158,19 +159,22 @@ class BotAdmin extends Page implements HasForms
                         TextInput::make('name')
                             ->label('Название (Только в панели администратора)')
                             ->required()
-                            ->maxLength(255)
-                            ->disabled(!FeatureFlag::active()),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true)
+                            ->maxLength(255),
                         TextInput::make('alias')
                             ->label('Username в Telegram')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true)
                             ->maxLength(255),
                         TextInput::make('telegram_token')
                             ->label('Telegram-токен (из BotFather)')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true)
                             ->maxLength(255),
                         TextInput::make('telegram_webhook')
                             ->label('Адрес вебхука Telegram')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true)
                             ->maxLength(255),
 
                     ]),
@@ -194,8 +198,7 @@ class BotAdmin extends Page implements HasForms
                                 ->success()
                                 ->send();
                         })
-                        ->disabled(fn() => auth()->user()->can('Create:Bot')),
-
+                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                     Action::make('Cancel')
                          ->action(function () {
                              return redirect('/admin/bots');

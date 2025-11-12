@@ -135,11 +135,16 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
                             ->description('Строка, cо значениями через новую строку')
                             ->schema([
                                 Textarea::make('email_string')
-                                    ->label('Email'),
+                                    ->label('Email')
+                                    ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSendMessageSchedule')?false:true),
                                 Textarea::make('username_string')
-                                    ->label('Username'),
+                                    ->label('Username')
+                                    ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSendMessageSchedule')?false:true),
+
                                 Textarea::make('bot_user_ids')
-                                    ->label('BotUserID'),
+                                    ->label('BotUserID')
+                                    ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSendMessageSchedule')?false:true),
+
                             ]),
                     ]),
                 Actions::make([
@@ -219,7 +224,7 @@ class BotSendingSome extends Page implements HasForms, HasTable, HasInfolists
 
                             return redirect('/admin/bots/'.$this->bot_id.'/'.$this->id.'/sending-admin');
                         })
-                        ->visible(fn() => auth()->user()->disabled('Create:TelegramSendMessageSchedule')),
+                        ->visible(auth()->user()->hasPermissionTo('Create:TelegramSendMessageSchedule')),
 
                     Action::make('Отмена')
                         ->action(function () {

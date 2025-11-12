@@ -12,6 +12,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -174,18 +175,22 @@ class AdminBotMessage extends Page implements HasForms, HasTable
                         TextInput::make('name')
                             ->label('Название (Только в панели администратора)')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true)
                             ->maxLength(255),
                         TextInput::make('alias')
                             ->label('Username в Telegram')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true)
                             ->maxLength(255),
                         TextInput::make('telegram_token')
                             ->label('Telegram-токен (из BotFather)')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true)
                             ->maxLength(255),
                         TextInput::make('telegram_webhook')
                             ->label('Адрес вебхука Telegram')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true)
                             ->maxLength(255),
                     ]),
                 Actions::make([
@@ -207,7 +212,7 @@ class AdminBotMessage extends Page implements HasForms, HasTable
                                 ->success()
                                 ->send();
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Bot')),
+                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
 
                 ])
             ])->statePath('data');
@@ -226,6 +231,7 @@ class AdminBotMessage extends Page implements HasForms, HasTable
                             ->options(
                                 TelegramSupergroup::query()->pluck('name', 'id')
                             )
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true)
                             ->searchable()
                     ]),
                 Actions::make([
@@ -240,7 +246,8 @@ class AdminBotMessage extends Page implements HasForms, HasTable
                             );
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
-                        }),
+                        })
+                        ->visible(auth()->user()->hasPermissionTo('Create:Bot')?false:true),
                     Action::make('Отмена')
                         ->action(function () {
                             $this->dispatch('close-modal', id: 'add-page-modal');
@@ -444,7 +451,8 @@ class AdminBotMessage extends Page implements HasForms, HasTable
                             return redirect('/admin/bot-messages/'.$new_message->id.'/admin');
 
 
-                        }),
+                        })
+                        ->visible(auth()->user()->hasPermissionTo('Create:BotMessage')?false:true),
                 ])
             ])->statePath('data_telegram_chats');
     }
@@ -457,21 +465,27 @@ class AdminBotMessage extends Page implements HasForms, HasTable
             ->columns([
                 TextColumn::make('bot.name')
                     ->label('Бот')
-                    ->searchable(),
+                    ->searchable()
+                    ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true),
                 TextColumn::make('name')
                     ->label('Название (Только в панели администратора)')
-                    ->searchable(),
+                    ->searchable()
+                    ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true),
                 TextColumn::make('bot_message_type.name')
-                    ->label('Тип сообщения'),
+                    ->label('Тип сообщения')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true),
                 TextColumn::make('bot_message_appointment.name')
-                    ->label('Назначение'),
+                    ->label('Назначение')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true),
             ])
             ->filters([
                 //
             ])
             ->recordActions([
+                ViewAction::make()->url(fn($record) => "/admin/bot-messages/".$record->id."/admin")
+                    ->visible(!auth()->user()->can('Update:BotMessage')),
                 EditAction::make()->url(fn($record) => "/admin/bot-messages/".$record->id."/admin")
-                    ->disabled(fn() => auth()->user()->can('Update:Bot')),
+                    ->visible(!auth()->user()->can('Update:BotMessage')),
 
             ])
             ->recordUrl(fn($record) => "/admin/bot-messages/".$record->id."/admin")

@@ -7,6 +7,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
+use Filament\Actions\ViewAction;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
 use App\Models\Core\Funnel;
@@ -114,15 +115,16 @@ class BotFunnelAdmin extends Page implements HasForms
                                 'required' => 'Обязательно укажите наименование',
                             ])
                             ->label('Наименование')
-                            ->maxLength(50),
-
+                            ->maxLength(50)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Funnel')?false:true),
                         TextInput::make('alias')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите псевдоним',
                             ])
                             ->label('Псевдоним')
-                            ->maxLength(50),
+                            ->maxLength(50)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Funnel')?false:true),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
@@ -143,7 +145,7 @@ class BotFunnelAdmin extends Page implements HasForms
 
                             return redirect('/admin/bots/' . $this->bot_id .'/funnels');
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Funnel')),
+                        ->visible(auth()->user()->hasPermissionTo('Create:Funnel')?false:true),
 
                     Action::make('Cancel')
                         ->action(function () {

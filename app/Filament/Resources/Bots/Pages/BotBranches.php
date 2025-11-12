@@ -11,7 +11,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-
+use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\Page;
@@ -79,14 +79,18 @@ class BotBranches extends Page implements HasTable
                 //
             ])
             ->recordActions([
+                ViewAction::make()->url(fn($record) => "/admin/bots/".$record->id."/edit")
+                    ->visible(!auth()->user()->can('Create:BotBranch')),
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/branch-admin")
-                    ->visible(fn() => auth()->user()->can('Update:BotBranch')),
+                    ->visible(auth()->user()->can('Create:BotBranch')),
                 DeleteAction::make()
                     ->before(function (DeleteAction $action, Sending $record) {
                         $botSendingAdminDeleteRecord = new BotSendingAdminDeleteRecord();
                         $botSendingAdminDeleteRecord->handle($record, $action);
                     })
-                    ->visible(fn() => auth()->user()->can('Delete:BotBranch'))
-            ])->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/branch-admin");
+                    ->visible(auth()->user()->can('Delete:BotBranch')),
+
+            ])
+            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/branch-admin");
     }
 }

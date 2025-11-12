@@ -115,7 +115,9 @@ class BotSupergroupAdmin extends Page implements HasForms
                                 'required' => 'Обязательно укажите название',
                             ])
                             ->label('Название супергруппы (только в панели администратора)')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
+
                         Forms\Components\TextInput::make('telegram_id')
                             ->required()
                             ->validationMessages([
@@ -123,6 +125,8 @@ class BotSupergroupAdmin extends Page implements HasForms
                             ])
                             ->label('ID в Telegram')
                             ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
+
                     ]),
                 Section::make('Выдача доступа')
                     ->description('Если включено, бот будет выдавать доступ пользователю в эту группу при успешной проверке доступа')
@@ -134,9 +138,9 @@ class BotSupergroupAdmin extends Page implements HasForms
                         '2xl' => 1,
                     ])
                     ->schema([
-                        Forms\Components\Checkbox::make('give_access')->label('Выдавать доступ в эту группу'),
-                        Forms\Components\Checkbox::make('unban')->label('Разбанивать участников в этой группе при продлении доступа'),
-                        Forms\Components\Checkbox::make('decline_chat_join_request')->label('Запретить одобрение заявок на вступление в эту группу'),
+                        Forms\Components\Checkbox::make('give_access')->label('Выдавать доступ в эту группу')->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
+                        Forms\Components\Checkbox::make('unban')->label('Разбанивать участников в этой группе при продлении доступа')->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
+                        Forms\Components\Checkbox::make('decline_chat_join_request')->label('Запретить одобрение заявок на вступление в эту группу')->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
                     ]),
                 Section::make('Удаление участников')
                     ->description('Укажите, когда бот должен удалять участников из этой супергруппы')
@@ -153,7 +157,9 @@ class BotSupergroupAdmin extends Page implements HasForms
                             ->required()
                             ->options(SupergroupDeleteParameter::all()->pluck('name', 'id'))
                             ->live()
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
+
                         Forms\Components\TextInput::make('supergroup_delete_days')
                             ->label(function (Get $get) {
                                 if (is_callable($get)) {
@@ -166,8 +172,8 @@ class BotSupergroupAdmin extends Page implements HasForms
                                     }
                                 }
                             })
-                            ->maxLength(255)
-                            ->visible(function (Get $get) {
+                            ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true)->maxLength(255)
+                            ->disabled(function (Get $get) {
                                 if (is_callable($get)) {
                                     return $get('supergroup_delete_parameter_id') == 2 || $get('supergroup_delete_parameter_id') == 3;
                                 }
@@ -206,7 +212,7 @@ class BotSupergroupAdmin extends Page implements HasForms
 
                             return redirect('/admin/bots/' . $this->bot_id . '/supergroups');
                         })
-                        ->visible(fn() => auth()->user()->can('Create:TelegramSupergroup')),
+                        ->visible(auth()->user()->hasPermissionTo('Create:TelegramSupergroup')),
                 ])
             ])->statePath('data');
     }

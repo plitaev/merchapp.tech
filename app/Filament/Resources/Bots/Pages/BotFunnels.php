@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Bots\Pages;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Bots\BotResource;
@@ -72,10 +73,12 @@ class BotFunnels extends Page implements HasTable
                 //
             ])
             ->recordActions([
+                ViewAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/funnel-admin")
+                    ->visible(!auth()->user()->can('Create:Funnel')),
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/funnel-admin")
-                    ->visible(fn() => auth()->user()->can('Update:Funnel')),
+                    ->visible(auth()->user()->can('Create:Funnel')),
                 DeleteAction::make()
-                    ->visible(fn() => auth()->user()->can('Delete:Funnel')),
+                    ->visible(auth()->user()->can('Delete:Funnel')),
 
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/funnel-admin")

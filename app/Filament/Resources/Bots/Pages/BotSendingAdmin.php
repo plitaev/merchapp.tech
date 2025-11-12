@@ -5,6 +5,7 @@ use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
@@ -145,7 +146,9 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                         TextInput::make('name')
                             ->label('Название рассылки')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Sending')?false:true),
+
                         Select::make('bot_message_id')
                             ->label('Сообщение')
                             ->options(BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id'))
@@ -153,16 +156,18 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->validationMessages([
                                 'required' => 'Обязательно выберите сообщение',
                             ])
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Sending')?false:true),
+
                         DateTimePicker::make('send_datetime')
                             ->label('Дата и время отправки')
                             ->format('Y-m-d H:i:s')
-
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Sending')?false:true)
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите дату',
-                            ])
-                    ]),
+                            ]),
+
                 Section::make('Вы не можете изменить эту рассылку')
                     ->description('В рассылке уже есть пользователи, получившие сообщение. Если нужно отменить отправку тем, кто еще не получил письмо, нажмите кнопку Удалить рассылку')
                     ->columns([
@@ -220,7 +225,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                             }
 
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Sending')),
+                        ->visible(auth()->user()->hasPermissionTo('Create:Sending')),
                     Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/' . $this->bot_id . '/sendings');
@@ -237,10 +242,14 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
                             }
 
                             return redirect('/admin/bots/' . $this->bot_id . '/sendings');
-                        }) ->visible(fn() => auth()->user()->can('Delete:Sending'))
-                        ->label('Удалить')
+                        })
+                        ->visible(auth()->user()->hasPermissionTo('Delete:Sending'))
+
+                    ->label('Удалить'),
                 ])
+                    ])
             ])->statePath('data');
+
     }
 
     public function table(Table $table): Table
@@ -274,7 +283,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
             ])
             ->recordActions([
                 DeleteAction::make()
-                    ->visible(fn() => auth()->user()->can('Delete:Sending'))
+                    ->visible(auth()->user()->hasPermissionTo('Delete:Sending'))
             ]);
     }
 
@@ -311,7 +320,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         })
-                        ->visible(fn() => auth()->user()->can('Create:TelegramSendMessageSchedule')),
+                        ->visible(auth()->user()->hasPermissionTo('Delete:TelegramSendMessageSchedule')),
                     Action::make('Отмена')
                         ->action(function () {
                             $this->dispatch('close-modal', id: 'add-page-modal');

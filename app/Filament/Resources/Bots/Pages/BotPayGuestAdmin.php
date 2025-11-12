@@ -16,6 +16,7 @@ use App\Models\Core\Pay;
 use App\Models\Core\PayGuest;
 use App\Models\Core\PayLinkBot\PayLinkBot;
 use App\Models\Core\Product;
+use Filament\Actions\ViewAction;
 use App\Models\Core\User;
 
 use Filament\Forms;
@@ -127,7 +128,8 @@ class BotPayGuestAdmin extends Page implements HasForms
                                 }
                             })
                             ->live()
-                            ->afterStateUpdated(function (Set $set, ?string $state, ?string $old) {
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PayGuest')?false:true)
+                    ->afterStateUpdated(function (Set $set, ?string $state, ?string $old) {
                                 $product = Product::find($state);
 
                                 if (is_callable($set)) {
@@ -150,17 +152,25 @@ class BotPayGuestAdmin extends Page implements HasForms
                                 TextInput::make('price')
                                     ->label('Стоимость')
                                     ->required()
-                                    ->maxLength(255),
+                                    ->maxLength(255)
+                                    ->disabled(auth()->user()->hasPermissionTo('Update:PayGuest')?false:true),
+
                                 TextInput::make('days')
                                     ->label('Дни')
                                     ->required()
-                                    ->maxLength(255),
+                                    ->maxLength(255)
+                                    ->disabled(auth()->user()->hasPermissionTo('Update:PayGuest')?false:true),
+
                                 TextInput::make('email')
                                     ->label('Email')
                                     ->required()
-                                    ->maxLength(255),
+                                    ->maxLength(255)
+                                    ->disabled(auth()->user()->hasPermissionTo('Update:PayGuest')?false:true),
+
                                 Checkbox::make('gift')
                                     ->label('Подарок')
+                                    ->disabled(auth()->user()->hasPermissionTo('Update:PayGuest')?false:true),
+
                             ]),
 
                         Actions::make([
@@ -186,7 +196,7 @@ class BotPayGuestAdmin extends Page implements HasForms
                                         return redirect('/admin/bots/'.$this->bot_id.'/'.$this->id.'/pay-guest-admin');
                                     }
                                 })
-                                ->visible(fn() => auth()->user()->can('Create:PayGuests')),
+                                ->visible(auth()->user()->hasPermissionTo('Create:PayGuest')),
 
                             Action::make('Cancel')
                                 ->action(function () {

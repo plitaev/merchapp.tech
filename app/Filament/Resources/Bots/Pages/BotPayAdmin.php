@@ -11,6 +11,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Actions;
+use Filament\Actions\ViewAction;
 use Filament\Actions\Action;
 use App\Actions\Core\DateEnd\DateEnd;
 use App\Actions\Core\DateEnd\DateEndCacheForPay;
@@ -126,7 +127,8 @@ class BotPayAdmin extends Page implements HasForms
                                     ->pluck('name', 'id')
                             )
                             ->live()
-                            ->afterStateUpdated(function (Set $set, ?string $state, ?string $old) {
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Pay')?false:true)
+                    ->afterStateUpdated(function (Set $set, ?string $state, ?string $old) {
                                 $product = Product::find($state);
 
                                 if (is_callable($set)) {
@@ -151,12 +153,16 @@ class BotPayAdmin extends Page implements HasForms
                             ->required()
                             ->validationMessages(['required' => 'Обязательно укажите стоимость'])
                             ->label('Стоимость')
-                            ->maxLength(50),
+                            ->maxLength(50)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Pay')?false:true),
+
                         TextInput::make('days')
                             ->required()
                             ->validationMessages(['required' => 'Обязательно укажите дни'])
                             ->label('Дни')
-                            ->maxLength(50),
+                            ->maxLength(50)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Pay')?false:true)
+
                     ]),
                 Section::make('Email')
                     ->description('Введите почту пользователя, который совершил платёж')
@@ -173,6 +179,8 @@ class BotPayAdmin extends Page implements HasForms
                             ->validationMessages(['required' => 'Обязательно укажите email'])
                             ->label('Email')
                             ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Pay')?false:true)
+
                     ])
                     ->visible($this->id > 0?0:1),
                 Actions::make([
@@ -213,7 +221,7 @@ class BotPayAdmin extends Page implements HasForms
 
                             return redirect('/admin/bots/'.$this->bot_id.'/pays');
                         })
-                        ->visible(fn() => auth()->user()->can('Create:Pay')),
+                        ->visible(auth()->user()->hasPermissionTo('Create:Pay')?false:true),
 
                     Action::make('Вернуть платеж')
                         ->color('info')
@@ -224,7 +232,9 @@ class BotPayAdmin extends Page implements HasForms
                             return redirect('/admin/bots/'.$this->bot_id.'/pays');
                         })
                     ->label('Вернуть платёж')
-                    ->visible(fn() => auth()->user()->can('Create:Pay') && $this->id > 0),
+                    ->visible($this->id > 0)
+                        ->visible(auth()->user()->hasPermissionTo('Update:Pay')?false:true),
+
 
 
                     Action::make('Cancel')
@@ -236,4 +246,5 @@ class BotPayAdmin extends Page implements HasForms
                 ]),
             ])->statePath('data');
     }
+
 }

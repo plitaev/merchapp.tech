@@ -3,6 +3,8 @@ namespace App\Filament\Resources\Bots\Pages;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
+
 use App\Filament\Resources\Bots\BotResource;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -49,8 +51,6 @@ class BotSendings extends Page implements HasTable
         $bot = Bot::select('name')->find($bot_id);
 
         $this->bot_name = $bot->name;
-
-
     }
 
     public function getHeading(): string
@@ -89,14 +89,16 @@ class BotSendings extends Page implements HasTable
                 //
             ])
             ->recordActions([
+                ViewAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin")
+                    ->visible(!auth()->user()->hasPermissionTo('Create:Sending')),
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin")
-                    ->visible(fn() => auth()->user()->can('Update:Sending')),
+                    ->visible(auth()->user()->hasPermissionTo('Update:Sending')),
                 DeleteAction::make()
                     ->before(function (DeleteAction $action, Sending $record) {
                         $botSendingAdminDeleteRecord = new BotSendingAdminDeleteRecord();
                         $botSendingAdminDeleteRecord->handle($record, $action);
                     })
-                    ->visible(fn() => auth()->user()->can('Delete:Sending'))
+                    ->visible(auth()->user()->hasPermissionTo('Delete:Sending'))
             ])->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/sending-admin");
     }
 }

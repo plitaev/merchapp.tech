@@ -16,6 +16,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ViewAction;
 
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Enums\Width;
@@ -181,6 +182,8 @@ class BotPays extends Page implements HasTable
                 //
             ])
             ->actions([
+                ViewAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/message-admin")
+                    ->visible(!auth()->user()->can('Create:Pay')),
                 Action::make('refund')
                     ->label('Вернуть')
                     ->color('info')
@@ -190,9 +193,7 @@ class BotPays extends Page implements HasTable
                         $payRefund = new PayRefund();
                         $payRefund->handle($record->id);
                     })
-                    ->visible(fn() => auth()->user()->can('Delete:Pay')),
-                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin")
-                    ->visible(fn() => auth()->user()->can('Update:Pay')),
+                    ->visible(auth()->user()->can('Update:Pay')),
                 DeleteAction::make()
                     ->before(function ($record) {
                         $pay = Pay::with('bot')->find($record->id);
@@ -219,9 +220,7 @@ class BotPays extends Page implements HasTable
 
                         $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
                     })
-                    ->visible(fn() => auth()->user()->can('Delete:Pay'))
-
-
+                    ->visible(auth()->user()->can('Delete:Pay')),
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-admin")
             ->bulkActions([
