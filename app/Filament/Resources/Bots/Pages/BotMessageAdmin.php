@@ -215,6 +215,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         Select::make('bot_branch_id')
                             ->label('Ветка')
                             ->options(BotBranch::all()->pluck('name', 'id'))
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->searchable()
                     ]),
                 Section::make('Бот и воронка')
@@ -232,28 +233,35 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Воронка')
                             ->options(Funnel::all()->pluck('name', 'id'))
                             ->searchable()
-                            ->live(),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
+
+                    ->live(),
                         Select::make('funnel_condition_id')
                             ->label('Условие')
                             ->options(FunnelCondition::all()->pluck('name', 'id'))
                             ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->live(),
                         Select::make('funnel_condition_trigger_id')
                             ->label('Условие')
                             ->options(FunnelConditionTrigger::all()->pluck('name', 'id'))
                             ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->live(),
                         TextInput::make('funnel_days')
                             ->required()
                             ->label('Дней')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255),
                         TextInput::make('funnel_hours')
                             ->required()
                             ->label('Часов')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255),
                         TextInput::make('funnel_minutes')
                             ->required()
                             ->label('Минут')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255)
                     ]),
                 Section::make('Бот и назначение')
@@ -270,6 +278,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         Select::make('bot_message_appointment_id')
                             ->label('Назначение')
                             ->options(BotMessageAppointment::all()->pluck('name', 'id'))
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->searchable()
                             ->live(),
                     ]),
@@ -287,12 +296,14 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Тип сообщения')
                             ->required()
                             ->options(BotMessageType::all()->pluck('name', 'id'))
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->searchable()
                             ->live(),
                         TextInput::make('name')
                             ->required()
                             ->label('Название сообщения (только в панели администратора)')
                             ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                     ]),
                 Section::make('Текст сообщения')
                     ->description('Сообщение, которое будет отправляться пользователю')
@@ -300,6 +311,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         Textarea::make('text')
                             ->label('Текст сообщения')
                             ->extraInputAttributes(['style' => 'height: 500px'])
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                     ]),
                 Section::make('Изображение')
                     ->schema([
@@ -371,9 +383,11 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ->schema([
                         Toggle::make('delete_through')
                             ->label('Включить')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->live(),
                         Select::make('delete_through_hours')
                             ->label('Часы')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->options($this->hours)
                             ->searchable()
                             ->visible(function (Get $get) {
@@ -385,6 +399,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Минуты')
                             ->options($this->minutes)
                             ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->visible(function (Get $get) {
                                 if (is_callable($get)) {
                                     return $get('delete_through') == 1;
@@ -407,9 +422,11 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ->schema([
                         Toggle::make('delete_keyboard_through')
                             ->label('Включить')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->live(),
                         Textarea::make('delete_keyboard_through_days')
                             ->label('Дни')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->visible(function (Get $get) {
                                 if (is_callable($get)) {
                                     return $get('delete_keyboard_through') == 1;
@@ -417,6 +434,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             }),
                         Select::make('delete_keyboard_through_hours')
                             ->label('Часы')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->options($this->hours)
                             ->searchable()
                             ->visible(function (Get $get) {
@@ -426,6 +444,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             }),
                         Select::make('delete_keyboard_through_minutes')
                             ->label('Минуты')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->options($this->minutes)
                             ->searchable()
                             ->visible(function (Get $get) {
@@ -444,6 +463,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ->schema([
                         TextInput::make('pause_after_message')
                             ->label('Введите значение в секундах')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255)
                     ]),
                 Section::make('Отправить сообщение себе')
