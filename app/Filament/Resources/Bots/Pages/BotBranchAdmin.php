@@ -200,6 +200,12 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Максимальное число рефералов')
                             ->visible($this->id > 0 && $this->bot_branch_type == 3)
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
+                        Select::make('bot_branch_referrer_sending_id')
+                            ->label('Сообщение реферреру в момент присоединения реферала')
+                            ->options(Product::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->visible($this->id > 0 && $this->bot_branch_type == 3)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                     ]),
                 Section::make('Акция')
                     ->description(new HtmlString('Ссылка на запуск к акции в боте: <a href="https://t.me/'.$this->bot_alias.'?start='.base64_encode($this->bot_branch_type.'|'.$this->bot_branch_hash.'|0').'" style="text-decoration: underline" target="_blank">https://t.me/'.$this->bot_alias.'?start='.base64_encode($this->bot_branch_type.'|'.$this->bot_branch_hash.'|0').'</a>'))
@@ -366,7 +372,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                 TextColumn::make('run_status_name.name')
                     ->label('Статус')
             ])
-            
+
 
             ->filters([
                 //
