@@ -311,7 +311,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ])
                     ->visible(function (Get $get) {
                         if (is_callable($get)) {
-                            return $get('funnel_condition_trigger_id') == 4;
+                            return $get('funnel_condition_id') == 10;
                         }
                     }),
                 Section::make('Тип и название сообщения')
