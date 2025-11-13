@@ -81,7 +81,6 @@ class AdminPanelProvider extends PanelProvider
             ->group('Справочники')
             ->icon('heroicon-o-code-bracket-square')
             ->url("/admin/bot-message-button-callbacks")
-            ->visible(auth()->user()->can('View:BotMessageButton'))
             ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/bot-message-button-callbacks");
 
         $A[] = NavigationItem::make('variable_groups')
