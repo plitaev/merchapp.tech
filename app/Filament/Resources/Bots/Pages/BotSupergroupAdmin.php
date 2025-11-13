@@ -158,8 +158,7 @@ class BotSupergroupAdmin extends Page implements HasForms
                             ->required()
                             ->options(SupergroupDeleteParameter::all()->pluck('name', 'id'))
                             ->live()
-                            ->searchable()
-                            ->disabled(),
+                            ->searchable(),
 
                         Forms\Components\TextInput::make('supergroup_delete_days')
                             ->label(function (Get $get) {
