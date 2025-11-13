@@ -243,20 +243,23 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->live(),
                         Select::make('funnel_condition_trigger_id')
-                            ->label('Триггер')
+                            ->label('Условие')
                             ->options(FunnelConditionTrigger::all()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->live(),
                         TextInput::make('funnel_days')
+                            ->required()
                             ->label('Дней')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255),
                         TextInput::make('funnel_hours')
+                            ->required()
                             ->label('Часов')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255),
                         TextInput::make('funnel_minutes')
+                            ->required()
                             ->label('Минут')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255)
@@ -543,9 +546,9 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
             ])
             ->recordActions([
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->id."/".$record->id."/button-admin")
-                    ->disabled(fn() => auth()->user()->can('Update:BotMessageButton')),
+                    ->visible(auth()->user()->can('Update:BotMessageButton')),
                 DeleteAction::make()
-                    ->disabled(fn() => auth()->user()->can('Delete:BotMessageButton')),
+                    ->visible(auth()->user()->can('Delete:BotMessageButton')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
