@@ -16,6 +16,7 @@ use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use App\Actions\Core\BotMessage\BotMessageSave;
@@ -303,7 +304,10 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Изображение, которое будет отправляться пользователю')
                             ->acceptedFileTypes(['image/*'])
                             ->disk('local')
+                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
+                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
                             ->directory('bot_message_images')
+                            ->visible(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->visibility('public')
                     ])
                     ->visible(function (Get $get) {
@@ -316,6 +320,8 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         FileUpload::make('video')
                             ->label('Видео, которое будет отправляться пользователю')
                             ->acceptedFileTypes(['video/mp4'])
+                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
+                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
                             ->disk('local')
                             ->directory('bot_message_videos')
                             ->visibility('public')
@@ -330,6 +336,8 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         FileUpload::make('audio')
                             ->label('Аудио, которое будет отправляться пользователю')
                             ->acceptedFileTypes(['audio/mp3'])
+                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
+                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
                             ->disk('local')
                             ->directory('bot_message_audios')
                             ->visibility('public')
@@ -344,6 +352,8 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         FileUpload::make('custom_file')
                             ->label('Файл, который будет отправляться пользователю')
                             ->disk('local')
+                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
+                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
                             ->directory('bot_message_custom_files')
                             ->visibility('public'),
                         TextInput::make('custom_file_name')
@@ -529,6 +539,8 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                 //
             ])
             ->recordActions([
+                ViewAction::make()->url(fn($record) => "/admin/bots/".$this->id."/".$record->id."/button-admin")
+                    ->visible(!auth()->user()->can('Update:BotMessageButton')),
                 EditAction::make()->url(fn($record) => "/admin/bots/".$this->id."/".$record->id."/button-admin")
                     ->visible(auth()->user()->can('Update:BotMessageButton')),
                 DeleteAction::make()
@@ -537,6 +549,8 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
+                        ->visible(auth()->user()->can('Delete:BotMessageButton'))
+
                 ])
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->id."/".$record->id."/button-admin")
