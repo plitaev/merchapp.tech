@@ -252,20 +252,47 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->options(FunnelConditionTrigger::all()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
-                            ->live(),
+                            ->live()
+                    ]),
+                Section::make(function (Get $get) {
+                    if (is_callable($get)) {
+
+                        if ($get('funnel_condition_trigger_id') == 2) {
+                            return "За какое время до наступления события отправлять сообщение";
+                        }
+
+                        if ($get('funnel_condition_trigger_id') == 3) {
+                            return "Через какое время после наступления события отправлять сообщение";
+                        }
+
+                    }
+                })
+                    ->columns([
+                        'sm' => 3,
+                        'md' => 3,
+                        'lg' => 3,
+                        'xl' => 3,
+                        '2xl' => 3,
+                    ])
+                    ->schema([
                         TextInput::make('funnel_days')
-                            ->label('Дней')
+                            ->label('Дни')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255),
                         TextInput::make('funnel_hours')
-                            ->label('Часов')
+                            ->label('Часы')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255),
                         TextInput::make('funnel_minutes')
-                            ->label('Минут')
+                            ->label('Минуты')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255)
-                    ]),
+                    ])
+                    ->visible(function (Get $get) {
+                        if (is_callable($get)) {
+                            return $get('funnel_condition_trigger_id') == 2 || $get('funnel_condition_trigger_id') == 3;
+                        }
+                    }),
                 Section::make('Тип и название сообщения')
                     ->description('Укажите базовые настройки, чтобы продолжить работу')
                     ->columns([
