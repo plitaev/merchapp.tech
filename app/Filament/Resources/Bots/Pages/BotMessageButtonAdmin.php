@@ -138,6 +138,8 @@ class BotMessageButtonAdmin extends Page implements HasForms
                     ->schema([
                         Toggle::make('tracking')
                             ->label('Отслеживать статистику')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')?false:true),
+
                     ]),
                 Section::make('Ссылка на кнопке')
                     ->description('Веб-страница, которая будет открываться пользователю по клику на кнопку')
@@ -255,7 +257,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
 
                             return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/message-admin');
                         })
-                        ->visible(auth()->user()->hasPermissionTo('Create:BotMessageButton')?false:true),
+                        ->visible(auth()->user()->hasPermissionTo('Create:BotMessageButton')),
 
 
 
