@@ -159,7 +159,7 @@ class BotSupergroupAdmin extends Page implements HasForms
                             ->options(SupergroupDeleteParameter::all()->pluck('name', 'id'))
                             ->live()
                             ->searchable()
-                            ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
+                            ->disabled(),
 
                         Forms\Components\TextInput::make('supergroup_delete_days')
                             ->label(function (Get $get) {
