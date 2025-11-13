@@ -17,6 +17,7 @@ class BotMessage extends Model
         'funnel_days',
         'funnel_hours',
         'funnel_minutes',
+        'funnel_product_id',
         'name',
         'text',
         'image',
