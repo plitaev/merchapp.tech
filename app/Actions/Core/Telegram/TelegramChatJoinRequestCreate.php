@@ -4,7 +4,6 @@ use Telegram\Bot\Api;
 
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 
-use App\Models\Core\Bot;
 use App\Models\Core\TelegramSupergroup;
 use App\Models\Core\TelegramChatJoinRequestLog;
 
@@ -18,10 +17,17 @@ class TelegramChatJoinRequestCreate
 
         if ($status === 1 && $supergroup && $supergroup->decline_chat_join_request == 0) {
             $botSendMessage->handle($bot_user, 'SYS_APPROVE_CHAT_JOIN_REQUEST');
-            $result = $telegram->approveChatJoinRequest(['chat_id' => $json['chat_join_request']['chat']['id'], 'user_id' => $json['chat_join_request']['user_chat_id']]);
+
+            try {
+                $result = $telegram->approveChatJoinRequest(['chat_id' => $json['chat_join_request']['chat']['id'], 'user_id' => $json['chat_join_request']['user_chat_id']]);
+            } catch (\Exception $exception) {}
+
         } else {
             $botSendMessage->handle($bot_user, 'SYS_DECLINE_CHAT_JOIN_REQUEST');
-            $result = $telegram->declineChatJoinRequest(['chat_id' => $json['chat_join_request']['chat']['id'], 'user_id' => $json['chat_join_request']['user_chat_id']]);
+
+            try {
+                $result = $telegram->declineChatJoinRequest(['chat_id' => $json['chat_join_request']['chat']['id'], 'user_id' => $json['chat_join_request']['user_chat_id']]);
+            } catch (\Exception $exception) {}
         }
 
         TelegramChatJoinRequestLog::create([
