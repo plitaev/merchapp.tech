@@ -3,7 +3,6 @@ namespace App\Filament\Resources\Bots\Pages;
 
 use App\Models\Core\BotBranch;
 use App\Models\Core\FunnelConditionTrigger;
-use App\Models\Core\Product;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
@@ -253,67 +252,20 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->options(FunnelConditionTrigger::all()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
-                            ->live()
-                    ]),
-                Section::make(function (Get $get) {
-                    if (is_callable($get)) {
-
-                        if ($get('funnel_condition_trigger_id') == 2) {
-                            return "За какое время до наступления события отправлять сообщение";
-                        }
-
-                        if ($get('funnel_condition_trigger_id') == 3) {
-                            return "Через какое время после наступления события отправлять сообщение";
-                        }
-
-                    }
-                })
-                    ->columns([
-                        'sm' => 3,
-                        'md' => 3,
-                        'lg' => 3,
-                        'xl' => 3,
-                        '2xl' => 3,
-                    ])
-                    ->schema([
+                            ->live(),
                         TextInput::make('funnel_days')
-                            ->label('Дни')
+                            ->label('Дней')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255),
                         TextInput::make('funnel_hours')
-                            ->label('Часы')
+                            ->label('Часов')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255),
                         TextInput::make('funnel_minutes')
-                            ->label('Минуты')
+                            ->label('Минут')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255)
-                    ])
-                    ->visible(function (Get $get) {
-                        if (is_callable($get)) {
-                            return $get('funnel_condition_trigger_id') == 2 || $get('funnel_condition_trigger_id') == 3;
-                        }
-                    }),
-                Section::make("Выберите продукт, по покупке которого активируется отправка сообщения")
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1,
-                    ])
-                    ->schema([
-                        Select::make('funnel_product_id')
-                            ->label('Укажите продукт, после покупки которого будет происходить отправка сообщения')
-                            ->options(Product::all()->pluck('name', 'id'))
-                            ->searchable()
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
-                    ])
-                    ->visible(function (Get $get) {
-                        if (is_callable($get)) {
-                            return $get('funnel_condition_id') == 10;
-                        }
-                    }),
+                    ]),
                 Section::make('Тип и название сообщения')
                     ->description('Укажите базовые настройки, чтобы продолжить работу')
                     ->columns([

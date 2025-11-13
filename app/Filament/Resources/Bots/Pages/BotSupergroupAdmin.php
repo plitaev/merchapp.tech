@@ -172,13 +172,13 @@ class BotSupergroupAdmin extends Page implements HasForms
                                     }
                                 }
                             })
-                            ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true)
+                           // ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true)
                             ->maxLength(255)
-                            ->disabled(function (Get $get) {
-                                if (is_callable($get)) {
-                                    return $get('supergroup_delete_parameter_id') == 2 || $get('supergroup_delete_parameter_id') == 3;
-                                }
-                            }),
+                            ->disabled((function (Get $get) {
+                                    if (is_callable($get)) {
+                                        return $get('supergroup_delete_parameter_id') == 2 || $get('supergroup_delete_parameter_id') == 3;
+                                    }
+                                }) && (auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true))
                     ]),
                 Section::make('Отправка статистики')
                     ->description('Укажите, должен ли бот отправлять статистику в этот чат')
