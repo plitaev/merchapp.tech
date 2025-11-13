@@ -30,6 +30,7 @@
 
             <h1 class="fi-header-heading">Группы переменных</h1>
         </div>
+        @if (auth()->user()->can('Create:VariableGroup'))
 
         <div class="fi-header-actions-ctn">
             <div class="fi-ac fi-align-start">
@@ -38,6 +39,7 @@
                 </a>
             </div>
         </div>
+        @endif
     </div>
 
     {{$this->table}}

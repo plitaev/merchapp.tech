@@ -8,6 +8,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Schemas\Components\Actions;
 use App\Filament\Resources\BotMessageAppointments\Pages\ListBotMessageAppointments;
 use App\Filament\Resources\BotMessageAppointments\Pages\CreateBotMessageAppointment;
 use App\Filament\Resources\BotMessageAppointments\Pages\EditBotMessageAppointment;
@@ -18,6 +19,8 @@ use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Actions\ViewAction;
+use Filament\Actions\Action;
 
 class BotMessageAppointmentResource extends Resource
 {
@@ -40,13 +43,38 @@ class BotMessageAppointmentResource extends Resource
                 TextInput::make('name')
                     ->label('Название (Только в панели администратора)')
                     ->required()
+                    ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageAppointment')?false:true)
                     ->maxLength(255),
                 TextInput::make('alias')
                     ->label('Псевдоним')
                     ->required()
+                    ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageAppointment')?false:true)
                     ->maxLength(255),
-                //
-            ]);
+                Actions::make([
+                    Action::make('Сохранить')
+                        ->action(function () {
+                            $data = $this->form->getState();
+
+
+                            if ($this->id>0) {
+                                BotMessageAppointment::where('id', $this->id)->update($data);
+                                $output_id = $this->id;
+                            } else {
+                                $new = BotMessageAppointment::create($data);
+                                $output_id = $new->id;
+                            }
+
+                            Notification::make()
+                                ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
+
+                            return redirect('/');
+                        })
+                        ->visible(auth()->user()->can('Create:BotMessageAppointment')),
+
+                    ])
+                ]);
     }
 
     public static function table(Table $table): Table
@@ -65,7 +93,11 @@ class BotMessageAppointmentResource extends Resource
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                ViewAction::make()
+                    ->visible(!auth()->user()->can('Update:BotMessageAppointment')),
+                EditAction::make()
+                    ->visible(auth()->user()->can('Update:BotMessageAppointment')),
+
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

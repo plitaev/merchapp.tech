@@ -30,6 +30,7 @@ use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+use Filament\Actions\ViewAction;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -99,6 +100,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
             $A[] = Select::make('mini_app_page_id')
                 ->label('Страница')
                 ->required()
+                ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                 ->options(MiniAppPage::all()->pluck('name', 'id'))
                 ->searchable()
                 ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2]);
@@ -107,6 +109,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
         $A[] = Select::make('banner_class_id')
             ->label('Тип баннера')
             ->required()
+            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
             ->options(MiniAppBannerClass::all()->pluck('name', 'id'))
             ->searchable()
             ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2]);
@@ -114,6 +117,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
         $A[] = TextInput::make('name')
             ->label('Название баннера')
             ->required()
+            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
             ->maxLength(255)
             ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2]);
 
@@ -121,6 +125,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
             $A[] = Select::make('pos')
                 ->label('Порядковый номер')
                 ->required()
+                ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                 ->options($this->pos_list[0])
                 ->searchable()
                 ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2]);
@@ -142,6 +147,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                         FileUpload::make('image')
                             ->disk('local')
                             ->directory('miniapp_banners')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->visibility('public')
                     ]),
                 Section::make('Контент, открывающийся по клику на баннер')
@@ -150,10 +156,12 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                         FileUpload::make('button_pdf')
                             ->label('PDF')
                             ->disk('local')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->directory('miniapp_pdf')
                             ->visibility('public'),
                         TextInput::make('button_url')
                             ->label('Ссылка на кнопке')
+                            ->visible(auth()->user()->can('Update:MiniAppPage'))
                             ->maxLength(255),
                     ]),
                 Section::make('Параметры кнопки')
@@ -166,6 +174,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                     ->schema([
                         TextInput::make('button_text')
                             ->label('Текст на кнопке')
+                            ->visible(auth()->user()->can('Update:MiniAppPage'))
                             ->required()
                             ->maxLength(255)
                             ->columns([
@@ -176,6 +185,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                         ColorPicker::make('button_bg_color')
                             ->label('Цвет фона кнопки')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->columns([
                                 'sm' => 2,
                                 'xl' => 3,
@@ -184,6 +194,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                         ColorPicker::make('button_text_color')
                             ->label('Цвет текста на кнопке')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->columns([
                                 'sm' => 2,
                                 'xl' => 3,
@@ -204,7 +215,9 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
 
                                 redirect("/admin/mini-app-pages/".$this->mini_app_page_id."/admin");
 
-                            }),
+                            })
+                            ->visible(auth()->user()->can('Create:MiniAppPage')),
+
                     ])
                     ])
             ])->statePath('data');
@@ -267,7 +280,9 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                 //
             ])
             ->recordActions([
-                DeleteAction::make(),
+                DeleteAction::make()
+                    ->visible(auth()->user()->can('Create:MiniAppBannerLinkPage')),
+
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

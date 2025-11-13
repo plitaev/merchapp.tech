@@ -84,6 +84,7 @@ class AdminUser extends Page implements HasForms
                         Forms\Components\CheckboxList::make('end_by_products')
                             ->label('По покупке продуктов')
                             ->options($this->roles)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:User')?false:true)
                             ->afterStateHydrated(function ($component, $state) {
                                 if (! filled($state)) {
                                     $component->state($this->end_by_products_in_branch);
@@ -95,7 +96,15 @@ class AdminUser extends Page implements HasForms
                         ->action(function () {
                             $data = $this->form->getState();
                             return redirect('/admin/users');
-                        }),
+                        })
+                        ->visible(auth()->user()->can('Create:User')),
+
+                    Action::make('Cancel')
+                        ->color('gray')
+                        ->action(function () {
+                            return redirect('/admin/users');
+                        })
+                        ->label('Отменить и вернуться назад')
                 ])
             ])->statePath('data');
     }

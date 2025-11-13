@@ -98,15 +98,18 @@ class AdminVariablesSystem extends Page implements HasForms
                         Select::make('variable_group_id')
                             ->label('Группа')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:VariablesSystem')?false:true)
                             ->options(VariableGroup::all()->pluck('name', 'id'))
                             ->searchable()
                             ->live(),
                         TextInput::make('name')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:VariablesSystem')?false:true)
                             ->label('Наименование')
                             ->maxLength(255),
                         Select::make('variable_system_type_id')
                             ->label('Тип значения')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:VariablesSystem')?false:true)
                             ->required()
                             ->options(VariableSystemType::all()->pluck('name', 'id'))
                             ->searchable()
@@ -117,6 +120,8 @@ class AdminVariablesSystem extends Page implements HasForms
                     ->schema([
                         Textarea::make('value_text')
                             ->label('Текст')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:VariablesSystem')?false:true)
+
                     ])
                     ->visible(function (Get $get) {
                         if (is_callable($get)) {
@@ -128,6 +133,8 @@ class AdminVariablesSystem extends Page implements HasForms
                     ->schema([
                         Textarea::make('value_string')
                             ->label('Строковый тип')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:VariablesSystem')?false:true)
+
                     ])
                     ->visible(function (Get $get) {
                         if (is_callable($get)) {
@@ -139,6 +146,8 @@ class AdminVariablesSystem extends Page implements HasForms
                     ->schema([
                         TextInput::make('value_integer')
                             ->label('Числовой тип')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:VariablesSystem')?false:true)
+
                     ])
                     ->visible(function (Get $get) {
                         if (is_callable($get)) {
@@ -150,6 +159,7 @@ class AdminVariablesSystem extends Page implements HasForms
                     ->schema([
                         DatePicker::make('value_date')
                             ->label('Дата')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:VariablesSystem')?false:true)
                     ])
                     ->visible(function (Get $get) {
                         if (is_callable($get)) {
@@ -179,7 +189,15 @@ class AdminVariablesSystem extends Page implements HasForms
 
                             return redirect('/admin/variables-systems/'.$this->id.'/'.$this->variable_group_id.'/admin');
 
-                        }),
+                        })
+                        ->visible(auth()->user()->can('Create:VariablesSystem')),
+
+                    Action::make('Cancel')
+                        ->color('gray')
+                        ->action(function () {
+                            return redirect('/admin/variable-systems');
+                        })
+                        ->label('Отменить и вернуться назад')
                 ])
             ])->statePath('data');
     }

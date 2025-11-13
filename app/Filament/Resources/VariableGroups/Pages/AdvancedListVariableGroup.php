@@ -7,6 +7,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ViewAction;
 use App\Filament\Resources\VariableGroups\VariableGroupResource;
 use App\Models\Core\VariableGroup;
 use Filament\Resources\Pages\Page;
@@ -43,8 +44,13 @@ class AdvancedListVariableGroup extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/variable-groups/".$record->id."/admin"),
+                ViewAction::make()->url(fn($record) => "/admin/variable-groups/".$record->id."/admin")
+                    ->visible(!auth()->user()->can('Update:VariableGroup')),
+                EditAction::make()->url(fn($record) => "/admin/variable-groups/".$record->id."/admin")
+                    ->visible(auth()->user()->can('Update:VariableGroup')),
                 DeleteAction::make()
+                    ->visible(auth()->user()->can('Delete:VariableGroup')),
+
 
             ])
             ->recordUrl(fn($record) => "/admin/variable-groups/".$record->id."/admin")

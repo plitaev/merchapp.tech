@@ -30,6 +30,7 @@
 
             <h1 class="fi-header-heading">Условия воронки</h1>
         </div>
+        @if (auth()->user()->can('Create:FunnelCondition'))
 
         <div class="fi-header-actions-ctn">
             <div class="fi-ac fi-align-start">
@@ -38,6 +39,8 @@
                 </a>
             </div>
         </div>
+            
+        @endif
     </div>
 
     {{$this->table}}

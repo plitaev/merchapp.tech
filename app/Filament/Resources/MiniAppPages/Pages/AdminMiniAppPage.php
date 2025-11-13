@@ -11,6 +11,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ViewAction;
 use App\Actions\Core\MiniAppBanner\MiniAppBannerGetLinkForRecord;
 use App\Filament\Resources\MiniAppPages\MiniAppPageResource;
 use App\Models\Core\MiniAppBanner;
@@ -84,6 +85,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                     ->schema([
                         TextInput::make('miniapp.name')
                             ->label("Страница опубликована в приложении")
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->required()
                             ->disabled(true)
                     ]),
@@ -92,6 +94,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                     ->schema([
                         TextInput::make('name')
                             ->label('Введите название в это поле')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите название страницы',
@@ -103,6 +106,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                         TextInput::make('url')
                             ->label('Не изменять')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->validationMessages([
                                 'required' => 'Обязательно укажите ссылку на страницу',
                             ]),
@@ -121,7 +125,9 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                                         ->title('Данные успешно сохранены!')
                                         ->success()
                                         ->send();
-                                }),
+                                })
+                                ->visible(auth()->user()->can('Create:MiniAppPage')),
+
                         ])
                     ]),
             ])->statePath('data');
@@ -165,9 +171,13 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin"),
+                ViewAction::make()->url(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin")
+                    ->visible(!auth()->user()->can('Create:MiniAppBannerLinkPage')),
+                EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin")
+                    ->visible(auth()->user()->can('Create:MiniAppBannerLinkPage')),
                 DeleteAction::make()
-                    ->after(function (MiniAppBannerLinkPage $record) {
+                    ->visible(auth()->user()->can('Delete:MiniAppBannerLinkPage'))
+            ->after(function (MiniAppBannerLinkPage $record) {
                         $check = MiniAppBannerLinkPage::where('mini_app_banner_id', $record->mini_app_banner_id)->count();
                         if ($check == 0) MiniAppBanner::destroy($record->mini_app_banner_id);
                     })

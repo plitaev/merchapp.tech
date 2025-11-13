@@ -7,6 +7,8 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ViewAction;
+
 use App\Filament\Resources\Users\UserResource;
 use App\Models\Core\User;
 use Filament\Resources\Pages\Page;
@@ -42,8 +44,12 @@ class AdvancedListUser extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/users/".$record->id."/admin"),
-                DeleteAction::make(),
+                ViewAction::make()->url(fn($record) => "/admin/users/".$record->id."/admin")
+                    ->visible(!auth()->user()->can('Update:User')),
+                EditAction::make()->url(fn($record) => "/admin/users/".$record->id."/admin")
+                    ->visible(auth()->user()->can('Update:User')),
+                DeleteAction::make()
+                    ->visible(auth()->user()->can('Delete:User')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

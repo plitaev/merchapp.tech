@@ -98,6 +98,7 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
                     ->schema([
                         TextInput::make('name')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:VariableGroup')?false:true)
                             ->validationMessages([
                                 'required' => 'Обязательно укажите название',
                             ])
@@ -105,9 +106,11 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
                             ->maxLength(255),
                         TextInput::make('description')
                             ->label('Описание')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:VariableGroup')?false:true)
                             ->maxLength(255),
                         TextInput::make('alias')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:VariableGroup')?false:true)
                             ->validationMessages([
                                 'required' => 'Обязательно укажите Псевдоним',
                             ])
@@ -138,7 +141,15 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
                             } else {
                                 return redirect('/admin/variable-groups/' . $output_id . '/admin');
                             }
-                        }),
+                        })
+                        ->visible(auth()->user()->can('Create:VariableGroup')),
+
+                    Action::make('Cancel')
+                        ->color('gray')
+                        ->action(function () {
+                            return redirect('/admin/variable-groups');
+                        })
+                        ->label('Отменить и вернуться назад')
                 ])
             ])->statePath('data');
     }

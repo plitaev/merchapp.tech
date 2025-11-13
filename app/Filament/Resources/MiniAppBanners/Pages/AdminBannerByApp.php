@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ViewAction;
 use App\Filament\Resources\MiniAppBanners\MiniAppBannerResource;
 use App\Models\Core\MiniAppBannerLinkPage;
 use App\Models\Core\MiniAppPage;
@@ -46,26 +47,32 @@ class AdminBannerByApp extends Page implements HasTable
             ->columns([
                 TextColumn::make('miniapp_page.name')
                     ->label('Страница')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                     ->searchable(),
                 TextColumn::make('miniapp_banner_class.name')
                     ->label('Тип')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                     ->searchable(),
                 TextColumn::make('miniapp_banner.name')
                     ->label('Название баннера')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                     ->searchable(),
                 ImageColumn::make('miniapp_banner.image')
                     ->disk('local')
                     ->label('Изображение')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                     ->url(fn(MiniAppBannerLinkPage $record) => env('APP_URL').'/content/'.$record->image)
                     ->openUrlInNewTab()
                     ->searchable(),
                 TextColumn::make('miniapp_banner.button_url')
                     ->label('URL на кнопке')
                     ->url(fn(MiniAppBannerLinkPage $record) => $record->button_url)
+                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                     ->openUrlInNewTab()
                     ->color('primary')
                     ->searchable(),
                 TextColumn::make('miniapp_banner.button_text')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                     ->label('Текст на кнопке')
                     ->searchable(),
             ])
@@ -73,8 +80,13 @@ class AdminBannerByApp extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$record->mini_app_page_id."/".$record->mini_app_banner_id."/admin"),
-                DeleteAction::make(),
+                ViewAction::make()->url(fn($record) => "/admin/mini-app-banners/".$record->mini_app_page_id."/".$record->mini_app_banner_id."/admin")
+                    ->visible(!auth()->user()->can('Create:MiniAppPage')),
+                EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$record->mini_app_page_id."/".$record->mini_app_banner_id."/admin")
+                    ->visible(auth()->user()->can('Update:MiniAppPage')),
+                DeleteAction::make()
+                    ->visible(auth()->user()->can('Delete:MiniAppPage')),
+
             ])
             ->recordUrl(fn($record) => "/admin/mini-app-banners/".$record->mini_app_page_id."/".$record->mini_app_banner_id."/admin")
             ->toolbarActions([

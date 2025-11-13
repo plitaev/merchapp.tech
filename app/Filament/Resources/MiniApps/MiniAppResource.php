@@ -21,6 +21,7 @@ use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Actions\ViewAction;
 
 class MiniAppResource extends Resource
 {
@@ -45,20 +46,24 @@ class MiniAppResource extends Resource
                 TextInput::make('name')
                     ->label('Название (Только в панели администратора)')
                     ->required()
+                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniApp')?false:true)
                     ->maxLength(255),
                 TextInput::make('url')
                     ->label('URL')
                     ->required()
+                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniApp')?false:true)
                     ->maxLength(255),
                 Select::make('bot_id')
                     ->label('Привязанный бот')
                     ->required()
                     ->options(Bot::all()->pluck('name', 'id'))
+                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniApp')?false:true)
                     ->searchable(),
                 Select::make('class_id')
                     ->label('Тип мини-приложения')
                     ->required()
                     ->options(MiniAppClass::all()->pluck('name', 'id'))
+                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniApp')?false:true)
                     ->searchable(),
             ]);
     }
@@ -93,8 +98,12 @@ class MiniAppResource extends Resource
                 //
             ])
             ->recordActions([
-                EditAction::make(),
-                DeleteAction::make(),
+                ViewAction::make()
+                    ->visible(!auth()->user()->can('Update:MiniApp')),
+                EditAction::make()
+                    ->visible(auth()->user()->can('Update:MiniApp')),
+                DeleteAction::make()
+                    ->visible(auth()->user()->can('Delete:MiniApp')),
             ])
             ->recordAction('view')
             ->toolbarActions([
