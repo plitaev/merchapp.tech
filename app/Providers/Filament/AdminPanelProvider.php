@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Models\Core\BotMessageButton;
 use App\Models\Core\MiniApp;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -80,6 +81,7 @@ class AdminPanelProvider extends PanelProvider
             ->group('Справочники')
             ->icon('heroicon-o-code-bracket-square')
             ->url("/admin/bot-message-button-callbacks")
+            ->visible(auth()->user()->can('View:BotMessageButton'))
             ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/bot-message-button-callbacks");
 
         $A[] = NavigationItem::make('variable_groups')
@@ -87,6 +89,7 @@ class AdminPanelProvider extends PanelProvider
             ->group('Настройки')
             ->icon('heroicon-o-cog-8-tooth')
             ->url("/admin/variable-groups")
+            ->visible(auth()->user()->can('View:VariableGroup'))
             ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/variable-groups");
 
         return $panel
