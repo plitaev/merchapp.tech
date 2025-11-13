@@ -304,6 +304,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->acceptedFileTypes(['image/*'])
                             ->disk('local')
                             ->directory('bot_message_images')
+                            ->visible(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->visibility('public')
                     ])
                     ->visible(function (Get $get) {
