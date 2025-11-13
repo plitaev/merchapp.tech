@@ -304,7 +304,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ])
                     ->schema([
                         Select::make('funnel_product_id')
-                            ->label('Условие')
+                            ->label('Укажите продукт, после покупки которого будет происходить отправка сообщения')
                             ->options(Product::all()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
