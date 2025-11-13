@@ -88,7 +88,6 @@ class AdminPanelProvider extends PanelProvider
             ->group('Настройки')
             ->icon('heroicon-o-cog-8-tooth')
             ->url("/admin/variable-groups")
-            ->visible(auth()->user()->can('View:VariableGroup'))
             ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/variable-groups");
 
         return $panel
