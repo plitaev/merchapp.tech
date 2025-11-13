@@ -15,7 +15,6 @@ use App\Models\Core\TelegramSupergroupLinkBot\TelegramSupergroupLinkBot;
 use App\Models\Core\User;
 
 use Filament\Forms;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
@@ -153,12 +152,13 @@ class BotSupergroupAdmin extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Select::make('supergroup_delete_parameter_id')
+                        Forms\Components\Select::make('supergroup_delete_parameter_id')
                             ->label('Режим удаления')
                             ->required()
                             ->options(SupergroupDeleteParameter::all()->pluck('name', 'id'))
                             ->live()
-                            ->searchable(),
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
 
                         Forms\Components\TextInput::make('supergroup_delete_days')
                             ->label(function (Get $get) {
