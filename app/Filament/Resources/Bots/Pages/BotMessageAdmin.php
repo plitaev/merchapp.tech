@@ -202,40 +202,45 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
     {
         return $schema
             ->components([
-                Section::make('Ветка')
-                    ->description('Если необходимо, укажите ветку, к которой будет прикреплено данное сообщение')
+                Section::make('Ветка и роль')
+                    ->description('Укажите ветку и роль, которую будет играть это сообщение. Если не указать ветку, сообщение попадет в основную ветку.')
                     ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1,
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
                     ])
                     ->schema([
+                        Hidden::make('bot_id'),
                         Select::make('bot_branch_id')
                             ->label('Ветка')
                             ->options(BotBranch::all()->pluck('name', 'id'))
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
+                            ->searchable(),
+                        Select::make('bot_message_appointment_id')
+                            ->label('Назначение')
+                            ->options(BotMessageAppointment::all()->pluck('name', 'id'))
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->searchable()
+                            ->live(),
                     ]),
-                Section::make('Бот и воронка')
-                    ->description('Если необходимо, укажите воронку, к которой будет прикреплено данное сообщение')
+                Section::make('Воронка')
+                    ->description('Укажите воронку и условие, если это сообщение предназначено для автоворонок')
                     ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1,
+                        'sm' => 3,
+                        'md' => 3,
+                        'lg' => 3,
+                        'xl' => 3,
+                        '2xl' => 3,
                     ])
                     ->schema([
-                        Hidden::make('bot_id'),
                         Select::make('funnel_id')
                             ->label('Воронка')
                             ->options(Funnel::all()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
-
-                    ->live(),
+                            ->live(),
                         Select::make('funnel_condition_id')
                             ->label('Условие')
                             ->options(FunnelCondition::all()->pluck('name', 'id'))
@@ -260,24 +265,6 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Минут')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255)
-                    ]),
-                Section::make('Бот и назначение')
-                    ->description('Если необходимо, укажите функцию, которую будет выполнять данное сообщение')
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1,
-                    ])
-                    ->schema([
-                        Hidden::make('bot_id'),
-                        Select::make('bot_message_appointment_id')
-                            ->label('Назначение')
-                            ->options(BotMessageAppointment::all()->pluck('name', 'id'))
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
-                            ->searchable()
-                            ->live(),
                     ]),
                 Section::make('Тип и название сообщения')
                     ->description('Укажите базовые настройки, чтобы продолжить работу')
