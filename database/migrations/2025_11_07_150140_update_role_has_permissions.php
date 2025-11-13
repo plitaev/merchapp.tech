@@ -19,7 +19,7 @@ return new class extends Migration
 
         foreach ($new_permissions as $permission) {
             DB::table('role_has_permissions')->insert([
-                'permission_id' => $permission->id,
+                'permission_id' => $permission,
                 'role_id' => 1
             ]);
         }
