@@ -66,6 +66,7 @@ class GoogleController
 
     public function send_non_active() {
         $date = Carbon::now()->subDays(2)->format('Y-m-d');
+        $date='2025-11-14';
         $datetime_start = $date.' 00:00:00';
         $datetime_end = $date.' 23:59:59';
 
@@ -80,6 +81,8 @@ class GoogleController
             ->whereNull('date_end')
             ->get();
 
+        $html = '';
+
         foreach ($res as $data) {
             $A = [
                 (isset($data->email)?$data->email:''),
@@ -90,7 +93,11 @@ class GoogleController
             ];
 
             $result[] = $A;
+
+            $html.= '<tr><td>'.(isset($data->email)?$data->email:'').'</td><td>'.($data->first_name != 'none'?$data->first_name:'').'</td><td>'.($data->last_name != 'none'?$data->last_name:'').'</td><td>'.date('d.m.Y', strtotime($date)).'</td><td>'.($data->username != 'none'?$data->username:'').'</td></tr>';
         }
+
+        return $html;
 
         Sheets::spreadsheet(env('POST_SPREADSHEET_ID'))->sheet($sheet_name)->append($result);
     }
