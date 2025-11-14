@@ -13,6 +13,7 @@ class GoogleController
 {
     public function send_banneds() {
         $date_end = date('Y-m-d', time());
+        $date_end = '2025-11-13';
         $sheet_name = 'Отписавшиеся пользователи (удалены из клуба)';
 
         $result = [];
@@ -30,7 +31,7 @@ class GoogleController
             $result[] = $A;
         }
 
-        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
+        Sheets::spreadsheet(env('POST_SPREADSHEET_ID'))->sheet($sheet_name)->append($result);
     }
 
     public function send_recurrent_fail() {
@@ -60,7 +61,7 @@ class GoogleController
             $result[] = $A;
         }
 
-        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
+        Sheets::spreadsheet(env('POST_SPREADSHEET_ID'))->sheet($sheet_name)->append($result);
     }
 
     public function send_non_active() {
@@ -91,7 +92,7 @@ class GoogleController
             $result[] = $A;
         }
 
-        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
+        Sheets::spreadsheet(env('POST_SPREADSHEET_ID'))->sheet($sheet_name)->append($result);
     }
 
     public function send_recurrent_plan() {
@@ -119,7 +120,7 @@ class GoogleController
             $result[] = $A;
         }
 
-        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
+        Sheets::spreadsheet(env('POST_SPREADSHEET_ID'))->sheet($sheet_name)->append($result);
     }
 
     public function send_recurrent_fail_prodamus() {
@@ -163,12 +164,12 @@ class GoogleController
             $result[] = $A;
         }
 
-        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
+        Sheets::spreadsheet(env('POST_SPREADSHEET_ID'))->sheet($sheet_name)->append($result);
     }
 
     public function send_common_stat() {
         $sheet_name = 'Общая статистика';
-        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->clear();
+        Sheets::spreadsheet(env('POST_SPREADSHEET_ID'))->sheet($sheet_name)->clear();
 
         $result = [];
 
@@ -184,7 +185,7 @@ class GoogleController
         $result[] = ['Всего покупок клуба через бот (Продамус)', $users_pay_in_bot];
         $result[] = ['Сумма покупок клуба через бот (Продамус)', $users_cost_in_bot];
 
-        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
+        Sheets::spreadsheet(env('POST_SPREADSHEET_ID'))->sheet($sheet_name)->append($result);
     }
 
 }
