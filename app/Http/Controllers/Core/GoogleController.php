@@ -30,7 +30,7 @@ class GoogleController
             $result[] = $A;
         }
 
-        Sheets::spreadsheet(config('google.post_spreadsheet_id'))->sheet($sheet_name)->append($result);
+        Sheets::spreadsheet(env("POST_SPREADSHEET_ID"))->sheet($sheet_name)->append($result);
     }
 
     public function send_recurrent_fail() {
