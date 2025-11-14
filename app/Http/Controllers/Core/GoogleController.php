@@ -13,6 +13,7 @@ class GoogleController
 {
     public function send_banneds() {
         $date_end = date('Y-m-d', time());
+        $date_end = '2025-11-13';
         $sheet_name = 'Отписавшиеся пользователи (удалены из клуба)';
 
         $result = [];
