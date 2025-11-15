@@ -3,6 +3,7 @@ namespace App\Filament\Resources\Bots\Pages;
 
 use App\Models\Core\BotBranch;
 use App\Models\Core\FunnelConditionTrigger;
+use App\Models\Core\Product;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
@@ -267,6 +268,26 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255)
                     ]),
+                Section::make("Выберите продукт, по покупке которого активируется отправка сообщения")
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->schema([
+                        Select::make('funnel_product_id')
+                            ->label('Условие')
+                            ->options(Product::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
+                    ])
+                    ->visible(function (Get $get) {
+                        if (is_callable($get)) {
+                            return $get('funnel_condition_id') == 10;
+                        }
+                    }),
                 Section::make('Тип и название сообщения')
                     ->description('Укажите базовые настройки, чтобы продолжить работу')
                     ->columns([
