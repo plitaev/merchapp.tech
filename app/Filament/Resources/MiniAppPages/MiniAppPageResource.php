@@ -100,11 +100,10 @@ class MiniAppPageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListMiniAppPages::route('/'),
-            'create' => AdminMiniAppPage::route('/{id}/admin'),
-            'edit' => AdminMiniAppPage::route('/{id}/admin'),
-            'admin' => AdminMiniAppPage::route('/{id}/admin'),
-            'preview' => PreviewMiniAppPage::route('/{mini_app_page_id}/preview'),
+            'index' => AdvancedListMiniApp::route('/'),
+            'create' => AdminMiniApp::route('/{id}/admin'),
+            'edit' => AdminMiniApp::route('/{id}/admin'),
+            'admin' => AdminMiniApp::route('/{id}/admin'),
         ];
     }
 }
