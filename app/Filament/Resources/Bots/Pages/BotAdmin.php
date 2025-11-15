@@ -188,7 +188,18 @@ class BotAdmin extends Page implements HasForms
                                 return redirect('/admin/bots');
                             } else {
                                 $new = Bot::create($data);
-                                BotBranch::create(['bot_id' => $new->id, 'bot_branch_type' => 1, 'name' => 'Главная ветка', 'alias' => 'BRANCH_MAIN', 'hash' => 'BRANCH_MAIN']);
+
+                                BotBranch::create(
+                                    [
+                                        'bot_id' => $new->id,
+                                        'bot_branch_type' => 1,
+                                        'name' => 'Главная ветка',
+                                        'alias' => 'BRANCH_MAIN',
+                                        'hash' => 'BRANCH_MAIN',
+                                        'datetime_start' => date('Y-m-d H:i:s', time()),
+                                        'datetime_end' => date('2100-01-01 00:00:00'),
+                                    ]
+                                );
 
                                 return redirect('/admin/bots/'.$new->id.'/edit');
                             }
