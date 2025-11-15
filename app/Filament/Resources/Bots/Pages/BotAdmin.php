@@ -198,7 +198,7 @@ class BotAdmin extends Page implements HasForms
                                 ->success()
                                 ->send();
                         })
-                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
+                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
                     Action::make('Cancel')
                          ->action(function () {
                              return redirect('/admin/bots');
