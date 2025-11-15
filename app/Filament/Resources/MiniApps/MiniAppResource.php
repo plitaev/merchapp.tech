@@ -25,6 +25,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Actions\ViewAction;
 
+use App\Filament\Resources\MiniApps\Pages\CreateMiniApp;
+
 class MiniAppResource extends Resource
 {
     protected static ?string $model = MiniApp::class;
@@ -123,10 +125,10 @@ class MiniAppResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => AdvancedListMiniApp::route('/'),
-            'create' => AdminMiniApp::route('/{id}/admin'),
-            'edit' => AdminMiniApp::route('/{id}/admin'),
-            'admin' => AdminMiniApp::route('/{id}/admin'),
+            'index' => ListMiniApps::route('/'),
+            'create' => CreateMiniApp::route('/create'),
+            'edit' => EditMiniApp::route('/{record}/edit'),
+            'view' => ViewMiniApp::route('/{record}'),
         ];
     }
 }

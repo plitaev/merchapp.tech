@@ -235,7 +235,7 @@ class AdminBot extends Page implements HasForms
                                 return redirect('/admin/bots/'.$new->id.'/edit');
                             }
                         })
-                        ->visible(auth()->user()->hasPermissionTo('Create:Bot')?true:false),
+                        ->visible(auth()->user()->hasPermissionTo('Create:Bot')),
 
                     Action::make('webhook_view')
                         ->label('Запросить статус Webhook')
@@ -248,9 +248,11 @@ class AdminBot extends Page implements HasForms
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
                             $status = $telegramWebhookInfo->handle($formdata['telegram_token'], $webhook_address);
 
-                            $set('telegram_webhook_status', $status);
+                            if (is_callable($set)) {
+                                $set('telegram_webhook_status', $status);
+                            }
                         })
-                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')?true:false),
+                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
 
                     Action::make('webhook_set')
                         ->label('Установить Webhook')
@@ -263,9 +265,11 @@ class AdminBot extends Page implements HasForms
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
                             $status = $telegramSetWebhook->handle($this->id, $formdata['telegram_token'], $formdata['telegram_webhook']);
 
-                            $set('telegram_webhook_status', $status);
+                            if (is_callable($set)) {
+                                $set('telegram_webhook_status', $status);
+                            }
                         })
-                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')?true:false),
+                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
 
                     Action::make('webhook_delete')
                         ->label('Удалить Webhook')
@@ -278,9 +282,11 @@ class AdminBot extends Page implements HasForms
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
                             $status = $telegramDeleteWebhook->handle($formdata['telegram_token'], $webhook_address);
 
-                            $set('telegram_webhook_status', $status);
+                            if (is_callable($set)) {
+                                $set('telegram_webhook_status', $status);
+                            }
                         })
-                        ->visible(auth()->user()->hasPermissionTo('Delete:Bot')?true:false)
+                        ->visible(auth()->user()->hasPermissionTo('Delete:Bot'))
 
                 ])
             ])->statePath('data');
