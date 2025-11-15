@@ -25,6 +25,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Actions\ViewAction;
 
+use App\Filament\Resources\MiniApps\Pages\CreateMiniApp;
+
 class MiniAppResource extends Resource
 {
     protected static ?string $model = MiniApp::class;
