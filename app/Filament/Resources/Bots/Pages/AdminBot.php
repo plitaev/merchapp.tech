@@ -248,7 +248,9 @@ class AdminBot extends Page implements HasForms
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
                             $status = $telegramWebhookInfo->handle($formdata['telegram_token'], $webhook_address);
 
-                            $set('telegram_webhook_status', $status);
+                            if (is_callable($set)) {
+                                $set('telegram_webhook_status', $status);
+                            }
                         })
                         ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
 
@@ -263,7 +265,9 @@ class AdminBot extends Page implements HasForms
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
                             $status = $telegramSetWebhook->handle($this->id, $formdata['telegram_token'], $formdata['telegram_webhook']);
 
-                            $set('telegram_webhook_status', $status);
+                            if (is_callable($set)) {
+                                $set('telegram_webhook_status', $status);
+                            }
                         })
                         ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
 
@@ -278,7 +282,9 @@ class AdminBot extends Page implements HasForms
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
                             $status = $telegramDeleteWebhook->handle($formdata['telegram_token'], $webhook_address);
 
-                            $set('telegram_webhook_status', $status);
+                            if (is_callable($set)) {
+                                $set('telegram_webhook_status', $status);
+                            }
                         })
                         ->visible(auth()->user()->hasPermissionTo('Delete:Bot'))
 
