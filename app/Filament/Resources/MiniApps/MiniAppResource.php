@@ -124,9 +124,9 @@ class MiniAppResource extends Resource
     {
         return [
             'index' => ListMiniApps::route('/'),
-            'create' => AdminMiniApp::route('/{id}/admin'),
-            'edit' => AdminMiniApp::route('/{id}/admin'),
-            'admin' => AdminMiniApp::route('/{id}/admin'),
+            'create' => CreateMiniApp::route('/create'),
+            'edit' => EditMiniApp::route('/{record}/edit'),
+            'view' => ViewMiniApp::route('/{record}'),
         ];
     }
 }
