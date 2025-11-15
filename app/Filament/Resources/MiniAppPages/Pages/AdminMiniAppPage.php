@@ -1,7 +1,6 @@
 <?php
 namespace App\Filament\Resources\MiniAppPages\Pages;
 
-use App\Models\Core\MiniApp;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Actions;
@@ -12,7 +11,6 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\ViewAction;
 use App\Actions\Core\MiniAppBanner\MiniAppBannerGetLinkForRecord;
 use App\Filament\Resources\MiniAppPages\MiniAppPageResource;
 use App\Models\Core\MiniAppBanner;
@@ -78,62 +76,56 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
         return ['form'];
     }
 
-    public static function form(Schema $schema): Schema
+    public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
-                Section::make('Настройки страницы мини-приложения')
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
-                    ])
+                Section::make('Мини-приложение')
                     ->schema([
-                    Select::make('mini_app_id')
-                        ->label('Название приложения')
-                        ->required()
-                        ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                        ->options(MiniApp::all()->pluck('name', 'id'))
-                        ->searchable(),
-                    TextInput::make('name')
-                        ->label('Название страницы')
-                        ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                        ->maxLength(255),
-                    TextInput::make('url')
-                        ->label('Ссылка')
-                        ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                        ->required()
-                        ->maxLength(255)
-                ]),
-               Actions::make([
-                   Action::make('Сохранить')
-                       ->action(function () {
-                       $data = $this->form->getState();
+                        TextInput::make('miniapp.name')
+                            ->label("Страница опубликована в приложении")
+                            ->required()
+                            ->disabled(true)
+                    ]),
+                Section::make('Название страницы')
+                    ->description('Название страницы используется только для администраторов. Оно не отображается в мини-приложении.')
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Введите название в это поле')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите название страницы',
+                            ]),
+                    ]),
+                Section::make('Ссылка на страницу')
+                    ->description('Введите URL, по которому будет открываться данная страница в приложении')
+                    ->schema([
+                        TextInput::make('url')
+                            ->label('Не изменять')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите ссылку на страницу',
+                            ]),
+                        Hidden::make('id')
+                            ->label('id')
+                            ->required(),
+                        Actions::make([
+                            Action::make('Сохранить')
+                                ->action(function (Request $request) {
+                                    $data = $this->form->getState();
+                                    unset($data['miniapp']);
 
+                                    MiniAppPage::where('id', $this->record)->update($data);
 
-                       if ($this->id>0) {
-                           MiniAppPage::where('id', $this->id)->update($data);
-                           $output_id = $this->id;
-                       } else {
-                           $new = MiniAppPage::create($data);
-                           $output_id = $new->id;
-                       }
-
-                       Notification::make()
-                           ->title('Данные успешно сохранены!')
-                           ->success()
-                           ->send();
-
-                       return redirect('/admin/mini-app-pages');
-                   })
-                   ->visible(auth()->user()->hasPermissionTo('Create:MiniAppPage')),
-                ])
+                                    Notification::make()
+                                        ->title('Данные успешно сохранены!')
+                                        ->success()
+                                        ->send();
+                                }),
+                        ])
+                    ]),
             ])->statePath('data');
-
     }
-
 
     public function table(Table $table): Table
     {
@@ -173,13 +165,9 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                 //
             ])
             ->recordActions([
-                ViewAction::make()->url(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin")
-                    ->visible(!auth()->user()->can('Create:MiniAppBannerLinkPage')),
-                EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin")
-                    ->visible(auth()->user()->can('Create:MiniAppBannerLinkPage')),
+                EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin"),
                 DeleteAction::make()
-                    ->visible(auth()->user()->can('Delete:MiniAppBannerLinkPage'))
-            ->after(function (MiniAppBannerLinkPage $record) {
+                    ->after(function (MiniAppBannerLinkPage $record) {
                         $check = MiniAppBannerLinkPage::where('mini_app_banner_id', $record->mini_app_banner_id)->count();
                         if ($check == 0) MiniAppBanner::destroy($record->mini_app_banner_id);
                     })
