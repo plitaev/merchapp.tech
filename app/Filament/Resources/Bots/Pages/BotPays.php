@@ -228,7 +228,8 @@ class BotPays extends Page implements HasTable
             ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->before(function ($records) {
+                        ->visible(auth()->user()->can('Delete:Pay'))
+                    ->before(function ($records) {
                             foreach ($records as $record) {
                                 $pay = Pay::with('bot')->find($record->id);
                                 $bot_user_id = ($pay->gift_bot_user_id ?? $pay->bot_user_id);
@@ -250,7 +251,7 @@ class BotPays extends Page implements HasTable
                                 $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
                             }
 
-                        })
+                        }),
                 ]),
             ]);
     }

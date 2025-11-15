@@ -84,7 +84,9 @@ class BotFunnels extends Page implements HasTable
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/funnel-admin")
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->visible(auth()->user()->can('Delete:Funnel')),
+
                 ]),
             ]);
     }

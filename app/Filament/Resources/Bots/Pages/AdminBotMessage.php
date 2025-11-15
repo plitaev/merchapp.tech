@@ -491,7 +491,9 @@ class AdminBotMessage extends Page implements HasForms, HasTable
             ->recordUrl(fn($record) => "/admin/bot-messages/".$record->id."/admin")
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->visible(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true),
+
                 ]),
             ]);
         }
@@ -514,7 +516,9 @@ class AdminBotMessage extends Page implements HasForms, HasTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->visible(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
+
                 ]),
             ]);
     }

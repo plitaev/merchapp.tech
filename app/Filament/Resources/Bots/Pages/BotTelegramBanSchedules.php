@@ -126,7 +126,9 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->visible(auth()->user()->can('Delete:BotUserBanSchedule')),
+
                 ]),
             ]);
     }

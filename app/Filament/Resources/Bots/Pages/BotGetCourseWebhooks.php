@@ -84,11 +84,6 @@ class BotGetCourseWebhooks extends Page implements HasTable
             ])
             ->recordActions([
 
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
 
     }

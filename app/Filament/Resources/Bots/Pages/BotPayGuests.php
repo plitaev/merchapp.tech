@@ -110,7 +110,9 @@ class BotPayGuests extends Page implements HasTable
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/pay-guest-admin")
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->visible(auth()->user()->can('Delete:PayGuest')),
+
                 ]),
             ]);
     }

@@ -87,7 +87,9 @@ class BotProducts extends Page implements HasTable
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/product-admin")
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->visible(auth()->user()->can('Delete:Product')),
+
                 ]),
             ]);
     }
