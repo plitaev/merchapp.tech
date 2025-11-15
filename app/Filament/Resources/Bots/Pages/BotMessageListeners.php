@@ -154,7 +154,7 @@ class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfoli
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         })
-                        ->visible(auth()->user()->hasPermissionTo('Create:BotMessageListener')?false:true),
+                        ->visible(auth()->user()->hasPermissionTo('Create:BotMessageListener')),
 
                     Action::make('Отмена')
                         ->action(function () {

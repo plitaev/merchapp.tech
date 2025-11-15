@@ -3,6 +3,7 @@ namespace App\Filament\Resources\Bots\Pages;
 
 use App\Models\Core\BotBranch;
 use App\Models\Core\FunnelConditionTrigger;
+use App\Models\Core\Product;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
@@ -267,6 +268,26 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255)
                     ]),
+                Section::make("Выберите продукт, по покупке которого активируется отправка сообщения")
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->schema([
+                        Select::make('funnel_product_id')
+                            ->label('Условие')
+                            ->options(Product::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
+                    ])
+                    ->visible(function (Get $get) {
+                        if (is_callable($get)) {
+                            return $get('funnel_condition_id') == 10;
+                        }
+                    }),
                 Section::make('Тип и название сообщения')
                     ->description('Укажите базовые настройки, чтобы продолжить работу')
                     ->columns([
@@ -304,10 +325,9 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Изображение, которое будет отправляться пользователю')
                             ->acceptedFileTypes(['image/*'])
                             ->disk('local')
-                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
-                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
+                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage'))
+                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage'))
                             ->directory('bot_message_images')
-                            ->visible(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->visibility('public')
                     ])
                     ->visible(function (Get $get) {
@@ -320,8 +340,8 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         FileUpload::make('video')
                             ->label('Видео, которое будет отправляться пользователю')
                             ->acceptedFileTypes(['video/mp4'])
-                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
-                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
+                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage'))
+                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage'))
                             ->disk('local')
                             ->directory('bot_message_videos')
                             ->visibility('public')
@@ -336,8 +356,8 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         FileUpload::make('audio')
                             ->label('Аудио, которое будет отправляться пользователю')
                             ->acceptedFileTypes(['audio/mp3'])
-                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
-                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
+                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage'))
+                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage'))
                             ->disk('local')
                             ->directory('bot_message_audios')
                             ->visibility('public')
@@ -352,8 +372,8 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         FileUpload::make('custom_file')
                             ->label('Файл, который будет отправляться пользователю')
                             ->disk('local')
-                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
-                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
+                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage'))
+                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage'))
                             ->directory('bot_message_custom_files')
                             ->visibility('public'),
                         TextInput::make('custom_file_name')

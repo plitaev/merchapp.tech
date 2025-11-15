@@ -6,12 +6,14 @@ use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\MiniAppPages\Pages\ListMiniAppPages;
 use App\Filament\Resources\MiniAppPages\Pages\CreateMiniAppPage;
 use App\Filament\Resources\MiniAppPages\Pages\AdminMiniAppPage;
+use App\Filament\Resources\MiniAppPages\Pages\AdvancedListMiniAppPage;
 use App\Filament\Resources\MiniAppPages\Pages\PreviewMiniAppPage;
 use App\Filament\Resources\MiniAppPageResource\Pages;
 use App\Filament\Resources\MiniAppPageResource\RelationManagers;
@@ -76,11 +78,14 @@ class MiniAppPageResource extends Resource
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+//                ViewAction::make()
+//                    ->visible(!auth()->user()->can('Update:MiniApp')),
+//                EditAction::make()
+//                    ->visible(auth()->user()->can('Delete:MiniAppPage')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(auth()->user()->can('Delete:MiniAppPage')),
                 ]),
             ]);
     }
@@ -95,10 +100,10 @@ class MiniAppPageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListMiniAppPages::route('/'),
-            'create' => CreateMiniAppPage::route('/create'),
-            //'edit' => Pages\EditMiniAppPage::route('/{record}/edit'),
-            'edit' => AdminMiniAppPage::route('/{record}/admin'),
+            'index' => AdvancedListMiniAppPage::route('/'),
+            'create' => AdminMiniAppPage::route('/{id}/admin'),
+            'edit' => AdminMiniAppPage::route('/{id}/admin'),
+            'admin' => AdminMiniAppPage::route('/{id}/admin'),
             'preview' => PreviewMiniAppPage::route('/{mini_app_page_id}/preview'),
         ];
     }

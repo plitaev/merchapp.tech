@@ -203,22 +203,22 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                         Hidden::make('id')
                             ->label('id')
                             ->required(),
-                    Actions::make([
-                        Action::make('Сохранить')
-                            ->action(function (Request $request) {
-                                (new MiniAppBannerSave())->handle($this->form->getState());
+                        Actions::make([
+                            Action::make('Сохранить')
+                                ->action(function (Request $request) {
+                                    (new MiniAppBannerSave())->handle($this->form->getState());
 
-                                Notification::make()
-                                    ->title('Данные успешно сохранены!')
-                                    ->success()
-                                    ->send();
+                                    Notification::make()
+                                        ->title('Данные успешно сохранены!')
+                                        ->success()
+                                        ->send();
 
-                                redirect("/admin/mini-app-pages/".$this->mini_app_page_id."/admin");
+                                    redirect("/admin/mini-app-pages/".$this->mini_app_page_id."/admin");
 
-                            })
-                            ->visible(auth()->user()->can('Create:MiniAppPage')),
+                                })
+                                ->visible(auth()->user()->can('Create:MiniAppPage')),
 
-                    ])
+                        ])
                     ])
             ])->statePath('data');
     }
@@ -257,7 +257,9 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                             );
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
-                        }),
+                        })
+                        ->visible(auth()->user()->can('Create:MiniAppPage')),
+
                     Action::make('Отмена')
                         ->action(function () {
                             $this->dispatch('close-modal', id: 'add-page-modal');

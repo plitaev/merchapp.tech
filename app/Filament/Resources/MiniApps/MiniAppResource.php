@@ -9,12 +9,14 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use App\Filament\Resources\MiniApps\Pages\ListMiniApps;
-use App\Filament\Resources\MiniApps\Pages\CreateMiniApp;
+use App\Filament\Resources\MiniApps\Pages\AdminMiniApp;
+use App\Filament\Resources\MiniApps\Pages\AdvancedListMiniApp;
 use App\Filament\Resources\MiniApps\Pages\EditMiniApp;
 use App\Filament\Resources\MiniApps\Pages\ViewMiniApp;
 use App\Filament\Resources\MiniAppResource\Pages;
 use App\Filament\Resources\MiniAppResource\RelationManagers;
 use App\Models\Core\Bot;
+use App\Models\Core\User;
 use App\Models\Core\MiniApp;
 use App\Models\Core\MiniAppClass;
 use Filament\Forms;
@@ -22,6 +24,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Actions\ViewAction;
+
+use App\Filament\Resources\MiniApps\Pages\CreateMiniApp;
 
 class MiniAppResource extends Resource
 {
