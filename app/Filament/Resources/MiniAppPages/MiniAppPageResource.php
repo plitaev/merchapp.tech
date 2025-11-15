@@ -6,14 +6,12 @@ use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\MiniAppPages\Pages\ListMiniAppPages;
 use App\Filament\Resources\MiniAppPages\Pages\CreateMiniAppPage;
 use App\Filament\Resources\MiniAppPages\Pages\AdminMiniAppPage;
-use App\Filament\Resources\MiniAppPages\Pages\AdvancedListMiniAppPage;
 use App\Filament\Resources\MiniAppPages\Pages\PreviewMiniAppPage;
 use App\Filament\Resources\MiniAppPageResource\Pages;
 use App\Filament\Resources\MiniAppPageResource\RelationManagers;
@@ -23,8 +21,6 @@ use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-
-use App\Filament\Resources\MiniApps\Pages\AdvancedListMiniApp;
 
 class MiniAppPageResource extends Resource
 {
@@ -80,14 +76,11 @@ class MiniAppPageResource extends Resource
                 //
             ])
             ->recordActions([
-//                ViewAction::make()
-//                    ->visible(!auth()->user()->can('Update:MiniApp')),
-//                EditAction::make()
-//                    ->visible(auth()->user()->can('Delete:MiniAppPage')),
+                EditAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make()->visible(auth()->user()->can('Delete:MiniAppPage')),
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -102,10 +95,11 @@ class MiniAppPageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => AdvancedListMiniApp::route('/'),
-            'create' => AdminMiniApp::route('/{id}/admin'),
-            'edit' => AdminMiniApp::route('/{id}/admin'),
-            'admin' => AdminMiniApp::route('/{id}/admin'),
+            'index' => ListMiniAppPages::route('/'),
+            'create' => CreateMiniAppPage::route('/create'),
+            //'edit' => Pages\EditMiniAppPage::route('/{record}/edit'),
+            'edit' => AdminMiniAppPage::route('/{record}/admin'),
+            'preview' => PreviewMiniAppPage::route('/{mini_app_page_id}/preview'),
         ];
     }
 }
