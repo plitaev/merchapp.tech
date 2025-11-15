@@ -123,7 +123,7 @@ class MiniAppResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListMiniApp::route('/'),
+            'index' => ListMiniApps::route('/'),
             'create' => AdminMiniApp::route('/{id}/admin'),
             'edit' => AdminMiniApp::route('/{id}/admin'),
             'admin' => AdminMiniApp::route('/{id}/admin'),
