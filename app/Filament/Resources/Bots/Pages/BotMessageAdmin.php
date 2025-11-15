@@ -325,10 +325,9 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->label('Изображение, которое будет отправляться пользователю')
                             ->acceptedFileTypes(['image/*'])
                             ->disk('local')
-                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
-                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage')?true:false)
+                            ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage'))
+                            ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage'))
                             ->directory('bot_message_images')
-                            ->visible(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->visibility('public')
                     ])
                     ->visible(function (Get $get) {
