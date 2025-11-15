@@ -7,6 +7,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ViewAction;
 use App\Filament\Resources\FunnelConditions\FunnelConditionResource;
 use App\Models\Core\FunnelCondition;
 use Filament\Resources\Pages\Page;
@@ -44,8 +45,13 @@ class AdvancedListFunnelCondition extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/funnel-conditions/".$record->id."/admin"),
-                DeleteAction::make(),
+                ViewAction::make()
+                    ->visible(!auth()->user()->can('Update:BotMessageAppointment')),
+                EditAction::make()->url(fn($record) => "/admin/funnel-conditions/".$record->id."/admin")
+                    ->visible(auth()->user()->can('Update:BotMessageAppointment')),
+                DeleteAction::make()
+                    ->visible(auth()->user()->can('Delete:BotMessageAppointment')),
+
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

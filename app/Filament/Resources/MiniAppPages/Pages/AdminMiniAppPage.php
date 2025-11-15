@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\MiniAppPages\Pages;
 
+use App\Models\Core\MiniApp;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Actions;
@@ -77,61 +78,62 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
         return ['form'];
     }
 
-    public function form(Schema $schema): Schema
+    public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
-                Section::make('Мини-приложение')
+                Section::make('Настройки страницы мини-приложения')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
                     ->schema([
-                        TextInput::make('miniapp.name')
-                            ->label("Страница опубликована в приложении")
-                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                            ->required()
-                            ->disabled(true)
-                    ]),
-                Section::make('Название страницы')
-                    ->description('Название страницы используется только для администраторов. Оно не отображается в мини-приложении.')
-                    ->schema([
-                        TextInput::make('name')
-                            ->label('Введите название в это поле')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                            ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно укажите название страницы',
-                            ]),
-                    ]),
-                Section::make('Ссылка на страницу')
-                    ->description('Введите URL, по которому будет открываться данная страница в приложении')
-                    ->schema([
-                        TextInput::make('url')
-                            ->label('Не изменять')
-                            ->required()
-                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                            ->validationMessages([
-                                'required' => 'Обязательно укажите ссылку на страницу',
-                            ]),
-                        Hidden::make('id')
-                            ->label('id')
-                            ->required(),
-                        Actions::make([
-                            Action::make('Сохранить')
-                                ->action(function (Request $request) {
-                                    $data = $this->form->getState();
-                                    unset($data['miniapp']);
+                    Select::make('mini_app_id')
+                        ->label('Название приложения')
+                        ->required()
+                        ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
+                        ->options(MiniApp::all()->pluck('name', 'id'))
+                        ->searchable(),
+                    TextInput::make('name')
+                        ->label('Название страницы')
+                        ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
+                        ->maxLength(255),
+                    TextInput::make('url')
+                        ->label('Ссылка')
+                        ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
+                        ->required()
+                        ->maxLength(255)
+                ]),
+               Actions::make([
+                   Action::make('Сохранить')
+                       ->action(function () {
+                       $data = $this->form->getState();
 
-                                    MiniAppPage::where('id', $this->record)->update($data);
 
-                                    Notification::make()
-                                        ->title('Данные успешно сохранены!')
-                                        ->success()
-                                        ->send();
-                                })
-                                ->visible(auth()->user()->can('Create:MiniAppPage')),
+                       if ($this->id>0) {
+                           MiniAppPage::where('id', $this->id)->update($data);
+                           $output_id = $this->id;
+                       } else {
+                           $new = MiniAppPage::create($data);
+                           $output_id = $new->id;
+                       }
 
-                        ])
-                    ]),
+                       Notification::make()
+                           ->title('Данные успешно сохранены!')
+                           ->success()
+                           ->send();
+
+                       return redirect('/admin/mini-app-pages');
+                   })
+                   ->visible(auth()->user()->hasPermissionTo('Create:MiniAppPage')),
+                ])
             ])->statePath('data');
+
     }
+
 
     public function table(Table $table): Table
     {

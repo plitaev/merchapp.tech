@@ -82,12 +82,14 @@ class AdminFunnelCondition extends Page implements HasForms
                                 'required' => 'Обязательно укажите наименование',
                                 ])
                             ->label('Наименование')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:FunnelCondition')?false:true)
                             ->maxLength(50),
                         TextInput::make('alias')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите псевдоним',
                             ])
+                            ->disabled(auth()->user()->hasPermissionTo('Update:FunnelCondition')?false:true)
                             ->label('Псевдоним')
                             ->maxLength(50),
                         ]),
@@ -111,7 +113,15 @@ class AdminFunnelCondition extends Page implements HasForms
                                 ->send();
 
                             return redirect('/admin/funnel-conditions');
-                        }),
+                        })
+                        ->visible(auth()->user()->can('Create:FunnelCondition')),
+                    Action::make('Cancel')
+                        ->color('gray')
+                        ->action(function () {
+                            return redirect('/admin/funnel-conditions');
+                        })
+                        ->label('Отменить и вернуться назад')
+
                 ])
             ])->statePath('data');
     }

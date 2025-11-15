@@ -7,6 +7,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ViewAction;
 use App\Filament\Resources\Listeners\ListenerResource;
 use App\Models\Core\Listener;
 use Filament\Resources\Pages\Page;
@@ -44,12 +45,19 @@ class AdvancedListListener extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/listeners/".$record->id."/admin"),
-                DeleteAction::make(),
+                ViewAction::make()
+                    ->visible(!auth()->user()->can('Update:Listener')),
+                EditAction::make()->url(fn($record) => "/admin/listeners/".$record->id."/admin")
+                    ->visible(auth()->user()->can('Update:Listener')),
+                DeleteAction::make()
+                    ->visible(auth()->user()->can('Delete:Listener')),
+
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->visible(auth()->user()->can('Delete:Listener')),
+
                 ]),
             ])
             ->recordUrl(fn($record) => "/admin/listeners/".$record->id."/admin");

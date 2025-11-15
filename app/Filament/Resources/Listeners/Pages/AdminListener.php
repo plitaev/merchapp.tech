@@ -80,17 +80,19 @@ class AdminListener extends Page implements HasForms
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите наименование',
-                                ])
+                            ])
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Listener') ? false : true)
                             ->label('Наименование')
                             ->maxLength(50),
                         TextInput::make('alias')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите alias',
-                                ])
+                            ])
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Listener') ? false : true)
                             ->label('Alias')
                             ->maxLength(50)
-                        ]),
+                    ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
@@ -111,7 +113,14 @@ class AdminListener extends Page implements HasForms
                                 ->send();
 
                             return redirect('/admin/listeners');
-                        }),
+                        })
+                        ->visible(auth()->user()->can('Create:Listener')),
+                    Action::make('Cancel')
+                        ->color('gray')
+                        ->action(function () {
+                            return redirect('/admin/listeners');
+                        })
+                        ->label('Отменить и вернуться назад')
                 ])
             ])->statePath('data');
     }

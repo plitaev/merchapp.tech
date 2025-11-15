@@ -79,17 +79,17 @@ class AdminBotMessageButtonCallback extends Page implements HasForms
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите наименование',
-                                ])
+                            ])
                             ->label('Наименование')
                             ->maxLength(50),
                         TextInput::make('system_name')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите system_name',
-                                ])
+                            ])
                             ->label('Псевдоним')
                             ->maxLength(50),
-                        ]),
+                    ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
@@ -110,7 +110,13 @@ class AdminBotMessageButtonCallback extends Page implements HasForms
                                 ->send();
 
                             return redirect('/admin/bot-message-button-callbacks');
-                        }),
+                        })
+                        ->visible(auth()->user()->hasPermissionTo('Create:BotMessageButtonCallback')?true:false),
+                    Action::make('Cancel')
+                        ->action(function () {
+                            return redirect('/admin/admin-bot-message-button-callback');
+                        })
+                        ->label('Отменить и вернуться назад'),
                 ])
             ])->statePath('data');
     }
