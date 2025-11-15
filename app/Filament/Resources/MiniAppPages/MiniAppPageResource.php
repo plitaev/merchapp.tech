@@ -24,6 +24,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
+use App\Filament\Resources\MiniApps\Pages\AdvancedListMiniApp;
+
 class MiniAppPageResource extends Resource
 {
     protected static ?string $model = MiniAppPage::class;
