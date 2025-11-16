@@ -355,7 +355,6 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ->schema([
                         FileUpload::make('audio')
                             ->label('Аудио, которое будет отправляться пользователю')
-                            ->acceptedFileTypes(['audio/mp3'])
                             ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage'))
                             ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage'))
                             ->disk('local')
