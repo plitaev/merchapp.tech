@@ -35,8 +35,14 @@ class AdminBannerByApp extends Page implements HasTable
 
     public function mount(int $mini_app_id, string $mini_app_name): void
     {
-        $this->mini_app_id = $mini_app_id;
-        $this->mini_app_name = rawurldecode($mini_app_name);
+        if (auth()->user()->hasPermissionTo('Update:MiniAppBanner')) {
+
+            $this->mini_app_id = $mini_app_id;
+            $this->mini_app_name = rawurldecode($mini_app_name);
+
+        }else{
+            redirect('/admin/bots/access');
+        }
     }
 
     public function table(Table $table): Table

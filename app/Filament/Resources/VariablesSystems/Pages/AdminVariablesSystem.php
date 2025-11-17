@@ -64,10 +64,15 @@ class AdminVariablesSystem extends Page implements HasForms
     {
         $this->id = $id;
         $this->variable_group_id = $variable_group_id;
+        if (auth()->user()->hasPermissionTo('Edit:VariablesSystem')) {
 
         $data = ($variable_group_id>0?VariablesSystem::with('variable_system_variable_system_type')->with('variable_system_variable_group')->find($variable_group_id)->toArray():["variable_group_id" => $this->id, "variable_system_type_id" => 1]);
 
         $this->form->fill($data);
+
+        }else{
+            redirect('/admin/bots/access');
+        }
     }
 
     public function getSubNavigation(): array

@@ -52,9 +52,13 @@ class AdminFunnelCondition extends Page implements HasForms
     public function mount(int $id): void
     {
         $this->id = $id;
+        if (auth()->user()->hasPermissionTo('Update:FunnelCondition')) {
 
-        $data = ($id>0?FunnelCondition::find($id)->toArray():[]);
-        $this->form->fill($data);
+            $data = ($id > 0 ? FunnelCondition::find($id)->toArray() : []);
+            $this->form->fill($data);
+        }else{
+            redirect('/admin/bots/access');
+        }
     }
 
     protected function getForms(): array

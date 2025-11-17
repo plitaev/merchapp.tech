@@ -32,8 +32,8 @@ class AdvancedListListener extends Page implements HasTable
 
     public function mount(): void
     {
-        if (!auth()->user()->hasPermissionTo('Update:Listener')) {
-            redirect('/access');
+        if (!auth()->user()->hasPermissionTo('Edit:Listener')) {
+            redirect('/admin/bots/access');
         }
 
     }

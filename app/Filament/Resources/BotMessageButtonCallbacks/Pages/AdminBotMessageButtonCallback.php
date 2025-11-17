@@ -51,9 +51,13 @@ class AdminBotMessageButtonCallback extends Page implements HasForms
     public function mount(int $id): void
     {
         $this->id = $id;
+        if (!auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')) {
 
-        $data = ($id>0?BotMessageButtonCallback::find($id)->toArray():[]);
-        $this->form->fill($data);
+            $data = ($id > 0 ? BotMessageButtonCallback::find($id)->toArray() : []);
+            $this->form->fill($data);
+        }else{
+            redirect('/admin/bots/access');
+        }
     }
 
     protected function getForms(): array

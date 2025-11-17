@@ -58,7 +58,7 @@ class AdminListener extends Page implements HasForms
             $data = ($id > 0 ? Listener::find($id)->toArray() : []);
             $this->form->fill($data);
         }else{
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 

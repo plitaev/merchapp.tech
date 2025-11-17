@@ -76,7 +76,9 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
 
     public function mount(int $mini_app_page_id, int $banner_id): void
     {
-        $this->mini_app_page_id = $mini_app_page_id;
+        if (auth()->user()->hasPermissionTo('Update:MiniAppBanner')) {
+
+            $this->mini_app_page_id = $mini_app_page_id;
         $this->banner_id = $banner_id;
 
         $this->pos_list = (new MiniAppBannerBuildPosList())->handle($mini_app_page_id, $banner_id);
@@ -85,6 +87,11 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
         $this->form->fill($data);
 
         $this->form_banner_link_page->fill([]);
+
+    }else{
+        redirect('/admin/bots/access');
+    }
+
     }
 
     protected function getForms(): array

@@ -66,9 +66,15 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
     public function mount(int $record): void
     {
-        $data = ($record>0?MiniAppPage::with('miniapp')->find($record)->toArray():[]);
-        if ($record == 0) $data['url'] = hash('sha256', time());
-        $this->form->fill($data);
+        if (auth()->user()->hasPermissionTo('Update:MiniAppPage')) {
+
+            $data = ($record>0?MiniAppPage::with('miniapp')->find($record)->toArray():[]);
+            if ($record == 0) $data['url'] = hash('sha256', time());
+            $this->form->fill($data);
+
+        }else{
+            redirect('/admin/bots/access');
+        }
     }
 
     protected function getForms(): array

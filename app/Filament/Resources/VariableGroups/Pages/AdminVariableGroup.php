@@ -70,11 +70,17 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
     {
         $this->$id = $id;
 
+        if (auth()->user()->hasPermissionTo('Edit:VariableGroup')) {
+
         $data = ($id>0?VariableGroup::find($id)->toArray():[]);
 
         $count_variable_group = VariableGroup::count();
 
         $this->form->fill($data);
+
+        }else{
+            redirect('/admin/bots/access');
+        }
     }
 
     protected function getForms(): array

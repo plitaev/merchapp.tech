@@ -28,6 +28,14 @@ class AdvancedListFunnelCondition extends Page implements HasTable
     public static ?string $navigationLabel = "Условие воронки";
     public static ?string $title = "";
 
+    public function mount(): void
+    {
+        if (!auth()->user()->hasPermissionTo('Update:FunnelCondition')) {
+            redirect('/admin/bots/access');
+        }
+
+    }
+
     public static function table(Table $table): Table
     {
         return $table

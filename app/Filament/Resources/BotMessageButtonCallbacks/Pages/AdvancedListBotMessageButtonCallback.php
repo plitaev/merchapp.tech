@@ -29,6 +29,13 @@ class AdvancedListBotMessageButtonCallback extends Page implements HasTable
     public static ?string $navigationLabel = "Обработчики кнопок";
     public static ?string $title = "";
 
+    public function mount(): void
+    {
+        if (!auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')) {
+            redirect('/admin/bots/access');
+        }
+
+    }
     public static function table(Table $table): Table
     {
         return $table

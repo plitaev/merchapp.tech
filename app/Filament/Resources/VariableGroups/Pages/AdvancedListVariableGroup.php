@@ -24,6 +24,14 @@ class AdvancedListVariableGroup extends Page implements HasTable
     protected string $view = 'filament.resources.variable-group-resource.pages.advanced-list-variable-group';
     public static ?string $title = "";
 
+    public function mount(): void
+    {
+        if (!auth()->user()->hasPermissionTo('Update:VariableGroup')) {
+            redirect('/admin/bots/access');
+        }
+
+    }
+
     public static function table(Table $table): Table
     {
         return $table
