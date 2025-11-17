@@ -1,4 +1,7 @@
 <x-filament::page>
+
+    @if (Auth::user()->hasPermissionTo('View:MiniAppPage'))
+
     <style>
         .appframe{width: 360px; height: 700px}
         @media (max-width:1024px) {
@@ -18,4 +21,7 @@
     </div>
 
     <iframe src="{{env("APP_URL")}}/{{$this->mini_app_page_url}}" class="appframe"></iframe>
+
+
+    @endif
 </x-filament::page>

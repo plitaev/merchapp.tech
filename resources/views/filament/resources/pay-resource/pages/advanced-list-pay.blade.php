@@ -1,5 +1,7 @@
 <x-filament-panels::page>
 
+    @if (Auth::user()->hasPermissionTo('View:Pay'))
+
     <style>
         .fi-ta-search-field{min-width: 300px}
     </style>
@@ -17,4 +19,6 @@
     </div>
     @endif
     {{$this->table}}
+
+    @endif
 </x-filament-panels::page>

@@ -1,4 +1,5 @@
 <x-filament-panels::page>
+    @if (Auth::user()->hasPermissionTo('View:User'))
 
     <style>
         .fi-ta-search-field{min-width: 300px}
@@ -31,4 +32,6 @@
     </div>
 
     {{$this->table}}
+
+    @endif
 </x-filament-panels::page>

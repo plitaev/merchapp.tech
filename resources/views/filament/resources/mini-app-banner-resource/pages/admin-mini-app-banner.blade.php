@@ -1,5 +1,7 @@
 <x-filament::page>
 
+    @if (Auth::user()->hasPermissionTo('View:MiniAppBanner'))
+
     <style>
         .fi-ta-search-field{min-width: 300px}
     </style>
@@ -23,6 +25,8 @@
         </div>
         @endif
         {{$this->table}}
+    @endif
+
     @endif
 
 </x-filament::page>

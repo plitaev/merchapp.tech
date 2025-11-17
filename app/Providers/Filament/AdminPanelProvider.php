@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
         $A = [];
         $menus = MiniApp::orderBy('id')->get();
 
+
         $A[] = NavigationItem::make('apps')
             ->label('Мини-приложения')
             ->icon('heroicon-o-square-3-stack-3d')
@@ -54,6 +55,10 @@ class AdminPanelProvider extends PanelProvider
                 ->url("/admin/mini-app-banners/".$menu->id."/".rawurlencode($menu->name)."/admin_banner_by_app")
                 ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/mini-app-banners/".$menu->id."/".rawurlencode($menu->name)."/admin_banner_by_app");
         }
+
+//        Route::get('/banners_apps', function () {
+//            return view('banners_apps');
+//        })->middleware('/access');
 
         $A[] = NavigationItem::make('flisteners')
             ->label('Триггеры воронок')
@@ -91,6 +96,8 @@ class AdminPanelProvider extends PanelProvider
             ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/variable-groups");
 
         return $panel
+            ->middleware([])
+
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Баннеры')

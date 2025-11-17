@@ -1,5 +1,7 @@
 <x-filament-panels::page>
 
+    @if (Auth::user()->hasPermissionTo('View:Listener'))
+
     <style>.fi-breadcrumbs:not(#merchapp-top-nav){display: none}</style>
 
     <style>
@@ -43,4 +45,6 @@
     </div>
 
     {{$this->table}}
+
+        @endif
 </x-filament-panels::page>
