@@ -109,7 +109,7 @@ class BotTelegramUnBanScheduleLogs extends Page implements HasTable, HasInfolist
         $bot_user = BotUser::select('telegram_chat_id')->find($this->bot_user_id);
         $this->b_user_id = $bot_user->telegram_chat_id;
 
-        if (!Auth::user()->hasPermissionTo('View:TelegramUnBanSchedule')) {
+        if (!Auth::user()->hasPermissionTo('View:TelegramUnbanSchedule')) {
             redirect('/access');
         }
     }
