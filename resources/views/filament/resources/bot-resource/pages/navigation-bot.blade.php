@@ -19,7 +19,7 @@
 
 @endphp
 
-
+@if (count($categories) > 0)
     <div class="fi-sc-tabs fi-contained">
         <nav class="fi-tabs fi-contained " aria-label="Tabs" role="tablist">
             @foreach ($categories as $key => $value)
@@ -35,4 +35,4 @@
             @endforeach
         </nav>
     </div>
-
+@endif
