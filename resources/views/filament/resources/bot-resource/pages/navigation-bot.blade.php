@@ -1,7 +1,14 @@
 @php
     $categories = [];
-    if (Auth::user()->hasPermissionTo('View:Bot')) $categories['edit'] = 'Основные';
-    if (Auth::user()->hasPermissionTo('View:PaySystem')) $categories['pay-system-admin'] = 'Платежные системы';
+
+    if (Auth::user()->hasPermissionTo('View:Bot')) {
+        $categories['edit'] = 'Основные';
+    }
+
+    if (Auth::user()->hasPermissionTo('View:PaySystem')) {
+        $categories['pay-system-admin'] = 'Платежные системы';
+    }
+
     if (Auth::user()->hasPermissionTo('View:BotMessage')) $categories['messages'] = 'Сообщения';
     if (Auth::user()->hasPermissionTo('View:BotUser')) $categories['chats'] = 'Подписчики';
     if (Auth::user()->hasPermissionTo('View:Pay')) $categories['pays'] = 'Платежи';
