@@ -176,6 +176,7 @@ class BotResource extends Resource
             'bot-admin' => BotAdmin::route('/{id}/bot-admin'),
             'bot-wizard' => BotWizard::route('/bot-wizard'),
             'button-admin' => BotMessageButtonAdmin::route('/{bot_message_id}/{id}/button-admin'),
+            'chats' => BotChats::route('/{bot_id}/chats'),
             'chat-admin' => BotChatAdmin::route('/{bot_id}/{id}/chat-admin'),
             'telegram-send-message-logs' => TelegramSendMessageLogs::route('/{bot_id}/{bot_user_id}/telegram-send-message-logs'),
             'telegram-ban-schedule-logs' => BotTelegramBanScheduleLogs::route('/{bot_id}/{bot_user_id}/telegram-ban-schedule-logs'),
