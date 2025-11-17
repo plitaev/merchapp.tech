@@ -39,10 +39,11 @@ class PayCreateByPayGuest
 
         if (count($res) > 0) {
             $bot_user = BotUser::find($bot_user->id);
-            //$botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+            $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
         }
 
         $dateEnd->handle($bot_user, 'Y-m-d');
 
+        return count($res);
     }
 }

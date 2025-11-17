@@ -38,7 +38,7 @@ class BotListenerEmail
                 $botUserSetEmail->handle($bot_user, $webhook['message']['text']);
 
                 //== Проверяем гостевые платежи и перекачиваем
-                $payCreateByPayGuest->handle($bot_user, $webhook['message']['text']);
+                $pay_guest_count = $payCreateByPayGuest->handle($bot_user, $webhook['message']['text']);
 
                 if ($bot_user->listen_check_access_status == 1) {
                     $products = Product::select('id')->where('bot_id', $bot_user->bot_id)->pluck('id')->toArray();
@@ -54,7 +54,7 @@ class BotListenerEmail
                             $bot_user = BotUser::find($bot_user->id);
 
                             if ($date_end > date('Y-m-d', time())) {
-                                $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+                                if ($pay_guest_count == 0) $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
 
                                 //== Выключаем листенер почты
                                 $botUserSetListener->handle('listen_email', 0, $bot_user->id);
