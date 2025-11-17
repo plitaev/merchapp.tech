@@ -19,12 +19,6 @@
 
 @endphp
 
-@if (Auth::user()->hasPermissionTo('View:Bot'))
-    Permission yes
-@else
-    Permission no
-@endif
-
 @if (count($categories) > 0)
     <div class="fi-sc-tabs fi-contained">
         <nav class="fi-tabs fi-contained " aria-label="Tabs" role="tablist">
