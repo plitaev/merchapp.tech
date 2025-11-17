@@ -156,9 +156,7 @@ class AdminBotMessage extends Page implements HasForms, HasTable
         $this->form_bot_link_supergroup->fill([]);
         $this->form_telegram_chats->fill([]);
 
-        if (!Auth::user()->hasPermissionTo('View:Bot')) {
-            redirect('/access');
-        }
+
     }
 
     public function form(Schema $schema): Schema

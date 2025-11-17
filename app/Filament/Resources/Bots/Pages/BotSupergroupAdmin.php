@@ -75,7 +75,7 @@ class BotSupergroupAdmin extends Page implements HasForms
         $this->form->fill($data);
 
         if (!Auth::user()->hasPermissionTo('View:TelegramSupergroup')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 

@@ -181,7 +181,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->form_bot_message_link_listener->fill([]);
 
         if (!Auth::user()->hasPermissionTo('View:BotMessage')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 
@@ -633,7 +633,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         })
-                        ->disabled(fn() => auth()->user()->can('Create:BotMessageListener')),
+                        ->disabled(auth()->user()->can('Create:BotMessageListener')),
                     Action::make('Отмена')
                         ->action(function () {
                             $this->dispatch('close-modal', id: 'add-page-modal');

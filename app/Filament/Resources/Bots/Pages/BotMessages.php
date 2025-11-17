@@ -48,7 +48,7 @@ class BotMessages extends Page implements HasTable
         $this->bot_name = $bot->name;
 
         if (!Auth::user()->hasPermissionTo('View:BotMessage')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 

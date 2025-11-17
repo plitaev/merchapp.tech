@@ -45,7 +45,7 @@ class BotFunnels extends Page implements HasTable
         $this->bot_name = $bot->name;
 
         if (!Auth::user()->hasPermissionTo('View:Funnel')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 

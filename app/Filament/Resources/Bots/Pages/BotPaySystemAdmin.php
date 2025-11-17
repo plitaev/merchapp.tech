@@ -80,7 +80,7 @@ class BotPaySystemAdmin extends Page implements HasForms
         $this->form->fill($data);
 
         if (!Auth::user()->hasPermissionTo('View:PaySystem')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 

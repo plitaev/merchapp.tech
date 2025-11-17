@@ -139,7 +139,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
         $this->form->fill($data);
 
         if (!Auth::user()->hasPermissionTo('View:BotUser')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 

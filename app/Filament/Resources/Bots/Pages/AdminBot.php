@@ -146,9 +146,9 @@ class AdminBot extends Page implements HasForms
 
         $this->form->fill($data);
 
-        if (!Auth::user()->hasPermissionTo('View:Bot')) {
-            redirect('/access');
-        }
+//        if (!Auth::user()->hasPermissionTo('View:Bot')) {
+//            redirect('/admin/bots/access');
+//        }
     }
 
     public function getHeading(): string

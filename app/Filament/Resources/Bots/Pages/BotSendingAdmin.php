@@ -117,7 +117,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->form->fill($data);
 
         if (!Auth::user()->hasPermissionTo('View:Sending')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 

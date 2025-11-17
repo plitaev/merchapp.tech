@@ -83,7 +83,7 @@ class BotPayGuestAdmin extends Page implements HasForms
         $this->form->fill($data);
 
         if (!Auth::user()->hasPermissionTo('View:PayGuest')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 

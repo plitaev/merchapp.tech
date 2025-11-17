@@ -43,7 +43,7 @@ class BotPayGuests extends Page implements HasTable
         $this->bot_name = $bot->name;
 
         if (!Auth::user()->hasPermissionTo('View:PayGuest')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 

@@ -136,7 +136,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->form->fill($data);
 
         if (!Auth::user()->hasPermissionTo('View:BotBranch')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 
@@ -346,8 +346,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                             return redirect('/admin/bots/'.$this->bot_id.'/branches');
                         })
                         ->label('Завершить акцию сейчас')
-                        ->visible($this->id > 0 && $this->bot_branch_type == 2)
-                        ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
+                        ->visible(($this->id > 0 && $this->bot_branch_type == 2) || (auth()->user()->hasPermissionTo('Update:BotBranch')?true:false)),
                 ])
             ])->statePath('data');
     }

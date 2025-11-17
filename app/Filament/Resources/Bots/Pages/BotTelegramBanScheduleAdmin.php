@@ -80,7 +80,7 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
         $this->form_ban_user->fill([]);
 
         if (!Auth::user()->hasPermissionTo('View:BotUserBanSchedule')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 

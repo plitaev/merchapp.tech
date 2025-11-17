@@ -66,7 +66,7 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
         $this->form_unban_user->fill([]);
 
         if (!Auth::user()->hasPermissionTo('View:TelegramUnbanSchedule')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
 
     }

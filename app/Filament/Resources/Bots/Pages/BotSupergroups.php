@@ -41,7 +41,7 @@ class BotSupergroups extends Page implements HasTable
         $this->bot_name = $bot->name;
 
         if (!Auth::user()->hasPermissionTo('View:TelegramSupergroup')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 

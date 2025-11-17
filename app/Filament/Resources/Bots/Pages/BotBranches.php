@@ -50,7 +50,7 @@ class BotBranches extends Page implements HasTable
         $this->bot_name = $bot->name;
 
         if (!Auth::user()->hasPermissionTo('View:BotBranch')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 

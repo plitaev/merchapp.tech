@@ -76,7 +76,7 @@ class BotProductAdmin extends Page implements HasForms
         $this->form->fill($data);
 
         if (!Auth::user()->hasPermissionTo('View:Product')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 

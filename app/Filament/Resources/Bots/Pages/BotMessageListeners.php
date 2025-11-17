@@ -114,7 +114,7 @@ class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfoli
         $this->form_bot_message_link_listener->fill([]);
 
         if (!Auth::user()->hasPermissionTo('View:BotMessageListener')) {
-            redirect('/access');
+            redirect('/admin/bots/access');
         }
     }
 
