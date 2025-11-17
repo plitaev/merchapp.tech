@@ -39,6 +39,8 @@ use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
+use Illuminate\Support\Facades\Auth;
+
 
 class DevTestController extends Controller
 {
