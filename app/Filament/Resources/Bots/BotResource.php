@@ -62,8 +62,12 @@ use App\Filament\Resources\Bots\Pages\BotTelegramBanScheduleErrorLogs;
 use App\Filament\Resources\Bots\Pages\BotTelegramUnBanScheduleErrorLogs;
 use App\Filament\Resources\Bots\Pages\BotTelegramChatMemberErrorLogs;
 use App\Filament\Resources\Bots\Pages\BotTelegramSendMessageErrorLogs;
+use App\Filament\Resources\Bots\Pages\Access;
 
 use App\Models\Core\Bot;
+
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Traits\HasPermissions;
 
 class BotResource extends Resource
 {
@@ -164,7 +168,7 @@ class BotResource extends Resource
 
     public static function getPages(): array
     {
-        return [
+        $A = [
             'index' => AdvancedListBot::route('/'),
             'create' => CreateBot::route('/create'),
             'edit' => AdminBot::route('/{record}/edit'),
@@ -172,7 +176,6 @@ class BotResource extends Resource
             'bot-admin' => BotAdmin::route('/{id}/bot-admin'),
             'bot-wizard' => BotWizard::route('/bot-wizard'),
             'button-admin' => BotMessageButtonAdmin::route('/{bot_message_id}/{id}/button-admin'),
-            'chats' => BotChats::route('/{bot_id}/chats'),
             'chat-admin' => BotChatAdmin::route('/{bot_id}/{id}/chat-admin'),
             'telegram-send-message-logs' => TelegramSendMessageLogs::route('/{bot_id}/{bot_user_id}/telegram-send-message-logs'),
             'telegram-ban-schedule-logs' => BotTelegramBanScheduleLogs::route('/{bot_id}/{bot_user_id}/telegram-ban-schedule-logs'),
@@ -207,7 +210,9 @@ class BotResource extends Resource
             'branches' => BotBranches::route('/{bot_id}/branches'),
             'branch-admin' => BotBranchAdmin::route('/{bot_id}/{id}/branch-admin'),
             'shop-segments' => BotShopSegments::route('/{bot_id}/{id}/shop-segments'),
-
+            'access' => Access::route('/access'),
         ];
+
+        return $A;
     }
 }

@@ -9,6 +9,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
 use App\Filament\Resources\Listeners\ListenerResource;
+use Livewire\Features\SupportRedirects\Redirector;
 use App\Models\Core\Listener;
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
@@ -28,39 +29,48 @@ class AdvancedListListener extends Page implements HasTable
     public static ?string $navigationLabel = "Ожидания";
     public static ?string $title = "";
 
+
+    public function mount(): void
+    {
+        if (!auth()->user()->hasPermissionTo('Update:Listener')) {
+            redirect('/access');
+        }
+
+    }
     public static function table(Table $table): Table
     {
-        return $table
-            ->query(Listener::select('*'))
-            ->persistSearchInSession()
-            ->columns([
-                TextColumn::make('name')
-                    ->label('Наименование')
-                    ->searchable(),
-                TextColumn::make('alias')
-                    ->label('Alias')
-                    ->searchable()
-            ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                ViewAction::make()
-                    ->visible(!auth()->user()->can('Update:Listener')),
-                EditAction::make()->url(fn($record) => "/admin/listeners/".$record->id."/admin")
-                    ->visible(auth()->user()->can('Update:Listener')),
-                DeleteAction::make()
-                    ->visible(auth()->user()->can('Delete:Listener')),
-
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make()
+            return $table
+                ->query(Listener::select('*'))
+                ->persistSearchInSession()
+                ->columns([
+                    TextColumn::make('name')
+                        ->label('Наименование')
+                        ->searchable(),
+                    TextColumn::make('alias')
+                        ->label('Alias')
+                        ->searchable()
+                ])
+                ->filters([
+                    //
+                ])
+                ->recordActions([
+                    ViewAction::make()
+                        ->visible(!auth()->user()->can('Update:Listener')),
+                    EditAction::make()->url(fn($record) => "/admin/listeners/" . $record->id . "/admin")
+                        ->visible(auth()->user()->can('Update:Listener')),
+                    DeleteAction::make()
                         ->visible(auth()->user()->can('Delete:Listener')),
 
-                ]),
-            ])
-            ->recordUrl(fn($record) => "/admin/listeners/".$record->id."/admin");
+                ])
+                ->toolbarActions([
+                    BulkActionGroup::make([
+                        DeleteBulkAction::make()
+                            ->visible(auth()->user()->can('Delete:Listener')),
+
+                    ]),
+                ])
+                ->recordUrl(fn($record) => "/admin/listeners/" . $record->id . "/admin");
+
     }
 }
 

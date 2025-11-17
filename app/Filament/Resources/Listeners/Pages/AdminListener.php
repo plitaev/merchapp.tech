@@ -13,6 +13,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
+use Livewire\Features\SupportRedirects\Redirector;
 use Illuminate\Contracts\Support\Htmlable;
 
 
@@ -52,9 +53,13 @@ class AdminListener extends Page implements HasForms
     public function mount(int $id): void
     {
         $this->id = $id;
+        if (auth()->user()->hasPermissionTo('Update:Listener')){
 
-        $data = ($id>0?Listener::find($id)->toArray():[]);
-        $this->form->fill($data);
+            $data = ($id > 0 ? Listener::find($id)->toArray() : []);
+            $this->form->fill($data);
+        }else{
+            redirect('/access');
+        }
     }
 
     protected function getForms(): array
