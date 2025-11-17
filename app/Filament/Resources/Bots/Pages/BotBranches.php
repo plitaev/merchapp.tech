@@ -21,7 +21,7 @@ use App\Actions\Core\BotSendingAdmin\BotSendingAdminDeleteRecord;
 
 use App\Models\Core\Bot;
 use App\Models\Core\Sending;
-
+use Illuminate\Support\Facades\Auth;
 
 class BotBranches extends Page implements HasTable
 {
@@ -48,6 +48,10 @@ class BotBranches extends Page implements HasTable
         $bot = Bot::select('name')->find($bot_id);
 
         $this->bot_name = $bot->name;
+
+        if (!Auth::user()->hasPermissionTo('View:BotBranch')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string

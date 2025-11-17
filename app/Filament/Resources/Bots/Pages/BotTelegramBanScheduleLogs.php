@@ -49,7 +49,7 @@ use App\Models\Core\Funnel;
 use App\Models\Core\FunnelCondition;
 use App\Models\Core\FunnelConditionTrigger;
 use App\Models\Core\Listener;
-
+use Illuminate\Support\Facades\Auth;
 
 class BotTelegramBanScheduleLogs extends Page implements HasTable, HasInfolists
 {
@@ -107,6 +107,10 @@ class BotTelegramBanScheduleLogs extends Page implements HasTable, HasInfolists
 
         $bot_user = BotUser::select('telegram_chat_id')->find($this->bot_user_id);
         $this->b_user_id = $bot_user->telegram_chat_id;
+
+        if (!Auth::user()->hasPermissionTo('View:BotUserBanSchedule')) {
+            redirect('/access');
+        }
     }
 
     public function getTitle(): string

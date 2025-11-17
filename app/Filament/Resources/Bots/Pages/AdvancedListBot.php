@@ -17,7 +17,7 @@ use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 
 use Filament\Support\Enums\Width;
-
+use Illuminate\Support\Facades\Auth;
 
 class AdvancedListBot extends Page implements HasTable
 {
@@ -34,7 +34,7 @@ class AdvancedListBot extends Page implements HasTable
     public int $category = 1;
 
     public function getMaxContentWidth(): Width{return Width::ScreenTwoExtraLarge;}
-
+    
     public static function table(Table $table): Table
     {
         return $table

@@ -27,7 +27,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 
 use App\Actions\Core\Pay\PayCreateByPayGuest;
-
+use Illuminate\Support\Facades\Auth;
 class BotPayGuestAdmin extends Page implements HasForms
 {
     use InteractsWithForms;
@@ -81,6 +81,10 @@ class BotPayGuestAdmin extends Page implements HasForms
         $this->bot_name = $bot->name;
 
         $this->form->fill($data);
+
+        if (!Auth::user()->hasPermissionTo('View:PayGuest')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string

@@ -20,7 +20,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use Filament\Forms\Components\Textarea;
-
+use Illuminate\Support\Facades\Auth;
 
 class BotProductAdmin extends Page implements HasForms
 {
@@ -74,6 +74,10 @@ class BotProductAdmin extends Page implements HasForms
         $this->bot_name = $bot->name;
 
         $this->form->fill($data);
+
+        if (!Auth::user()->hasPermissionTo('View:Product')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string

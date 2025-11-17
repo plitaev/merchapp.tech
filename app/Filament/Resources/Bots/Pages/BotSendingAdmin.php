@@ -47,7 +47,7 @@ use App\Models\Core\FunnelCondition;
 use App\Models\Core\FunnelConditionTrigger;
 use App\Models\Core\Listener;
 use App\Models\Core\User;
-
+use Illuminate\Support\Facades\Auth;
 
 
 class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
@@ -115,6 +115,10 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->bot_name = $bot->name;
         $this->form_bot_user->fill([]);
         $this->form->fill($data);
+
+        if (!Auth::user()->hasPermissionTo('View:Sending')) {
+            redirect('/access');
+        }
     }
 
     public function getTitle(): string

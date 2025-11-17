@@ -56,7 +56,7 @@ use App\Models\Core\SendingAppointment;
 use App\Models\Core\SendingButton;
 use App\Models\Core\SendingListener;
 use App\Models\Core\SendingType;
-
+use Illuminate\Support\Facades\Auth;
 
 class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
 {
@@ -105,6 +105,10 @@ class BotShopSegments extends Page implements HasForms, HasTable, HasInfolists
         $this->bot_name = $bot->name;
 
         $this->form->fill($data);
+
+        if (!Auth::user()->hasPermissionTo('View:Sending')) {
+            redirect('/access');
+        }
     }
 
     public function getTitle(): string

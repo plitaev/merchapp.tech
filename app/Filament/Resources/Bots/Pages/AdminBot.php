@@ -31,7 +31,7 @@ use App\Actions\Core\Telegram\TelegramSetWebhook;
 
 use App\Models\Core\Bot;
 use App\Models\Core\User;
-
+use Illuminate\Support\Facades\Auth;
 
 class AdminBot extends Page implements HasForms
 {
@@ -145,6 +145,10 @@ class AdminBot extends Page implements HasForms
         }
 
         $this->form->fill($data);
+
+        if (!Auth::user()->hasPermissionTo('View:Bot')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string

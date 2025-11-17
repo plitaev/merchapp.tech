@@ -50,7 +50,7 @@ use Filament\Tables\Table;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\Pay\PayCreateByPayGuest;
 use Symfony\Component\Console\Input\Input;
-
+use Illuminate\Support\Facades\Auth;
 class BotChatAdmin extends Page implements HasForms, HasInfolists
 {
     use InteractsWithForms;
@@ -137,6 +137,10 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
         }
 
         $this->form->fill($data);
+
+        if (!Auth::user()->hasPermissionTo('View:BotUser')) {
+            redirect('/access');
+        }
     }
 
     protected function getForms(): array

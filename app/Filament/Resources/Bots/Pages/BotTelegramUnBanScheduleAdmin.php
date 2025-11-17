@@ -18,7 +18,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
-
+use Illuminate\Support\Facades\Auth;
 class BotTelegramUnBanScheduleAdmin extends Page implements HasForms
 {
     use InteractsWithForms;
@@ -70,6 +70,10 @@ class BotTelegramUnBanScheduleAdmin extends Page implements HasForms
         $this->bot_name = $bot->name;
 
         $this->form->fill($data);
+
+        if (!Auth::user()->hasPermissionTo('View:TelegramUnBanSchedule')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string

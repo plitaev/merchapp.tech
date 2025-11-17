@@ -21,7 +21,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use App\Models\Core\SupergroupDeleteParameter;
 use Filament\Schemas\Components\Utilities\Get;
-
+use Illuminate\Support\Facades\Auth;
 class BotSupergroupAdmin extends Page implements HasForms
 {
     use InteractsWithForms;
@@ -73,6 +73,10 @@ class BotSupergroupAdmin extends Page implements HasForms
         $this->bot_name = $bot->name;
 
         $this->form->fill($data);
+
+        if (!Auth::user()->hasPermissionTo('View:TelegramSupergroup')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string

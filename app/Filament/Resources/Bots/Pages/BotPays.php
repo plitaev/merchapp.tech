@@ -30,7 +30,7 @@ use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
 use App\Models\Core\Pay;
 use App\Models\Core\User;
-
+use Illuminate\Support\Facades\Auth;
 
 class BotPays extends Page implements HasTable
 {
@@ -62,6 +62,10 @@ class BotPays extends Page implements HasTable
         $bot = Bot::select('name')->find($bot_id);
 
         $this->bot_name = $bot->name;
+
+        if (!Auth::user()->hasPermissionTo('View:Pay')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string

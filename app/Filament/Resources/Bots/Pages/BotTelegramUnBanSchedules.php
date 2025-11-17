@@ -32,7 +32,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
-
+use Illuminate\Support\Facades\Auth;
 
 
 class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
@@ -64,6 +64,10 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
         $this->bot_name = $bot->name;
 
         $this->form_unban_user->fill([]);
+
+        if (!Auth::user()->hasPermissionTo('View:TelegramUnBanSchedule')) {
+            redirect('/access');
+        }
 
     }
 

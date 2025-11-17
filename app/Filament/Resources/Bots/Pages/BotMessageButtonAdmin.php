@@ -26,7 +26,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
-
+use Illuminate\Support\Facades\Auth;
 class BotMessageButtonAdmin extends Page implements HasForms
 {
     use InteractsWithForms;
@@ -69,6 +69,10 @@ class BotMessageButtonAdmin extends Page implements HasForms
         $this->pos_list = (new BotMessageButtonBuildPosList())->handle($bot_message_id, $id);
         $data = ($id>0?BotMessageButton::find($id)->toArray():["bot_message_id" => $bot_message_id, 'pos' => $this->pos_list[1]]);
         $this->form->fill($data);
+
+        if (!Auth::user()->hasPermissionTo('View:BotMessageButton')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string

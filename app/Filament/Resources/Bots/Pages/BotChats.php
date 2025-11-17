@@ -24,7 +24,7 @@ use Filament\Tables\Table;
 use Filament\Support\Enums\IconPosition;
 
 use Filament\Support\Enums\Width;
-
+use Illuminate\Support\Facades\Auth;
 class BotChats extends Page implements HasTable
 {
     use InteractsWithTable;
@@ -51,6 +51,10 @@ class BotChats extends Page implements HasTable
 
         $this->edit_bots = Permission::where('name', 'edit bots')->count();
         $this->bot_name = $bot->name;
+
+        if (!Auth::user()->hasPermissionTo('View:BotUser')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string

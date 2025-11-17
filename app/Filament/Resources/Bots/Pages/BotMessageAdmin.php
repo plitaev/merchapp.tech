@@ -48,7 +48,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\RichEditor;
-
+use Illuminate\Support\Facades\Auth;
 class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
 {
     use InteractsWithForms;
@@ -179,6 +179,10 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->form->fill($data);
 
         $this->form_bot_message_link_listener->fill([]);
+
+        if (!Auth::user()->hasPermissionTo('View:BotMessage')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string
@@ -355,6 +359,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ->schema([
                         FileUpload::make('audio')
                             ->label('Аудио, которое будет отправляться пользователю')
+                            ->acceptedFileTypes(['audio/mp3'])
                             ->deletable(auth()->user()->hasPermissionTo('Update:BotMessage'))
                             ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage'))
                             ->disk('local')

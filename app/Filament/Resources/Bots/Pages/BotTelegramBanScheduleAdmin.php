@@ -25,7 +25,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
-
+use Illuminate\Support\Facades\Auth;
 class BotTelegramBanScheduleAdmin extends Page implements HasForms
 {
     use InteractsWithForms;
@@ -78,6 +78,10 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
 
         $this->form->fill($data);
         $this->form_ban_user->fill([]);
+
+        if (!Auth::user()->hasPermissionTo('View:BotUserBanSchedule')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string

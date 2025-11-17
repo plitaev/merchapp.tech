@@ -23,7 +23,7 @@ use App\Models\Core\Bot;
 use App\Models\Core\Sending;
 use App\Models\Core\TelegramSendMessageSchedule;
 use App\Models\Core\User;
-
+use Illuminate\Support\Facades\Auth;
 
 
 class BotSendings extends Page implements HasTable
@@ -51,6 +51,10 @@ class BotSendings extends Page implements HasTable
         $bot = Bot::select('name')->find($bot_id);
 
         $this->bot_name = $bot->name;
+
+        if (!Auth::user()->hasPermissionTo('View:Sending')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string

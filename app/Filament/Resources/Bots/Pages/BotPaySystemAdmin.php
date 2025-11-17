@@ -26,7 +26,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use Filament\Forms\Components\Toggle;
-
+use Illuminate\Support\Facades\Auth;
 
 class BotPaySystemAdmin extends Page implements HasForms
 {
@@ -78,6 +78,10 @@ class BotPaySystemAdmin extends Page implements HasForms
 
         $data = ($record>0?Bot::find($record)->toArray():[]);
         $this->form->fill($data);
+
+        if (!Auth::user()->hasPermissionTo('View:PaySystem')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string

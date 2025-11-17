@@ -19,7 +19,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Filament\Support\Enums\IconPosition;
-
+use Illuminate\Support\Facades\Auth;
 class BotPayGuests extends Page implements HasTable
 {
     use InteractsWithTable;
@@ -41,6 +41,10 @@ class BotPayGuests extends Page implements HasTable
         $bot = Bot::select('name')->find($bot_id);
 
         $this->bot_name = $bot->name;
+
+        if (!Auth::user()->hasPermissionTo('View:PayGuest')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string

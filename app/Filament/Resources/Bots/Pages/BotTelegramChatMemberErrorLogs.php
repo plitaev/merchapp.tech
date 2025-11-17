@@ -52,7 +52,7 @@ use App\Models\Core\Funnel;
 use App\Models\Core\FunnelCondition;
 use App\Models\Core\FunnelConditionTrigger;
 use App\Models\Core\Listener;
-
+use Illuminate\Support\Facades\Auth;
 
 class BotTelegramChatMemberErrorLogs extends Page implements HasTable, HasInfolists
 {

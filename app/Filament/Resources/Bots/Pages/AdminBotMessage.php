@@ -39,7 +39,7 @@ use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
-
+use Illuminate\Support\Facades\Auth;
 
 class AdminBotMessage extends Page implements HasForms, HasTable
 {
@@ -155,6 +155,10 @@ class AdminBotMessage extends Page implements HasForms, HasTable
         $this->form->fill($data);
         $this->form_bot_link_supergroup->fill([]);
         $this->form_telegram_chats->fill([]);
+
+        if (!Auth::user()->hasPermissionTo('View:Bot')) {
+            redirect('/access');
+        }
     }
 
     public function form(Schema $schema): Schema

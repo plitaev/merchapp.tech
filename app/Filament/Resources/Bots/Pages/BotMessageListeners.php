@@ -50,7 +50,7 @@ use App\Models\Core\Funnel;
 use App\Models\Core\FunnelCondition;
 use App\Models\Core\FunnelConditionTrigger;
 use App\Models\Core\BotTeleramListener;
-
+use Illuminate\Support\Facades\Auth;
 
 
 class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfolists
@@ -113,6 +113,9 @@ class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfoli
 
         $this->form_bot_message_link_listener->fill([]);
 
+        if (!Auth::user()->hasPermissionTo('View:BotMessageListener')) {
+            redirect('/access');
+        }
     }
 
     public function getTitle(): string

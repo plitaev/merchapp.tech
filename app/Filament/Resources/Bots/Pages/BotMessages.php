@@ -21,6 +21,8 @@ use Filament\Tables\Table;
 
 use Filament\Support\Enums\Width;
 
+use Illuminate\Support\Facades\Auth;
+
 class BotMessages extends Page implements HasTable
 {
     use InteractsWithTable;
@@ -44,6 +46,10 @@ class BotMessages extends Page implements HasTable
         $bot = Bot::select('name')->find($bot_id);
 
         $this->bot_name = $bot->name;
+
+        if (!Auth::user()->hasPermissionTo('View:BotMessage')) {
+            redirect('/access');
+        }
     }
 
     public function getHeading(): string
