@@ -2,7 +2,7 @@
 namespace App\Actions\Core\Funnel;
 use Carbon\Carbon;
 
-use App\Actions\Core\Funnel\FunnelGetDateTime;
+use App\Actions\Core\Funnel\FunnelGetDateTimeForBan;
 use App\Actions\Core\TelegramSendMessageSchedule\GetUsersAlreadyInSendingToday;
 
 use App\Models\Core\BotUser;
@@ -13,7 +13,7 @@ class FunnelUserBan
 {
     public function handle($data) {
 
-        $funnelGetDateTimeNow = new FunnelGetDateTime();
+        $funnelGetDateTimeNow = new FunnelGetDateTimeForBan();
         $getUsersAlreadyInSendingToday = new GetUsersAlreadyInSendingToday();
 
         if ($data->funnel_condition->alias == "user_ban") {

@@ -13,7 +13,7 @@ class FunnelReferrer
 {
     public function handle($data) {
 
-        $funnelGetDateTimeNow = new FunnelGetDateTime();
+        $funnelGetDateTimeNow = new FunnelGetDateTimeForBan();
         $getUsersAlreadyInSendingToday = new GetUsersAlreadyInSendingToday();
 
         if ($data->funnel_condition->alias == "referrer_with_no_referrals") {
