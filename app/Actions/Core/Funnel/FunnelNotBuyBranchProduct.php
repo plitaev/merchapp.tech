@@ -49,7 +49,7 @@ class FunnelNotBuyBranchProduct
                         ->where('created_at', '<=', $date." 23:59:59")
                         ->get();
 
-                    //return $bot_users;
+                    return $bot_users;
                     return $datetime." | ".$date." | ".$time." - ".$bot_branch->bot_branch_product_id;
 
                     if (count($bot_users) > 0) {
