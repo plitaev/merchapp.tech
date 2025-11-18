@@ -26,7 +26,7 @@ class AdvancedListVariableGroup extends Page implements HasTable
 
     public function mount(): void
     {
-        if (!auth()->user()->hasPermissionTo('Update:VariableGroup')) {
+        if (!auth()->user()->hasPermissionTo('View:VariableGroup')) {
             redirect('/admin/bots/access');
         }
 

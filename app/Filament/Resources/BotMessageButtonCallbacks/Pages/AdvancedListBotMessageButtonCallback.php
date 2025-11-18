@@ -31,7 +31,7 @@ class AdvancedListBotMessageButtonCallback extends Page implements HasTable
 
     public function mount(): void
     {
-        if (!auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')) {
+        if (!auth()->user()->hasPermissionTo('View:BotMessageButtonCallback')) {
             redirect('/admin/bots/access');
         }
 

@@ -30,7 +30,7 @@ class AdvancedListFunnelCondition extends Page implements HasTable
 
     public function mount(): void
     {
-        if (!auth()->user()->hasPermissionTo('Update:FunnelCondition')) {
+        if (!auth()->user()->hasPermissionTo('View:FunnelCondition')) {
             redirect('/admin/bots/access');
         }
 
