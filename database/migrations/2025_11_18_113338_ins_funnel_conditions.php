@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        FunnelCondition::create(['name' => 'Не купил продукт акции или реф.программы', 'alias' => 'not_buy_branch_product']);
+        FunnelCondition::create(['name' => 'Не купил продукт акции или РП', 'alias' => 'not_buy_branch_product']);
     }
 
     /**
