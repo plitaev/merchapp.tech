@@ -46,7 +46,6 @@ class FunnelNotBuyBranchProduct
                         ->whereNotIn('id', $buyeds)
                         ->where('bot_branch_id', $data->bot_branch_id)
                         ->where('created_at', '<=', $datetime)
-                        ->where('created_at', '<=', $date." 23:59:59")
                         ->get();
 
                     if (count($bot_users) > 0) {
