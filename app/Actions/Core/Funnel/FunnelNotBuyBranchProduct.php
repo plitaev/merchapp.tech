@@ -19,7 +19,6 @@ class FunnelNotBuyBranchProduct
         $getUsersAlreadyInSendingToday = new GetUsersAlreadyInSendingToday();
 
         if ($data->funnel_condition->alias == "newbie_not_buy_branch_product") {
-            return 'ok';
 
             $funnel_date_time = $funnelGetDateTimeNow->handle($data);
 
@@ -28,6 +27,7 @@ class FunnelNotBuyBranchProduct
             $datetime = $funnel_date_time['datetime'];
 
             if (date('H:i:s') >= $time) {
+                return 'ok';
                 $schedules = $getUsersAlreadyInSendingToday->handle($data);
 
                 $bot_branch = BotBranch::select('bot_branch_product_id')->find($data->bot_branch_id);
