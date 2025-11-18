@@ -20,7 +20,7 @@ class BotSetFunnels
             ->get();
 
         foreach ($res as $data) {
-            $funnelReferrer->handle($data);
+            return $funnelReferrer->handle($data);
             $funnelUserBan->handle($data);
         }
 

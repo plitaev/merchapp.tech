@@ -76,5 +76,6 @@ class FunnelReferrer
 
         }
 
+        return 'ok';
     }
 }
