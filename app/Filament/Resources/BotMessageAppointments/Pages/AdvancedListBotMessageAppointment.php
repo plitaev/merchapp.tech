@@ -22,7 +22,7 @@ class AdvancedListBotMessageAppointment extends Page implements HasTable
 
     protected static string $resource = BotMessageAppointmentResource::class;
 
-    protected string $view = 'filament.resources.funnel-condition-resource.pages.advanced-list-funnel-condition';
+    protected string $view = 'filament.resources.bot-message-appointment-resource.pages.advanced-list-bot-message-appointment';
 
     public static ?string $label = "Назначение";
     public static ?string $navigationLabel = "Назначение";
@@ -39,6 +39,7 @@ class AdvancedListBotMessageAppointment extends Page implements HasTable
     public static function table(Table $table): Table
     {
         return $table
+            ->query(BotMessageAppointment::select('*'))
             ->columns([
                 TextColumn::make('name')
                     ->label('Название (Только в панели администратора)')

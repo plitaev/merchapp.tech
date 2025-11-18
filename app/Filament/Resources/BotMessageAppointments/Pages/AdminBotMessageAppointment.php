@@ -22,7 +22,7 @@ class AdminBotMessageAppointment extends Page implements HasForms
 
     protected static string $resource = BotMessageAppointmentResource::class;
 
-    protected string $view = 'filament.resources.funnel-condition-resource.pages.admin-funnel-condition';
+    protected string $view = 'filament.resources.bot-message-appointment-resource.pages.admin-bot-message-appointment';
 
 
     public static ?string $label = "Назначение";
