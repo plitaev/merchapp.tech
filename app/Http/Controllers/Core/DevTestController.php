@@ -86,7 +86,7 @@ class DevTestController extends Controller
             $Adates_start[]=$allday->created_at;
             $Adates_end[]=$allday->created_at->addDays($allday->days);
 
-            $Aperiod[] = $allday->created_at." - ".$allday->created_at->addDays($allday->days);
+            $Aperiod[] = $allday->created_at->format('d.m.Y')." - ".$allday->created_at->addDays($allday->days)->format('d.m.Y');
         }
 
         $days_to_add=0;
