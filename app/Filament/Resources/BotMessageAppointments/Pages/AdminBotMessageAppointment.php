@@ -115,7 +115,7 @@ class AdminBotMessageAppointment extends Page implements HasForms
                                 ->visible(auth()->user()->can('Create:BotMessageAppointment')),
                         ])
                 ])
-            ]);
+            ])->statePath('data');
     }
 
 }
