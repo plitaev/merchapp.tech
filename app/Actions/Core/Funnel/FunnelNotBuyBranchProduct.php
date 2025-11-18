@@ -3,20 +3,22 @@
 namespace App\Actions\Core\Funnel;
 
 use App\Actions\Core\TelegramSendMessageSchedule\GetUsersAlreadyInSendingToday;
+
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchReferralProgram;
 use App\Models\Core\BotUser;
+use App\Models\Core\Pay;
 use App\Models\Core\Sending;
 use App\Models\Core\TelegramSendMessageSchedule;
 
-class FunnelReferrer
+class FunnelNotBuyBranchProduct
 {
     public function handle($data) {
 
         $funnelGetDateTimeNow = new FunnelGetDateTime();
         $getUsersAlreadyInSendingToday = new GetUsersAlreadyInSendingToday();
 
-        if ($data->funnel_condition->alias == "referrer_with_no_referrals") {
+        if ($data->funnel_condition->alias == "newbie_not_buy_branch_product") {
             $funnel_date_time = $funnelGetDateTimeNow->handle($data);
 
             $date = $funnel_date_time['date'];
@@ -26,41 +28,47 @@ class FunnelReferrer
             if (date('H:i:s') >= $time) {
                 $schedules = $getUsersAlreadyInSendingToday->handle($data);
 
-                $referrers_with_referrals = BotBranchReferralProgram::select('referrer_bot_user_id')
-                    ->where('bot_branch_id', $data->bot_branch_id)
-                    ->whereNotNull('referral_bot_user_id')
-                    ->groupBy('referrer_bot_user_id')
-                    ->pluck('referrer_bot_user_id')
-                    ->toArray();
+                $bot_branch = BotBranch::select('bot_branch_product_id')->find($data->bot_branch_id);
 
-                    $referrers = BotBranchReferralProgram::select('referrer_bot_user_id')
-                        ->where('bot_branch_id', $data->bot_branch_id)
-                        ->whereNotIn('id', $referrers_with_referrals)
+                if ($bot_branch->bot_branch_product_id) {
+
+                    $buyeds = Pay::select('bot_user_id')
+                        ->where('product_id', $bot_branch->bot_branch_product_id)
+                        ->where('status', 1)
+                        ->groupBy('bot_user_id')
+                        ->pluck('bot_user_id')
+                        ->toArray();
+
+                    $bot_users = BotUser::select('id')
                         ->whereNotIn('id', $schedules)
-                        ->whereNull('referral_bot_user_id')
+                        ->whereNotIn('id', $buyeds)
+                        ->where('bot_branch_id', $bot_branch->bot_branch_product_id)
                         ->where('created_at', '>=', $datetime)
                         ->where('created_at', '<=', $date." 23:59:59")
-                        ->groupBy('referrer_bot_user_id')
                         ->get();
 
-                    if (count($referrers) > 0) {
+                    if (count($bot_users) > 0) {
 
                         $sending = Sending::create([
                             'bot_message_id' => $data->id,
-                            'name' => 'Авторассылка по реферрерам без рефералов',
+                            'name' => 'Авторассылка по новичкам не купившим продукт акции',
                             'user_ban' => 0,
                             'send_datetime' => date('Y-m-d', time())." ".$time
                         ]);
 
-                        foreach ($referrers as $referrer) {
+                        foreach ($bot_users as $bot_user) {
                             TelegramSendMessageSchedule::create([
                                 'sending_id' => $sending->id,
-                                'bot_user_id' => $referrer->referrer_bot_user_id
+                                'bot_user_id' => $bot_user->id
                             ]);
                         }
 
                     }
+
+                }
+
             }
+
         }
 
         return 'ok';
