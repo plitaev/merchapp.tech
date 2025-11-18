@@ -1,9 +1,9 @@
 <?php
 namespace App\Actions\Core\Funnel;
-
 use Carbon\Carbon;
 
 use App\Actions\Core\Funnel\FunnelGetDateTime;
+use App\Actions\Core\TelegramSendMessageSchedule\GetUsersAlreadyInSendingToday;
 
 use App\Models\Core\BotUser;
 use App\Models\Core\Sending;
@@ -13,10 +13,10 @@ class FunnelUserBan
 {
     public function handle($data) {
 
+        $funnelGetDateTimeNow = new FunnelGetDateTime();
+        $getUsersAlreadyInSendingToday = new GetUsersAlreadyInSendingToday();
+
         if ($data->funnel_condition->alias == "user_ban") {
-
-            $funnelGetDateTimeNow = new FunnelGetDateTime();
-
             $funnel_date_time = $funnelGetDateTimeNow->handle($data);
 
             $date = $funnel_date_time['date'];
@@ -24,18 +24,9 @@ class FunnelUserBan
             $datetime = $funnel_date_time['datetime'];
 
             if (date('H:i:s') >= $time) {
-
-                $schedules = TelegramSendMessageSchedule::whereHas('sending', function ($query) use ($data) {
-                    $query->where('bot_message_id', $data->id);
-                    $query->where('send_datetime', '>=', date('Y-m-d', time())." 00:00:00");
-                    $query->where('send_datetime', '<=', date('Y-m-d', time())." 23:59:59");
-                })
-                    ->select('bot_user_id')
-                    ->groupBy('bot_user_id')
-                    ->pluck('bot_user_id')
-                    ->toArray();
-
+                $schedules = $getUsersAlreadyInSendingToday->handle($data);
                 $bot_users = BotUser::select('id')->where('bot_id', $data->bot->id)->where('date_end', $date)->whereNotIn('id', $schedules)->get();
+
                 if (count($bot_users) > 0) {
 
                     $sending = Sending::create([
