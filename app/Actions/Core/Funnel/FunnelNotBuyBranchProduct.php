@@ -44,7 +44,7 @@ class FunnelNotBuyBranchProduct
                     $bot_users = BotUser::select('id')
                         ->whereNotIn('id', $schedules)
                         ->whereNotIn('id', $buyeds)
-                        ->where('bot_branch_id', $bot_branch->bot_branch_product_id)
+                        ->where('bot_branch_id', $bot_branch->bot_branch_id)
                         ->where('created_at', '<=', $datetime)
                         ->where('created_at', '<=', $date." 23:59:59")
                         ->get();
