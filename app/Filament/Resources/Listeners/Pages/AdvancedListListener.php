@@ -16,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class AdvancedListListener extends Page implements HasTable
 {
@@ -32,11 +33,12 @@ class AdvancedListListener extends Page implements HasTable
 
     public function mount(): void
     {
-        if (!auth()->user()->hasPermissionTo('Edit:Listener')) {
+        if (!Auth::user()->hasPermissionTo('View:Listener')) {
             redirect('/admin/bots/access');
         }
 
     }
+
     public static function table(Table $table): Table
     {
             return $table

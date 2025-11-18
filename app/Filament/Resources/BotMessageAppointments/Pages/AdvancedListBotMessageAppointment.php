@@ -30,7 +30,7 @@ class AdvancedListBotMessageAppointment extends Page implements HasTable
 
     public function mount(): void
     {
-        if (!auth()->user()->hasPermissionTo('Update:BotMessageAppointment')) {
+        if (!auth()->user()->hasPermissionTo('View:BotMessageAppointment')) {
             redirect('/admin/bots/access');
         }
 
