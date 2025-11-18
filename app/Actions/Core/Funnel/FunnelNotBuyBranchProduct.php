@@ -45,10 +45,11 @@ class FunnelNotBuyBranchProduct
                         ->whereNotIn('id', $schedules)
                         ->whereNotIn('id', $buyeds)
                         ->where('bot_branch_id', $bot_branch->bot_branch_product_id)
-                        ->where('created_at', '>=', $datetime)
+                        ->where('created_at', '<=', $datetime)
                         ->where('created_at', '<=', $date." 23:59:59")
                         ->get();
 
+                    return $bot_users;
                     return Carbon::now()->format('Y-m-d H:i:s')." - ".Carbon::now()->subHours(3)->format('Y-m-d H:i:s')." - ".$datetime." | ".$date." | ".$time;
 
                     if (count($bot_users) > 0) {
