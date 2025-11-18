@@ -104,7 +104,7 @@ class DevTestController extends Controller
             }
         }
 
-        return $Aperiod;
+        return $Adates_end;
 
     }
 }
