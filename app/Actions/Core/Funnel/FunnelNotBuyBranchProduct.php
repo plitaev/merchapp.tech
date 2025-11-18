@@ -1,13 +1,12 @@
 <?php
-
 namespace App\Actions\Core\Funnel;
 
 use Carbon\Carbon;
 
+use App\Actions\Core\Funnel\FunnelGetDateTime;
 use App\Actions\Core\TelegramSendMessageSchedule\GetUsersAlreadyInSendingToday;
 
 use App\Models\Core\BotBranch;
-use App\Models\Core\BotBranchReferralProgram;
 use App\Models\Core\BotUser;
 use App\Models\Core\Pay;
 use App\Models\Core\Sending;
@@ -17,12 +16,12 @@ class FunnelNotBuyBranchProduct
 {
     public function handle($data) {
 
-        $funnelGetDateTimeNow = new FunnelGetDateTimeForBan();
+        $funnelGetDateTime = new FunnelGetDateTime();
         $getUsersAlreadyInSendingToday = new GetUsersAlreadyInSendingToday();
 
         if ($data->funnel_condition->alias == "newbie_not_buy_branch_product") {
 
-            $funnel_date_time = $funnelGetDateTimeNow->handle($data);
+            $funnel_date_time = $funnelGetDateTime->handle($data);
 
             $date = $funnel_date_time['date'];
             $time = $funnel_date_time['time'];
