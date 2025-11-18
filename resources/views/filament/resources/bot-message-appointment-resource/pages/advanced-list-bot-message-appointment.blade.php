@@ -31,7 +31,7 @@
             <h1 class="fi-header-heading">Назначения</h1>
         </div>
 
-        @if (auth()->user()->can('Create:BotMessageAppointment'))
+        @if (auth()->user()->can('Update:BotMessageAppointment'))
 
         <div class="fi-header-actions-ctn">
             <div class="fi-ac fi-align-start">
