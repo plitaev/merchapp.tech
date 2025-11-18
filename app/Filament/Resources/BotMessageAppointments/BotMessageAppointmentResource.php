@@ -9,8 +9,8 @@ use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Schemas\Components\Actions;
-use App\Filament\Resources\BotMessageAppointments\Pages\ListBotMessageAppointments;
-use App\Filament\Resources\BotMessageAppointments\Pages\CreateBotMessageAppointment;
+use App\Filament\Resources\BotMessageAppointments\Pages\AdvancedListBotMessageAppointment;
+use App\Filament\Resources\BotMessageAppointments\Pages\AdminBotMessageAppointment;
 use App\Filament\Resources\BotMessageAppointments\Pages\EditBotMessageAppointment;
 use App\Filament\Resources\BotMessageAppointmentResource\Pages;
 use App\Filament\Resources\BotMessageAppointmentResource\RelationManagers;
@@ -32,9 +32,18 @@ class BotMessageAppointmentResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
+
     protected static bool $shouldRegisterNavigation = false;
 
     public static function getPluralLabel(): ?string {return "Назначение";}
+
+    public function mount(): void
+    {
+        if (!auth()->user()->hasPermissionTo('Update:BotMessageAppointment')) {
+            redirect('/admin/bots/access');
+        }
+
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -117,9 +126,10 @@ class BotMessageAppointmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListBotMessageAppointments::route('/'),
-            'create' => CreateBotMessageAppointment::route('/create'),
-            'edit' => EditBotMessageAppointment::route('/{record}/edit'),
+            'index' => AdvancedListBotMessageAppointment::route('/'),
+            'create' => AdminBotMessageAppointment::route('/{id}/admin'),
+            'edit' => AdminBotMessageAppointment::route('/{id}/admin'),
+            'admin' => AdminBotMessageAppointment::route('/{id}/admin'),
         ];
     }
 }

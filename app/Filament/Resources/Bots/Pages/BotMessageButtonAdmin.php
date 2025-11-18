@@ -195,13 +195,13 @@ class BotMessageButtonAdmin extends Page implements HasForms
                             ->label('Платёжная система')
                             ->options(PaySystem::all()->pluck('name', 'id'))
                             ->searchable()
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')?false:true),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')),
 
                         Select::make('product_id')
                             ->label('Продукт')
                             ->options(Product::all()->pluck('name', 'id'))
                             ->searchable()
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')?false:true),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')),
 
                     ])
                     ->visible(function (Get $get) {
@@ -269,9 +269,11 @@ class BotMessageButtonAdmin extends Page implements HasForms
                         ->action(function () {
                             return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/message-admin');
                         })
-                    ->label('Отменить и вернуться назад')
+                        ->label('Отменить и вернуться назад')
                 ])
             ])->statePath('data');
     }
+
+
 
 }

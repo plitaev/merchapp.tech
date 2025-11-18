@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\MiniAppPages\Pages\ListMiniAppPages;
@@ -37,6 +38,14 @@ class MiniAppPageResource extends Resource
     public static ?int $navigationSort = 3;
 
     public static function getPluralLabel(): ?string {return "Страницы";}
+
+    public function mount(): void
+    {
+        if (!auth()->user()->hasPermissionTo('Update:MiniAppPage')) {
+            redirect('/admin/bots/access');
+        }
+
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -76,7 +85,10 @@ class MiniAppPageResource extends Resource
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                ViewAction::make()->url(fn($record) => "/admin/mini-app-pages/".$record->id."/admin")
+                    ->visible(!auth()->user()->can('Update:MiniAppPage')),
+                EditAction::make()->url(fn($record) => "/admin/mini-app-pages/".$record->id."/admin")
+                    ->visible(auth()->user()->can('Update:MiniAppPage')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
