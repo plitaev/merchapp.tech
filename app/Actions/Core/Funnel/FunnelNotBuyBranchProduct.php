@@ -50,7 +50,7 @@ class FunnelNotBuyBranchProduct
                         ->get();
 
                     return $bot_users;
-                    return Carbon::now()->format('Y-m-d H:i:s')." - ".Carbon::now()->subHours(3)->format('Y-m-d H:i:s')." - ".$datetime." | ".$date." | ".$time;
+                    return $datetime." | ".$date." | ".$time." - ".$bot_branch->bot_branch_product_id;
 
                     if (count($bot_users) > 0) {
 
