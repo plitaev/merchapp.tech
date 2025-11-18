@@ -14,7 +14,7 @@ class BotSetFunnels
         $funnelReferrer = new FunnelReferrer();
 
         $res = BotMessage::with('funnel_condition:id,alias')->with('funnel_condition_trigger:id,alias')->with('bot:id,ban_time')
-            ->select('id', 'funnel_condition_id', 'funnel_condition_trigger_id', 'funnel_days', 'funnel_hours', 'funnel_minutes', 'bot_id')
+            ->select('id', 'funnel_condition_id', 'funnel_condition_trigger_id', 'funnel_days', 'funnel_hours', 'funnel_minutes', 'bot_id', 'bot_branch_id')
             ->whereNotNull('funnel_condition_id')
             ->whereNotNull('funnel_condition_trigger_id')
             ->get();

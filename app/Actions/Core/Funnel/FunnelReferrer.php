@@ -26,23 +26,15 @@ class FunnelReferrer
             if (date('H:i:s') >= $time) {
                 $schedules = $getUsersAlreadyInSendingToday->handle($data);
 
-                $referral_program = BotBranch::select('id')
-                    ->where('bot_branch_type', 3)
-                    ->where('datetime_start', '<=', date('Y-m-d H:i:s', time()))
-                    ->where('datetime_end', '>=', date('Y-m-d H:i:s', time()))
-                    ->orderByDesc('created_at')
-                    ->first();
-
-                if ($referral_program) {
-                    $referrers_with_referrals = BotBranchReferralProgram::select('referrer_bot_user_id')
-                        ->where('bot_branch_id', $referral_program->id)
-                        ->whereNotNull('referral_bot_user_id')
-                        ->groupBy('referrer_bot_user_id')
-                        ->pluck('referrer_bot_user_id')
-                        ->toArray();
+                $referrers_with_referrals = BotBranchReferralProgram::select('referrer_bot_user_id')
+                    ->where('bot_branch_id', $data->bot_branch_id)
+                    ->whereNotNull('referral_bot_user_id')
+                    ->groupBy('referrer_bot_user_id')
+                    ->pluck('referrer_bot_user_id')
+                    ->toArray();
 
                     $referrers = BotBranchReferralProgram::select('referrer_bot_user_id')
-                        ->where('bot_branch_id', $referral_program->id)
+                        ->where('bot_branch_id', $data->bot_branch_id)
                         ->whereNotIn('id', $referrers_with_referrals)
                         ->whereNotIn('id', $schedules)
                         ->whereNull('referral_bot_user_id')
@@ -67,13 +59,8 @@ class FunnelReferrer
                             ]);
                         }
 
-
                     }
-
-                }
-
             }
-
         }
 
         return 'ok';
