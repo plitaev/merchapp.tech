@@ -15,6 +15,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\Auth;
 
 class AdminBotMessageAppointment extends Page implements HasForms
 {
@@ -52,13 +53,13 @@ class AdminBotMessageAppointment extends Page implements HasForms
     {
         $this->id = $id;
 
-        if (auth()->user()->hasPermissionTo('Update:BotMessageAppointment')) {
+        $data = ($id > 0 ? BotMessageAppointment::find($id)->toArray() : []);
+        $this->form->fill($data);
 
-            $data = ($id > 0 ? BotMessageAppointment::find($id)->toArray() : []);
-            $this->form->fill($data);
-        }else{
+        if (!Auth::user()->hasPermissionTo('Update:BotMessageAppointment')) {
             redirect('/admin/bots/access');
         }
+
     }
 
     protected function getForms(): array

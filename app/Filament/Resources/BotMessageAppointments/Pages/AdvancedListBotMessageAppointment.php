@@ -55,7 +55,7 @@ class AdvancedListBotMessageAppointment extends Page implements HasTable
             ->recordActions([
                 ViewAction::make()
                     ->visible(!auth()->user()->can('Update:BotMessageAppointment')),
-                EditAction::make()
+                EditAction::make()->url(fn($record) => "/admin/bot-message-appointments/".$record->id."/admin")
                     ->visible(auth()->user()->can('Update:BotMessageAppointment')),
 
             ])
