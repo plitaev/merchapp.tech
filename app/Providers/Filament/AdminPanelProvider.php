@@ -132,7 +132,7 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()->navigationLabel('Label')
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()->hasPermissionTo("Update::Bots")
             ])
             ->authMiddleware([
                 Authenticate::class,
