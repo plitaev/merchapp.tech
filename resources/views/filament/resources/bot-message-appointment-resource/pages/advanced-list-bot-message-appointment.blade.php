@@ -12,7 +12,7 @@
                 <ol class="fi-breadcrumbs-list">
                     <li class="fi-breadcrumbs-item">
                         <a href="/admin/bot-message-appointments" class="fi-breadcrumbs-item-label">
-                            Обработчики кнопок
+                           Назначение
                         </a>
                     </li>
                     <li class="fi-breadcrumbs-item">
@@ -28,7 +28,7 @@
                 </ol>
             </nav>
 
-            <h1 class="fi-header-heading">Обработчики кнопок</h1>
+            <h1 class="fi-header-heading">Назначения</h1>
         </div>
 
         @if (auth()->user()->can('Create:BotMessageAppointment'))
@@ -36,7 +36,7 @@
         <div class="fi-header-actions-ctn">
             <div class="fi-ac fi-align-start">
                 <a href="/admin/bot-message-appointments/0/admin" class="fi-color fi-color-primary fi-bg-color-400 hover:fi-bg-color-300 dark:fi-bg-color-600 dark:hover:fi-bg-color-500 fi-text-color-900 hover:fi-text-color-800 dark:fi-text-color-950 dark:hover:fi-text-color-950 fi-btn fi-size-md  fi-ac-btn-action">
-                    Создать/ю/
+                    Создать
                 </a>
             </div>
         </div>
