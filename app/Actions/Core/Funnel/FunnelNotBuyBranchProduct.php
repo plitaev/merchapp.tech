@@ -49,7 +49,7 @@ class FunnelNotBuyBranchProduct
                         ->where('created_at', '<=', $date." 23:59:59")
                         ->get();
 
-                    return Carbon::now()->format('Y-m-d H:i:s')." - ".Carbon::now()->subHours(3)->format('Y-m-d H:i:s')." - ".$datetime." | ".$date." | ".$time;
+                    return $bot_users;
 
                     if (count($bot_users) > 0) {
 
