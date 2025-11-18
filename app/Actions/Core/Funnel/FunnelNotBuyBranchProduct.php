@@ -19,6 +19,8 @@ class FunnelNotBuyBranchProduct
         $getUsersAlreadyInSendingToday = new GetUsersAlreadyInSendingToday();
 
         if ($data->funnel_condition->alias == "newbie_not_buy_branch_product") {
+            return 'ok';
+
             $funnel_date_time = $funnelGetDateTimeNow->handle($data);
 
             $date = $funnel_date_time['date'];
