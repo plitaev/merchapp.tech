@@ -27,7 +27,6 @@ class FunnelNotBuyBranchProduct
             $datetime = $funnel_date_time['datetime'];
 
             if (date('H:i:s') >= $time) {
-                return 'ok';
                 $schedules = $getUsersAlreadyInSendingToday->handle($data);
 
                 $bot_branch = BotBranch::select('bot_branch_product_id')->find($data->bot_branch_id);
@@ -48,6 +47,8 @@ class FunnelNotBuyBranchProduct
                         ->where('created_at', '>=', $datetime)
                         ->where('created_at', '<=', $date." 23:59:59")
                         ->get();
+
+                    return $bot_users;
 
                     if (count($bot_users) > 0) {
 
