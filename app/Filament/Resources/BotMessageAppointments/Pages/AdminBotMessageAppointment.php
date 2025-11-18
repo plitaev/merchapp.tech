@@ -24,7 +24,6 @@ class AdminBotMessageAppointment extends Page implements HasForms
 
     protected string $view = 'filament.resources.bot-message-appointment-resource.pages.admin-bot-message-appointment';
 
-
     public static ?string $label = "Назначение";
     public static ?string $navigationLabel = "Назначение";
     public static ?string $title = "Назначение";
