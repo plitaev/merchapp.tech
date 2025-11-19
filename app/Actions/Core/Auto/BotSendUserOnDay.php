@@ -51,7 +51,7 @@ class BotSendUserOnDay
         //==
 
         $all_referrals_buyed_special_count = BotBranchReferralProgram::select('referral_bot_user_id')->whereNotNull('referral_bot_user_id')->where('referral_got_product_special', 1)->groupBy('referral_bot_user_id')->get();
-        $all_referrals_count = count($all_referrals_buyed_special_count);
+        $all_referrals_buyed_special_count = count($all_referrals_buyed_special_count);
 
         $all_referrals_buyed_special_percent = ($all_referrals_buyed_special_count*100)/$stat->bot_user_count;
         $all_referrers_percent = round($all_referrals_buyed_special_percent,1);
