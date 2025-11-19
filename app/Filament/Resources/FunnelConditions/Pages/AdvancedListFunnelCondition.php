@@ -63,7 +63,9 @@ class AdvancedListFunnelCondition extends Page implements HasTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->visible(auth()->user()->can('Delete:BotMessageAppointment')),
+
                 ]),
             ])
             ->recordUrl(fn($record) => "/admin/funnel-conditions/".$record->id."/admin");

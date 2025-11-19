@@ -54,11 +54,15 @@ class AdvancedListBotMessageButtonCallback extends Page implements HasTable
             ])
             ->recordActions([
                 EditAction::make()->url(fn($record) => "/admin/bot-message-button-callbacks/".$record->id."/admin"),
-                DeleteAction::make(),
+                DeleteAction::make()
+                    ->visible(auth()->user()->can('Delete:BotMessageButtonCallback')),
+
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->visible(auth()->user()->can('Delete:BotMessageButtonCallback')),
+
                 ]),
             ])
             ->recordUrl(fn($record) => "/admin/bot-message-button-callbacks/".$record->id."/admin");

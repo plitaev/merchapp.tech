@@ -51,11 +51,12 @@ class AdminBotMessageButtonCallback extends Page implements HasForms
     public function mount(int $id): void
     {
         $this->id = $id;
-        if (!auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')) {
 
-            $data = ($id > 0 ? BotMessageButtonCallback::find($id)->toArray() : []);
-            $this->form->fill($data);
-        }else{
+        $data = ($id > 0 ? BotMessageButtonCallback::find($id)->toArray() : []);
+        $this->form->fill($data);
+
+        if(!auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')) {
+
             redirect('/admin/bots/access');
         }
     }
@@ -84,6 +85,7 @@ class AdminBotMessageButtonCallback extends Page implements HasForms
                             ->validationMessages([
                                 'required' => 'Обязательно укажите наименование',
                             ])
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback'))
                             ->label('Наименование')
                             ->maxLength(50),
                         TextInput::make('system_name')
@@ -91,6 +93,7 @@ class AdminBotMessageButtonCallback extends Page implements HasForms
                             ->validationMessages([
                                 'required' => 'Обязательно укажите system_name',
                             ])
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback'))
                             ->label('Псевдоним')
                             ->maxLength(50),
                     ]),
