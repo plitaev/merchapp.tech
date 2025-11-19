@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\MiniAppPages;
 
+use App\Filament\Resources\MiniAppPages\Pages\AdvancedListMiniAppPage;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -27,7 +28,7 @@ class MiniAppPageResource extends Resource
 {
     protected static ?string $model = MiniAppPage::class;
 
-    public static ?string $label = "Страница";
+    public static ?string $label = "Страницу";
     public static ?string $navigationLabel = "Страницы";
 
     public static ?string $title = "Страницы";
@@ -107,8 +108,8 @@ class MiniAppPageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListMiniAppPages::route('/'),
-            'create' => CreateMiniAppPage::route('/create'),
+            'index' => AdvancedListMiniAppPage::route('/'),
+            'create' => AdminMiniAppPage::route('/create'),
             //'edit' => Pages\EditMiniAppPage::route('/{record}/edit'),
             'edit' => AdminMiniAppPage::route('/{record}/admin'),
             'preview' => PreviewMiniAppPage::route('/{mini_app_page_id}/preview'),

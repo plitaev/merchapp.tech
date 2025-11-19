@@ -86,4 +86,3 @@ class AdvancedListMiniAppPage extends Page implements HasTable
     }
 }
 
-
