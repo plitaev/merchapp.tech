@@ -18,8 +18,8 @@ return new class extends Migration
         $permissions_view = Permission::select('id')->where("name", "LIKE", "View:%")->get();
 
         foreach ($permissions_view as $permission) {
-            $role_has_permissions = DB::table('role_has_permissions')->select('permission_id', 'role_id')->where('role_id', 2)->toArray();
-            if(!array_search($permission->id, $role_has_permissions->permission_id)) {
+            $role_has_permissions = DB::table('role_has_permissions')->select('permission_id', 'role_id')->where('role_id', 2)->pluck('permission_id')->toArray();
+            if(!in_array($permission->id, $role_has_permissions )) {
                 DB::table('role_has_permissions')->insert([
                     'permission_id' => $permission->id,
                     'role_id' => 2,
