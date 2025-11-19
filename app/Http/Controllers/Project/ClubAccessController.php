@@ -117,6 +117,7 @@ class ClubAccessController extends Controller
                     if ($branch_data[0] == 3) $referralProgramRunForReferral->handle($bot_user, $branch_data);
                     if ($branch_data[0] == 4) {
                         $botUserSetBranch->handle($bot_user, $branch_data[1]);
+                        return 'bbb';
                         $botSendMessage->handle($bot_user, 'SYS_WELCOME_MESSAGE');
                         $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
                     }
