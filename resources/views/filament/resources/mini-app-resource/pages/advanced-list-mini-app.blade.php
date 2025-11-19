@@ -1,6 +1,5 @@
 <x-filament-panels::page>
 
-    @if (Auth::user()->hasPermissionTo('View:MiniApp'))
         <div class="fi-header-actions-ctn">
             <div class="fi-ac fi-align-start">
                 @if (auth()->user()->can('Create:MiniApp'))
@@ -14,5 +13,4 @@
         </div>
     {{$this->table}}
 
-    @endif
 </x-filament-panels::page>
