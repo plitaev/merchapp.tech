@@ -70,9 +70,9 @@ class AdvancedListMiniApp extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                ViewAction::make()
+                ViewAction::make()->url(fn($record) => "/admin/mini-apps/".$record->id."/admin")
                     ->visible(!auth()->user()->can('Update:MiniApp')),
-                EditAction::make()
+                EditAction::make()->url(fn($record) => "/admin/mini-apps/".$record->id."/admin")
                     ->visible(auth()->user()->can('Update:MiniApp')),
                 DeleteAction::make()
                     ->visible(auth()->user()->can('Delete:MiniApp')),
