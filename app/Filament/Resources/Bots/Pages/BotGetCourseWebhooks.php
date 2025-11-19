@@ -39,7 +39,7 @@ class BotGetCourseWebhooks extends Page implements HasTable
 
         $this->bot_name = $bot->name;
 
-        if (!Auth::user()->hasPermissionTo('View:GetcourseWebhook')) {
+        if (!Auth::user()->hasPermissionTo('View:Bot')) {
             redirect('/admin/bots/access');
         }
     }
