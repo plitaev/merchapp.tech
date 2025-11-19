@@ -222,7 +222,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         '2xl' => 1
                     ])
                     ->schema([])
-                    ->visible($this->id > 0 && $this->bot_branch_type == 2)
+                    ->visible($this->id > 0 && ($this->bot_branch_type == 2 || $this->bot_branch_type == 4))
                     ->disabled(auth()->user()->hasPermissionTo('Update:BotBranch')?false:true),
                 Section::make('Доступ для категорий пользователей')
                     ->description('Укажите, должны ли новые пользователи получать доступ к участию в акции')
