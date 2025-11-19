@@ -2,6 +2,7 @@
 
 namespace App\Actions\Core\Auto;
 
+use App\Models\Core\BotBranchReferralProgram;
 use Telegram\Bot\Api;
 
 use App\Models\Core\BotMessage;
@@ -25,9 +26,39 @@ class BotSendUserOnDay
         $text = str_replace('VAR_STAT_USER_ON_DAY_DATE', date('d.m.Y', strtotime($stat->stat_date)), $text);
         $text = str_replace('VAR_STAT_USER_ON_DAY_COUNT', $stat->bot_user_count, $text);
 
-        if (stripos(strtolower($text), 'VAR_USERNAME')) {
+        //==
 
-        }
+        $all_referrers_count = BotBranchReferralProgram::select('referrer_bot_user_id')->groupBy('referrer_bot_user_id')->count();
+        $all_referrers_percent = ($all_referrers_count*100)/$stat->bot_user_count;
+
+        $text = str_replace('VAR_ALL_REFERRERS_COUNT', $all_referrers_count, $text);
+        $text = str_replace('VAR_ALL_REFERRERS_PERCENT', $all_referrers_percent."%", $text);
+
+        //==
+
+        $all_referrals_count = BotBranchReferralProgram::select('referral_bot_user_id')->whereNotNull('referral_bot_user_id')->groupBy('referral_bot_user_id')->count();
+        $all_referrals_percent = ($all_referrals_count*100)/$stat->bot_user_count;
+
+        $text = str_replace('VAR_ALL_REFERRALS_COUNT', $all_referrals_count, $text);
+        $text = str_replace('VAR_ALL_REFERRALS_PERCENT', $all_referrals_percent."%", $text);
+
+        //==
+
+        $all_referrals_buyed_special_count = BotBranchReferralProgram::select('referral_bot_user_id')->whereNotNull('referral_bot_user_id')->where('referral_got_product_special', 1)->groupBy('referral_bot_user_id')->count();
+        $all_referrals_buyed_special_percent = ($all_referrals_buyed_special_count*100)/$stat->bot_user_count;
+
+        $text = str_replace('VAR_ALL_REFERRALS_BUYED_SPECIAL_COUNT', $all_referrals_buyed_special_count, $text);
+        $text = str_replace('VAR_ALL_REFERRALS_BUYED_SPECIAL_PERCENT', $all_referrals_buyed_special_percent."%", $text);
+
+        //==
+
+        $all_referrals_buyed_full_count = BotBranchReferralProgram::select('referral_bot_user_id')->whereNotNull('referral_bot_user_id')->where('referral_got_product_full', 1)->groupBy('referral_bot_user_id')->count();
+        $all_referrals_buyed_full_percent = ($all_referrals_buyed_full_count*100)/$stat->bot_user_count;
+
+        $text = str_replace('VAR_ALL_REFERRALS_BUYED_FULL_COUNT', $all_referrals_buyed_full_count, $text);
+        $text = str_replace('VAR_ALL_REFERRALS_BUYED_FULL_PERCENT', $all_referrals_buyed_full_percent."%", $text);
+
+        //==
 
         $supergroups = TelegramSupergroup::with('bot')->where('statistic_user_on_day', 1)->get();
         foreach ($supergroups as $supergroup) {
