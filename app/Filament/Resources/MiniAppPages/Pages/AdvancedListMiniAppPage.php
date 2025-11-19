@@ -34,7 +34,7 @@ class AdvancedListMiniAppPage extends Page implements HasTable
 
     public function mount(): void
     {
-        if (!auth()->user()->hasPermissionTo('Update:MiniAppPage')) {
+        if (!auth()->user()->hasPermissionTo('View:MiniAppPage')) {
             redirect('/admin/bots/access');
         }
 
@@ -72,14 +72,14 @@ class AdvancedListMiniAppPage extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                ViewAction::make()->url(fn($record) => "/admin/mini-apps/".$record->id."/admin")
+                ViewAction::make()->url(fn($record) => "/admin/mini-app-pages/".$record->id."/admin")
                     ->visible(!auth()->user()->can('Update:MiniAppPage')),
-                EditAction::make()->url(fn($record) => "/admin/mini-apps/".$record->id."/admin")
+                EditAction::make()->url(fn($record) => "/admin/mini-app-pages/".$record->id."/admin")
                     ->visible(auth()->user()->can('Update:MiniAppPage')),
                 DeleteAction::make()
                     ->visible(auth()->user()->can('Delete:MiniAppPage')),
             ])
-            ->recordUrl(fn($record) => "/admin/mini-apps/".$record->id."/admin")
+            ->recordUrl(fn($record) => "/admin/mini-app-pages/".$record->id."/admin")
             ->toolbarActions([
                 //
             ]);
