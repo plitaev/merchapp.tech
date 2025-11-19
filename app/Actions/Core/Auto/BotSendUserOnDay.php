@@ -43,7 +43,7 @@ class BotSendUserOnDay
         $all_referrals_count = count($all_referrals_count);
 
         $all_referrals_percent = ($all_referrals_count*100)/$stat->bot_user_count;
-        $all_referrers_percent = round($all_referrers_percent,1);
+        $all_referrals_percent = round($all_referrals_percent,1);
 
         $text = str_replace('VAR_ALL_REFERRALS_COUNT', $all_referrals_count, $text);
         $text = str_replace('VAR_ALL_REFERRALS_PERCENT', $all_referrals_percent."%", $text);
@@ -54,15 +54,18 @@ class BotSendUserOnDay
         $all_referrals_buyed_special_count = count($all_referrals_buyed_special_count);
 
         $all_referrals_buyed_special_percent = ($all_referrals_buyed_special_count*100)/$stat->bot_user_count;
-        $all_referrers_percent = round($all_referrals_buyed_special_percent,1);
+        $all_referrals_buyed_special_percent = round($all_referrals_buyed_special_percent,1);
 
         $text = str_replace('VAR_ALL_REFERRALS_BUYED_SPECIAL_COUNT', $all_referrals_buyed_special_count, $text);
         $text = str_replace('VAR_ALL_REFERRALS_BUYED_SPECIAL_PERCENT', $all_referrals_buyed_special_percent."%", $text);
 
         //==
 
-        $all_referrals_buyed_full_count = BotBranchReferralProgram::select('referral_bot_user_id')->whereNotNull('referral_bot_user_id')->where('referral_got_product_full', 1)->groupBy('referral_bot_user_id')->count();
+        $all_referrals_buyed_full_count = BotBranchReferralProgram::select('referral_bot_user_id')->whereNotNull('referral_bot_user_id')->where('referral_got_product_full', 1)->groupBy('referral_bot_user_id')->get();
+        $all_referrals_buyed_full_count = count($all_referrals_buyed_full_count);
+
         $all_referrals_buyed_full_percent = ($all_referrals_buyed_full_count*100)/$stat->bot_user_count;
+        $all_referrals_buyed_full_percent = round($all_referrals_buyed_full_percent,1);
 
         $text = str_replace('VAR_ALL_REFERRALS_BUYED_FULL_COUNT', $all_referrals_buyed_full_count, $text);
         $text = str_replace('VAR_ALL_REFERRALS_BUYED_FULL_PERCENT', $all_referrals_buyed_full_percent."%", $text);
