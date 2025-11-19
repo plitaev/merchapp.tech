@@ -32,11 +32,18 @@ class AdvancedListMiniApp extends Page implements HasTable
     public static ?string $navigationLabel = "Мини-приложения";
     public static ?string $title = "";
 
+    public function mount(): void
+    {
+        if (!auth()->user()->hasPermissionTo('View:MiniApp')) {
+            redirect('/admin/bots/access');
+        }
+    }
 
     public static function table(Table $table): Table
     {
         return $table
             ->persistSearchInSession()
+            ->query(MiniApp::query())
             ->columns([
                 TextColumn::make('name')
                     ->label('Название (Только в панели администратора)')

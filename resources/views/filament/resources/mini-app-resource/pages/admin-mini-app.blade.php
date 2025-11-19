@@ -1,6 +1,6 @@
 <x-filament::page>
 
-    @if (Auth::user()->hasPermissionTo('View:MiniApp'))
+    @if (!Auth::user()->hasPermissionTo('View:MiniApp'))
 
     <style>
         .fi-ta-search-field{min-width: 300px}

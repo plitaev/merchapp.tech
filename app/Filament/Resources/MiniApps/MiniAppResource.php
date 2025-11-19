@@ -43,6 +43,15 @@ class MiniAppResource extends Resource
 
     public static function getPluralLabel(): ?string {return "Мини-приложения";}
 
+    public function mount(): void
+    {
+        if (!auth()->user()->hasPermissionTo('Update:MiniApp')) {
+            redirect('/admin/bots/access');
+        }
+
+    }
+
+
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -125,10 +134,16 @@ class MiniAppResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListMiniApps::route('/'),
-            'create' => CreateMiniApp::route('/create'),
-            'edit' => EditMiniApp::route('/{record}/edit'),
-            'view' => ViewMiniApp::route('/{record}'),
+//            'index' => ListMiniApps::route('/'),
+//            'create' => CreateMiniApp::route('/create'),
+//            'edit' => EditMiniApp::route('/{record}/edit'),
+//            'view' => ViewMiniApp::route('/{record}'),
+
+            'index' => AdvancedListMiniApp::route('/'),
+            'create' => AdminMiniApp::route('/{id}/admin'),
+            'edit' => AdminMiniApp::route('/{id}/admin'),
+            'admin' => AdminMiniApp::route('/{id}/admin'),
+            
         ];
     }
 }

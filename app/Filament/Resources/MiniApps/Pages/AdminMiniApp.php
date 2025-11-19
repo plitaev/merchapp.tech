@@ -57,11 +57,16 @@ class AdminMiniApp extends Page implements HasForms
 
     public function mount(int $id): void
     {
-        $this->id = $id;
+
+            $this->id = $id;
         $data = ($id > 0 ? MiniApp::find($id)->toArray() : []);
         $this->form->fill($data);
 
         $this->roles = MiniApp::all()->pluck('name', 'id')->toArray();
+
+        if (!auth()->user()->hasPermissionTo('View:MiniApp')) {
+            redirect('/admin/bots/access');
+        }
     }
 
     protected function getForms(): array
@@ -135,7 +140,7 @@ class AdminMiniApp extends Page implements HasForms
                         ->label('Отменить и вернуться назад')
                         ])
             ])->statePath('data');
-            
+
     }
 
 }
