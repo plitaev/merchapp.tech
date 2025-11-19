@@ -121,6 +121,7 @@ class ClubAccessController extends Controller
                         $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id);
                         $botSendMessage->handle($bot_user, 'SYS_WELCOME_MESSAGE');
                         $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
+                        die();
                     }
 
                 } else {
