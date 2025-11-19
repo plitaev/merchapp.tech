@@ -109,7 +109,7 @@ class MiniAppPageResource extends Resource
     {
         return [
             'index' => AdvancedListMiniAppPage::route('/'),
-            'create' => AdminMiniAppPage::route('/create'),
+            'create' => AdminMiniAppPage::route('/{record}/create'),
             //'edit' => Pages\EditMiniAppPage::route('/{record}/edit'),
             'edit' => AdminMiniAppPage::route('/{record}/admin'),
             'preview' => PreviewMiniAppPage::route('/{mini_app_page_id}/preview'),

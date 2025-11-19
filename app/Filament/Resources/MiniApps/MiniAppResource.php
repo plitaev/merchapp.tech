@@ -143,6 +143,7 @@ class MiniAppResource extends Resource
             'create' => AdminMiniApp::route('/{id}/admin'),
             'edit' => AdminMiniApp::route('/{id}/admin'),
             'admin' => AdminMiniApp::route('/{id}/admin'),
+            'view' => ViewMiniApp::route('/{record}'),
             
         ];
     }
