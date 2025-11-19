@@ -70,7 +70,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
         $data = ($id>0?BotMessageButton::find($id)->toArray():["bot_message_id" => $bot_message_id, 'pos' => $this->pos_list[1]]);
         $this->form->fill($data);
 
-        if (!Auth::user()->hasPermissionTo('View:BotMessageButton')) {
+        if (!Auth::user()->hasPermissionTo('View:BotMessage')) {
             redirect('/admin/bots/access');
         }
     }
@@ -120,13 +120,13 @@ class BotMessageButtonAdmin extends Page implements HasForms
                             ->options(BotMessageButtonType::all()->pluck('name', 'id'))
                             ->searchable()
                             ->live()
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')?false:true),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
 
                         TextInput::make('name')
                             ->required()
                             ->label('Надпись на кнопке')
                             ->maxLength(255)
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')?false:true),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
 
                         Select::make('pos')
                             ->label('Порядковый номер')
@@ -134,7 +134,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                             ->options($this->pos_list[0])
                             ->searchable()
                             ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2])
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')?false:true),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
 
                     ]),
                 Section::make('Сбор статистики')
@@ -142,7 +142,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                     ->schema([
                         Toggle::make('tracking')
                             ->label('Отслеживать статистику')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')?false:true),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
 
                     ]),
                 Section::make('Ссылка на кнопке')
@@ -151,7 +151,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                         TextInput::make('url')
                             ->label('Укажите полный адрес ссылки вместе с https://')
                             ->maxLength(255)
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')?false:true),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
 
                     ])
                     ->visible(function (Get $get) {
@@ -159,7 +159,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                             return $get('bot_message_button_type_id') == 1;
                         }
                     })
-                    ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')?false:true),
+                    ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
 
                 Section::make('Выберите функцию, которая должна вызываться по клику на кнопке')
                     ->schema([
@@ -168,7 +168,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                             ->options(BotMessageButtonCallback::all()->pluck('name', 'id'))
                             ->searchable()
                             ->live()
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')?false:true),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
 
                     ])
                     ->visible(function (Get $get) {
@@ -181,7 +181,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                         TextInput::make('callback')
                             ->label('Введите имя функции, которое будет использоваться в скриптах бота')
                             ->maxLength(255)
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')?false:true),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
 
                     ])
                     ->visible(function (Get $get) {
@@ -195,13 +195,13 @@ class BotMessageButtonAdmin extends Page implements HasForms
                             ->label('Платёжная система')
                             ->options(PaySystem::all()->pluck('name', 'id'))
                             ->searchable()
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')),
 
                         Select::make('product_id')
                             ->label('Продукт')
                             ->options(Product::all()->pluck('name', 'id'))
                             ->searchable()
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButton')),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')),
 
                     ])
                     ->visible(function (Get $get) {
@@ -261,7 +261,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
 
                             return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/message-admin');
                         })
-                        ->visible(auth()->user()->hasPermissionTo('Create:BotMessageButton')),
+                        ->visible(auth()->user()->hasPermissionTo('Create:BotMessageButtonCallback')),
 
 
 
