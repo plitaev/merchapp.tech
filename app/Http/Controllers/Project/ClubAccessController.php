@@ -115,6 +115,11 @@ class ClubAccessController extends Controller
                     if ($branch_data[0] == 1) $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
                     if ($branch_data[0] == 2) $botBranchRun->handle($bot_user, $branch_data[1]);
                     if ($branch_data[0] == 3) $referralProgramRunForReferral->handle($bot_user, $branch_data);
+                    if ($branch_data[0] == 4) {
+                        $botUserSetBranch->handle($bot_user, $branch_data[1]);
+                        $botSendMessage->handle($bot_user, 'SYS_WELCOME_MESSAGE');
+                        $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
+                    }
 
                 } else {
                     if (!$bot_user->bot_branch_id) $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
