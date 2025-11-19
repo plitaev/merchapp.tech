@@ -31,6 +31,7 @@ class BotSendUserOnDay
         $all_referrers_count = BotBranchReferralProgram::select('referrer_bot_user_id')->groupBy('referrer_bot_user_id')->get();
         $all_referrers_count = count($all_referrers_count);
         $all_referrers_percent = ($all_referrers_count*100)/$stat->bot_user_count;
+        $all_referrers_percent = round($all_referrers_percent,1);
 
         $text = str_replace('VAR_ALL_REFERRERS_COUNT', $all_referrers_count, $text);
         $text = str_replace('VAR_ALL_REFERRERS_PERCENT', $all_referrers_percent."%", $text);
