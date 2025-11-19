@@ -16,7 +16,6 @@
      if (Auth::user()->hasPermissionTo('View:Sending')) $categories['sendings'] = 'Рассылки';
      if (Auth::user()->hasPermissionTo('View:BotBranch')) $categories['branches'] = 'Акции';
 
-
 @endphp
 
 <div class="fi-sc-tabs fi-contained">
