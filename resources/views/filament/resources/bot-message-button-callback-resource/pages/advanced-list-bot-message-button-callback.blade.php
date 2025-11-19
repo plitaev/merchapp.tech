@@ -1,7 +1,5 @@
 <x-filament-panels::page>
 
-    @if (Auth::user()->hasPermissionTo('View:BotMessageButtonCallback'))
-
     <style>.fi-breadcrumbs:not(#merchapp-top-nav){display: none}
         .fi-ta-search-field{min-width: 300px}
     </style>
@@ -45,5 +43,4 @@
 
     {{$this->table}}
 
-    @endif
 </x-filament-panels::page>

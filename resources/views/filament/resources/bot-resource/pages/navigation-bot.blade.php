@@ -19,20 +19,18 @@
 
 @endphp
 
-@if (count($categories) > 0)
-    <div class="fi-sc-tabs fi-contained">
-        <nav class="fi-tabs fi-contained " aria-label="Tabs" role="tablist">
-            @foreach ($categories as $key => $value)
-                @if ($key == $category)
-                    <a href="javascript:void(0);" class="fi-tabs-item fi-active" role="tab">
-                        <span class="fi-tabs-item-label">{{$value}}</span>
-                    </a>
-                @else
-                    <a href="/admin/bots/{{$bot_id}}/{{$key}}" class="fi-tabs-item" role="tab">
-                        <span class="fi-tabs-item-label">{{$value}}</span>
-                    </a>
-                @endif
-            @endforeach
-        </nav>
-    </div>
-@endif
+<div class="fi-sc-tabs fi-contained">
+    <nav class="fi-tabs fi-contained " aria-label="Tabs" role="tablist">
+        @foreach ($categories as $key => $value)
+            @if ($key == $category)
+                <a href="javascript:void(0);" class="fi-tabs-item fi-active" role="tab">
+                    <span class="fi-tabs-item-label">{{$value}}</span>
+                </a>
+            @else
+                <a href="/admin/bots/{{$bot_id}}/{{$key}}" class="fi-tabs-item" role="tab">
+                    <span class="fi-tabs-item-label">{{$value}}</span>
+                </a>
+            @endif
+        @endforeach
+    </nav>
+</div>
