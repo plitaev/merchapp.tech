@@ -70,7 +70,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
         $data = ($id>0?BotMessageButton::find($id)->toArray():["bot_message_id" => $bot_message_id, 'pos' => $this->pos_list[1]]);
         $this->form->fill($data);
 
-        if (!Auth::user()->hasPermissionTo('View:BotMessage')) {
+        if (!Auth::user()->hasPermissionTo('View:BotMessage')) {  
             redirect('/admin/bots/access');
         }
     }
