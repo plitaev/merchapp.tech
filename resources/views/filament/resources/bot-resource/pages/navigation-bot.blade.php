@@ -6,16 +6,15 @@
     if (Auth::user()->hasPermissionTo('View:BotUser')) $categories['chats'] = 'Подписчики';
     if (Auth::user()->hasPermissionTo('View:Pay')) $categories['pays'] = 'Платежи';
     if (Auth::user()->hasPermissionTo('View:PayGuest')) $categories['pay-guests'] = 'В ожидании';
-    if (Auth::user()->hasPermissionTo('View:TelegramSupergroup'))$categories['supergroups'] = 'Супергруппы';
-     if (Auth::user()->hasPermissionTo('View:Product'))$categories['products'] = 'Тарифы';
-     if (Auth::user()->hasPermissionTo('View:Bot'))$categories['getcourse-settings'] = 'Настройки GetCourse';
-     if (Auth::user()->hasPermissionTo('View:Bot'))$categories['getcourse-webhooks'] = 'Вебхуки GetCourse';
-     if (Auth::user()->hasPermissionTo('View:BotUserBanSchedule'))$categories['telegram-ban-schedules'] = 'Баны';
-     if (Auth::user()->hasPermissionTo('View:TelegramUnbanSchedule'))$categories['telegram-unban-schedules'] = 'Разбаны';
-     if (Auth::user()->hasPermissionTo('View:Funnel'))$categories['funnels'] = 'Воронки';
-     if (Auth::user()->hasPermissionTo('View:Sending'))$categories['sendings'] = 'Рассылки';
-     if (Auth::user()->hasPermissionTo('View:BotBranch'))$categories['branches'] = 'Акции';
-
+    if (Auth::user()->hasPermissionTo('View:TelegramSupergroup')) $categories['supergroups'] = 'Супергруппы';
+     if (Auth::user()->hasPermissionTo('View:Product')) $categories['products'] = 'Тарифы';
+     if (Auth::user()->hasPermissionTo('View:Bot')) $categories['getcourse-settings'] = 'Настройки GetCourse';
+     if (Auth::user()->hasPermissionTo('View:Bot')) $categories['getcourse-webhooks'] = 'Вебхуки GetCourse';
+     if (Auth::user()->hasPermissionTo('View:BotUserBanSchedule')) $categories['telegram-ban-schedules'] = 'Баны';
+     if (Auth::user()->hasPermissionTo('View:TelegramUnbanSchedule')) $categories['telegram-unban-schedules'] = 'Разбаны';
+     if (Auth::user()->hasPermissionTo('View:Funnel')) $categories['funnels'] = 'Воронки';
+     if (Auth::user()->hasPermissionTo('View:Sending')) $categories['sendings'] = 'Рассылки';
+     if (Auth::user()->hasPermissionTo('View:BotBranch')) $categories['branches'] = 'Акции';
 
 @endphp
 
