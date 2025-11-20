@@ -42,8 +42,6 @@ class FunnelReferrer
                         ->groupBy('referrer_bot_user_id')
                         ->get();
 
-                return $referrers;
-
                     if (count($referrers) > 0) {
 
                         $sending = Sending::create([

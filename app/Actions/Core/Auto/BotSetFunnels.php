@@ -24,7 +24,7 @@ class BotSetFunnels
 
         foreach ($res as $data) {
             $funnelNotBuyBranchProduct->handle($data);
-            return $funnelReferrer->handle($data);
+            $funnelReferrer->handle($data);
             $funnelUserBan->handle($data);
         }
 
