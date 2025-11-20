@@ -33,7 +33,6 @@ class FunnelReferrer
                     ->toArray();
 
                     $referrers = BotBranchReferralProgram::select('referrer_bot_user_id')
-                        ->where('bot_branch_id', $data->bot_branch_id)
                         ->whereNotIn('id', $referrers_with_referrals)
                         ->whereNotIn('id', $schedules)
                         ->where('created_at', '>=', $datetime)
