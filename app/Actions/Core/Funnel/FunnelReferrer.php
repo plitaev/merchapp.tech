@@ -37,7 +37,8 @@ class FunnelReferrer
                         ->whereNotIn('referrer_bot_user_id', $referrers_with_referrals)
                         ->whereNotIn('referrer_bot_user_id', $schedules)
                         ->whereNull('referral_bot_user_id')
-                        ->where('created_at', '>=', $datetime)
+                        ->where('created_at', '<=', $datetime)
+                        ->where('created_at', '>=', $date." 00:00:00")
                         ->where('created_at', '<=', $date." 23:59:59")
                         ->groupBy('referrer_bot_user_id')
                         ->get();
