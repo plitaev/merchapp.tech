@@ -31,20 +31,15 @@ class FunnelReferrer
                     ->groupBy('referrer_bot_user_id')
                     ->pluck('referrer_bot_user_id')
                     ->toArray();
-                /*
+
                     $referrers = BotBranchReferralProgram::select('referrer_bot_user_id')
                         ->where('bot_branch_id', $data->bot_branch_id)
-                        ->whereNotIn('id', $referrers_with_referrals)
-                        ->whereNotIn('id', $schedules)
+                        ->whereNotIn('referrer_bot_user_id', $referrers_with_referrals)
+                        ->whereNotIn('referrer_bot_user_id', $schedules)
                         ->where('created_at', '>=', $datetime)
                         ->where('created_at', '<=', $date." 23:59:59")
                         ->groupBy('referrer_bot_user_id')
                         ->get();
-                */
-
-                $referrers = BotBranchReferralProgram::select('referrer_bot_user_id')
-                    ->whereNotIn('id', $schedules)
-                    ->get();
 
                     return $referrers;
 
