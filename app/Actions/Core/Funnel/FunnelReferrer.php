@@ -25,6 +25,8 @@ class FunnelReferrer
             if (date('H:i:s') >= $time) {
                 $schedules = $getUsersAlreadyInSendingToday->handle($data);
 
+                return $schedules;
+
                 $referrers_with_referrals = BotBranchReferralProgram::select('referrer_bot_user_id')
                     ->where('bot_branch_id', $data->bot_branch_id)
                     ->whereNotNull('referral_bot_user_id')
