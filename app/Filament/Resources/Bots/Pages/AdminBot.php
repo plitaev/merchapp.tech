@@ -249,6 +249,8 @@ class AdminBot extends Page implements HasForms
                                 ->success()
                                 ->send();
 
+                            unset($data['telegram_webhook_status']);
+
                             if ($this->id > 0) {
                                 Bot::where('id', $this->id)->update($data);
                                 return redirect('/admin/bots/'.$this->id.'/edit');
