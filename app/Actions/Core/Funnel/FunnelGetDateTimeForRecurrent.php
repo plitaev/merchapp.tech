@@ -4,7 +4,7 @@ namespace App\Actions\Core\Funnel;
 
 use Carbon\Carbon;
 
-class FunnelGetDateTimeForBan
+class FunnelGetDateTimeForRecurrent
 {
     public function handle($data) {
         $A = [];
