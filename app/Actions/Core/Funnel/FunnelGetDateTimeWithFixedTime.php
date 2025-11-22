@@ -29,7 +29,7 @@ class FunnelGetDateTimeWithFixedTime
             $datetime = Carbon::parse($datetime);
 
             if ($data->funnel_hours && $data->funnel_hours > 0) $datetime->addHours($data->funnel_hours);
-            if ($data->funnel_minutes && $data->funnel_minutes > 0) $datetime->addMinutes($data->funnel_hours);
+            if ($data->funnel_minutes && $data->funnel_minutes > 0) $datetime->addMinutes($data->funnel_minutes);
 
             $time = $datetime->format('H:i:s');
             $datetime = $datetime->format('Y-m-d H:i:s');
@@ -51,7 +51,7 @@ class FunnelGetDateTimeWithFixedTime
             $datetime = Carbon::parse($datetime);
 
             if ($data->funnel_hours && $data->funnel_hours > 0) $datetime->subHours($data->funnel_hours);
-            if ($data->funnel_minutes && $data->funnel_minutes > 0) $datetime->subMinutes($data->funnel_hours);
+            if ($data->funnel_minutes && $data->funnel_minutes > 0) $datetime->subMinutes($data->funnel_minutes);
 
             $time = $datetime->format('H:i:s');
             $datetime = $datetime->format('Y-m-d H:i:s');
