@@ -1,19 +1,16 @@
 <?php
-
 namespace App\Actions\Core\Funnel;
-
 use Carbon\Carbon;
 
-class FunnelGetDateTimeForBan
+class FunnelGetDateTimeWithFixedTime
 {
-    public function handle($data) {
+    public function handle($data, $time) {
         $A = [];
 
         if ($data->funnel_condition_trigger->alias == "now") {
 
             $date = date('Y-m-d', time());
-            $time = $data->bot->ban_time;
-            $datetime = $date." ".$data->bot->ban_time;
+            $datetime = $date." ".$time;
 
             $A['date'] = $date;
             $A['time'] = $time;
@@ -28,7 +25,7 @@ class FunnelGetDateTimeForBan
 
             $date = $prevous_date->format('Y-m-d');
 
-            $datetime = $date." ".$data->bot->ban_time;
+            $datetime = $date." ".$time;
             $datetime = Carbon::parse($datetime);
 
             if ($data->funnel_hours && $data->funnel_hours > 0) $datetime->addHours($data->funnel_hours);
@@ -50,7 +47,7 @@ class FunnelGetDateTimeForBan
 
             $date = $next_date->format('Y-m-d');
 
-            $datetime = $date." ".$data->bot->ban_time;
+            $datetime = $date." ".$time;
             $datetime = Carbon::parse($datetime);
 
             if ($data->funnel_hours && $data->funnel_hours > 0) $datetime->subHours($data->funnel_hours);
