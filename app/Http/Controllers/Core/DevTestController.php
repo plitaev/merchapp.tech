@@ -48,7 +48,7 @@ class DevTestController extends Controller
         $time = "23:30:00";
 
         $funnel_days = 1;
-        $funnel_hours = 0;
+        $funnel_hours = 3;
         $funnel_minutes = 0;
 
 
