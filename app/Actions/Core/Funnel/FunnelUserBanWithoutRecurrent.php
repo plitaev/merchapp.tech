@@ -2,7 +2,7 @@
 namespace App\Actions\Core\Funnel;
 use Carbon\Carbon;
 
-use App\Actions\Core\Funnel\FunnelGetDateTimeWithFixedTime;
+use App\Actions\Core\Funnel\FunnelGetDateTime;
 use App\Actions\Core\TelegramSendMessageSchedule\GetUsersAlreadyInSendingToday;
 
 use App\Models\Core\BotUser;
@@ -13,17 +13,17 @@ class FunnelUserBanWithoutRecurrent
 {
     public function handle($data) {
 
-        $funnelGetDateTimeWithFixedTime = new FunnelGetDateTimeWithFixedTime();
+        $funnelGetDateTime = new FunnelGetDateTime();
         $getUsersAlreadyInSendingToday = new GetUsersAlreadyInSendingToday();
 
         if ($data->funnel_condition->alias == "user_without_recurrent_ban") {
-            $funnel_date_time = $funnelGetDateTimeWithFixedTime->handle($data, $data->bot->ban_time);
+            $funnel_date_time = $funnelGetDateTime->handle($data);
 
             $date = $funnel_date_time['date'];
             $time = $funnel_date_time['time'];
             $datetime = $funnel_date_time['datetime'];
 
-            if (date('H:i:s') >= $time) {
+            if ($time >= $data->bot->ban_time) {
                 $schedules = $getUsersAlreadyInSendingToday->handle($data);
                 $bot_users = BotUser::select('id')->where('bot_id', $data->bot->id)->where('date_end', $date)->where('recurrent', 0)->whereNotIn('id', $schedules)->get();
 
@@ -31,8 +31,8 @@ class FunnelUserBanWithoutRecurrent
 
                     $sending = Sending::create([
                         'bot_message_id' => $data->id,
-                        'name' => 'Авторассылка перед баном без рекуррента',
-                        'user_ban' => 1,
+                        'name' => 'Авторассылка напоминаний без рекуррента',
+                        'user_ban' => 0,
                         'send_datetime' => date('Y-m-d', time())." ".$time
                     ]);
 
