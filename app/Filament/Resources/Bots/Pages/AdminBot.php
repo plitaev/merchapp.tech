@@ -11,6 +11,7 @@ use Filament\Forms\Components\Toggle;
 //use Filament\Forms\Components\ToggleButtons;
 use Filament\Actions\ViewAction;
 
+use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -194,7 +195,13 @@ class AdminBot extends Page implements HasForms
                             ->label('Адрес вебхука Telegram')
                             ->required()
                             ->maxLength(255)
-                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
+                        TimePicker::make('ban_time')
+                            ->label('Время бана')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
+                        TimePicker::make('recurrent_time')
+                            ->label('Время списания рекуррента')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                     ]),
                 Section::make('Бизнес-бот')
                     ->description('Параметры бота техподдержки, подключенного к бизнес-аккаунту Telegram')

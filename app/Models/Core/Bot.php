@@ -35,7 +35,8 @@ class Bot extends Model
         'prodamus_url',
         'prodamus_key',
         'prodamus_key_recurrent',
-        'ban_time'
+        'ban_time',
+        'recurrent_time'
     ];
 
     public function bot_n(): BelongsTo
