@@ -15,8 +15,6 @@ class BotUserSetRecurrentScheduler
 
         $bot_users = BotUser::with('bot:id,recurrent_time')->where('recurrent', 1)->where('date_end', date('Y-m-d', time()))->get();
 
-        return $bot_users;
-
         foreach ($bot_users as $bot_user) {
             $innoDBUpsertStopIncrementIncreasing->handle(new BotUserRecurrentSchedule());
 
@@ -27,7 +25,7 @@ class BotUserSetRecurrentScheduler
                     [
                         'bot_user_id' => $bot_user->id,
                         'prevous_pay_id' => $pay->id,
-                        'recurrent_datetime' => date('Y-m-d', time())." 10:00:00",
+                        'recurrent_datetime' => date('Y-m-d', time())." ".$bot_user->bot->recurrent_time,
                         'run_status' => 0
                     ],
                     ['bot_user_id', 'recurrent_datetime'],
