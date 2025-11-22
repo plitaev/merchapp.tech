@@ -194,7 +194,18 @@ class AdminBot extends Page implements HasForms
                             ->label('Адрес вебхука Telegram')
                             ->required()
                             ->maxLength(255)
-                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true)
+                    ]),
+                Section::make('Бизнес-бот')
+                    ->description('Параметры бота техподдержки, подключенного к бизнес-аккаунту Telegram')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
                         TextInput::make('message_worktime_after_minutes')
                             ->label('Время ответа техподдержки до отправки автосообщения бизнес-ботом')
                             ->maxLength(255)
@@ -206,7 +217,7 @@ class AdminBot extends Page implements HasForms
                         TextInput::make('business_bot_delay_after_operator_sent_message_in_minutes')
                             ->label('Не отправлять сообщение в бизнес-бот после ответа оператора (в минутах)')
                             ->maxLength(255)
-                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true)
                     ]),
                 Section::make('Статус бота в Telegram')
                     ->columns([
