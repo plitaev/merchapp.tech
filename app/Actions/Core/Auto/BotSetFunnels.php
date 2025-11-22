@@ -4,6 +4,8 @@ namespace App\Actions\Core\Auto;
 
 use App\Actions\Core\Funnel\FunnelNotBuyBranchProduct;
 use App\Actions\Core\Funnel\FunnelUserBan;
+use App\Actions\Core\Funnel\FunnelUserBanWithRecurrent;
+use App\Actions\Core\Funnel\FunnelUserBanWithoutRecurrent;
 use App\Actions\Core\Funnel\FunnelReferrer;
 
 use App\Models\Core\BotMessage;
@@ -13,6 +15,8 @@ class BotSetFunnels
     public function handle() {
         $funnelNotBuyBranchProduct = new FunnelNotBuyBranchProduct();
         $funnelUserBan = new FunnelUserBan();
+        $funnelUserBanWithRecurrent = new FunnelUserBanWithRecurrent();
+        $funnelUserBanWithoutRecurrent = new FunnelUserBanWithoutRecurrent();
         $funnelReferrer = new FunnelReferrer();
 
         $res = BotMessage::with('funnel_condition:id,alias')->with('funnel_condition_trigger:id,alias')->with('bot:id,ban_time')
@@ -23,8 +27,10 @@ class BotSetFunnels
 
         foreach ($res as $data) {
             $funnelNotBuyBranchProduct->handle($data);
-            $funnelReferrer->handle($data);
             $funnelUserBan->handle($data);
+            $funnelUserBanWithRecurrent->handle($data);
+            $funnelUserBanWithoutRecurrent->handle($data);
+            $funnelReferrer->handle($data);
         }
 
     }
