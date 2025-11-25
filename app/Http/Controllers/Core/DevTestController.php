@@ -46,9 +46,9 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $res = Pay::with('bot_user')->where('status', 1)->orderByDesc('created_at')->get();
+        $pays = Pay::with('bot_user')->where('status', 1)->orderByDesc('created_at')->get();
 
-        return view('core.devtest.devtest', ['res' => $res]);
+        return view('core.devtest.devtest', ['pays' => $pays]);
 
     }
 }
