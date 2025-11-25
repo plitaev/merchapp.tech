@@ -45,33 +45,10 @@ use Illuminate\Support\Facades\Auth;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $time = "23:30:00";
 
-        $funnel_days = 1;
-        $funnel_hours = 3;
-        $funnel_minutes = 0;
+        $res = Pay::with('bot_user')->where('status', 1)->orderByDesc('created_at')->get();
 
-
-        $prevous_date = Carbon::now();
-
-        if ($funnel_days > 0) $prevous_date->subDays($funnel_days);
-
-        $date = $prevous_date->format('Y-m-d');
-
-        $datetime = $date." ".$time;
-        $datetime = Carbon::parse($datetime);
-
-        if ($funnel_hours) $datetime->addHours($funnel_hours);
-        if ($funnel_minutes) $datetime->addMinutes($funnel_minutes);
-
-        $time = $datetime->format('H:i:s');
-        $datetime = $datetime->format('Y-m-d H:i:s');
-
-        $A['date'] = $date;
-        $A['time'] = $time;
-        $A['datetime'] = $datetime;
-
-        return $A;
+        return view('core.devtest.devtest', ['res' => $res]);
 
     }
 }
