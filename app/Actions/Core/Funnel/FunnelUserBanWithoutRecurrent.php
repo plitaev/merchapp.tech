@@ -23,6 +23,7 @@ class FunnelUserBanWithoutRecurrent
             $time = $funnel_date_time['time'];
             $datetime = $funnel_date_time['datetime'];
 
+            return $data->bot->ban_time;
 
             if ($time >= "17:00:00") {
                 $schedules = $getUsersAlreadyInSendingToday->handle($data);
