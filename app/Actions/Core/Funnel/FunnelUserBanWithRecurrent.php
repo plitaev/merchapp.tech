@@ -23,8 +23,6 @@ class FunnelUserBanWithRecurrent
             $time = $funnel_date_time['time'];
             $datetime = $funnel_date_time['datetime'];
 
-            return $date." | ".$time." | ".$datetime;
-
             if ($time >= $data->bot->recurrent_time) {
                 $schedules = $getUsersAlreadyInSendingToday->handle($data);
                 $bot_users = BotUser::select('id')->where('bot_id', $data->bot->id)->where('date_end', $date)->where('recurrent', 1)->whereNotIn('id', $schedules)->get();
