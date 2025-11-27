@@ -28,8 +28,6 @@ class FunnelUserBanWithoutRecurrent
                 $schedules = $getUsersAlreadyInSendingToday->handle($data);
                 $bot_users = BotUser::select('id')->where('bot_id', $data->bot->id)->where('date_end', $date)->where('recurrent', 0)->whereNotIn('id', $schedules)->get();
 
-                return $bot_users;
-
                 if (count($bot_users) > 0) {
 
                     $sending = Sending::create([
