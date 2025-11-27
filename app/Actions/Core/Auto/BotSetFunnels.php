@@ -23,14 +23,13 @@ class BotSetFunnels
             ->select('id', 'funnel_condition_id', 'funnel_condition_trigger_id', 'funnel_days', 'funnel_hours', 'funnel_minutes', 'bot_id', 'bot_branch_id')
             ->whereNotNull('funnel_condition_id')
             ->whereNotNull('funnel_condition_trigger_id')
-            ->where('id', 72)
             ->get();
 
         foreach ($res as $data) {
             $funnelNotBuyBranchProduct->handle($data);
             $funnelUserBan->handle($data);
             $funnelUserBanWithRecurrent->handle($data);
-            return $funnelUserBanWithoutRecurrent->handle($data);
+            $funnelUserBanWithoutRecurrent->handle($data);
             $funnelReferrer->handle($data);
         }
 
