@@ -16,9 +16,7 @@ class FunnelUserBanWithRecurrent
         $funnelGetDateTime = new FunnelGetDateTime();
         $getUsersAlreadyInSendingToday = new GetUsersAlreadyInSendingToday();
 
-        return $data;
-
-        if ($data->funnel_condition->alias == "user_with_recurrent_ban") {
+        if ($data->funnel_condition->alias == "recurrent_run") {
             $funnel_date_time = $funnelGetDateTime->handle($data);
 
             $date = $funnel_date_time['date'];
