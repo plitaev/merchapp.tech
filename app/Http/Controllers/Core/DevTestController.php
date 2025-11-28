@@ -47,7 +47,7 @@ class DevTestController extends Controller
     public function devtest() {
         $date_end = new DateEnd();
 
-        $bot_users = BotUser::skip(10000)->take(5000)->orderBy('id')->get();
+        $bot_users = BotUser::skip(15000)->take(5000)->orderBy('id')->get();
         foreach ($bot_users as $bot_user) {
             $date_end->handle($bot_user, 'Y-m-d');
         }
