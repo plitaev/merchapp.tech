@@ -45,10 +45,11 @@ use Illuminate\Support\Facades\Auth;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $date_end = new DateEnd();
 
-        $pays = Pay::with('bot_user')->where('status', 1)->orderByDesc('created_at')->get();
-
-        return view('core.devtest.devtest', ['pays' => $pays]);
-
+        $bot_users = BotUser::get();
+        foreach ($bot_users as $bot_user) {
+            $date_end->handle($bot_user, 'Y-m-d');
+        }
     }
 }
