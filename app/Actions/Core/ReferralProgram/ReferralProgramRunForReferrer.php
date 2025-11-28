@@ -46,7 +46,7 @@ class ReferralProgramRunForReferrer
             }
 
         } else {
-            $botSendMessage->handle($bot_user, 'SYS_BRANCH_EXPIRED');
+            $botSendMessage->handle($bot_user, 'SYS_RP_EXPIRED');
         }
 
     }
