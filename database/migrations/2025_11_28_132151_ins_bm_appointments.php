@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        BotMessageAppointment::create(['name' => 'Акция закончилась', 'alias' => 'SYS_RP_EXPIRED']);
+        BotMessageAppointment::create(['name' => 'Реферальная программа закончилась', 'alias' => 'SYS_RP_EXPIRED']);
     }
 
     /**
