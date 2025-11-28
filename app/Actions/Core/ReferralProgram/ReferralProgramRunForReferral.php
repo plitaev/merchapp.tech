@@ -43,7 +43,7 @@ class ReferralProgramRunForReferral
         //== Проверяем, сколько людей уже прошло по ссылке
         $bot_branch = BotBranch::select('referal_program_max_referrals_count', 'datetime_end')->find($branch_data[1]);
 
-        if ($bot_branch->datetime_end >= date('Y-m-d H:i:s', time())) {
+        if ($bot_branch->datetime_end <= date('Y-m-d H:i:s', time())) {
             $botSendMessage->handle($bot_user, 'SYS_RP_EXPIRED');
             die();
         }
