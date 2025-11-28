@@ -153,7 +153,7 @@ class ClubAccessController extends Controller
 
             //== Если это /referral, тут обрабатываем реферальную программу
             if ($Astart[0] == "/referral") {
-                $referralProgramRunForReferrer->handle($bot_user);
+                return $referralProgramRunForReferrer->handle($bot_user);
                 die();
             }
 
