@@ -26,8 +26,6 @@ class ReferralProgramRunForReferrer
 
         if ($rp_actual) {
 
-            return '2';
-
             if (isset($bot_user->date_end) && $bot_user->date_end >= $date) {
 
                 $check = BotBranchReferralProgram::where('bot_branch_id', $rp_actual->id)->where('referrer_bot_user_id', $bot_user->id)->count();
@@ -48,9 +46,6 @@ class ReferralProgramRunForReferrer
             }
 
         } else {
-
-            return '3';
-
             $botSendMessage->handle($bot_user, 'SYS_RP_EXPIRED');
         }
 
