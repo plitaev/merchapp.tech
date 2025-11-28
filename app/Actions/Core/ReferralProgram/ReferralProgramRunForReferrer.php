@@ -21,6 +21,7 @@ class ReferralProgramRunForReferrer
             ->where('bot_id', $bot_user->bot_id)
             ->where('datetime_start', '<=', $datetime)
             ->where('datetime_end', '>=', $datetime)
+            ->orderByDesc('datetime_start')
             ->first();
 
         if ($rp_actual && isset($bot_user->date_end) && $bot_user->date_end >= $date) {
