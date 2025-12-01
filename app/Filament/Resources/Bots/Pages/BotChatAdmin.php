@@ -331,15 +331,14 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                         })
                         ->visible(fn() => auth()->user()->can('Update:BotUser')),
 
-                    Action::make('Списать рекуррент повторно')
-                        ->label('Списать рекуррент повторно')
+                    Action::make('Списать рекуррент вручную')
+                        ->label('Списать рекуррент вручную')
                         ->color('success')
                         ->requiresConfirmation()
                         ->visible(fn() => auth()->user()->can('Update:BotMessage'))
                         ->action(function () {
                             $data = $this->form->getState();
                             $botUserRecurrentSchedule = new BotUserRecurrentSchedule();
-
                             $botUserRecurrentSchedule->handle($data);
 
 
