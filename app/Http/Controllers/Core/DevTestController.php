@@ -9,6 +9,7 @@ use App\Http\Controllers\Core\HMACController;
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
+use App\Models\Core\BotUserPrice;
 use App\Models\Core\BotUserRecurrentSchedule;
 use App\Models\Core\BotUserUnbanSchedule;
 use App\Models\Core\Pay;
@@ -48,7 +49,7 @@ class DevTestController extends Controller
 
         $res = BotUser::select('id')->where('date_end', '>=', '2025-12-01')->get();
         foreach ($res as $data) {
-
+            BotUserPrice::create(['bot_user_id' => $data->id]);
         }
 
     }
