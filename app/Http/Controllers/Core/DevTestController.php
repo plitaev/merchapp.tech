@@ -49,10 +49,10 @@ class DevTestController extends Controller
 
         $res = BotUser::select('id')->where('date_end', '>=', '2025-12-01')->get();
         foreach ($res as $data) {
-            BotUserPrice::create(['bot_user_id' => $data->id, 'product_id' => 1, 'product_price' => 1490]);
-            BotUserPrice::create(['bot_user_id' => $data->id, 'product_id' => 2, 'product_price' => 8900]);
-            BotUserPrice::create(['bot_user_id' => $data->id, 'product_id' => 3, 'product_price' => 12900]);
-            BotUserPrice::create(['bot_user_id' => $data->id, 'product_id' => 4, 'product_price' => 4450]);
+            BotUserPrice::create(['bot_user_id' => $data->id, 'product_id' => 1, 'price' => 1490]);
+            BotUserPrice::create(['bot_user_id' => $data->id, 'product_id' => 2, 'price' => 8900]);
+            BotUserPrice::create(['bot_user_id' => $data->id, 'product_id' => 3, 'price' => 12900]);
+            BotUserPrice::create(['bot_user_id' => $data->id, 'product_id' => 4, 'price' => 4450]);
         }
 
 
