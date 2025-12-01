@@ -49,7 +49,7 @@ class PayController
             }
 
             $bot_user_price = BotUserPrice::select('price')->where('bot_user_id', $bot_user->id)->where('product_id', $product_id)->first();
-            $product->price = $bot_user_price->price;
+            if ($bot_user_price) $product->price = $bot_user_price->price;
 
             $pay_system_id = NULL;
             $pay_system = PaySystem::where('alias', $pay_system_alias)->first();
