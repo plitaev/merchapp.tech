@@ -45,11 +45,9 @@ use Illuminate\Support\Facades\Auth;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $date_end = new DateEnd();
 
-        $bot_users = BotUser::skip(30000)->take(5000)->orderBy('id')->get();
-        foreach ($bot_users as $bot_user) {
-            $date_end->handle($bot_user, 'Y-m-d');
-        }
+        $pays = Pay::select('bot_user_id')->where('price', 1490)->where('status', 1)->pluck('bot_user_id')->toArray();
+        BotUser::whereIn('id', $pays)->where('date_end', '>=', '2025-12-01')->update(['last_product_id' => 1, 'last_product_price' => '1490']);
+
     }
 }
