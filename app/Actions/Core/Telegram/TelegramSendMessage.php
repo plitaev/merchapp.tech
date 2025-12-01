@@ -37,7 +37,7 @@ class TelegramSendMessage
 
             $kb = [];
 
-            $buttons = BotMessageButton::with('bot_message_button_callbacks')->where('bot_message_id', $bot_message_id)->orderBy('pos')->get();
+            $buttons = BotMessageButton::with('bot_message_button_callbacks')->with('product')->where('bot_message_id', $bot_message_id)->orderBy('pos')->get();
             foreach ($buttons as $button) {
 
                 if ($button->url) {
@@ -60,7 +60,21 @@ class TelegramSendMessage
                 }
 
                 if ($button->bot_message_button_type_id == 4) {
-                    $btn = [['url' => env("APP_URL")."/pay/create/".$button->pay_system->alias."/".$bot_user->id."/".$button->product_id, "text" => $button->name]];
+                    $button_name = $button->name;
+
+                    if (stripos(strtolower($button_name), 'VAR_PRODUCT_PRICE')) {
+
+
+                        if (isset($bot_user->last_product_id) && isset($bot_user->last_product_price) && $bot_user->last_product_id == $button->product_id) {
+                            $button_name = str_replace('VAR_PRODUCT_PRICE', $bot_user->last_product_price.' руб.', $button_name);
+                        } else {
+                            $button_name = str_replace('VAR_PRODUCT_PRICE', $button->product->price.' руб.', $button_name);
+                        }
+
+                    }
+
+
+                    $btn = [['url' => env("APP_URL")."/pay/create/".$button->pay_system->alias."/".$bot_user->id."/".$button->product_id, "text" => $button_name]];
                 }
 
                 $kb[] = $btn;

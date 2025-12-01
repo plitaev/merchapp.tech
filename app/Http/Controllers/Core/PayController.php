@@ -43,6 +43,10 @@ class PayController
 
             $product = Product::find($product_id);
 
+            if (isset($bot_user->last_product_id) && isset($bot_user->last_product_price) && $bot_user->last_product_id == $product_id) {
+                $product->price = $bot_user->last_product_price;
+            }
+
             $pay_system_id = NULL;
             $pay_system = PaySystem::where('alias', $pay_system_alias)->first();
             if (isset($pay_system)) $pay_system_id = $pay_system->id;
