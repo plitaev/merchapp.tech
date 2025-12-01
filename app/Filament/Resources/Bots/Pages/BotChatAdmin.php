@@ -195,8 +195,22 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                     ->schema([
                         Forms\Components\Checkbox::make('recurrent')
                             ->label('Автоплатеж включен')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true)
 
+                    ]),
+                Section::make('Черный список')
+                    ->description('При добавлении пользователя в черный список бот не будет реагировать на его действия')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->schema([
+                        Toggle::make('blacklist')
+                            ->label('Включить')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true)
                     ]),
                 Section::make('Статистика')
                     ->description(new HtmlString("<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs' style='display: block; margin-bottom: 10px; font-weight:bold'>Сообщения от бота: {$this->count} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Баны: {$this->count_ban} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs' style='display: block; margin-top: 10px; font-weight:bold'>Разбаны: {$this->count_unban} 🔍</a>"))

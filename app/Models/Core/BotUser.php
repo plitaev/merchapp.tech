@@ -20,6 +20,7 @@ class BotUser extends Model
         'username',
         'email',
         'recurrent',
+        'blacklist',
         'last_product_id',
         'last_product_price',
         'business_bot_account',
