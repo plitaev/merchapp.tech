@@ -93,14 +93,11 @@ class ClubAccessController extends Controller
         //== А если найден, то пишем в БД и идем дальше
         $botUserCreateFromTelegram->handle($chat_id, $bot_id, $webhook);
 
-        //== Здесь будет чёрный список
-
-        if ($chat_id == 6065254011 || $chat_id == 8127407393 || $chat_id == 7664285600) {
-            die();
-        }
-
         //== Достаем данные юзера по chat_id после создания
         $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id);
+
+        if ($bot_user->blacklist == 1) die();
+
         //== Заканчиваем первичную обработку
 
         //== Переходим к работе с колбэком ТГ
