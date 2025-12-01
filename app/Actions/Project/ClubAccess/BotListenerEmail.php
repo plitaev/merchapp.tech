@@ -27,6 +27,11 @@ class BotListenerEmail
             //== Если ожидает, то проверяем, является ли введенная пользователем строка почтой через стандартный определитель ТГ
             if (isset($webhook['message']['entities']) && $webhook['message']['entities'][0]['type']=='email') {
 
+                if (filter_var($webhook['message']['text'], FILTER_VALIDATE_EMAIL)) {
+                    $botSendMessage->handle($bot_user, 'SYS_ENTERED_EMAIL_INCORRECT');
+                    die();
+                }
+
                 $other_telegram_user = BotUser::where('email', $webhook['message']['text'])->whereNot('id', $bot_user->id)->count();
 
                 if ($other_telegram_user > 0) {
