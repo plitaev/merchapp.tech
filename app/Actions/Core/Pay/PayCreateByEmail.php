@@ -40,6 +40,8 @@ class PayCreateByEmail
 
             $bot_user = BotUser::find($bot_user->id);
 
+            BotUser::where('id', $bot_user->id)->update(['last_product_id' => $product_id, 'last_product_price' => $price]);
+
             //== Завершаем ветку по покупке продукта
             $botBranchEndByProducts->handle($product_id, $bot_user->id);
 
