@@ -46,8 +46,10 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $pays = Pay::select('bot_user_id')->where('price', 1490)->where('status', 1)->pluck('bot_user_id')->toArray();
-        BotUser::whereIn('id', $pays)->where('date_end', '>=', '2025-12-01')->update(['last_product_id' => 1, 'last_product_price' => '1490']);
+        $res = BotUser::select('id')->where('date_end', '>=', '2025-12-01')->get();
+        foreach ($res as $data) {
+
+        }
 
     }
 }
