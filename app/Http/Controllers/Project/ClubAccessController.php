@@ -169,9 +169,9 @@ class ClubAccessController extends Controller
                 die();
             }
 
-            //== Если это /subscription, тут обрабатываем регистрацию
+            //== Если это /subscribe, тут обрабатываем регистрацию
             if ($Astart[0] == "/subscribe") {
-                $botSendMessage->handle($bot_user, 'SYS_PAY_IN_BOT_ALL_TARIFFS');
+                $botGoToClub->handle($telegram, $webhook, $bot_user);
                 die();
             }
 
