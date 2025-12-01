@@ -51,6 +51,9 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\Pay\PayCreateByPayGuest;
 use Symfony\Component\Console\Input\Input;
 use Illuminate\Support\Facades\Auth;
+
+use Filament\Forms\Components\Toggle;
+
 class BotChatAdmin extends Page implements HasForms, HasInfolists
 {
     use InteractsWithForms;
