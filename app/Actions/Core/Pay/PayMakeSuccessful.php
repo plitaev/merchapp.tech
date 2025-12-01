@@ -39,6 +39,8 @@ class PayMakeSuccessful
 
         $dateEnd->handle($bot_user, 'Y-m-d');
 
+        BotUser::where('id', $pay->bot_user_id)->update(['last_product_id' => $pay->product_id, 'last_product_price' => $pay->price]);
+
         //== Обрабатываем продукт в реферальной ветке
         $referralBuySpecialProduct->handle($pay);
 
