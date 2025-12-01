@@ -46,11 +46,14 @@ use Illuminate\Support\Facades\Auth;
 class DevTestController extends Controller
 {
     public function devtest() {
-
+        /*
         $res = BotUser::select('id')->where('date_end', '>=', '2025-12-01')->get();
         foreach ($res as $data) {
             BotUserPrice::create(['bot_user_id' => $data->id]);
         }
+        */
+
+        return BotUserPrice::count();
 
     }
 }
