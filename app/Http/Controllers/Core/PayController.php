@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Core;
 
 use App\Http\Controllers\Core\HMACController;
+use App\Models\Core\BotUserPrice;
 use YooKassa\Client;
 
 use App\Actions\Core\BotUser\BotUserGetFullName;
@@ -46,6 +47,9 @@ class PayController
             if (isset($bot_user->last_product_id) && isset($bot_user->last_product_price) && $bot_user->last_product_id == $product_id) {
                 $product->price = $bot_user->last_product_price;
             }
+
+            $bot_user_price = BotUserPrice::select('price')->where('bot_user_id', $bot_user->id)->where('product_id', $product_id)->first();
+            $product->price = $bot_user_price->price;
 
             $pay_system_id = NULL;
             $pay_system = PaySystem::where('alias', $pay_system_alias)->first();

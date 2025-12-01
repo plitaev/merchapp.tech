@@ -1,5 +1,6 @@
 <?php
 namespace App\Actions\Core\Telegram;
+use App\Models\Core\BotUserPrice;
 use Telegram\Bot\Api;
 
 use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
@@ -64,9 +65,9 @@ class TelegramSendMessage
 
                     if (stripos(strtolower($button_name), 'VAR_PRODUCT_PRICE')) {
 
-
-                        if (isset($bot_user->last_product_id) && isset($bot_user->last_product_price) && $bot_user->last_product_id == $button->product_id) {
-                            $button_name = str_replace('VAR_PRODUCT_PRICE', $bot_user->last_product_price.' руб.', $button_name);
+                        $bot_user_price = BotUserPrice::select('price')->where('bot_user_id', $bot_user->id)->where('product_id', $button->product_id)->first();
+                        if ($bot_user_price) {
+                            $button_name = str_replace('VAR_PRODUCT_PRICE', $bot_user_price->price.' руб.', $button_name);
                         } else {
                             $button_name = str_replace('VAR_PRODUCT_PRICE', $button->product->price.' руб.', $button_name);
                         }

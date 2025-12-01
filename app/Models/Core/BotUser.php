@@ -21,8 +21,6 @@ class BotUser extends Model
         'email',
         'recurrent',
         'blacklist',
-        'last_product_id',
-        'last_product_price',
         'business_bot_account',
         'language_code',
         'ban',

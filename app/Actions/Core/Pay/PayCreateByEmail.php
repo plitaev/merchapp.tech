@@ -3,6 +3,7 @@ namespace App\Actions\Core\Pay;
 
 use App\Actions\Core\BotBranch\BotBranchEndByProducts;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
+use App\Actions\Core\BotUserPrice\BotUserPriceSet;
 use App\Actions\Core\DateEnd\DateEnd;
 
 use App\Models\Core\BotUser;
@@ -14,6 +15,7 @@ class PayCreateByEmail
     public function handle(string $email, int $product_id, int $recurrent, int $recurrent_status, int $days = 0, int $price = 0) {
         $botBranchEndByProducts = new BotBranchEndByProducts();
         $botSendMessage = new BotSendMessage();
+        $botUserPriceSet = new BotUserPriceSet();
         $dateEnd = new DateEnd();
 
         $product = Product::select('bot_id', 'price', 'days')->find($product_id);
@@ -40,7 +42,7 @@ class PayCreateByEmail
 
             $bot_user = BotUser::find($bot_user->id);
 
-            BotUser::where('id', $bot_user->id)->update(['last_product_id' => $product_id, 'last_product_price' => $price]);
+            $botUserPriceSet->handle($bot_user);
 
             //== Завершаем ветку по покупке продукта
             $botBranchEndByProducts->handle($product_id, $bot_user->id);

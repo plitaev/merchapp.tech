@@ -2,6 +2,7 @@
 namespace App\Actions\Core\Pay;
 
 use App\Actions\Core\BotSendMessage\BotSendMessage;
+use App\Actions\Core\BotUserPrice\BotUserPriceSet;
 use App\Actions\Core\DateEnd\DateEnd;
 
 use App\Models\Core\BotUser;
@@ -13,6 +14,7 @@ class PayCreateByPayGuest
 {
     public function handle($bot_user, string $email) {
         $botSendMessage = new BotSendMessage();
+        $botUserPriceSet = new BotUserPriceSet();
         $dateEnd = new DateEnd();
 
         $products = Product::select('id')->where('bot_id', $bot_user->bot_id)->pluck('id')->toArray();
@@ -38,6 +40,7 @@ class PayCreateByPayGuest
         }
 
         $dateEnd->handle($bot_user, 'Y-m-d');
+        $botUserPriceSet->handle($bot_user);
 
         if (count($res) > 0) {
             $bot_user = BotUser::find($bot_user->id);

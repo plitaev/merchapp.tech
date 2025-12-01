@@ -5,6 +5,7 @@ use App\Actions\Core\BotBranch\BotBranchEndByProducts;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserGetByID;
 use App\Actions\Core\BotUser\BotUserSetBranch;
+use App\Actions\Core\BotUserPrice\BotUserPriceSet;
 use App\Actions\Core\DateEnd\DateEnd;
 use App\Actions\Core\ReferralProgram\ReferralBuySpecialProduct;
 
@@ -18,6 +19,7 @@ class PayMakeSuccessful
         $botBranchEndByProducts = new BotBranchEndByProducts();
         $botSendMessage = new BotSendMessage();
         $botUserGetByID = new BotUserGetByID();
+        $botUserPriceSet = new BotUserPriceSet();
         $botUserSetBranch = new BotUserSetBranch();
         $dateEnd = new DateEnd();
         $referralBuySpecialProduct = new ReferralBuySpecialProduct();
@@ -39,7 +41,7 @@ class PayMakeSuccessful
 
         $dateEnd->handle($bot_user, 'Y-m-d');
 
-        BotUser::where('id', $pay->bot_user_id)->update(['last_product_id' => $pay->product_id, 'last_product_price' => $pay->price]);
+        $botUserPriceSet->handle($bot_user);
 
         //== Обрабатываем продукт в реферальной ветке
         $referralBuySpecialProduct->handle($pay);
