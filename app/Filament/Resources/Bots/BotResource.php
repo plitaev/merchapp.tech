@@ -2,6 +2,7 @@
 namespace App\Filament\Resources\Bots;
 
 use App\Filament\Resources\Bots\Pages\BotRecurrents;
+use App\Filament\Resources\Bots\Pages\BotRecurrent;
 use App\Filament\Resources\Bots\Pages\BotShopSegments;
 use Illuminate\Contracts\View\View;
 
@@ -199,7 +200,7 @@ class BotResource extends Resource
             'pay-guests' => BotPayGuests::route('/{bot_id}/pay-guests'),
             'pay-guest-admin' => BotPayGuestAdmin::route('/{bot_id}/{id}/pay-guest-admin'),
             'recurrents' => BotRecurrents::route('/{bot_id}/recurrents'),
-            'recurrent' => BotRecurrents::route('/{bot_id}/{date_end}/recurrents'),
+            'recurrent' => BotRecurrent::route('/{bot_id}/{date_end}/recurrents'),
             'products' => BotProducts::route('/{bot_id}/products'),
             'product-admin' => BotProductAdmin::route('/{bot_id}/{id}/product-admin'),
             'sendings' => BotSendings::route('/{bot_id}/sendings'),
