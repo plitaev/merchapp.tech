@@ -47,7 +47,7 @@ class BotRecurrents extends Page implements HasTable
 
         $this->bot_name = $bot->name;
 
-        $recurrents_all = BotUser::select('date_end')->where('date_end', '>=', date('Y-m-d', time()))->where('recurrent', 1)->get();
+        $recurrents_all = BotUser::select('date_end')->where('date_end', '>=', date('Y-m-d', time()))->where('recurrent', 1)->groupBy('date_end')->get();
         $Adates = [];
         foreach ($recurrents_all as $recurrent_all) {
             $Adates[$recurrent_all->date_end][] = 1;
