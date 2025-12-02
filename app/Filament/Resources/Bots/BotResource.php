@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Bots;
 
+use App\Filament\Resources\Bots\Pages\BotRecurrents;
 use App\Filament\Resources\Bots\Pages\BotShopSegments;
 use Illuminate\Contracts\View\View;
 
@@ -197,6 +198,7 @@ class BotResource extends Resource
             'pay-system-admin' => BotPaySystemAdmin::route('/{record}/pay-system-admin'),
             'pay-guests' => BotPayGuests::route('/{bot_id}/pay-guests'),
             'pay-guest-admin' => BotPayGuestAdmin::route('/{bot_id}/{id}/pay-guest-admin'),
+            'recurrents' => BotRecurrents::route('/{bot_id}/recurrents'),
             'products' => BotProducts::route('/{bot_id}/products'),
             'product-admin' => BotProductAdmin::route('/{bot_id}/{id}/product-admin'),
             'sendings' => BotSendings::route('/{bot_id}/sendings'),
