@@ -55,7 +55,7 @@ class BotRecurrents extends Page implements HasTable
 
         $recurrent_dates = BotUser::select('date_end')->where('date_end', '>=', date('Y-m-d', time()))->where('recurrent', 1)->groupBy('date_end')->orderBy('date_end')->pluck('date_end')->toArray();
         foreach ($recurrent_dates as $recurrent_date) {
-            $this->recurrents[] = ['date' => date('d.m.Y', strtotime($recurrent_date)), 'count' => (isset($Adates[$recurrent_date])?count($Adates[$recurrent_date]):0)];
+            $this->recurrents[] = ['date' => $recurrent_date, 'count' => (isset($Adates[$recurrent_date])?count($Adates[$recurrent_date]):0)];
         }
 
 
@@ -80,8 +80,10 @@ class BotRecurrents extends Page implements HasTable
         return $table
             ->records(fn (): array => $this->recurrents)
             ->columns([
-                TextColumn::make('date')->label('Дата списания автоплатежа'),
-                TextColumn::make('count')->label('Количество списаний')
-            ]);
+                TextColumn::make('date')->label('Дата списания автоплатежа')
+                    ->date('d.m.Y'),
+                TextColumn::make('count')->label('Количество списаний'),
+            ])
+            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->date."/recurrent");
     }
 }
