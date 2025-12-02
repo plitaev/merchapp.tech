@@ -40,17 +40,19 @@ class BotRecurrent extends Page implements HasTable
     public int $bot_id;
     public string $bot_name;
 
-    public date $date_end;
+    public string $date_end;
 
     public function getMaxContentWidth(): Width{return Width::ScreenTwoExtraLarge;}
 
-    public function mount(int $bot_id, date $date_end): void
+    public function mount(int $bot_id, string $date_end): void
     {
         $this->bot_id = $bot_id;
         $bot = Bot::select('name')->find($bot_id);
 
         $this->edit_bots = Permission::where('name', 'edit bots')->count();
         $this->bot_name = $bot->name;
+
+        $this->date_end = $date_end;
 
         if (!Auth::user()->hasPermissionTo('View:BotUser')) {
             redirect('/admin/bots/access');
