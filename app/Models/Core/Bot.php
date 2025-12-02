@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Bot extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'alias',
@@ -82,7 +83,7 @@ class Bot extends Model
 
     public function prodamus_tax(): BelongsTo
     {
-        return $this->belongsTo(ProdamusTax::class, 'prodamus_tax', 'id');
+        return $this->belongsTo(ProdamusTax::class, 'prodamus_tax_id', 'id');
     }
 
 }
