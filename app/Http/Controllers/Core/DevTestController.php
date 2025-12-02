@@ -46,9 +46,15 @@ use Illuminate\Support\Facades\Auth;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $olds = BotUserPrice::select('bot_user_id')->where('product_id', 1)->where('price', 1490)->groupBy('bot_user_id')->pluck('bot_user_id')->toArray();
+        BotUserPrice::whereIn('bot_user_id', $olds)->where('product_id', 1)->where('price', 1990)->delete();
+
+        /*
         $bot_users = Pay::select('bot_user_id')->where('product_id', 28)->where('status', 1)->groupBy('bot_user_id')->pluck('bot_user_id')->toArray();
         BotUserPrice::whereIn('bot_user_id', $bot_users)->where('product_id', 1)->update(['price' => 1990]);
 
         return $bot_users;
+        */
     }
 }
