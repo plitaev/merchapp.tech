@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('price');
             $table->timestamps();
 
-            $table->unique(['bot_user_id', 'product_id', 'price'], 'unique');
+            $table->unique(['bot_user_id', 'product_id'], 'unique');
         });
     }
 
