@@ -9,6 +9,7 @@ use App\Actions\Core\Auto\BotUserSetBanSchedulerCreate;
 use App\Actions\Core\Telegram\TelegramBanRun;
 
 use App\Models\Core\BotUser;
+use App\Models\Core\BotUserPrice;
 use App\Models\Core\BotUserBanSchedule;
 
 class BotUserBanProcess
@@ -32,6 +33,7 @@ class BotUserBanProcess
 
         foreach ($bans as $ban) {
             BotUserBanSchedule::where('id', $ban->id)->update(['run_status' => 1]);
+            BotUserPrice::where('bot_user_id', $ban->bot_user->id)->delete();
             $telegram = new Api($ban->bot->telegram_token);
 
             if (isset($supergroups[$ban->bot->id])) {
