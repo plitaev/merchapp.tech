@@ -38,7 +38,7 @@ class BotRecurrents extends Page implements HasTable
     public int $bot_id;
     public string $bot_name;
 
-    public array $recurrents;
+    public array $recurrents = [];
 
     public function mount(int $bot_id): void
     {
