@@ -17,6 +17,7 @@ class BotUserRecurrentSchedulerProcess
         $res = BotUserRecurrentSchedule::with('prevous_pay:id,pay_system_payment_method_id,price')
             ->with('bot.prodamus_payment_method')
             ->with('bot.prodamus_payment_object')
+            ->with('bot.prodamus_tax')
             ->with('bot.yookassa_tax_system_code')
             ->with('bot.yookassa_vat_code')
             ->with('bot.yookassa_payment_mode')

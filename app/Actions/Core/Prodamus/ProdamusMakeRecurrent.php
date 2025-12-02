@@ -32,7 +32,8 @@ class ProdamusMakeRecurrent
             'quantity' => '1',
             'tax' => [
                 'paymentMethod' => $data->bot->prodamus_payment_method->code,
-                'paymentObject' => $data->bot->prodamus_payment_object->code
+                'paymentObject' => $data->bot->prodamus_payment_object->code,
+                'tax_type' => $data->prodamus_tax->code
             ]];
 
         $Aproducts[] = $products;

@@ -40,6 +40,7 @@ class PayController
                 ->with('prodamus_payment_method')
                 ->with('prodamus_payment_object')
                 ->with('prodamus_npd_income_type')
+                ->with('prodamus_tax')
                 ->find($bot_user->bot_id);
 
             $product = Product::find($product_id);
@@ -63,8 +64,10 @@ class PayController
                 'quantity' => '1',
                 'tax' => [
                     'paymentMethod' => $bot->prodamus_payment_method->code,
-                    'paymentObject' => $bot->prodamus_payment_object->code
-                ]];
+                    'paymentObject' => $bot->prodamus_payment_object->code,
+                    'tax_type' => $bot->prodamus_tax->code
+                ]
+            ];
 
             $Aproducts[] = $products;
 
