@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Models\Core\ProdamusTax;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -177,6 +178,12 @@ class BotPaySystemAdmin extends Page implements HasForms
                         Select::make('prodamus_npd_income_type_id')
                             ->label('Тип плательщика')
                             ->options(ProdamusNpdIncomeType::query()->pluck('name', 'id'))
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+
+                        Select::make('prodamus_tax_id')
+                            ->label('Тип плательщика')
+                            ->options(ProdamusTax::query()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
 

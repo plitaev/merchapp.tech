@@ -30,6 +30,7 @@ class Bot extends Model
         'prodamus_payment_method_id',
         'prodamus_payment_object_id',
         'prodamus_npd_income_type_id',
+        'prodamus_tax_id',
         'ban_time',
         'prodamus_sys',
         'prodamus_url',
