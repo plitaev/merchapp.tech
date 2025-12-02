@@ -80,8 +80,8 @@ class BotRecurrents extends Page implements HasTable
         return $table
             ->records(fn (): array => $this->recurrents)
             ->columns([
-                TextColumn::make('date'),
-                TextColumn::make('count')
+                TextColumn::make('date')->label('Дата списания автоплатежа'),
+                TextColumn::make('count')->label('Количество списаний')
             ]);
     }
 }
