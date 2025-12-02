@@ -50,7 +50,7 @@ class BotRecurrent extends Page implements HasTable
         $bot = Bot::select('name')->find($bot_id);
 
         $this->edit_bots = Permission::where('name', 'edit bots')->count();
-        $this->bot_name = date('d.m.Y', strtotime($date_end));
+        $this->bot_name = $bot->name." - ".date('d.m.Y', strtotime($date_end));
 
         $this->date_end = $date_end;
 
