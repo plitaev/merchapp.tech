@@ -31,9 +31,10 @@ class BotUserRecurrentSchedulerProcess
             ->take(1)
             ->get();
 
-        return $res;
-
         foreach ($res as $data) {
+
+            return $data->prodamus_tax->code;
+
             BotUserRecurrentSchedule::where('id', $data->id)->update(['run_status' => 1]);
 
             if ($data->paysystem->alias == "yookassa") $result = $yookassaMakeRecurrent->handle($data);
