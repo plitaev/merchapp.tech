@@ -1,28 +1,33 @@
 <?php
-
 namespace App\Filament\Resources\Bots\Pages;
 
-use App\Models\Core\BotUser;
-use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Facades\Auth;
+
+use Filament\Resources\Pages\Page;
+use App\Filament\Resources\Bots\BotResource;
+
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
-use App\Filament\Resources\Bots\BotResource;
-use App\Models\Core\Bot;
-use App\Models\Core\Product;
-use App\Models\Core\User;
 
-use Filament\Resources\Pages\Page;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+
+
 use Filament\Tables;
+use Filament\Tables\Table;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
+use Filament\Tables\Columns\TextColumn;
 
-class BotRecurrents extends Page implements HasTable
+use App\Models\Core\Bot;
+use App\Models\Core\BotUser;
+
+class BotRecurrents extends Page implements HasForms, HasTable
 {
+    use InteractsWithForms;
     use InteractsWithTable;
 
 
