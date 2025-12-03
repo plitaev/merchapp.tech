@@ -2,6 +2,7 @@
 namespace App\Filament\Resources\Bots\Pages;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
 
 use Filament\Resources\Pages\Page;
 use App\Filament\Resources\Bots\BotResource;
