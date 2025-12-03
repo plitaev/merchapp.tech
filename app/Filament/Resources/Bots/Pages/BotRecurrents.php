@@ -73,7 +73,7 @@ class BotRecurrents extends Page implements HasForms, HasTable
             $Amys[] = date("m.Y", strtotime($recurrent_date));
         }
 
-        array_unique($Amys);
+        $Amys = array_unique($Amys);
 
         $recurrents_by_months = "";
         foreach ($Amys as $my) {
