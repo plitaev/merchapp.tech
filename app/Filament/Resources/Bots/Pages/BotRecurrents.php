@@ -22,6 +22,9 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Columns\TextColumn;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
 
