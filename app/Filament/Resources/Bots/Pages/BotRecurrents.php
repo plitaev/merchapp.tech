@@ -77,7 +77,7 @@ class BotRecurrents extends Page implements HasForms, HasTable
 
         $recurrents_by_months = "";
         foreach ($Amys as $my) {
-            $recurrents_by_months .= "<p style='display: block; margin-bottom: 10px; font-weight:bold'>".(isset($Amys[$my])?count($Amys[$my]):0)."</p>";
+            $recurrents_by_months .= "<p style='display: block; margin-bottom: 10px; font-weight:bold'>".$my." - ".(isset($Amys[$my])?count($Amys[$my]):0)."</p>";
         }
 
         $this->recurrents_by_months = $recurrents_by_months;
