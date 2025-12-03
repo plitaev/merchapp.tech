@@ -63,12 +63,12 @@ class BotRecurrents extends Page implements HasForms, HasTable
 
         //== Для таблицы пользователей
 
-        $recurrents_all = BotUser::select('date_end')->where('date_end', '>=', date('Y-m-d', time()))->where('recurrent', 1)->get();
+        $recurrents_all = BotUser::select('date_end')->where('date_end', '>=', date('Y-m', time())."-01")->where('recurrent', 1)->get();
         foreach ($recurrents_all as $recurrent_all) {
             $Adates[$recurrent_all->date_end][] = 1;
         }
 
-        $recurrent_dates = BotUser::select('date_end')->where('date_end', '>=', date('Y-m-d', time()))->where('recurrent', 1)->groupBy('date_end')->orderBy('date_end')->pluck('date_end')->toArray();
+        $recurrent_dates = BotUser::select('date_end')->where('date_end', '>=', date('Y-m', time())."-01")->where('recurrent', 1)->groupBy('date_end')->orderBy('date_end')->pluck('date_end')->toArray();
         foreach ($recurrent_dates as $recurrent_date) {
             $this->recurrents[] = ['date' => $recurrent_date, 'count' => (isset($Adates[$recurrent_date])?count($Adates[$recurrent_date]):0)];
         }
