@@ -35,7 +35,7 @@ class BotUserRecurrentSchedulerProcess
 
         foreach ($res as $data) {
 
-            return $data->prodamus_tax->code;
+            return $data->bot->prodamus_tax->code;
 
             BotUserRecurrentSchedule::where('id', $data->id)->update(['run_status' => 1]);
 
