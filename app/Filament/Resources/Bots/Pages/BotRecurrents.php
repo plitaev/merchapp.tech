@@ -38,7 +38,7 @@ class BotRecurrents extends Page implements HasTable
     public int $bot_id;
     public string $bot_name;
 
-    public array $recurrents = [];
+    public string $recurrents_by_months = "";
 
     public function mount(int $bot_id): void
     {
@@ -47,17 +47,26 @@ class BotRecurrents extends Page implements HasTable
 
         $this->bot_name = $bot->name;
 
-        $recurrents_all = BotUser::select('date_end')->where('date_end', '>=', date('Y-m-d', time()))->where('recurrent', 1)->get();
+        //== Рекурренты
+
+        $recurrents_all = BotUser::select('date_end')->where('date_end', '>=', date('Y-m-d', time()))->where('recurrent', 1)->orderByDesc('date_end')->get();
+
+        $Ayears_months = [];
         $Adates = [];
+
         foreach ($recurrents_all as $recurrent_all) {
-            $Adates[$recurrent_all->date_end][] = 1;
+            $date_ym = date('m.Y', strtotime($recurrent_all->date_end));
+            $Ayears_months[] = $date_ym;
+            $Adates[$date_ym][] = 1;
         }
 
-        $recurrent_dates = BotUser::select('date_end')->where('date_end', '>=', date('Y-m-d', time()))->where('recurrent', 1)->groupBy('date_end')->orderBy('date_end')->pluck('date_end')->toArray();
-        foreach ($recurrent_dates as $recurrent_date) {
-            $this->recurrents[] = ['date' => $recurrent_date, 'count' => (isset($Adates[$recurrent_date])?count($Adates[$recurrent_date]):0)];
+        array_unique($Ayears_months);
+
+        foreach ($Ayears_months as $value) {
+            $this->recurrents_by_months. = $value;
         }
 
+        //==
 
 
         if (!Auth::user()->hasPermissionTo('View:Pay')) {
@@ -73,6 +82,28 @@ class BotRecurrents extends Page implements HasTable
     public function getTitle(): string
     {
         return $this->bot_name;
+    }
+
+    protected function getForms(): array
+    {
+        return ['form'];
+    }
+
+    public function form(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Section::make('Статистика по месяцам')
+                    ->description(new HtmlString($this->recurrents_by_months))
+                    ->columns([
+                        'sm' => 4,
+                        'md' => 4,
+                        'lg' => 4,
+                        'xl' => 4,
+                        '2xl' => 4,
+                    ])
+                    ->schema([]),
+            ])->statePath('data');
     }
 
     public function table(Table $table): Table
