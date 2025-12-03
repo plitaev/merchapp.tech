@@ -63,7 +63,7 @@ class BotRecurrents extends Page implements HasTable
         array_unique($Ayears_months);
 
         foreach ($Ayears_months as $value) {
-            $this->recurrents_by_months. = $value;
+            $this->recurrents_by_months = $value;
         }
 
         //==
