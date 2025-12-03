@@ -185,8 +185,8 @@ class BotPayGuestAdmin extends Page implements HasForms
                                     PayGuest::where('id', $this->id)->update($data);
 
                                     $payCreateByPayGuest = new PayCreateByPayGuest();
-                                    $bot_user = BotUser::where('email', $data['email'])->first();
-                                    if ($bot_user) $payCreateByPayGuest->handle($bot_user, $data['email']);
+                                    $bot_user = BotUser::where('email', trim($data['email']))->first();
+                                    if ($bot_user) $payCreateByPayGuest->handle($bot_user, trim($data['email']));
 
 
                                     Notification::make()

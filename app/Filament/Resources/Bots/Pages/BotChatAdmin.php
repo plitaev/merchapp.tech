@@ -8,6 +8,7 @@ use App\Models\Core\BotUserRecurrentSchedule;
 use App\Models\Core\BotUserUnbanSchedule;
 use App\Models\Core\Pay;
 use App\Models\Core\PayGuest;
+use App\Models\Core\Product;
 use App\Models\Core\TelegramBanScheduleErrorLogs;
 use App\Models\Core\TelegramUnbanScheduleErrorLog;
 use App\Models\Core\TelegramChatMemberErrorLog;
@@ -15,6 +16,7 @@ use App\Models\Core\TelegramSendMessageErrorLog;
 use App\Models\Core\TelegramBanScheduleLogs;
 use App\Models\Core\TelegramSendMessageLog;
 use App\Models\Core\TelegramSendMessageSchedule;
+use App\Models\Core\BotUserPrice;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Illuminate\Support\HtmlString;
@@ -51,9 +53,6 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\Pay\PayCreateByPayGuest;
 use Symfony\Component\Console\Input\Input;
 use Illuminate\Support\Facades\Auth;
-
-use Filament\Forms\Components\Toggle;
-
 class BotChatAdmin extends Page implements HasForms, HasInfolists
 {
     use InteractsWithForms;
@@ -81,6 +80,13 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
     public int $count_p = 0;
 
+    public ?array $bot_user_prices = [];
+
+    public ?string $bot_user_prices_str = '';
+
+    public ?array $products = [];
+
+    public ?string $products_str = '';
     public int $count_ban_error;
     public int $count_unban_error;
 
@@ -123,6 +129,13 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
             ->limit(1)
             ->get();
 
+        $products = Product::query()->get();
+        if ($products) {
+            foreach ($products as $product) {
+                $this->products_str .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</a>";;
+            }
+        }
+
 
         if ($id > 0) {
             $bot_user = BotUser::select('telegram_chat_id')->find($id);
@@ -134,9 +147,18 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
             $this->count_chat_member_error = TelegramChatMemberErrorLog::where('bot_user_id', $this->bot_user_id)->count();
             $this->count_send_message_error = TelegramSendMessageErrorLog::where('chat_id', $bot_user->telegram_chat_id)->count();
 
+            $bot_user_prices = BotUserPrice::with('products')->where('bot_user_id', $this->bot_user_id)->get();
+
+            if (isset($bot_user_prices)) {
+                foreach ($this->bot_user_prices as $bot_user_price) {
+                    $this->bot_user_prices_str .= "<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/{$bot_user_price->id}/bot_user_prices' style='display: block; margin-bottom: 10px; font-weight:bold'>".$bot_user_price->products->name . ' - ' . $bot_user_price->price." руб 🔍</a>";
+                }
+            }
+
             if($bot_user->recurrent == 0 && $pay->count() > 0){
                 $this->count_p = 1;
             }
+
         }
 
         $this->form->fill($data);
@@ -198,25 +220,21 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                     ->schema([
                         Forms\Components\Checkbox::make('recurrent')
                             ->label('Автоплатеж включен')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
 
                     ]),
-                Section::make('Черный список')
-                    ->description('При добавлении пользователя в черный список бот не будет реагировать на его действия')
+                Section::make((isset($bot_user_prices))? 'Индивидуальные цены':'Стандартные цены')
+                    ->description(new HtmlString((isset($bot_user_prices))? $this->bot_user_prices_str:$this->products_str))
                     ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1,
+                        'sm' => 4,
+                        'md' => 4,
+                        'lg' => 4,
+                        'xl' => 4,
+                        '2xl' => 4,
                     ])
-                    ->schema([
-                        Toggle::make('blacklist')
-                            ->label('Включить')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true)
-                    ]),
+                    ->schema([]),
                 Section::make('Статистика')
-                    ->description(new HtmlString("<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-send-message-logs' style='display: block; margin-bottom: 10px; font-weight:bold'>Сообщения от бота: {$this->count} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Баны: {$this->count_ban} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs' style='display: block; margin-top: 10px; font-weight:bold'>Разбаны: {$this->count_unban} 🔍</a>"))
+                    ->description(new HtmlString("<a href='/admin/bots/{$this->bot_user_id}/telegram-send-message-logs' style='display: block; margin-bottom: 10px; font-weight:bold'>Сообщения от бота: {$this->count} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Баны: {$this->count_ban} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs' style='display: block; margin-top: 10px; font-weight:bold'>Разбаны: {$this->count_unban} 🔍</a>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
@@ -331,14 +349,15 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                         })
                         ->visible(fn() => auth()->user()->can('Update:BotUser')),
 
-                    Action::make('Списать рекуррент вручную')
-                        ->label('Списать рекуррент вручную')
+                    Action::make('Списать рекуррент повторно')
+                        ->label('Списать рекуррент повторно')
                         ->color('success')
                         ->requiresConfirmation()
                         ->visible(fn() => auth()->user()->can('Update:BotMessage'))
                         ->action(function () {
                             $data = $this->form->getState();
                             $botUserRecurrentSchedule = new BotUserRecurrentSchedule();
+
                             $botUserRecurrentSchedule->handle($data);
 
 

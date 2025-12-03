@@ -1,9 +1,8 @@
 <?php
 namespace App\Filament\Resources\Bots;
 
-use App\Filament\Resources\Bots\Pages\BotRecurrents;
-use App\Filament\Resources\Bots\Pages\BotRecurrent;
 use App\Filament\Resources\Bots\Pages\BotShopSegments;
+use App\Models\Core\BotUserPrice;
 use Illuminate\Contracts\View\View;
 
 use Filament\Actions\EditAction;
@@ -65,6 +64,7 @@ use App\Filament\Resources\Bots\Pages\BotTelegramUnBanScheduleErrorLogs;
 use App\Filament\Resources\Bots\Pages\BotTelegramChatMemberErrorLogs;
 use App\Filament\Resources\Bots\Pages\BotTelegramSendMessageErrorLogs;
 use App\Filament\Resources\Bots\Pages\Access;
+use App\Filament\Resources\Bots\Pages\BotUserPrices;
 
 use App\Models\Core\Bot;
 
@@ -199,8 +199,6 @@ class BotResource extends Resource
             'pay-system-admin' => BotPaySystemAdmin::route('/{record}/pay-system-admin'),
             'pay-guests' => BotPayGuests::route('/{bot_id}/pay-guests'),
             'pay-guest-admin' => BotPayGuestAdmin::route('/{bot_id}/{id}/pay-guest-admin'),
-            'recurrents' => BotRecurrents::route('/{bot_id}/recurrents'),
-            'recurrent' => BotRecurrent::route('/{bot_id}/{date_end}/recurrent'),
             'products' => BotProducts::route('/{bot_id}/products'),
             'product-admin' => BotProductAdmin::route('/{bot_id}/{id}/product-admin'),
             'sendings' => BotSendings::route('/{bot_id}/sendings'),
@@ -216,6 +214,8 @@ class BotResource extends Resource
             'branch-admin' => BotBranchAdmin::route('/{bot_id}/{id}/branch-admin'),
             'shop-segments' => BotShopSegments::route('/{bot_id}/{id}/shop-segments'),
             'access' => Access::route('/access'),
+            'bot-users-prices' => BotUserPrices::route('/{bot_id}/{bot_user_id}/{id}/bot-users-prices'),
+
         ];
 
         return $A;

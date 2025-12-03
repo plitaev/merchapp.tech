@@ -11,9 +11,15 @@ class BotUserPrice extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'bot_user_id',
         'product_id',
         'price'
     ];
+
+    public function products(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
 
 }
