@@ -121,7 +121,7 @@ class BotRecurrents extends Page implements HasForms, HasTable
     {
         return $schema
             ->components([
-                Section::make('Статистика по месяцам')
+                Section::make('Автосписания по месяцам')
                     ->description(new HtmlString($this->recurrents_by_months))
                     ->columns([
                         'sm' => 4,
