@@ -151,7 +151,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
             if (isset($bot_user_prices)) {
                 foreach ($this->bot_user_prices as $bot_user_price) {
-                    $this->bot_user_prices_str .= "<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/{$bot_user_price->id}/bot_user_prices' style='display: block; margin-bottom: 10px; font-weight:bold'>".$bot_user_price->products->name . ' - ' . $bot_user_price->price." руб 🔍</a>";
+                    $this->bot_user_prices_str .= "<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/{$bot_user_price->id}/bot-user-prices' style='display: block; margin-bottom: 10px; font-weight:bold'>".$bot_user_price->products->name . ' - ' . $bot_user_price->price." руб 🔍</a>";
                 }
             }
 
