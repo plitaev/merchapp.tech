@@ -31,8 +31,6 @@ class BotUserRecurrentSchedulerProcess
             ->take(1)
             ->get();
 
-        return $res;
-
         foreach ($res as $data) {
 
             return $data->bot->prodamus_tax->code;
