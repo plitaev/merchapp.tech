@@ -38,7 +38,7 @@ class BotRecurrents extends Page implements HasTable
     public int $bot_id;
     public string $bot_name;
 
-    public string $recurrents_by_months = "";
+    public array $recurrents = [];
 
     public function mount(int $bot_id): void
     {
@@ -47,26 +47,19 @@ class BotRecurrents extends Page implements HasTable
 
         $this->bot_name = $bot->name;
 
-        //== Рекурренты
 
-        $recurrents_all = BotUser::select('date_end')->where('date_end', '>=', date('Y-m-d', time()))->where('recurrent', 1)->orderByDesc('date_end')->get();
 
-        $Ayears_months = [];
+        $recurrents_all = BotUser::select('date_end')->where('date_end', '>=', date('Y-m-d', time()))->where('recurrent', 1)->get();
         $Adates = [];
-
         foreach ($recurrents_all as $recurrent_all) {
-            $date_ym = date('m.Y', strtotime($recurrent_all->date_end));
-            $Ayears_months[] = $date_ym;
-            $Adates[$date_ym][] = 1;
+            $Adates[$recurrent_all->date_end][] = 1;
         }
 
-        array_unique($Ayears_months);
-
-        foreach ($Ayears_months as $value) {
-            $this->recurrents_by_months = $value;
+        $recurrent_dates = BotUser::select('date_end')->where('date_end', '>=', date('Y-m-d', time()))->where('recurrent', 1)->groupBy('date_end')->orderBy('date_end')->pluck('date_end')->toArray();
+        foreach ($recurrent_dates as $recurrent_date) {
+            $this->recurrents[] = ['date' => $recurrent_date, 'count' => (isset($Adates[$recurrent_date])?count($Adates[$recurrent_date]):0)];
         }
 
-        //==
 
 
         if (!Auth::user()->hasPermissionTo('View:Pay')) {
@@ -94,7 +87,7 @@ class BotRecurrents extends Page implements HasTable
         return $schema
             ->components([
                 Section::make('Статистика по месяцам')
-                    ->description(new HtmlString($this->recurrents_by_months))
+                    ->description(new HtmlString("<p style='display: block; margin-bottom: 10px; font-weight:bold'>month</p>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
