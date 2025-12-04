@@ -109,9 +109,9 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
         $this->bot_user_id = $bot_user_id;
 
         if($id > 0) {
-            $botUserPrices = BotUserPrice::find($this->id);
+            $botUserPrices = BotUserPrice::query()->with('products')->find($this->id);
         }else {
-            $botUserPrices = BotUserPrice::get();
+            $botUserPrices = BotUserPrice::query()->with('products')->get();
         }
 //        if (!Auth::user()->hasPermissionTo('View:BotUserBanSchedule')) {
 //            redirect('/admin/bots/access');
@@ -128,7 +128,7 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
         return $table
             ->defaultSort('updated_at', 'desc')
             ->query(
-                BotUserPrice::with('products')->where('bot_user_id', $this->bot_user_id)
+                BotUserPrice::query()->with('products')->where('bot_user_id', $this->bot_user_id)
             )
             ->columns([
                 TextColumn::make('products.name')
@@ -137,7 +137,7 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
                     ->label('Цена'),
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$this->bot_user_id."/".$record->id."/users-prices"),
+                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$this->bot_user_id."/".$record->id."/user-prices"),
                     //->visible(auth()->user()->can('Update:TelegramSupergroup')),
                 DeleteAction::make()
                     //->visible(auth()->user()->can('Delete:TelegramSupergroup')),
@@ -172,9 +172,8 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
                         Hidden::make('bot_user_id'),
                         Select::make('product_id')
                             ->label('Продукт')
-                            ->options(Product::query()->pluck('name','id'))
-                            ->searchable()
-                            ->live(),
+                            ->options(Product::all()->pluck('name','id'))
+                            ->searchable(),
                            // ->disabled(fn() => ['readonly' => auth()->user()->can('Update:BotUserUnBanSchedule')?true:false]),
 
                         TextInput::make('price')
@@ -192,9 +191,10 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
                             $data['bot_user_id'] = $this->bot_user_id;
 
                             if ($this->id > 0) {
+                                $data['id'] = $this->id;
                                 BotUserPrice::where('id', $this->id)->update($data);
                             }else{
-                                $new_bot_user_prices= BotUserPrice::create($data);
+                                $new_bot_user_prices = BotUserPrice::create($data);
                             }
 
                             Notification::make()
