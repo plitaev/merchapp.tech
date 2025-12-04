@@ -13,7 +13,6 @@ use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
-use App\Models\Core\BotUserPrice;
 use App\Models\Core\TelegramSendMessageSchedule;
 use Illuminate\Support\HtmlString;
 
