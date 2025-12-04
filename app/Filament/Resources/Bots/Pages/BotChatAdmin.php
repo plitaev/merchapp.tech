@@ -80,6 +80,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
     public int $count_p = 0;
 
+    public int $bot_user_prices_count = 0;
+
     public ?array $bot_user_prices = [];
 
     public ?string $bot_user_prices_str = '';
@@ -136,6 +138,16 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
             }
         }
 
+        $this->bot_user_prices_count = BotUserPrice::with('products')->where('bot_user_id', $this->bot_user_id)->count();
+        $bot_user_prices = Product::query()->get();
+        if ($this->bot_user_prices_count > 0) {
+            $bot_user_prices = BotUserPrice::with('products')->where('bot_user_id', $this->bot_user_id)->get();
+
+            foreach ($this->bot_user_prices as $bot_user_price) {
+                $this->bot_user_prices_str .= "<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/{$bot_user_price->id}/bot-user-prices' style='display: block; margin-bottom: 10px; font-weight:bold'>".$bot_user_price->products->name . ' - ' . $bot_user_price->price." руб 🔍</a>";
+                $this->bot_user_prices_str = 7;
+            }
+        }
 
         if ($id > 0) {
             $bot_user = BotUser::select('telegram_chat_id')->find($id);
@@ -146,14 +158,6 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
             $this->count_unban_error = TelegramUnbanScheduleErrorLog::where('bot_user_id', $this->bot_user_id)->count();
             $this->count_chat_member_error = TelegramChatMemberErrorLog::where('bot_user_id', $this->bot_user_id)->count();
             $this->count_send_message_error = TelegramSendMessageErrorLog::where('chat_id', $bot_user->telegram_chat_id)->count();
-
-            $bot_user_prices = BotUserPrice::with('products')->where('bot_user_id', $this->bot_user_id)->get();
-
-            if (isset($bot_user_prices)) {
-                foreach ($this->bot_user_prices as $bot_user_price) {
-                    $this->bot_user_prices_str .= "<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/{$bot_user_price->id}/bot-user-prices' style='display: block; margin-bottom: 10px; font-weight:bold'>".$bot_user_price->products->name . ' - ' . $bot_user_price->price." руб 🔍</a>";
-                }
-            }
 
             if($bot_user->recurrent == 0 && $pay->count() > 0){
                 $this->count_p = 1;
@@ -223,8 +227,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
 
                     ]),
-                Section::make((isset($bot_user_prices))? 'Индивидуальные цены':'Стандартные цены')
-                    ->description(new HtmlString((isset($bot_user_prices))? $this->bot_user_prices_str:$this->products_str))
+                Section::make($this->bot_user_prices_count > 0? 'Индивидуальные цены':'Стандартные цены')
+                    ->description(new HtmlString(($this->bot_user_prices_count > 0)? $this->bot_user_prices_str:$this->products_str))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,

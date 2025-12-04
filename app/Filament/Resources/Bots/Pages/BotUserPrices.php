@@ -15,7 +15,8 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use App\Models\Core\TelegramSendMessageSchedule;
 use Illuminate\Support\HtmlString;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection;
 
 use App\Filament\Resources\Bots\BotResource;
 
@@ -80,10 +81,15 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
     public static ?string $title = "Индивидуальная цена";
     public ?array $data = [];
 
-//    public function getRecord(): ?Model
-//    {
-//        return BotUserPrice::class;
-//    }
+    public function getRecord(): ?Model
+    {
+        return BotUserPrice::class;
+    }
+
+    protected function getForms(): array
+    {
+        return ['form'];
+    }
 
     public function getHeading(): string
     {
@@ -108,7 +114,7 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
         $this->bot_id = $bot_id;
         $this->bot_user_id = $bot_user_id;
 
-        if($id > 0) {
+        if($this->id > 0) {
             $botUserPrices = BotUserPrice::query()->with('products')->find($this->id);
         }else {
             $botUserPrices = BotUserPrice::query()->with('products')->get();
@@ -149,10 +155,7 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
             ]);
     }
 
-    protected function getForms(): array
-    {
-        return ['form'];
-    }
+
 
     public function form(Schema $schema): Schema
     {
@@ -170,7 +173,7 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
                     ->schema([
                         Hidden::make('id'),
                         Hidden::make('bot_user_id'),
-                        Select::make('product_id')
+                        Forms\Components\Select::make('product_id')
                             ->label('Продукт')
                             ->options(Product::all()->pluck('name','id'))
                             ->searchable(),
