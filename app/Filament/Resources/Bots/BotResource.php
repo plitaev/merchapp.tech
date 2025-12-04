@@ -214,7 +214,7 @@ class BotResource extends Resource
             'branch-admin' => BotBranchAdmin::route('/{bot_id}/{id}/branch-admin'),
             'shop-segments' => BotShopSegments::route('/{bot_id}/{id}/shop-segments'),
             'access' => Access::route('/access'),
-            'users-prices' => BotUserPrices::route('/{bot_id}/{bot_user_id}/{id}/users-prices'),
+            'user-prices' => BotUserPrices::route('/{bot_id}/{bot_user_id}/{id}/user-prices'),
 
         ];
 
