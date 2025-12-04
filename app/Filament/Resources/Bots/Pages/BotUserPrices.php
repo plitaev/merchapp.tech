@@ -192,9 +192,9 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
                             $data['bot_user_id'] = $this->bot_user_id;
 
                             if ($this->id > 0) {
-                                BotUserPrices::where('id', $this->id)->update($data);
+                                BotUserPrice::where('id', $this->id)->update($data);
                             }else{
-                                $new_bot_user_prices= BotUserPrices::create($data);
+                                $new_bot_user_prices= BotUserPrice::create($data);
                             }
 
                             Notification::make()
