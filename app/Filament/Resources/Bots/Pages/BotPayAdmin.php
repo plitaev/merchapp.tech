@@ -196,7 +196,6 @@ class BotPayAdmin extends Page implements HasForms
 
                             if ($this->id>0) {
 
-                                $data['email'] = trim($data['email']);
                                 unset($data['email']);
                                 unset($data['bot_id']);
 
