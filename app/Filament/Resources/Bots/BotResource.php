@@ -37,6 +37,8 @@ use App\Filament\Resources\Bots\Pages\BotPayAdmin;
 use App\Filament\Resources\Bots\Pages\BotPayGuests;
 use App\Filament\Resources\Bots\Pages\BotPayGuestAdmin;
 use App\Filament\Resources\Bots\Pages\BotPaySystemAdmin;
+use App\Filament\Resources\Bots\Pages\BotRecurrents;
+use App\Filament\Resources\Bots\Pages\BotRecurrent;
 use App\Filament\Resources\Bots\Pages\BotSendings;
 use App\Filament\Resources\Bots\Pages\BotSendingAdmin;
 use App\Filament\Resources\Bots\Pages\BotSendingSome;
@@ -215,7 +217,8 @@ class BotResource extends Resource
             'shop-segments' => BotShopSegments::route('/{bot_id}/{id}/shop-segments'),
             'access' => Access::route('/access'),
             'user-prices' => BotUserPrices::route('/{bot_id}/{bot_user_id}/{id}/user-prices'),
-
+            'recurrents' => BotRecurrents::route('/{bot_id}/recurrents'),
+            'recurrent' => BotRecurrent::route('/{bot_id}/{date_end}/recurrent'),
         ];
 
         return $A;
