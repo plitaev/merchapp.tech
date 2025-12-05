@@ -11,7 +11,6 @@ class BotUserPrice extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
         'bot_user_id',
         'product_id',
         'price'

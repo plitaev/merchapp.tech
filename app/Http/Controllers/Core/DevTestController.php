@@ -47,12 +47,6 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        //$bot_users = Pay::select('bot_user_id')->where('product_id', 28)->where('status', 1)->groupBy('bot_user_id')->pluck('bot_user_id')->toArray();
-        $bot_users = [20864,18503,18046,16850,16804,16241,16026,15650,15583,13545,13471,13116,12722,12440,11800,11716,11449,10748,10326,10110,9506,9018,7980,7661,7229,7075,5878,4797,4604,4521,2783,2040,1338,118,117,91];
-        BotUserPrice::whereIn('bot_user_id', $bot_users)->where('product_id', 1)->update(['price' => 1490]);
-        BotUserPrice::whereIn('bot_user_id', $bot_users)->where('product_id', 3)->update(['price' => 12900]);
-
-        return $bot_users;
 
     }
 }
