@@ -46,6 +46,6 @@ use Illuminate\Support\Facades\Auth;
 class DevTestController extends Controller
 {
     public function devtest() {
-        return Carbon::create(2025,12, 1, 0, 0, 0);
+        return Carbon::create(2025,12, 1, 0, 0, 00, 'Europe/Moscow');
     }
 }
