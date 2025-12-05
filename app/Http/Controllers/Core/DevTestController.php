@@ -46,6 +46,6 @@ use Illuminate\Support\Facades\Auth;
 class DevTestController extends Controller
 {
     public function devtest() {
-        return Carbon::create(2025,12, 1, 0, 0, 00, 'Europe/Moscow');
+        return Carbon::parse("2025-12-01")->addDay(30)->startOfDay();
     }
 }
