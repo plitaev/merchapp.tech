@@ -46,6 +46,6 @@ use Illuminate\Support\Facades\Auth;
 class DevTestController extends Controller
 {
     public function devtest() {
-        return Carbon::parse("2025-12-01")->addDay(30)->startOfDay();
+        return Carbon::parse("2025-12-01")->addDay(30)->format('Y-m-d');
     }
 }
