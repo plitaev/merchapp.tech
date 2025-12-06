@@ -69,6 +69,7 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
     public int $bot_user;
 
     public string $bot_name;
+    public string $bot_user_name;
 
 
     protected static ?string $model = BotUserPrice::class;
@@ -91,7 +92,7 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
     public function getHeading(): string
     {
 
-        return "fio";
+        return $this->bot_user_name;
 
     }
 
@@ -108,6 +109,15 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
         $this->bot_id = $bot_id;
         $bot = Bot::select('name')->find($bot_id);
         $this->bot_name = $bot->name;
+
+        $bot_user = BotUser::select('first_name', 'last_name', 'email')->find($bot_user_id);
+
+        $bot_user_name = '';
+        if ($bot_user->first_name) $bot_user_name = $bot_user->first_name;
+        if ($bot_user->last_name) $bot_user_name .= ' '.$bot_user->last_name;
+        if ($bot_user->email) $bot_user_name .= "(".$bot_user->email.")";
+
+        $this->bot_user_name = $bot_user_name;
     }
 
     public function getTitle(): string
