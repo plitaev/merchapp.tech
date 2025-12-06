@@ -91,7 +91,7 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
     public function getHeading(): string
     {
 
-        return $this->bot_name;
+        return "fio";
 
     }
 
