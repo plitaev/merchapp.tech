@@ -46,6 +46,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 
 use App\Models\Core\Bot;
+use App\Models\Core\BotUser;
 use App\Models\Core\BotUserPrice;
 use App\Models\Core\Product;
 
