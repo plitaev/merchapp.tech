@@ -1,29 +1,32 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
-use App\Models\Core\BotUserBanSchedule;
-use App\Models\Core\TelegramSendMessageLog;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Schemas\Components\Actions;
-use Filament\Actions\Action;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
-use App\Models\Core\TelegramSendMessageSchedule;
-use Illuminate\Support\HtmlString;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Collection;
-
 use App\Filament\Resources\Bots\BotResource;
 
-use Filament\Forms;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
+
+use Filament\Schemas\Schema;
+
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Section;
+
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
 
 use Filament\Infolists\Contracts\HasInfolists;
 
+use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Forms\Components;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
@@ -36,25 +39,20 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
+
 use Filament\Tables;
+use Filament\Tables\Table;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
-use Filament\Forms\Form;
-
 
 use App\Models\Core\Bot;
 use App\Models\Core\BotUserPrice;
 use App\Models\Core\Product;
-use App\Models\Core\BotUser;
-use Illuminate\Support\Facades\Auth;
 
 class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
 {
     use InteractsWithForms;
-
     use InteractsWithTable;
-
     use InteractsWithInfolists;
 
 
@@ -67,7 +65,6 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
     public int $bot_id;
     public int $bot_message_id;
 
-    public int $b_user_id;
     public int $bot_user_id;
     public int $bot_user;
 
@@ -111,12 +108,6 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
         $this->bot_id = $bot_id;
         $bot = Bot::select('name')->find($bot_id);
         $this->bot_name = $bot->name;
-
-        if ($this->id > 0) {
-            $botUserPrices = BotUserPrice::query()->with('products')->find($this->id);
-        } else {
-            $botUserPrices = BotUserPrice::query()->with('products')->get();
-        }
     }
 
     public function getTitle(): string
