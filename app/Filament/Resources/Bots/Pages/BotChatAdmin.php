@@ -237,7 +237,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
 
                     ]),
-                Section::make('Индивидуальные цены')->description(new HtmlString("<a href='' style='color: #7a300d'>Добавить / Редактировать ▶️</a>".$this->bot_user_prices_individual))->schema([]),
+                Section::make('Индивидуальные цены')->description(new HtmlString("<a href='' style='color: #7a300d; font-weight: bold'>Добавить / Редактировать ▶️</a>".$this->bot_user_prices_individual))->schema([]),
                 Section::make('Стандартные цены')->description(new HtmlString($this->bot_user_prices_standard))->schema([]),
                 Section::make('Статистика')
                     ->description(new HtmlString("<a href='/admin/bots/{$this->bot_user_id}/telegram-send-message-logs' style='display: block; margin-bottom: 10px; font-weight:bold'>Сообщения от бота: {$this->count} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Баны: {$this->count_ban} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs' style='display: block; margin-top: 10px; font-weight:bold'>Разбаны: {$this->count_unban} 🔍</a>"))
