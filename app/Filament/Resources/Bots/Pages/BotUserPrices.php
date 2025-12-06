@@ -116,7 +116,7 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
         $bot_user_name = '';
         if ($bot_user->first_name) $bot_user_name = $bot_user->first_name;
         if ($bot_user->last_name) $bot_user_name .= ' '.$bot_user->last_name;
-        if ($bot_user->email) $bot_user_name .= "(".$bot_user->email.")";
+        if ($bot_user->email) $bot_user_name .= " (".$bot_user->email.")";
 
         $this->bot_user_name = $bot_user_name;
     }
