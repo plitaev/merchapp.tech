@@ -84,11 +84,12 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
     public ?array $bot_user_prices = [];
 
-    public ?string $bot_user_prices_str = '';
+    public ?string $bot_user_prices_individual = '';
+    public ?string $bot_user_prices_standard = '';
 
     public ?array $products = [];
 
-    public ?string $products_str = '';
+    public ?string $individual_prices = '';
     public int $count_ban_error;
     public int $count_unban_error;
 
@@ -114,14 +115,13 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
     public function mount(int $bot_id, int $id): void
     {
-        $bot = Bot::select('name')->find($bot_id);
-        $this->bot_name = $bot->name;
-
         $this->id = $id;
-
         $data = ($id > 0 ? BotUser::find($id)->toArray() : []);
 
         $this->bot_user_id = $id;
+
+        $bot = Bot::select('name')->find($bot_id);
+        $this->bot_name = $bot->name;
 
         $pay = Pay::where('bot_user_id', $id)
             ->where('status',0)
@@ -131,6 +131,35 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
             ->limit(1)
             ->get();
 
+        $bot_user_prices = BotUserPrice::with('product:id,name')
+            ->select('product_id', 'price')
+            ->where('bot_user_id', $id)
+            ->get();
+
+        $bot_user_prices_product_ids = [];
+
+        foreach ($bot_user_prices as $bot_user_price) {
+            $this->individual_prices .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$bot_user_price->product->name . ' - ' . $bot_user_price->price."</a>";
+            $bot_user_prices_product_ids[] = $bot_user_price->product_id;
+        }
+
+        if (count($bot_user_prices_product_ids) > 0) {
+
+            $products = Product::select('id', 'name', 'price')->whereNotIn('id', $bot_user_prices_product_ids)->get();
+            foreach ($products as $product) {
+                $this->bot_user_prices_standard .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</a>";;
+            }
+
+        } else {
+
+            $products = Product::select('id', 'name', 'price')->all();
+            foreach ($products as $product) {
+                $this->bot_user_prices_standard .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</a>";;
+            }
+
+        }
+
+        /*
         $products = Product::query()->get();
         if ($products) {
             foreach ($products as $product) {
@@ -148,6 +177,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                 $this->bot_user_prices_str = 7;
             }
         }
+        */
 
         if ($id > 0) {
             $bot_user = BotUser::select('telegram_chat_id')->find($id);

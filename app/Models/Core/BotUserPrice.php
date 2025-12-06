@@ -16,7 +16,7 @@ class BotUserPrice extends Model
         'price'
     ];
 
-    public function products(): BelongsTo
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
