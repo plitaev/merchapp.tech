@@ -70,7 +70,6 @@ use App\Filament\Resources\Bots\Pages\Access;
 use App\Filament\Resources\Bots\Pages\BotUserPrices;
 
 use App\Models\Core\Bot;
-use App\Models\Core\BotUser;
 
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Traits\HasPermissions;
@@ -219,6 +218,7 @@ class BotResource extends Resource
             'shop-segments' => BotShopSegments::route('/{bot_id}/{id}/shop-segments'),
             'access' => Access::route('/access'),
             'user-prices' => BotUserPrices::route('/{bot_id}/{bot_user_id}/user-prices'),
+            'user-price' => BotUserPriceAdmin::route('/{bot_id}/{bot_user_id}/user-price'),
             'recurrents' => BotRecurrents::route('/{bot_id}/recurrents'),
             'recurrent' => BotRecurrent::route('/{bot_id}/{date_end}/recurrent'),
         ];
