@@ -70,7 +70,7 @@ use App\Filament\Resources\Bots\Pages\Access;
 use App\Filament\Resources\Bots\Pages\BotUserPrices;
 
 use App\Models\Core\Bot;
-
+use App\Models\Core\BotUser;
 
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Traits\HasPermissions;
