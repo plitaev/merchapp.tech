@@ -8,6 +8,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Users\Pages\AdvancedListUser;
 use App\Filament\Resources\Users\Pages\AdminUser;
+use App\Filament\Resources\Users\Pages\AdminModelHasPermission;
 use App\Filament\Resources\ListenerResource\Pages;
 use App\Filament\Resources\ListenerResource\RelationManagers;
 use App\Models\Core\User;
@@ -73,6 +74,8 @@ class UserResource extends Resource
             'create' => AdminUser::route('/{id}/admin'),
             'edit' => AdminUser::route('/{id}/admin'),
             'admin' => AdminUser::route('/{id}/admin'),
+            'model-has-permission' => AdminModelHasPermission::route('/{id}/model-has-permission'),
+
 
         ];
     }

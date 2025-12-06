@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Users\Pages;
 use App\Models\Core\BotBranchLinkProduct;
 use App\Models\Core\Product;
-use App\Models\Core\ModelHasRole;
 use App\Models\Core\ModelHasPermission;
 use App\Models\Core\Permission;
 use Filament\Actions\EditAction;
@@ -19,7 +18,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
 use App\Filament\Resources\Users\UserResource;
-use App\Models\Core\Role;
 use App\Models\Core\User;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -34,14 +32,14 @@ use Filament\Resources\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
 
 
-class AdminUser extends Page  implements HasForms,HasTable
+class AdminModelHasPermission extends Page  implements HasForms,HasTable
 {
     use InteractsWithForms;
     use InteractsWithTable;
 
     protected static string $resource = UserResource::class;
 
-    protected string $view = 'filament.resources.user-resource.pages.admin-user';
+    protected string $view = 'filament.resources.user-resource.pages.model-has-permission';
 
 
     public static ?string $label = "Пользователь";
@@ -50,24 +48,21 @@ class AdminUser extends Page  implements HasForms,HasTable
 
     public ?array $data = [];
 
-    public ?array $roles = [];
-
     public ?array $end_by_products = [];
     public ?array $end_by_products_in_branch = [];
 
     public int $id;
 
-    public array $role = [];
-
+    public array $permissions = [];
 
     public function getRecord(): ?Model
     {
-        return ModelHasRole::class;
+        return ModelHasPermission::class;
     }
 
     public function getTitle(): string|Htmlable
     {
-        return __('Роли');
+        return __('Права');
     }
 
     protected function getHeaderActions(): array
@@ -83,20 +78,17 @@ class AdminUser extends Page  implements HasForms,HasTable
         $this->end_by_products = Product::all()->pluck('name', 'id')->toArray();
         $this->end_by_products_in_branch = BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->pluck('product_id')->toArray();
 
-
-        $modelHasRoles = ModelHasRole::query()->with('roles')->where('model_id', $this->id)
-            ->orderByDesc('role_id')->get();
-
-        foreach ($modelHasRoles as $modelHasRole){
-            $this->role[] = ['name' => $modelHasRole->roles->name, 'model_type' => $modelHasRole->model_type];
-        }
-
         $data = ($id>0?User::find($id)->toArray():[]);
 
         $this->form->fill($data);
 
-        $this->roles = Role::all()->pluck('name', 'id')->toArray();
-    }
+
+        $modelHasPermissions = ModelHasPermission::query()->with('permissions')->where('model_id', $this->id)
+            ->orderByDesc('permission_id')->get();
+
+        foreach ( $modelHasPermissions as $modelHasPermission){
+            $this->permissions[] = ['name' => $modelHasPermission->permissions->name, 'model_type' => $modelHasPermission->model_type];
+        }    }
 
     protected function getForms(): array
     {
@@ -112,7 +104,7 @@ class AdminUser extends Page  implements HasForms,HasTable
     {
         return $schema
             ->components([
-                Section::make("Роль")
+                Section::make("Право")
                     ->description('Основные данные')
                     ->columns([
                         'sm' => 3,
@@ -122,38 +114,37 @@ class AdminUser extends Page  implements HasForms,HasTable
                         '2xl' => 3,
                     ])
                     ->schema([
+                        Hidden::make('model_id'),
                         Hidden::make('model_type'),
 
-                        Select::make('role_id')
-                            ->label('Роль')
+                        Select::make('permisson_id')
+                            ->label('Право')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно выберите значение из списка',
                             ])
                             ->options(
-                                Role::query()->pluck('name', 'id')
+                                Permission::query()->pluck('name', 'id')
                             ),
 
                     ]),
 
                 Actions::make([
                     Action::make('Сохранить')
-                        ->visible(auth()->user()->hasPermissionTo('Update:User'))
+                          ->visible(auth()->user()->hasPermissionTo('Update:User'))
                         ->action(function () {
                             $data = $this->form->getState();
                             $data['model_id'] = $this->id;
                             $data['model_type'] = 'App\Models\Core\User';
 
-
-                            ModelHasRole::create($data);
-
+                            ModelHasPermission::create($data);
 
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
                                 ->success()
                                 ->send();
 
-                            return redirect("/admin/users/".$this->id."/admin");
+                            return redirect("/admin/users/".$this->id."/model-has-permission");
                         }),
                     Action::make('Cancel')
                         ->color('gray')
@@ -169,10 +160,10 @@ class AdminUser extends Page  implements HasForms,HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->records(fn (): array => $this->role)
+            ->records(fn (): array => $this->permissions)
             ->columns([
                 TextColumn::make('name')
-                    ->label('Роль')
+                    ->label('Право')
                     ->searchable(),
                 TextColumn::make('model_type')
                     ->label('Тип модели')
@@ -181,21 +172,20 @@ class AdminUser extends Page  implements HasForms,HasTable
             ->filters([
                 //
             ])
-            ->recordActions([
-               // DeleteAction::make(),
-               // ->visible(Auth::user()->hasPermissionTo('Delete:User'))
+            ->actions([
+//                DeleteAction::make()
+//                 ->visible(auth()->user()->hasPermissionTo('Delete:User'))
 
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                       // ->visible(Auth::user()->hasPermissionTo('Delete:User'))
+                     ->visible(auth()->user()->hasPermissionTo('Delete:User'))
 
                 ]),
             ]);
-        // ->recordUrl(fn($record) => "/admin/role/");
+        // ->recordUrl(fn($record) => "/admin/permissions/");
     }
-    
 }
 
 
