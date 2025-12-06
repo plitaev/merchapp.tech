@@ -120,10 +120,10 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
         return $table
             ->defaultSort('updated_at', 'desc')
             ->query(
-                BotUserPrice::query()->with('products')->where('bot_user_id', $this->bot_user_id)
+                BotUserPrice::query()->with('product')->where('bot_user_id', $this->bot_user_id)
             )
             ->columns([
-                TextColumn::make('products.name')
+                TextColumn::make('product.name')
                     ->label('Продукт'),
                 TextColumn::make('price')
                     ->label('Цена'),
