@@ -52,7 +52,7 @@ use Illuminate\Support\Facades\Auth;
 class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
 {
     use InteractsWithForms;
-  
+
     use InteractsWithTable;
 
     use InteractsWithInfolists;
@@ -104,24 +104,19 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
     }
 
 
-    public function mount(int $bot_id, int $bot_user_id, int $id): void
+    public function mount(int $bot_id, int $bot_user_id): void
     {
+        $this->id = $bot_user_id;
 
-        $this->id = $id;
+        $this->bot_id = $bot_id;
         $bot = Bot::select('name')->find($bot_id);
         $this->bot_name = $bot->name;
 
-        $this->bot_id = $bot_id;
-        $this->bot_user_id = $bot_user_id;
-
-        if($this->id > 0) {
+        if ($this->id > 0) {
             $botUserPrices = BotUserPrice::query()->with('products')->find($this->id);
-        }else {
+        } else {
             $botUserPrices = BotUserPrice::query()->with('products')->get();
         }
-//        if (!Auth::user()->hasPermissionTo('View:BotUserBanSchedule')) {
-//            redirect('/admin/bots/access');
-//        }
     }
 
     public function getTitle(): string
