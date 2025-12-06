@@ -112,7 +112,7 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
 
     public function getTitle(): string
     {
-        return "Индивидуальная  цена";
+        return $this->bot_name;
     }
 
     public function table(Table $table): Table
