@@ -122,12 +122,10 @@ class BotUserPriceAdmin extends Page implements HasForms
                             ->options(Product::all()->pluck('name','id'))
                             ->searchable()
                             ->disabled(fn() => [auth()->user()->can('Update:BotUserUnBanSchedule')?true:false]),
-
                         TextInput::make('price')
                             ->label('Цена')
                             ->required()
                             ->maxLength(255)
-                        //
                     ]),
 
                 Actions::make([
