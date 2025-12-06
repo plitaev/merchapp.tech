@@ -146,5 +146,4 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
                     ->visible(auth()->user()->can('Delete:Pay'))
             ])->filters([]);
     }
-
 }
