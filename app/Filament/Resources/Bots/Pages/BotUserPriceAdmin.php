@@ -12,6 +12,7 @@ use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
 use App\Filament\Resources\Bots\BotResource;
 use App\Models\Core\Bot;
+use App\Models\Core\BotUser;
 use App\Models\Core\TelegramSupergroup;
 use App\Models\Core\TelegramSupergroupLinkBot\TelegramSupergroupLinkBot;
 use App\Models\Core\User;
