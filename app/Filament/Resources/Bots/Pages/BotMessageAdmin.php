@@ -159,7 +159,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
             if ($data) {
                 $bot_user = BotUser::select('telegram_chat_id')->where('bot_id', $data['bot_id'])->where('email', auth()->user()->email)->first();
                 if ($bot_user) {
-                    $this->send_message_self = '<a href="/bot/' . $id . '/send_to_admin" target="_blank">Нажмите <span style="text-decoration: underline">на эту ссылку</a>, чтобы отправить это сообщение себе в боте</a>';
+                    $this->send_message_self = '<a href="/bot/'.$id.'/send_to_admin" target="_blank">Нажмите <span style="text-decoration: underline">на эту ссылку</a>, чтобы отправить это сообщение себе в боте</a>';
                 } else {
                     $this->send_message_self = 'В настоящее время ваш аккаунт администратора не связан с ботом в Telegram, чтобы отправить сообщение самому себе для проверки. Для привязки аккаунта администратора к боту перейдите в бот по ссылке: <a href="https://t.me/' . $data['bot']['alias'] . '">https://t.me/' . $data['bot']['alias'] . '</a> и нажмите Меню - Регистрация';
                 }

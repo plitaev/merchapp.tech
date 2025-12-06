@@ -139,7 +139,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
         $bot_user_prices_product_ids = [];
 
         foreach ($bot_user_prices as $bot_user_price) {
-            $this->bot_user_prices_individual .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$bot_user_price->product->name . ' - ' . $bot_user_price->price."</a>";
+            $this->bot_user_prices_individual .= "<p style='margin-bottom: 10px; font-weight:bold'>".$bot_user_price->product->name . ' - ' . $bot_user_price->price."</p>";
             $bot_user_prices_product_ids[] = $bot_user_price->product_id;
         }
 
@@ -147,14 +147,14 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
             $products = Product::select('id', 'name', 'price')->whereNotIn('id', $bot_user_prices_product_ids)->get();
             foreach ($products as $product) {
-                $this->bot_user_prices_standard .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</a>";
+                $this->bot_user_prices_standard .= "<p style='margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</p>";
             }
 
         } else {
 
             $products = Product::select('id', 'name', 'price')->get();
             foreach ($products as $product) {
-                $this->bot_user_prices_standard .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</a>";
+                $this->bot_user_prices_standard .= "<p style='margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</p>";
             }
 
         }
@@ -237,7 +237,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
 
                     ]),
-                Section::make('Индивидуальные цены')->description(new HtmlString($this->bot_user_prices_individual))->schema([]),
+                Section::make('Индивидуальные цены')->description(new HtmlString("<a href='' class='fi-text-color-900'>Добавить / Редактировать ▶️</a>".$this->bot_user_prices_individual))->schema([]),
                 Section::make('Стандартные цены')->description(new HtmlString($this->bot_user_prices_standard))->schema([]),
                 Section::make('Статистика')
                     ->description(new HtmlString("<a href='/admin/bots/{$this->bot_user_id}/telegram-send-message-logs' style='display: block; margin-bottom: 10px; font-weight:bold'>Сообщения от бота: {$this->count} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Баны: {$this->count_ban} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs' style='display: block; margin-top: 10px; font-weight:bold'>Разбаны: {$this->count_unban} 🔍</a>"))
