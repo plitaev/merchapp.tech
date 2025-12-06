@@ -257,16 +257,8 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
 
                     ]),
-                Section::make($this->bot_user_prices_count > 0? 'Индивидуальные цены':'Стандартные цены')
-                    ->description(new HtmlString(($this->bot_user_prices_count > 0)? $this->bot_user_prices_str:$this->products_str))
-                    ->columns([
-                        'sm' => 4,
-                        'md' => 4,
-                        'lg' => 4,
-                        'xl' => 4,
-                        '2xl' => 4,
-                    ])
-                    ->schema([]),
+                Section::make('Индивидуальные цены')->description(new HtmlString($this->bot_user_prices_individual))->schema([]),
+                Section::make('Стандартные цены')->description(new HtmlString($this->bot_user_prices_standard))->schema([]),
                 Section::make('Статистика')
                     ->description(new HtmlString("<a href='/admin/bots/{$this->bot_user_id}/telegram-send-message-logs' style='display: block; margin-bottom: 10px; font-weight:bold'>Сообщения от бота: {$this->count} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-ban-schedule-logs' style='display: block; margin-top: 10px; margin-bottom: 10px; font-weight:bold'>Баны: {$this->count_ban} 🔍</a><a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/telegram-unban-schedule-logs' style='display: block; margin-top: 10px; font-weight:bold'>Разбаны: {$this->count_unban} 🔍</a>"))
                     ->columns([
