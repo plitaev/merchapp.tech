@@ -129,16 +129,11 @@ class BotUserPrices extends Page implements HasTable, HasForms, HasInfolists
                     ->label('Цена'),
             ])
             ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$this->bot_user_id."/".$record->id."/user-prices"),
-                    //->visible(auth()->user()->can('Update:TelegramSupergroup')),
+                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$this->bot_user_id."/".$record->id."/user-prices")
+                    ->visible(auth()->user()->can('Update:Pay')),
                 DeleteAction::make()
-                    //->visible(auth()->user()->can('Delete:TelegramSupergroup')),
-
-            ])
-
-            ->filters([
-                //
-            ]);
+                    ->visible(auth()->user()->can('Delete:Pay'))
+            ])->filters([]);
     }
 
 
