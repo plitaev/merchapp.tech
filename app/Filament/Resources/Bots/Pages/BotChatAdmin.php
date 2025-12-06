@@ -139,7 +139,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
         $bot_user_prices_product_ids = [];
 
         foreach ($bot_user_prices as $bot_user_price) {
-            $this->individual_prices .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$bot_user_price->product->name . ' - ' . $bot_user_price->price."</a>";
+            $this->bot_user_prices_individual .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$bot_user_price->product->name . ' - ' . $bot_user_price->price."</a>";
             $bot_user_prices_product_ids[] = $bot_user_price->product_id;
         }
 
@@ -147,14 +147,14 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
             $products = Product::select('id', 'name', 'price')->whereNotIn('id', $bot_user_prices_product_ids)->get();
             foreach ($products as $product) {
-                $this->bot_user_prices_individual .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</a>";;
+                $this->bot_user_prices_standard .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</a>";
             }
 
         } else {
 
             $products = Product::select('id', 'name', 'price')->all();
             foreach ($products as $product) {
-                $this->bot_user_prices_standard .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</a>";;
+                $this->bot_user_prices_standard .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</a>";
             }
 
         }
