@@ -152,7 +152,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
         } else {
 
-            $products = Product::select('id', 'name', 'price')->all();
+            $products = Product::select('id', 'name', 'price')->get();
             foreach ($products as $product) {
                 $this->bot_user_prices_standard .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</a>";
             }
