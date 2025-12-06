@@ -147,7 +147,7 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
 
             $products = Product::select('id', 'name', 'price')->whereNotIn('id', $bot_user_prices_product_ids)->get();
             foreach ($products as $product) {
-                $this->bot_user_prices_standard .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</a>";;
+                $this->bot_user_prices_individual .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</a>";;
             }
 
         } else {
@@ -158,26 +158,6 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
             }
 
         }
-
-        /*
-        $products = Product::query()->get();
-        if ($products) {
-            foreach ($products as $product) {
-                $this->products_str .= "<a href='' style='display: block; margin-bottom: 10px; font-weight:bold'>".$product->name . ' - ' . $product->price."</a>";;
-            }
-        }
-
-        $this->bot_user_prices_count = BotUserPrice::with('products')->where('bot_user_id', $this->bot_user_id)->count();
-        $bot_user_prices = Product::query()->get();
-        if ($this->bot_user_prices_count > 0) {
-            $bot_user_prices = BotUserPrice::with('products')->where('bot_user_id', $this->bot_user_id)->get();
-
-            foreach ($this->bot_user_prices as $bot_user_price) {
-                $this->bot_user_prices_str .= "<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/{$bot_user_price->id}/bot-user-prices' style='display: block; margin-bottom: 10px; font-weight:bold'>".$bot_user_price->products->name . ' - ' . $bot_user_price->price." руб 🔍</a>";
-                $this->bot_user_prices_str = 7;
-            }
-        }
-        */
 
         if ($id > 0) {
             $bot_user = BotUser::select('telegram_chat_id')->find($id);
