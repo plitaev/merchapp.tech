@@ -38,6 +38,8 @@ class BotUserPriceAdmin extends Page implements HasForms
     public int $bot_id;
     public string $bot_name;
 
+    public int $bot_user_id;
+
     public function getHeading(): string
     {
         return $this->bot_name;
@@ -50,12 +52,12 @@ class BotUserPriceAdmin extends Page implements HasForms
 
     public function mount(int $bot_id, int $bot_user_id, int $id): void
     {
-
         $this->id = $id;
+
         $bot = Bot::select('name')->find($bot_id);
+        $this->bot_id = $bot_id;
         $this->bot_name = $bot->name;
 
-        $this->bot_id = $bot_id;
         $this->bot_user_id = $bot_user_id;
 
         if (!Auth::user()->hasPermissionTo('View:Pay')) {
@@ -121,7 +123,7 @@ class BotUserPriceAdmin extends Page implements HasForms
                         ->disabled(auth()->user()->can('Create:Pay')?false:true),
                     Action::make('Cancel')
                         ->action(function () {
-                            return redirect('/admin/bots/' . $this->bot_user_id . '/chat-admin');
+                            return redirect('/admin/bots/'.$this->bot_user_id.'/chat-admin');
                         })
                         ->label('Отменить и вернуться назад')
                 ]),
