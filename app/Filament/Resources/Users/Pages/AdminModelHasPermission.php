@@ -150,8 +150,8 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
                                 return redirect("/admin/users/" . $this->id . "/model-has-permission");
 
                             }
-                        })
-                        ->visible(auth()->user()->hasPermissionTo('Update:User')),
+                        }),
+                       // ->visible(auth()->user()->hasPermissionTo('Update:User')),
                     Action::make('Cancel')
                         ->color('gray')
                         ->action(function () {
@@ -180,13 +180,13 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
             ])
             ->recordActions([
                 DeleteAction::make()
-                 ->visible(auth()->user()->hasPermissionTo('Delete:User'))
+                 //->visible(auth()->user()->hasPermissionTo('Delete:User'))
 
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                     ->visible(auth()->user()->hasPermissionTo('Delete:User'))
+                  //   ->visible(auth()->user()->hasPermissionTo('Delete:User'))
 
                 ]),
             ]);

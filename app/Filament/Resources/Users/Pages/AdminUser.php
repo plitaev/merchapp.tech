@@ -128,7 +128,7 @@ class AdminUser extends Page  implements HasForms,HasTable
 
                 Actions::make([
                     Action::make('Сохранить')
-                        ->visible(auth()->user()->hasPermissionTo('Update:User'))
+                       // ->visible(auth()->user()->hasPermissionTo('Update:User'))
                         ->action(function () {
                             $data = $this->form->getState();
                             $data['model_id'] = $this->id;
@@ -184,13 +184,13 @@ class AdminUser extends Page  implements HasForms,HasTable
             ])
             ->recordActions([
                 DeleteAction::make()
-                    ->visible(auth()->user()->hasPermissionTo('Delete:User'))
+                    //->visible(auth()->user()->hasPermissionTo('Delete:User'))
 
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->visible(auth()->user()->hasPermissionTo('Delete:User'))
+                        //->visible(auth()->user()->hasPermissionTo('Delete:User'))
 
                 ]),
             ]);
