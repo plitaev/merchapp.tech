@@ -57,12 +57,6 @@ class BotUserPriceAdmin extends Page implements HasForms
 
         $this->bot_id = $bot_id;
         $this->bot_user_id = $bot_user_id;
-
-        if($this->id > 0) {
-            $botUserPrices = BotUserPrice::query()->with('products')->find($this->id);
-        }else {
-            $botUserPrices = BotUserPrice::query()->with('products')->get();
-        }
 //        if (!Auth::user()->hasPermissionTo('View:BotUserBanSchedule')) {
 //            redirect('/admin/bots/access');
 //        }
