@@ -118,7 +118,7 @@ class BotUserPriceAdmin extends Page implements HasForms
                             }
 
                         })
-                        ->disabled(fn() => ['readonly' => auth()->user()->can('Create:Pay')?true:false]),
+                        ->disabled(auth()->user()->can('Create:Pay')?false:true),
                     Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/' . $this->bot_user_id . '/chat-admin');
