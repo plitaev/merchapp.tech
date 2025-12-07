@@ -84,18 +84,9 @@ class AdminUser extends Page  implements HasForms,HasTable
         $this->end_by_products_in_branch = BotBranchLinkProduct::select('product_id')->where('bot_branch_id', $id)->pluck('product_id')->toArray();
 
 
-        $modelHasRoles = ModelHasRole::query()->with('roles')->where('model_id', $this->id)
-            ->orderByDesc('role_id')->get();
-
-        foreach ($modelHasRoles as $modelHasRole){
-            $this->role[] = ['name' => $modelHasRole->roles->name, 'model_type' => $modelHasRole->model_type];
-        }
-
         $data = ($id>0?User::find($id)->toArray():[]);
 
         $this->form->fill($data);
-
-        $this->roles = Role::all()->pluck('name', 'id')->toArray();
     }
 
     protected function getForms(): array
@@ -133,7 +124,6 @@ class AdminUser extends Page  implements HasForms,HasTable
                             ->options(
                                 Role::query()->pluck('name', 'id')
                             ),
-
                     ]),
 
                 Actions::make([
@@ -144,16 +134,27 @@ class AdminUser extends Page  implements HasForms,HasTable
                             $data['model_id'] = $this->id;
                             $data['model_type'] = 'App\Models\Core\User';
 
+                            $count = ModelHasRole::where('model_type', 'App\Models\Core\User')
+                                ->where('model_id', $this->id)
+                                ->where('role_id', $data['role_id'])
+                                ->count();
+                            if ($count > 0) {
+                                Notification::make()
+                                    ->title('У пользователя уже присутствует выбранная роль!')
+                                    ->success()
+                                    ->send();
 
-                            ModelHasRole::create($data);
+                            } else {
+                                ModelHasRole::create($data);
 
+                                Notification::make()
+                                    ->title('Данные успешно сохранены!')
+                                    ->success()
+                                    ->send();
 
-                            Notification::make()
-                                ->title('Данные успешно сохранены!')
-                                ->success()
-                                ->send();
-
-                            return redirect("/admin/users/".$this->id."/admin");
+                                return redirect("/admin/users/" . $this->id . "/admin");
+                                
+                            }
                         }),
                     Action::make('Cancel')
                         ->color('gray')
@@ -169,9 +170,9 @@ class AdminUser extends Page  implements HasForms,HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->records(fn (): array => $this->role)
+            ->query(ModelHasRole::query()->with('role')->where(['model_id' => $this->id]))
             ->columns([
-                TextColumn::make('name')
+                TextColumn::make('role.name')
                     ->label('Роль')
                     ->searchable(),
                 TextColumn::make('model_type')
@@ -182,18 +183,17 @@ class AdminUser extends Page  implements HasForms,HasTable
                 //
             ])
             ->recordActions([
-               // DeleteAction::make(),
-               // ->visible(Auth::user()->hasPermissionTo('Delete:User'))
+                DeleteAction::make()
+                    ->visible(auth()->user()->hasPermissionTo('Delete:User'))
 
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                       // ->visible(Auth::user()->hasPermissionTo('Delete:User'))
+                        ->visible(auth()->user()->hasPermissionTo('Delete:User'))
 
                 ]),
             ]);
-        // ->recordUrl(fn($record) => "/admin/role/");
     }
     
 }

@@ -12,10 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ModelHasPermission extends Model
 {
     protected $table = 'model_has_permissions';
-
-    public $incrementing = false;
-    protected $primaryKey = ['permission_id','model_id'];
-    public $timestamps = false;
     
     protected $fillable = [
         'permission_id',

@@ -9,10 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ModelHasRole extends Model
 {
     protected $table = 'model_has_roles';
-    public $incrementing = false;
-
-    public $timestamps = false;
-    protected $primaryKey = ['role_id','model_id'];
 
     protected $fillable = [
         'role_id',
@@ -26,7 +22,7 @@ class ModelHasRole extends Model
         return $this->belongsTo(User::class, 'model_id', 'id');
     }
 
-    public function roles(): BelongsTo
+    public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
