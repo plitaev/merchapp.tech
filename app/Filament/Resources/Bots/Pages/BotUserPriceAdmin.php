@@ -81,8 +81,10 @@ class BotUserPriceAdmin extends Page implements HasForms
                     ->schema([
                         Hidden::make('id'),
                         Hidden::make('bot_user_id'),
+
                         Forms\Components\Select::make('product_id')
                             ->label('Продукт')
+                            ->required()
                             ->options(Product::all()->pluck('name','id'))
                             ->searchable()
                             ->disabled(auth()->user()->can('Update:Pay')?false:true),
@@ -90,7 +92,7 @@ class BotUserPriceAdmin extends Page implements HasForms
                         TextInput::make('price')
                             ->label('Цена')
                             ->required()
-                            ->maxLength(255)
+                            ->maxLength(10)
                         //
                     ]),
 
