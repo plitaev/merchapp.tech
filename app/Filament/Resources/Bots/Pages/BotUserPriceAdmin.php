@@ -71,7 +71,7 @@ class BotUserPriceAdmin extends Page implements HasForms
             $bot_user_individual_products = BotUserPrice::select('product_id')->where('bot_user_id', $bot_user_id)->pluck('product_id')->toArray();
             $bot_user_individual_products[] = $bot_user_price->product_id;
 
-            $data = $bot_user_individual_products;
+            $data = $bot_user_price->toArray();
         } else {
             $bot_user_individual_products = BotUserPrice::select('product_id')->where('bot_user_id', $bot_user_id)->pluck('product_id')->toArray();
             $data = [];
