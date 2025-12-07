@@ -109,7 +109,7 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
                         Hidden::make('model_id'),
                         Hidden::make('model_type'),
 
-                        Select::make('permisson_id')
+                        Select::make('permission_id')
                             ->label('Право')
                             ->required()
                             ->validationMessages([
@@ -168,7 +168,7 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
         return $table
             ->query(ModelHasPermission::query()->with('permissions')->where('model_id', $this->id))
             ->columns([
-                TextColumn::make('name')
+                TextColumn::make('permissions.name')
                     ->label('Право')
                     ->searchable(),
                 TextColumn::make('model_type')
