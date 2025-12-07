@@ -29,7 +29,7 @@ class BotUserPriceAdmin extends Page implements HasForms
 {
     protected static string $resource = BotResource::class;
 
-    protected string $view = 'filament.resources.bot-resource.pages.bot-user-price';
+    protected string $view = 'filament.resources.bot-resource.pages.bot-user-price-admin';
 
     public static ?string $label = "";
     public static ?string $navigationLabel = "Индивидуальная цена";
