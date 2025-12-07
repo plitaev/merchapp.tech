@@ -131,7 +131,7 @@ class BotUserPriceAdmin extends Page implements HasForms
                                 ->success()
                                 ->send();
 
-                            return redirect('/admin/bots/'.$this->id.'/'.$this->bot_user_id.'/user-prices');
+                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_user_id.'/user-prices');
 
                         })
                         ->disabled(auth()->user()->can('Create:Pay')?false:true),
