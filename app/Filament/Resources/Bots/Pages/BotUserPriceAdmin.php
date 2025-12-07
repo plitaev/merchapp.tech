@@ -83,7 +83,7 @@ class BotUserPriceAdmin extends Page implements HasForms
                             ->label('Продукт')
                             ->options(Product::all()->pluck('name','id'))
                             ->searchable()
-                            ->disabled(fn() => ['readonly' => auth()->user()->can('Update:Pay')?true:false]),
+                            ->disabled(auth()->user()->can('Update:Pay')?false:true),
 
                         TextInput::make('price')
                             ->label('Цена')
