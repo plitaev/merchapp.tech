@@ -27,5 +27,5 @@ use Filament\Schemas\Components\Utilities\Get;
 use Illuminate\Support\Facades\Auth;
 class BotUserPriceAdmin extends Page implements HasForms
 {
-
+    protected static string $resource = BotResource::class;
 }
