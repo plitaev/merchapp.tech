@@ -53,8 +53,6 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
 
     public int $id;
 
-    public array $permissions = [];
-
     public function getRecord(): ?Model
     {
         return ModelHasPermission::class;
@@ -82,13 +80,7 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
 
         $this->form->fill($data);
 
-
-        $modelHasPermissions = ModelHasPermission::query()->with('permissions')->where('model_id', $this->id)
-            ->orderByDesc('permission_id')->get();
-
-        foreach ( $modelHasPermissions as $modelHasPermission){
-            $this->permissions[] = ['name' => $modelHasPermission->permissions->name, 'model_type' => $modelHasPermission->model_type];
-        }    }
+    }
 
     protected function getForms(): array
     {
@@ -131,21 +123,35 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
 
                 Actions::make([
                     Action::make('Сохранить')
-                          ->visible(auth()->user()->hasPermissionTo('Update:User'))
                         ->action(function () {
                             $data = $this->form->getState();
                             $data['model_id'] = $this->id;
                             $data['model_type'] = 'App\Models\Core\User';
 
-                            ModelHasPermission::create($data);
+                            $count = ModelHasPermission::where('model_type', 'App\Models\Core\User')
+                                ->where('model_id', $this->id)
+                                ->where('permisson_id', $data['permisson_id'])
+                                ->count();
 
-                            Notification::make()
-                                ->title('Данные успешно сохранены!')
-                                ->success()
-                                ->send();
+                            if ($count > 0) {
+                                Notification::make()
+                                    ->title('У пользователя уже присутствует выбранное право!')
+                                    ->success()
+                                    ->send();
 
-                            return redirect("/admin/users/".$this->id."/model-has-permission");
-                        }),
+                            } else {
+                                ModelHasPermission::create($data);
+
+                                Notification::make()
+                                    ->title('Данные успешно сохранены!')
+                                    ->success()
+                                    ->send();
+
+                                return redirect("/admin/users/" . $this->id . "/model-has-permission");
+
+                            }
+                        })
+                        ->visible(auth()->user()->hasPermissionTo('Update:User')),
                     Action::make('Cancel')
                         ->color('gray')
                         ->action(function () {
@@ -160,7 +166,7 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->records(fn (): array => $this->permissions)
+            ->query(ModelHasPermission::query()->with('permissions')->where('model_id', $this->id))
             ->columns([
                 TextColumn::make('name')
                     ->label('Право')
@@ -172,9 +178,9 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
             ->filters([
                 //
             ])
-            ->actions([
-//                DeleteAction::make()
-//                 ->visible(auth()->user()->hasPermissionTo('Delete:User'))
+            ->recordActions([
+                DeleteAction::make()
+                 ->visible(auth()->user()->hasPermissionTo('Delete:User'))
 
             ])
             ->toolbarActions([
@@ -184,7 +190,6 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
 
                 ]),
             ]);
-        // ->recordUrl(fn($record) => "/admin/permissions/");
     }
 }
 
