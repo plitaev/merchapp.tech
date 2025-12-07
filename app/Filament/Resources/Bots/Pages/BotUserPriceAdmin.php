@@ -35,6 +35,8 @@ class BotUserPriceAdmin extends Page implements HasForms
     public static ?string $navigationLabel = "Индивидуальная цена";
     public static ?string $title = "Индивидуальная цена";
 
+    public int $id;
+
     public int $bot_id;
     public string $bot_name;
 
