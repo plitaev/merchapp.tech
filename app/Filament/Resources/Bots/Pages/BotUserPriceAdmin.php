@@ -122,8 +122,8 @@ class BotUserPriceAdmin extends Page implements HasForms
                             if ($this->id > 0) {
                                 $data['id'] = $this->id;
                                 BotUserPrice::where('id', $this->id)->update($data);
-                            }else{
-                                $new_bot_user_prices = BotUserPrice::create($data);
+                            } else {
+                                BotUserPrice::create($data);
                             }
 
                             Notification::make()
