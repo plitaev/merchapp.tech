@@ -37,4 +37,15 @@ class BotUserPriceAdmin extends Page implements HasForms
 
     public int $bot_id;
     public string $bot_name;
+
+    public function getHeading(): string
+    {
+        return $this->bot_name;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->bot_name;
+    }
+
 }
