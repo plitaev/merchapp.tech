@@ -46,6 +46,9 @@ use Illuminate\Support\Facades\Auth;
 class DevTestController extends Controller
 {
     public function devtest() {
-        return Carbon::parse("2025-12-01")->addDay(30)->subDays(1)->format('Y-m-d');
+        $permissions = DB::table('permissions')->where('name', 'LIKE', '%View%')->get();
+        foreach ($permissions as $permission) {
+            DB::table('role_has_permissions')->insertOrIgnore(['role_id' => 2, 'permission_id' => $permission->id]);
+        }
     }
 }
