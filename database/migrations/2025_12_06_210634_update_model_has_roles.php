@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::table('model_has_roles', function (Blueprint $table) {
             //$table->dropForeign(['role_id']);
-            $table->dropPrimary(['model_id','model_type','role_id']);
-            $table->unique(['model_id','model_type','role_id']);
-            $table->id();
-            $table->timestamps();
+            //$table->dropPrimary(['model_id','model_type','role_id']);
+            //$table->unique(['model_id','model_type','role_id']);
+            //$table->id();
+            //$table->timestamps();
         });
     }
 
