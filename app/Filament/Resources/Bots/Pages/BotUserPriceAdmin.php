@@ -48,6 +48,26 @@ class BotUserPriceAdmin extends Page implements HasForms
         return $this->bot_name;
     }
 
+    public function mount(int $bot_id, int $bot_user_id, int $id): void
+    {
+
+        $this->id = $id;
+        $bot = Bot::select('name')->find($bot_id);
+        $this->bot_name = $bot->name;
+
+        $this->bot_id = $bot_id;
+        $this->bot_user_id = $bot_user_id;
+
+        if($this->id > 0) {
+            $botUserPrices = BotUserPrice::query()->with('products')->find($this->id);
+        }else {
+            $botUserPrices = BotUserPrice::query()->with('products')->get();
+        }
+//        if (!Auth::user()->hasPermissionTo('View:BotUserBanSchedule')) {
+//            redirect('/admin/bots/access');
+//        }
+    }
+
     public function form(Schema $schema): Schema
     {
         return $schema
