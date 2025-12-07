@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('model_has_roles', function (Blueprint $table) {
-            $table->dropForeign(['role_id']);
+            $table->dropForeignIfExists(['role_id']);
             $table->dropPrimary(['model_id','model_type','role_id']);
             $table->unique(['model_id','model_type','role_id']);
             $table->id();
