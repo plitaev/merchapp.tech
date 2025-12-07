@@ -28,4 +28,13 @@ use Illuminate\Support\Facades\Auth;
 class BotUserPriceAdmin extends Page implements HasForms
 {
     protected static string $resource = BotResource::class;
+
+    protected string $view = 'filament.resources.bot-resource.pages.bot-user-price';
+
+    public static ?string $label = "";
+    public static ?string $navigationLabel = "Индивидуальная цена";
+    public static ?string $title = "Индивидуальная цена";
+
+    public int $bot_id;
+    public string $bot_name;
 }
