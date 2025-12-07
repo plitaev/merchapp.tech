@@ -87,14 +87,12 @@ class BotUserPriceAdmin extends Page implements HasForms
 
                         Forms\Components\Select::make('product_id')
                             ->label('Продукт')
-                            ->required()
                             ->options(Product::whereNotIn('id', $this->bot_user_individual_products)->pluck('name','id'))
                             ->searchable()
                             ->disabled(auth()->user()->can('Update:Pay')?false:true),
 
                         TextInput::make('price')
                             ->label('Цена')
-                            ->required()
                             ->maxLength(10)
                         //
                     ]),
