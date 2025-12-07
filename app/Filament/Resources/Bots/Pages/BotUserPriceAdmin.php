@@ -123,7 +123,7 @@ class BotUserPriceAdmin extends Page implements HasForms
                         ->disabled(auth()->user()->can('Create:Pay')?false:true),
                     Action::make('Cancel')
                         ->action(function () {
-                            return redirect('/admin/bots/'.$this->bot_user_id.'/chat-admin');
+                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_user_id.'/user-prices');
                         })
                         ->label('Отменить и вернуться назад')
                 ]),
