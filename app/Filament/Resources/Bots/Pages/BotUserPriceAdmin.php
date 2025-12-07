@@ -57,9 +57,10 @@ class BotUserPriceAdmin extends Page implements HasForms
 
         $this->bot_id = $bot_id;
         $this->bot_user_id = $bot_user_id;
-//        if (!Auth::user()->hasPermissionTo('View:BotUserBanSchedule')) {
-//            redirect('/admin/bots/access');
-//        }
+
+        if (!Auth::user()->hasPermissionTo('View:Pay')) {
+            redirect('/admin/bots/access');
+        }
     }
 
     public function form(Schema $schema): Schema
@@ -81,8 +82,8 @@ class BotUserPriceAdmin extends Page implements HasForms
                         Forms\Components\Select::make('product_id')
                             ->label('Продукт')
                             ->options(Product::all()->pluck('name','id'))
-                            ->searchable(),
-                        // ->disabled(fn() => ['readonly' => auth()->user()->can('Update:BotUserUnBanSchedule')?true:false]),
+                            ->searchable()
+                            ->disabled(fn() => ['readonly' => auth()->user()->can('Update:Pay')?true:false]),
 
                         TextInput::make('price')
                             ->label('Цена')
@@ -116,8 +117,8 @@ class BotUserPriceAdmin extends Page implements HasForms
                                 return redirect('/admin/bots/' . $this->bot_user_id . '/bot-chats');
                             }
 
-                        }),
-                    //   ->disabled(fn() => ['readonly' => auth()->user()->can('Create:BotUserUnBanSchedule')?true:false]),
+                        })
+                        ->disabled(fn() => ['readonly' => auth()->user()->can('Create:Pay')?true:false]),
                     Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/' . $this->bot_user_id . '/chat-admin');
