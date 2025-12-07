@@ -102,69 +102,6 @@ class BotUserPriceAdmin extends Page implements HasForms
         return ['form'];
     }
 
-    public function form(Schema $schema): Schema
-    {
-        return $schema
-            ->components([
-                Section::make('Индивидуальная  цена')
-                    ->description('Укажите цены, чтобы продолжить работу')
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1,
-                    ])
-                    ->schema([
-                        Hidden::make('id'),
-                        Hidden::make('bot_user_id'),
-                        Forms\Components\Select::make('product_id')
-                            ->label('Продукт')
-                            ->options(Product::all()->pluck('name','id'))
-                            ->searchable()
-                            ->disabled(fn() => [auth()->user()->can('Update:BotUserUnBanSchedule')?true:false]),
-                        TextInput::make('price')
-                            ->label('Цена')
-                            ->required()
-                            ->maxLength(255)
-                    ]),
 
-                Actions::make([
-                    Action::make('Сохранить')
-                        ->action(function () {
-                            $data = $this->form->getState();
-
-                            $data['bot_user_id'] = $this->bot_user_id;
-
-                            if ($this->id > 0) {
-                                $data['id'] = $this->id;
-                                BotUserPrice::where('id', $this->id)->update($data);
-                            }else{
-                                $new_bot_user_prices = BotUserPrice::create($data);
-                            }
-
-                            Notification::make()
-                                ->title('Данные успешно сохранены!')
-                                ->success()
-                                ->send();
-
-                            if ($this->id>0) {
-                                return redirect('/admin/bots/' . $this->bot_user_id .'/'.$this->id. '/bot-users-prices');
-                            }else{
-                                return redirect('/admin/bots/' . $this->bot_user_id . '/bot-chats');
-                            }
-
-                        }),
-                    //   ->disabled(fn() => ['readonly' => auth()->user()->can('Create:BotUserUnBanSchedule')?true:false]),
-                    Action::make('Cancel')
-                        ->action(function () {
-                            return redirect('/admin/bots/' . $this->bot_user_id . '/chat-admin');
-                        })
-                        ->label('Отменить и вернуться назад')
-                ]),
-
-            ])->statePath('data');
-
-    }
 
 }
