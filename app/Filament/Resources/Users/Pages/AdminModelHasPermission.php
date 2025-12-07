@@ -112,6 +112,7 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
                         Select::make('permission_id')
                             ->label('Право')
                             ->required()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:User')?false:true)
                             ->validationMessages([
                                 'required' => 'Обязательно выберите значение из списка',
                             ])
@@ -123,6 +124,7 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
 
                 Actions::make([
                     Action::make('Сохранить')
+                        ->visible(auth()->user()->hasPermissionTo('Update:User'))
                         ->action(function () {
                             $data = $this->form->getState();
                             $data['model_id'] = $this->id;
@@ -130,7 +132,7 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
 
                             $count = ModelHasPermission::where('model_type', 'App\Models\Core\User')
                                 ->where('model_id', $this->id)
-                                ->where('permisson_id', $data['permisson_id'])
+                                ->where('permission_id', $data['permission_id']) 
                                 ->count();
 
                             if ($count > 0) {
@@ -180,13 +182,13 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
             ])
             ->recordActions([
                 DeleteAction::make()
-                 //->visible(auth()->user()->hasPermissionTo('Delete:User'))
+                    ->visible(auth()->user()->hasPermissionTo('Delete:User'))
 
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                  //   ->visible(auth()->user()->hasPermissionTo('Delete:User'))
+                     ->visible(auth()->user()->hasPermissionTo('Delete:User'))
 
                 ]),
             ]);
