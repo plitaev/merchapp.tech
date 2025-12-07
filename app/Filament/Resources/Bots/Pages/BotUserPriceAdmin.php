@@ -66,8 +66,19 @@ class BotUserPriceAdmin extends Page implements HasForms
 
         $this->bot_user_id = $bot_user_id;
 
-        $bot_user_individual_products = BotUserPrice::select('product_id')->where('bot_user_id', $bot_user_id)->pluck('product_id')->toArray();
+        if ($id > 0) {
+            $bot_user_price = BotUserPrice::find($id);
+            $bot_user_individual_products = BotUserPrice::select('product_id')->where('bot_user_id', $bot_user_id)->pluck('product_id')->toArray();
+            $bot_user_individual_products[] = $bot_user_price->product_id;
+
+            $data = $bot_user_individual_products;
+        } else {
+            $bot_user_individual_products = BotUserPrice::select('product_id')->where('bot_user_id', $bot_user_id)->pluck('product_id')->toArray();
+            $data = [];
+        }
+
         $this->bot_user_individual_products = $bot_user_individual_products;
+        $this->form->fill($data);
     }
 
     public function form(Schema $schema): Schema
