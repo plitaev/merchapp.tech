@@ -40,6 +40,8 @@ class BotUserPriceAdmin extends Page implements HasForms
 
     public int $bot_user_id;
 
+    public array $bot_user_individual_products;
+
     public function getHeading(): string
     {
         return $this->bot_name;
@@ -52,6 +54,8 @@ class BotUserPriceAdmin extends Page implements HasForms
 
     public function mount(int $bot_id, int $bot_user_id, int $id): void
     {
+        if (!Auth::user()->hasPermissionTo('View:Pay')) redirect('/admin/bots/access');
+
         $this->id = $id;
 
         $bot = Bot::select('name')->find($bot_id);
@@ -60,9 +64,8 @@ class BotUserPriceAdmin extends Page implements HasForms
 
         $this->bot_user_id = $bot_user_id;
 
-        if (!Auth::user()->hasPermissionTo('View:Pay')) {
-            redirect('/admin/bots/access');
-        }
+        $bot_user_individual_products = BotUserPrice::select('product_id')->where('bot_user_id', $bot_user_id)->pluck('product_id')->toArray();
+        $this->bot_user_individual_products = $bot_user_individual_products;
     }
 
     public function form(Schema $schema): Schema
@@ -85,7 +88,7 @@ class BotUserPriceAdmin extends Page implements HasForms
                         Forms\Components\Select::make('product_id')
                             ->label('Продукт')
                             ->required()
-                            ->options(Product::all()->pluck('name','id'))
+                            ->options(Product::whereNotIn('id', $this->bot_user_individual_products)->pluck('name','id'))
                             ->searchable()
                             ->disabled(auth()->user()->can('Update:Pay')?false:true),
 
