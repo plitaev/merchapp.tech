@@ -95,6 +95,13 @@ class AdminPanelProvider extends PanelProvider
             ->url("/admin/variable-groups")
             ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/variable-groups");
 
+        $A[] = NavigationItem::make('users')
+            ->label('Администраторы')
+            ->group('Настройки')
+            ->icon('heroicon-o-user')
+            ->url("/admin/users")
+            ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/users");
+
         return $panel
             ->middleware([])
 
