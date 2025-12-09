@@ -50,7 +50,7 @@ class BotRecurrents extends Page implements HasForms, HasTable
     public array $recurrents = [];
     public string $recurrents_by_months = "";
 
-    public function mount(int $bot_id): void
+    public function mount(int $bot_id, int $recurrent): void
     {
         $this->bot_id = $bot_id;
         $bot = Bot::select('name')->find($bot_id);
