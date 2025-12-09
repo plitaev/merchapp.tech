@@ -29,7 +29,7 @@
                 </a>
             @else
                 <a href="/admin/bots/{{$bot_id}}/{{$key}}" class="fi-tabs-item" role="tab">
-                    <span class="fi-tabs-item-label">{{$value}} [{{$key}} - {{$value}}]</span>
+                    <span class="fi-tabs-item-label">{{$value}} [{{$key}} - {{$category}}]</span>
                 </a>
             @endif
         @endforeach
