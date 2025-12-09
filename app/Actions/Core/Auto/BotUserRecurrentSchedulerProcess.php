@@ -22,7 +22,7 @@ class BotUserRecurrentSchedulerProcess
             ->with('bot.yookassa_vat_code')
             ->with('bot.yookassa_payment_mode')
             ->with('bot.yookassa_payment_subject')
-            ->with('bot_user:id,telegram_chat_id,first_name,last_name,email')
+            ->with('bot_user')
             ->with('paysystem')
             ->with('product')
             ->select('id', 'bot_user_recurrent_schedules.id', 'prevous_pay_id', 'bot_user_id')
