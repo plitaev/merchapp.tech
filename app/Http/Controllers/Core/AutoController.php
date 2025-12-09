@@ -7,6 +7,7 @@ use App\Actions\Core\Auto\BotSetFunnels;
 use App\Actions\Core\Auto\BotUserBanProcess;
 use App\Actions\Core\Auto\BotUserRecurrentSchedulerProcess;
 use App\Actions\Core\Auto\BotUserSupergroupStatusDateEndEmpty;
+use App\Actions\Core\Auto\BotUserSupergroupStatusDateEndExpired;
 use App\Actions\Core\Auto\BotUserSetRecurrentScheduler;
 use App\Actions\Core\Auto\BotUserSetBanScheduler;
 use App\Actions\Core\Auto\BotUserUnbanProcess;
@@ -116,8 +117,8 @@ class AutoController extends Controller
     }
 
     public function bot_user_supergroup_status_date_end_expired() {
-        $botUserSupergroupStatusDateEndEmpty = new BotUserSupergroupStatusDateEndEmpty();
-        return $botUserSupergroupStatusDateEndEmpty->handle();
+        $botUserSupergroupStatusDateEndExpired = new BotUserSupergroupStatusDateEndExpired();
+        return $botUserSupergroupStatusDateEndExpired->handle();
     }
 
 }
