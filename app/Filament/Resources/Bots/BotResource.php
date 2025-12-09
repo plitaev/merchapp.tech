@@ -219,8 +219,8 @@ class BotResource extends Resource
             'access' => Access::route('/access'),
             'user-prices' => BotUserPrices::route('/{bot_id}/{bot_user_id}/user-prices'),
             'user-price' => BotUserPriceAdmin::route('/{bot_id}/{bot_user_id}/{id}/user-price'),
-            'recurrents' => BotRecurrents::route('/{bot_id}/{recurrent}/recurrents'),
-            'recurrent' => BotRecurrent::route('/{bot_id}/{recurrent}/{date_end}/recurrent'),
+            'recurrents' => BotRecurrents::route('/{bot_id}/recurrents'),
+            'recurrent' => BotRecurrent::route('/{bot_id}/{date_end}/recurrent'),
         ];
 
         return $A;
