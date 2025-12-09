@@ -26,6 +26,8 @@ use App\Actions\Core\BotUser\BotUserBanByDeletePay;
 use App\Actions\Core\DateEnd\DateEndCacheForPay;
 use App\Actions\Core\Pay\PayRefund;
 
+use App\Actions\Project\ClubAccess\BotCabinetRecurrentCheck;
+
 use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
 use App\Models\Core\Pay;
@@ -224,7 +226,8 @@ class BotPays extends Page implements HasTable
                         $botUserBanByDeletePay = new BotUserBanByDeletePay();
                         $botUserBanByDeletePay->handle($bot_user);
 
-                        $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
+                        $botCabinetRecurrentCheck = new BotCabinetRecurrentCheck();
+                        $botCabinetRecurrentCheck->handle($bot_user);
                     })
                     ->visible(auth()->user()->can('Delete:Pay')),
             ])
@@ -241,6 +244,7 @@ class BotPays extends Page implements HasTable
                             }
                         })
                         ->after(function ($records) {
+                            $botCabinetRecurrentCheck = new BotCabinetRecurrentCheck();
                             $botSendMessage = new BotSendMessage();
                             $botUserBanByDeletePay = new BotUserBanByDeletePay();
 
@@ -252,7 +256,7 @@ class BotPays extends Page implements HasTable
                             $bot_users = BotUser::with('bot')->whereIn('id', $this->pay_bulk_delete_ids)->get();
                             foreach ($bot_users as $bot_user) {
                                 $botUserBanByDeletePay->handle($bot_user);
-                                $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
+                                $botCabinetRecurrentCheck->handle($bot_user);
                             }
 
                         }),

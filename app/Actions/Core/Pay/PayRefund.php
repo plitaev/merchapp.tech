@@ -7,6 +7,7 @@ use Filament\Notifications\Notification;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserBanByDeletePay;
 use App\Actions\Core\DateEnd\DateEnd;
+use App\Actions\Project\ClubAccess\BotCabinetRecurrentCheck;
 
 use App\Models\Core\BotAdminLog;
 use App\Models\Core\BotUser;
@@ -28,7 +29,8 @@ class PayRefund {
         $botUserBanByDeletePay = new BotUserBanByDeletePay();
         $a = $botUserBanByDeletePay->handle($bot_user);
 
-        $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
+        $botCabinetRecurrentCheck = new BotCabinetRecurrentCheck();
+        $botCabinetRecurrentCheck->handle($bot_user);
 
         BotAdminLog::create(['bot_user_id' =>  $pay->bot_user_id, 'user_id' => auth()->id(), 'name' =>'Возврат платежа '.$id]);
 

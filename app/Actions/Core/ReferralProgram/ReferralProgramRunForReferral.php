@@ -3,6 +3,7 @@ namespace App\Actions\Core\ReferralProgram;
 
 use App\Actions\Core\BotUser\BotUserSetBranch;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
+use App\Actions\Project\ClubAccess\BotCabinetRecurrentCheck;
 use App\Actions\Project\ClubAccess\BotResetUser;
 
 use App\Models\Core\BotBranch;
@@ -117,7 +118,8 @@ class ReferralProgramRunForReferral
             if ($bot_user->date_end >= date('Y-m-d', time())) {
                 $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
             } else {
-                $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
+                $botCabinetRecurrentCheck = new BotCabinetRecurrentCheck();
+                $botCabinetRecurrentCheck->handle($bot_user);
             }
 
             die();
