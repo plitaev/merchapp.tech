@@ -40,14 +40,18 @@ class BotRecurrent extends Page implements HasTable
     public int $bot_id;
     public string $bot_name;
 
+    public int $recurrent;
+
     public string $date_end;
 
     public function getMaxContentWidth(): Width{return Width::ScreenTwoExtraLarge;}
 
-    public function mount(int $bot_id, string $date_end): void
+    public function mount(int $bot_id, int $recurrent, string $date_end): void
     {
         $this->bot_id = $bot_id;
         $bot = Bot::select('name')->find($bot_id);
+
+        $this->recurrent = $recurrent;
 
         $this->edit_bots = Permission::where('name', 'edit bots')->count();
         $this->bot_name = $bot->name." - ".date('d.m.Y', strtotime($date_end));
@@ -72,7 +76,7 @@ class BotRecurrent extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(BotUser::where('bot_id', $this->bot_id)->where('date_end', $this->date_end)->where('recurrent', 1))
+            ->query(BotUser::where('bot_id', $this->bot_id)->where('date_end', $this->date_end)->where('recurrent', $this->recurrent))
             ->persistSearchInSession()
             ->columns([
                 Tables\Columns\TextColumn::make('first_name')

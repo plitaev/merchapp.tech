@@ -147,6 +147,6 @@ class BotRecurrents extends Page implements HasForms, HasTable
                     ->date('d.m.Y'),
                 TextColumn::make('count')->label('Количество '.($this->recurrent == 1?'списаний':'завершающих без автосписания')),
             ])
-            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record['date']."/recurrent");
+            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$this->recurrent."/".$record['date']."/recurrent");
     }
 }
