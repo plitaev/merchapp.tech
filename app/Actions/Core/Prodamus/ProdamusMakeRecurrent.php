@@ -13,6 +13,8 @@ class ProdamusMakeRecurrent
 {
     public function handle($data) {
 
+        die();
+
         $payCreateIntoBot = new PayCreateIntoBot();
         $payGetAdditionalData = new PayGetAdditionalData();
         $payMakeSuccessful = new PayMakeSuccessful();
@@ -50,8 +52,6 @@ class ProdamusMakeRecurrent
 
         $HMACController = new HMACController();
         $prodamus_data['signature'] = $HMACController->create($prodamus_data, $data->bot->prodamus_key_recurrent);
-
-        die();
 
         $link = sprintf('%s?%s', $data->bot->prodamus_url.'rest/payment/do/', http_build_query($prodamus_data));
 
