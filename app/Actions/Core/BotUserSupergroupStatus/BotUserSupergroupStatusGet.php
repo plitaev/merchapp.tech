@@ -2,6 +2,8 @@
 
 namespace App\Actions\Core\BotUserSupergroupStatus;
 
+use Telegram\Bot\Api;
+
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserSupergroupStatus;
 use App\Models\Core\TelegramSupergroup;
