@@ -125,7 +125,7 @@ class BotRecurrents extends Page implements HasForms, HasTable
     {
         return $schema
             ->components([
-                Section::make(' ')
+                Section::make(($this->recurrent == 1?'Автосписания':'Даты окончания без автосписания'))
                     ->description(new HtmlString($this->recurrents_by_months))
                     ->columns([
                         'sm' => 4,
@@ -143,9 +143,9 @@ class BotRecurrents extends Page implements HasForms, HasTable
         return $table
             ->records(fn (): array => $this->recurrents)
             ->columns([
-                TextColumn::make('date')->label('Дата '.($this->recurrent == 1?'списания автоплатежа':'окончания без списания'))
+                TextColumn::make('date')->label('Дата '.($this->recurrent == 1?'списания автоплатежа':'окончания без автосписания'))
                     ->date('d.m.Y'),
-                TextColumn::make('count')->label('Количество '.($this->recurrent == 1?'списаний':'завершающих без списания')),
+                TextColumn::make('count')->label('Количество '.($this->recurrent == 1?'списаний':'завершающих без автосписания')),
             ])
             ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record['date']."/recurrent");
     }
