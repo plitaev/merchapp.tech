@@ -6,7 +6,7 @@
     if (Auth::user()->hasPermissionTo('View:BotUser')) $categories['chats'] = 'Подписчики';
     if (Auth::user()->hasPermissionTo('View:Pay')) $categories['pays'] = 'Платежи';
     if (Auth::user()->hasPermissionTo('View:PayGuest')) $categories['pay-guests'] = 'В ожидании';
-    if (Auth::user()->hasPermissionTo('View:Pay')) $categories['recurrents'] = 'График автосписаний';
+    if (Auth::user()->hasPermissionTo('View:Pay')) $categories['1/recurrents'] = 'График автосписаний';
     if (Auth::user()->hasPermissionTo('View:TelegramSupergroup')) $categories['supergroups'] = 'Супергруппы';
     if (Auth::user()->hasPermissionTo('View:Product')) $categories['products'] = 'Тарифы';
     if (Auth::user()->hasPermissionTo('View:Bot')) $categories['getcourse-settings'] = 'Настройки GetCourse';
