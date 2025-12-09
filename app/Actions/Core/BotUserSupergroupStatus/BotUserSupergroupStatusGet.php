@@ -17,7 +17,7 @@ class BotUserSupergroupStatusGet
 
         foreach ($supergroups as $supergroup) {
             $member = $telegram->getChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id]);
-            BotUserSupergroupStatusGet::create(['bot_user_id' => $bot_user->id, 'telegram_supergroup_id' => $supergroup->id, 'status' => $member->status]);
+            BotUserSupergroupStatus::create(['bot_user_id' => $bot_user->id, 'telegram_supergroup_id' => $supergroup->id, 'status' => $member->status]);
         }
     }
 }
