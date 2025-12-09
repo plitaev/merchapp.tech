@@ -13,8 +13,6 @@ class ProdamusMakeRecurrent
 {
     public function handle($data) {
 
-        die();
-
         $payCreateIntoBot = new PayCreateIntoBot();
         $payGetAdditionalData = new PayGetAdditionalData();
         $payMakeSuccessful = new PayMakeSuccessful();
