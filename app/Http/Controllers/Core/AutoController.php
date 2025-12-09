@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Actions\Core\Auto\BotSetFunnels;
 use App\Actions\Core\Auto\BotUserBanProcess;
 use App\Actions\Core\Auto\BotUserRecurrentSchedulerProcess;
+use App\Actions\Core\Auto\BotUserSupergroupStatusDateEndEmpty;
 use App\Actions\Core\Auto\BotUserSetRecurrentScheduler;
 use App\Actions\Core\Auto\BotUserSetBanScheduler;
 use App\Actions\Core\Auto\BotUserUnbanProcess;
@@ -19,6 +20,7 @@ use App\Actions\Core\Auto\TelegramScheduleEditMessageFill;
 use App\Actions\Core\Auto\TelegramScheduleEditMessageProcess;
 use App\Actions\Core\Auto\BotSetStatBotUserOnDay;
 use App\Actions\Core\Auto\BotSendUserOnDay;
+use App\Models\Core\BotUser;
 
 
 class AutoController extends Controller
@@ -107,4 +109,10 @@ class AutoController extends Controller
         $botSendUserOnDay = new BotSendUserOnDay();
         return $botSendUserOnDay->handle();
     }
+
+    public function bot_user_supergroup_status_date_end_empty() {
+        $botUserSupergroupStatusDateEndEmpty = new BotUserSupergroupStatusDateEndEmpty();
+        return $botUserSupergroupStatusDateEndEmpty->handle();
+    }
+
 }
