@@ -11,6 +11,7 @@ Route::controller(AutoController::class)->group(function() {
     Route::get('/auto/bot_user_recurrent_scheduler_process', 'bot_user_recurrent_scheduler_process');
 
     Route::get('/auto/bot_user_supergroup_status_date_end_empty', 'bot_user_supergroup_status_date_end_empty');
+    Route::get('/auto/bot_user_supergroup_status_date_end_expired', 'bot_user_supergroup_status_date_end_expired');
 
     Route::get('/auto/bot_user_set_ban_scheduler', 'bot_user_set_ban_scheduler');
     Route::get('/auto/bot_user_ban_process', 'bot_user_ban_process');
