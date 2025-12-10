@@ -15,7 +15,7 @@ class BotUserPriceGet
         $bot_user_prices = BotUserPrice::select('price', 'product_id')->where('bot_user_id', $bot_user->id)->get();
         foreach ($bot_user_prices as $bot_user_price) {
             $individuals[] = $bot_user_price->product_id;
-            $result[$bot_user_price->product_id] = $bot_user_price->price;
+            $result[$bot_user_price->product_id] = $bot_user_price->price.($label?' ₽':'');
         }
 
         $products = Product::select('id', 'price')->whereNotIn('id', $individuals)->get();
