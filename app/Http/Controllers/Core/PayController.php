@@ -48,7 +48,7 @@ class PayController
 
             $product = Product::find($product_id);
 
-            $prices = $botUserPriceGet->handle($bot_user, true);
+            $prices = $botUserPriceGet->handle($bot_user, false);
             if (isset($prices[$product_id])) $product->price = $prices[$product_id];
 
             $pay_system_id = NULL;
@@ -99,7 +99,7 @@ class PayController
                 ->find($bot_user->bot_id);
 
             $product = Product::find($product_id);
-            $prices = $botUserPriceGet->handle($bot_user, true);
+            $prices = $botUserPriceGet->handle($bot_user, false);
             if (isset($prices[$product_id])) $product->price = $prices[$product_id];
 
             $client = new Client();
