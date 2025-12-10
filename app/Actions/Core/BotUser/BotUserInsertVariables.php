@@ -52,17 +52,19 @@ class BotUserInsertVariables {
             }
         }
 
-        if (stripos(strtolower($text), '[VAR_PRODUCT_PRICE_')) {
-            $A = explode('VAR_PRODUCT_PRICE_', $text);
-            $A = explode(']', $A[1]);
-            $product_id = $A[0];
+        if (stripos(strtolower($text), 'VAR_PRODUCT_PRICE_')) {
+            $bot_user_prices = BotUserPrice::select('price', 'product_id')->where('bot_user_id', $bot_user->id)->get();
 
-            $bot_user_price = BotUserPrice::select('price')->where('bot_user_id', $bot_user->id)->where('product_id', $product_id)->first();
-            if ($bot_user_price) {
-                $text = str_replace('[VAR_PRODUCT_PRICE_'.$product_id.']', $bot_user_price->price.' ₽', $text);
-            } else {
-                $product = Product::select('price')->find($product_id);
-                $text = str_replace('[VAR_PRODUCT_PRICE_'.$product_id.']', $product->price.' ₽', $text);
+            $Abups = [];
+
+            foreach ($bot_user_prices as $bot_user_price) {
+                $Abups[] = $bot_user_price->product_id;
+                $text = str_replace('VAR_PRODUCT_PRICE_'.$bot_user_price->product_id, $bot_user_price->price.' ₽' , $text);
+            }
+
+            $products = Product::select('product_id', 'price')->whereNotIn('id', $Abups)->get();
+            foreach ($products as $product) {
+                $text = str_replace('VAR_PRODUCT_PRICE_'.$product->product_id, $product->price.' ₽' , $text);
             }
 
         }
