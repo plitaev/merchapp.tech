@@ -33,11 +33,18 @@ class PayController
 
         $bot_user = BotUser::find($bot_user_id);
 
+        $prices = $botUserPriceGet->handle($bot_user, false);
+        if (isset($prices[$product_id])) $product->price = $prices[$product_id];
+
+        $pay_system_id = NULL;
+        $pay_system = PaySystem::where('alias', $pay_system_alias)->first();
+        if (isset($pay_system)) $pay_system_id = $pay_system->id;
+
+        $pay = $payCreateIntoBot->handle($bot_user, $product, $payGetAdditionalData->handle($pay_system_id));
+
         if ($pay_system_alias == 'prodamus') {
 
             $HMACController = new HMACController();
-            $payCreateIntoBot = new PayCreateIntoBot();
-            $payGetAdditionalData = new PayGetAdditionalData();
 
             $bot = Bot::query()
                 ->with('prodamus_payment_method')
@@ -45,17 +52,6 @@ class PayController
                 ->with('prodamus_npd_income_type')
                 ->with('prodamus_tax')
                 ->find($bot_user->bot_id);
-
-            $product = Product::find($product_id);
-
-            $prices = $botUserPriceGet->handle($bot_user, false);
-            if (isset($prices[$product_id])) $product->price = $prices[$product_id];
-
-            $pay_system_id = NULL;
-            $pay_system = PaySystem::where('alias', $pay_system_alias)->first();
-            if (isset($pay_system)) $pay_system_id = $pay_system->id;
-
-            $pay = $payCreateIntoBot->handle($bot_user, $product, $payGetAdditionalData->handle($pay_system_id));
 
             $products = [
                 'name' => $product->description,
@@ -86,7 +82,6 @@ class PayController
             $link = sprintf('%s?%s', $bot->prodamus_url, http_build_query($data));
 
             return redirect($link);
-
         }
 
         if ($pay_system_alias == 'yookassa') {
@@ -98,18 +93,8 @@ class PayController
                 ->with('yookassa_payment_subject')
                 ->find($bot_user->bot_id);
 
-            $product = Product::find($product_id);
-            $prices = $botUserPriceGet->handle($bot_user, false);
-            if (isset($prices[$product_id])) $product->price = $prices[$product_id];
-
             $client = new Client();
             $client->setAuth($bot->yookassa_shop_id, $bot->yookassa_shop_secret);
-
-            $pay_system_id = NULL;
-            $pay_system = PaySystem::where('alias', $pay_system_alias)->first();
-            if (isset($pay_system)) $pay_system_id = $pay_system->id;
-
-            $pay = $payCreateIntoBot->handle($bot_user, $product, $payGetAdditionalData->handle($pay_system_id));
 
             $save_payment_method = ($bot->yookassa_recurrent == 1?true:false);
 
@@ -122,7 +107,6 @@ class PayController
             $confirmationUrl=$payment->getConfirmation()->getConfirmationUrl();
 
             return redirect($confirmationUrl);
-
         }
     }
 
