@@ -1,9 +1,10 @@
 <?php
 namespace App\Http\Controllers\Core;
+use YooKassa\Client;
 
+use App\Actions\Core\BotUserPrice\BotUserPriceGet;
 use App\Http\Controllers\Core\HMACController;
 use App\Models\Core\BotUserPrice;
-use YooKassa\Client;
 
 use App\Actions\Core\BotUser\BotUserGetFullName;
 use App\Actions\Core\Pay\PayCreateIntoBot;
@@ -25,16 +26,18 @@ class PayController
         }
 
         $botUserGetFullName = new BotUserGetFullName();
+        $botUserPriceGet = new BotUserPriceGet();
         $payCreateIntoBot = new PayCreateIntoBot();
         $payGetAdditionalData = new PayGetAdditionalData();
         $yookassaMakeProductJSON = new YookassaMakeProductJSON();
 
+        $bot_user = BotUser::find($bot_user_id);
+
         if ($pay_system_alias == 'prodamus') {
 
+            $HMACController = new HMACController();
             $payCreateIntoBot = new PayCreateIntoBot();
             $payGetAdditionalData = new PayGetAdditionalData();
-
-            $bot_user = BotUser::find($bot_user_id);
 
             $bot = Bot::query()
                 ->with('prodamus_payment_method')
@@ -45,12 +48,8 @@ class PayController
 
             $product = Product::find($product_id);
 
-            if (isset($bot_user->last_product_id) && isset($bot_user->last_product_price) && $bot_user->last_product_id == $product_id) {
-                $product->price = $bot_user->last_product_price;
-            }
-
-            $bot_user_price = BotUserPrice::select('price')->where('bot_user_id', $bot_user->id)->where('product_id', $product_id)->first();
-            if ($bot_user_price) $product->price = $bot_user_price->price;
+            $prices = $botUserPriceGet->handle($bot_user, true);
+            if (isset($prices[$product_id])) $product->price = $prices[$product_id];
 
             $pay_system_id = NULL;
             $pay_system = PaySystem::where('alias', $pay_system_alias)->first();
@@ -83,7 +82,6 @@ class PayController
             $data['client_id'] = $bot_user->id;
             $data['return_all_methods'] = 1;
 
-            $HMACController = new HMACController();
             $data['signature'] = $HMACController->create($data, $bot->prodamus_key);
             $link = sprintf('%s?%s', $bot->prodamus_url, http_build_query($data));
 
@@ -93,7 +91,6 @@ class PayController
 
         if ($pay_system_alias == 'yookassa') {
 
-            $bot_user = BotUser::find($bot_user_id);
             $bot = Bot::query()
                 ->with('yookassa_tax_system_code')
                 ->with('yookassa_vat_code')
@@ -102,6 +99,8 @@ class PayController
                 ->find($bot_user->bot_id);
 
             $product = Product::find($product_id);
+            $prices = $botUserPriceGet->handle($bot_user, true);
+            if (isset($prices[$product_id])) $product->price = $prices[$product_id];
 
             $client = new Client();
             $client->setAuth($bot->yookassa_shop_id, $bot->yookassa_shop_secret);
