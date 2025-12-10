@@ -46,9 +46,12 @@ use Illuminate\Support\Facades\Auth;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $permissions = DB::table('permissions')->where('name', 'LIKE', '%View%')->get();
-        foreach ($permissions as $permission) {
-            DB::table('role_has_permissions')->insertOrIgnore(['role_id' => 2, 'permission_id' => $permission->id]);
+
+        $text = 'текст текст текст текст [VAR_PRODUCT_PRICE_1]';
+
+        if (stripos(strtolower($text), 'VAR_PRODUCT_PRICE_')) {
+            $A = explode('VAR_PRODUCT_PRICE_1', $text);
         }
+
     }
 }

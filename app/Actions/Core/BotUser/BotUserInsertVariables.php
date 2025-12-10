@@ -5,6 +5,7 @@ namespace App\Actions\Core\BotUser;
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchReferralProgram;
 use App\Models\Core\BotUser;
+use App\Models\Core\BotUserPrice;
 
 class BotUserInsertVariables {
 
@@ -48,6 +49,21 @@ class BotUserInsertVariables {
                 $link = "https://t.me/".$bot_user->bot->alias."?start=".base64_encode("3|".$rp->bot_branch_id."|".$bot_user->id);
                 $text = str_replace('VAR_RP_REFERRER_LINK', $link, $text);
             }
+        }
+
+        if (stripos(strtolower($text), '[VAR_PRODUCT_PRICE_')) {
+            $A = explode('VAR_PRODUCT_PRICE_', $text);
+            $A = explode(']', $A[1]);
+            $product_id = $A[0];
+
+            $bot_user_price = BotUserPrice::select('price')->where('bot_user_id', $bot_user->id)->where('product_id', $product_id)->first();
+            if ($bot_user_price) {
+                $text = str_replace('[VAR_PRODUCT_PRICE_'.$product_id.']', $bot_user_price->price.'₽', $text);
+            } else {
+                $product = BotUserPrice::select('price')->find($product_id);
+                $text = str_replace('[VAR_PRODUCT_PRICE_'.$product_id.']', $product->price.'₽', $text);
+            }
+
         }
 
         return $text;
