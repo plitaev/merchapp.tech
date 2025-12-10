@@ -62,9 +62,9 @@ class BotUserInsertVariables {
                 $text = str_replace('VAR_PRODUCT_PRICE_'.$bot_user_price->product_id, $bot_user_price->price.' ₽' , $text);
             }
 
-            $products = Product::select('product_id', 'price')->whereNotIn('id', $Abups)->get();
+            $products = Product::select('id', 'price')->whereNotIn('id', $Abups)->get();
             foreach ($products as $product) {
-                $text = str_replace('VAR_PRODUCT_PRICE_'.$product->product_id, $product->price.' ₽' , $text);
+                $text = str_replace('VAR_PRODUCT_PRICE_'.$product->id, $product->price.' ₽' , $text);
             }
 
         }
