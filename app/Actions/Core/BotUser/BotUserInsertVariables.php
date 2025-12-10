@@ -56,25 +56,10 @@ class BotUserInsertVariables {
         if (stripos(strtolower($text), 'VAR_PRODUCT_PRICE_')) {
             $botUserPriceGet = new BotUserPriceGet();
 
-            $prices = $botUserPriceGet->handle($bot_user);
+            $prices = $botUserPriceGet->handle($bot_user, true);
             foreach ($prices as $product_id => $price) {
-                $text = str_replace('VAR_PRODUCT_PRICE_'.$product_id, $price.' ₽' , $text);
+                $text = str_replace('VAR_PRODUCT_PRICE_'.$product_id, $price, $text);
             }
-
-            $bot_user_prices = BotUserPrice::select('price', 'product_id')->where('bot_user_id', $bot_user->id)->get();
-
-            $Abups = [];
-
-            foreach ($bot_user_prices as $bot_user_price) {
-                $Abups[] = $bot_user_price->product_id;
-                $text = str_replace('VAR_PRODUCT_PRICE_'.$bot_user_price->product_id, $bot_user_price->price.' ₽' , $text);
-            }
-
-            $products = Product::select('id', 'price')->whereNotIn('id', $Abups)->get();
-            foreach ($products as $product) {
-                $text = str_replace('VAR_PRODUCT_PRICE_'.$product->id, $product->price.' ₽' , $text);
-            }
-
         }
 
         return $text;
