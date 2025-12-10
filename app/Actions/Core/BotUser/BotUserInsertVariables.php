@@ -2,7 +2,8 @@
 
 namespace App\Actions\Core\BotUser;
 
-use App\Models\Core\BotBranch;
+use App\Actions\Core\BotUserPrice\BotUserPriceGet;
+
 use App\Models\Core\BotBranchReferralProgram;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserPrice;
@@ -53,6 +54,13 @@ class BotUserInsertVariables {
         }
 
         if (stripos(strtolower($text), 'VAR_PRODUCT_PRICE_')) {
+            $botUserPriceGet = new BotUserPriceGet();
+
+            $prices = $botUserPriceGet->handle($bot_user);
+            foreach ($prices as $product_id => $price) {
+                $text = str_replace('VAR_PRODUCT_PRICE_'.$product_id, $price.' ₽' , $text);
+            }
+
             $bot_user_prices = BotUserPrice::select('price', 'product_id')->where('bot_user_id', $bot_user->id)->get();
 
             $Abups = [];
