@@ -1,9 +1,9 @@
 <?php
 namespace App\Actions\Core\Telegram;
-use App\Models\Core\BotUserPrice;
 use Telegram\Bot\Api;
 
 use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
+use App\Actions\Core\BotUserPrice\BotUserPriceGet;
 use App\Actions\Core\BotUser\BotUserInsertVariables;
 use App\Actions\Core\BotUser\BotUserUnban;
 use App\Actions\Core\BotUser\BotUserSetUnbanScheduler;
@@ -11,6 +11,7 @@ use App\Actions\Core\Product\ProductListByBot;
 
 use App\Models\Core\BotMessage;
 use App\Models\Core\BotMessageButton;
+use App\Models\Core\BotUserPrice;
 use App\Models\Core\TelegramSendMessageErrorLog;
 use App\Models\Core\TelegramSendMessageLog;
 
@@ -64,14 +65,12 @@ class TelegramSendMessage
                     $button_name = $button->name;
 
                     if (stripos(strtolower($button_name), 'VAR_PRODUCT_PRICE')) {
+                        $botUserPriceGet = new BotUserPriceGet();
+                        $prices = $botUserPriceGet->handle($bot_user, true);
 
-                        $bot_user_price = BotUserPrice::select('price')->where('bot_user_id', $bot_user->id)->where('product_id', $button->product_id)->first();
-                        if ($bot_user_price) {
-                            $button_name = str_replace('VAR_PRODUCT_PRICE', $bot_user_price->price.' руб.', $button_name);
-                        } else {
-                            $button_name = str_replace('VAR_PRODUCT_PRICE', $button->product->price.' руб.', $button_name);
+                        if (isset($prices[$button->product_id])) {
+                            $button_name = str_replace('VAR_PRODUCT_PRICE', $prices[$button->product_id], $button_name);
                         }
-
                     }
 
 
