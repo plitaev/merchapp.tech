@@ -21,6 +21,7 @@ use App\Actions\Core\Auto\TelegramScheduleEditMessageFill;
 use App\Actions\Core\Auto\TelegramScheduleEditMessageProcess;
 use App\Actions\Core\Auto\BotSetStatBotUserOnDay;
 use App\Actions\Core\Auto\BotSendUserOnDay;
+use App\Actions\Core\DateEnd\DateEndCalculateForAll;
 use App\Models\Core\BotUser;
 
 
@@ -122,7 +123,8 @@ class AutoController extends Controller
     }
 
     public function bot_users_calculate_date_end() {
-
+        $dateEndCalculateForAll = new DateEndCalculateForAll();
+        return $dateEndCalculateForAll->handle();
     }
 
 }
