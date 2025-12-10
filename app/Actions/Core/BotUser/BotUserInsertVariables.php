@@ -6,6 +6,7 @@ use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchReferralProgram;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserPrice;
+use App\Models\Core\Product;
 
 class BotUserInsertVariables {
 
@@ -58,10 +59,10 @@ class BotUserInsertVariables {
 
             $bot_user_price = BotUserPrice::select('price')->where('bot_user_id', $bot_user->id)->where('product_id', $product_id)->first();
             if ($bot_user_price) {
-                $text = str_replace('[VAR_PRODUCT_PRICE_'.$product_id.']', $bot_user_price->price.'₽', $text);
+                $text = str_replace('[VAR_PRODUCT_PRICE_'.$product_id.']', $bot_user_price->price.' ₽', $text);
             } else {
-                $product = BotUserPrice::select('price')->find($product_id);
-                $text = str_replace('[VAR_PRODUCT_PRICE_'.$product_id.']', $product->price.'₽', $text);
+                $product = Product::select('price')->find($product_id);
+                $text = str_replace('[VAR_PRODUCT_PRICE_'.$product_id.']', $product->price.' ₽', $text);
             }
 
         }
