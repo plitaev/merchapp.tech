@@ -116,9 +116,13 @@ class AutoController extends Controller
         return $botUserSupergroupStatusDateEndEmpty->handle();
     }
 
-    public function bot_user_supergroup_status_date_end_expired() {
+    public function bot_user_supergroup_status_date_end_expired(string $date_end) {
         $botUserSupergroupStatusDateEndExpired = new BotUserSupergroupStatusDateEndExpired();
-        return $botUserSupergroupStatusDateEndExpired->handle();
+        return $botUserSupergroupStatusDateEndExpired->handle($date_end);
+    }
+
+    public function bot_users_calculate_date_end() {
+
     }
 
 }
