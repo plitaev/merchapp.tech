@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Core;
 
+use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Http\Controllers\Controller;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserSupergroupStatus;
@@ -11,25 +12,28 @@ use Telegram\Bot\Api;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
+        $botSendMessage = new BotSendMessage();
 
-        $ids = BotUserSupergroupStatus::select('bot_user_id')
-            ->where('telegram_supergroup_id', 3)
-            ->where('status', 'member')
-            ->pluck('bot_user_id')
-            ->toArray();
+        $A = [
+            1692,
+            1733,
+            2856,
+            3516,
+            4696,
+            4932,
+            8121,
+            14200,
+            17810,
+            18481,
+            19771,
+            19830,
+            19997
+        ];
 
-        $A = [];
-
-        $bot_users = BotUser::whereIn('id', $ids)->get();
-
+        $bot_users = BotUser::whereIn('id', $A)->get();
         foreach ($bot_users as $bot_user) {
-            $status = $telegram->banChatMember(['chat_id' => -1002602171099, 'user_id' => $bot_user->telegram_chat_id]);
-
-            $A[] = $bot_user->id.' - '.$status;
-
+            $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL');
         }
 
-        return $A;
     }
 }
