@@ -14,7 +14,7 @@ class DevTestController extends Controller
         $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
 
         $ids = BotUserSupergroupStatus::select('bot_user_id')
-            ->where('telegram_supergroup_id', 2)
+            ->where('telegram_supergroup_id', 3)
             ->where('status', 'member')
             ->pluck('bot_user_id')
             ->toArray();
@@ -23,8 +23,10 @@ class DevTestController extends Controller
 
         $bot_users = BotUser::whereIn('id', $ids)->get();
 
+        return $bot_users;
+
         foreach ($bot_users as $bot_user) {
-            $status = $telegram->banChatMember(['chat_id' => -1002787220437, 'user_id' => $bot_user->telegram_chat_id]);
+            $status = $telegram->banChatMember(['chat_id' => -1002602171099, 'user_id' => $bot_user->telegram_chat_id]);
 
             $A[] = $bot_user->id.' - '.$status;
 
