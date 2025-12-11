@@ -1,20 +1,20 @@
 <?php
 namespace App\Actions\Core\Yookassa;
-
 use YooKassa\Client;
 
+use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserGetFullName;
 use App\Actions\Core\Pay\PayCreateIntoBot;
 use App\Actions\Core\Pay\PayGetAdditionalData;
 use App\Actions\Core\Pay\PayMakeSuccessful;
-use App\Actions\Core\Yookassa\YookassaMakeProductJSON;
 
+use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
 
 class YookassaMakeRecurrent
 {
     public function handle($data) {
-
+        $botSendMessage = new BotSendMessage();
         $botUserGetFullName = new BotUserGetFullName();
         $payCreateIntoBot = new PayCreateIntoBot();
         $payGetAdditionalData = new PayGetAdditionalData();
@@ -57,6 +57,14 @@ class YookassaMakeRecurrent
             $payMakeSuccessful->handle(json_encode($payment), $pay->id, $payment->id, $payment->payment_method->id, $comission);
 
             BotUserBanSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
+
+        } else {
+
+            if ($payment->paid == false) {
+                $bot_user = BotUser::find($data->bot_user_id);
+                $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL');
+            }
+
         }
 
         return ['new_pay_id' => $pay->id, 'pay_system_responce' => json_encode($payment)];
