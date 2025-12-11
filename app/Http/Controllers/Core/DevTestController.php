@@ -23,8 +23,6 @@ class DevTestController extends Controller
 
         $bot_users = BotUser::whereIn('id', $ids)->get();
 
-        return $bot_users;
-
         foreach ($bot_users as $bot_user) {
             $status = $telegram->banChatMember(['chat_id' => -1002602171099, 'user_id' => $bot_user->telegram_chat_id]);
 
