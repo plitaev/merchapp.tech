@@ -1,11 +1,13 @@
 <?php
 namespace App\Actions\Core\Prodamus;
 
-use App\Actions\Core\Pay\PayMakeSuccessful;
 use App\Http\Controllers\Core\HMACController;
 
+use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\Pay\PayCreateIntoBot;
 use App\Actions\Core\Pay\PayGetAdditionalData;
+use App\Actions\Core\Pay\PayMakeSuccessful;
+
 use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\Product;
 
@@ -13,6 +15,7 @@ class ProdamusMakeRecurrent
 {
     public function handle($data) {
 
+        $botSendMessage = new BotSendMessage();
         $payCreateIntoBot = new PayCreateIntoBot();
         $payGetAdditionalData = new PayGetAdditionalData();
         $payMakeSuccessful = new PayMakeSuccessful();
@@ -64,6 +67,13 @@ class ProdamusMakeRecurrent
         if ($responce_array['success'] == true) {
             BotUserBanSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
             $payMakeSuccessful->handle(json_encode($responce), $pay->id, NULL, $data->prevous_pay->pay_system_payment_method_id, NULL);
+        } else {
+
+            if ($responce_array['success'] == false) {
+                $bot_user = BotUser::find($data->bot_user_id);
+                $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL');
+            }
+
         }
 
         return ['new_pay_id' => $pay->id, 'pay_system_responce' => json_encode($responce_array)];
