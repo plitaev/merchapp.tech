@@ -1,57 +1,35 @@
 <?php
 namespace App\Http\Controllers\Core;
-use App\Actions\Core\Auto\BotUserSetBanSchedulerCreate;
-use App\Actions\Core\DateEnd\DateEnd;
-use App\Actions\Core\GetCourseWebhook\GetCourseWebhookCreate;
-use App\Actions\Core\Telegram\TelegramChatJoinRequest;
+
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Core\HMACController;
-use App\Models\Core\Bot;
 use App\Models\Core\BotUser;
-use App\Models\Core\BotUserBanSchedule;
-use App\Models\Core\BotUserPrice;
-use App\Models\Core\BotUserRecurrentSchedule;
-use App\Models\Core\BotUserUnbanSchedule;
-use App\Models\Core\Pay;
-use App\Models\Core\Product;
-use App\Models\Core\TelegramScheduleDeleteMessage;
-use App\Models\Core\TelegramSendMessageLog;
-use App\Models\Core\TelegramSendMessageSchedule;
-use App\Models\Core\TelegramUnbanSchedule;
-use App\Models\Core\TelegramWebhook;
-use App\Models\Core\Sending;
-
-use App\Actions\Core\BotSendMessage\BotSendMessage;
-
-use App\Models\Core\User;
-use YooKassa\Client;
-use Telegram\Bot\Api;
-
-use App\Models\Core\TelegramChatJoinRequestLog;
-use App\Models\Core\GetcourseWebhook;
-
-use Revolution\Google\Sheets\Facades\Sheets;
-
+use App\Models\Core\BotUserSupergroupStatus;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-
-use Carbon\Carbon;
-
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-
-use Illuminate\Support\Facades\Auth;
+use Telegram\Bot\Api;
 
 
 class DevTestController extends Controller
 {
     public function devtest() {
+        $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
 
-        $text = 'текст текст текст текст [VAR_PRODUCT_PRICE_1]';
+        $ids = BotUserSupergroupStatus::select('bot_user_id')
+            ->where('telegram_supergroup_id', 1)
+            ->where('status', 'member')
+            ->pluck('bot_user_id')
+            ->toArray();
 
-        if (stripos(strtolower($text), 'VAR_PRODUCT_PRICE_')) {
-            $A = explode('VAR_PRODUCT_PRICE_1', $text);
+        $A = [];
+
+        $bot_users = BotUser::whereIn('id', $ids)->get();
+        return $bot_users;
+        foreach ($bot_users as $bot_user) {
+            $status = $telegram->banChatMember(['chat_id' => -1002225281436, 'user_id' => $bot_user->telegram_chat_id]);
+
+            $A[] = $bot_user->id.' - '.$status;
+
         }
 
+        return $A;
     }
 }
