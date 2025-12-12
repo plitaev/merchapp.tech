@@ -1,13 +1,11 @@
 <?php
+
 namespace App\Filament\Resources\Bots\Pages;
 
-use App\Models\Core\BotBranch;
-use App\Models\Core\BotBranchAccess;
-use App\Models\Core\BotBranchLinkProduct;
-use App\Models\Core\BotBranchReferrerSending;
-use App\Models\Core\BotBranchType;
-use App\Models\Core\BotMessageAppointment;
-use App\Models\Core\User;
+use App\Filament\Resources\Bots\BotResource;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
 
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
@@ -18,11 +16,6 @@ use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\DeleteAction;
-use App\Models\Core\BotMessage;
-use App\Models\Core\TelegramSendMessageSchedule;
-use Illuminate\Support\HtmlString;
-
-use App\Filament\Resources\Bots\BotResource;
 
 use Filament\Forms;
 use Filament\Forms\Components;
@@ -41,16 +34,19 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Actions\ViewAction;
-use App\Actions\Core\Sending\SendingSave;
+
+use App\Actions\Core\BotBranch\BotBranchEndByAdmin;
 use App\Actions\Core\BotBranch\BotBranchSetEndByProducts;
 
 use App\Models\Core\Bot;
+use App\Models\Core\BotBranch;
+use App\Models\Core\BotBranchAccess;
+use App\Models\Core\BotBranchLinkProduct;
+use App\Models\Core\BotBranchReferrerSending;
+use App\Models\Core\BotBranchType;
+use App\Models\Core\BotMessage;
 use App\Models\Core\Product;
-use App\Models\Core\SendingAppointment;
-use App\Models\Core\SendingButton;
-use App\Models\Core\SendingListener;
-use App\Models\Core\SendingType;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Core\TelegramSendMessageSchedule;
 
 class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
 {
@@ -343,6 +339,10 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         ->label('Вернуться назад'),
                     Action::make('Stop')
                         ->action(function () {
+
+                            $botBranchEndByAdmin = new BotBranchEndByAdmin();
+                            $botBranchEndByAdmin->handle($id);
+
                             return redirect('/admin/bots/'.$this->bot_id.'/branches');
                         })
                         ->label('Завершить акцию сейчас')
