@@ -341,7 +341,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         ->action(function () {
 
                             $botBranchEndByAdmin = new BotBranchEndByAdmin();
-                            $botBranchEndByAdmin->handle($id);
+                            $botBranchEndByAdmin->handle($this->bot_id, $this->id);
 
                             return redirect('/admin/bots/'.$this->bot_id.'/branches');
                         })
