@@ -25,6 +25,7 @@ class BotBranchEndByAdmin
             }
 
             BotUser::whereIn('id', $bot_users)->update(['bot_branch_id' => $bot_branch->id]);
+            BotBranch::where('id', $bot_branch_id)->update(['datetime_end' => date('Y-m-d H:i:s', time())]);
         }
 
     }
