@@ -70,7 +70,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
         $data = ($id>0?BotMessageButton::find($id)->toArray():["bot_message_id" => $bot_message_id, 'pos' => $this->pos_list[1]]);
         $this->form->fill($data);
 
-        if (!Auth::user()->hasPermissionTo('View:BotMessage')) {  
+        if (!Auth::user()->hasPermissionTo('View:BotMessage')) {
             redirect('/admin/bots/access');
         }
     }
@@ -195,13 +195,13 @@ class BotMessageButtonAdmin extends Page implements HasForms
                             ->label('Платёжная система')
                             ->options(PaySystem::all()->pluck('name', 'id'))
                             ->searchable()
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?0:1),
 
                         Select::make('product_id')
                             ->label('Продукт')
                             ->options(Product::all()->pluck('name', 'id'))
                             ->searchable()
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?0:1),
 
                     ])
                     ->visible(function (Get $get) {
