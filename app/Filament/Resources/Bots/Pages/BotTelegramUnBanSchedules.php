@@ -155,7 +155,7 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
                             ->options(BotUser::where('bot_id', $this->bot_id)->get()->map(function ($bot_user) {
                                 return ['key' => $bot_user->id, 'value' => (isset($bot_user->first_name) && $bot_user->first_name!='none'?$bot_user->first_name:'')." ".(isset($bot_user->last_name) && $bot_user->last_name!='none'?$bot_user->last_name:'')." ".(isset($bot_user->username) && $bot_user->username!='none'?"(".$bot_user->username.")":'')];
                             })->pluck('value', 'key')->toArray())
-                            ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')),
+                            ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?0:1),
 
                     ]),
                 Actions::make([
@@ -178,7 +178,6 @@ class BotTelegramUnBanSchedules extends Page implements HasTable, HasForms
 
                             $this->dispatch('close-modal', id: 'add-page-modal');
                         }),
-                       // ->visible(auth()->user()->hasPermissionTo('Create:BotUserUnbanSchedule')),
                     Action::make('Отмена')
                         ->action(function () {
                             $this->dispatch('close-modal', id: 'add-page-modal');
