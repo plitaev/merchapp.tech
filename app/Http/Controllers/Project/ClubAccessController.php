@@ -160,12 +160,6 @@ class ClubAccessController extends Controller
                 die();
             }
 
-            //== Если это /subscription, тут обрабатываем регистрацию
-            if ($Astart[0] == "/subscription") {
-                $botSendMessage->handle($bot_user, 'SYS_USER_SUBSCRIPTION_DATA');
-                die();
-            }
-
             //== Если это /subscribe, тут обрабатываем регистрацию
             if ($Astart[0] == "/subscribe") {
                 $botGoToClub->handle($telegram, $webhook, $bot_user);
