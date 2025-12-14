@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\MiniAppPages\Pages;
 
+use App\Models\Core\MiniApp;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Actions;
@@ -87,9 +88,11 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
             ->components([
                 Section::make('Мини-приложение')
                     ->schema([
-                        TextInput::make('miniapp.name')
-                            ->label("Страница опубликована в приложении")
+                        Select::make('mini_app_id')
+                            ->label('Страница опубликована в приложении')
                             ->required()
+                            ->options(MiniApp::all()->pluck('name', 'id'))
+                            ->searchable(),
                     ]),
                 Section::make('Название страницы')
                     ->description('Название страницы используется только для администраторов. Оно не отображается в мини-приложении.')
