@@ -37,7 +37,7 @@ class BotUserSetRecurrentFromAdmin
 
                         Notification::make()
                             ->title('Задача на списание автоплатежа создана')
-                            ->danger()
+                            ->success()
                             ->send();
 
                     } else {
