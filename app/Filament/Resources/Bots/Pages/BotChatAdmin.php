@@ -1,9 +1,39 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
-use App\Actions\Core\Telegram\TelegramSendMessage;
+use App\Filament\Resources\Bots\BotResource;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
+
+use Carbon\Carbon;
+
+use Filament\Actions\Action;
+
+use Filament\Forms;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+
+use Filament\Notifications\Notification;
+
+use Filament\Resources\Pages\Page;
+
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Section;
+
+use Filament\Tables\Columns\Summarizers\Count;
+use Filament\Tables\Columns\Summarizers\Sum;
+
+use App\Models\Core\Bot;
 use App\Models\Core\BotAdminLog;
+use App\Models\Core\BotMessage;
+use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
+use App\Models\Core\BotUserPrice;
 use App\Models\Core\BotUserRecurrentSchedule;
 use App\Models\Core\BotUserUnbanSchedule;
 use App\Models\Core\Pay;
@@ -13,50 +43,15 @@ use App\Models\Core\TelegramBanScheduleErrorLogs;
 use App\Models\Core\TelegramUnbanScheduleErrorLog;
 use App\Models\Core\TelegramChatMemberErrorLog;
 use App\Models\Core\TelegramSendMessageErrorLog;
-use App\Models\Core\TelegramBanScheduleLogs;
 use App\Models\Core\TelegramSendMessageLog;
-use App\Models\Core\TelegramSendMessageSchedule;
-use App\Models\Core\BotUserPrice;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Illuminate\Support\HtmlString;
-use DB;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Select;
-use Filament\Schemas\Components\Actions;
-use Filament\Actions\Action;
-use Filament\Tables\Columns\Summarizers\Count;
 
-use Filament\Tables\Columns\Summarizers\Sum;
-use App\Filament\Resources\Bots\BotResource;
-use App\Models\Core\Bot;
-use App\Models\Core\BotMessage;
-use App\Models\Core\BotUser;
-use App\Models\Core\User;
-use Carbon\Carbon;
-use Filament\Forms;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Notifications\Notification;
-use Filament\Resources\Pages\Page;
-
-use Filament\Infolists\Concerns\InteractsWithInfolists;
-use Filament\Infolists\Contracts\HasInfolists;
-use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
-
+use App\Actions\Core\BotUser\BotUserSetRecurrentFromAdmin;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\Pay\PayCreateByPayGuest;
-use Symfony\Component\Console\Input\Input;
-use Illuminate\Support\Facades\Auth;
-class BotChatAdmin extends Page implements HasForms, HasInfolists
+
+class BotChatAdmin extends Page implements HasForms
 {
     use InteractsWithForms;
-    use InteractsWithInfolists;
 
     protected static string $resource = BotResource::class;
 
@@ -359,23 +354,14 @@ class BotChatAdmin extends Page implements HasForms, HasInfolists
                         })
                         ->visible(fn() => auth()->user()->can('Update:BotUser')),
 
-                    Action::make('Списать рекуррент вручную')
+                    Action::make('make_recurrent')
                         ->label('Списать рекуррент вручную')
                         ->color('success')
                         ->requiresConfirmation()
                         ->visible(fn() => auth()->user()->can('Update:BotMessage'))
                         ->action(function () {
-                            $data = $this->form->getState();
-                            $botUserRecurrentSchedule = new BotUserRecurrentSchedule();
-
-                            $botUserRecurrentSchedule->handle($data);
-
-
-                            Notification::make()
-                                ->title('Рекуррент успешно списан!')
-                                ->success()
-                                ->send();
-
+                            $botUserSetRecurrentFromAdmin = new BotUserSetRecurrentFromAdmin();
+                            $botUserSetRecurrentFromAdmin->handle($this->bot_user_id);
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         })
                         ->visible(fn() => auth()->user()->can('Update:BotUser')),
