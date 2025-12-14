@@ -34,6 +34,12 @@ class BotUserSetRecurrentFromAdmin
                                 'run_status' => 0
                             ]
                         );
+
+                        Notification::make()
+                            ->title('Задача на списание автоплатежа создана')
+                            ->danger()
+                            ->send();
+
                     } else {
                         Notification::make()
                             ->title('Не найден предыдущий успешный платеж с токеном автосписания')
