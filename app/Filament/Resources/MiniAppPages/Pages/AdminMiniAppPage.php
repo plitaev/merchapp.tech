@@ -90,7 +90,6 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                         TextInput::make('miniapp.name')
                             ->label("Страница опубликована в приложении")
                             ->required()
-                            ->disabled(true)
                     ]),
                 Section::make('Название страницы')
                     ->description('Название страницы используется только для администраторов. Оно не отображается в мини-приложении.')
