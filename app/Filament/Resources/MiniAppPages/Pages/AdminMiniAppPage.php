@@ -33,6 +33,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
+use Filament\Forms\Components\Select;
+
 class AdminMiniAppPage extends Page implements HasTable, HasForms
 {
     use InteractsWithForms;
