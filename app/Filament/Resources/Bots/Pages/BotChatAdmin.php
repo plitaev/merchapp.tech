@@ -362,7 +362,7 @@ class BotChatAdmin extends Page implements HasForms
                         ->action(function () {
                             $botUserSetRecurrentFromAdmin = new BotUserSetRecurrentFromAdmin();
                             $botUserSetRecurrentFromAdmin->handle($this->bot_user_id);
-                            return redirect('/admin/bots/' . $this->bot_id . '/chats');
+                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_user_id.'/chat-admin');
                         })
                         ->visible(fn() => auth()->user()->can('Update:BotUser')),
                     Action::make('Cancel')
