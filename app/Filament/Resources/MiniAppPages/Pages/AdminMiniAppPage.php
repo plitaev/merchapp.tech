@@ -88,36 +88,39 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
     {
         return $schema
             ->components([
-                Section::make('Мини-приложение')
+                Section::make('Тип кнопки и надпись, которую видит пользователь')
+                    ->description('Укажите основные настройки, чтобы продолжить работу')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
                     ->schema([
-                        Select::make('mini_app_id')
-                            ->label('Страница опубликована в приложении')
+                        Hidden::make('bot_message_id'),
+                        Select::make('bot_message_button_type_id')
+                            ->label('Тип кнопки')
                             ->required()
-                            ->options(MiniApp::all()->pluck('name', 'id'))
-                            ->searchable(),
-                    ]),
-                Section::make('Название страницы')
-                    ->description('Название страницы используется только для администраторов. Оно не отображается в мини-приложении.')
-                    ->schema([
+                            ->options(BotMessageButtonType::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->live()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
+
                         TextInput::make('name')
-                            ->label('Введите название в это поле')
                             ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно укажите название страницы',
-                            ]),
-                    ]),
-                Section::make('Ссылка на страницу')
-                    ->description('Введите URL, по которому будет открываться данная страница в приложении')
-                    ->schema([
-                        TextInput::make('url')
-                            ->label('Не изменять')
+                            ->label('Надпись на кнопке')
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
+
+                        Select::make('pos')
+                            ->label('Порядковый номер')
                             ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно укажите ссылку на страницу',
-                            ]),
-                        Hidden::make('id')
-                            ->label('id')
-                            ->required(),
+                            ->options($this->pos_list[0])
+                            ->searchable()
+                            ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2])
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
+
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
@@ -125,20 +128,20 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                             $data = $this->form->getState();
 
                             Notification::make()
-                                ->title($data)
+                                ->title('qqq')
                                 ->success()
                                 ->send();
-                            /*
-                            if ($this->record > 0) {
-                                MiniAppPage::where('id', $this->record)->update($data);
-                                return redirect('/admin/mini-app-pages/'.$this->record.'/admin');
-                            } else {
-                                $new = MiniAppPage::create($data);
-                                return redirect('/admin/mini-app-pages/'.$new->id.'/admin');
-                            }
-                            */
 
-                        }),
+                        })
+                        ->visible(auth()->user()->hasPermissionTo('Create:BotMessageButtonCallback')),
+
+
+
+                    Action::make('Cancel')
+                        ->action(function () {
+                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/message-admin');
+                        })
+                        ->label('Отменить и вернуться назад')
                 ])
             ])->statePath('data');
     }
