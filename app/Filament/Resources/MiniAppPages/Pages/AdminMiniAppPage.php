@@ -98,29 +98,11 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Hidden::make('bot_message_id'),
-                        Select::make('bot_message_button_type_id')
-                            ->label('Тип кнопки')
-                            ->required()
-                            ->options(BotMessageButtonType::all()->pluck('name', 'id'))
-                            ->searchable()
-                            ->live()
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
-
                         TextInput::make('name')
                             ->required()
                             ->label('Надпись на кнопке')
                             ->maxLength(255)
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
-
-                        Select::make('pos')
-                            ->label('Порядковый номер')
-                            ->required()
-                            ->options($this->pos_list[0])
-                            ->searchable()
-                            ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2])
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
-
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
