@@ -73,7 +73,7 @@ class PayMakeSuccessful
             }
 
             if (isset($Asource['object']['payment_method']['card']['last4'])) {
-                $card_mask = '******'.$Asource['payment_method']['card']['last4'];
+                $card_mask = '******'.$Asource['object']['payment_method']['card']['last4'];
             }
 
             if ($card_mask == '') $card_mask = $Asource['object']['payment_method']['title'];
