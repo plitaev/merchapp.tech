@@ -88,21 +88,13 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
     {
         return $schema
             ->components([
-                Section::make('Тип кнопки и надпись, которую видит пользователь')
-                    ->description('Укажите основные настройки, чтобы продолжить работу')
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
-                    ])
+                Section::make('Мини-приложение')
                     ->schema([
-                        TextInput::make('name')
+                        Select::make('mini_app_id')
+                            ->label('Страница опубликована в приложении')
                             ->required()
-                            ->label('Надпись на кнопке')
-                            ->maxLength(255)
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
+                            ->options(MiniApp::all()->pluck('name', 'id'))
+                            ->searchable(),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
@@ -110,7 +102,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                             $data = $this->form->getState();
 
                             Notification::make()
-                                ->title($data['name'])
+                                ->title($data['mini_app_id'])
                                 ->success()
                                 ->send();
 
