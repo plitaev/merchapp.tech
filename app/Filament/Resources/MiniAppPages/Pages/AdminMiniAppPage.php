@@ -96,13 +96,36 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                             ->options(MiniApp::all()->pluck('name', 'id'))
                             ->searchable(),
                     ]),
+                Section::make('Название страницы')
+                    ->description('Название страницы используется только для администраторов. Оно не отображается в мини-приложении.')
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Введите название в это поле')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите название страницы',
+                            ]),
+                    ]),
+                Section::make('Ссылка на страницу')
+                    ->description('Введите URL, по которому будет открываться данная страница в приложении')
+                    ->schema([
+                        TextInput::make('url')
+                            ->label('Не изменять')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите ссылку на страницу',
+                            ]),
+                        Hidden::make('id')
+                            ->label('id')
+                            ->required(),
+                    ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
                             $data = $this->form->getState();
 
                             Notification::make()
-                                ->title($data['mini_app_id'])
+                                ->title($data['name'])
                                 ->success()
                                 ->send();
 
