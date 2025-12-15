@@ -115,9 +115,6 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                             ->validationMessages([
                                 'required' => 'Обязательно укажите ссылку на страницу',
                             ]),
-                        Hidden::make('id')
-                            ->label('id')
-                            ->required(),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
