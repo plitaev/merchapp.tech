@@ -110,7 +110,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                             $data = $this->form->getState();
 
                             Notification::make()
-                                ->title($data)
+                                ->title($data['name'])
                                 ->success()
                                 ->send();
 
