@@ -118,21 +118,27 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                         Hidden::make('id')
                             ->label('id')
                             ->required(),
-                        Actions::make([
-                            Action::make('Сохранить')
-                                ->action(function () {
-                                    $kkk = $this->form->getState();
-
-                                    Notification::make()
-                                        ->title('Данные успешно сохранены!')
-                                        ->success()
-                                        ->send();
-
-
-
-                                }),
-                        ])
                     ]),
+                Actions::make([
+                    Action::make('Сохранить')
+                        ->action(function () {
+                            $data = $this->form->getState();
+
+                            Notification::make()
+                                ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
+
+                            if ($this->record > 0) {
+                                MiniAppPage::where('id', $this->record)->update($data);
+                                return redirect('/admin/mini-app-pages/'.$this->record.'/admin');
+                            } else {
+                                $new = MiniAppPage::create($data);
+                                return redirect('/admin/mini-app-pages/'.$new->id.'/admin');
+                            }
+
+                        }),
+                ])
             ])->statePath('data');
     }
 
