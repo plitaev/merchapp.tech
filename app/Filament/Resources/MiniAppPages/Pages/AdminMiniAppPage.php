@@ -121,7 +121,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                         Actions::make([
                             Action::make('Сохранить')
                                 ->action(function () {
-                                    $data = $this->form->getState();
+                                    $kkk = $this->form->getState();
 
                                     Notification::make()
                                         ->title('Данные успешно сохранены!')
