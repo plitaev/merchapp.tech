@@ -119,7 +119,17 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                             ->label('id')
                             ->required(),
                         Actions::make([
+                            Action::make('Сохранить')
+                                ->action(function () {
 
+                                    Notification::make()
+                                        ->title('Данные успешно сохранены!')
+                                        ->success()
+                                        ->send();
+
+
+
+                                }),
                         ])
                     ]),
             ])->statePath('data');
