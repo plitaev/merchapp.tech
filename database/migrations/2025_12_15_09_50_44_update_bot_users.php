@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bot_users', function (Blueprint $table) {
-            $table->id();
             $table->char('card_mask', 16)->after('email')->nullable();
         });
     }
