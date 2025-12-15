@@ -19,6 +19,7 @@ class BotUser extends Model
         'eighteen',
         'username',
         'email',
+        'card_mask',
         'recurrent',
         'blacklist',
         'business_bot_account',

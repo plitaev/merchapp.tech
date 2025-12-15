@@ -24,6 +24,8 @@ class PayMakeSuccessful
         $dateEnd = new DateEnd();
         $referralBuySpecialProduct = new ReferralBuySpecialProduct();
 
+        $Asource = json_decode($source, true);
+
         Pay::query()
             ->where('id', $order_number)
             ->update(
@@ -57,6 +59,10 @@ class PayMakeSuccessful
 
         if ($pay->recurrent == 1) {
             Pay::where('id', $order_number)->update(['recurrent_status' => 1]);
+        }
+
+        if (isset($Asource['maskedPan'])) {
+            BotUser::where('id', $pay->bot_user_id)->update(['card_mask' => $Asource['maskedPan']]);
         }
 
     }
