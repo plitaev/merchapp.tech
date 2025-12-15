@@ -127,13 +127,11 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                                 ->send();
 
                         })
-                        ->visible(auth()->user()->hasPermissionTo('Create:BotMessageButtonCallback')),
-
-
+                        ->visible(auth()->user()->hasPermissionTo('Create:MiniAppPage')),
 
                     Action::make('Cancel')
                         ->action(function () {
-                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/message-admin');
+                            return redirect('/admin/mini-app-pages');
                         })
                         ->label('Отменить и вернуться назад')
                 ])
