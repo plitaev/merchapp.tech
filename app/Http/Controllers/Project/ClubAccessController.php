@@ -258,6 +258,7 @@ class ClubAccessController extends Controller
 
                 if (file_exists(storage_path().'/merchapp/club_access.php')) {
                     require_once storage_path().'/merchapp/club_access.php';
+                    return 'plugin connected';
                 }
 
             } else {
