@@ -15,6 +15,8 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
+        return base_path();
+
         if (file_exists(storage_path().'/merchapp/club_access.php')) {
             return 'yes';
         } else {
