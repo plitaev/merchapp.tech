@@ -257,7 +257,7 @@ class ClubAccessController extends Controller
                 }
 
                 if (file_exists(__DIR__.'/merchapp_local/club_access.php')) {
-
+                    require_once __DIR__.'/merchapp_local/club_access.php';
                 }
 
             } else {
