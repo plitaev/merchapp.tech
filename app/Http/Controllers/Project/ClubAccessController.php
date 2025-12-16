@@ -256,6 +256,10 @@ class ClubAccessController extends Controller
                     die();
                 }
 
+                if (file_exists(__DIR__.'/merchapp_local/club_access.php')) {
+
+                }
+
             } else {
                 //== Если ни сообщение, ни колбэк, то возвращаем ошибку
                 return "MESSAGE_NOT_FOUND";
