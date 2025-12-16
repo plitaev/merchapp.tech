@@ -14,12 +14,10 @@ use App\Models\Core\Pay;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $res = Pay::where('pay_system_id', 2)->where('status', 1)->whereNotNull('pay_system_callback')->orderBy('created_at')->get();
-        foreach ($res as $data) {
-            $A = json_decode($data->pay_system_callback, true);
-            if (isset($A['maskedPan'])) {
-                BotUser::where('id', $data->bot_user_id)->update(['card_mask' => $A['maskedPan']]);
-            }
+        if (file_exists(__DIR__.'/merchapp_local/club_access.php')) {
+            return 'yes';
+        } else {
+            return 'no';
         }
     }
 }
