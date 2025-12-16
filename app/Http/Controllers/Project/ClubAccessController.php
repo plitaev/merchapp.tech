@@ -35,7 +35,6 @@ use App\Actions\Project\ClubAccess\BotUserRecurrentDisable;
 use App\Actions\Project\ClubAccess\BotWelcomeMessage;
 
 use App\Actions\Local\ClubAccessCallback;
-use App\Actions\Local\Belka;
 
 class ClubAccessController extends Controller
 {
@@ -260,7 +259,8 @@ class ClubAccessController extends Controller
                 }
 
                 if (file_exists(base_path().'/app/Actions/Local/ClubAccessCallback.php')) {
-
+                    $clubAccessCallback = new ClubAccessCallback();
+                    return $clubAccessCallback->handle($webhook, $callback);
                 }
 
             } else {
