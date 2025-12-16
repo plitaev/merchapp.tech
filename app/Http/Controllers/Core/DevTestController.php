@@ -14,12 +14,12 @@ use App\Models\Core\Pay;
 class DevTestController extends Controller
 {
     public function devtest() {
-        return storage_path();
 
-        if (file_exists(__DIR__.'/merchapp_local/club_access.php')) {
+        if (file_exists(storage_path().'/merchapp/club_access.php')) {
             return 'yes';
         } else {
             return 'no';
         }
+
     }
 }
