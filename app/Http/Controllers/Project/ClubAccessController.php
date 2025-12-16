@@ -34,6 +34,9 @@ use App\Actions\Project\ClubAccess\BotResetUser;
 use App\Actions\Project\ClubAccess\BotUserRecurrentDisable;
 use App\Actions\Project\ClubAccess\BotWelcomeMessage;
 
+use App\Actions\Local\ClubAccessCallback;
+use App\Actions\Local\Belka;
+
 class ClubAccessController extends Controller
 {
     public function club_access(int $bot_id) {
@@ -256,8 +259,7 @@ class ClubAccessController extends Controller
                     die();
                 }
 
-                if (file_exists(storage_path().'/merchapp/club_access.php')) {
-                    global $callback;
+                if (file_exists(base_path().'/app/Actions/Local/ClubAccessCallback.php')) {
                     require_once storage_path().'/merchapp/club_access.php';
                 }
 

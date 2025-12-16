@@ -17,7 +17,7 @@ class DevTestController extends Controller
 
         return base_path();
 
-        if (file_exists(storage_path().'/merchapp/club_access.php')) {
+        if (file_exists(base_path().'/app/Actions/Local/ClubAccessCallback.php')) {
             return 'yes';
         } else {
             return 'no';
