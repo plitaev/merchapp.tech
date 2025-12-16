@@ -15,13 +15,14 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        return base_path();
+        $bot_users = BotUser::get();
+        $A = [];
 
-        if (file_exists(base_path().'/app/Actions/Local/ClubAccessCallback.php')) {
-            return 'yes';
-        } else {
-            return 'no';
+        foreach ($bot_users as $bot_user) {
+            $count = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->count();
+            if ($count >= 4) $A[] = $bot_user->id;
         }
 
+        return $A;
     }
 }
