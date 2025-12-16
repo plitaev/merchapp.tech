@@ -260,7 +260,7 @@ class ClubAccessController extends Controller
                 }
 
                 if (file_exists(base_path().'/app/Actions/Local/ClubAccessCallback.php')) {
-                    require_once storage_path().'/merchapp/club_access.php';
+
                 }
 
             } else {
