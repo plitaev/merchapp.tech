@@ -13,7 +13,7 @@ class BotListenerPayCount
 
         if (isset($webhook['message']['text'])) {
 
-            if (is_int($webhook['message']['text'])) {
+            if (is_numeric($webhook['message']['text'])) {
                 $botSendMessage->handle($bot_user, 'SYS_USER_ENTERED_PAY_COUNT');
                 $botUserSetListener->handle('listen_pay_count', 0, $bot_user->id);
             } else {
