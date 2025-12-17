@@ -258,7 +258,7 @@ class ClubAccessController extends Controller
 
                 if (file_exists(base_path().'/app/Actions/Local/ClubAccessCallback.php')) {
                     $clubAccessCallback = new ClubAccessCallback();
-                    return $clubAccessCallback->handle($telegram, $webhook, $callback);
+                    return $clubAccessCallback->handle($telegram, $webhook, $callback, $bot_user);
                 }
 
             } else {
