@@ -56,18 +56,19 @@ class PayController
             $hash = $bot->robokassa_merchant_login.":".$pay['pay_price_rub'].":".$pay->id.":".$receipt.":".$bot->robokassa_merchant_password;
             $hash=md5($hash);
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL,"https://auth.robokassa.ru/Merchant/Index.aspx?");
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS,'MerchantLogin='.$bot->robokassa_merchant_login.'&OutSum='.$product->price.'&invoiceID='.$pay->id.'&Receipt='.$receipt.'&SignatureValue='.$hash);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $server_output = curl_exec($ch);
-            curl_close ($ch);
-
-            return $server_output;
-
-            $json=json_decode($server_output, true);
-            return redirect("https://auth.robokassa.ru/Merchant/Index/".$json['invoiceID']);
+            return
+                "<html>".
+                "<form action='https://auth.robokassa.ru/Merchant/Index.aspx' method=POST>".
+                "<input type=hidden name=MerchantLogin value=".$bot->robokassa_merchant_login.">".
+                "<input type=hidden name=OutSum value=".$product->price.">".
+                "<input type=hidden name=InvId value=".$pay->id.">".
+                "<input type=hidden name=Description value='".$product->description."'>".
+                "<input type=hidden name=SignatureValue value=".$hash.">".
+                "<input type=hidden name=Email value=".$bot_user->email.">".
+                "<input type=hidden name=ExpirationDate value=2025-12-31T23:59:59>".
+                "<input type=hidden name=Receipt value=$receipt>".
+                "<input type=submit value='Оплатить'>".
+                "</form></html>";
 
         }
 
