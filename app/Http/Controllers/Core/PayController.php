@@ -53,7 +53,9 @@ class PayController
 
             $receipt='{"sno":"'.$bot->robokassa_tax->code.'","items": [{"name": "'.$product->description.'","quantity": 1,"sum": '.$product->price.',"payment_method": "'.$bot->robokassa_payment_method->code.'","payment_object": "'.$bot->robokassa_payment_object->code.'","tax": "'.$bot->robokassa_vat->code.'"}]}';
 
-            $hash = $bot->robokassa_merchant_login.":".$product->price.":".$pay->id.":".$receipt.":".$bot->robokassa_merchant_password;
+            $shp_item = "Shp_oplata=1";
+
+            $hash = $bot->robokassa_merchant_login.":".$product->price.":".$pay->id.":".$receipt.":".$bot->robokassa_merchant_password.":Shp_item=".$shp_item;
             $hash=md5($hash);
 
             return
@@ -68,6 +70,7 @@ class PayController
                 "<input type=hidden name=Email value=".$bot_user->email.">".
                 "<input type=hidden name=ExpirationDate value=2025-12-31T23:59:59>".
                 "<input type=hidden name=Receipt value='$receipt'>".
+                "<input type=hidden name=Shp_item value='$shp_item'>".
                 "<input type=submit value='Оплатить'>".
                 "</form></html>";
 
