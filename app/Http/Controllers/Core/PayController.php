@@ -57,8 +57,6 @@ class PayController
 
             $hash = $bot->robokassa_merchant_login.":".$product->price.":".$pay->id.":".$receipt.":".$bot->robokassa_merchant_password;
 
-            return $hash;
-
             $hash=md5($hash);
 
             return
@@ -73,7 +71,6 @@ class PayController
                 "<input type=hidden name=Email value=".$bot_user->email.">".
                 "<input type=hidden name=ExpirationDate value=2025-12-31T23:59:59>".
                 "<input type=hidden name=Receipt value='$receipt'>".
-                "<input type=hidden name=Shp_item value='$shp_item'>".
                 "<input type=submit value='Оплатить'>".
                 "</form></html>";
 
