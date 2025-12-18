@@ -57,7 +57,7 @@ class PayController
             $hash=md5($hash);
 
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL,"https://auth.robokassa.ru/Merchant/Indexjson.aspx?");
+            curl_setopt($ch, CURLOPT_URL,"https://auth.robokassa.ru/Merchant/Index.aspx?");
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS,'MerchantLogin='.$bot->robokassa_merchant_login.'&OutSum='.$product->price.'&invoiceID='.$pay->id.'&Receipt='.$receipt.'&SignatureValue='.$hash);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

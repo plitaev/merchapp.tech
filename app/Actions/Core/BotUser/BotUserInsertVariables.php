@@ -21,6 +21,11 @@ class BotUserInsertVariables {
             if ($bot_user->username!="none") $text = str_replace('VAR_USERNAME', "@".$bot_user->username, $text);
         }
 
+        //== Pay Count
+        if (stripos(strtolower($text), 'VAR_USER_PAY_COUNT')) {
+            if ($bot_user->username!="none") $text = str_replace('VAR_USER_PAY_COUNT', "@".$bot_user->pay_count, $text);
+        }
+
         if (stripos(strtolower($text), 'VAR_USER_FULL_NAME')) {
             $message_dd = "";
 
