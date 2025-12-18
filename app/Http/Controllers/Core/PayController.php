@@ -64,6 +64,8 @@ class PayController
             $server_output = curl_exec($ch);
             curl_close ($ch);
 
+            return $server_output;
+
             $json=json_decode($server_output, true);
             return redirect("https://auth.robokassa.ru/Merchant/Index/".$json['invoiceID']);
 
