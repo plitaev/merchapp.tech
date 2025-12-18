@@ -53,6 +53,8 @@ class PayController
 
             $receipt='{"sno":"'.$bot->robokassa_tax->code.'","items": [{"name": "'.$product->description.'","quantity": 1,"sum": '.$product->price.',"payment_method": "'.$bot->robokassa_payment_method->code.'","payment_object": "'.$bot->robokassa_payment_object->code.'","tax": "'.$bot->robokassa_vat->code.'"}]}';
 
+            return $receipt;
+
             $hash = $bot->robokassa_merchant_login.":".$pay['pay_price_rub'].":".$pay->id.":".$receipt.":".$bot->robokassa_merchant_password;
             $hash=md5($hash);
 
