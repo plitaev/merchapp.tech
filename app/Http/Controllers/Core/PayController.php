@@ -57,6 +57,7 @@ class PayController
             $hash=md5($hash);
 
             return
+                "<!DOCTYPE html>".
                 "<html>".
                 "<form action='https://auth.robokassa.ru/Merchant/Index.aspx' method=POST>".
                 "<input type=hidden name=MerchantLogin value=".$bot->robokassa_merchant_login.">".
@@ -66,7 +67,7 @@ class PayController
                 "<input type=hidden name=SignatureValue value=".$hash.">".
                 "<input type=hidden name=Email value=".$bot_user->email.">".
                 "<input type=hidden name=ExpirationDate value=2025-12-31T23:59:59>".
-                "<input type=hidden name=Receipt value=$receipt>".
+                "<input type=hidden name=Receipt value='$receipt'>".
                 "<input type=submit value='Оплатить'>".
                 "</form></html>";
 
