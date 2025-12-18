@@ -2,6 +2,8 @@
 namespace App\Filament\Resources\Bots\Pages;
 
 use App\Models\Core\ProdamusTax;
+use App\Models\Core\RobokassaPaymentMethod;
+use App\Models\Core\RobokassaPaymentObject;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -218,9 +220,32 @@ class BotPaySystemAdmin extends Page implements HasForms
                         '2xl' => 2,
                     ])
                     ->schema([
+                        TextInput::make('robokassa_merchant_login')
+                            ->label('Логин продавца')
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+                        TextInput::make('robokassa_merchant_password')
+                            ->label('Пароль №1')
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
                         Select::make('robokassa_tax_id')
                             ->label('Система налогообложения')
                             ->options(RobokassaTax::query()->pluck('name', 'id'))
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+                        Select::make('robokassa_vat_id')
+                            ->label('НДС')
+                            ->options(RobokassaTax::query()->pluck('name', 'id'))
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+                        Select::make('robokassa_payment_method_id')
+                            ->label('НДС')
+                            ->options(RobokassaPaymentMethod::query()->pluck('name', 'id'))
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+                        Select::make('robokassa_payment_object_id')
+                            ->label('НДС')
+                            ->options(RobokassaPaymentObject::query()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
                     ]),
