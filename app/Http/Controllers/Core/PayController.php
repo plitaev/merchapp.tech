@@ -55,7 +55,7 @@ class PayController
 
             $shp_item = "Shp_oplata=1";
 
-            $hash = $bot->robokassa_merchant_login.":".$product->price.":".$pay->id.":".$receipt.":".$bot->robokassa_merchant_password.":Shp_item=".$shp_item;
+            $hash = $bot->robokassa_merchant_login.":".$product->price.":".$pay->id.":".$receipt.":".$bot->robokassa_merchant_password;
 
             return $hash;
 
