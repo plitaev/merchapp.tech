@@ -42,6 +42,33 @@ class PayController
 
         $pay = $payCreateIntoBot->handle($bot_user, $product, $payGetAdditionalData->handle($pay_system_id));
 
+        if ($pay_system_alias == 'robokassa') {
+
+            $bot = Bot::query()
+                ->with('robokassa_tax')
+                ->with('robokassa_payment_method')
+                ->with('robokassa_payment_object')
+                ->with('robokassa_vat')
+                ->find($bot_user->bot_id);
+
+            $receipt='{"sno":"'.$bot->robokassa_tax->code.'","items": [{"name": "'.$product->description.'","quantity": 1,"sum": '.$product->price.',"payment_method": "'.$bot->robokassa_payment_method->code.'","payment_object": "'.$bot->robokassa_payment_object->code.'","tax": "'.$bot->robokassa_vat->code.'"}]}';
+
+            $hash = $bot->robokassa_merchant_login.":".$pay['pay_price_rub'].":".$pay->id.":".$receipt.":".$bot->robokassa_merchant_password;
+            $hash=md5($hash);
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL,"https://auth.robokassa.ru/Merchant/Indexjson.aspx?");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS,'MerchantLogin='.$bot->robokassa_merchant_login.'&OutSum='.$product->price.'&invoiceID='.$pay->id.'&Receipt='.$receipt.'&SignatureValue='.$hash);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec($ch);
+            curl_close ($ch);
+
+            $json=json_decode($server_output, true);
+            return redirect("https://auth.robokassa.ru/Merchant/Index/".$json['invoiceID']);
+
+        }
+
         if ($pay_system_alias == 'prodamus') {
 
             $HMACController = new HMACController();

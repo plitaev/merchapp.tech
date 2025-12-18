@@ -255,6 +255,11 @@ class BotPaySystemAdmin extends Page implements HasForms
                         ->action(function () {
                             $data = $this->form->getState();
 
+                            Notification::make()
+                                ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
+
                             if ($this->id > 0) {
                                 Bot::where('id', $this->id)->update($data);
                                 return redirect('/admin/bots/'.$this->id.'/pay-system-admin');
@@ -263,10 +268,6 @@ class BotPaySystemAdmin extends Page implements HasForms
                                 return redirect('/admin/bots/'.$new->id.'/pay-system-admin');
                             }
 
-                            Notification::make()
-                                ->title('Данные успешно сохранены!')
-                                ->success()
-                                ->send();
                         })
                         ->visible(auth()->user()->hasPermissionTo('Create:Bot'))
                ])
