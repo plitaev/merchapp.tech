@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Bots\Pages;
 use App\Models\Core\ProdamusTax;
 use App\Models\Core\RobokassaPaymentMethod;
 use App\Models\Core\RobokassaPaymentObject;
+use App\Models\Core\RobokassaVAT;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -235,7 +236,7 @@ class BotPaySystemAdmin extends Page implements HasForms
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
                         Select::make('robokassa_vat_id')
                             ->label('НДС')
-                            ->options(RobokassaTax::query()->pluck('name', 'id'))
+                            ->options(RobokassaVAT::query()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
                         Select::make('robokassa_payment_method_id')
