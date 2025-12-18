@@ -14,7 +14,7 @@ use App\Models\Core\Bot;
 use App\Models\Core\ProdamusNpdIncomeType;
 use App\Models\Core\ProdamusPaymentMethod;
 use App\Models\Core\ProdamusPaymentObject;
-use App\Models\Core\TelegramSupergroupLinkBot\TelegramSupergroupLinkBot;
+use App\Models\Core\RobokassaTax;
 use App\Models\Core\YookassaPaymentMode;
 use App\Models\Core\YookassaPaymentSubject;
 use App\Models\Core\YookassaTaxSystemCode;
@@ -207,6 +207,22 @@ class BotPaySystemAdmin extends Page implements HasForms
                             ->maxLength(255)
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
 
+                    ]),
+                Section::make('Робокасса')
+                    ->description('Настройки платежной системы Робокасса')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
+                        Select::make('robokassa_tax_id')
+                            ->label('Система налогообложения')
+                            ->options(RobokassaTax::query()->pluck('name', 'id'))
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
