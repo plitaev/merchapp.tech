@@ -9,6 +9,8 @@ class RobokassaVAT extends Model
 {
     use HasFactory;
 
+    protected $table='robokassa_vats';
+
     protected $fillable = [
         'code',
         'name'
