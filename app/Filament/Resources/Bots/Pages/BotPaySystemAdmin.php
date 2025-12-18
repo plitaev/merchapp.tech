@@ -239,12 +239,12 @@ class BotPaySystemAdmin extends Page implements HasForms
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
                         Select::make('robokassa_payment_method_id')
-                            ->label('НДС')
+                            ->label('Предмет расчета')
                             ->options(RobokassaPaymentMethod::query()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
                         Select::make('robokassa_payment_object_id')
-                            ->label('НДС')
+                            ->label('Объект расчета')
                             ->options(RobokassaPaymentObject::query()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
