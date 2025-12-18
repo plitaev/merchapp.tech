@@ -9,6 +9,5 @@ class RobokassaController
     public function callback() {
         $source = file_get_contents('php://input');
         PaySystemCallback::create(['pay_system_id' => 3, 'callback' => $source]);
-        return 'success';
     }
 }
