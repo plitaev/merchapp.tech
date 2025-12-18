@@ -11,6 +11,8 @@ class BotListenerPayCount
         $botSendMessage = new BotSendMessage();
         $botUserSetListener = new BotUserSetListener();
 
+        if ($bot_user->listen_pay_count_status == 0) die();
+
         if (isset($webhook['message']['text'])) {
 
             if (is_numeric($webhook['message']['text'])) {
