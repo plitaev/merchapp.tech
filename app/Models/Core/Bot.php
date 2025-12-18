@@ -32,6 +32,13 @@ class Bot extends Model
         'prodamus_payment_object_id',
         'prodamus_npd_income_type_id',
         'prodamus_tax_id',
+        'robokassa_merchant_login',
+        'robokassa_merchant_password',
+        'robokassa_nomenclature_code',
+        'robokassa_tax_id',
+        'robokassa_payment_method_id',
+        'robokassa_payment_object_id',
+        'robokassa_vat_id',
         'ban_time',
         'prodamus_sys',
         'prodamus_url',
@@ -84,6 +91,26 @@ class Bot extends Model
     public function prodamus_tax(): BelongsTo
     {
         return $this->belongsTo(ProdamusTax::class, 'prodamus_tax_id', 'id');
+    }
+
+    public function robokassa_tax(): BelongsTo
+    {
+        return $this->belongsTo(RobokassaTax::class, 'robokassa_tax_id', 'id');
+    }
+
+    public function robokassa_payment_method(): BelongsTo
+    {
+        return $this->belongsTo(RobokassaPaymentMethod::class, 'robokassa_payment_method_id', 'id');
+    }
+
+    public function robokassa_payment_object(): BelongsTo
+    {
+        return $this->belongsTo(RobokassaPaymentObject::class, 'robokassa_payment_object_id', 'id');
+    }
+
+    public function robokassa_vat(): BelongsTo
+    {
+        return $this->belongsTo(RobokassaVAT::class, 'robokassa_vat_id', 'id');
     }
 
 }
