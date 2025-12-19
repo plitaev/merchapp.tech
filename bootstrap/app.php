@@ -16,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             '/pdf/*',
             '/yookassa/*',
             '/prodamus/*',
-            '/robokassa/**'
+            '/robokassa/*'
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
