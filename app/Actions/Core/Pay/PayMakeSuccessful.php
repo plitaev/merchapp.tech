@@ -83,7 +83,7 @@ class PayMakeSuccessful
         }
 
         if (isset($bot_user->pay_count) && $bot_user->pay_count > 0) {
-            for ($i = 1; $i <= $bot_user->pay_count; $i++) {
+            for ($i = 0; $i <= $bot_user->pay_count; $i++) {
                 BotUserTicket::create($bot_user->id);
             }
 
