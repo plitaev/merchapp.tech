@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Core;
 
-use App\Models\Core\PaySystemCallback;
+use App\Actions\Core\Pay\PayMakeSuccessful;
+use App\Actions\Core\PaySystemCallback\PaySystemCallbackCreate;
 
 class RobokassaController
 {
     public function callback() {
+        $payMakeSuccessful = new PayMakeSuccessful();
+        $paySystemCallbackCreate = new PaySystemCallbackCreate();
+
         $source = file_get_contents('php://input');
 
         $result_k = [];
@@ -24,7 +28,10 @@ class RobokassaController
         $result = array_combine($result_k, $result_v);
         $result = json_encode($result, JSON_UNESCAPED_UNICODE);
 
-        PaySystemCallback::create(['pay_system_id' => 3, 'callback' => $result]);
+        $paySystemCallbackCreate->handle($result, 'robokassa');
+
+        $requestBody = json_decode($result, true);
+        $payMakeSuccessful->handle($result, $requestBody['inv_id'], NULL, NULL, $requestBody['Fee']);
 
     }
 }
