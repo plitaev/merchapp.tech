@@ -26,6 +26,8 @@ class DevTestController extends Controller
             }
         }
 
+        $result = json_encode($result);
+
         return $result;
 
     }
