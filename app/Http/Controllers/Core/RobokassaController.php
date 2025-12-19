@@ -9,21 +9,22 @@ class RobokassaController
     public function callback() {
         $source = file_get_contents('php://input');
 
-        $result = [];
+        $result_k = [];
+        $result_v = [];
 
         $A = explode('&', $source);
         foreach ($A as $value) {
             $AA = explode('=', $value);
             foreach ($AA as $k => $v) {
-                $result[$k] = $v;
+                if ($k == 0) $result_k[] = $v;
+                if ($k == 1) $result_v[] = $v;
             }
         }
 
-        $result = json_encode($result);
-        PaySystemCallback::create(['pay_system_id' => 3, 'callback' => $source]);
+        $result = array_combine($result_k, $result_v);
+        $result = json_encode($result, JSON_UNESCAPED_UNICODE);
 
-        $result = json_decode($result);
-        PaySystemCallback::create(['pay_system_id' => 3, 'callback' => $source]);
+        PaySystemCallback::create(['pay_system_id' => 3, 'callback' => $result]);
 
     }
 }
