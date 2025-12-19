@@ -32,7 +32,7 @@ class BotUserInsertVariables {
 
             $tickets = BotUserTicket::select('id')->where('bot_user_id', $bot_user->id)->pluck('id')->toArray();
 
-            if (count($tickets) > 0) $text = str_replace('VAR_USER_TICKET_NUMBERS', implode('%0A', $tickets), $text);
+            if (count($tickets) > 0) $text = str_replace('VAR_USER_TICKET_NUMBERS', urldecode(implode('%0A', $tickets)), $text);
         }
 
         if (stripos(strtolower($text), 'VAR_USER_FULL_NAME')) {
