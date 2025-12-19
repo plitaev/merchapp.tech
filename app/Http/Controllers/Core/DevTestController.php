@@ -26,7 +26,7 @@ class DevTestController extends Controller
             }
         }
 
-        $result = json_decode(json_encode($result));
+        $result = json_encode($result, JSON_UNESCAPED_UNICODE);
 
         return $result;
 
