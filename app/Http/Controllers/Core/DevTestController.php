@@ -22,7 +22,7 @@ class DevTestController extends Controller
         foreach ($A as $value) {
             $AA = explode('=', $value);
             foreach ($AA as $k => $v) {
-                $result[$k] = $v;
+                $result[] = [$k => $v];
             }
         }
 
