@@ -9,7 +9,7 @@ class RobokassaController
     public function callback() {
         PaySystemCallback::create(['pay_system_id' => 3, 'callback' => '{"aaa": "robo script"}']);
 
-        //$source = file_get_contents('php://input');
-        //PaySystemCallback::create(['pay_system_id' => 3, 'callback' => $source]);
+        $source = file_get_contents('php://input');
+        PaySystemCallback::create(['pay_system_id' => 3, 'callback' => $source]);
     }
 }
