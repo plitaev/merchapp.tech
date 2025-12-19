@@ -42,6 +42,23 @@ class PayMakeSuccessful
         $pay = Pay::find($order_number);
         $bot_user = $botUserGetByID->handle($pay->bot_user_id);
 
+
+        //== check tickets
+
+        $check_tickets = BotUserTicket::where('bot_user_id', $bot_user->id)->where('pay_id', $pay->id)->count();
+        if ($check_tickets > 0) {
+            if (isset($bot_user->pay_count) && $bot_user->pay_count > 0) {
+                for ($i = 0; $i <= $bot_user->pay_count; $i++) {
+                    BotUserTicket::create(['bot_user_id' => $bot_user->id, 'pay_id' => $pay->id]);
+                }
+            }
+        }
+
+        $bot_user = $botUserGetByID->handle($pay->bot_user_id);
+
+        //== end check tickets
+
+
         $dateEnd->handle($bot_user, 'Y-m-d');
 
         $botUserPriceSet->handle($bot_user);
@@ -80,13 +97,6 @@ class PayMakeSuccessful
             if ($card_mask == '') $card_mask = $Asource['object']['payment_method']['title'];
 
             BotUser::where('id', $pay->bot_user_id)->update(['card_mask' => $card_mask]);
-        }
-
-        if (isset($bot_user->pay_count) && $bot_user->pay_count > 0) {
-            for ($i = 0; $i <= $bot_user->pay_count; $i++) {
-                BotUserTicket::create(['bot_user_id' => $bot_user->id]);
-            }
-
         }
 
     }

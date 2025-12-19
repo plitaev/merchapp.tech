@@ -10,6 +10,7 @@ class BotUserTicket extends Model
     use HasFactory;
 
     protected $fillable = [
-        'bot_user_id'
+        'bot_user_id',
+        'pay_id'
     ];
 }
