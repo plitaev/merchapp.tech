@@ -99,7 +99,7 @@ class TelegramSendMessage
             $A['chat_id'] = $bot_user->telegram_chat_id;
             $A['reply_markup'] = $keyboard;
             $A['parse_mode'] = 'HTML';
-            $A['protect_content'] = false;
+            $A['protect_content'] = true;
             if (count($kb) > 0) $A['reply_markup'] = $keyboard;
             if (isset($bot_message->bot->business_connection_id)) $A['business_connection_id'] = $bot_message->bot->business_connection_id;
 
