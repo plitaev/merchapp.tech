@@ -14,15 +14,19 @@ use App\Models\Core\Pay;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $source = "out_summ=50.000000&OutSum=50.000000&inv_id=79&InvId=79&crc=0003046F45C02FE8749691DEDF154314&SignatureValue=0003046F45C02FE8749691DEDF154314&PaymentMethod=BankCard&IncSum=50.000000&IncCurrLabel=BankCardPSR&EMail=evgeniiplita@gmail.com&Fee=1.960000";
 
-        $bot_users = BotUser::get();
-        $A = [];
+        $result = [];
 
-        foreach ($bot_users as $bot_user) {
-            $count = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->count();
-            if ($count >= 4) $A[] = $bot_user->id;
+        $A = explode('&', $source);
+        foreach ($A as $value) {
+            $AA = explode('=', $value);
+            foreach ($AA as $k => $v) {
+                $result[$k] = $v;
+            }
         }
 
-        return $A;
+        return $result;
+
     }
 }
