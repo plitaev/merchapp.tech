@@ -41,8 +41,6 @@ class ClubAccessController extends Controller
 {
     public function club_access(int $bot_id) {
 
-        die();
-
         //== Инициализируем основные классы
         $botBranchRun = new BotBranchRun();
         $botBranchEndOnRestart = new BotBranchEndOnRestart();
