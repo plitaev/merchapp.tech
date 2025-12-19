@@ -18,17 +18,20 @@ class DevTestController extends Controller
 
         $result = [];
 
+        $result_string = '';
+
         $A = explode('&', $source);
         foreach ($A as $value) {
             $AA = explode('=', $value);
             foreach ($AA as $k => $v) {
+                $result_string.=$k.' - '.$v.' | ';
                 $result[] = [$k => $v];
             }
         }
 
         $result = json_encode($result, JSON_UNESCAPED_UNICODE);
 
-        return $result;
+        return $result_string;
 
     }
 }
