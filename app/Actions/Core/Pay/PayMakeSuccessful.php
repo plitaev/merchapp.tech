@@ -11,6 +11,7 @@ use App\Actions\Core\ReferralProgram\ReferralBuySpecialProduct;
 
 use App\Models\Core\BotBranchLinkProduct;
 use App\Models\Core\BotUser;
+use App\Models\Core\BotUserTicket;
 use App\Models\Core\Pay;
 
 class PayMakeSuccessful
@@ -79,6 +80,13 @@ class PayMakeSuccessful
             if ($card_mask == '') $card_mask = $Asource['object']['payment_method']['title'];
 
             BotUser::where('id', $pay->bot_user_id)->update(['card_mask' => $card_mask]);
+        }
+
+        if (isset($bot_user->pay_count) && $bot_user->pay_count > 0) {
+            for ($i = 1; $i <= $bot_user->pay_count; $i++) {
+                BotUserTicket::create($bot_user->id);
+            }
+
         }
 
     }

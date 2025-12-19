@@ -7,6 +7,7 @@ use App\Actions\Core\BotUserPrice\BotUserPriceGet;
 use App\Models\Core\BotBranchReferralProgram;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserPrice;
+use App\Models\Core\BotUserTicket;
 use App\Models\Core\Product;
 
 class BotUserInsertVariables {
@@ -24,6 +25,14 @@ class BotUserInsertVariables {
         //== Pay Count
         if (stripos(strtolower($text), 'VAR_USER_PAY_COUNT')) {
             if ($bot_user->username!="none") $text = str_replace('VAR_USER_PAY_COUNT', $bot_user->pay_count, $text);
+        }
+
+        //== Ticket Numbers
+        if (stripos(strtolower($text), 'VAR_USER_TICKET_NUMBERS')) {
+
+            $tickets = BotUserTicket::select('id')->where('bot_user_id', $bot_user->id)->pluck('id')->toArray();
+
+            if (count($tickets) > 0) $text = str_replace('VAR_USER_TICKET_NUMBERS', implode('%0A', $tickets), $text);
         }
 
         if (stripos(strtolower($text), 'VAR_USER_FULL_NAME')) {
