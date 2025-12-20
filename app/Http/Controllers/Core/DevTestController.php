@@ -34,4 +34,9 @@ class DevTestController extends Controller
         return $result;
 
     }
+
+    public function paycounts() {
+
+    }
+
 }

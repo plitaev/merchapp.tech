@@ -16,6 +16,7 @@ require 'core/google.php';
 require 'core/getcourse.php';
 require 'core/miniapp.php';
 require 'core/pay.php';
+require 'core/paycount.php';
 require 'core/prodamus.php';
 require 'core/robokassa.php';
 require 'core/telegram.php';
