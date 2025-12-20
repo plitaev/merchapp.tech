@@ -6,6 +6,7 @@ use App\Actions\Core\Pay\PayCreateIntoBot;
 use App\Actions\Core\Pay\PayMakeSuccessful;
 
 use App\Models\Core\BotUser;
+use App\Models\Core\Product;
 
 class PayCountController
 {
