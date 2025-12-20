@@ -14,6 +14,8 @@ class PayCountController
         $not_founds = [];
 
         $A = explode('\r\n', $request->data);
+        return $A;
+
         foreach ($A as $v) {
             return $v;
         }
