@@ -14,10 +14,9 @@ class PayCountController
         $not_founds = [];
 
         $A = explode(PHP_EOL, $request->data);
-        return $A;
-
-        foreach ($A as $v) {
-            return $v;
+        foreach ($A as $value) {
+            $value = str_replace('\r', '', $value);
+            return $value;
         }
 
     }
