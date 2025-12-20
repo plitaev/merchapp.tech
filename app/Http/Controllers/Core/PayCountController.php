@@ -27,7 +27,7 @@ class PayCountController
             $value = str_replace('\r', '', $value);
             $AA = explode(';', $value);
 
-            $bot_user = BotUser::where('email', $AA[0])->first();
+            $bot_user = BotUser::where('email', $AA[0])->where('bot_id', 25)->first();
             if ($bot_user) {
                 $email = $AA[0];
                 $price = round($AA[1], 0);
