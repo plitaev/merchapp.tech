@@ -16,7 +16,10 @@ class PayCountController
         $A = explode(PHP_EOL, $request->data);
         foreach ($A as $value) {
             $value = str_replace('\r', '', $value);
-            return $value;
+            $AA = explode(';', $value);
+
+            return round($AA[1], 0);
+
         }
 
     }
