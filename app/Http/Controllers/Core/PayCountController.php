@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Core;
 
+use App\Models\Core\BotUser;
 use Illuminate\Http\Request;
 
 class PayCountController
@@ -18,10 +19,16 @@ class PayCountController
             $value = str_replace('\r', '', $value);
             $AA = explode(';', $value);
 
-            return round($AA[1], 0);
-
+            $bot_user = BotUser::where('email', $AA[0])->first();
+            if ($bot_user) {
+                $email = $AA[0];
+                $price = round($AA[1], 0);
+            } else {
+                $not_founds[] = $value;
+            }
         }
 
+        return view('core.paycount.result', ['results' => $not_founds]);
     }
 
 }
