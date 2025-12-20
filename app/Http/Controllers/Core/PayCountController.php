@@ -13,7 +13,7 @@ class PayCountController
     public function load_post(Request $request) {
         $not_founds = [];
 
-        $A = explode(' ', $request->data);
+        $A = explode(PHP_EOL, $request->data);
         return $A;
 
         foreach ($A as $v) {
