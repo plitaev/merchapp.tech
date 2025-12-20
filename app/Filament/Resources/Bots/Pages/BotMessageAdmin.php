@@ -221,7 +221,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         Hidden::make('bot_id'),
                         Select::make('bot_branch_id')
                             ->label('Ветка')
-                            ->options(BotBranch::all()->pluck('name', 'id'))
+                            ->options(BotBranch::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->searchable(),
                         Select::make('bot_message_appointment_id')
