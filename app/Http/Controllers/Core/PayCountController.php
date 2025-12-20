@@ -13,6 +13,8 @@ class PayCountController
     public function load_post(Request $request) {
         $not_founds = [];
 
+        return $request->data;
+
         $A = explode('\n', $request->data);
         return $A;
 
