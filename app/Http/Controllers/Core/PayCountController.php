@@ -30,7 +30,8 @@ class PayCountController
             $bot_user = BotUser::where('email', $AA[0])->where('bot_id', 25)->first();
             if ($bot_user) {
                 $email = $AA[0];
-                $price = round($AA[1], 0);
+                $phone = $AA[1];
+                $price = round($AA[2], 0);
 
                 if ($price == 400) $paycount = 1;
                 if ($price == 1200) $paycount = 3;
@@ -39,7 +40,7 @@ class PayCountController
                 if ($price == 4000) $paycount = 10;
                 if ($price == 6000) $paycount = 15;
 
-                BotUser::where('id', $bot_user->id)->update(['pay_count' => $paycount]);
+                BotUser::where('id', $bot_user->id)->update(['pay_count' => $paycount, 'phone' => $phone]);
 
                 $new_pay = $payCreateIntoBot->handle($bot_user, $product, $additional_data);
                 $payMakeSuccessful->handle('{"source":"crafted_by_hand"}', $new_pay->id, 3, NULL, NULL);
