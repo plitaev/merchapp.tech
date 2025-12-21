@@ -68,7 +68,9 @@ class PayCountController
 
         $bot_users = BotUser::whereIn('id', $Abotusers)->where('bot_id', 25)->get();
 
-        return view('core.paycount.list', ['bot_users' => $bot_users, 'tickets' => $Atickets]);
+        $big_number = BotUserTicket::select('id')->orderByDesc('id')->first();
+
+        return view('core.paycount.list', ['bot_users' => $bot_users, 'tickets' => $Atickets, 'big_number' => $big_number]);
     }
 
 }

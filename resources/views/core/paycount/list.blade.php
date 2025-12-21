@@ -14,6 +14,8 @@
 </head>
 <body>
 
+<h2>Самый большой номер: {{$big_number->id}}</h2>
+
 <table>
     <tr style="font-weight: bold">
         <td>first_name</td>
