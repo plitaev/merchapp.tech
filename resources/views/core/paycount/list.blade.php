@@ -21,6 +21,7 @@
         <td>email</td>
         <td>phone</td>
         <td>numbers</td>
+        <td>count</td>
     </tr>
 
     @foreach ($bot_users as $bot_user)
@@ -33,6 +34,13 @@
             <td>
                 @if (isset($tickets[$bot_user->id]))
                     {{implode(', ', $tickets[$bot_user->id])}}
+                @endif
+            </td>
+            <td>
+                @if (isset($tickets[$bot_user->id]))
+                    {{count($tickets[$bot_user->id])}}
+                @else
+                    0
                 @endif
             </td>
 
