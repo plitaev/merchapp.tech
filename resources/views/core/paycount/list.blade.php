@@ -2,6 +2,10 @@
 <html>
 <head>
     <style>
+        table {
+            border-collapse: collapse; /* Collapses double borders into single borders */
+        }
+
         table, th, td {
             border: 1px solid black;
         }
