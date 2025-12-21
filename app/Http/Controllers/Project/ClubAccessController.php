@@ -259,6 +259,16 @@ class ClubAccessController extends Controller
                     die();
                 }
 
+                if ($callback == 'GoToPhoneEnter') {
+
+                    if (isset($webhook['callback_query']['message']['message_id'])) {
+                        $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
+                    }
+
+                    $botSendMessage->handle($bot_user, 'USER_PHONE_ENTER_WAITING');
+                    die();
+                }
+
                 if (file_exists(base_path().'/app/Actions/Local/ClubAccessCallback.php')) {
                     $clubAccessCallback = new ClubAccessCallback();
                     return $clubAccessCallback->handle($telegram, $webhook, $callback, $bot_user);
