@@ -12,7 +12,7 @@ class BotListenerPhone
         $botSendMessage = new BotSendMessage();
         $botUserSetListener = new BotUserSetListener();
 
-        if ($bot_user->listen_phone == 1) {
+        if ($bot_user->listen_phone_status == 1) {
 
             if (isset($webhook['message']['text'])) {
                 BotUser::where('id', $bot_user->id)->update(['phone' => $webhook['message']['text']]);
