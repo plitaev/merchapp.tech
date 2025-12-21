@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+use App\Models\Core\Listener;
+
 return new class extends Migration
 {
     /**
@@ -11,10 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('bot_users', function (Blueprint $table) {
-            $table->boolean('listen_phone_status')->after('listen_pay_count_status_timestamp')->default(0);
-            $table->boolean('listen_phone_status_timestamp')->after('listen_phone_count_status')->nullable();
-        });
+        Listener::create(['name' => 'Ввод номера телефона', 'alias' => 'listen_phone']);
     }
 
     /**
