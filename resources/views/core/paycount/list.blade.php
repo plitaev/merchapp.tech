@@ -15,7 +15,7 @@
 <body>
 
 <table>
-    <tr>
+    <tr style="font-weight: bold">
         <td>first_name</td>
         <td>last_name</td>
         <td>email</td>
