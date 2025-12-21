@@ -66,7 +66,7 @@ class PayCountController
 
         $Abotusers = array_unique($Abotusers);
 
-        $bot_users = BotUser::whereIn('id', $Abotusers)->get();
+        $bot_users = BotUser::whereIn('id', $Abotusers)->where('bot_id', 25)->get();
 
         return view('core.paycount.list', ['bot_users' => $bot_users, 'tickets' => $Atickets]);
     }
