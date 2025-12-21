@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('bot_users', function (Blueprint $table) {
             $table->boolean('listen_phone_status')->after('listen_pay_count_status_timestamp')->default(0);
-            $table->boolean('listen_phone_status_timestamp')->after('listen_phone_count_status')->nullable();
+            $table->timestamp('listen_phone_status_timestamp')->after('listen_phone_count_status')->nullable();
         });
     }
 
