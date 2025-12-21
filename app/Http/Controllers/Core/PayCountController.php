@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Core;
+use App\Models\Core\BotUserTicket;
 use Illuminate\Http\Request;
 
 use App\Actions\Core\Pay\PayCreateIntoBot;
@@ -51,6 +52,23 @@ class PayCountController
         }
 
         return view('core.paycount.result', ['results' => $not_founds]);
+    }
+
+    public function list() {
+        $Atickets = [];
+        $Abotusers = [];
+
+        $tickets = BotUserTicket::orderBy('id')->get();
+        foreach ($tickets as $ticket) {
+            $Atickets[$ticket->bot_user_id][] = $ticket->id;
+            $Abotusers[] = $ticket->bot_user_id;
+        }
+
+        $Abotusers = array_unique($Abotusers);
+
+        $bot_users = BotUser::whereIn('id', $Abotusers)->get();
+
+        return view('core.paycount.list', ['bot_users' => $bot_users, 'tickets' => $Atickets]);
     }
 
 }
