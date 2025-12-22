@@ -75,6 +75,10 @@ class PayCountController
     }
 
     public function callback(string $email, string $phone, string $price) {
+        $price = rawurldecode($price);
+        $price = str_replace(' ', '', $price);
+        $price = str_replace('руб.', '', $price);
+
         GetcourseWebhookTicket::create(['email' => $email, 'phone' => $phone, 'price' => $price]);
     }
 
