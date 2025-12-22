@@ -7,4 +7,5 @@ Route::controller(PayCountController::class)->group(function() {
     Route::post('/paycount/load_post', 'load_post');
 
     Route::get('/paycount/list', 'list');
+    Route::get('/paycount/callback', 'callback');
 });

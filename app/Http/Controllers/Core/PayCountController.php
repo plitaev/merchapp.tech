@@ -73,4 +73,8 @@ class PayCountController
         return view('core.paycount.list', ['bot_users' => $bot_users, 'tickets' => $Atickets, 'big_number' => $big_number]);
     }
 
+    public function callback(string $email, string $phone, int $price) {
+        return $email.' | '.$phone.' | '.$price;
+    }
+
 }
