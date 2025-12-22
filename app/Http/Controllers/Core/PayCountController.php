@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Core;
 use App\Models\Core\BotUserTicket;
+use App\Models\Core\GetcourseWebhookTicket;
 use Illuminate\Http\Request;
 
 use App\Actions\Core\Pay\PayCreateIntoBot;
@@ -74,7 +75,7 @@ class PayCountController
     }
 
     public function callback(string $email, string $phone, int $price) {
-        return $email.' | '.$phone.' | '.$price;
+        GetcourseWebhookTicket::create(['email' => $email, 'phone' => $phone, 'price' => $price]);
     }
 
 }
