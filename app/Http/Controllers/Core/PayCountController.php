@@ -74,7 +74,7 @@ class PayCountController
         return view('core.paycount.list', ['bot_users' => $bot_users, 'tickets' => $Atickets, 'big_number' => $big_number]);
     }
 
-    public function callback(string $email, string $phone, string $price) {
+    public function callback(string $email, string $phone, $price) {
         $price = round($price, 0);
         GetcourseWebhookTicket::create(['email' => $email, 'phone' => $phone, 'price' => $price]);
     }
