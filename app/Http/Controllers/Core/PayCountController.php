@@ -78,6 +78,7 @@ class PayCountController
         $price = rawurldecode($price);
         $price = str_replace(' ', '', $price);
         $price = str_replace('руб.', '', $price);
+        $price = str_replace('+', '', $price);
 
         GetcourseWebhookTicket::create(['email' => $email, 'phone' => $phone, 'price' => $price]);
     }
