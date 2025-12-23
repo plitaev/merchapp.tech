@@ -55,6 +55,22 @@ class PayCountController
         return view('core.paycount.result', ['results' => $not_founds]);
     }
 
+    public function change_number() {
+        return view('core.paycount.change_number');
+    }
+
+    public function change_number_post(Request $request) {
+        $bot_user = BotUser::select('id')->where('email', $request->email)->first();
+
+        if ($bot_user) {
+            BotUserTicket::where('id', $request->number)->update(['bot_user_id' => $bot_user->id]);
+            return redirect('/paycount/change_number');
+        } else {
+            return "Не найден пользователь с такой почтой";
+        }
+
+    }
+
     public function list() {
         $Atickets = [];
         $Abotusers = [];
