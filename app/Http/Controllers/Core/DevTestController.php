@@ -15,7 +15,7 @@ use App\Models\Core\Pay;
 class DevTestController extends Controller
 {
     public function devtest() {
-        return GetcourseWebhookTicket::orderByDesc('created_at')->get();
+        return GetcourseWebhookTicket::orderByDesc('id')->get();
     }
 
     public function paycounts() {
