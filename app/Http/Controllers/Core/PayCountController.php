@@ -91,7 +91,7 @@ class PayCountController
         $product = Product::find(8);
         $additional_data['pay_system_id'] = 3;
 
-        $res = GetcourseWebhookTicket::all();
+        $res = GetcourseWebhookTicket::where('status', 0)->get();
         foreach ($res as $data) {
 
             $bot_user = BotUser::where('email', $data->email)->where('bot_id', 25)->first();
@@ -110,6 +110,7 @@ class PayCountController
 
                 GetcourseWebhookTicket::where('id', $data->id)->update(['status' => 1]);
             }
+
         }
 
     }
