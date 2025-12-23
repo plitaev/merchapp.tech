@@ -97,7 +97,6 @@ class PayCountController
             $bot_user = BotUser::where('email', $data->email)->where('bot_id', 25)->first();
 
             if ($bot_user) {
-                return 'ok';
 
                 if ($data->price == 400) $paycount = 1;
                 if ($data->price == 1200) $paycount = 3;
@@ -111,7 +110,7 @@ class PayCountController
                 $new_pay = $payCreateIntoBot->handle($bot_user, $product, $additional_data);
                 $payMakeSuccessful->handle('{"source":"crafted_by_hand"}', $new_pay->id, 3, NULL, NULL);
 
-                GetcourseWebhookTicket::where('id', $data->id)->update(['status' => 1]);
+                return GetcourseWebhookTicket::where('id', $data->id)->update(['status' => 1]);
             }
 
         }
