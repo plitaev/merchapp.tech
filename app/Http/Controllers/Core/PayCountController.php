@@ -95,9 +95,10 @@ class PayCountController
         foreach ($res as $data) {
 
             $bot_user = BotUser::where('email', $data->email)->where('bot_id', 25)->first();
-            return $bot_user;
 
             if ($bot_user) {
+                return 'ok';
+
                 if ($data->price == 400) $paycount = 1;
                 if ($data->price == 1200) $paycount = 3;
                 if ($data->price == 2000) $paycount = 5;
