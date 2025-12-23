@@ -92,11 +92,10 @@ class PayCountController
 
         $res = GetcourseWebhookTicket::where('status', 0)->where('email', 'I.I.kodorova@mail.ru')->get();
 
-        return $res;
-
         foreach ($res as $data) {
 
             $bot_user = BotUser::where('email', $data->email)->where('bot_id', 25)->first();
+            return $bot_user;
 
             if ($bot_user) {
                 if ($data->price == 400) $paycount = 1;
