@@ -4,6 +4,7 @@ namespace App\Actions\Core\Prodamus;
 use App\Http\Controllers\Core\HMACController;
 
 use App\Actions\Core\BotSendMessage\BotSendMessage;
+use App\Actions\Core\BotUserPrice\BotUserPriceGet;
 use App\Actions\Core\Pay\PayCreateIntoBot;
 use App\Actions\Core\Pay\PayGetAdditionalData;
 use App\Actions\Core\Pay\PayMakeSuccessful;
@@ -15,15 +16,17 @@ use App\Models\Core\Product;
 class ProdamusMakeRecurrent
 {
     public function handle($data) {
-
         $botSendMessage = new BotSendMessage();
+        $botUserPriceGet = new BotUserPriceGet();
         $payCreateIntoBot = new PayCreateIntoBot();
         $payGetAdditionalData = new PayGetAdditionalData();
         $payMakeSuccessful = new PayMakeSuccessful();
 
+        $prices = $botUserPriceGet->handle($data->bot_user, false);
+
         $additional_data = $payGetAdditionalData->handle($data->paysystem->id);
         $additional_data['recurrent'] = 1;
-        $additional_data['price'] = 1490;
+        $additional_data['price'] = $prices[1];
 
         $product = Product::find(1);
 
@@ -32,7 +35,7 @@ class ProdamusMakeRecurrent
 
         $products = [
             'name' => 'Предоставление доступа к Мэджик клубу - Тариф "1 месяц"',
-            'price' => 1490,
+            'price' => $prices[1],
             'quantity' => '1',
             'tax' => [
                 'paymentMethod' => $data->bot->prodamus_payment_method->code,
@@ -46,7 +49,7 @@ class ProdamusMakeRecurrent
             'binding_id' => $data->prevous_pay->pay_system_payment_method_id,
             'client_id' => $data->bot_user_id,
             'sys' => $data->bot->prodamus_sys,
-            'order_sum' => 1490,
+            'order_sum' => $prices[1],
             'order_id' => $pay->id,
             'products' => $Aproducts,
             'type' => 'service'
