@@ -10,6 +10,7 @@ class GetcourseWebhookTicket extends Model
     protected $fillable = [
         'email',
         'phone',
-        'price'
+        'price',
+        'status'
     ];
 }

@@ -80,7 +80,38 @@ class PayCountController
         $price = str_replace('руб.', '', $price);
         $price = str_replace('+', '', $price);
 
-        GetcourseWebhookTicket::create(['email' => $email, 'phone' => $phone, 'price' => $price]);
+        GetcourseWebhookTicket::create(['email' => $email, 'phone' => $phone, 'price' => $price, 'status' => 0]);
+    }
+
+    public function callback_run(string $email, string $phone, string $price) {
+        $payCreateIntoBot = new PayCreateIntoBot();
+        $payMakeSuccessful = new PayMakeSuccessful();
+
+        $not_founds = [];
+        $product = Product::find(8);
+        $additional_data['pay_system_id'] = 3;
+
+        $res = GetcourseWebhookTicket::all();
+        foreach ($res as $data) {
+
+            $bot_user = BotUser::where('email', $data->email)->where('bot_id', 25)->first();
+            if ($bot_user) {
+                if ($data->price == 400) $paycount = 1;
+                if ($data->price == 1200) $paycount = 3;
+                if ($data->price == 2000) $paycount = 5;
+                if ($data->price == 2800) $paycount = 7;
+                if ($data->price == 4000) $paycount = 10;
+                if ($data->price == 6000) $paycount = 15;
+
+                BotUser::where('id', $bot_user->id)->update(['pay_count' => $paycount, 'phone' => $phone]);
+
+                $new_pay = $payCreateIntoBot->handle($bot_user, $product, $additional_data);
+                $payMakeSuccessful->handle('{"source":"crafted_by_hand"}', $new_pay->id, 3, NULL, NULL);
+
+                GetcourseWebhookTicket::where('id', $data->id)->update(['status' => 1]);
+            }
+        }
+
     }
 
 }

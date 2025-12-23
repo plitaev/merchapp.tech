@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('email', 255);
             $table->string('phone', 255);
             $table->integer('price');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }
