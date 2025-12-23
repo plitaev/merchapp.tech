@@ -110,7 +110,7 @@ class PayCountController
                 $new_pay = $payCreateIntoBot->handle($bot_user, $product, $additional_data);
                 $payMakeSuccessful->handle('{"source":"crafted_by_hand"}', $new_pay->id, 3, NULL, NULL);
 
-                return GetcourseWebhookTicket::where('id', $data->id)->update(['status' => 1]);
+                GetcourseWebhookTicket::where('id', $data->id)->update(['status' => 1]);
             }
 
         }
