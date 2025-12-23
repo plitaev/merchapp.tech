@@ -83,7 +83,7 @@ class PayCountController
         GetcourseWebhookTicket::create(['email' => $email, 'phone' => $phone, 'price' => $price, 'status' => 0]);
     }
 
-    public function callback_run(string $email, string $phone, string $price) {
+    public function callback_run() {
         $payCreateIntoBot = new PayCreateIntoBot();
         $payMakeSuccessful = new PayMakeSuccessful();
 
@@ -103,7 +103,7 @@ class PayCountController
                 if ($data->price == 4000) $paycount = 10;
                 if ($data->price == 6000) $paycount = 15;
 
-                BotUser::where('id', $bot_user->id)->update(['pay_count' => $paycount, 'phone' => $phone]);
+                BotUser::where('id', $bot_user->id)->update(['pay_count' => $paycount, 'phone' => $data->phone]);
 
                 $new_pay = $payCreateIntoBot->handle($bot_user, $product, $additional_data);
                 $payMakeSuccessful->handle('{"source":"crafted_by_hand"}', $new_pay->id, 3, NULL, NULL);
