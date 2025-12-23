@@ -21,7 +21,7 @@ class DevTestController extends Controller
 
         foreach ($bot_users as $bot_user) {
             $count = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->count();
-            if ($count >= 5) $A[] = $bot_user->id;
+            if ($count == 4) $A[] = $bot_user->id;
         }
 
         return $A;
