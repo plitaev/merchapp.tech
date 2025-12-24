@@ -106,7 +106,7 @@ class PayCountController
         $product = Product::find(8);
         $additional_data['pay_system_id'] = 3;
 
-        $res = GetcourseWebhookTicket::where('status', 0)->where('email', 'I.I.kodorova@mail.ru')->get();
+        $res = GetcourseWebhookTicket::where('status', 0)->get();
 
         foreach ($res as $data) {
 
