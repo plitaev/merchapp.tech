@@ -15,17 +15,7 @@ use App\Models\Core\Pay;
 class DevTestController extends Controller
 {
     public function devtest() {
-
-        $bot_users = BotUser::get();
-        $A = [];
-
-        foreach ($bot_users as $bot_user) {
-            $count = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->count();
-            if ($count == 4) $A[] = $bot_user->id;
-        }
-
-        return $A;
-
+        return GetcourseWebhookTicket::orderByDesc('created_at')->get();
     }
 
     public function paycounts() {
