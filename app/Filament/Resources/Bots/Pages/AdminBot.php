@@ -3,6 +3,10 @@ namespace App\Filament\Resources\Bots\Pages;
 
 use App\Actions\Core\Telegram\TelegramDeleteWebhook;
 use App\Models\Core\BotBranch;
+use App\Models\Core\BotMessage;
+use App\Models\Core\BotMessageButton;
+use App\Models\Core\BotTemplateMessage;
+use App\Models\Core\BotTemplateMessageButton;
 use Illuminate\Support\HtmlString;
 
 use Filament\Actions\Action;
@@ -310,8 +314,75 @@ class AdminBot extends Page implements HasForms
                                 $set('telegram_webhook_status', $status);
                             }
                         })
-                        ->visible(auth()->user()->hasPermissionTo('Delete:Bot'))
+                        ->visible(auth()->user()->hasPermissionTo('Delete:Bot')),
 
+                     Action::make('load_copy')
+                         ->label('Загрузить из шаблона')
+                         ->action(function (Set $set) {
+
+                             $botTemplateMessages = BotTemplateMessage::where('bot_template_id',$this->id)->get();
+
+                             if($botTemplateMessages) {
+                                 foreach ($botTemplateMessages as $templateMessage) {
+
+                                     $newBotTemplateMessages = new BotMessage();
+
+                                     $newBotTemplateMessages->bot_id = $this->id;
+                                     $newBotTemplateMessages->bot_branch_id = $templateMessage['bot_template_branch_id'];
+                                     $newBotTemplateMessages->bot_message_type_id = $templateMessage['bot_message_type_id'];
+                                     $newBotTemplateMessages->bot_message_appointment_id = $templateMessage['bot_message_appointment_id'];
+                                     $newBotTemplateMessages->funnel_id = $templateMessage['funnel_id'];
+                                     $newBotTemplateMessages->funnel_condition_id = $templateMessage['funnel_condition_id'];
+                                     $newBotTemplateMessages->funnel_condition_trigger_id = $templateMessage['funnel_condition_trigger_id'];
+                                     $newBotTemplateMessages->funnel_days = $templateMessage['funnel_days'];
+                                     $newBotTemplateMessages->funnel_hours = $templateMessage['funnel_hours'];
+                                     $newBotTemplateMessages->funnel_minutes = $templateMessage['funnel_minutes'];
+                                     $newBotTemplateMessages->funnel_product_id = $templateMessage['funnel_product_id'];
+                                     $newBotTemplateMessages->name = $templateMessage['name'];
+                                     $newBotTemplateMessages->text = $templateMessage['text'];
+                                     $newBotTemplateMessages->delete_through = $templateMessage['delete_through'];
+                                     $newBotTemplateMessages->delete_through_hours = $templateMessage['delete_through_hours'];
+                                     $newBotTemplateMessages->delete_through_minutes = $templateMessage['delete_through_minutes'];
+                                     $newBotTemplateMessages->delete_keyboard_through = $templateMessage['delete_keyboard_through'];
+                                     $newBotTemplateMessages->delete_keyboard_through_days = $templateMessage['delete_keyboard_through_days'];
+                                     $newBotTemplateMessages->delete_keyboard_through_hours = $templateMessage['delete_keyboard_through_hours'];
+                                     $newBotTemplateMessages->delete_keyboard_through_minutes = $templateMessage['delete_keyboard_through_minutes'];
+                                     $newBotTemplateMessages->pause_after_message = $templateMessage['pause_after_message'];
+
+                                     $newBotTemplateMessages->bot_branch_id = $templateMessage['bot_template_branch_id'];
+
+                                     $newBotTemplateMessages->save();
+
+                                     $botTemplateMessageButtons = BotTemplateMessageButton::where('bot_template_message_id', $templateMessage['id'])->get();
+
+
+                                     foreach ($botTemplateMessageButtons as $botTemplateMessageButton) {
+
+                                         $newBotTemplateMessageButtons = new BotMessageButton();
+
+                                         $newBotTemplateMessageButtons->bot_message_id = $newBotTemplateMessages->id;
+                                         $newBotTemplateMessageButtons->bot_message_button_type_id = $botTemplateMessageButton['bot_message_button_type_id'];
+                                         $newBotTemplateMessageButtons->pay_system_id = $botTemplateMessageButton['pay_system_id'];
+                                         $newBotTemplateMessageButtons->product_id = $botTemplateMessageButton['product_id'];
+                                         $newBotTemplateMessageButtons->name = $botTemplateMessageButton['name'];
+                                         $newBotTemplateMessageButtons->url = $botTemplateMessageButton['url'];
+                                         $newBotTemplateMessageButtons->bot_message_callback_id = $botTemplateMessageButton['bot_message_callback_id'];
+                                         $newBotTemplateMessageButtons->callback = $botTemplateMessageButton['callback'];
+                                         $newBotTemplateMessageButtons->tracking = $botTemplateMessageButton['tracking'];
+                                         $newBotTemplateMessageButtons->pos = $botTemplateMessageButton['pos'];
+                                         $newBotTemplateMessageButtons->save();
+                                     }
+
+                                 }
+                             }
+                             
+
+                             Notification::make()
+                                 ->title('Данные успешно загружены!')
+                                 ->success()
+                                 ->send();
+                         })
+                         ->visible(auth()->user()->hasPermissionTo('Update:Bot'))
                 ])
             ])->statePath('data');
     }
