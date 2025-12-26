@@ -32,13 +32,31 @@ class AdvancedListUser extends Page implements HasTable
     public static function table(Table $table): Table
     {
         return $table
-            ->query(User::query())
+            ->query(User::query()->with('roles')->with('permissions'))
             ->persistSearchInSession()
             ->columns([
                 TextColumn::make('id')
                     ->label('ID'),
                 TextColumn::make('name')
-                    ->label('Имя')
+                    ->label('Имя'),
+                TextColumn::make('roles.name')
+                    ->label('Роли')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'admin' => 'purple',
+                        'read_only' => 'warning',
+                        default => 'default-color',
+                    })
+                    ->searchable(),
+                TextColumn::make('permissions.name')
+                    ->label('Права')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        '/\bView:/\b:' => 'purple',
+                        '/\Create:/\b:' => 'warning',
+                        default => 'default-color',
+                    })
+                    ->searchable(),
             ])
             ->filters([
                 //
