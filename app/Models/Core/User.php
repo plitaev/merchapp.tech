@@ -4,10 +4,12 @@ namespace App\Models\Core;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Permission;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Traits\HasPermissions;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 class User extends Authenticatable
@@ -53,5 +55,15 @@ class User extends Authenticatable
     public function getEmail(): string
     {
         return "{$this->email}";
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'user_has_roles', 'user_id', 'role_id');
+    }
+
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class, 'user_has_permissions', 'user_id', 'permission_id');
     }
 }

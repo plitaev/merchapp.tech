@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
 
-class ModelHasPermission extends Model
+class UserHasPermission extends Model
 {
-    protected $table = 'model_has_permissions';
+    protected $table = 'user_has_permissions';
 
     protected $fillable = [
         'permission_id',
         'model_type',
-        'model_id',
+        'user_id',
     ];
 
     public function permissions(): BelongsTo
@@ -24,8 +24,8 @@ class ModelHasPermission extends Model
         return $this->belongsTo(Permission::class, 'permission_id', 'id');
     }
 
-    public function models(): BelongsTo
+    public function users(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'model_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

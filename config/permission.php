@@ -2,14 +2,14 @@
 
 return [
 
-    'models' => [
+    'users' => [
 
         /*
          * When using the "HasPermissions" trait from this package, we need to know which
-         * Eloquent model should be used to retrieve your permissions. Of course, it
-         * is often just the "Permission" model but you may use whatever you like.
+         * Eloquent user should be used to retrieve your permissions. Of course, it
+         * is often just the "Permission" user but you may use whatever you like.
          *
-         * The model you want to use as a Permission model needs to implement the
+         * The user you want to use as a Permission user needs to implement the
          * `Spatie\Permission\Contracts\Permission` contract.
          */
 
@@ -17,10 +17,10 @@ return [
 
         /*
          * When using the "HasRoles" trait from this package, we need to know which
-         * Eloquent model should be used to retrieve your roles. Of course, it
-         * is often just the "Role" model but you may use whatever you like.
+         * Eloquent user should be used to retrieve your roles. Of course, it
+         * is often just the "Role" user but you may use whatever you like.
          *
-         * The model you want to use as a Role model needs to implement the
+         * The user you want to use as a Role user needs to implement the
          * `Spatie\Permission\Contracts\Role` contract.
          */
 
@@ -48,19 +48,19 @@ return [
 
         /*
          * When using the "HasPermissions" trait from this package, we need to know which
-         * table should be used to retrieve your models permissions. We have chosen a
+         * table should be used to retrieve your users permissions. We have chosen a
          * basic default value but you may easily change it to any table you like.
          */
 
-        'model_has_permissions' => 'model_has_permissions',
+        'user_has_permissions' => 'user_has_permissions',
 
         /*
          * When using the "HasRoles" trait from this package, we need to know which
-         * table should be used to retrieve your models roles. We have chosen a
+         * table should be used to retrieve your users roles. We have chosen a
          * basic default value but you may easily change it to any table you like.
          */
 
-        'model_has_roles' => 'model_has_roles',
+        'user_has_roles' => 'user_has_roles',
 
         /*
          * When using the "HasRoles" trait from this package, we need to know which
@@ -79,17 +79,17 @@ return [
         'permission_pivot_key' => null, // default 'permission_id',
 
         /*
-         * Change this if you want to name the related model primary key other than
-         * `model_id`.
+         * Change this if you want to name the related user primary key other than
+         * `user_id`.
          *
          * For example, this would be nice if your primary keys are all UUIDs. In
-         * that case, name this `model_uuid`.
+         * that case, name this `user_uuid`.
          */
 
-        'model_morph_key' => 'model_id',
+        'user_morph_key' => 'user_id',
 
         /*
-         * Change this if you want to use the teams feature and your related model's
+         * Change this if you want to use the teams feature and your related user's
          * foreign key is other than `team_id`.
          */
 
@@ -127,7 +127,7 @@ return [
      * If you want the migrations to register the 'team_foreign_key', you must
      * set this to true before doing the migration.
      * If you already did the migration then you must make a new migration to also
-     * add 'team_foreign_key' to 'roles', 'model_has_roles', and 'model_has_permissions'
+     * add 'team_foreign_key' to 'roles', 'user_has_roles', and 'user_has_permissions'
      * (view the latest version of this package's migration file)
      */
 

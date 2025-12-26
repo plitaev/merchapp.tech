@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Users\Pages;
 use App\Models\Core\BotBranchLinkProduct;
 use App\Models\Core\Product;
-use App\Models\Core\ModelHasRole;
-use App\Models\Core\ModelHasPermission;
+use App\Models\Core\UserHasRole;
+use App\Models\Core\UserHasPermission;
 use App\Models\Core\Permission;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
@@ -62,7 +62,7 @@ class AdminUser extends Page  implements HasForms,HasTable
 
     public function getRecord(): ?Model
     {
-        return ModelHasRole::class;
+        return UserHasRole::class;
     }
 
     public function getTitle(): string|Htmlable
@@ -87,7 +87,7 @@ class AdminUser extends Page  implements HasForms,HasTable
         $data = ($id>0?User::find($id)->toArray():[]);
 
         $this->form->fill($data);
-        
+
     }
 
     protected function getForms(): array
@@ -137,7 +137,7 @@ class AdminUser extends Page  implements HasForms,HasTable
                             $data['model_id'] = $this->id;
                             $data['model_type'] = 'App\Models\Core\User';
 
-                            $count = ModelHasRole::where('model_type', 'App\Models\Core\User')
+                            $count = UserHasRole::where('model_type', 'App\Models\Core\User')
                                 ->where('model_id', $this->id)
                                 ->where('role_id', $data['role_id'])
                                 ->count();
@@ -148,7 +148,7 @@ class AdminUser extends Page  implements HasForms,HasTable
                                     ->send();
 
                             } else {
-                                ModelHasRole::create($data);
+                                UserHasRole::create($data);
 
                                 Notification::make()
                                     ->title('Данные успешно сохранены!')
@@ -156,7 +156,7 @@ class AdminUser extends Page  implements HasForms,HasTable
                                     ->send();
 
                                 return redirect("/admin/users/" . $this->id . "/admin");
-                                
+
                             }
                         }),
                     Action::make('Cancel')
@@ -198,7 +198,7 @@ class AdminUser extends Page  implements HasForms,HasTable
                 ]),
             ]);
     }
-    
+
 }
 
 
