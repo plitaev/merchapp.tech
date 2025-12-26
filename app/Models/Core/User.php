@@ -3,8 +3,9 @@
 namespace App\Models\Core;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Core\Role;
 
-use App\Models\Permission;
+use App\Models\Core\Permission;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Spatie\Permission\Traits\HasRoles;
