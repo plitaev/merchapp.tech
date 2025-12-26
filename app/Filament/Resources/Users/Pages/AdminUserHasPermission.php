@@ -132,7 +132,7 @@ class AdminUserHasPermission extends Page  implements HasForms,HasTable
 
                             $count = UserHasPermission::where('model_type', 'App\Models\Core\User')
                                 ->where('user_id', $this->id)
-                                ->where('permission_id', $data['permission_id'])
+                                ->where('permission_id', $data['permission_id']) 
                                 ->count();
 
                             if ($count > 0) {

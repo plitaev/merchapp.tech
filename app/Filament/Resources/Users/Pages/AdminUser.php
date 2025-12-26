@@ -87,7 +87,7 @@ class AdminUser extends Page  implements HasForms,HasTable
         $data = ($id>0?User::find($id)->toArray():[]);
 
         $this->form->fill($data);
-
+        
     }
 
     protected function getForms(): array
@@ -134,11 +134,11 @@ class AdminUser extends Page  implements HasForms,HasTable
                         ->visible(auth()->user()->hasPermissionTo('Update:User'))
                         ->action(function () {
                             $data = $this->form->getState();
-                            $data['model_id'] = $this->id;
+                            $data['user_id'] = $this->id;
                             $data['model_type'] = 'App\Models\Core\User';
 
                             $count = UserHasRole::where('model_type', 'App\Models\Core\User')
-                                ->where('model_id', $this->id)
+                                ->where('user_id', $this->id)
                                 ->where('role_id', $data['role_id'])
                                 ->count();
                             if ($count > 0) {
@@ -156,7 +156,7 @@ class AdminUser extends Page  implements HasForms,HasTable
                                     ->send();
 
                                 return redirect("/admin/users/" . $this->id . "/admin");
-
+                                
                             }
                         }),
                     Action::make('Cancel')
@@ -173,7 +173,7 @@ class AdminUser extends Page  implements HasForms,HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(ModelHasRole::query()->with('role')->where(['model_id' => $this->id]))
+            ->query(UserHasRole::query()->with('role')->where(['user_id' => $this->id]))
             ->columns([
                 TextColumn::make('role.name')
                     ->label('Роль')
@@ -198,7 +198,7 @@ class AdminUser extends Page  implements HasForms,HasTable
                 ]),
             ]);
     }
-
+    
 }
 
 
