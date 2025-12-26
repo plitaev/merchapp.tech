@@ -15,6 +15,7 @@ use App\Models\Core\Pay;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
         $pays = Pay::with('bot_user')
             ->where('status', 1)
             ->where('created_at', '>=', '2025-11-25 00:00:00')
@@ -23,7 +24,7 @@ class DevTestController extends Controller
             ->get();
 
         return view('core.devtest.devtest', ['pays' => $pays]);
-
+        */
         return GetcourseWebhookTicket::orderByDesc('created_at')->get();
     }
 
