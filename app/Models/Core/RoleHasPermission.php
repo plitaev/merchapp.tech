@@ -1,8 +1,8 @@
 <?php
-namespace App\Models;
+namespace App\Models\Core;
 
-use App\Models\Permission;
-use App\Models\Role;
+use App\Models\Core\Permission;
+use App\Models\Core\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
