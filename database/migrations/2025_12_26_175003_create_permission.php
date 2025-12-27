@@ -65,6 +65,7 @@ return new class extends Migration
             'guard_name' => 'web']);
         RoleHasPermission::create(['permission_id' =>  $new_id->id,
             'role_id' => '1']);
+        */
     }
 
     /**
