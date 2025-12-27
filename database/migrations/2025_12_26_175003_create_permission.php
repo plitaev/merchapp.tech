@@ -13,6 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        /*
         Schema::table('role_has_permissions', function (Blueprint $table) {
             $table->timestamp('created_at')->after('role_id');
             $table->timestamp('updated_at')->after('created_at');
@@ -64,7 +65,7 @@ return new class extends Migration
             'guard_name' => 'web']);
         RoleHasPermission::create(['permission_id' =>  $new_id->id,
             'role_id' => '1']);
-
+        */
     }
 
     /**
