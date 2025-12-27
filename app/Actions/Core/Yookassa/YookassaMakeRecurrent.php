@@ -61,7 +61,7 @@ class YookassaMakeRecurrent
         } else {
 
             if ($payment->paid == false) {
-                $botUserRepeatRecurrent->handle($data->bot_user_id);
+                $botUserRepeatRecurrent->handle($data);
             }
 
         }
