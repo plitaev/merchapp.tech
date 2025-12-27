@@ -3,7 +3,7 @@ namespace App\Actions\Core\Prodamus;
 
 use App\Http\Controllers\Core\HMACController;
 
-use App\Actions\Core\BotSendMessage\BotSendMessage;
+use App\Actions\Core\BotUser\BotUserRepeatRecurrent;
 use App\Actions\Core\BotUserPrice\BotUserPriceGet;
 use App\Actions\Core\Pay\PayCreateIntoBot;
 use App\Actions\Core\Pay\PayGetAdditionalData;
@@ -16,8 +16,8 @@ use App\Models\Core\Product;
 class ProdamusMakeRecurrent
 {
     public function handle($data) {
-        $botSendMessage = new BotSendMessage();
         $botUserPriceGet = new BotUserPriceGet();
+        $botUserRepeatRecurrent = new BotUserRepeatRecurrent();
         $payCreateIntoBot = new PayCreateIntoBot();
         $payGetAdditionalData = new PayGetAdditionalData();
         $payMakeSuccessful = new PayMakeSuccessful();
@@ -74,8 +74,7 @@ class ProdamusMakeRecurrent
         } else {
 
             if ($responce_array['success'] == false) {
-                $bot_user = BotUser::find($data->bot_user_id);
-                $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL');
+                $botUserRepeatRecurrent->handle($data->bot_user_id);
             }
 
         }

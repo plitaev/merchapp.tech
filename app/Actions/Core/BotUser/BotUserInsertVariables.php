@@ -16,6 +16,7 @@ class BotUserInsertVariables {
         //== Адрес почты
 
         if (stripos(strtolower($text), 'VAR_USER_EMAIL')) $text = str_replace('VAR_USER_EMAIL', $bot_user->email, $text);
+        if (stripos(strtolower($text), 'VAR_USER_CARD_MASK')) $text = str_replace('VAR_USER_CARD_MASK', $bot_user->card_mask, $text);
 
         //== Имя пользователя
         if (stripos(strtolower($text), 'VAR_USERNAME')) {
