@@ -49,7 +49,7 @@ class AdvancedListUser extends Page implements HasTable
                     })
                     ->searchable(),
                 TextColumn::make('permissions.name')
-                    ->label('Права')
+                    ->label('Индивидуальные права')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         '/\bView:/\b:' => 'purple',
