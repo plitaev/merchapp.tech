@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        PaySystem::create(['name' => 'Сгенерировано системой', 'system' => 'virtual']);
-        PaySystem::create(['name' => 'Геткурс', 'system' => 'getcourse']);
+        PaySystem::create(['name' => 'Сгенерировано системой', 'alias' => 'virtual']);
+        PaySystem::create(['name' => 'Геткурс', 'alias' => 'getcourse']);
     }
 
     /**
