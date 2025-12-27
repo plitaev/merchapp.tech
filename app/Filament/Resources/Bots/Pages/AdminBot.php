@@ -320,7 +320,7 @@ class AdminBot extends Page implements HasForms
                          ->label('Загрузить из шаблона')
                          ->action(function (Set $set) {
 
-                             $botTemplateMessages = BotTemplateMessage::where('bot_template_id',$this->id)->get();
+                             $botTemplateMessages = BotTemplateMessage::get();
 
                              if($botTemplateMessages) {
                                  foreach ($botTemplateMessages as $templateMessage) {
