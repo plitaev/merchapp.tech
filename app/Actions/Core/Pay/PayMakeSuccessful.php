@@ -9,7 +9,6 @@ use App\Actions\Core\BotUserPrice\BotUserPriceSet;
 use App\Actions\Core\DateEnd\DateEnd;
 use App\Actions\Core\ReferralProgram\ReferralBuySpecialProduct;
 
-use App\Models\Core\BotBranchLinkProduct;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserTicket;
 use App\Models\Core\Pay;
@@ -62,6 +61,8 @@ class PayMakeSuccessful
         $dateEnd->handle($bot_user, 'Y-m-d');
 
         $botUserPriceSet->handle($bot_user);
+
+        BotUser::where('id', $bot_user->id)->update(['recurrent_repeat' => 0]);
 
         //== Обрабатываем продукт в реферальной ветке
         $referralBuySpecialProduct->handle($pay);
