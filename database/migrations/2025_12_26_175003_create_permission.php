@@ -18,28 +18,13 @@ return new class extends Migration
             $table->timestamp('updated_at')->after('created_at');
         });
 
-        $new_id = Permission::create(['name' => 'ViewAny:User',
-            'guard_name' => 'web']);
-        RoleHasPermission::create(['permission_id' =>  $new_id->id,
-            'role_id' => '1']);
-        $new_id = Permission::create(['name' => 'View:User',
-            'guard_name' => 'web']);
-        RoleHasPermission::create(['permission_id' =>  $new_id->id,
-            'role_id' => '1']);
-        RoleHasPermission::create(['permission_id' =>  $new_id->id,
-            'role_id' => '2']);
+
         $new_id = Permission::create(['name' => 'Create:User',
             'guard_name' => 'web']);
         RoleHasPermission::create(['permission_id' =>  $new_id->id,
             'role_id' => '1']);
-        $new_id = Permission::create(['name' => 'Update:User',
-            'guard_name' => 'web']);
-        RoleHasPermission::create(['permission_id' =>  $new_id->id,
-            'role_id' => '1']);
-        $new_id = Permission::create(['name' => 'Delete:User',
-            'guard_name' => 'web']);
-        RoleHasPermission::create(['permission_id' =>  $new_id->id,
-            'role_id' => '1']);
+
+
         $new_id = Permission::create(['name' => 'Restore:User',
             'guard_name' => 'web']);
         RoleHasPermission::create(['permission_id' =>  $new_id->id,
