@@ -236,6 +236,21 @@ class BotChatAdmin extends Page implements HasForms
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
 
                     ]),
+                Section::make('Чёрный список')
+                    ->description('При включении бот перестанет реагировать на действия этого пользователя')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->schema([
+                        Toggle::make('blacklist')
+                            ->label('Включить')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
+
+                    ]),
                 Section::make('Индивидуальные цены')->description(new HtmlString("<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/user-prices' style='display: block; margin-bottom: 15px; color: #7a300d; font-weight: bold'>Добавить / Редактировать ▶️</a>".$this->bot_user_prices_individual))->schema([]),
                 Section::make('Стандартные цены')->description(new HtmlString($this->bot_user_prices_standard))->schema([])->visible($this->bot_user_prices_standard_count > 0?1:0),
                 Section::make('Статистика')
