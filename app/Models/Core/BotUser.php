@@ -22,6 +22,7 @@ class BotUser extends Model
         'card_mask',
         'pay_count',
         'recurrent',
+        'recurrent_repeat',
         'blacklist',
         'business_bot_account',
         'language_code',
