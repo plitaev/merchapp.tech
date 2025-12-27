@@ -1,32 +1,27 @@
 <?php
 namespace App\Models\Core;
 
+use App\Models\Core\Permission;
 use App\Models\Core\Role;
-use App\Models\Core\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ModelHasRole extends Model
+class RoleHasPermission extends Model
 {
-    protected $table = 'model_has_roles';
+    protected $table='role_has_permissions';
 
     protected $fillable = [
+        'permission_id',
         'role_id',
-        'model_type',
-        'model_id',
     ];
 
-
-    public function model(): BelongsTo
+    public function permissions(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'model_id', 'id');
+        return $this->belongsTo(Permission::class, 'permission_id', 'id');
     }
 
-    public function role(): BelongsTo
+    public function roles(): BelongsTo
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
-
-
-
 }

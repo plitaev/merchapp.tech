@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Users\Pages;
 use App\Models\Core\BotBranchLinkProduct;
 use App\Models\Core\Product;
-use App\Models\Core\ModelHasRole;
-use App\Models\Core\ModelHasPermission;
+use App\Models\Core\UserHasRole;
+use App\Models\Core\UserHasPermission;
 use App\Models\Core\Permission;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
@@ -62,7 +62,7 @@ class AdminUser extends Page  implements HasForms,HasTable
 
     public function getRecord(): ?Model
     {
-        return ModelHasRole::class;
+        return UserHasRole::class;
     }
 
     public function getTitle(): string|Htmlable
@@ -134,11 +134,11 @@ class AdminUser extends Page  implements HasForms,HasTable
                         ->visible(auth()->user()->hasPermissionTo('Update:User'))
                         ->action(function () {
                             $data = $this->form->getState();
-                            $data['model_id'] = $this->id;
+                            $data['user_id'] = $this->id;
                             $data['model_type'] = 'App\Models\Core\User';
 
-                            $count = ModelHasRole::where('model_type', 'App\Models\Core\User')
-                                ->where('model_id', $this->id)
+                            $count = UserHasRole::where('model_type', 'App\Models\Core\User')
+                                ->where('user_id', $this->id)
                                 ->where('role_id', $data['role_id'])
                                 ->count();
                             if ($count > 0) {
@@ -148,7 +148,7 @@ class AdminUser extends Page  implements HasForms,HasTable
                                     ->send();
 
                             } else {
-                                ModelHasRole::create($data);
+                                UserHasRole::create($data);
 
                                 Notification::make()
                                     ->title('Данные успешно сохранены!')
@@ -173,7 +173,7 @@ class AdminUser extends Page  implements HasForms,HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(ModelHasRole::query()->with('role')->where(['model_id' => $this->id]))
+            ->query(UserHasRole::query()->with('role')->where(['user_id' => $this->id]))
             ->columns([
                 TextColumn::make('role.name')
                     ->label('Роль')

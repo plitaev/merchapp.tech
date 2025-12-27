@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Users\Pages;
 use App\Models\Core\BotBranchLinkProduct;
 use App\Models\Core\Product;
-use App\Models\Core\ModelHasPermission;
+use App\Models\Core\UserHasPermission;
 use App\Models\Core\Permission;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
@@ -32,7 +32,7 @@ use Filament\Resources\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
 
 
-class AdminModelHasPermission extends Page  implements HasForms,HasTable
+class AdminUserHasPermission extends Page  implements HasForms,HasTable
 {
     use InteractsWithForms;
     use InteractsWithTable;
@@ -55,7 +55,7 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
 
     public function getRecord(): ?Model
     {
-        return ModelHasPermission::class;
+        return UserHasPermission::class;
     }
 
     public function getTitle(): string|Htmlable
@@ -106,7 +106,7 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
                         '2xl' => 3,
                     ])
                     ->schema([
-                        Hidden::make('model_id'),
+                        Hidden::make('user_id'),
                         Hidden::make('model_type'),
 
                         Select::make('permission_id')
@@ -127,11 +127,11 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
                         ->visible(auth()->user()->hasPermissionTo('Update:User'))
                         ->action(function () {
                             $data = $this->form->getState();
-                            $data['model_id'] = $this->id;
+                            $data['user_id'] = $this->id;
                             $data['model_type'] = 'App\Models\Core\User';
 
-                            $count = ModelHasPermission::where('model_type', 'App\Models\Core\User')
-                                ->where('model_id', $this->id)
+                            $count = UserHasPermission::where('model_type', 'App\Models\Core\User')
+                                ->where('user_id', $this->id)
                                 ->where('permission_id', $data['permission_id']) 
                                 ->count();
 
@@ -142,7 +142,7 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
                                     ->send();
 
                             } else {
-                                ModelHasPermission::create($data);
+                                UserHasPermission::create($data);
 
                                 Notification::make()
                                     ->title('Данные успешно сохранены!')
@@ -168,7 +168,7 @@ class AdminModelHasPermission extends Page  implements HasForms,HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(ModelHasPermission::query()->with('permissions')->where('model_id', $this->id))
+            ->query(UserHasPermission::query()->with('permissions')->where('user_id', $this->id))
             ->columns([
                 TextColumn::make('permissions.name')
                     ->label('Право')
