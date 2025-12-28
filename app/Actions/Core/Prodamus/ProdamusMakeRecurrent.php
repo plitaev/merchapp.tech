@@ -24,18 +24,19 @@ class ProdamusMakeRecurrent
 
         $prices = $botUserPriceGet->handle($data->bot_user, false);
 
+        $product_for_recurrent = Product::select('recurrent_product_id')->find($data->prevous_pay->product_id);
+        $product = Product::find($product_for_recurrent->recurrent_product_id);
+
         $additional_data = $payGetAdditionalData->handle($data->paysystem->id);
         $additional_data['recurrent'] = 1;
-        $additional_data['price'] = $prices[1];
-
-        $product = Product::find(1);
+        $additional_data['price'] = $prices[$product->id];
 
         $pay = $payCreateIntoBot->handle($data->bot_user, $product, $additional_data);
         if (!$pay) return ["new_pay_id" => NULL, "pay_system_responce" => '{"error":"prevous_pay_not_found"}'];
 
         $products = [
-            'name' => 'Предоставление доступа к Мэджик клубу - Тариф "1 месяц"',
-            'price' => $prices[1],
+            'name' => $product->description,
+            'price' => $prices[$product->id],
             'quantity' => '1',
             'tax' => [
                 'paymentMethod' => $data->bot->prodamus_payment_method->code,
@@ -49,7 +50,7 @@ class ProdamusMakeRecurrent
             'binding_id' => $data->prevous_pay->pay_system_payment_method_id,
             'client_id' => $data->bot_user_id,
             'sys' => $data->bot->prodamus_sys,
-            'order_sum' => $prices[1],
+            'order_sum' => $prices[$product->id],
             'order_id' => $pay->id,
             'products' => $Aproducts,
             'type' => 'service'
