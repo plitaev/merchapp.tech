@@ -13,7 +13,8 @@ class Product extends Model
         'description',
         'price',
         'days',
-        'enabled'
+        'enabled',
+        'recurrent_product_id'
     ];
 
     public function product_type(): BelongsTo

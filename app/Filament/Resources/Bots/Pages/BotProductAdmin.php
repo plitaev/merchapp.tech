@@ -166,39 +166,55 @@ class BotProductAdmin extends Page implements HasForms
                     ])
                     ->schema([
                         Textarea::make('description')->label('Описание')
-                        ->disabled(auth()->user()->hasPermissionTo('Update:Product')?false:true),
+                        ->disabled(auth()->user()->hasPermissionTo('Update:Product')?false:true)
+                    ]),
 
-                        ]),
+                Section::make('Продукт для списания рекуррента')
+                    ->description('Укажите, оплату за какой продукт нужно включать при автосписании людям, купившим этот продукт')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->schema([
+                        Select::make('recurrent_product_id')
+                            ->label('Выберите продукт')
+                            ->required()
+                            ->options(ProductType::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Product')?false:true)
+                            ->visible($this->id > 0)
+                    ]),
 
-                        Actions::make([
-                            Action::make('Сохранить')
-                                ->action(function () {
-                                    $data = $this->form->getState();
+                Actions::make([
+                    Action::make('Сохранить')
+                        ->action(function () {
+                            $data = $this->form->getState();
 
-                                    if ($this->id>0) {
+                            if ($this->id>0) {
+                                Product::where('id', $this->id)->update($data);
+                            } else {
+                                Product::create($data);
+                            }
 
-                                        Product::where('id', $this->id)->update($data);
-                                    } else {
-                                        Product::create($data);
-                                    }
+                            Notification::make()
+                                ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
 
-                                    Notification::make()
-                                        ->title('Данные успешно сохранены!')
-                                        ->success()
-                                        ->send();
+                            return redirect('/admin/bots/'.$this->bot_id.'/products');
+                        })
+                        ->visible(auth()->user()->can('Create:Product')),
 
-                                    return redirect('/admin/bots/'.$this->bot_id.'/products');
-                                })
-                                ->visible(auth()->user()->can('Create:Product')),
-
-                            Action::make('Cancel')
-                                ->action(function () {
-                                    return redirect('/admin/bots/'.$this->bot_id.'/products');
-                                })
-                                ->label('Отменить и вернуться назад')
-
-                        ]),
-                    ])->statePath('data');
+                    Action::make('Cancel')
+                        ->action(function () {
+                            return redirect('/admin/bots/'.$this->bot_id.'/products');
+                        })
+                        ->label('Отменить и вернуться назад')
+                ])
+                ])->statePath('data');
     }
 
 }
