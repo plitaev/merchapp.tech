@@ -4,16 +4,18 @@ use YooKassa\Client;
 
 use App\Actions\Core\BotUser\BotUserGetFullName;
 use App\Actions\Core\BotUser\BotUserRepeatRecurrent;
+use App\Actions\Core\BotUserPrice\BotUserPriceGet;
 use App\Actions\Core\Pay\PayCreateIntoBot;
 use App\Actions\Core\Pay\PayGetAdditionalData;
 use App\Actions\Core\Pay\PayMakeSuccessful;
 
-use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
+use App\Models\Core\Product;
 
 class YookassaMakeRecurrent
 {
     public function handle($data) {
+        $botUserPriceGet = new BotUserPriceGet();
         $botUserGetFullName = new BotUserGetFullName();
         $botUserRepeatRecurrent = new BotUserRepeatRecurrent();
         $payCreateIntoBot = new PayCreateIntoBot();
@@ -21,25 +23,29 @@ class YookassaMakeRecurrent
         $payMakeSuccessful = new PayMakeSuccessful();
         $yookassaMakeProductJSON = new YookassaMakeProductJSON();
 
+        $prices = $botUserPriceGet->handle($data->bot_user, false);
+        $product_for_recurrent = Product::select('recurrent_product_id')->find($data->prevous_pay->product_id);
+        $product = Product::find($product_for_recurrent->recurrent_product_id);
+
         $client = new Client();
         $client->setAuth($data->bot->yookassa_shop_id, $data->bot->yookassa_shop_secret);
 
         $additional_data = $payGetAdditionalData->handle($data->paysystem->id);
         $additional_data['recurrent'] = 1;
-        $additional_data['price'] = $data->prevous_pay->price;
+        $additional_data['price'] = $prices[$product->id];
 
-        $pay = $payCreateIntoBot->handle($data->bot_user, $data->product, $additional_data);
+        $pay = $payCreateIntoBot->handle($data->bot_user, $product, $additional_data);
         if (!$pay) return ["new_pay_id" => NULL, "pay_system_responce" => '{"error":"prevous_pay_not_found"}'];
 
         $payment = $client->createPayment(
             array(
                 'amount' => array(
-                    'value' => $data->prevous_pay->price,
+                    'value' => $prices[$product->id],
                     'currency' => $data->bot->yookassa_currency,
                 ),
                 'capture' => true,
                 'payment_method_id' => $data->prevous_pay->pay_system_payment_method_id,
-                'receipt' => array('customer' => array('full_name' => $botUserGetFullName->handle($data->bot_user), 'email' => $data->bot_user->email), 'items' => $yookassaMakeProductJSON->handle($data->bot, $data->product, $data->prevous_pay->price, false)),
+                'receipt' => array('customer' => array('full_name' => $botUserGetFullName->handle($data->bot_user), 'email' => $data->bot_user->email), 'items' => $yookassaMakeProductJSON->handle($data->bot, $product, $prices[$product->id], false)),
                 'description' => $data->bot_user->telegram_chat_id,
                 'metadata' => ['orderNumber' => $pay->id]
             ),
