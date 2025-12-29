@@ -15,8 +15,8 @@ class BotSendUserOnDay
 {
     public function handle() {
         $stat = StatBotUserOnDay::orderByDesc('created_at')->first();
-        $stat1490 = Pay::select('bot_user_id')->where('price', 1490)->where('status', 1)->groupBy('bot_user_id')->count();
-        $stat1990 = Pay::select('bot_user_id')->where('price', 1990)->where('status', 1)->groupBy('bot_user_id')->count();
+        $stat1490 = Pay::select('bot_user_id')->where('price', 1490)->where('status', 1)->groupBy('bot_user_id')->get();
+        $stat1990 = Pay::select('bot_user_id')->where('price', 1990)->where('status', 1)->groupBy('bot_user_id')->get();
 
         $expireds1 = BotUser::where('date_end', '<', date('Y-m-d', time()))->whereNotNull('date_end')->count();
         $expireds2 = BotUser::whereNull('date_end')->where('listen_success_message_status', 1)->count();
@@ -71,8 +71,8 @@ class BotSendUserOnDay
 
         //==
         $text = str_replace('VAR_STAT_USER_ON_DAY_COUNT', $stat->bot_user_count, $text);
-        $text = str_replace('VAR_STAT_USER_1490', $stat1490, $text);
-        $text = str_replace('VAR_STAT_USER_1990', $stat1990, $text);
+        $text = str_replace('VAR_STAT_USER_1490', count($stat1490), $text);
+        $text = str_replace('VAR_STAT_USER_1990', count($stat1990), $text);
         $text = str_replace('VAR_USER_EXPIRED', $expireds, $text);
         $text = str_replace('VAR_BOT_USERS_ONE_MONTH', $bot_users_one_month, $text);
         $text = str_replace('VAR_BOT_USERS_1_ONE_MONTH_WITH_RECURRENT', count($bot_users_one_month_with_recurrent), $text);
