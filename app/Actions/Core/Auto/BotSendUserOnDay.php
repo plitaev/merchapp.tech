@@ -15,8 +15,8 @@ class BotSendUserOnDay
 {
     public function handle() {
         $stat = StatBotUserOnDay::orderByDesc('created_at')->first();
-        $stat1490 = Pay::where('price', 1490)->where('status', 1)->count();
-        $stat1990 = Pay::where('price', 1990)->where('status', 1)->count();
+        $stat1490 = Pay::select('bot_user_id')->where('price', 1490)->where('status', 1)->groupBy('bot_user_id')->count();
+        $stat1990 = Pay::select('bot_user_id')->where('price', 1990)->where('status', 1)->groupBy('bot_user_id')->count();
 
         $expireds1 = BotUser::where('date_end', '<', date('Y-m-d', time()))->whereNotNull('date_end')->count();
         $expireds2 = BotUser::whereNull('date_end')->where('listen_success_message_status', 1)->count();
