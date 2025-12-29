@@ -3,6 +3,8 @@
 namespace App\Actions\Core\Auto;
 
 use App\Models\Core\BotBranchReferralProgram;
+use App\Models\Core\BotUser;
+use App\Models\Core\Pay;
 use Telegram\Bot\Api;
 
 use App\Models\Core\BotMessage;
@@ -13,6 +15,48 @@ class BotSendUserOnDay
 {
     public function handle() {
         $stat = StatBotUserOnDay::orderByDesc('created_at')->first();
+        $stat1490 = Pay::where('price', 1490)->where('status', 1)->count();
+        $stat1990 = Pay::where('price', 1990)->where('status', 1)->count();
+
+        $expireds1 = BotUser::where('date_end', '<', date('Y-m-d', time()))->whereNotNull('date_end')->count();
+        $expireds2 = BotUser::whereNull('date_end')->where('listen_success_message_status', 1)->count();
+        $expireds =$expireds1 + $expireds2;
+
+        $date = date('Y-m-d', time());
+
+        $bot_users_one_month_with_recurrent = [];
+        $bot_users_one_month_without_recurrent = [];
+
+        $bot_users = BotUser::where('date_end', '>=', $date)->get();
+        foreach ($bot_users as $bot_user) {
+            $last_pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->orderByDesc('created_at')->first();
+
+            if ($last_pay && $last_pay->product_id == 1) {
+                if ($bot_user->recurrent == 1) {
+                    $bot_users_one_month_with_recurrent[] = $bot_user->id;
+                } else {
+                    $bot_users_one_month_without_recurrent[] = $bot_user->id;
+                }
+            }
+        }
+
+        $bot_users_one_month = count($bot_users_one_month_with_recurrent) + count($bot_users_one_month_without_recurrent);
+
+        $pays_date = '2025-12-01 00:00:00';
+        $pays_old = [];
+        $pays_new = [];
+
+        $pays = Pay::where('status', 1)->where('created_at', '>=', $pays_date)->get();
+        foreach ($pays as $pay) {
+            $old = Pay::where('bot_user_id', $pay->bot_user_id)->where('status', 1)->where('created_at', '<', $pays_date)->count();
+
+            if ($old > 0) {
+                $pays_old[] = $pay->id;
+            } else {
+                $pays_new[] = $pay->id;
+            }
+
+        }
 
         $bot_message = BotMessage::query()
             ->whereHas('bot_message_appointment', function ($query) {
@@ -24,7 +68,18 @@ class BotSendUserOnDay
         $text = urldecode($text);
 
         $text = str_replace('VAR_STAT_USER_ON_DAY_DATE', date('d.m.Y', strtotime($stat->stat_date)), $text);
+
+        //==
         $text = str_replace('VAR_STAT_USER_ON_DAY_COUNT', $stat->bot_user_count, $text);
+        $text = str_replace('VAR_STAT_USER_1490', $stat1490, $text);
+        $text = str_replace('VAR_STAT_USER_1990', $stat1990, $text);
+        $text = str_replace('VAR_USER_EXPIRED', $expireds, $text);
+        $text = str_replace('VAR_BOT_USERS_ONE_MONTH', $bot_users_one_month, $text);
+        $text = str_replace('VAR_BOT_USERS_ONE_MONTH_WITH_RECURRENT', count($bot_users_one_month_with_recurrent), $text);
+        $text = str_replace('VAR_BOT_USERS_ONE_MONTH_WITHOUT_RECURRENT', count($bot_users_one_month_without_recurrent), $text);
+        $text = str_replace('VAR_PAYS_FROM_START_MONTH', count($pays), $text);
+        $text = str_replace('VAR_PAYS_FROM_START_MONTH_OLD', count($pays_old), $text);
+        $text = str_replace('VAR_PAYS_FROM_START_MONTH_NEW', count($pays_new), $text);
 
         //==
 
