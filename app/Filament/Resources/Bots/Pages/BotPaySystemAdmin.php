@@ -272,12 +272,12 @@ class BotPaySystemAdmin extends Page implements HasForms
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
                         Select::make('robokassa_tax_id')
                             ->label('Система налогообложения')
-                            ->options(TbankTax::query()->pluck('name', 'id'))
+                            ->options(TbankTaxation::query()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
                         Select::make('robokassa_vat_id')
                             ->label('НДС')
-                            ->options(TbankTaxation::query()->pluck('name', 'id'))
+                            ->options(TbankTax::query()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
                     ]),
