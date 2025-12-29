@@ -2,8 +2,13 @@
 
 namespace App\Models\Core;
 
-class TbankTax
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class TbankTax extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'code',
         'name'
