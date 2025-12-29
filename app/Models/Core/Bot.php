@@ -44,6 +44,10 @@ class Bot extends Model
         'prodamus_url',
         'prodamus_key',
         'prodamus_key_recurrent',
+        'tbank_terminal_key',
+        'tbank_terminal_password',
+        'tbank_tax_id',
+        'tbank_taxation_id',
         'ban_time',
         'recurrent_time'
     ];

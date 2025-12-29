@@ -15,17 +15,15 @@ use App\Models\Core\Pay;
 class DevTestController extends Controller
 {
     public function devtest() {
-        /*
-        $pays = Pay::with('bot_user')
-            ->where('status', 1)
-            ->where('created_at', '>=', '2025-11-25 00:00:00')
-            ->where('created_at', '<=', '2025-12-25 23:59:59')
-            ->orderByDesc('created_at')
-            ->get();
 
-        return view('core.devtest.devtest', ['pays' => $pays]);
-        */
-        return GetcourseWebhookTicket::orderByDesc('created_at')->get();
+        $res = BotUser::all();
+        foreach ($res as $data) {
+            $last_pay = Pay::where('bot_user_id', $data->bot_user_id)->where('status', 1)->orderByDesc('created_at')->first();
+            if ($last_pay) {
+                BotUserPrice::create(['bot_user_id' => $data->bot_user_id, 'product_id' => 7, 'price' => $last_pay->price]);
+            }
+        }
+
     }
 
     public function paycounts() {
