@@ -18,9 +18,9 @@ class DevTestController extends Controller
 
         $res = BotUser::all();
         foreach ($res as $data) {
-            $last_pay = Pay::where('bot_user_id', $data->bot_user_id)->where('status', 1)->orderByDesc('created_at')->first();
+            $last_pay = Pay::where('bot_user_id', $data->id)->where('status', 1)->orderByDesc('created_at')->first();
             if ($last_pay) {
-                BotUserPrice::create(['bot_user_id' => $data->bot_user_id, 'product_id' => 7, 'price' => $last_pay->price]);
+                BotUserPrice::create(['bot_user_id' => $data->id, 'product_id' => 7, 'price' => $last_pay->price]);
             }
         }
 
