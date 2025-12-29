@@ -5,6 +5,8 @@ use App\Models\Core\ProdamusTax;
 use App\Models\Core\RobokassaPaymentMethod;
 use App\Models\Core\RobokassaPaymentObject;
 use App\Models\Core\RobokassaVAT;
+use App\Models\Core\TbankTax;
+use App\Models\Core\TbankTaxation;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -247,6 +249,35 @@ class BotPaySystemAdmin extends Page implements HasForms
                         Select::make('robokassa_payment_object_id')
                             ->label('Объект расчета')
                             ->options(RobokassaPaymentObject::query()->pluck('name', 'id'))
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+                    ]),
+                Section::make('ТБанк')
+                    ->description('Настройки эквайринга от ТБанк')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
+                        TextInput::make('tbank_terminal_key')
+                            ->label('Ключ терминала')
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+                        TextInput::make('tbank_terminal_password')
+                            ->label('Пароль терминала')
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+                        Select::make('robokassa_tax_id')
+                            ->label('Система налогообложения')
+                            ->options(TbankTax::query()->pluck('name', 'id'))
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
+                        Select::make('robokassa_vat_id')
+                            ->label('НДС')
+                            ->options(TbankTaxation::query()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
                     ]),
