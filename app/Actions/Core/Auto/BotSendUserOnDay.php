@@ -75,11 +75,11 @@ class BotSendUserOnDay
         $text = str_replace('VAR_STAT_USER_1990', $stat1990, $text);
         $text = str_replace('VAR_USER_EXPIRED', $expireds, $text);
         $text = str_replace('VAR_BOT_USERS_ONE_MONTH', $bot_users_one_month, $text);
-        $text = str_replace('VAR_BOT_USERS_ONE_MONTH_WITH_RECURRENT', count($bot_users_one_month_with_recurrent), $text);
-        $text = str_replace('VAR_BOT_USERS_ONE_MONTH_WITHOUT_RECURRENT', count($bot_users_one_month_without_recurrent), $text);
+        $text = str_replace('1_VAR_BOT_USERS_ONE_MONTH_WITH_RECURRENT', count($bot_users_one_month_with_recurrent), $text);
+        $text = str_replace('2_VAR_BOT_USERS_ONE_MONTH_WITHOUT_RECURRENT', count($bot_users_one_month_without_recurrent), $text);
         $text = str_replace('VAR_PAYS_FROM_START_MONTH', count($pays), $text);
-        $text = str_replace('VAR_PAYS_FROM_START_MONTH_OLD', count($pays_old), $text);
-        $text = str_replace('VAR_PAYS_FROM_START_MONTH_NEW', count($pays_new), $text);
+        $text = str_replace('3_VAR_PAYS_FROM_START_MONTH_OLD', count($pays_old), $text);
+        $text = str_replace('4_VAR_PAYS_FROM_START_MONTH_NEW', count($pays_new), $text);
 
         //==
 
