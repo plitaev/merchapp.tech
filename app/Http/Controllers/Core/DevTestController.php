@@ -21,7 +21,7 @@ class DevTestController extends Controller
             $Amys_users[date("m.Y", strtotime($recurrent_all->date_end))][] = 1;
         }
 
-        return $Amys_users['12.2025'];
+        return count($Amys_users['12.2025']);
     }
 
     public function paycounts() {
