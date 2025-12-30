@@ -79,7 +79,7 @@ class BotRecurrents extends Page implements HasForms, HasTable
 
         //== Для статистики по месяцам
 
-        $recurrents_all = BotUser::select('date_end')->where('date_end', '>=', date('Y-m', time()))->where('recurrent', $recurrent)->get();
+        $recurrents_all = BotUser::select('date_end')->where('date_end', '>=', date('Y-m-d', time()))->where('recurrent', 1)->get();
         foreach ($recurrents_all as $recurrent_all) {
             $Amys_users[date("m.Y", strtotime($recurrent_all->date_end))][] = 1;
         }
