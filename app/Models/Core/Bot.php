@@ -117,4 +117,14 @@ class Bot extends Model
         return $this->belongsTo(RobokassaVAT::class, 'robokassa_vat_id', 'id');
     }
 
+    public function tbank_taxation(): BelongsTo
+    {
+        return $this->belongsTo(TbankTaxation::class, 'tbank_taxation_id', 'id');
+    }
+
+    public function tbank_tax(): BelongsTo
+    {
+        return $this->belongsTo(TbankTaxation::class, 'tbank_taxation_id', 'id');
+    }
+
 }
