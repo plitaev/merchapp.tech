@@ -187,7 +187,7 @@ class BotPaySystemAdmin extends Page implements HasForms
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
 
                         Select::make('prodamus_tax_id')
-                            ->label('Тип плательщика')
+                            ->label('НДС')
                             ->options(ProdamusTax::query()->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
