@@ -182,7 +182,7 @@ class BotProductAdmin extends Page implements HasForms
                         Select::make('recurrent_product_id')
                             ->label('Выберите продукт')
                             ->required()
-                            ->options(Product::all()->pluck('name', 'id'))
+                            ->options(Product::all()->where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:Product')?false:true)
                             ->visible($this->id > 0)
