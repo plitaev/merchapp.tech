@@ -16,21 +16,12 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $recurrent = 1;
-
-        $recurrents_all = BotUser::select('date_end')->where('date_end', '>=', date('Y-m', time())."-01")->where('recurrent', $recurrent)->get();
+        $recurrents_all = BotUser::select('date_end')->where('date_end', '>=', date('Y-m', time())."-01")->where('recurrent', 1)->get();
         foreach ($recurrents_all as $recurrent_all) {
             $Amys_users[date("m.Y", strtotime($recurrent_all->date_end))][] = 1;
         }
 
-        $recurrent_dates = BotUser::select('date_end')->where('date_end', '>=', date('Y-m', time())."-01")->where('recurrent', $recurrent)->groupBy('date_end')->orderBy('date_end')->pluck('date_end')->toArray();
-        foreach ($recurrent_dates as $recurrent_date) {
-            $Amys[] = date("m.Y", strtotime($recurrent_date));
-        }
-
-        $Amys = array_unique($Amys);
-
-        return $Amys;
+        return $Amys_users['12.2025'];
     }
 
     public function paycounts() {
