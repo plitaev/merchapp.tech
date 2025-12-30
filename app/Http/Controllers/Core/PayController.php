@@ -55,7 +55,7 @@ class PayController
             $hash = $price.$product->description.$pay->id.$bot->tbank_terminal_password.'Y'.$bot->tbank_terminal_key;
             $hash = hash('sha256', $hash);
 
-            $json = '{"TerminalKey": "'.$bot->tbank_terminal_key.'","Amount": '.$price.'00,"OrderId": "'.$pay->id.'","Description": "'.$product->description.'","DATA": {"Email": "'.$bot_user->email.'"},"Receipt": {"Email": "'.$bot_user->email.'","Taxation": "'.$bot->tbank_taxation->code.'","Items": [{"Name": "'.$product->description.'","Price": '.$pay['pay_price_rub'].',"Quantity": 1,"Amount": "'.$price.'00","Tax": "'.$bot->tbank_tax->code.'"}]},"Token": "'.$hash.'","Recurrent":"Y"}';
+            $json = '{"TerminalKey": "'.$bot->tbank_terminal_key->code.'","Amount": '.$price.'00,"OrderId": "'.$pay->id.'","Description": "'.$product->description.'","DATA": {"Email": "'.$bot_user->email.'"},"Receipt": {"Email": "'.$bot_user->email.'","Taxation": "'.$bot->tbank_taxation->code.'","Items": [{"Name": "'.$product->description.'","Price": '.$pay['pay_price_rub'].',"Quantity": 1,"Amount": "'.$price.'00","Tax": "'.$bot->tbank_tax->code.'"}]},"Token": "'.$hash.'","Recurrent":"Y"}';
 
             $curl=curl_init();
             curl_setopt($curl,CURLOPT_URL,"https://securepay.tinkoff.ru/v2/Init");
