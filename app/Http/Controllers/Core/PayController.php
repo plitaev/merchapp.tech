@@ -49,8 +49,6 @@ class PayController
                 ->with('tbank_tax')
                 ->find($bot_user->bot_id);
 
-            return $bot;
-
             $price = $product->price;
             if (isset($bot_user->pay_count) && $bot_user->pay_count > 1) $price = $price * $bot_user->pay_count;
 
