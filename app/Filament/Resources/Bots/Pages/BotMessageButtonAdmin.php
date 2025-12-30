@@ -199,7 +199,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
 
                         Select::make('product_id')
                             ->label('Продукт')
-                            ->options(Product::all()->pluck('name', 'id'))
+                            ->options(Product::all()->where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?0:1),
 
