@@ -124,7 +124,7 @@ class Bot extends Model
 
     public function tbank_tax(): BelongsTo
     {
-        return $this->belongsTo(TbankTaxation::class, 'tbank_taxation_id', 'id');
+        return $this->belongsTo(TbankTaxation::class, 'tbank_tax_id', 'id');
     }
 
 }
