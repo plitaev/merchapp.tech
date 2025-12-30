@@ -28,6 +28,8 @@ class DevTestController extends Controller
             $Amys[] = date("m.Y", strtotime($recurrent_date));
         }
 
+        $Amys = array_unique($Amys);
+
         return $Amys;
     }
 
