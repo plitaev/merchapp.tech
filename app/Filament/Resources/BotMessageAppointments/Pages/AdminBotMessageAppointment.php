@@ -43,6 +43,11 @@ class AdminBotMessageAppointment extends Page implements HasForms
         return __('Назначение');
     }
 
+    protected function getForms(): array
+    {
+        return ['form'];
+    }
+
     protected function getHeaderActions(): array
     {
         return [];
@@ -62,12 +67,9 @@ class AdminBotMessageAppointment extends Page implements HasForms
 
     }
 
-    protected function getForms(): array
-    {
-        return ['form'];
-    }
 
-    public static function form(Schema $schema): Schema
+
+    public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
@@ -96,10 +98,9 @@ class AdminBotMessageAppointment extends Page implements HasForms
                                 ->action(function () {
                                     $data = $this->form->getState();
 
-
                                     if ($this->id>0) {
                                         BotMessageAppointment::where('id', $this->id)->update($data);
-                                        $output_id = $this->id;
+                                       // $output_id = $this->id;
                                     } else {
                                         $new = BotMessageAppointment::create($data);
                                         $output_id = $new->id;
@@ -110,11 +111,12 @@ class AdminBotMessageAppointment extends Page implements HasForms
                                         ->success()
                                         ->send();
 
-                                    return redirect('/');
+                                   // return redirect('/admin/bot-message-appointments/{{4}}/admin');
                                 })
                                 ->visible(auth()->user()->can('Create:BotMessageAppointment')),
+
                         ])
-                ])
+                    ])
             ])->statePath('data');
     }
 
