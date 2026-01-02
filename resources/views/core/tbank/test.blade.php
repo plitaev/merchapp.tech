@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head></head>
+<head>
+    <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
+</head>
 <body>
 <form name="TinkoffPayForm" id="TinkoffPayForm" onsubmit="pay(this); return false;">
     <input class="tinkoffPayRow" type="hidden" id="terminalkey" name="terminalkey" value="">
