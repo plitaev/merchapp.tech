@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             '/pdf/*',
             '/yookassa/*',
             '/prodamus/*',
+            '/tbank/*',
             '/robokassa/*'
         ]);
     })
