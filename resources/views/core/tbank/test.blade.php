@@ -1,5 +1,9 @@
-<form name="TinkoffPayForm" id="TinkoffPayForm" onsubmit="pay(this); return false;" style="display:none">
-    <input class="tinkoffPayRow" type="hidden" id="terminalkey" name="terminalkey" value="{{env("TINKOFF_TERMINAY_KEY")}}">
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<form name="TinkoffPayForm" id="TinkoffPayForm" onsubmit="pay(this); return false;">
+    <input class="tinkoffPayRow" type="hidden" id="terminalkey" name="terminalkey" value="">
     <input class="tinkoffPayRow" type="hidden" name="frame" value="false">
     <input class="tinkoffPayRow" type="hidden" name="language" value="ru">
     <input class="tinkoffPayRow" type="text" value="1000" name="amount" required id="amount">
@@ -11,3 +15,5 @@
 "Amount":100000,"PaymentMethod":"full_payment","PaymentObject":"service","Tax":"none"}]}'>
     <input class="tinkoffPayRow" type="submit" value="Оплатить">
 </form>
+</body>
+</html>
