@@ -84,6 +84,10 @@ class PayMakeSuccessful
             BotUser::where('id', $pay->bot_user_id)->update(['card_mask' => $Asource['maskedPan']]);
         }
 
+        if (isset($Asource['Pan'])) {
+            BotUser::where('id', $pay->bot_user_id)->update(['card_mask' => $Asource['Pan']]);
+        }
+
         if (isset($Asource['object']['payment_method']['title'])) {
             $card_mask = '';
 

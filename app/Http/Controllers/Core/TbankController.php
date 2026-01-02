@@ -15,17 +15,11 @@ class TbankController
 
         $requestBody = json_decode($source, true);
 
-        if ($requestBody['event']=='payment.succeeded' || $requestBody['status']=='succeeded') {
+        if ($requestBody['Status']=='CONFIRMED') {
 
-            if (isset($requestBody['object']['metadata']['order_number']) && isset($requestBody['object']['id']) && isset($requestBody['object']['payment_method']['id'])) {
-
-                if (isset($requestBody['object']['amount']['value']) && isset($requestBody['object']['income_amount']['value'])) {
-                    $comission = $requestBody['object']['amount']['value']-$requestBody['object']['income_amount']['value'];
-                } else {
-                    $comission = NULL;
-                }
-
-                $payMakeSuccessful->handle($source, $requestBody['object']['metadata']['order_number'], $requestBody['object']['id'], $requestBody['object']['payment_method']['id'], $comission);
+            if (isset($requestBody['OrderId']) && isset($requestBody['Token'])) {
+                $payment_method_id = (isset($requestBody['RebillId'])?$requestBody['RebillId']:NULL);
+                $payMakeSuccessful->handle($source, $requestBody['OrderId'], $requestBody['Token'], $payment_method_id, NULL);
             }
 
         }
