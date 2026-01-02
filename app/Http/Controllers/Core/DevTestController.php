@@ -16,6 +16,7 @@ use App\Models\Core\Pay;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
         $res = BotUser::where('bot_id', 2)->where('id', '>', 6)->get();
         foreach ($res as $data) {
             BotUserBanSchedule::create(
@@ -26,6 +27,7 @@ class DevTestController extends Controller
                 ]
             );
         }
+        */
     }
 
     public function paycounts() {
