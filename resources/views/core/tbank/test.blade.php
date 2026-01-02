@@ -39,10 +39,10 @@
     </div>
     <div style="margin: 25px">
         <div>JSON чека (Проверьте совпадение цены, почты и ФИО клиента)</div>
-        <textarea class="tinkoffPayRow" type="hidden" id="receipt" name="receipt" value='
-        {"Email":"evgeniiplita@gmail.com","EmailCompany":"evgeniiplita@gmail.com","Taxation":"usn_income",
-        "Items":[{"Name":"Тестовый продукт","Price":1000,"Quantity": 1.00,
-        "Amount":100000,"PaymentMethod":"full_payment","PaymentObject":"service","Tax":"none"}]}'>
+        <textarea class="tinkoffPayRow" type="hidden" id="receipt" name="receipt">
+            {"Email":"evgeniiplita@gmail.com","EmailCompany":"evgeniiplita@gmail.com","Taxation":"usn_income",
+            "Items":[{"Name":"Тестовый продукт","Price":1000,"Quantity": 1.00,
+            "Amount":100000,"PaymentMethod":"full_payment","PaymentObject":"service","Tax":"none"}]}
         </textarea>
     </div>
     <input class="tinkoffPayRow" type="submit" value="Оплатить">
