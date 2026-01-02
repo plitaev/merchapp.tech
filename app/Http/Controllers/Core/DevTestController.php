@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Core;
 use App\Http\Controllers\Controller;
 
 use App\Models\Core\BotUser;
+use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\BotUserPrice;
 use App\Models\Core\GetcourseWebhookTicket;
 use App\Models\Core\Product;
@@ -15,13 +16,16 @@ use App\Models\Core\Pay;
 class DevTestController extends Controller
 {
     public function devtest() {
-
-        $recurrents_all = BotUser::select('date_end')->where('date_end', '>=', date('Y-m-d', time()))->where('recurrent', 1)->get();
-        foreach ($recurrents_all as $recurrent_all) {
-            $Amys_users[date("m.Y", strtotime($recurrent_all->date_end))][] = 1;
+        $res = BotUser::where('bot_id', 2)->where('id', '>', 6)->get();
+        foreach ($res as $data) {
+            BotUserBanSchedule::create(
+                [
+                    'bot_user_id' => $data->id,
+                    'run_status' => 0,
+                    'ban_datetime' => '2026-01-02 12:00:00'
+                ]
+            );
         }
-
-        return count($Amys_users['12.2025']);
     }
 
     public function paycounts() {

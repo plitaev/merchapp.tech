@@ -19,6 +19,7 @@ require 'core/pay.php';
 require 'core/paycount.php';
 require 'core/prodamus.php';
 require 'core/robokassa.php';
+require 'core/tbank.php';
 require 'core/telegram.php';
 require 'core/yookassa.php';
 
