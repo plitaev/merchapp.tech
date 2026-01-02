@@ -1,5 +1,6 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
+use Illuminate\Support\HtmlString;
 
 use App\Models\Core\ProdamusTax;
 use App\Models\Core\RobokassaPaymentMethod;
@@ -253,7 +254,7 @@ class BotPaySystemAdmin extends Page implements HasForms
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
                     ]),
                 Section::make('ТБанк')
-                    ->description('Настройки эквайринга от ТБанк')
+                    ->description(new HtmlString("<a style='font-weight: bold' href='/tbank/test'>Перейти к тестированию терминала</a>"))
                     ->columns([
                         'sm' => 2,
                         'md' => 2,
