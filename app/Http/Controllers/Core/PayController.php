@@ -65,6 +65,8 @@ class PayController
             $result = curl_exec($curl);
             curl_close($curl);
 
+            return $result;
+
             $result = json_decode($result, true);
             return redirect($result['PaymentURL']);
 
