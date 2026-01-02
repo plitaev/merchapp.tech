@@ -57,8 +57,6 @@ class PayController
 
             $json = '{"TerminalKey": "'.$bot->tbank_terminal_key.'","Amount": '.$price.'00,"OrderId": "'.$pay->id.'","Description": "'.$product->description.'","DATA": {"Email": "'.$bot_user->email.'"},"Receipt": {"Email": "'.$bot_user->email.'","Taxation": "'.$bot->tbank_taxation->code.'","Items": [{"Name": "'.$product->description.'","Price": '.$price.',"Quantity": 1,"Amount": "'.$price.'00","Tax": "'.$bot->tbank_tax->code.'"}]},"Token": "'.$hash.'","Recurrent":"Y"}';
 
-            //return $json;
-
             $curl=curl_init();
             curl_setopt($curl,CURLOPT_URL,"https://securepay.tinkoff.ru/v2/Init");
             curl_setopt($curl,CURLOPT_RETURNTRANSFER, true);
@@ -72,8 +70,6 @@ class PayController
             curl_setopt($curl,CURLOPT_HTTPHEADER,['Content-Type: application/json', 'Accept: application/json']);
             $result = curl_exec($curl);
             curl_close($curl);
-
-            return $result;
 
             $result = json_decode($result, true);
             return redirect($result['PaymentURL']);
