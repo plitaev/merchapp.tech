@@ -10,4 +10,6 @@ Route::controller(ConverterController::class)->group(function() {
     Route::get('/converter/create_pays_from_webhook', 'create_pays_from_webhook');
     Route::get('/converter/cache_date_end', 'cache_date_end');
     Route::get('/converter/ban', 'ban');
+
+    Route::get('/converter/load_users_loverse/{tunnel_id_from}/{bot_id_to}', 'load_users_loverse');
 });

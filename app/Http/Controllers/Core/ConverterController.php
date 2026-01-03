@@ -154,4 +154,26 @@ class ConverterController extends Controller
         */
     }
 
+    public function load_users_loverse(int $tunnel_id_from, int $bot_id_to) {
+        $in_new = BotUser::select('telegram_chat_id')->where('bot_id', $bot_id_to)->pluck('telegram_chat_id')->toArray();
+        $new_users_ids = DB::table('loverse.telegram_chats')->whereNotIn('chat_id', $in_new)->where('tunnel_id', $tunnel_id_from)->get();
+
+        $res = DB::table('loverse.telegram_chats')->whereIn('chat_id', $new_users_ids)->get();
+        foreach ($res as $data) {
+
+            if ($data->chat_id > 0) {
+                BotUser::create([
+                    'telegram_chat_id' => $data->chat_id,
+                    'bot_id' => $bot_id_to,
+                    'first_name' => $data->first_name,
+                    'last_name' => $data->last_name,
+                    'username' => $data->username,
+                    'email' => $data->email,
+                    'language_code' => $data->language_code
+                ]);
+            }
+        }
+
+    }
+
 }
