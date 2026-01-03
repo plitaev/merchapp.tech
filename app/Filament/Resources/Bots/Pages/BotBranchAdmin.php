@@ -2,32 +2,43 @@
 
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Filament\Resources\Bots\BotResource;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\HtmlString;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Schemas\Components\Actions;
+
+use Carbon\Carbon;
+
 use Filament\Actions\Action;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\DeleteAction;
 
 use Filament\Forms;
-use Filament\Forms\Components;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+
+use Filament\Notifications\Notification;
+
+use Filament\Resources\Pages\Page;
+
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Section;
+
+use Filament\Tables\Columns\Summarizers\Count;
+use Filament\Tables\Columns\Summarizers\Sum;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\DeleteAction;
+use Filament\Forms\Components;
+use Filament\Forms\Components\DatePicker;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
-use Filament\Notifications\Notification;
-use Filament\Resources\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -36,9 +47,11 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Actions\ViewAction;
 
 use App\Actions\Core\BotBranch\BotBranchEndByAdmin;
+use App\Actions\Core\BotBranch\BotBranchEndMessage;
 use App\Actions\Core\BotBranch\BotBranchSetEndByProducts;
 
 use App\Models\Core\Bot;
+use App\Models\Core\BotUser;
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotBranchAccess;
 use App\Models\Core\BotBranchLinkProduct;
@@ -75,6 +88,8 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
     public static ?string $navigationLabel = "Акция";
     public static ?string $title = "Акция";
     public ?array $data = [];
+
+    public ?array $data_message = [];
     public ?array $data_bot_message_link_listener = [];
     public ?array $data_bot_user = [];
 
@@ -111,6 +126,9 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
 
         if ($id > 0) {
             $data = BotBranch::find($id)->toArray();
+
+            $data_message = BotUser::where('id', $data['id'])->get();
+
             $this->bot_branch_hash = $data["hash"];
             $this->bot_branch_type = $data['bot_branch_type'];
         } else {
@@ -332,7 +350,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         ->visible(auth()->user()->hasPermissionTo('Create:BotBranch')),
 
 
-                Action::make('Cancel')
+                    Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots/'.$this->bot_id.'/branches');
                         })
@@ -345,8 +363,39 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
 
                             return redirect('/admin/bots/'.$this->bot_id.'/branches');
                         })
-                        ->label('Завершить акцию сейчас')
+                        ->label('Завершить акцию без отправки сообщения')
                         ->visible(($this->id > 0 && $this->bot_branch_type == 2) || (auth()->user()->hasPermissionTo('Update:BotBranch')?true:false)),
+                    Action::make('send_message')
+                        ->color('success')
+                        ->label('Отправить сообщение')
+                        ->form([
+                            Forms\Components\Select::make('bot_message_id')
+                                ->label('Сообщение')
+                                ->required()
+                                ->options(
+                                    BotMessage::query()->pluck('name', 'id')
+                                )
+                                ->searchable(),
+                        ])
+                        ->action(function (array $data): void {
+                            $botBranchEndMessageByAdmin = new BotBranchEndMessage();
+                            $botBranchEndMessageByAdmin->handle($this->bot_id, $this->id);
+
+                            $bot_message = BotMessage::with('bot_message_appointment')->where('id', $data['bot_message_id'])->first();
+                            if ($bot_message) {
+                                $botSendMessage = new BotSendMessage();
+                                foreach ($this->data_message as $message) {
+                                    $botSendMessage->handle($message->id, $bot_message->bot_message_appointment->alias);
+
+                                }
+                            }
+                            Notification::make()
+                                ->title('Данные успешно отправлены!')
+                                ->success()
+                                ->send();
+                        })
+                        ->label('Завершить акцию с отправкой сообщения')
+                    //    ->visible(($this->id > 0 && $this->bot_branch_type == 2) || (auth()->user()->hasPermissionTo('Update:BotBranch')?true:false)),
                 ])
             ])->statePath('data');
     }
@@ -384,7 +433,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
             ->recordActions([
                 DeleteAction::make()
                     ->visible(auth()->user()->hasPermissionTo('Delete:BotBranch')),
-        ]);
+            ]);
     }
 
 }
