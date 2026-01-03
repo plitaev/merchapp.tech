@@ -201,8 +201,8 @@ class ConverterController extends Controller
                     'price' => $product->price,
                     'days' => $product->days,
                     'status' => 1,
-                    'recurrent' => $data->recurrent,
-                    'recurrent_status' => $data->recurrent_status,
+                    'recurrent' => 0,
+                    'recurrent_status' => 0,
                     'created_at' => $data->created_at,
                     'updated_at' => $data->updated_at
                 ]);
@@ -214,8 +214,8 @@ class ConverterController extends Controller
                     'days' => $product->days,
                     'gift' => 0,
                     'status' => 0,
-                    'recurrent' => $data->recurrent,
-                    'recurrent_status' => $data->recurrent_status,
+                    'recurrent' => 0,
+                    'recurrent_status' => 0,
                     'created_at' => $data->created_at,
                     'updated_at' => $data->updated_at
                 ]);
