@@ -183,6 +183,7 @@ class ConverterController extends Controller
     }
 
     public function create_pays_from_loverse(int $loverse_product_id, int $new_product_id) {
+        /*
         $payCreateByEmail = new PayCreateByEmail();
 
         $pay_ids = DB::table('loverse.shop_cart_payed')->select('pay_id')->where('product_id', $loverse_product_id)->pluck('pay_id')->toArray();
@@ -221,7 +222,7 @@ class ConverterController extends Controller
                 ]);
             }
         }
-
+        */
     }
 
 }
