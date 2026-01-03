@@ -21,7 +21,7 @@ class TbankController
             if (isset($requestBody['OrderId']) && isset($requestBody['Token'])) {
                 $check_pay = Pay::where('id', $requestBody['OrderId'])->where('status', 1)->first();
 
-                if ($check_pay) {
+                if (!$check_pay) {
                     $payment_method_id = (isset($requestBody['RebillId'])?$requestBody['RebillId']:NULL);
                     $payMakeSuccessful->handle($source, $requestBody['OrderId'], $requestBody['Token'], $payment_method_id, NULL);
                 }
