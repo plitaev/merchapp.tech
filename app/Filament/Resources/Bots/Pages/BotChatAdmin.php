@@ -306,7 +306,7 @@ class BotChatAdmin extends Page implements HasForms
                                 ->label('Сообщение')
                                 ->required()
                                 ->options(
-                                    BotMessage::query()->pluck('name', 'id')
+                                    BotMessage::where('bot_id', $this->bot_id)->pluck('name', 'id')
                                 )
                                 ->searchable()
                         ])
