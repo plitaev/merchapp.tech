@@ -195,7 +195,7 @@ class ConverterController extends Controller
 
             if ($bot_user) {
                 $new = \App\Models\Core\Pay::insert([
-                    'product_id' => $data->product_id,
+                    'product_id' => $new_product_id,
                     'gift' => 0,
                     'bot_user_id' => $bot_user->id,
                     'price' => $product->price,
@@ -208,7 +208,7 @@ class ConverterController extends Controller
                 ]);
             } else {
                 $new = PayGuest::insert([
-                    'product_id' => $data->product_id,
+                    'product_id' => $new_product_id,
                     'email' => $data->email,
                     'price' => $product->price,
                     'days' => $product->days,
