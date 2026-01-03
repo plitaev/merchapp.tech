@@ -17,7 +17,7 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $res = BotUser::where('bot_id', 3)->where('ban', 0)->whereNull('date_end')->get();
+        $res = BotUser::where('bot_id', 3)->where('ban', 0)->where('date_end', '<', '2026-01-03')->get();
         foreach ($res as $data) {
             BotUserBanSchedule::create(
                 [
