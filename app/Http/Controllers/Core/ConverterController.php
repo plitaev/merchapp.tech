@@ -190,7 +190,7 @@ class ConverterController extends Controller
 
         foreach ($res as $data) {
 
-            $bot_user = BotUser::where('email', $data->email)->first();
+            $bot_user = BotUser::where('email', $data->pay_email)->first();
             $product = Product::select('bot_id', 'price', 'days')->find($new_product_id);
 
             if ($bot_user) {
