@@ -182,4 +182,46 @@ class ConverterController extends Controller
         */
     }
 
+    public function create_pays_from_loverse(int $loverse_product_id, int $new_product_id) {
+        $payCreateByEmail = new PayCreateByEmail();
+
+        $pay_ids = DB::table('loverse.shop_cart_payed')->select('pay_id')->where('product_id', $loverse_product_id)->pluck('pay_id')->toArray();
+        $res = DB::table('loverse.shop_pay')->whereIn('pay_id', $pay_ids)->get();
+
+        foreach ($res as $data) {
+
+            $bot_user = BotUser::where('email', $data->email)->first();
+            $product = Product::select('bot_id', 'price', 'days')->find($new_product_id);
+
+            if ($bot_user) {
+                $new = \App\Models\Core\Pay::insert([
+                    'product_id' => $data->product_id,
+                    'gift' => 0,
+                    'bot_user_id' => $bot_user->id,
+                    'price' => $product->price,
+                    'days' => $product->days,
+                    'status' => 1,
+                    'recurrent' => $data->recurrent,
+                    'recurrent_status' => $data->recurrent_status,
+                    'created_at' => $data->created_at,
+                    'updated_at' => $data->updated_at
+                ]);
+            } else {
+                $new = PayGuest::insert([
+                    'product_id' => $data->product_id,
+                    'email' => $data->email,
+                    'price' => $product->price,
+                    'days' => $product->days,
+                    'gift' => 0,
+                    'status' => 0,
+                    'recurrent' => $data->recurrent,
+                    'recurrent_status' => $data->recurrent_status,
+                    'created_at' => $data->created_at,
+                    'updated_at' => $data->updated_at
+                ]);
+            }
+        }
+
+    }
+
 }

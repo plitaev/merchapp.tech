@@ -12,4 +12,5 @@ Route::controller(ConverterController::class)->group(function() {
     Route::get('/converter/ban', 'ban');
 
     Route::get('/converter/load_users_loverse/{tunnel_id_from}/{bot_id_to}', 'load_users_loverse');
+    Route::get('/converter/create_pays_from_loverse/{loverse_product_id}/{new_product_id}', 'create_pays_from_loverse');
 });
