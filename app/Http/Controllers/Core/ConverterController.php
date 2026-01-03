@@ -209,7 +209,7 @@ class ConverterController extends Controller
             } else {
                 $new = PayGuest::insert([
                     'product_id' => $new_product_id,
-                    'email' => $data->email,
+                    'email' => $data->pay_email,
                     'price' => $product->price,
                     'days' => $product->days,
                     'gift' => 0,
