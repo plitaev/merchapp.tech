@@ -155,6 +155,7 @@ class ConverterController extends Controller
     }
 
     public function load_users_loverse(int $tunnel_id_from, int $bot_id_to) {
+        /*
         $in_new = BotUser::select('telegram_chat_id')->where('bot_id', $bot_id_to)->pluck('telegram_chat_id')->toArray();
         $new_users_ids = DB::table('loverse.bot_user_tunnel')
             ->select('telegram_chat_id')
@@ -178,7 +179,7 @@ class ConverterController extends Controller
                 ]);
             }
         }
-
+        */
     }
 
 }
