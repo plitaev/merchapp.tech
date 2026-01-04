@@ -10,6 +10,7 @@ use App\Actions\Core\Pay\PayGetAdditionalData;
 use App\Actions\Core\Pay\PayMakeSuccessful;
 
 use App\Models\Core\BotUserBanSchedule;
+use App\Models\Core\BotUserRecurrentSchedule;
 use App\Models\Core\Product;
 
 class YookassaMakeRecurrent
@@ -63,6 +64,7 @@ class YookassaMakeRecurrent
             $payMakeSuccessful->handle(json_encode($payment), $pay->id, $payment->id, $payment->payment_method->id, $comission);
 
             BotUserBanSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
+            BotUserRecurrentSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
 
         } else {
 
