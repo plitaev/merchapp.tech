@@ -351,25 +351,15 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
 
 
                     Action::make('Cancel')
-                        ->action(function () {
-                            return redirect('/admin/bots/'.$this->bot_id.'/branches');
-                        })
-                        ->label('Вернуться назад'),
-                    Action::make('Stop')
-                        ->action(function () {
-
-                            $botBranchEndByAdmin = new BotBranchEndByAdmin();
-                            $botBranchEndByAdmin->handle($this->bot_id, $this->id);
-
-                            return redirect('/admin/bots/'.$this->bot_id.'/branches');
-                        })
-                        ->label('Завершить акцию без отправки сообщения')
-                        ->visible(($this->id > 0 && $this->bot_branch_type == 2) || (auth()->user()->hasPermissionTo('Update:BotBranch')?true:false)),
+                            ->action(function () {
+                                return redirect('/admin/bots/'.$this->bot_id.'/branches');
+                            })
+                            ->label('Вернуться назад'),
                     Action::make('send_message')
                         ->color('success')
                         ->label('Отправить сообщение')
                         ->form([
-                            Forms\Components\Select::make('bot_message_id')
+                            Select::make('bot_message_id')
                                 ->label('Сообщение')
                                 ->required()
                                 ->options(
@@ -395,7 +385,18 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                 ->send();
                         })
                         ->label('Завершить акцию с отправкой сообщения')
-                    //    ->visible(($this->id > 0 && $this->bot_branch_type == 2) || (auth()->user()->hasPermissionTo('Update:BotBranch')?true:false)),
+                        ->visible(($this->id > 0 && $this->bot_branch_type == 2) || (auth()->user()->hasPermissionTo('Update:BotBranch')?true:false)),
+                    Action::make('Stop')
+                        ->action(function () {
+
+                            $botBranchEndByAdmin = new BotBranchEndByAdmin();
+                            $botBranchEndByAdmin->handle($this->bot_id, $this->id);
+
+                            return redirect('/admin/bots/'.$this->bot_id.'/branches');
+                        })
+                        ->label('Завершить акцию без отправки сообщения')
+                        ->visible(($this->id > 0 && $this->bot_branch_type == 2) || (auth()->user()->hasPermissionTo('Update:BotBranch')?true:false)),
+
                 ])
             ])->statePath('data');
     }
@@ -433,7 +434,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
             ->recordActions([
                 DeleteAction::make()
                     ->visible(auth()->user()->hasPermissionTo('Delete:BotBranch')),
-            ]);
+        ]);
     }
 
 }
