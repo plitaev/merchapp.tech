@@ -47,9 +47,9 @@ class BotUserRepeatRecurrent
                 ]
             );
 
-            $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL');
-
             BotUser::where('id', $data->bot_user_id)->update(['recurrent_repeat' => 1]);
+
+            $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL');
 
         } else {
             $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL_SECOND');
