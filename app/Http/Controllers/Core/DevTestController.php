@@ -17,16 +17,12 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $res = BotUser::where('bot_id', 3)->where('ban', 0)->where('date_end', '<', '2026-01-03')->get();
-        foreach ($res as $data) {
-            BotUserBanSchedule::create(
-                [
-                    'bot_user_id' => $data->id,
-                    'run_status' => 0,
-                    'ban_datetime' => '2026-01-03 07:28:00'
-                ]
-            );
-        }
+        $users_td = Pay::select('bot_user_id')->where('product_id', 27)->where('status', 1)->where('created_at', '>=', '2026-01-03 10:00:00')->groupBy('bot_user_id')->toArray();
+        $fulls_td = Pay::whereNot('product_id', 27)->where('status', 1)->whereIn('bot_user_id', $users_td)->where('created_at', '>=', '2026-01-03 10:00:00')->count();
+        $olds_for_td = Pay::select('bot_user_id')->where('status', 1)->where('created_at', '<', '2026-01-03 10:00:00')->groupBy('bot_user_id')->toArray();
+        $users_td_without_olds = Pay::select('bot_user_id')->where('product_id', 27)->where('status', 1)->where('created_at', '>=', '2026-01-03 10:00:00')->whereNot('bot_user_id', $olds_for_td)->groupBy('bot_user_id')->toArray();
+
+        return count($users_td).' - '.$fulls_td.' - '.count($users_td_without_olds);
 
     }
 
