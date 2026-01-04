@@ -4,6 +4,7 @@ namespace App\Actions\Core\BotUser;
 
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
+use App\Models\Core\BotUserRecurrentSchedule;
 use App\Models\Core\BotUserUnbanSchedule;
 use App\Models\Core\Sending;
 use App\Models\Core\TelegramChatMemberLog;
@@ -24,6 +25,7 @@ class BotUserUnban
                     try {
                         $status = $telegram->unbanChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'only_if_banned' => true]);
                         BotUserBanSchedule::where('bot_user_id', $bot_user->id)->where('run_status', 0)->update(['run_status' => 3]);
+                        BotUserRecurrentSchedule::where('bot_user_id', $bot_user->id)->where('run_status', 0)->update(['run_status' => 3]);
 
                         TelegramUnbanScheduleLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'status' => $status]);
 
