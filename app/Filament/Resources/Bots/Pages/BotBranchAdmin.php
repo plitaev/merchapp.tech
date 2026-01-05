@@ -90,7 +90,6 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
     public ?array $data = [];
 
     public ?array $data_message = [];
-    public ?array $data_bot_message_link_listener = [];
     public ?array $data_bot_user = [];
 
     public ?array $end_by_products = [];
@@ -163,6 +162,7 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
     {
         return ['form'];
     }
+
 
     public function form(Schema $schema): Schema
     {
@@ -349,17 +349,26 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                         })
                         ->visible(auth()->user()->hasPermissionTo('Create:BotBranch')),
 
-
                     Action::make('Cancel')
                             ->action(function () {
                                 return redirect('/admin/bots/'.$this->bot_id.'/branches');
                             })
                             ->label('Вернуться назад'),
+                    Action::make('Stop')
+                        ->action(function () {
+
+                            $botBranchEndByAdmin = new BotBranchEndByAdmin();
+                            $botBranchEndByAdmin->handle($this->bot_id, $this->id);
+
+                            return redirect('/admin/bots/'.$this->bot_id.'/branches');
+                        })
+                        ->label('Завершить акцию без отправки сообщения')
+                        ->visible(($this->id > 0 && $this->bot_branch_type == 2) || (auth()->user()->hasPermissionTo('Update:BotBranch')?true:false)),
                     Action::make('send_message')
                         ->color('success')
-                        ->label('Отправить сообщение')
+                        ->label('Завершить акцию с отправкой сообщения')
                         ->form([
-                            Select::make('bot_message_id')
+                            Forms\Components\Select::make('bot_message_id')
                                 ->label('Сообщение')
                                 ->required()
                                 ->options(
@@ -368,8 +377,9 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                 ->searchable(),
                         ])
                         ->action(function (array $data): void {
-                            $botBranchEndMessageByAdmin = new BotBranchEndMessage();
-                            $botBranchEndMessageByAdmin->handle($this->bot_id, $this->id);
+
+                            $botBranchEndByAdmin = new BotBranchEndByAdmin();
+                            $botBranchEndByAdmin->handle($this->bot_id, $this->id);
 
                             $bot_message = BotMessage::with('bot_message_appointment')->where('id', $data['bot_message_id'])->first();
                             if ($bot_message) {
@@ -380,21 +390,10 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                 }
                             }
                             Notification::make()
-                                ->title('Данные успешно отправлены!')
+                                ->title('Данные успешно сохранены!')
                                 ->success()
                                 ->send();
                         })
-                        ->label('Завершить акцию с отправкой сообщения')
-                        ->visible(($this->id > 0 && $this->bot_branch_type == 2) || (auth()->user()->hasPermissionTo('Update:BotBranch')?true:false)),
-                    Action::make('Stop')
-                        ->action(function () {
-
-                            $botBranchEndByAdmin = new BotBranchEndByAdmin();
-                            $botBranchEndByAdmin->handle($this->bot_id, $this->id);
-
-                            return redirect('/admin/bots/'.$this->bot_id.'/branches');
-                        })
-                        ->label('Завершить акцию без отправки сообщения')
                         ->visible(($this->id > 0 && $this->bot_branch_type == 2) || (auth()->user()->hasPermissionTo('Update:BotBranch')?true:false)),
 
                 ])
