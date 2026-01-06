@@ -254,7 +254,7 @@ class BotPaySystemAdmin extends Page implements HasForms
                             ->disabled(auth()->user()->hasPermissionTo('Update:PaySystem')?false:true),
                     ]),
                 Section::make('ТБанк')
-                    ->description(new HtmlString("<a style='font-weight: bold' href='/tbank/test' target='_blank'>Перейти к тестированию терминала ▶️</a>"))
+                    ->description(new HtmlString("<a style='font-weight: bold' href='/admin/bots/{{$this->id}}/pay-system-test-admin' target='_blank'>Перейти к тестированию терминала ▶️</a>"))
                     ->columns([
                         'sm' => 2,
                         'md' => 2,
