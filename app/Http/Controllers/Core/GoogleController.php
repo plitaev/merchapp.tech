@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Core;
 
+use App\Models\Core\BotUserRecurrentSchedule;
 use App\Models\Core\StatBotUserOnDay;
 use Revolution\Google\Sheets\Facades\Sheets;
 use Carbon\Carbon;
@@ -131,21 +132,11 @@ class GoogleController
 
         $result = [];
 
-        $successes = Pay::select('bot_user_id')
+        $fails = BotUserRecurrentSchedule::select('bot_user_id')
             ->where('created_at', '>=', $datetime_start)
             ->where('created_at', '<=', $datetime_end)
-            ->where('status', 1)
-            ->pluck('bot_user_id')
-            ->toArray();
-
-        $fails = Pay::select('bot_user_id')
-            ->where('created_at', '>=', $datetime_start)
-            ->where('created_at', '<=', $datetime_end)
-            ->where('status', 0)
-            ->where('recurrent', 1)
-            ->where('recurrent_status', 0)
-            ->where('pay_system_id', 2)
-            ->whereNotIn('bot_user_id', $successes)
+            ->where('pay_system_responce', 'LIKE', '%false%')
+            ->groupBy('bot_user_id')
             ->pluck('bot_user_id')
             ->toArray();
 
