@@ -354,17 +354,15 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                 return redirect('/admin/bots/'.$this->bot_id.'/branches');
                             })
                             ->label('Вернуться назад'),
-                    Action::make('Stop')
+                    Action::make('end_without_message')
                         ->action(function () {
-
                             $botBranchEndByAdmin = new BotBranchEndByAdmin();
                             $botBranchEndByAdmin->handle($this->bot_id, $this->id);
-
                             return redirect('/admin/bots/'.$this->bot_id.'/branches');
                         })
                         ->label('Завершить акцию без отправки сообщения')
                         ->visible(($this->id > 0 && $this->bot_branch_type == 2) || (auth()->user()->hasPermissionTo('Update:BotBranch')?true:false)),
-                    Action::make('send_message')
+                    Action::make('end_with_message')
                         ->color('success')
                         ->label('Завершить акцию с отправкой сообщения')
                         ->form([
@@ -377,18 +375,20 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
                                 ->searchable(),
                         ])
                         ->action(function (array $data): void {
-
                             $botBranchEndByAdmin = new BotBranchEndByAdmin();
-                            $botBranchEndByAdmin->handle($this->bot_id, $this->id);
+                            $botSendMessage = new BotSendMessage();
 
                             $bot_message = BotMessage::with('bot_message_appointment')->where('id', $data['bot_message_id'])->first();
                             if ($bot_message) {
-                                $botSendMessage = new BotSendMessage();
-                                foreach ($this->data_message as $message) {
-                                    $botSendMessage->handle($message->id, $bot_message->bot_message_appointment->alias);
 
+                                $bot_users = BotUser::where('bot_branch_id', $this->id)->get();
+                                foreach ($bot_users as $bot_user) {
+                                    $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);
                                 }
                             }
+
+                            $botBranchEndByAdmin->handle($this->bot_id, $this->id);
+
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
                                 ->success()
