@@ -380,7 +380,6 @@ class BotBranchAdmin extends Page implements HasForms, HasTable, HasInfolists
 
                             $bot_message = BotMessage::with('bot_message_appointment')->where('id', $data['bot_message_id'])->first();
                             if ($bot_message) {
-
                                 $bot_users = BotUser::where('bot_branch_id', $this->id)->get();
                                 foreach ($bot_users as $bot_user) {
                                     $botSendMessage->handle($bot_user, $bot_message->bot_message_appointment->alias);

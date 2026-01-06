@@ -77,6 +77,10 @@ class BotPaySystemTestAdmin extends Page implements HasForms
         if (!Auth::user()->hasPermissionTo('View:PaySystem')) {
             redirect('/admin/bots/access');
         }
+
+        $data = [];
+        $this->form->fill($data);
+
     }
 
     public function getHeading(): string
@@ -134,14 +138,6 @@ class BotPaySystemTestAdmin extends Page implements HasForms
                 Actions::make([
                     Action::make('Оплатить')
                         ->action(function () {
-                            $data = $this->form->getState();
-
-                            Notification::make()
-                                ->title('Данные успешно сохранены!')
-                                ->success()
-                                ->send();
-                            
-
                         })
                         ->visible(auth()->user()->hasPermissionTo('Create:Bot'))
                 ])
