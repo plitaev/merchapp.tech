@@ -56,8 +56,8 @@ class DevTestController extends Controller
         $Adates_end=[];
 
         foreach ($alldays as $allday) {
-            $Adates_start[]=Carbon::parse($allday->created_at)->format('Y-m-d');
-            $Adates_end[]=Carbon::parse($allday->created_at)->addDays($allday->days)->format('Y-m-d');
+            $Adates_start[]=$allday->created_at;
+            $Adates_end[]=$allday->created_at->addDays($allday->days);
         }
 
         $days_to_add=0;
@@ -67,7 +67,7 @@ class DevTestController extends Controller
             $next_pos=$k+1;
             if (isset($Adates_start[$next_pos])) {
                 if ($Adates_start[$next_pos] < $date) {
-                    $diff_days=Carbon::parse($Adates_start[$next_pos])->startOfDay()->diffInDays($date);
+                    $diff_days=$Adates_start[$next_pos]->startOfDay()->diffInDays($date);
                     $diff_days = round($diff_days);
                     if ($diff_days>0) {
                         $kgf[] = $diff_days;
