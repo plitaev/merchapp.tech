@@ -52,7 +52,7 @@ class DateEndNew
                     $diff_days=$Adates_start[$next_pos]->startOfDay()->diffInDays($date);
                     if ($diff_days>0) {
                         $days_to_add=$days_to_add+$diff_days;
-                        $Adates_end[$next_pos]=$Adates_end[$next_pos]->addDay($diff_days)->subDays(1);
+                        $Adates_end[$next_pos]=$Adates_end[$next_pos]->addDay($diff_days);
                     }
                 }
             }

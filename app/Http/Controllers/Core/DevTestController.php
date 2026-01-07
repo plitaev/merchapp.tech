@@ -17,7 +17,7 @@ use App\Actions\Core\DateEnd\DateEndNew;
 class DevTestController extends Controller
 {
     public function devtest() {
-        /*
+
         $dateEndNew = new DateEndNew();
 
         $bot_users = BotUser::where('run_status', 0)->get();
@@ -25,10 +25,10 @@ class DevTestController extends Controller
             $dateEndNew->handle($bot_user, 'Y-m-d');
             BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
         }
-        */
 
-        $bot_users = BotUser::all();
-        return view('core.devtest.devtest', ['bot_users' => $bot_users]);
+
+        //$bot_users = BotUser::all();
+        //return view('core.devtest.devtest', ['bot_users' => $bot_users]);
 
     }
 }
