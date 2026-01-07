@@ -28,7 +28,7 @@ class DevTestController extends Controller
         */
 
         $bot_users = BotUser::all();
-        return view('devtest', ['bot_users' => $bot_users]);
+        return view('core.devtest.devtest', ['bot_users' => $bot_users]);
 
     }
 }
