@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers\Core;
 
+use Carbon\Carbon;
+
 use App\Http\Controllers\Controller;
 
 use App\Models\Core\BotUser;
@@ -17,6 +19,9 @@ use App\Actions\Core\DateEnd\DateEndNew;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        return Carbon::parse('2025-08-24 00:00:00')->addDays(151)->format('d.m.Y');
+
         $dateEndNew = new DateEndNew();
 
         $alldays = Pay::select('days', 'created_at', 'updated_at')->where('bot_user_id', 1)->orderBy('created_at')->get();
