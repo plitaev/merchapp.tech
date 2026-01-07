@@ -24,7 +24,7 @@ class DevTestController extends Controller
         $result = [];
 
         foreach ($alldays as $allday) {
-            $result[] = $allday->created_at.' - '.$allday->created_at->addDays($allday->days);
+            $result[] = $allday->created_at.' - '.$allday->created_at->addDays($allday->days)->subDays(1);
         }
 
         return $result;
