@@ -55,8 +55,8 @@ class DevTestController extends Controller
         $Adates_end=[];
 
         foreach ($alldays as $allday) {
-            $Adates_start[]=$allday->created_at;
-            $Adates_end[]=$allday->created_at->addDays($allday->days);
+            $Adates_start[]=Carbon::parse($allday->created_at)->format('Y-m-d');
+            $Adates_end[]=Carbon::parse($allday->created_at)->addDays($allday->days)->format('Y-m-d');
         }
 
         $days_to_add=0;
@@ -77,7 +77,7 @@ class DevTestController extends Controller
             }
         }
 
-        //return $kgf;
+        return $kgf;
 
         foreach ($Adates_end as $date) {
             $date_end=$date;
