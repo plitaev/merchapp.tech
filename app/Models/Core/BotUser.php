@@ -40,6 +40,7 @@ class BotUser extends Model
         'listen_phone_status',
         'listen_phone_status_timestamp',
         'date_end',
+        'date_end_new',
         'sys_welcome_message_status',
         'sys_welcome_message_status_timestamp',
         'sys_go_to_pay_status',
