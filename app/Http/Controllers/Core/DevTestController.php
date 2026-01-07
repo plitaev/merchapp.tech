@@ -30,6 +30,7 @@ class DevTestController extends Controller
                 $query->where('bot_id', $bot_user->bot_id);
             })
             ->where('bot_user_id', $bot_user->id)
+            ->whereIn('id', [24746])
             ->where('gift', 0)
             ->where('status', 1)
             ->get();
