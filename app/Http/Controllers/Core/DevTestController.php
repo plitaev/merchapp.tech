@@ -60,6 +60,7 @@ class DevTestController extends Controller
         }
 
         $days_to_add=0;
+        $kgf = [];
 
         foreach ($Adates_end as $k=>$date) {
             $next_pos=$k+1;
@@ -67,12 +68,15 @@ class DevTestController extends Controller
                 if ($Adates_start[$next_pos] < $date) {
                     $diff_days=$Adates_start[$next_pos]->startOfDay()->diffInDays($date);
                     if ($diff_days>0) {
+                        $kgf[] = $diff_days;
                         $days_to_add=$days_to_add+$diff_days;
                         $Adates_end[$next_pos]=$Adates_end[$next_pos]->addDay($diff_days);
                     }
                 }
             }
         }
+
+        return $kgf;
 
         foreach ($Adates_end as $date) {
             $date_end=$date;
