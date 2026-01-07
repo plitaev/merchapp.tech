@@ -17,15 +17,25 @@ use App\Actions\Core\DateEnd\DateEndNew;
 class DevTestController extends Controller
 {
     public function devtest() {
-
         $dateEndNew = new DateEndNew();
 
+        $alldays = Pay::select('days', 'created_at', 'updated_at')->where('bot_user_id', 1)->orderBy('created_at')->get();
+
+        $result = [];
+
+        foreach ($alldays as $allday) {
+            $result[] = $allday->created_at.' - '.$allday->created_at->addDays($allday->days);
+        }
+
+        return $result;
+
+        /*
         $bot_users = BotUser::where('run_status', 0)->get();
         foreach ($bot_users as $bot_user) {
             $dateEndNew->handle($bot_user, 'Y-m-d');
             BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
         }
-
+        */
 
         //$bot_users = BotUser::all();
         //return view('core.devtest.devtest', ['bot_users' => $bot_users]);
