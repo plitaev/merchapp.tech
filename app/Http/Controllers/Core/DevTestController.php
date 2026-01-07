@@ -26,5 +26,9 @@ class DevTestController extends Controller
             BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
         }
         */
+
+        $bot_users = BotUser::all();
+        return view('devtest', ['bot_users' => $bot_users]);
+
     }
 }
