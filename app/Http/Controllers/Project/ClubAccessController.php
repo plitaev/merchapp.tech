@@ -28,7 +28,6 @@ use App\Actions\Project\ClubAccess\BotEmailVerification;
 use App\Actions\Project\ClubAccess\BotGoToClub;
 use App\Actions\Project\ClubAccess\BotHandName;
 use App\Actions\Project\ClubAccess\BotListenerEmail;
-use App\Actions\Project\ClubAccess\BotListenerPayCount;
 use App\Actions\Project\ClubAccess\BotListenerPhone;
 use App\Actions\Project\ClubAccess\BotMainMenuMessage;
 use App\Actions\Project\ClubAccess\BotRequestAndConfirmEmail;
@@ -68,7 +67,6 @@ class ClubAccessController extends Controller
         $botGoToClub = new BotGoToClub();
         $botHandName = new BotHandName();
         $botListenerEmail = new BotListenerEmail();
-        $botListenerPayCount = new BotListenerPayCount();
         $botListenerPhone = new BotListenerPhone();
         $botMainMenuMessage = new BotMainMenuMessage();
         $botResetUser = new BotResetUser();
@@ -195,7 +193,6 @@ class ClubAccessController extends Controller
 
             //== Обрабатываем листенеры
             $botListenerEmail->handle($webhook, $bot_user); //== Проверяем, ожидает ли юзер ввода почты
-            $botListenerPayCount->handle($webhook, $bot_user);
             $botListenerPhone->handle($webhook, $bot_user);
 
             //== Запускаем основной скрипт клуба

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\BotUserPrice;
-use App\Models\Core\GetcourseWebhookTicket;
 use App\Models\Core\Product;
 use Illuminate\Support\Facades\DB;
 use Telegram\Bot\Api;
@@ -25,9 +24,4 @@ class DevTestController extends Controller
         return count($users_td).' - '.count($fulls_td).' - '.count($users_td_without_olds);
 
     }
-
-    public function paycounts() {
-
-    }
-
 }
