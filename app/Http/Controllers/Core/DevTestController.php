@@ -66,7 +66,7 @@ class DevTestController extends Controller
             $next_pos=$k+1;
             if (isset($Adates_start[$next_pos])) {
                 if ($Adates_start[$next_pos] < $date) {
-                    $diff_days=$Adates_start[$next_pos]->startOfDay()->diffInDays($date);
+                    $diff_days=Carbon::parse($Adates_start[$next_pos])->startOfDay()->diffInDays($date);
                     $diff_days = round($diff_days);
                     if ($diff_days>0) {
                         $kgf[] = $diff_days;
