@@ -140,6 +140,8 @@ class GoogleController
             ->pluck('bot_user_id')
             ->toArray();
 
+        return $fails;
+
         $res = BotUser::whereIn('id', $fails)->get();
 
         foreach ($res as $data) {
