@@ -125,7 +125,6 @@ class GoogleController
 
     public function send_recurrent_fail_prodamus() {
         $date = date('Y-m-d', time());
-        $date = '2026-01-07';
         $datetime_start = $date.' 00:00:00';
         $datetime_end = $date.' 23:59:59';
 
@@ -149,7 +148,7 @@ class GoogleController
                 ($data->first_name != 'none'?$data->first_name:''),
                 ($data->last_name != 'none'?$data->last_name:''),
                 ($data->username != 'none'?$data->username:''),
-                '07.01.2026'
+                '08.01.2026'
             ];
 
             $result[] = $A;
