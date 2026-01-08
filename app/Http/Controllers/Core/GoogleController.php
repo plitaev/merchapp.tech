@@ -125,7 +125,7 @@ class GoogleController
 
     public function send_recurrent_fail_prodamus() {
         $date = date('Y-m-d', time());
-        $date = '2026-01-07';
+        $date = '2026-01-06';
         $datetime_start = $date.' 00:00:00';
         $datetime_end = $date.' 23:59:59';
 
@@ -134,8 +134,8 @@ class GoogleController
         $result = [];
 
         $fails = BotUserRecurrentSchedule::select('bot_user_id')
-            ->where('created_at', '>=', $datetime_start)
-            ->where('created_at', '<=', $datetime_end)
+            ->where('recurrent_datetime', '>=', $datetime_start)
+            ->where('recurrent_datetime', '<=', $datetime_end)
             ->where('pay_system_responce', 'LIKE', '%false%')
             ->groupBy('bot_user_id')
             ->pluck('bot_user_id')
@@ -149,7 +149,7 @@ class GoogleController
                 ($data->first_name != 'none'?$data->first_name:''),
                 ($data->last_name != 'none'?$data->last_name:''),
                 ($data->username != 'none'?$data->username:''),
-                '07.01.2026'
+                '06.01.2026'
             ];
 
             $result[] = $A;
