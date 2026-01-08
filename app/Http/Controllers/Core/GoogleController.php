@@ -143,8 +143,6 @@ class GoogleController
 
         $res = BotUser::whereIn('id', $fails)->get();
 
-        return $res;
-
         foreach ($res as $data) {
             $A = [
                 (isset($data->email)?$data->email:''),
