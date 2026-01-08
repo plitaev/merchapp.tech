@@ -148,7 +148,7 @@ class GoogleController
                 ($data->first_name != 'none'?$data->first_name:''),
                 ($data->last_name != 'none'?$data->last_name:''),
                 ($data->username != 'none'?$data->username:''),
-                '08.01.2026'
+                date('d.m.Y', time())
             ];
 
             $result[] = $A;
