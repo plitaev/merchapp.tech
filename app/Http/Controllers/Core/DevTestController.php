@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\BotUserPrice;
+use App\Models\Core\GetcourseWebhookTicket;
 use App\Models\Core\Product;
 use Illuminate\Support\Facades\DB;
 use Telegram\Bot\Api;
@@ -94,4 +95,9 @@ class DevTestController extends Controller
 
 
     }
+
+    public function paycounts() {
+
+    }
+
 }

@@ -10,7 +10,6 @@ use App\Actions\Core\DateEnd\DateEnd;
 use App\Actions\Core\ReferralProgram\ReferralBuySpecialProduct;
 
 use App\Models\Core\BotUser;
-use App\Models\Core\BotUserRecurrentSchedule;
 use App\Models\Core\Pay;
 
 class PayMakeSuccessful
@@ -46,7 +45,6 @@ class PayMakeSuccessful
         $botUserPriceSet->handle($bot_user);
 
         BotUser::where('id', $bot_user->id)->update(['recurrent_repeat' => 0]);
-        BotUserRecurrentSchedule::where('bot_user_id', $bot_user->id)->where('run_status', 0)->update(['run_status' => 3]);
 
         //== Обрабатываем продукт в реферальной ветке
         $referralBuySpecialProduct->handle($pay);

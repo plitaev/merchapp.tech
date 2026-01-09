@@ -50,6 +50,7 @@ class PayController
                 ->find($bot_user->bot_id);
 
             $price = $product->price;
+            if (isset($bot_user->pay_count) && $bot_user->pay_count > 1) $price = $price * $bot_user->pay_count;
 
             $hash = $price.'00'.$product->description.$pay->id.$bot->tbank_terminal_password.'Y'.$bot->tbank_terminal_key;
             $hash = hash('sha256', $hash);
@@ -85,6 +86,7 @@ class PayController
                 ->find($bot_user->bot_id);
 
             $price = $product->price;
+            if (isset($bot_user->pay_count) && $bot_user->pay_count > 1) $price = $price * $bot_user->pay_count;
 
             $receipt='{"sno":"'.$bot->robokassa_tax->code.'","items": [{"name": "'.$product->description.'","quantity": 1,"sum": '.$price.',"payment_method": "'.$bot->robokassa_payment_method->code.'","payment_object": "'.$bot->robokassa_payment_object->code.'","tax": "'.$bot->robokassa_vat->code.'"}]}';
             $receipt = urlencode($receipt);
