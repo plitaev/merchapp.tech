@@ -83,7 +83,7 @@ class DevTestController extends Controller
             }
         }
 
-        return $kgf;
+        //return $kgf;
 
         foreach ($Adates_end as $date) {
             $date_end=$date;
