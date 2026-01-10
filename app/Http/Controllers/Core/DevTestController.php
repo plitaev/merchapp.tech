@@ -74,6 +74,7 @@ class DevTestController extends Controller
                 if ($Adates_start[$next_pos] < $date) {
                     $diff_days=$Adates_start[$next_pos]->startOfDay()->diffInDays($date);
                     $diff_days = round($diff_days, 0);
+                    $diff_days = $diff_days - 1;
                     if ($diff_days>0) {
                         $kgf[] = $diff_days;
                         $days_to_add=$days_to_add+$diff_days;
