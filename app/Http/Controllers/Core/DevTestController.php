@@ -20,84 +20,12 @@ use App\Actions\Core\DateEnd\DateEndNew;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $date_end_new = new DateEndNew();
 
-        $bot_user = BotUser::find(1);
-        $format = 'Y-m-d';
-
-        $A = [24746, 25891, 36884, 47190, 53550, 71154];
-
-        $alldays1 = Pay::with('bot')
-            ->select('id', 'product_id')
-            ->whereHas('bot', function ($query) use ($bot_user) {
-                $query->where('bot_id', $bot_user->bot_id);
-            })
-            ->where('bot_user_id', $bot_user->id)
-            ->where('gift', 0)
-            ->where('status', 1)
-            ->whereIn('id', $A)
-            ->get();
-
-
-        $alldays2 = Pay::with('bot')
-            ->select('id', 'product_id')
-            ->whereHas('bot', function ($query) use ($bot_user) {
-                $query->where('bot_id', $bot_user->bot_id);
-            })
-            ->where('gift_bot_user_id', $bot_user->id)
-            ->where('gift', 1)
-            ->where('status', 1)
-            ->get();
-
-        $alldays = [];
-        foreach ($alldays1 as $allday1) $alldays[] = $allday1->id;
-        foreach ($alldays2 as $allday2) $alldays[] = $allday2->id;
-
-        $alldays = Pay::select('days', 'created_at', 'updated_at')->whereIn('id', $alldays)->orderBy('created_at')->get();
-
-        $Adates_start=[];
-        $Adates_end=[];
-
-        foreach ($alldays as $allday) {
-
-            $Adates_start[]=$allday->created_at;
-            $Adates_end[]=$allday->created_at->addDays($allday->days);
+        $bot_users = BotUser::where('run_status', 0)->get();
+        foreach ($bot_users as $bot_user) {
+            $date_end_new->handle($bot_user, 'Y-m-d');
         }
-
-        $days_to_add=0;
-
-        $kgf = [];
-
-        foreach ($Adates_end as $k=>$date) {
-            $next_pos=$k+1;
-            if (isset($Adates_start[$next_pos])) {
-                if ($Adates_start[$next_pos] < $date) {
-                    $diff_days=$Adates_start[$next_pos]->startOfDay()->diffInDays($date);
-                    $diff_days = floor($diff_days);
-                    if ($diff_days>0) {
-                        $kgf[] = $diff_days;
-                        $days_to_add=$days_to_add+$diff_days;
-                        $Adates_end[$next_pos]=$Adates_end[$next_pos]->addDay($diff_days);
-                    }
-                }
-            }
-        }
-
-        foreach ($Adates_end as $date) {
-            $date_end=$date;
-        }
-
-        return implode(',', $kgf)." | ".$date->format('d.m.Y');
-
-        if (isset($date_end)) {
-            BotUser::where('id', $bot_user->id)->update(['date_end_new' => date('Y-m-d', strtotime($date_end))]);
-            return date($format, strtotime($date_end));
-        } else {
-            BotUser::where('id', $bot_user->id)->update(['date_end_new' => NULL]);
-            return '';
-        }
-
-
-
     }
 
     public function paycounts() {
