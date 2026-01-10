@@ -12,7 +12,7 @@ class BotTemplateMessage extends Model
         'bot_template_id',
         'bot_template_branch_id',
         'bot_message_type_id',
-        'bot_message_appointment_id',
+        'bot_message_appointment_alias',
         'funnel_id',
         'funnel_condition_id',
         'funnel_condition_trigger_id',
