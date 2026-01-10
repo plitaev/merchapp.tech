@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('bot_template_messages', function (Blueprint $table) {
             $table->dropColumn('bot_message_appointment_id');
             $table->string('bot_message_appointment_alias', 255)->after('bot_message_type_id');
         });
