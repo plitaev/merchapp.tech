@@ -84,13 +84,11 @@ class DevTestController extends Controller
             }
         }
 
-        return $kgf;
-
         foreach ($Adates_end as $date) {
             $date_end=$date;
         }
 
-        return $date->format('d.m.Y');
+        return implode(',', $kgf)." | ".$date->format('d.m.Y');
 
         if (isset($date_end)) {
             BotUser::where('id', $bot_user->id)->update(['date_end_new' => date('Y-m-d', strtotime($date_end))]);
