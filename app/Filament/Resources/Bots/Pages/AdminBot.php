@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Bots\Pages;
 use App\Actions\Core\Telegram\TelegramDeleteWebhook;
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotMessage;
+use App\Models\Core\BotMessageAppointment;
 use App\Models\Core\BotMessageButton;
 use App\Models\Core\BotTemplateMessage;
 use App\Models\Core\BotTemplateMessageButton;
@@ -327,10 +328,18 @@ class AdminBot extends Page implements HasForms
 
                                      $newBotTemplateMessages = new BotMessage();
 
+                                     $bot_message_appointment = BotMessageAppointment::select('id')->where('alias', $templateMessage->bot_message_appointment_alias)->first();
+
+                                     if ($bot_message_appointment) {
+                                         $bot_message_appointment_id = $bot_message_appointment->id;
+                                     } else {
+                                         $bot_message_appointment_id = NULL;
+                                     }
+
                                      $newBotTemplateMessages->bot_id = $this->id;
                                      $newBotTemplateMessages->bot_branch_id = $templateMessage['bot_template_branch_id'];
                                      $newBotTemplateMessages->bot_message_type_id = $templateMessage['bot_message_type_id'];
-                                     $newBotTemplateMessages->bot_message_appointment_id = $templateMessage['bot_message_appointment_id'];
+                                     $newBotTemplateMessages->bot_message_appointment_id = $bot_message_appointment_id;
                                      $newBotTemplateMessages->funnel_id = $templateMessage['funnel_id'];
                                      $newBotTemplateMessages->funnel_condition_id = $templateMessage['funnel_condition_id'];
                                      $newBotTemplateMessages->funnel_condition_trigger_id = $templateMessage['funnel_condition_trigger_id'];
@@ -375,7 +384,7 @@ class AdminBot extends Page implements HasForms
 
                                  }
                              }
-                             
+
 
                              Notification::make()
                                  ->title('Данные успешно загружены!')
