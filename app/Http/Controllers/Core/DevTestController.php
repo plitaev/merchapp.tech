@@ -25,7 +25,7 @@ class DevTestController extends Controller
         $format = 'Y-m-d';
 
         $A = [24746, 25891, 36884, 47190, 53550, 71154];
-        $A = [24746, 25891, 36884];
+        $A = [24746, 25891, 36884, 47190];
 
         $alldays1 = Pay::with('bot')
             ->select('id', 'product_id')
