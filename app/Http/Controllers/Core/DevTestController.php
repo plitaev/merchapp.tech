@@ -25,7 +25,6 @@ class DevTestController extends Controller
         $format = 'Y-m-d';
 
         $A = [24746, 25891, 36884, 47190, 53550, 71154];
-        $A = [24746, 25891, 36884, 47190];
 
         $alldays1 = Pay::with('bot')
             ->select('id', 'product_id')
@@ -74,7 +73,6 @@ class DevTestController extends Controller
                 if ($Adates_start[$next_pos] < $date) {
                     $diff_days=$Adates_start[$next_pos]->startOfDay()->diffInDays($date);
                     $diff_days = floor($diff_days);
-                    //$diff_days = $diff_days - 1;
                     if ($diff_days>0) {
                         $kgf[] = $diff_days;
                         $days_to_add=$days_to_add+$diff_days;
