@@ -24,8 +24,7 @@ class DevTestController extends Controller
         $bot_user = BotUser::find(1);
         $format = 'Y-m-d';
 
-        $A = [24746, 25891, 47190, 53550, 71154];
-
+        $A = [24746, 25891, 36884, 47190, 53550, 71154];
 
         $alldays1 = Pay::with('bot')
             ->select('id', 'product_id')
@@ -33,7 +32,6 @@ class DevTestController extends Controller
                 $query->where('bot_id', $bot_user->bot_id);
             })
             ->where('bot_user_id', $bot_user->id)
-            ->whereIn('id', $A)
             ->where('gift', 0)
             ->where('status', 1)
             ->get();
@@ -60,20 +58,17 @@ class DevTestController extends Controller
 
         foreach ($alldays as $allday) {
             $Adates_start[]=$allday->created_at;
-            $Adates_end[]=$allday->created_at->addDays($allday->days);
+            $Adates_end[]=$allday->created_at->addDays($allday->days)->subDays(1);
         }
 
         $days_to_add=0;
-        $kgf = [];
 
         foreach ($Adates_end as $k=>$date) {
             $next_pos=$k+1;
             if (isset($Adates_start[$next_pos])) {
                 if ($Adates_start[$next_pos] < $date) {
                     $diff_days=$Adates_start[$next_pos]->startOfDay()->diffInDays($date);
-                    $diff_days = round($diff_days);
                     if ($diff_days>0) {
-                        $kgf[] = $diff_days;
                         $days_to_add=$days_to_add+$diff_days;
                         $Adates_end[$next_pos]=$Adates_end[$next_pos]->addDay($diff_days);
                     }
@@ -81,12 +76,20 @@ class DevTestController extends Controller
             }
         }
 
-
         foreach ($Adates_end as $date) {
             $date_end=$date;
         }
 
-        return $date_end->format('d.m.Y');
+        return $date->format('d.m.Y');
+
+        if (isset($date_end)) {
+            BotUser::where('id', $bot_user->id)->update(['date_end_new' => date('Y-m-d', strtotime($date_end))]);
+            return date($format, strtotime($date_end));
+        } else {
+            BotUser::where('id', $bot_user->id)->update(['date_end_new' => NULL]);
+            return '';
+        }
+
 
 
     }
