@@ -24,7 +24,7 @@ class DevTestController extends Controller
         $bot_user = BotUser::find(1);
         $format = 'Y-m-d';
 
-        $A = [24746, 25891, 36884, 47190, 53550, 71154];
+        $A = [24746, 25891, 47190, 53550, 71154];
 
 
         $alldays1 = Pay::with('bot')
