@@ -57,8 +57,9 @@ class DevTestController extends Controller
         $Adates_end=[];
 
         foreach ($alldays as $allday) {
+
             $Adates_start[]=$allday->created_at;
-            $Adates_end[]=$allday->created_at->addDays($allday->days)->subDays(1);
+            $Adates_end[]=$allday->created_at->addDays($allday->days);
         }
 
         $days_to_add=0;
