@@ -24,6 +24,8 @@ class DevTestController extends Controller
         $bot_user = BotUser::find(1);
         $format = 'Y-m-d';
 
+        $A = [24746, 25891, 36884, 47190, 53550, 71154];
+
 
         $alldays1 = Pay::with('bot')
             ->select('id', 'product_id')
@@ -31,7 +33,7 @@ class DevTestController extends Controller
                 $query->where('bot_id', $bot_user->bot_id);
             })
             ->where('bot_user_id', $bot_user->id)
-            ->whereIn('id', [24746, 25891])
+            ->whereIn('id', $A)
             ->where('gift', 0)
             ->where('status', 1)
             ->get();
@@ -79,19 +81,12 @@ class DevTestController extends Controller
             }
         }
 
-        return $kgf;
 
         foreach ($Adates_end as $date) {
             $date_end=$date;
         }
 
-        if (isset($date_end)) {
-            BotUser::where('id', $bot_user->id)->update(['date_end_new' => date('Y-m-d', strtotime($date_end))]);
-            return date($format, strtotime($date_end));
-        } else {
-            BotUser::where('id', $bot_user->id)->update(['date_end_new' => NULL]);
-            return '';
-        }
+        return $date_end;
 
 
     }
