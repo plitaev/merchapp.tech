@@ -110,7 +110,7 @@ class ConverterController extends Controller
 
         $dateEnd = new DateEnd();
 
-        $res = BotUser::where('run_status', 0)->get();
+        $res = BotUser::where('bot_id', 2)->where('run_status', 0)->get();
         foreach ($res as $data) {
             $dateEnd->handle($data, 'Y-m-d');
             BotUser::where('id', $data->id)->update(['run_status' => 1]);
