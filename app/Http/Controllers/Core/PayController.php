@@ -105,7 +105,7 @@ class PayController
                 "<input type=hidden name=Description value='".$product->description."'>".
                 "<input type=hidden name=SignatureValue value='".$hash."'>".
                 "<input type=hidden name=Email value=".$bot_user->email.">".
-                "<input type=hidden name=ExpirationDate value=2025-12-31T23:59:59>".
+                "<input type=hidden name=ExpirationDate value=".date('Y', time())."-12-31T23:59:59>".
                 "<input type=hidden name=Receipt value='$receipt'>".
                 "<input type=submit value='Оплатить' style='font-size: 36px'>".
                 "</form></html>";
