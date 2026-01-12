@@ -21,14 +21,14 @@ class ConverterController extends Controller
         /*
         $in_new = BotUser::select('telegram_chat_id')->pluck('telegram_chat_id')->toArray();
 
-        //$res = DB::table('secondbot.telegram_chats')->where('chat_id', '>', 0)->get();
-        $res = DB::table('secondbot.telegram_chats')->whereNotIn('chat_id', $in_new)->get();
+        $res = DB::table('kovalchuk_club2.telegram_chats')->where('chat_id', '>', 0)->get();
+        //$res = DB::table('kovalchuk_club2.telegram_chats')->whereNotIn('chat_id', $in_new)->get();
         foreach ($res as $data) {
 
             if ($data->chat_id > 0) {
                 BotUser::create([
                     'telegram_chat_id' => $data->chat_id,
-                    'bot_id' => 1,
+                    'bot_id' => 2,
                     'first_name' => $data->first_name,
                     'last_name' => $data->last_name,
                     'username' => $data->username,
@@ -42,14 +42,14 @@ class ConverterController extends Controller
 
     public function load_getcourse_webhooks() {
         /*
-        $products = Product::all();
+        $products = Product::where('bot_id', 2)->get();
         $Aproducts = [];
 
         foreach ($products as $product) {
             $Aproducts[$product->days] = $product->id;
         }
 
-        $res = DB::table('secondbot.getcourse_callback')->where('days', '>', 0)->where('created_at', '>', '2025-09-17 15:49:57')->get();
+        $res = DB::table('kovalchuk_club2.getcourse_callback')->where('days', '>', 0)->get();
         foreach ($res as $data) {
             GetcourseWebhook::insert([
                 'product_id' => $Aproducts[$data->days],
@@ -69,7 +69,7 @@ class ConverterController extends Controller
         /*
         $payCreateByEmail = new PayCreateByEmail();
 
-        $res = GetcourseWebhook::where('created_at', '>', '2025-09-17 15:49:57')->get();
+        $res = GetcourseWebhook::all();
         foreach ($res as $data) {
 
             $bot_user = BotUser::where('email', $data->email)->first();
@@ -110,7 +110,7 @@ class ConverterController extends Controller
 
         $dateEnd = new DateEnd();
 
-        $res = BotUser::where('run_status', 0)->get();
+        $res = BotUser::where('bot_id', 2)->where('run_status', 0)->get();
         foreach ($res as $data) {
             $dateEnd->handle($data, 'Y-m-d');
             BotUser::where('id', $data->id)->update(['run_status' => 1]);
@@ -146,7 +146,7 @@ class ConverterController extends Controller
 
     public function ban() {
         /*
-        $res = DB::table('secondbot.telegram_banneds')->get();
+        $res = DB::table('kovalchuk_club2.telegram_banneds')->get();
         foreach ($res as $data) {
             BotUser::where('telegram_chat_id', $data->chat_id)->whereNull('date_end')->update(['ban' => 1, 'ban_time' => $data->created_at]);
             BotUser::where('telegram_chat_id', $data->chat_id)->where('date_end', '<', date('Y-m-d', time()))->whereNotNull('date_end')->update(['ban' => 1, 'ban_time' => $data->created_at]);
