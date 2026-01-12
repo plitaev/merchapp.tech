@@ -42,7 +42,7 @@ class ConverterController extends Controller
 
     public function load_getcourse_webhooks() {
 
-        $products = Product::all();
+        $products = Product::where('bot_id', 2)->get();
         $Aproducts = [];
 
         foreach ($products as $product) {
