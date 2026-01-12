@@ -49,10 +49,10 @@ class ConverterController extends Controller
             $Aproducts[$product->days] = $product->id;
         }
 
-        $res = DB::table('kovalchuk_club2.getcourse_callback')->where('days', '>', 0)->where('created_at', '>', '2025-09-17 15:49:57')->get();
+        $res = DB::table('kovalchuk_club2.getcourse_callback')->where('days', '>', 0)->get();
         foreach ($res as $data) {
             GetcourseWebhook::insert([
-                'product_id' => 6,
+                'product_id' => $Aproducts[$data->days],
                 'getcourse_id' => $data->getcourse_id,
                 'name' => $data->name,
                 'email' => $data->email,
