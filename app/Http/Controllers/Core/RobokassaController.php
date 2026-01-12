@@ -1,6 +1,7 @@
 <?php
-
 namespace App\Http\Controllers\Core;
+
+use App\Models\Core\Pay;
 
 use App\Actions\Core\Pay\PayMakeSuccessful;
 use App\Actions\Core\PaySystemCallback\PaySystemCallbackCreate;
@@ -31,7 +32,12 @@ class RobokassaController
         $paySystemCallbackCreate->handle($result, 'robokassa');
 
         $requestBody = json_decode($result, true);
-        $payMakeSuccessful->handle($result, $requestBody['inv_id'], NULL, NULL, $requestBody['Fee']);
+
+        $check_pay = Pay::where('id', $requestBody['inv_id'])->where('status', 1)->first();
+
+        if (!$check_pay) {
+            $payMakeSuccessful->handle($result, $requestBody['inv_id'], NULL, NULL, $requestBody['Fee']);
+        }
 
     }
 }
