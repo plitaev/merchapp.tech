@@ -322,7 +322,7 @@ class BotChatAdmin extends Page implements HasForms
                         })
                         ->visible(fn() => auth()->user()->can('Update:BotUser')),
                     Action::make('change_user')
-                        ->label('Сменить пользователя')
+                        ->label('Сменить Telegram-аккаунт пользователя')
                         ->color('danger')
                         ->requiresConfirmation()
                         ->action(function () {
