@@ -21,6 +21,18 @@ class DevTestController extends Controller
 {
     public function devtest() {
         $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->get();
+        $A = [];
+        foreach ($bot_users as $bot_user) {
+            $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->orderByDesc('id')->first();
+            if ($pay) {
+                if ($pay->product_id == 2 || $pay->product_id == 3) {
+                    $A[] = $bot_user->id;
+                }
+            }
+        }
+
+        $bot_users = BotUser::whereIn('id', $A)->get();
+
         return view('core.devtest.devtest', ['bot_users' => $bot_users]);
 
         /*
