@@ -17,6 +17,7 @@
         <tr>
             <td>{{$bot_user->first_name}}</td>
             <td>{{$bot_user->last_name}}</td>
+            <td>{{$bot_user->username}}</td>
             <td>{{$bot_user->email}}</td>
             <td>
                 @if (isset($bot_user->date_end))

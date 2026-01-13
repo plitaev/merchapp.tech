@@ -20,6 +20,9 @@ use App\Actions\Core\DateEnd\DateEndNew;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->get();
+        return view('core.devtest.devtest', ['bot_users' => $bot_users]);
+
         /*
         $date_end_new = new DateEndNew();
 
