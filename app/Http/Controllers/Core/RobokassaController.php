@@ -62,6 +62,7 @@ class RobokassaController
         $receipt = urlencode($receipt);
 
         $hash = $bot->robokassa_merchant_login.":".$price.":".$pay->id.":".$receipt.":".$bot->robokassa_merchant_password;
+        return $hash;
         $hash=md5($hash);
 
         return
