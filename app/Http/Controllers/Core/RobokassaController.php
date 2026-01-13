@@ -78,7 +78,7 @@ class RobokassaController
         $product = Product::find(6);
         $pay = Pay::find(28034);
 
-        $price = 50;
+        $price = 300;
         if (isset($bot_user->pay_count) && $bot_user->pay_count > 1) $price = $price * $bot_user->pay_count;
 
         $receipt='{"sno":"'.$bot->robokassa_tax->code.'","items": [{"name": "'.$product->description.'","quantity": 1,"sum": '.$price.',"payment_method": "'.$bot->robokassa_payment_method->code.'","payment_object": "'.$bot->robokassa_payment_object->code.'","tax": "'.$bot->robokassa_vat->code.'"}]}';
