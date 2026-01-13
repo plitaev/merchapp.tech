@@ -74,6 +74,7 @@ class RobokassaController
             "<input type='text' name='PreviousInvoiceID' value='28028'>".
             "<input type='text' name='SignatureValue' value='".$hash."'>".
             "<input type='text' name='OutSum' value='".$price."'>".
+            "<input type='text' name='Receipt' value='".$receipt."'>".
             "<input type='text' name='Description' value='".$product->description."'>".
             "<input type='submit' value='Повторить платёж'>".
             "</form></html>";
