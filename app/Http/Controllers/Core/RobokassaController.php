@@ -38,7 +38,7 @@ class RobokassaController
         $check_pay = Pay::where('id', $requestBody['inv_id'])->where('status', 1)->first();
 
         if (!$check_pay) {
-            $payMakeSuccessful->handle($result, $requestBody['inv_id'], NULL, NULL, $requestBody['Fee']);
+            $payMakeSuccessful->handle($result, $requestBody['inv_id'], $requestBody['SignatureValue'], $requestBody['inv_id'], $requestBody['Fee']);
         }
 
     }

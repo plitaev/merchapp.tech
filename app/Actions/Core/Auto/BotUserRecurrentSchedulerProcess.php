@@ -15,6 +15,12 @@ class BotUserRecurrentSchedulerProcess
         $yookassaMakeRecurrent = new YookassaMakeRecurrent();
 
         $res = BotUserRecurrentSchedule::with('prevous_pay:id,pay_system_payment_method_id,product_id')
+            ->with('bot.tbank_tax')
+            ->with('bot.tbank_taxation')
+            ->with('bot.robokassa_vat')
+            ->with('bot.robokassa_payment_object')
+            ->with('bot.robokassa_payment_method')
+            ->with('bot.robokassa_tax')
             ->with('bot.prodamus_payment_method')
             ->with('bot.prodamus_payment_object')
             ->with('bot.prodamus_tax')
