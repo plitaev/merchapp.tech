@@ -29,6 +29,7 @@ class BotUserRecurrentSchedulerProcess
             ->with('bot.yookassa_payment_mode')
             ->with('bot.yookassa_payment_subject')
             ->with('bot_user')
+            ->with('bot')
             ->with('paysystem')
             ->with('product')
             ->select('id', 'bot_user_recurrent_schedules.id', 'prevous_pay_id', 'bot_user_id')

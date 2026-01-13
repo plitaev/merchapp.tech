@@ -32,6 +32,30 @@ class RobokassaMakeRecurrent
         $pay = $payCreateIntoBot->handle($data->bot_user, $product, $additional_data);
         if (!$pay) return ["new_pay_id" => NULL, "pay_system_responce" => '{"error":"prevous_pay_not_found"}'];
 
+        $receipt='{"sno":"'.$data->robokassa_tax->code.'","items": [{"name": "'.$product->description.'","quantity": 1,"sum": '.$prices[$product->id].',"payment_method": "'.$data->robokassa_payment_method->code.'","payment_object": "'.$data->robokassa_payment_object->code.'","tax": "'.$data->robokassa_vat->code.'"}]}';
+        $receipt = urlencode($receipt);
+
+        $hash = $data->bot->robokassa_merchant_login.":".$prices[$product->id].":".$pay->id.":".$receipt.":".$data->bot->robokassa_merchant_password;
+        $hash=md5($hash);
+
+        $curl = curl_init();
+
+        $data = array(
+            'MerchantLogin' => $data->bot->robokassa_merchant_login,
+            'InvoiceID' => $pay->id,
+            'PreviousInvoiceID' => $data->prevous_pay->pay_system_payment_method_id,
+            'SignatureValue' => $hash
+        );
+
+        curl_setopt($curl, CURLOPT_URL, 'https://auth.robokassa.ru/Merchant/Recurring');
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+        $result = curl_exec($curl);
+
+        curl_close($curl);
+
         if ($payment->status == "succeeded") {
 
             if (isset($payment->amount->value) && isset($payment->income_amount->value)) {

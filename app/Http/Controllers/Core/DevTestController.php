@@ -20,13 +20,13 @@ use App\Actions\Core\DateEnd\DateEndNew;
 class DevTestController extends Controller
 {
     public function devtest() {
-        /*
+
         $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->get();
         $A = [];
         foreach ($bot_users as $bot_user) {
-            $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->orderByDesc('id')->first();
+            $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->whereIn('product_id', [2, 3])->get();
             if ($pay) {
-                if ($pay->product_id == 2 || $pay->product_id == 3) {
+                if (count($pay) > 0) {
                     $A[] = $bot_user->id;
                 }
             }
@@ -35,7 +35,7 @@ class DevTestController extends Controller
         $bot_users = BotUser::whereIn('id', $A)->get();
 
         return view('core.devtest.devtest', ['bot_users' => $bot_users]);
-        */
+
         /*
         $date_end_new = new DateEndNew();
 
@@ -51,6 +51,7 @@ class DevTestController extends Controller
             BotUserPrice::create(['bot_user_id' => $bot_user->id, 'product_id' => 6, 'price' => 990]);
         }
         */
+
     }
 
     public function paycounts() {
