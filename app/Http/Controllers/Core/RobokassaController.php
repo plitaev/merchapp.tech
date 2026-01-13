@@ -48,22 +48,7 @@ class RobokassaController
 
         $source = file_get_contents('php://input');
 
-        $result_k = [];
-        $result_v = [];
-
-        $A = explode('&', $source);
-        foreach ($A as $value) {
-            $AA = explode('=', $value);
-            foreach ($AA as $k => $v) {
-                if ($k == 0) $result_k[] = $v;
-                if ($k == 1) $result_v[] = $v;
-            }
-        }
-
-        $result = array_combine($result_k, $result_v);
-        $result = json_encode($result, JSON_UNESCAPED_UNICODE);
-
-        $paySystemCallbackCreate->handle($result, 'robokassa');
+        $paySystemCallbackCreate->handle($source, 'robokassa');
     }
 
     public function robokassa_recurrent() {
