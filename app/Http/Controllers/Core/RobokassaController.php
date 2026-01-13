@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Core;
 
+use App\Models\Core\Bot;
 use App\Models\Core\Pay;
 
 use App\Actions\Core\Pay\PayMakeSuccessful;
@@ -40,4 +41,39 @@ class RobokassaController
         }
 
     }
+
+    public function robokassa_recurrent() {
+
+        $bot = Bot::query()
+            ->with('robokassa_tax')
+            ->with('robokassa_payment_method')
+            ->with('robokassa_payment_object')
+            ->with('robokassa_vat')
+            ->find(11529);
+
+        $product = Product::find(6);
+        $pay = Pay::find(28030);
+
+        $price = $product->price;
+        if (isset($bot_user->pay_count) && $bot_user->pay_count > 1) $price = $price * $bot_user->pay_count;
+
+        $receipt='{"sno":"'.$bot->robokassa_tax->code.'","items": [{"name": "'.$product->description.'","quantity": 1,"sum": '.$price.',"payment_method": "'.$bot->robokassa_payment_method->code.'","payment_object": "'.$bot->robokassa_payment_object->code.'","tax": "'.$bot->robokassa_vat->code.'"}]}';
+        $receipt = urlencode($receipt);
+
+        $hash = $bot->robokassa_merchant_login.":".$price.":".$pay->id.":".$receipt.":".$bot->robokassa_merchant_password;
+        $hash=md5($hash);
+
+        return
+            "<!DOCTYPE html>".
+            "<html>".
+            "<form action='https://auth.robokassa.ru/Merchant/Recurring' method='POST'>".
+            "<input type='hidden' name='MerchantLogin' value='".$bot->robokassa_merchant_login."'>".
+            "<input type='hidden' name='InvoiceID' value='".$pay->id."'>".
+            "<input type='hidden' name='PreviousInvoiceID' value='28028'>".
+            "<input type='hidden' name='SignatureValue' value='".$hash."'>".
+            "<input type='hidden' name='OutSum' value='".$price."'>".
+            "<input type='hidden' name='Description' value='Повторить оплату'>".
+            "</form></html>";
+    }
+
 }
