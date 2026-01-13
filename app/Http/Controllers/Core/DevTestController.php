@@ -20,6 +20,7 @@ use App\Actions\Core\DateEnd\DateEndNew;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
         $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->get();
         $A = [];
         foreach ($bot_users as $bot_user) {
@@ -34,7 +35,7 @@ class DevTestController extends Controller
         $bot_users = BotUser::whereIn('id', $A)->get();
 
         return view('core.devtest.devtest', ['bot_users' => $bot_users]);
-
+        */
         /*
         $date_end_new = new DateEndNew();
 
@@ -50,7 +51,6 @@ class DevTestController extends Controller
             BotUserPrice::create(['bot_user_id' => $bot_user->id, 'product_id' => 6, 'price' => 990]);
         }
         */
-
     }
 
     public function paycounts() {
