@@ -98,16 +98,17 @@ class PayController
             return
                 "<!DOCTYPE html>".
                 "<html>".
-                "<form action='https://auth.robokassa.ru/Merchant/Index.aspx' method=POST>".
-                "<input type=hidden name=MerchantLogin value=".$bot->robokassa_merchant_login.">".
-                "<input type=hidden name=OutSum value=".$price.">".
-                "<input type=hidden name=InvId value=".$pay->id.">".
-                "<input type=hidden name=Description value='".$product->description."'>".
-                "<input type=hidden name=SignatureValue value='".$hash."'>".
-                "<input type=hidden name=Email value=".$bot_user->email.">".
-                "<input type=hidden name=ExpirationDate value=".date('Y', time())."-12-31T23:59:59>".
-                "<input type=hidden name=Receipt value='$receipt'>".
-                "<input type=submit value='Оплатить' style='font-size: 56px'>".
+                "<form action='https://auth.robokassa.ru/Merchant/Index.aspx' method='POST'>".
+                "<input type='hidden' name='MerchantLogin' value='".$bot->robokassa_merchant_login."'>".
+                "<input type='hidden' name='OutSum' value='".$price."'>".
+                "<input type='hidden' name='Recurring' value='true'>".
+                "<input type='hidden' name='InvId' value='".$pay->id."'>".
+                "<input type='hidden' name='Description' value='".$product->description."'>".
+                "<input type='hidden' name='SignatureValue' value='".$hash."'>".
+                "<input type='hidden' name='Email' value=".$bot_user->email.">".
+                "<input type='hidden' name='ExpirationDate' value='".date('Y', time())."-12-31T23:59:59'>".
+                "<input type='hidden' name='Receipt' value='$receipt'>".
+                "<input type='submit' value='Оплатить' style='font-size: 56px'>".
                 "</form></html>";
 
         }
