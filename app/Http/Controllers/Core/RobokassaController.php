@@ -52,6 +52,8 @@ class RobokassaController
             ->with('robokassa_vat')
             ->find(11529);
 
+        return $bot;
+
         $product = Product::find(6);
         $pay = Pay::find(28030);
 
