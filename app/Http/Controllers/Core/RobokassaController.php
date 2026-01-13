@@ -53,7 +53,7 @@ class RobokassaController
             ->find(2);
 
         $product = Product::find(6);
-        $pay = Pay::find(28033);
+        $pay = Pay::find(28034);
 
         $price = 50;
         if (isset($bot_user->pay_count) && $bot_user->pay_count > 1) $price = $price * $bot_user->pay_count;
