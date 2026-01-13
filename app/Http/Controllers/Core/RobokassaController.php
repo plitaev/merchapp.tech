@@ -62,6 +62,7 @@ class RobokassaController
         $receipt = urlencode($receipt);
 
         $hash = $bot->robokassa_merchant_login.":".$price.":".$pay->id.":".$receipt.":".$bot->robokassa_merchant_password;
+        return $hash;
         $hash=md5($hash);
 
         return
@@ -73,8 +74,7 @@ class RobokassaController
             "<input type='text' name='PreviousInvoiceID' value='28028'>".
             "<input type='text' name='SignatureValue' value='".$hash."'>".
             "<input type='text' name='OutSum' value='".$price."'>".
-            "<input type='text' name='Description' value='".$product->description."'>".
-            "<input type = 'submit' value = 'Повторить оплату'>".
+            "<input type='submit' name='Description' value='Повторить оплату'>".
             "</form></html>";
     }
 
