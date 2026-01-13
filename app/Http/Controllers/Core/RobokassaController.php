@@ -53,7 +53,7 @@ class RobokassaController
             ->find(2);
 
         $product = Product::find(6);
-        $pay = Pay::find(28030);
+        $pay = Pay::find(28033);
 
         $price = 50;
         if (isset($bot_user->pay_count) && $bot_user->pay_count > 1) $price = $price * $bot_user->pay_count;
@@ -70,7 +70,7 @@ class RobokassaController
             "<form action='https://auth.robokassa.ru/Merchant/Recurring' method='POST'>".
             "<input type='text' name='MerchantLogin' value='".$bot->robokassa_merchant_login."'>".
             "<input type='text' name='InvoiceID' value='".$pay->id."'>".
-            "<input type='text' name='PreviousInvoiceID' value='28028'>".
+            "<input type='text' name='PreviousInvoiceID' value='28033'>".
             "<input type='text' name='SignatureValue' value='".$hash."'>".
             "<input type='text' name='OutSum' value='".$price."'>".
             "<input type='text' name='Receipt' value='".$receipt."'>".
