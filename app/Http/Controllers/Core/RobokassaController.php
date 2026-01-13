@@ -68,12 +68,12 @@ class RobokassaController
             "<!DOCTYPE html>".
             "<html>".
             "<form action='https://auth.robokassa.ru/Merchant/Recurring' method='POST'>".
-            "<input type='hidden' name='MerchantLogin' value='".$bot->robokassa_merchant_login."'>".
-            "<input type='hidden' name='InvoiceID' value='".$pay->id."'>".
-            "<input type='hidden' name='PreviousInvoiceID' value='28028'>".
-            "<input type='hidden' name='SignatureValue' value='".$hash."'>".
-            "<input type='hidden' name='OutSum' value='".$price."'>".
-            "<input type='hidden' name='Description' value='Повторить оплату'>".
+            "<input type='text' name='MerchantLogin' value='".$bot->robokassa_merchant_login."'>".
+            "<input type='text' name='InvoiceID' value='".$pay->id."'>".
+            "<input type='text' name='PreviousInvoiceID' value='28028'>".
+            "<input type='text' name='SignatureValue' value='".$hash."'>".
+            "<input type='text' name='OutSum' value='".$price."'>".
+            "<input type='text' name='Description' value='Повторить оплату'>".
             "</form></html>";
     }
 
