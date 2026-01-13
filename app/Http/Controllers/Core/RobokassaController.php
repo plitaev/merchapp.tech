@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Core;
 
 use App\Models\Core\Bot;
 use App\Models\Core\Pay;
+use App\Models\Core\Product;
 
 use App\Actions\Core\Pay\PayMakeSuccessful;
 use App\Actions\Core\PaySystemCallback\PaySystemCallbackCreate;
