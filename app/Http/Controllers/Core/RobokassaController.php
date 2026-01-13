@@ -33,14 +33,6 @@ class RobokassaController
 
         $paySystemCallbackCreate->handle($result, 'robokassa');
 
-        $requestBody = json_decode($result, true);
-
-        $check_pay = Pay::where('id', $requestBody['inv_id'])->where('status', 1)->first();
-
-        if (!$check_pay) {
-            $payMakeSuccessful->handle($result, $requestBody['inv_id'], $requestBody['SignatureValue'], $requestBody['inv_id'], $requestBody['Fee']);
-        }
-
     }
 
     public function robokassa_recurrent() {
