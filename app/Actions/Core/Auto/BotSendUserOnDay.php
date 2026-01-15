@@ -58,6 +58,8 @@ class BotSendUserOnDay
 
         }
 
+
+
         $bot_message = BotMessage::query()
             ->whereHas('bot_message_appointment', function ($query) {
                 $query->where('alias', 'SYS_STAT_PER_DAY');

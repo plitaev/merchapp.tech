@@ -32,7 +32,11 @@ class DevTestController extends Controller
             }
         }
 
-        $bot_users = BotUser::whereIn('id', $A)->get();
+        $bot_users_aa = BotUser::whereIn('id', $A)->get();
+
+        $bot_users_a = BotUser::where('date_end', '>=', date('Y-m-d', time()))->whereNotIn('id', $bot_users_aa)->get();
+
+        return count($bot_users_a).' | '.count($bot_users_aa);
 
         return view('core.devtest.devtest', ['bot_users' => $bot_users]);
 
