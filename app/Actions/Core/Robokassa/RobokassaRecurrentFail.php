@@ -25,7 +25,7 @@ class RobokassaRecurrentFail
             ->where('run_status', 0)
             ->get();
 
-        return $pays;
+        return $time;
 
         foreach ($pays as $pay) {
 
