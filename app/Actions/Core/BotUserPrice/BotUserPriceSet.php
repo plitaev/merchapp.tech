@@ -8,7 +8,7 @@ use App\Models\Core\Product;
 class BotUserPriceSet
 {
     public function handle($bot_user) {
-        $products = Product::all();
+        $products = Product::where('bot_id', $bot_user->bot_id)->get();
         $prices = BotUserPrice::select('product_id')->where('bot_user_id', $bot_user->id)->groupBy('product_id')->pluck('product_id')->toArray();
 
         foreach ($products as $product) {
