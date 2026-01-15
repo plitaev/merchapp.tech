@@ -2,6 +2,8 @@
 
 namespace App\Actions\Core\Auto;
 
+use Carbon\Carbon;
+
 use App\Models\Core\BotBranchReferralProgram;
 use App\Models\Core\BotUser;
 use App\Models\Core\Pay;
@@ -86,12 +88,13 @@ class BotSendUserOnDay
 
         $bot_users_with_12m = BotUser::select('id')->whereIn('id', $A)->groupBy('id')->pluck('id')->toArray();
 
+        $past30 = Carbon::now()->subDays(30)->format('Y-m-d H:i:s');
 
 
         $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->whereNotIn('id', $bot_users_with_6m)->whereNotIn('id', $bot_users_with_12m)->get();
         $A = [];
         foreach ($bot_users as $bot_user) {
-            $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->where('product_id', 1)->get();
+            $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->where('product_id', 1)->where('created_at', '>=', $past30)->get();
             if ($pay) {
                 if (count($pay) > 1) {
                     $A[] = $bot_user->id;
