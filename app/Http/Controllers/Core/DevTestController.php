@@ -50,7 +50,7 @@ class DevTestController extends Controller
         $bot_users = BotUser::all();
         foreach ($bot_users as $bot_user) {
             $products = Product::select('id')->where('bot_id', $bot_user->bot_id)->pluck('id')->toArray();
-            BotUser::where('bot_user_id', $bot_user->id)->whereNotIn('product_id', $products)->delete();
+            BotUserPrice::where('bot_user_id', $bot_user->id)->whereNotIn('product_id', $products)->delete();
         }
 
     }
