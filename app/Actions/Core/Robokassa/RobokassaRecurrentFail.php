@@ -25,8 +25,6 @@ class RobokassaRecurrentFail
             ->where('run_status', 0)
             ->get();
 
-        return $time;
-
         foreach ($pays as $pay) {
 
             Pay::where('bot_user_id', $pay->bot_user_id)->where('pay_system_id', 3)->update(['run_status' => 1]);
