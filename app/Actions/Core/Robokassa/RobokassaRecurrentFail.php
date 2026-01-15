@@ -17,7 +17,7 @@ class RobokassaRecurrentFail
         $time = Carbon::now()->subHours(1);
 
         $pays = Pay::select('id', 'bot_user_id')
-            ->where('created_at', '<=', $time)
+            ->where('created_at', '>=', $time)
             ->where('pay_system_id', 3)
             ->where('status', 0)
             ->where('recurrent', 1)
