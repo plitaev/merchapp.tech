@@ -158,7 +158,6 @@ class BotChatAdmin extends Page implements HasForms
             }
 
             $this->bot_user_prices_standard_count = count($products);
-
         }
 
         if ($id > 0) {
