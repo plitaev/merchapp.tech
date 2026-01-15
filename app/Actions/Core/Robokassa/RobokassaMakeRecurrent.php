@@ -32,7 +32,7 @@ class RobokassaMakeRecurrent
         $pay = $payCreateIntoBot->handle($data->bot_user, $product, $additional_data);
         if (!$pay) return ["new_pay_id" => NULL, "pay_system_responce" => '{"error":"prevous_pay_not_found"}'];
 
-        $receipt='{"sno":"'.$data->robokassa_tax->code.'","items": [{"name": "'.$product->description.'","quantity": 1,"sum": '.$prices[$product->id].',"payment_method": "'.$data->robokassa_payment_method->code.'","payment_object": "'.$data->robokassa_payment_object->code.'","tax": "'.$data->robokassa_vat->code.'"}]}';
+        $receipt='{"sno":"'.$data->bot->robokassa_tax->code.'","items": [{"name": "'.$product->description.'","quantity": 1,"sum": '.$prices[$product->id].',"payment_method": "'.$data->bot->robokassa_payment_method->code.'","payment_object": "'.$data->bot->robokassa_payment_object->code.'","tax": "'.$data->bot->robokassa_vat->code.'"}]}';
         $receipt = urlencode($receipt);
 
         $hash = $data->bot->robokassa_merchant_login.":".$prices[$product->id].":".$pay->id.":".$receipt.":".$data->bot->robokassa_merchant_password;
