@@ -15,6 +15,7 @@ class RobokassaRecurrentFail
         $botUserRepeatRecurrent = new BotUserRepeatRecurrent();
 
         $time = Carbon::now()->subHours(1)->format('Y-m-d H:i:s');
+        return $time;
 
         $pays = Pay::select('id', 'bot_user_id')
             ->where('created_at', '>=', $time)
