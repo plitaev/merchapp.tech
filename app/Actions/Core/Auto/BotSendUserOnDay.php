@@ -42,7 +42,7 @@ class BotSendUserOnDay
 
         $bot_users_one_month = count($bot_users_one_month_with_recurrent) + count($bot_users_one_month_without_recurrent);
 
-        $pays_date = '2025-12-01 00:00:00';
+        $pays_date = '2026-01-01 00:00:00';
         $pays_old = [];
         $pays_new = [];
 
@@ -61,7 +61,7 @@ class BotSendUserOnDay
         $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->get();
         $A = [];
         foreach ($bot_users as $bot_user) {
-            $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->whereIn('product_id', [2, 3])->get();
+            $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->where('product_id', 2)->get();
             if ($pay) {
                 if (count($pay) > 0) {
                     $A[] = $bot_user->id;
@@ -69,8 +69,41 @@ class BotSendUserOnDay
             }
         }
 
-        $bot_users_with_6m_12m = BotUser::select('id')->whereIn('id', $A)->groupBy('id')->get();
-        $bot_user_without_6m_12m = $stat->bot_user_count - count($bot_users_with_6m_12m);
+        $bot_users_with_6m = BotUser::select('id')->whereIn('id', $A)->groupBy('id')->pluck('id')->toArray();
+
+
+
+        $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->whereNotIn('id', $bot_users_with_6m)->get();
+        $A = [];
+        foreach ($bot_users as $bot_user) {
+            $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->where('product_id', 3)->get();
+            if ($pay) {
+                if (count($pay) > 0) {
+                    $A[] = $bot_user->id;
+                }
+            }
+        }
+
+        $bot_users_with_12m = BotUser::select('id')->whereIn('id', $A)->groupBy('id')->pluck('id')->toArray();
+
+
+
+        $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->whereNotIn('id', $bot_users_with_6m)->whereNotIn('id', $bot_users_with_12m)->get();
+        $A = [];
+        foreach ($bot_users as $bot_user) {
+            $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->where('product_id', 1)->get();
+            if ($pay) {
+                if (count($pay) > 1) {
+                    $A[] = $bot_user->id;
+                }
+            }
+        }
+
+        $bot_users_1m_multiple = BotUser::select('id')->whereIn('id', $A)->groupBy('id')->get();
+
+
+
+        $bot_user_without_6m_12m_1m_multiple = $stat->bot_user_count - count($bot_users_with_6m) - count($bot_users_with_12m) - count($bot_users_1m_multiple);
 
         $bot_message = BotMessage::query()
             ->whereHas('bot_message_appointment', function ($query) {
@@ -85,8 +118,10 @@ class BotSendUserOnDay
 
         //==
         $text = str_replace('VAR_STAT_USER_ON_DAY_COUNT', $stat->bot_user_count, $text);
-        $text = str_replace('VAR_STAT_USER_ON_DAY_1M_COUNT', $bot_user_without_6m_12m, $text);
-        $text = str_replace('VAR_STAT_USER_ON_DAY_6M_AND_12M_COUNT', count($bot_users_with_6m_12m), $text);
+        $text = str_replace('VAR_STAT_USER_ON_DAY_1M_COUNT', $bot_user_without_6m_12m_1m_multiple, $text);
+        $text = str_replace('VAR_STAT_USER_ON_DAY_1M_MULTIPLE_COUNT', count($bot_users_1m_multiple), $text);
+        $text = str_replace('VAR_STAT_USER_ON_DAY_6M_COUNT', count($bot_users_with_6m), $text);
+        $text = str_replace('VAR_STAT_USER_ON_DAY_12M_COUNT', count($bot_users_with_12m), $text);
 
         $text = str_replace('VAR_STAT_USER_1490', count($stat1490), $text);
         $text = str_replace('VAR_STAT_USER_1990', count($stat1990), $text);
