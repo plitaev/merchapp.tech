@@ -27,7 +27,7 @@ class RobokassaRecurrentFail
 
         foreach ($pays as $pay) {
 
-            Pay::where('bot_user_id', $pay->id)->where('pay_system_id', 3)->update(['run_status' => 1]);
+            Pay::where('bot_user_id', $pay->bot_user_id)->where('pay_system_id', 3)->update(['run_status' => 1]);
 
             $next_recurrent = Pay::where('bot_user_id', $pay->bot_user_id)
                 ->where('id', '>', $pay->id)
