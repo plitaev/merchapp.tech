@@ -56,26 +56,7 @@ class RobokassaMakeRecurrent
 
         curl_close($curl);
 
-        if ($payment->status == "succeeded") {
-
-            if (isset($payment->amount->value) && isset($payment->income_amount->value)) {
-                $comission = $payment->amount->value-$payment->income_amount->value;
-            } else {
-                $comission = NULL;
-            }
-
-            $payMakeSuccessful->handle(json_encode($payment), $pay->id, $payment->id, $payment->payment_method->id, $comission);
-
-            BotUserBanSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
-            BotUserRecurrentSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
-
-        } else {
-
-            if ($payment->paid == false) {
-                $botUserRepeatRecurrent->handle($data);
-            }
-
-        }
+        $payment = '{"responce":"'.$result.'"}';
 
         return ['new_pay_id' => $pay->id, 'pay_system_responce' => json_encode($payment)];
     }

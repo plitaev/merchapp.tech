@@ -43,6 +43,9 @@ class BotUserRecurrentSchedulerProcess
 
             if ($data->paysystem->alias == "yookassa") $result = $yookassaMakeRecurrent->handle($data);
             if ($data->paysystem->alias == "prodamus") $result = $prodamusMakeRecurrent->handle($data);
+            if ($data->paysystem->alias == "robokassa") {
+                return $prodamusMakeRecurrent->handle($data);
+            }
 
             BotUserRecurrentSchedule::where('id', $data->id)->update(['new_pay_id' => $result['new_pay_id'], 'pay_system_responce' => $result['pay_system_responce']]);
         }
