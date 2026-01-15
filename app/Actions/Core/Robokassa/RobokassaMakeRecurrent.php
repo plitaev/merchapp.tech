@@ -44,7 +44,10 @@ class RobokassaMakeRecurrent
             'MerchantLogin' => $data->bot->robokassa_merchant_login,
             'InvoiceID' => $pay->id,
             'PreviousInvoiceID' => $data->prevous_pay->pay_system_payment_method_id,
-            'SignatureValue' => $hash
+            'SignatureValue' => $hash,
+            'OutSum' => $prices[$product->id],
+            'Receipt' => $receipt,
+            'Description' => $product->description
         );
 
         curl_setopt($curl, CURLOPT_URL, 'https://auth.robokassa.ru/Merchant/Recurring');
