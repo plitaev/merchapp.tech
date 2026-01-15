@@ -20,42 +20,17 @@ use App\Actions\Core\DateEnd\DateEndNew;
 class DevTestController extends Controller
 {
     public function devtest() {
-
-        $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->get();
-        $A = [];
-        foreach ($bot_users as $bot_user) {
-            $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->whereIn('product_id', [2, 3])->get();
-            if ($pay) {
-                if (count($pay) > 0) {
-                    $A[] = $bot_user->id;
-                }
-            }
-        }
-
-        $bot_users_aa = BotUser::whereIn('id', $A)->get();
-
-        $bot_users_a = BotUser::where('date_end', '>=', date('Y-m-d', time()))->whereNotIn('id', $A)->get();
-
-        return count($bot_users_a).' | '.count($bot_users_aa);
-
-        return view('core.devtest.devtest', ['bot_users' => $bot_users]);
-
-        /*
-        $date_end_new = new DateEndNew();
-
-        $bot_users = BotUser::where('run_status', 0)->get();
-        foreach ($bot_users as $bot_user) {
-            $date_end_new->handle($bot_user, 'Y-m-d');
-            BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
-        }
-        */
-        /*
-        $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->get();
-        foreach ($bot_users as $bot_user) {
-            BotUserPrice::create(['bot_user_id' => $bot_user->id, 'product_id' => 6, 'price' => 990]);
-        }
-        */
-
+        Pay::where('product_id', 11)->update(['product_id' => 10]);
+        Pay::where('product_id', 12)->update(['product_id' => 10]);
+        Pay::where('product_id', 13)->update(['product_id' => 10]);
+        Pay::where('product_id', 14)->update(['product_id' => 10]);
+        Pay::where('product_id', 15)->update(['product_id' => 10]);
+        Pay::where('product_id', 16)->update(['product_id' => 10]);
+        Pay::where('product_id', 17)->update(['product_id' => 10]);
+        Pay::where('product_id', 18)->update(['product_id' => 10]);
+        Pay::where('product_id', 19)->update(['product_id' => 10]);
+        Pay::where('product_id', 20)->update(['product_id' => 10]);
+        Pay::where('product_id', 21)->update(['product_id' => 10]);
     }
 
     public function paycounts() {
