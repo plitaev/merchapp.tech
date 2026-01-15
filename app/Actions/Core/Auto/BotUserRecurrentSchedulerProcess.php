@@ -46,6 +46,7 @@ class BotUserRecurrentSchedulerProcess
             if ($data->paysystem->alias == "yookassa") $result = $yookassaMakeRecurrent->handle($data);
             if ($data->paysystem->alias == "prodamus") $result = $prodamusMakeRecurrent->handle($data);
             if ($data->paysystem->alias == "robokassa") {
+                return $data;
                 return $robokassaMakeRecurrent->handle($data);
             }
 
