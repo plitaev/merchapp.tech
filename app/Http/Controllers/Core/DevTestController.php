@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Core;
 
+use App\Models\Core\GetcourseWebhook;
 use Carbon\Carbon;
 
 use App\Http\Controllers\Controller;
@@ -31,6 +32,18 @@ class DevTestController extends Controller
         Pay::where('product_id', 19)->update(['product_id' => 10]);
         Pay::where('product_id', 20)->update(['product_id' => 10]);
         Pay::where('product_id', 21)->update(['product_id' => 10]);
+
+        GetcourseWebhook::where('product_id', 11)->update(['product_id' => 10]);
+        GetcourseWebhook::where('product_id', 12)->update(['product_id' => 10]);
+        GetcourseWebhook::where('product_id', 13)->update(['product_id' => 10]);
+        GetcourseWebhook::where('product_id', 14)->update(['product_id' => 10]);
+        GetcourseWebhook::where('product_id', 15)->update(['product_id' => 10]);
+        GetcourseWebhook::where('product_id', 16)->update(['product_id' => 10]);
+        GetcourseWebhook::where('product_id', 17)->update(['product_id' => 10]);
+        GetcourseWebhook::where('product_id', 18)->update(['product_id' => 10]);
+        GetcourseWebhook::where('product_id', 19)->update(['product_id' => 10]);
+        GetcourseWebhook::where('product_id', 20)->update(['product_id' => 10]);
+        GetcourseWebhook::where('product_id', 21)->update(['product_id' => 10]);
     }
 
     public function paycounts() {
