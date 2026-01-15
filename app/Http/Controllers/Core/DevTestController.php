@@ -46,6 +46,13 @@ class DevTestController extends Controller
         GetcourseWebhook::where('product_id', 20)->update(['product_id' => 10]);
         GetcourseWebhook::where('product_id', 21)->update(['product_id' => 10]);
         */
+
+        $bot_users = BotUser::all();
+        foreach ($bot_users as $bot_user) {
+            $products = Product::select('id')->where('bot_id', $bot_user->bot_id)->pluck('id')->toArray();
+            BotUser::where('bot_user_id', $bot_user->id)->whereNotIn('product_id', $products)->delete();
+        }
+
     }
 
     public function paycounts() {
