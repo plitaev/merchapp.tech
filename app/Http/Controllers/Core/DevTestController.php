@@ -21,6 +21,7 @@ use App\Actions\Core\DateEnd\DateEndNew;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
         Pay::where('product_id', 11)->update(['product_id' => 10]);
         Pay::where('product_id', 12)->update(['product_id' => 10]);
         Pay::where('product_id', 13)->update(['product_id' => 10]);
@@ -44,6 +45,7 @@ class DevTestController extends Controller
         GetcourseWebhook::where('product_id', 19)->update(['product_id' => 10]);
         GetcourseWebhook::where('product_id', 20)->update(['product_id' => 10]);
         GetcourseWebhook::where('product_id', 21)->update(['product_id' => 10]);
+        */
     }
 
     public function paycounts() {
