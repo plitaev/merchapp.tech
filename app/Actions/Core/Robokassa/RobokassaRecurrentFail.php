@@ -39,9 +39,10 @@ class RobokassaRecurrentFail
                 $recurrent_schedule = BotUserRecurrentSchedule::select()->where('bot_user_id', $pay->bot_user_id)->orderByDesc('created_at')->first();
 
                 if ($recurrent_schedule) {
-                    $data = [];
-                    $data['bot_user_id'] = $pay->bot_user_id;
-                    $data['prevous_pay_id'] = $recurrent_schedule->prevous_pay_id;
+
+                    $data = new stdClass();
+                    $data->bot_user_id = $pay->bot_user_id;
+                    $data->prevous_pay_id = $recurrent_schedule->prevous_pay_id;
 
                     $botUserRepeatRecurrent->handle($data);
                 }
