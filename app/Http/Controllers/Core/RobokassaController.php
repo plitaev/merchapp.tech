@@ -49,10 +49,4 @@ class RobokassaController
 
         $paySystemCallbackCreate->handle($source, 'robokassa');
     }
-
-    public function robokassa_recurrent_fail() {
-        $robokassaRecurrentFail = new RobokassaRecurrentFail();
-        return $robokassaRecurrentFail->handle();
-    }
-
 }

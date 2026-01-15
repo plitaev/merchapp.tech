@@ -12,6 +12,7 @@ use App\Actions\Core\Auto\BotUserSetRecurrentScheduler;
 use App\Actions\Core\Auto\BotUserSetBanScheduler;
 use App\Actions\Core\Auto\BotUserUnbanProcess;
 use App\Actions\Core\Auto\ProdamusFinishPay;
+use App\Actions\Core\Robokassa\RobokassaRecurrentFail;
 use App\Actions\Core\Auto\TelegramBusinessOpeningHours;
 use App\Actions\Core\Auto\TelegramBusinessResponceInOpeningHours;
 use App\Actions\Core\Auto\TelegramSendMessageScheduleProcess;
@@ -125,6 +126,11 @@ class AutoController extends Controller
     public function bot_users_calculate_date_end() {
         $dateEndCalculateForAll = new DateEndCalculateForAll();
         return $dateEndCalculateForAll->handle();
+    }
+
+    public function robokassa_recurrent_fail() {
+        $robokassaRecurrentFail = new RobokassaRecurrentFail();
+        return $robokassaRecurrentFail->handle();
     }
 
 }
