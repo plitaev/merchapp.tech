@@ -40,7 +40,7 @@ class RobokassaRecurrentFail
 
                 if ($recurrent_schedule) {
                     $data = (object) ['bot_user_id' => $pay->bot_user_id, 'prevous_pay_id' => $recurrent_schedule->prevous_pay_id];
-                    $botUserRepeatRecurrent->handle($data);
+                    return $botUserRepeatRecurrent->handle($data);
                 }
 
             }
