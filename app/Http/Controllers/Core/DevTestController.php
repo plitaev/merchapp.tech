@@ -20,12 +20,9 @@ use App\Actions\Core\DateEnd\DateEndNew;
 class DevTestController extends Controller
 {
     public function devtest() {
-
-        return Pay::where('product_id', 6)->get();
-
         $pays = Pay::whereHas('bot_user', function ($query) {
             $query->where('bot_id', 25);
-        })->where('product_id', 6)->get();
+        })->whereIn('product_id', [6, 9, 10, 22, 23])->get();
 
         return $pays;
     }
