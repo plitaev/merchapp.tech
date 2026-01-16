@@ -42,7 +42,7 @@ class DevTestController extends Controller
 
             if ($diff > 0) {
                 $new = \App\Models\Core\Pay::insert([
-                    'product_id' => 24,
+                    'product_id' => 29,
                     'gift' => 0,
                     'bot_user_id' => $bot_user->id,
                     'price' => 0,
