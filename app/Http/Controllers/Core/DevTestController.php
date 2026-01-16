@@ -34,7 +34,7 @@ class DevTestController extends Controller
         /*
         $result = [];
 
-        $bot_users = BotUser::whereNotNull('date_end')->whereNotNull('date_end_new')->where('run_status', 0)->get();
+        $bot_users = BotUser::whereNotNull('date_end')->whereNotNull('date_end_new')->where('date_end', '>=', date('Y-m-d H:i:s', time())->where('run_status', 0)->get();
         foreach ($bot_users as $bot_user) {
             BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
 
