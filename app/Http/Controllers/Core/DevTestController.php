@@ -33,6 +33,7 @@ class DevTestController extends Controller
         */
 
         $result = [];
+
         $bot_users = BotUser::whereNotNull('date_end')->whereNotNull('date_end_new')->get();
         foreach ($bot_users as $bot_user) {
             $diff = Carbon::parse($bot_user->date_end)->diffInDays($bot_user->date_end_new);
