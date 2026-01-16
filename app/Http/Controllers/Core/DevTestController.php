@@ -22,6 +22,7 @@ use App\Actions\Core\DateEnd\DateEnd;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
         $dateEndNew = new DateEndNew();
 
         $bot_users = BotUser::where('run_status', 0)->get();
@@ -29,8 +30,20 @@ class DevTestController extends Controller
             $dateEndNew->handle($bot_user, 'Y-m-d');
             BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
         }
+        */
+
+        $result = [];
+        $bot_users = BotUser::whereNotNull('date_end')->whereNotNull('date_end_new')->get();
+        foreach ($bot_users as $bot_user) {
+            $diff = Carbon::parse($bot_user->date_end)->diffInDays($bot_user->date_end_new);
+            $result[] = $bot_user->id.' > '.$diff;
+        }
+
+        return $result;
 
         /*
+         * KOLCHUKI
+         *
         $pays = Pay::whereHas('bot_user', function ($query) {
             $query->where('bot_id', 25);
         })->whereIn('product_id', [6, 9, 10, 22, 23])->get();
@@ -66,6 +79,9 @@ class DevTestController extends Controller
 
         return $not_found;
         */
+
+
+
     }
 
     public function paycounts() {
