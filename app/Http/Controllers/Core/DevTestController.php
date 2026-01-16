@@ -73,7 +73,7 @@ class DevTestController extends Controller
         $pays = Pay::where('product_id', 24)->get();
         foreach ($pays as $pay) {
 
-            $check = Pay::where('bot_user_id', $pay->bot_user_id)->where('product_id', 24)->whereNot('pay_id', $pay->id)->first();
+            $check = Pay::where('bot_user_id', $pay->bot_user_id)->where('product_id', 24)->whereNot('id', $pay->id)->first();
             if ($check) {
                 return $check;
             }
