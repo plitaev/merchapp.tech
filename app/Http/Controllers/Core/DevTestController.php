@@ -30,6 +30,8 @@ class DevTestController extends Controller
 
         $not_found = [];
 
+        return $pays;
+
         foreach ($pays as $pay) {
             $right_user = BotUser::where('email', $pay->bot_user->email)->where('bot_id', 2)->first();
             if ($right_user) {
