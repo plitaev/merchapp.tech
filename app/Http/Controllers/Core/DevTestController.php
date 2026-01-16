@@ -22,6 +22,7 @@ use App\Actions\Core\DateEnd\DateEnd;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
         $dateEnd = new DateEnd();
 
         $pays = Pay::whereHas('bot_user', function ($query) {
@@ -58,6 +59,7 @@ class DevTestController extends Controller
         }
 
         return $not_found;
+        */
     }
 
     public function paycounts() {
