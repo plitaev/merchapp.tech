@@ -24,7 +24,18 @@ class DevTestController extends Controller
             $query->where('bot_id', 25);
         })->whereIn('product_id', [6, 9, 10, 22, 23])->get();
 
-        return $pays;
+        $not_found = [];
+
+        foreach ($pays as $pay) {
+            $right_user = BotUser::where('email', $pay->bot_user->email)->where('bot_id', 2)->first();
+            if ($right_user) {
+
+            } else {
+                $not_found[] = $pay->bot_user->email;
+            }
+        }
+
+        return $not_found;
     }
 
     public function paycounts() {
