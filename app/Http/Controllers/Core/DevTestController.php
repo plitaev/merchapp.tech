@@ -60,13 +60,24 @@ class DevTestController extends Controller
 
         return $result;
         */
-
+        /*
         $dateEnd = new DateEnd();
 
         $bot_users = BotUser::where('run_status', 0)->get();
         foreach ($bot_users as $bot_user) {
             $dateEnd->handle($bot_user, 'Y-m-d');
             BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
+        }
+        */
+
+        $pays = Pay::where('product_id', 24)->get();
+        foreach ($pays as $pay) {
+
+            $check = Pay::where('bot_user_id', $pay->bot_user_id)->where('product_id', 24)->whereNot('pay_id', $pay->id)->first();
+            if ($check) {
+                return $check;
+            }
+
         }
 
         /*
