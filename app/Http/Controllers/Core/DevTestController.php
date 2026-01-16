@@ -22,9 +22,15 @@ use App\Actions\Core\DateEnd\DateEnd;
 class DevTestController extends Controller
 {
     public function devtest() {
-        /*
-        $dateEnd = new DateEnd();
+        $dateEndNew = new DateEndNew();
 
+        $bot_users = BotUser::where('run_status', 0)->get();
+        foreach ($bot_users as $bot_user) {
+            $dateEndNew->handle($bot_user, 'Y-m-d');
+            BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
+        }
+
+        /*
         $pays = Pay::whereHas('bot_user', function ($query) {
             $query->where('bot_id', 25);
         })->whereIn('product_id', [6, 9, 10, 22, 23])->get();
