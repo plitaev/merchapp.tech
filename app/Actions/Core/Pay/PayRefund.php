@@ -24,7 +24,7 @@ class PayRefund {
         $bot_user = BotUser::with('bot')->find($pay->bot_user_id);
 
         $dateEnd = new DateEnd();
-        $dateEnd->handle($pay->bot_user, 'Y-m-d');
+        $dateEnd->handle($bot_user, 'Y-m-d');
 
         $botUserBanByDeletePay = new BotUserBanByDeletePay();
         $a = $botUserBanByDeletePay->handle($bot_user);

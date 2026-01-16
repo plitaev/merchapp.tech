@@ -152,13 +152,12 @@ class BotChatAdmin extends Page implements HasForms
 
         } else {
 
-            $products = Product::select('id', 'name', 'price')->get();
+            $products = Product::select('id', 'name', 'price')->where('bot_id', $bot_id)->get();
             foreach ($products as $product) {
                 $this->bot_user_prices_standard .= "<p style='margin-bottom: 10px'>".$product->name . ' - ' . $product->price."</p>";
             }
 
             $this->bot_user_prices_standard_count = count($products);
-
         }
 
         if ($id > 0) {

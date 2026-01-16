@@ -32,7 +32,7 @@ class RobokassaMakeRecurrent
         $pay = $payCreateIntoBot->handle($data->bot_user, $product, $additional_data);
         if (!$pay) return ["new_pay_id" => NULL, "pay_system_responce" => '{"error":"prevous_pay_not_found"}'];
 
-        $receipt='{"sno":"'.$data->robokassa_tax->code.'","items": [{"name": "'.$product->description.'","quantity": 1,"sum": '.$prices[$product->id].',"payment_method": "'.$data->robokassa_payment_method->code.'","payment_object": "'.$data->robokassa_payment_object->code.'","tax": "'.$data->robokassa_vat->code.'"}]}';
+        $receipt='{"sno":"'.$data->bot->robokassa_tax->code.'","items": [{"name": "'.$product->description.'","quantity": 1,"sum": '.$prices[$product->id].',"payment_method": "'.$data->bot->robokassa_payment_method->code.'","payment_object": "'.$data->bot->robokassa_payment_object->code.'","tax": "'.$data->bot->robokassa_vat->code.'"}]}';
         $receipt = urlencode($receipt);
 
         $hash = $data->bot->robokassa_merchant_login.":".$prices[$product->id].":".$pay->id.":".$receipt.":".$data->bot->robokassa_merchant_password;
@@ -44,7 +44,10 @@ class RobokassaMakeRecurrent
             'MerchantLogin' => $data->bot->robokassa_merchant_login,
             'InvoiceID' => $pay->id,
             'PreviousInvoiceID' => $data->prevous_pay->pay_system_payment_method_id,
-            'SignatureValue' => $hash
+            'SignatureValue' => $hash,
+            'OutSum' => $prices[$product->id],
+            'Receipt' => $receipt,
+            'Description' => $product->description
         );
 
         curl_setopt($curl, CURLOPT_URL, 'https://auth.robokassa.ru/Merchant/Recurring');
@@ -56,26 +59,7 @@ class RobokassaMakeRecurrent
 
         curl_close($curl);
 
-        if ($payment->status == "succeeded") {
-
-            if (isset($payment->amount->value) && isset($payment->income_amount->value)) {
-                $comission = $payment->amount->value-$payment->income_amount->value;
-            } else {
-                $comission = NULL;
-            }
-
-            $payMakeSuccessful->handle(json_encode($payment), $pay->id, $payment->id, $payment->payment_method->id, $comission);
-
-            BotUserBanSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
-            BotUserRecurrentSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
-
-        } else {
-
-            if ($payment->paid == false) {
-                $botUserRepeatRecurrent->handle($data);
-            }
-
-        }
+        $payment = '{"responce":"'.$result.'"}';
 
         return ['new_pay_id' => $pay->id, 'pay_system_responce' => json_encode($payment)];
     }
