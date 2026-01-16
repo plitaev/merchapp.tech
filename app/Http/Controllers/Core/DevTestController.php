@@ -34,9 +34,27 @@ class DevTestController extends Controller
 
         $result = [];
 
-        $bot_users = BotUser::whereNotNull('date_end')->whereNotNull('date_end_new')->get();
+        $bot_users = BotUser::whereNotNull('date_end')->whereNotNull('date_end_new')->where('run_status', 0)->get();
         foreach ($bot_users as $bot_user) {
+            BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
+
             $diff = Carbon::parse($bot_user->date_end_new)->diffInDays($bot_user->date_end);
+
+            if ($diff > 0) {
+                $new = \App\Models\Core\Pay::insert([
+                    'product_id' => 24,
+                    'gift' => 0,
+                    'bot_user_id' => $bot_user->id,
+                    'price' => 0,
+                    'days' => $diff,
+                    'status' => 1,
+                    'recurrent' => 0,
+                    'recurrent_status' => 0,
+                    'created_at' => date('Y-m-d H:i:s', time()),
+                    'updated_at' => date('Y-m-d H:i:s', time())
+                ]);
+            }
+
             $result[] = $bot_user->id.' > '.$diff;
         }
 
