@@ -21,7 +21,7 @@ class DevTestController extends Controller
 {
     public function devtest() {
         $fm = BotUser::select('telegram_chat_id')->where('bot_id', 2)->pluck('telegram_chat_id')->toArray();
-        $elki = BotUser::select('id')->where('bot_id', 25)->whereIn('telegram_chat_id', $fm)->where('telegram_chat_id', 1269781421)->pluck('id')->toArray();
+        $elki = BotUser::select('id')->where('bot_id', 25)->whereIn('telegram_chat_id', $fm)->pluck('id')->toArray();
         $elki_products_fm = Pay::query()->whereIn('bot_user_id', $elki)->whereIn('product_id', [6, 9, 10, 22,23])->get();
         return $elki_products_fm;
     }
