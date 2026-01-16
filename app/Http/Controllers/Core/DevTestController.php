@@ -16,10 +16,13 @@ use Telegram\Bot\Api;
 use App\Models\Core\Pay;
 
 use App\Actions\Core\DateEnd\DateEndNew;
+use App\Actions\Core\DateEnd\DateEnd;
 
 class DevTestController extends Controller
 {
     public function devtest() {
+        $dateEnd = new DateEnd();
+
         $pays = Pay::whereHas('bot_user', function ($query) {
             $query->where('bot_id', 25);
         })->whereIn('product_id', [6, 9, 10, 22, 23])->get();
@@ -29,9 +32,13 @@ class DevTestController extends Controller
         foreach ($pays as $pay) {
             $right_user = BotUser::where('email', $pay->bot_user->email)->where('bot_id', 2)->first();
             if ($right_user) {
-
+                Pay::where('id', $pay->id)->update(['bot_user_id' => $right_user->id]);
+                $dateEnd->handle($right_user, 'Y-m-d');
+                $dateEnd->handle($pay->bot_user, 'Y-m-d');
             } else {
                 $not_found[] = $pay->created_at." - ".$pay->days;
+                Pay::destroy($pay->id);
+                $dateEnd->handle($pay->bot_user, 'Y-m-d');
             }
         }
 
