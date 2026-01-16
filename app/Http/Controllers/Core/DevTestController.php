@@ -27,8 +27,6 @@ class DevTestController extends Controller
             $query->where('bot_id', 25);
         })->whereIn('product_id', [6, 9, 10, 22, 23])->get();
 
-        return $pays;
-
         $not_found = [];
 
         foreach ($pays as $pay) {
