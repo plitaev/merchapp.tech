@@ -22,7 +22,7 @@ class DevTestController extends Controller
     public function devtest() {
         $pays = Pay::whereHas('bot_user', function ($query) {
             $query->where('bot_id', 25);
-        })->whereIn('product_id', [6, 9, 10, 22, 23])->get();
+        })->where('product_id', 6)->get();
 
         return $pays;
     }
