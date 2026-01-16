@@ -31,7 +31,7 @@ class DevTestController extends Controller
             if ($right_user) {
 
             } else {
-                $not_found[] = $pay->bot_user->email;
+                $not_found[] = $pay->created_at;
             }
         }
 
