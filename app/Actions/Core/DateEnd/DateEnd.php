@@ -51,7 +51,7 @@ class DateEnd
             if (isset($Adates_start[$next_pos])) {
                 if ($Adates_start[$next_pos] < $date) {
                     $diff_days=$Adates_start[$next_pos]->startOfDay()->diffInDays($date);
-                    //$diff_days = floor($diff_days);
+                    $diff_days = floor($diff_days);
                     if ($diff_days>0) {
                         $days_to_add=$days_to_add+$diff_days;
                         $Adates_end[$next_pos]=$Adates_end[$next_pos]->addDay($diff_days);
