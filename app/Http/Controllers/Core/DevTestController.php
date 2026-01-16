@@ -75,7 +75,7 @@ class DevTestController extends Controller
 
             $check = Pay::where('bot_user_id', $pay->bot_user_id)->where('product_id', 24)->whereNot('id', $pay->id)->first();
             if ($check) {
-                return $check;
+                Pay::destroy($check->id);
             }
 
         }
