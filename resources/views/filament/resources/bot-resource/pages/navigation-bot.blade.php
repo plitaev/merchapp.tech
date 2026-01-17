@@ -17,6 +17,8 @@
     if (Auth::user()->hasPermissionTo('View:Funnel')) $categories['funnels'] = 'Воронки';
     if (Auth::user()->hasPermissionTo('View:Sending')) $categories['sendings'] = 'Рассылки';
     if (Auth::user()->hasPermissionTo('View:BotBranch')) $categories['branches'] = 'Акции';
+    if (Auth::user()->hasPermissionTo('View:Content')) $categories['contents'] = 'Контент';
+
 
 
 @endphp

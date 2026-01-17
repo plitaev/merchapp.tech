@@ -66,6 +66,8 @@ use App\Filament\Resources\Bots\Pages\BotTelegramBanScheduleErrorLogs;
 use App\Filament\Resources\Bots\Pages\BotTelegramUnBanScheduleErrorLogs;
 use App\Filament\Resources\Bots\Pages\BotTelegramChatMemberErrorLogs;
 use App\Filament\Resources\Bots\Pages\BotTelegramSendMessageErrorLogs;
+use App\Filament\Resources\Bots\Pages\BotContents;
+use App\Filament\Resources\Bots\Pages\BotContentAdmin;
 use App\Filament\Resources\Bots\Pages\Access;
 use App\Filament\Resources\Bots\Pages\BotUserPrices;
 
@@ -221,6 +223,8 @@ class BotResource extends Resource
             'user-price' => BotUserPriceAdmin::route('/{bot_id}/{bot_user_id}/{id}/user-price'),
             'recurrents' => BotRecurrents::route('/{bot_id}/{recurrent}/recurrents'),
             'recurrent' => BotRecurrent::route('/{bot_id}/{recurrent}/{date_end}/recurrent'),
+            'contents' => BotContents::route('/{bot_id}/contents'),
+            'content-admin' => BotContentAdmin::route('/{bot_id}/{id}/content-admin'),
         ];
 
         return $A;
