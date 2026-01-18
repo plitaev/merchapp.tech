@@ -88,7 +88,7 @@ class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfoli
     public function getHeading(): string
     {
 
-        return $this->bot_name;
+        return $this->bot_name??'';
 
     }
 
@@ -106,7 +106,7 @@ class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfoli
     public function mount(int $bot_id, int $id): void
     {
         $bot = Bot::select('name')->find($bot_id);
-        $this->bot_name = $bot->name;
+        $this->bot_name = $bot->name??'';
 
         $this->bot_id = $bot_id;
         $this->id = $id;
@@ -191,7 +191,7 @@ class BotMessageListeners extends Page implements HasTable, HasForms,  HasInfoli
 //                ViewAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/listener-admin")
 //                    ->visible(!auth()->user()->can('Create:Listener')),
                 DeleteAction::make()
-                    ->visible(!auth()->user()->can('Delete:BotMessageListener')),
+                    ->visible(auth()->user()->can('Delete:BotMessageListener')),
 
 
             ])
