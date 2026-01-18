@@ -41,7 +41,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
     public static ?string $navigationLabel = "Кнопка";
     public static ?string $title = "Кнопка";
 
-    public $pos_list;
+    public ?array $pos_list = [];
 
     public ?array $data = [];
 
@@ -56,18 +56,18 @@ class BotMessageButtonAdmin extends Page implements HasForms
         return BotMessageButton::class;
     }
 
-    public function mount(int $bot_message_id, int $id): void
+    public function mount(int $bot_id, int $id): void
     {
         $this->id = $id;
-        $this->bot_message_id = $bot_message_id;
-        $bot_message = BotMessage::select('bot_id')->find($bot_message_id);
+        $this->bot_id = $bot_id;
+        $bot_message = BotMessage::select('bot_id')->find($this->id);
 
-        $bot = Bot::select('name')->find($bot_message->bot_id);
-        $this->bot_id = $bot_message->bot_id;
+        $bot = Bot::select('name')->find($this->bot_id);
+
         $this->bot_name = $bot->name;
 
-        $this->pos_list = (new BotMessageButtonBuildPosList())->handle($bot_message_id, $id);
-        $data = ($id>0?BotMessageButton::find($id):["bot_message_id" => $bot_message_id, 'pos' => $this->pos_list[1]]);
+        $this->pos_list = (new BotMessageButtonBuildPosList())->handle($id);
+        $data = ($id>0?BotMessageButton::find($id):["bot_message_id" => $id, 'pos' => $this->pos_list[1]]);
         $this->form->fill([$data]);
 
         if (!Auth::user()->hasPermissionTo('View:BotMessage')) {
@@ -213,7 +213,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                     Action::make('Сохранить')
                         ->action(function () {
                             $data = $this->form->getState();
-
+                            $data['bot_message_id'] = $this->id;
                             if ($this->id>0) {
                                 BotMessageButton::where('id', $this->id)->update($data);
                                 $button_id = $this->id;
@@ -225,7 +225,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                             //=========================================================================
 
                             $posres = BotMessageButton::select('id')
-                                ->where('bot_message_id', $this->bot_message_id)
+                                ->where('bot_message_id', $this->id)
                                 ->whereNot('id', $button_id)
                                 ->where('pos', '<=', $data['pos'])
                                 ->orderBy('pos')
@@ -240,7 +240,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                             //===
 
                             $posres = BotMessageButton::select('id')
-                                ->where('bot_message_id', $this->bot_message_id)
+                                ->where('bot_message_id', $this->id)
                                 ->whereNot('id', $button_id)
                                 ->where('pos', '>=', $data['pos'])
                                 ->orderBy('pos')
@@ -259,7 +259,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                                 ->success()
                                 ->send();
 
-                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/message-admin');
+                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->id.'/button-admin');
                         })
                         ->visible(auth()->user()->hasPermissionTo('Create:BotMessageButtonCallback')),
 
@@ -267,7 +267,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
 
                     Action::make('Cancel')
                         ->action(function () {
-                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/message-admin');
+                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->id.'/button-admin');
                         })
                         ->label('Отменить и вернуться назад')
                 ])
