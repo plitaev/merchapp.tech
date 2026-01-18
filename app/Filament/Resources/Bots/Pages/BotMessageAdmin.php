@@ -176,7 +176,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
             $data["pause_after_message"] = 0;
         }
 
-        $this->form->fill($data);
+        $this->form->fill([$data]);
 
         $this->form_bot_message_link_listener->fill([]);
 
