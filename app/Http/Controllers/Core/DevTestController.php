@@ -22,15 +22,14 @@ use App\Actions\Core\DateEnd\DateEnd;
 class DevTestController extends Controller
 {
     public function devtest() {
-        /*
+
         $dateEndNew = new DateEndNew();
 
-        $bot_users = BotUser::where('run_status', 0)->get();
+        $bot_users = BotUser::all();
         foreach ($bot_users as $bot_user) {
             $dateEndNew->handle($bot_user, 'Y-m-d');
-            BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
         }
-        */
+
         /*
         $result = [];
 
