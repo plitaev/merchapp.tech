@@ -123,6 +123,7 @@ class BotContentAdmin extends Page implements HasForms
                             ->disabled(auth()->user()->hasPermissionTo('Update:Content')?false:true),
                         TextInput::make('edgecenter_id')
                             ->required()
+                            ->type('number')
                             ->validationMessages([
                                 'required' => 'Обязательно укажите ID внешней системы',
                             ])
