@@ -58,14 +58,14 @@ class DevTestController extends Controller
 
         return $result;
         */
-
+        /*
         $dateEnd = new DateEnd();
 
         $bot_users = BotUser::all();
         foreach ($bot_users as $bot_user) {
             $dateEnd->handle($bot_user, 'Y-m-d');
         }
-
+        */
 
         /*
          * KOLCHUKI
