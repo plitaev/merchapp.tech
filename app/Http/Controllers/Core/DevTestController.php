@@ -66,7 +66,6 @@ class DevTestController extends Controller
         $bot_users = BotUser::all();
         foreach ($bot_users as $bot_user) {
             $dateEnd->handle($bot_user, 'Y-m-d');
-            BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
         }
 
 
