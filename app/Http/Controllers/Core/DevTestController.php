@@ -22,7 +22,7 @@ use App\Actions\Core\DateEnd\DateEnd;
 class DevTestController extends Controller
 {
     public function devtest() {
-        /*
+
         $dateEndNew = new DateEndNew();
 
         $bot_users = BotUser::all();
@@ -30,7 +30,7 @@ class DevTestController extends Controller
             $dateEndNew->handle($bot_user, 'Y-m-d');
         }
 
-        */
+
         /*
         $result = [];
 
@@ -40,7 +40,7 @@ class DevTestController extends Controller
 
             if ($diff > 0) {
                 $new = \App\Models\Core\Pay::insert([
-                    'product_id' => 9,
+                    'product_id' => 24,
                     'gift' => 0,
                     'bot_user_id' => $bot_user->id,
                     'price' => 0,
