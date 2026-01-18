@@ -31,7 +31,7 @@ class DevTestController extends Controller
             BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
         }
         */
-
+        /*
         $result = [];
 
         $bot_users = BotUser::whereNotNull('date_end')->whereNotNull('date_end_new')->where('date_end', '>=', date('Y-m-d H:i:s', time()))->where('run_status', 0)->get();
@@ -58,15 +58,15 @@ class DevTestController extends Controller
         }
 
         return $result;
+        */
 
-        /*
         $dateEnd = new DateEnd();
 
         $bot_users = BotUser::all();
         foreach ($bot_users as $bot_user) {
             $dateEnd->handle($bot_user, 'Y-m-d');
         }
-        */
+
 
         /*
          * KOLCHUKI
