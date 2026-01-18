@@ -151,7 +151,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->bot_id = $bot_id;
         $this->id = $id;
 
-        $bot = Bot::select('name')->find($this->bot_id);
+        $bot = Bot::select('name')->find($bot_id);
         $this->bot_name = $bot->name;
 
         if ($id > 0) {

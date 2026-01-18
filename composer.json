@@ -5,7 +5,7 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "filament/filament": "~4.0",
         "bezhansalleh/filament-shield": "~4.0.2",
         "irazasyed/telegram-bot-sdk": "^3.15",
