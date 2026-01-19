@@ -29,5 +29,7 @@ class TbankController
             }
 
         }
+
+        return 'OK';
     }
 }

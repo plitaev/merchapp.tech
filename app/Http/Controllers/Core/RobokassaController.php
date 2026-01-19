@@ -40,6 +40,7 @@ class RobokassaController
             $payMakeSuccessful->handle($result, $requestBody['inv_id'], $requestBody['SignatureValue'], $requestBody['inv_id'], $requestBody['Fee']);
         }
 
+        return 'OK';
     }
 
     public function callback_fail() {
