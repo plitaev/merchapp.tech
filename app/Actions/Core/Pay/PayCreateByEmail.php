@@ -13,6 +13,7 @@ use App\Models\Core\Product;
 class PayCreateByEmail
 {
     public function handle(string $email, int $product_id, int $recurrent, int $recurrent_status, int $days = 0, int $price = 0) {
+
         $botBranchEndByProducts = new BotBranchEndByProducts();
         $botSendMessage = new BotSendMessage();
         $botUserPriceSet = new BotUserPriceSet();
