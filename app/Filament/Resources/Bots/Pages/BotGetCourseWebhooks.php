@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\Bots\Pages;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
+
 use App\Models\Core\PaySystemCallback;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\BulkActionGroup;
@@ -14,7 +17,6 @@ use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
 
 class BotGetCourseWebhooks extends Page implements HasTable
 {
@@ -67,7 +69,12 @@ class BotGetCourseWebhooks extends Page implements HasTable
                     ->dateTime('d.m.Y H:i:s'),
                 TextColumn::make('callback->product_id')
                     ->label('Продукт')
-                    ->searchable()
+                    ->formatStateUsing(function (string $state): HtmlString {
+                        $data = json_decode($state, true);
+                        $output = "Key 1: {$data['key1']}, Key 2: {$data['key2']}";
+                        // Or more complicated structures using HtmlString
+                        return new HtmlString("<p>{$output}</p>");
+                    })
             ])
             ->filters([
                 //
