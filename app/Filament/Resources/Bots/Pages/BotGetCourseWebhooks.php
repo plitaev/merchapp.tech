@@ -59,13 +59,13 @@ class BotGetCourseWebhooks extends Page implements HasTable
     {
         return $table
             ->defaultSort('created_at', 'desc')
-            ->query(PaySystemCallback::select('created_at', 'callback->product_id AS product_id'))
+            ->query(PaySystemCallback::where('pay_system_id', 5))
             ->persistSearchInSession()
             ->columns([
                 TextColumn::make('created_at')
                     ->label('Создан')
                     ->dateTime('d.m.Y H:i:s'),
-                TextColumn::make('product_id')
+                TextColumn::make('callback')
                     ->label('Продукт')
                     ->searchable()
             ])
