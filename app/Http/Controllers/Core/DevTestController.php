@@ -39,7 +39,7 @@ class DevTestController extends Controller
 
         $Amys = array_unique($Amys);
 
-        //return $Amys;
+        return $Amys_users['11.2029'];
 
         return view('core.devtest.devtest', ['mys' => $Amys, 'mys_users' => $Amys_users]);
 
