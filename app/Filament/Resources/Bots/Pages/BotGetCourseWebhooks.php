@@ -67,11 +67,11 @@ class BotGetCourseWebhooks extends Page implements HasTable
                 TextColumn::make('created_at')
                     ->label('Создан')
                     ->dateTime('d.m.Y H:i:s'),
-                TextColumn::make('callback->product_id')
+                TextColumn::make('product_id')
                     ->label('Продукт')
                     ->formatStateUsing(function (string $state): HtmlString {
                         $data = json_decode($state, true);
-                        $output = "Key 1: {$data['key1']}, Key 2: {$data['key2']}";
+                        $output = $data['product_id'];
                         // Or more complicated structures using HtmlString
                         return new HtmlString("<p>{$output}</p>");
                     })
