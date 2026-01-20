@@ -18,24 +18,11 @@ use App\Models\Core\BotMessage;
 class GetCourseController extends Controller
 {
     public function getcourse_webhook(int $product_id, int $getcourse_user_id, string $getcourse_user_name, string $email, int $is_recurrent, int $recurrent_status) {
-
         $getCourseWebhookCreate = new GetCourseWebhookCreate();
-        $paySystemCallbackCreate = new PaySystemCallbackCreate();
         $payCreateByEmail = new PayCreateByEmail();
 
-        $payCreateByEmail->handle($email, $product_id, $is_recurrent, $recurrent_status);
         $getCourseWebhookCreate->handle($product_id, $getcourse_user_id, $getcourse_user_name, $email, $is_recurrent, $recurrent_status);
-
-        $A = [
-            'product_id' => $product_id,
-            'getcourse_id' => $getcourse_user_id,
-            'name' => $getcourse_user_name,
-            'email' => $email,
-            'recurrent' => $is_recurrent,
-            'recurrent_status' => $recurrent_status
-        ];
-
-        $paySystemCallbackCreate->handle(json_encode($A), 'getcourse');
+        $payCreateByEmail->handle($email, $product_id, $is_recurrent, $recurrent_status);
     }
 
     public function getcourse_cancel_webhook(int $getcourse_user_id, string $getcourse_user_name, string $email) {
