@@ -2,10 +2,6 @@
 
 namespace App\Filament\Resources\Bots\Pages;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\HtmlString;
-
-use App\Models\Core\PaySystemCallback;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -17,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class BotGetCourseWebhooks extends Page implements HasTable
 {
@@ -61,20 +58,30 @@ class BotGetCourseWebhooks extends Page implements HasTable
     {
         return $table
             ->defaultSort('created_at', 'desc')
-            ->query(PaySystemCallback::where('pay_system_id', 5))
+            ->query(GetcourseWebhook::with('recurrent_name', 'recurrent_status_name')
+                ->whereHas('bot', function ($query) {
+                    $query->where('bot_id', $this->bot_id);
+                }))
             ->persistSearchInSession()
             ->columns([
                 TextColumn::make('created_at')
                     ->label('Создан')
                     ->dateTime('d.m.Y H:i:s'),
-                TextColumn::make('product_id')
+                TextColumn::make('product.name')
                     ->label('Продукт')
-                    ->formatStateUsing(function (string $state): HtmlString {
-                        $data = json_decode($state, true);
-                        $output = $data['product_id'];
-                        // Or more complicated structures using HtmlString
-                        return new HtmlString("<p>{$output}</p>");
-                    })
+                    ->searchable(),
+                TextColumn::make('getcourse_id')
+                    ->label('GetCourse ID'),
+                TextColumn::make('name')
+                    ->label('Имя')
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->label('Email')
+                    ->searchable(),
+                TextColumn::make('recurrent_name.name')
+                    ->label('Рекуррент'),
+                TextColumn::make('recurrent_status_name.name')
+                    ->label('Статус рекуррента')
             ])
             ->filters([
                 //
