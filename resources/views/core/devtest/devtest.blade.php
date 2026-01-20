@@ -30,7 +30,7 @@
 --}}
 
 <table>
-    @foreach ($Amys as $my)
+    @foreach ($mys as $my)
         <tr>
             <td>{{$my}}</td>
             <td>
