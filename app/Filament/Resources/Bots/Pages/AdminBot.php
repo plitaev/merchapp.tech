@@ -261,6 +261,25 @@ class AdminBot extends Page implements HasForms
                                 return redirect('/admin/bots/'.$this->id.'/edit');
                             } else {
                                 $new = Bot::create($data);
+
+
+                                BotBranch::create(
+                                    [
+                                        'bot_id' => $new->id,
+                                        'bot_branch_type' => 1,
+                                        'name' => 'Главная ветка',
+                                        'alias' => 'BRANCH_MAIN',
+                                        'hash' => 'BRANCH_MAIN',
+                                        'datetime_start' => date('Y-m-d H:i:s', time()),
+                                        'datetime_end' => date('2100-01-01 00:00:00'),
+                                    ]
+                                );
+
+                            Notification::make()
+                                ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
+                            
                                 return redirect('/admin/bots/'.$new->id.'/edit');
                             }
                         })
@@ -391,7 +410,14 @@ class AdminBot extends Page implements HasForms
                                  ->success()
                                  ->send();
                          })
-                         ->visible(auth()->user()->hasPermissionTo('Update:Bot'))
+                         ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
+
+                    Action::make('Cancel')
+                        ->action(function () {
+                            return redirect('/admin/bots');
+                        })
+                        ->label('Отменить и вернуться назад')
+                    
                 ])
             ])->statePath('data');
     }
