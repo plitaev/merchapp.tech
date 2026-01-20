@@ -25,6 +25,9 @@ use App\Actions\Core\DateEnd\DateEnd;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $ids = Pay::whereIn('product_id', [2, 3, 10, 25])->where('status', 1)->get();
+        $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->whereIn('id', $ids)->get();
+        return $bot_users;
     }
 
     public function paycounts() {
