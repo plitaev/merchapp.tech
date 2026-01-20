@@ -25,9 +25,22 @@ use App\Actions\Core\DateEnd\DateEnd;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $Amys = [];
+        $Amys_users = [];
+
         $ids = Pay::select('bot_user_id')->whereIn('product_id', [2, 3, 10, 25])->where('status', 1)->pluck('bot_user_id')->toArray();
         $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->whereIn('id', $ids)->get();
-        return $bot_users;
+
+        foreach ($bot_users as $bot_user) {
+            $Amys[] = date("m.Y", strtotime($bot_user->date_end));
+            $Amys_users[date("m.Y", strtotime($bot_user->date_end))][] = 1;
+        }
+
+        $Amys = array_unique($Amys);
+
+        return view('core.devtest.devtest', ['mys' => $Amys, 'mys_users' => $Amys_users]);
+
     }
 
     public function paycounts() {

@@ -11,7 +11,7 @@
     @endforeach
 </table>
 --}}
-
+{{--
 <table>
     @foreach ($bot_users as $bot_user)
         <tr>
@@ -22,6 +22,20 @@
             <td>
                 @if (isset($bot_user->date_end))
                     {{date('d.m.Y', strtotime($bot_user->date_end))}}
+                @endif
+            </td>
+        </tr>
+    @endforeach
+</table>
+--}}
+
+<table>
+    @foreach ($Amys as $my)
+        <tr>
+            <td>{{$my}}</td>
+            <td>
+                @if (isset($mys_users[$my]))
+                    {{count($mys_users[$my])}}
                 @endif
             </td>
         </tr>
