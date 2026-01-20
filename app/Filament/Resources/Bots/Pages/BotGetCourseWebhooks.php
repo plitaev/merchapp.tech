@@ -65,7 +65,7 @@ class BotGetCourseWebhooks extends Page implements HasTable
                 TextColumn::make('created_at')
                     ->label('Создан')
                     ->dateTime('d.m.Y H:i:s'),
-                TextColumn::make('callback')
+                TextColumn::make('callback.product_id')
                     ->label('Продукт')
                     ->searchable()
             ])
