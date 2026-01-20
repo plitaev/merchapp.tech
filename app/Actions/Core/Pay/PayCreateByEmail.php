@@ -43,7 +43,7 @@ class PayCreateByEmail
 
             $bot_user = BotUser::find($bot_user->id);
 
-            $botUserPriceSet->handle($bot_user, [1 => $price]);
+            $botUserPriceSet->handle($bot_user);
 
             //== Завершаем ветку по покупке продукта
             $botBranchEndByProducts->handle($product_id, $bot_user->id);
