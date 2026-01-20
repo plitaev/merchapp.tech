@@ -59,10 +59,7 @@ class BotGetCourseWebhooks extends Page implements HasTable
     {
         return $table
             ->defaultSort('created_at', 'desc')
-            ->query(PaySystemCallback::query()
-                ->whereHas('bot', function ($query) {
-                    $query->where('bot_id', $this->bot_id);
-                }))
+            ->query(PaySystemCallback::select('callback->product_id AS product_id', 'callback->getcourse_id AS getcourse_id', 'callback->name AS name', 'callback->email AS email', 'callback->recurrent_status AS recurrent_status'))
             ->persistSearchInSession()
             ->columns([
                 TextColumn::make('created_at')
@@ -79,9 +76,7 @@ class BotGetCourseWebhooks extends Page implements HasTable
                 TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
-                TextColumn::make('recurrent_name.name')
-                    ->label('Рекуррент'),
-                TextColumn::make('recurrent_status_name.name')
+                TextColumn::make('recurrent_status')
                     ->label('Статус рекуррента')
             ])
             ->filters([
