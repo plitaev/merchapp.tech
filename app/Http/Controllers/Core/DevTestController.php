@@ -37,9 +37,9 @@ class DevTestController extends Controller
             $Amys_users[date("m.Y", strtotime($bot_user->date_end))][] = $bot_user->email;
         }
 
-        return $Amys;
-
         $Amys = array_unique($Amys);
+
+        return $Amys;
 
         return view('core.devtest.devtest', ['mys' => $Amys, 'mys_users' => $Amys_users]);
 
