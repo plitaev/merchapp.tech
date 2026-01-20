@@ -29,7 +29,7 @@ class DevTestController extends Controller
         $Amys = [];
         $Amys_users = [];
 
-        $ids = Pay::select('bot_user_id')->whereIn('product_id', [2, 10])->where('status', 1)->pluck('bot_user_id')->toArray();
+        $ids = Pay::select('bot_user_id')->whereIn('product_id', [3, 25])->where('status', 1)->pluck('bot_user_id')->toArray();
         $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->whereIn('id', $ids)->orderBy('date_end')->get();
 
         foreach ($bot_users as $bot_user) {
