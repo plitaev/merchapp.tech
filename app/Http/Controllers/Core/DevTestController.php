@@ -27,7 +27,7 @@ class DevTestController extends Controller
     public function devtest() {
         $paySystemCallbackCreate = new PaySystemCallbackCreate();
 
-        $res = GetcourseWebhook::where('created_at', '>', '2026-01-19 11:57:38')->get();
+        $res = GetcourseWebhook::all();
         foreach ($res as $data) {
             $A = [
                 'product_id' => $data->product_id,
