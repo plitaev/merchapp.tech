@@ -25,16 +25,20 @@ class Pay extends Model
         'run_status'
     ];
 
+    public function bot(): HasOneThrough {
+        return $this->hasOneThrough(Bot::class, Product::class, 'id', 'id', 'product_id', 'bot_id');
+    }
+
     public function bot_user(): BelongsTo {
         return $this->belongsTo(BotUser::class, 'bot_user_id', 'id');
     }
 
-    public function product(): BelongsTo {
-        return $this->belongsTo(Product::class);
+    public function pay_system(): BelongsTo {
+        return $this->belongsTo(PaySystem::class, 'pay_system_id', 'id');
     }
 
-    public function bot(): HasOneThrough {
-        return $this->hasOneThrough(Bot::class, Product::class, 'id', 'id', 'product_id', 'bot_id');
+    public function product(): BelongsTo {
+        return $this->belongsTo(Product::class);
     }
 
     public function product_type(): HasOneThrough {
