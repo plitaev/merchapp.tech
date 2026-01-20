@@ -32,12 +32,12 @@ class DevTestController extends Controller
         $ids = Pay::select('bot_user_id')->whereIn('product_id', [2, 3, 10, 25])->where('status', 1)->pluck('bot_user_id')->toArray();
         $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->whereIn('id', $ids)->orderBy('date_end')->get();
 
-        return $bot_users;
-
         foreach ($bot_users as $bot_user) {
             $Amys[] = date("m.Y", strtotime($bot_user->date_end));
             $Amys_users[date("m.Y", strtotime($bot_user->date_end))][] = $bot_user->email;
         }
+
+        return $Amys;
 
         $Amys = array_unique($Amys);
 
