@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Bots\Pages;
 
+use App\Models\Core\PaySystemCallback;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -58,7 +59,7 @@ class BotGetCourseWebhooks extends Page implements HasTable
     {
         return $table
             ->defaultSort('created_at', 'desc')
-            ->query(GetcourseWebhook::with('recurrent_name', 'recurrent_status_name')
+            ->query(PaySystemCallback::query()
                 ->whereHas('bot', function ($query) {
                     $query->where('bot_id', $this->bot_id);
                 }))
@@ -67,7 +68,7 @@ class BotGetCourseWebhooks extends Page implements HasTable
                 TextColumn::make('created_at')
                     ->label('Создан')
                     ->dateTime('d.m.Y H:i:s'),
-                TextColumn::make('product.name')
+                TextColumn::make('product_id')
                     ->label('Продукт')
                     ->searchable(),
                 TextColumn::make('getcourse_id')
