@@ -17,6 +17,7 @@ use Telegram\Bot\Api;
 
 use App\Models\Core\Pay;
 use App\Models\Core\PayGuest;
+use App\Models\Core\PaySystemCallback;
 
 use App\Actions\Core\DateEnd\DateEndNew;
 use App\Actions\Core\DateEnd\DateEnd;
@@ -36,9 +37,17 @@ class DevTestController extends Controller
                 'recurrent' => $data->recurrent,
                 'recurrent_status' => $data->recurrent_status
             ];
-        }
 
-        $paySystemCallbackCreate->handle(json_encode($A), 'getcourse');
+                PaySystemCallback::insert(
+                    [
+                        'pay_system_id' => $data->pay_system_id,
+                        'callback' => json_encode($A),
+                        'run_status' => 0,
+                        'created_at' => $data->created_at,
+                        'updated_at' => $data->updated_at
+                    ]
+                );
+        }
     }
 
     public function paycounts() {
