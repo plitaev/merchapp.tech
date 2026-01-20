@@ -36,7 +36,8 @@ class PayCreateByEmail
                 'days' => $days,
                 'status' => 1,
                 'recurrent' => $recurrent,
-                'recurrent_status' => $recurrent_status
+                'recurrent_status' => $recurrent_status,
+                'pay_system_id' => 5
             ]);
 
             $dateEnd->handle($bot_user, 'Y-m-d');

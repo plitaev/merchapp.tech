@@ -25,29 +25,6 @@ use App\Actions\Core\DateEnd\DateEnd;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $paySystemCallbackCreate = new PaySystemCallbackCreate();
-
-        $res = GetcourseWebhook::all();
-        foreach ($res as $data) {
-            $A = [
-                'product_id' => $data->product_id,
-                'getcourse_id' => $data->getcourse_id,
-                'name' => $data->name,
-                'email' => $data->email,
-                'recurrent' => $data->recurrent,
-                'recurrent_status' => $data->recurrent_status
-            ];
-
-                PaySystemCallback::insert(
-                    [
-                        'pay_system_id' => 5,
-                        'callback' => json_encode($A),
-                        'run_status' => 0,
-                        'created_at' => $data->created_at,
-                        'updated_at' => $data->updated_at
-                    ]
-                );
-        }
     }
 
     public function paycounts() {
