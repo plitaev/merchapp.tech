@@ -16,11 +16,11 @@ use App\Models\Core\BotMessage;
 
 class GetCourseController extends Controller
 {
-    public function getcourse_webhook(int $product_id, int $price, int $getcourse_user_id, string $getcourse_user_name, string $email, int $is_recurrent, int $recurrent_status) {
+    public function getcourse_webhook(int $product_id, int $getcourse_user_id, string $getcourse_user_name, string $email, int $is_recurrent, int $recurrent_status) {
 
         $paySystemCallbackCreate = new PaySystemCallbackCreate();
         $payCreateByEmail = new PayCreateByEmail();
-        $payCreateByEmail->handle($email, $product_id, $is_recurrent, $recurrent_status, 0, $price);
+        $payCreateByEmail->handle($email, $product_id, $is_recurrent, $recurrent_status);
 
         $A = [
             'product_id' => $product_id,
