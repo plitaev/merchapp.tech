@@ -87,13 +87,13 @@ class BotPays extends Page implements HasTable
             ->persistSearchInSession()
             ->query(
                 Pay::with('bot_user:id,first_name,last_name,username,email')
-                    ->with('pay_system')
+                    ->with('pay_system:id,name')
                     ->with('product:id,name')
                     ->with('product_type:product_types.id,product_types.name')
                     ->with('bot')
                     ->with('recurrent_name:id,name')
                     ->with('recurrent_status_name:id,name')
-                    ->select('id', 'bot_user_id', 'product_id', 'price', 'days', 'recurrent', 'recurrent_status', 'created_at')
+                    ->select('id', 'bot_user_id', 'pay_system_id', 'product_id', 'price', 'days', 'recurrent', 'recurrent_status', 'created_at')
                     ->whereHas('bot', function ($query) {
                         $query->where('bot_id', $this->bot_id);
                     })
