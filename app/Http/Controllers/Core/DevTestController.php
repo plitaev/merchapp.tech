@@ -40,7 +40,7 @@ class DevTestController extends Controller
 
                 PaySystemCallback::insert(
                     [
-                        'pay_system_id' => $data->pay_system_id,
+                        'pay_system_id' => 5,
                         'callback' => json_encode($A),
                         'run_status' => 0,
                         'created_at' => $data->created_at,
