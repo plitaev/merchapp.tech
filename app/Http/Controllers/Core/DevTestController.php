@@ -34,7 +34,7 @@ class DevTestController extends Controller
 
         foreach ($bot_users as $bot_user) {
             $Amys[] = date("m.Y", strtotime($bot_user->date_end));
-            $Amys_users[date("m.Y", strtotime($bot_user->date_end))][] = 1;
+            $Amys_users[date("m.Y", strtotime($bot_user->date_end))][] = $bot_user->email;
         }
 
         $Amys = array_unique($Amys);
