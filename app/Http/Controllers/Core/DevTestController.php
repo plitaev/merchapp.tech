@@ -21,32 +21,24 @@ use App\Models\Core\PaySystemCallback;
 
 use App\Actions\Core\DateEnd\DateEndNew;
 use App\Actions\Core\DateEnd\DateEnd;
+use App\Models\Core\TelegramBanScheduleLogs;
 
 class DevTestController extends Controller
 {
     public function devtest() {
-
-        $Amys = [];
-        $Amys_users = [];
-
-        $ids = Pay::select('bot_user_id')->whereIn('product_id', [3, 25])->where('status', 1)->pluck('bot_user_id')->toArray();
-        $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->whereIn('id', $ids)->orderBy('date_end')->get();
-
+        $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->where('run_status', 0)->get();
         foreach ($bot_users as $bot_user) {
-            $Amys[] = date("m.Y", strtotime($bot_user->date_end));
-            $Amys_users[date("m.Y", strtotime($bot_user->date_end))][] = $bot_user->email;
+            $ban = TelegramBanScheduleLogs::where('bot_user_id', $bot_user->id)->where('status', 1)->orderByDesc('created_at')->first();
+
+            if ($ban) {
+                $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->where('created_at', '>=', $ban->created_at)->orderBy('created_at')->first();
+                if ($pay) BotUser::where('id', $bot_user->id)->update(['date_start' => date('Y-m-d', strtotime($pay->created_at))]);
+            } else {
+                $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->orderBy('created_at')->first();
+                if ($pay) BotUser::where('id', $bot_user->id)->update(['date_start' => date('Y-m-d', strtotime($pay->created_at))]);
+            }
+
         }
-
-        $Amys = array_unique($Amys);
-
-        return $Amys_users['11.2029'];
-
-        return view('core.devtest.devtest', ['mys' => $Amys, 'mys_users' => $Amys_users]);
-
-    }
-
-    public function paycounts() {
-
     }
 
 }
