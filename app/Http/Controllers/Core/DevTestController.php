@@ -26,7 +26,7 @@ use App\Models\Core\TelegramBanScheduleLogs;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->where('run_status', 0)->get();
+        $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->get();
         foreach ($bot_users as $bot_user) {
             $ban = TelegramBanScheduleLogs::where('bot_user_id', $bot_user->id)->where('status', 1)->orderByDesc('created_at')->first();
 
@@ -38,7 +38,6 @@ class DevTestController extends Controller
                 if ($pay) BotUser::where('id', $bot_user->id)->update(['date_start' => date('Y-m-d', strtotime($pay->created_at))]);
             }
 
-            BotUser::where('id', $bot_user->id)->update(['run_status' => 0]);
         }
     }
 
