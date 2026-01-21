@@ -140,9 +140,12 @@ class BotChats extends Page implements HasTable
                     ])
                     ->label('Email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('date_start')
+                    ->date('d.m.Y')
+                    ->label('Дата начала участия'),
                 Tables\Columns\TextColumn::make('date_end')
                     ->date('d.m.Y')
-                    ->label('Дата подписки'),
+                    ->label('Дата конца участия'),
                 Tables\Columns\IconColumn::make('recurrent')
                     ->boolean()
                     ->label('Рекуррент')
