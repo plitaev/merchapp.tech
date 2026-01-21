@@ -39,6 +39,8 @@ class DevTestController extends Controller
             }
 
         }
+
+        BotUser::where('id', $bot_user->id)->update(['run_status' => 0]);
     }
 
 }
