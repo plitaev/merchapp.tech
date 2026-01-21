@@ -38,9 +38,8 @@ class DevTestController extends Controller
                 if ($pay) BotUser::where('id', $bot_user->id)->update(['date_start' => date('Y-m-d', strtotime($pay->created_at))]);
             }
 
+            BotUser::where('id', $bot_user->id)->update(['run_status' => 0]);
         }
-
-        BotUser::where('id', $bot_user->id)->update(['run_status' => 0]);
     }
 
 }
