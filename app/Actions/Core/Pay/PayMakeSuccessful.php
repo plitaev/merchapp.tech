@@ -41,6 +41,7 @@ class PayMakeSuccessful
         $pay = Pay::find($order_number);
         $bot_user = $botUserGetByID->handle($pay->bot_user_id);
 
+        BotUser::where('id', $bot_user->id)->whereNull('date_start')->update(['date_start' => date('Y-m-d', time())]);
         $dateEnd->handle($bot_user, 'Y-m-d');
 
         $botUserPriceSet->handle($bot_user);
