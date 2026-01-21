@@ -27,7 +27,6 @@ use Filament\Support\Enums\Width;
 use App\Filament\Resources\Bots\Pages\AdvancedListBot;
 use App\Filament\Resources\Bots\Pages\CreateBot;
 use App\Filament\Resources\Bots\Pages\AdminBot;
-use App\Filament\Resources\Bots\Pages\BotAdmin;
 use App\Filament\Resources\Bots\Pages\BotMessageButtonAdmin;
 use App\Filament\Resources\Bots\Pages\BotChats;
 use App\Filament\Resources\Bots\Pages\BotChatAdmin;
@@ -178,7 +177,6 @@ class BotResource extends Resource
             'create' => CreateBot::route('/create'),
             'edit' => AdminBot::route('/{record}/edit'),
             'admin' => AdminBot::route('/{record}/admin'),
-            'bot-admin' => BotAdmin::route('/{id}/bot-admin'),
             'bot-wizard' => BotWizard::route('/bot-wizard'),
             'button-admin' => BotMessageButtonAdmin::route('/{bot_id}/{id}/button-admin'),
             'chats' => BotChats::route('/{bot_id}/chats'),
