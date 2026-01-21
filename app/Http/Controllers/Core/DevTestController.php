@@ -32,7 +32,7 @@ class DevTestController extends Controller
         $refs = Pay::whereIn('bot_user_id', $bot_user_ids)->where('product_id', 28)->get();
         $A = [];
         foreach ($refs as $ref) {
-            $check = Pay::where('bot_user_id', $ref->bot_user_id)->where('status', 1)->where('created_at', '>=', $ref->created_at)->where('price', 1490)->first();
+            $check = BotUserPrice::where('bot_user_id', $ref->bot_user_id)->where('product_id', 1)->where('price', 1490)->first();
             if ($check) $A[] = $check->bot_user_id;
         }
 
