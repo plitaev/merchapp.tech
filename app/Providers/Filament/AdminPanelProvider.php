@@ -26,7 +26,6 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         $A = [];
-        $menus = MiniApp::orderBy('id')->get();
 
 
         $A[] = NavigationItem::make('apps')
@@ -47,18 +46,26 @@ class AdminPanelProvider extends PanelProvider
             ->url("/admin/mini-app-pages")
             ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/mini-app-pages");
 
-        foreach ($menus as $menu) {
-            $A[] = NavigationItem::make('banners_apps')
-                ->label($menu->name)
+        $app_banners = MiniApp::where('class_id', 1)->orderByDesc('created_at')->get();
+        $app_videos = MiniApp::where('class_id', 2)->orderByDesc('created_at')->get();
+
+        foreach ($app_banners as $app_banner) {
+            $A[] = NavigationItem::make('app_banners')
+                ->label($app_banner->name)
                 ->group('Баннеры')
                 ->icon('heroicon-o-photo')
-                ->url("/admin/mini-app-banners/".$menu->id."/".rawurlencode($menu->name)."/admin_banner_by_app")
-                ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/mini-app-banners/".$menu->id."/".rawurlencode($menu->name)."/admin_banner_by_app");
+                ->url("/admin/mini-app-banners/".$app_banner->id."/".rawurlencode($app_banner->name)."/admin_banner_by_app")
+                ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/mini-app-banners/".$app_banner->id."/".rawurlencode($app_banner->name)."/admin_banner_by_app");
         }
 
-//        Route::get('/banners_apps', function () {
-//            return view('banners_apps');
-//        })->middleware('/access');
+        foreach ($app_videos as $app_video) {
+            $A[] = NavigationItem::make('app_videos')
+                ->label($app_video->name)
+                ->group('Видео')
+                ->icon('heroicon-o-photo')
+                ->url("/admin/mini-app-videos/".$app_video->id."/".rawurlencode($app_video->name)."/admin_video_by_app")
+                ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/mini-app-videos/".$app_video->id."/".rawurlencode($app_video->name)."/admin_video_by_app");
+        }
 
         $A[] = NavigationItem::make('flisteners')
             ->label('Триггеры воронок')
