@@ -62,7 +62,7 @@ class AdminMiniApp extends Page implements HasForms
         $this->form->fill($data);
 
         $this->roles = MiniApp::all()->pluck('name', 'id')->toArray();
-        
+
         if (!auth()->user()->hasPermissionTo('View:MiniApp')) {
             redirect('/admin/bots/access');
         }
@@ -110,38 +110,34 @@ class AdminMiniApp extends Page implements HasForms
                             ->disabled(auth()->user()->hasPermissionTo('Update:MiniApp') ? false : true)
                             ->searchable(),
                     ]),
-                        Actions::make([
-                            Action::make('Сохранить')
-                                ->action(function () {
-                                    $data = $this->form->getState();
+                Actions::make([
+                    Action::make('Сохранить')
+                        ->action(function () {
+                            $data = $this->form->getState();
 
-                                    if ($this->id > 0) {
-                                        MiniApp::where('id', $this->id)->update($data);
-                                        $output_id = $this->id;
-                                    } else {
-                                        $new = MiniApp::create($data);
-                                        $output_id = $new->id;
-                                    }
+                            if ($this->id > 0) {
+                                MiniApp::where('id', $this->id)->update($data);
+                                $output_id = $this->id;
+                            } else {
+                                $new = MiniApp::create($data);
+                                $output_id = $new->id;
+                            }
 
-                                    Notification::make()
-                                        ->title('Данные успешно сохранены!')
-                                        ->success()
-                                        ->send();
+                            Notification::make()
+                                ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
 
-                                    return redirect('/admin/mini-apps');
-                                })
-                                ->visible(auth()->user()->can('Create:MiniApp')),
-                            Action::make('Cancel')
-                                ->color('gray')
-                                ->action(function () {
+                            return redirect('/admin/mini-apps');
+                        })
+                        ->visible(auth()->user()->can('Create:MiniApp')),
+                    Action::make('Cancel')
+                        ->color('gray')
+                        ->action(function () {
                             return redirect('/admin/mini-apps');
                         })
                         ->label('Отменить и вернуться назад')
-                        ])
+                ])
             ])->statePath('data');
-            
     }
-
 }
-
-
