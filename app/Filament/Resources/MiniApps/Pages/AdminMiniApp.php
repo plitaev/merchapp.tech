@@ -73,7 +73,7 @@ class AdminMiniApp extends Page implements HasForms
         return ['form'];
     }
 
-    public static function form(Schema $schema): Schema
+    public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
