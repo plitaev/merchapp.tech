@@ -19,6 +19,13 @@ class MiniAppVideoForm
             ->components([
                 Section::make('Изображение на баннере')
                     ->description('Как пользователь видит этот баннер')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
                     ->schema([
                         TextInput::make('name')
                             ->label('Название видео')
