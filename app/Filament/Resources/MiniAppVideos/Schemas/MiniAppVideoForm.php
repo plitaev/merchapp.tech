@@ -1,6 +1,8 @@
 <?php
 namespace App\Filament\Resources\MiniAppVideos\Schemas;
+
 use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 
 class MiniAppVideoForm
 {
