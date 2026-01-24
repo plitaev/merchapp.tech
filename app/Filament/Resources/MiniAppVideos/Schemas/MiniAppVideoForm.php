@@ -1,5 +1,9 @@
 <?php
+
 namespace App\Filament\Resources\MiniAppVideos\Schemas;
+
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
 
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
