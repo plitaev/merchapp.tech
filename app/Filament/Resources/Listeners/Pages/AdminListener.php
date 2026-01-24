@@ -31,6 +31,7 @@ class AdminListener extends Page implements HasForms
     public static ?string $title = "Ожидание";
 
     public ?array $data = [];
+    public string $name;
 
     public int $id;
 
@@ -41,7 +42,7 @@ class AdminListener extends Page implements HasForms
 
     public function getTitle(): string|Htmlable
     {
-        return __('Ожидание');
+        return $this->name;
     }
 
     protected function getHeaderActions(): array
@@ -56,6 +57,8 @@ class AdminListener extends Page implements HasForms
         if (auth()->user()->hasPermissionTo('Update:Listener')){
 
             $data = ($id > 0 ? Listener::find($id)->toArray() : []);
+            $this->name = ($id > 0?$data['name']:'Новое ожидание');
+
             $this->form->fill($data);
         }else{
             redirect('/admin/bots/access');

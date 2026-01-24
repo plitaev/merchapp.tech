@@ -30,6 +30,7 @@ class AdminFunnelCondition extends Page implements HasForms
     public static ?string $title = "Условие воронки";
 
     public ?array $data = [];
+    public string $name;
 
     public int $id;
 
@@ -40,7 +41,7 @@ class AdminFunnelCondition extends Page implements HasForms
 
     public function getTitle(): string|Htmlable
     {
-        return __('Настройки условия воронки');
+        return $this->name;
     }
 
     protected function getHeaderActions(): array
@@ -55,6 +56,8 @@ class AdminFunnelCondition extends Page implements HasForms
         if (auth()->user()->hasPermissionTo('Update:FunnelCondition')) {
 
             $data = ($id > 0 ? FunnelCondition::find($id)->toArray() : []);
+            $this->name = ($id > 0?$data['name']:'Новая воронка');
+
             $this->form->fill($data);
         }else{
             redirect('/admin/bots/access');

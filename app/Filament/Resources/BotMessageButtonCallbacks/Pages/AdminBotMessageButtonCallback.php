@@ -31,6 +31,7 @@ class AdminBotMessageButtonCallback extends Page implements HasForms
     public ?array $data = [];
 
     public int $id;
+    public string $name;
 
     public function getRecord(): ?Model
     {
@@ -39,7 +40,7 @@ class AdminBotMessageButtonCallback extends Page implements HasForms
 
     public function getTitle(): string|Htmlable
     {
-        return __('Обработчик кнопок');
+        return $this->name;
     }
 
     protected function getHeaderActions(): array
@@ -53,6 +54,8 @@ class AdminBotMessageButtonCallback extends Page implements HasForms
         $this->id = $id;
 
         $data = ($id > 0 ? BotMessageButtonCallback::find($id)->toArray() : []);
+        $this->name = ($id > 0?$data['name']:'Новая кнопка');
+
         $this->form->fill($data);
 
         if(!auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')) {

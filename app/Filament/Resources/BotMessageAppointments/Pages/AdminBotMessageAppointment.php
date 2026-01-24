@@ -30,6 +30,7 @@ class AdminBotMessageAppointment extends Page implements HasForms
     public static ?string $title = "Назначение";
 
     public ?array $data = [];
+    public string $name;
 
     public int $id;
 
@@ -40,7 +41,7 @@ class AdminBotMessageAppointment extends Page implements HasForms
 
     public function getTitle(): string|Htmlable
     {
-        return __('Назначение');
+        return $this->name;
     }
 
     protected function getForms(): array
@@ -59,6 +60,8 @@ class AdminBotMessageAppointment extends Page implements HasForms
         $this->id = $id;
 
         $data = ($id > 0 ? BotMessageAppointment::find($id)->toArray() : []);
+        $this->name = ($id > 0?$data['name']:'Новое назначение');
+
         $this->form->fill($data);
 
         if (!Auth::user()->hasPermissionTo('Update:BotMessageAppointment')) {

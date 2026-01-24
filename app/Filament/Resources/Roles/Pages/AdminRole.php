@@ -35,6 +35,7 @@ class AdminRole extends Page implements HasForms
     public int $id;
 
     public ?array $roles = [];
+    public string $name;
 
     public function getRecord(): ?Model
     {
@@ -43,7 +44,7 @@ class AdminRole extends Page implements HasForms
 
     public function getTitle(): string|Htmlable
     {
-        return __('Ожидание');
+        return $this->name;
     }
 
     protected function getHeaderActions(): array
@@ -56,6 +57,8 @@ class AdminRole extends Page implements HasForms
     {
         $this->id = $id;
         $data = ($id>0?Role::find($id)->toArray():[]);
+        $this->name = ($id > 0?$data['name']:'Новая роль');
+
         $this->form->fill($data);
 
         $this->roles = Role::all()->pluck('name', 'id')->toArray();

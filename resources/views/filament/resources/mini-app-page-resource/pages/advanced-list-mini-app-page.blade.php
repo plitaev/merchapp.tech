@@ -1,6 +1,8 @@
 <x-filament-panels::page>
 
-    @if (Auth::user()->hasPermissionTo('View:MiniAppPage'))
+    <style>.fi-breadcrumbs:not(#merchapp-top-nav){display: none} .fi-ta-search-field{min-width: 300px}</style>
+
+@if (Auth::user()->hasPermissionTo('View:MiniAppPage'))
 
         <div class="fi-header fi-header-has-breadcrumbs">
             <div>
@@ -38,8 +40,7 @@
 
             @endif
         </div>
-
+    @endif
         {{$this->table}}
 
-    @endif
 </x-filament-panels::page>

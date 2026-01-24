@@ -57,6 +57,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
 
     public int $banner_id;
 
+    public string $name;
     public $pos_list;
 
     public function getRecord(): ?Model
@@ -66,7 +67,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
 
     public function getTitle(): string|Htmlable
     {
-        return __('Настройки баннера');
+        return $this->name;;
     }
 
     protected function getHeaderActions(): array
@@ -84,6 +85,8 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
         $this->pos_list = (new MiniAppBannerBuildPosList())->handle($mini_app_page_id, $banner_id);
 
         $data = ($banner_id>0?MiniAppBanner::find($banner_id)->toArray():['id' => 0, 'mini_app_page_id' => $mini_app_page_id, 'pos' => $this->pos_list[1], 'button_text' => 'Смотреть', 'button_bg_color' => '#9ca3af', 'button_text_color' => '#ffffff']);
+        $this->name = ($mini_app_page_id > 0?$data['name']:'Новый баннер');
+
         $this->form->fill($data);
 
         $this->form_banner_link_page->fill([]);

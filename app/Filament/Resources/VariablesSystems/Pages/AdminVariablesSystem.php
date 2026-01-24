@@ -32,6 +32,7 @@ class AdminVariablesSystem extends Page implements HasForms
     protected string $view = 'filament.resources.variables-system-resource.pages.admin-variables-system';
 
     protected static ?string $model = VariablesSystem::class;
+    public string $name;
 
     public static ?string $label = "Переменная";
     public static ?string $navigationLabel = "Переменная";
@@ -52,7 +53,7 @@ class AdminVariablesSystem extends Page implements HasForms
 
     public function getTitle(): string|Htmlable
     {
-        return __('Настройки переменной');
+        return $this->name;
     }
 
     protected function getHeaderActions(): array
@@ -67,6 +68,7 @@ class AdminVariablesSystem extends Page implements HasForms
         if (auth()->user()->hasPermissionTo('Edit:VariablesSystem')) {
 
         $data = ($variable_group_id>0?VariablesSystem::with('variable_system_variable_system_type')->with('variable_system_variable_group')->find($variable_group_id)->toArray():["variable_group_id" => $this->id, "variable_system_type_id" => 1]);
+        $this->name = ($id > 0?$data['name']:'Новая переменная');
 
         $this->form->fill($data);
 

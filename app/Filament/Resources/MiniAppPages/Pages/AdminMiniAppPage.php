@@ -50,9 +50,9 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
     public ?array $data = [];
 
-    public $record;
+    public string $name;
 
-    public int $mini_app_class_id;
+    public $record;
 
     public function getRecord(): ?Model
     {
@@ -61,7 +61,12 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
     public function getTitle(): string|Htmlable
     {
-        return __('Настройки страницы мини-приложения');
+        return $this->name;
+    }
+
+    public function getHeading(): string
+    {
+        return $this->name;
     }
 
     protected function getHeaderActions(): array
@@ -71,16 +76,16 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
     public function mount(int $record): void
     {
+
         $data = ($record>0?MiniAppPage::with('miniapp')->find($record)->toArray():[]);
         if ($record == 0) $data['url'] = hash('sha256', time());
-        $this->mini_app_class_id = ($record > 0?$data['miniapp']['class_id']:0);
+        $this->name = ($record > 0?$data['name']:'Новая страница');
 
         $this->form->fill($data);
 
         if (!auth()->user()->hasPermissionTo('View:MiniAppPage')) {
             redirect('/admin/bots/access');
         }
-
     }
 
     protected function getForms(): array

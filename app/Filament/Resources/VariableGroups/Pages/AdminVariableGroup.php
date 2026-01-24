@@ -43,6 +43,7 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
     public static ?string $title = "Группы переменных";
 
     public ?array $data = [];
+    public string $name;
 
     public int $id;
 
@@ -57,7 +58,7 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
 
     public function getTitle(): string|Htmlable
     {
-        return __('Настройки переменных');
+        return $this->name;
     }
 
     protected function getHeaderActions(): array
@@ -73,6 +74,7 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
         if (auth()->user()->hasPermissionTo('Edit:VariableGroup')) {
 
         $data = ($id>0?VariableGroup::find($id)->toArray():[]);
+       $this->name = ($id > 0?$data['name']:'Новый группа переменных');
 
         $count_variable_group = VariableGroup::count();
 
