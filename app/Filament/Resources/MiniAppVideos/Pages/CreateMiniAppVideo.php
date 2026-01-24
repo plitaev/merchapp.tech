@@ -8,4 +8,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateMiniAppVideo extends CreateRecord
 {
     protected static string $resource = MiniAppVideoResource::class;
+
+    protected function getFormActions(): array {
+        return [];
+    }
+
 }
