@@ -45,7 +45,7 @@ class BotMessages extends Page implements HasTable
         $this->bot_id = $bot_id;
         $bot = Bot::select('name')->find($bot_id);
 
-        if($bot != 0) {
+        if($bot_id != 0) {
             $this->bot_name = $bot->name;
         }else{
             $this->bot_name = '';
