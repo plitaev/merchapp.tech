@@ -67,7 +67,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
 
     public function getTitle(): string|Htmlable
     {
-        return $this->name;;
+        return $this->name;
     }
 
     protected function getHeaderActions(): array
@@ -100,6 +100,17 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
     protected function getForms(): array
     {
         return ['form', 'form_banner_link_page'];
+    }
+
+
+
+    public function getHeading(): string
+    {
+        if ($this->id > 0) {
+            return "Редактировать баннер";
+        } else {
+            return "Добавить баннер";
+        }
     }
 
     public function form(Schema $schema): Schema

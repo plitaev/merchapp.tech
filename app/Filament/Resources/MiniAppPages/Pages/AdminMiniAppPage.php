@@ -86,7 +86,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
     public function getHeading(): string
     {
-        if ($this->id > 0) {
+        if ($this->record > 0) {
             return "Редактировать страницу";
         } else {
             return "Добавить страницу";
