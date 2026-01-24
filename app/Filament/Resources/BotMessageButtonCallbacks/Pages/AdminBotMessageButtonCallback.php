@@ -48,13 +48,21 @@ class AdminBotMessageButtonCallback extends Page implements HasForms
         return [];
     }
 
+    public function getHeading(): string
+    {
+        if ($this->id > 0) {
+            return "Редактировать обработчик кнопок";
+        } else {
+            return "Добавить обработчик кнопок";
+        }
+    }
 
     public function mount(int $id): void
     {
         $this->id = $id;
 
         $data = ($id > 0 ? BotMessageButtonCallback::find($id)->toArray() : []);
-        $this->name = ($id > 0?$data['name']:'Новая кнопка');
+        $this->name = ($id > 0?$data['name']:'Новый обработчик кнопок');
 
         $this->form->fill($data);
 

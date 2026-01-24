@@ -44,6 +44,15 @@ class AdminFunnelCondition extends Page implements HasForms
         return $this->name;
     }
 
+    public function getHeading(): string
+    {
+        if ($this->id > 0) {
+            return "Редактировать условие воронки";
+        } else {
+            return "Добавить условие воронки";
+        }
+    }
+
     protected function getHeaderActions(): array
     {
         return [];

@@ -63,11 +63,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
     {
         return $this->name;
     }
-
-    public function getHeading(): string
-    {
-        return $this->name;
-    }
+    
 
     protected function getHeaderActions(): array
     {
@@ -85,6 +81,15 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
         if (!auth()->user()->hasPermissionTo('View:MiniAppPage')) {
             redirect('/admin/bots/access');
+        }
+    }
+
+    public function getHeading(): string
+    {
+        if ($this->id > 0) {
+            return "Редактировать страницу";
+        } else {
+            return "Добавить страницу";
         }
     }
 

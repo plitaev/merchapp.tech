@@ -50,6 +50,15 @@ class AdminMiniApp extends Page implements HasForms
         return $this->name;
     }
 
+    public function getHeading(): string
+    {
+        if ($this->id > 0) {
+            return "Редактировать мини-приложение";
+        } else {
+            return "Добавить мини-приложение";
+        }
+    }
+
     protected function getHeaderActions(): array
     {
         return [];

@@ -47,6 +47,15 @@ class AdminRole extends Page implements HasForms
         return $this->name;
     }
 
+    public function getHeading(): string
+    {
+        if ($this->id > 0) {
+            return "Редактировать роли пользователя";
+        } else {
+            return "Добавить роли пользователя";
+        }
+    }
+
     protected function getHeaderActions(): array
     {
         return [];
@@ -57,7 +66,7 @@ class AdminRole extends Page implements HasForms
     {
         $this->id = $id;
         $data = ($id>0?Role::find($id)->toArray():[]);
-        $this->name = ($id > 0?$data['name']:'Новая роль');
+        $this->name = ($id > 0?$data['name']:'Новая роль пользователя');
 
         $this->form->fill($data);
 

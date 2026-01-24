@@ -71,7 +71,7 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
     {
         $this->$id = $id;
 
-        if (auth()->user()->hasPermissionTo('Edit:VariableGroup')) {
+        if (auth()->user()->hasPermissionTo('Update:VariableGroup')) {
 
         $data = ($id>0?VariableGroup::find($id)->toArray():[]);
        $this->name = ($id > 0?$data['name']:'Новый группа переменных');
@@ -82,6 +82,15 @@ class AdminVariableGroup extends Page implements HasForms, HasTable
 
         }else{
             redirect('/admin/bots/access');
+        }
+    }
+
+    public function getHeading(): string
+    {
+        if ($this->id > 0) {
+            return "Редактировать группу переменных";
+        } else {
+            return "Добавить группу переменных";
         }
     }
 

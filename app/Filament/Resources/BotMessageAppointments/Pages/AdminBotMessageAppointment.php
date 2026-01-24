@@ -49,6 +49,15 @@ class AdminBotMessageAppointment extends Page implements HasForms
         return ['form'];
     }
 
+    public function getHeading(): string
+    {
+        if ($this->id > 0) {
+            return "Редактировать назначение";
+        } else {
+            return "Добавить назначение";
+        }
+    }
+
     protected function getHeaderActions(): array
     {
         return [];

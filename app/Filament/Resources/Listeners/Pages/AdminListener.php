@@ -50,6 +50,15 @@ class AdminListener extends Page implements HasForms
         return [];
     }
 
+    public function getHeading(): string
+    {
+        if ($this->id > 0) {
+            return "Редактировать ожидание";
+        } else {
+            return "Добавить ожидание";
+        }
+    }
+
 
     public function mount(int $id): void
     {
