@@ -32,9 +32,9 @@ class MiniAppVideoResource extends Resource
 {
     protected static ?string $model = MiniAppVideo::class;
 
-    public static ?string $label = "Баннер";
-    public static ?string $navigationLabel = "Баннеры";
-    public static ?string $title = "Баннеры";
+    public static ?string $label = "Видео";
+    public static ?string $navigationLabel = "Видео";
+    public static ?string $title = "Видео";
 
     protected static bool $shouldRegisterNavigation = false;
 
@@ -42,7 +42,7 @@ class MiniAppVideoResource extends Resource
 
     public static ?int $navigationSort = 4;
 
-    public static function getPluralLabel(): ?string {return "Баннеры";}
+    public static function getPluralLabel(): ?string {return "Видео";}
 
     public static function form(Schema $schema): Schema
     {

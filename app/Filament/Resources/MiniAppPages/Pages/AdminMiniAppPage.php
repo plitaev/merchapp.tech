@@ -52,6 +52,8 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
     public $record;
 
+    public int $mini_app_class_id;
+
     public function getRecord(): ?Model
     {
         return MiniAppPage::class;
@@ -69,14 +71,16 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
     public function mount(int $record): void
     {
-
         $data = ($record>0?MiniAppPage::with('miniapp')->find($record)->toArray():[]);
         if ($record == 0) $data['url'] = hash('sha256', time());
+        $this->mini_app_class_id = ($record > 0?$data['miniapp']['class_id']:0);
+
         $this->form->fill($data);
 
         if (!auth()->user()->hasPermissionTo('View:MiniAppPage')) {
             redirect('/admin/bots/access');
         }
+
     }
 
     protected function getForms(): array
