@@ -45,7 +45,7 @@ class MiniAppVideoResource extends Resource
     {
         return [
             'index' => ListMiniAppVideos::route('/'),
-            'create' => CreateMiniAppVideo::route('/create'),
+            'create' => CreateMiniAppVideo::route('/{mini_app_page_id}/create'),
             'edit' => EditMiniAppVideo::route('/{record}/edit'),
         ];
     }
