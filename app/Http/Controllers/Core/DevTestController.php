@@ -26,36 +26,14 @@ use App\Models\Core\TelegramBanScheduleLogs;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $pays = Pay::with('bot_user')
+            ->where('status', 1)
+            ->where('created_at', '>=', '2025-12-25 00:00:00')
+            ->where('created_at', '<=', '2026-01-26 23:59:59')
+            ->orderByDesc('created_at')
+            ->get();
 
-        $bot_user_ids = BotUser::select('id')->where('date_end', '>=', date('Y-m-d', time()))->pluck('id')->toArray();
-
-        $refs = Pay::whereIn('bot_user_id', $bot_user_ids)->where('product_id', 28)->get();
-        $A = [];
-        foreach ($refs as $ref) {
-            $check = Pay::where('bot_user_id', $ref->bot_user_id)->where('status', 1)->where('created_at', '>=', $ref->created_at)->where('price', 1490)->first();
-            if ($check) $A[] = $check->bot_user_id;
-        }
-
-        $A = array_unique($A);
-
-        return $A;
-
-        /*
-        $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->get();
-        foreach ($bot_users as $bot_user) {
-            $ban = TelegramBanScheduleLogs::where('bot_user_id', $bot_user->id)->where('status', 1)->orderByDesc('created_at')->first();
-
-            if ($ban) {
-                $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->where('created_at', '>=', $ban->created_at)->orderBy('created_at')->first();
-                if ($pay) BotUser::where('id', $bot_user->id)->update(['date_start' => date('Y-m-d', strtotime($pay->created_at))]);
-            } else {
-                $pay = Pay::where('bot_user_id', $bot_user->id)->where('status', 1)->orderBy('created_at')->first();
-                if ($pay) BotUser::where('id', $bot_user->id)->update(['date_start' => date('Y-m-d', strtotime($pay->created_at))]);
-            }
-
-        }
-        */
-
+        return view('core.devtest.devtest', ['pays' => $pays]);
     }
 
 }
