@@ -50,6 +50,8 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
     public ?array $data = [];
 
+    public int $mini_app_class_id;
+
     public string $name;
 
     public $record;
@@ -63,7 +65,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
     {
         return $this->name;
     }
-    
+
 
     protected function getHeaderActions(): array
     {
@@ -75,6 +77,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
         $data = ($record>0?MiniAppPage::with('miniapp')->find($record)->toArray():[]);
         if ($record == 0) $data['url'] = hash('sha256', time());
+        $this->mini_app_class_id = ($record > 0?$data['miniapp']['class_id']:0);
         $this->name = ($record > 0?$data['name']:'Новая страница');
 
         $this->form->fill($data);
