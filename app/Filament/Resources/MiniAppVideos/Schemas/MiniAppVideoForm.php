@@ -10,7 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Section;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 
 class MiniAppVideoForm
 {
@@ -55,7 +55,7 @@ class MiniAppVideoForm
                                 ->label('Вернуться назад')
                         ])
                     ]),
-            ])->maxContentWidth(MaxWidth::Full)
+            ])->maxContentWidth(Width::MaxContent)
             ->statePath('data');
     }
 }
