@@ -54,8 +54,16 @@ class MiniAppVideoForm
                                 ->action(function (Get $get) {
 
                                     if (is_callable($get)) {
+
+                                        MiniAppVideo::create([
+                                            'name' => $get('name'),
+                                            'image' => $get('image'),
+                                            'video' => $get('video'),
+                                            'date_open' => $get('date_open'),
+                                        ]);
+
                                         Notification::make()
-                                            ->title($get('name'))
+                                            ->title("Видео сохранено")
                                             ->success()
                                             ->send();
                                     }

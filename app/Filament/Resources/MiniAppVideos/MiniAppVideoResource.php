@@ -4,17 +4,8 @@ namespace App\Filament\Resources\MiniAppVideos;
 
 use BackedEnum;
 
-use Filament\Actions\Action;
-
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\TextInput;
-
-use Filament\Notifications\Notification;
-
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Actions;
-use Filament\Schemas\Components\Section;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 
@@ -38,63 +29,9 @@ class MiniAppVideoResource extends Resource
 
     public function getMaxContentWidth(): Width{return Width::ScreenTwoExtraLarge;}
 
-    public function form(Schema $schema): Schema
+    public static function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                Section::make('Изображение на баннере')
-                    ->description('Как пользователь видит этот баннер')
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1,
-                    ])
-                    ->schema([
-                        TextInput::make('name')
-                            ->label('Название видео')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
-                            ->maxLength(255),
-                        FileUpload::make('image')
-                            ->label('Заставка видео')
-                            ->disk('local')
-                            ->directory('miniapp_video_banners')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                            ->visibility('public'),
-                        FileUpload::make('video')
-                            ->label('Файл видео')
-                            ->disk('local')
-                            ->directory('miniapp_video')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                            ->visibility('public'),
-                        Actions::make([
-                            Action::make('Сохранить')
-                                ->action(function () {
-                                    $data = $this->form->getState();
-                                    $new_message = MiniAppVideo::create($data);
-
-                                    Notification::make()
-                                        ->title('Данные успешно сохранены!')
-                                        ->success()
-                                        ->send();
-
-                                    if ($this->id>0) {
-                                        return redirect('/admin/bots/'.$this->bot_id.'/messages');
-                                    } else {
-                                        return redirect('/admin/bots/'.$this->bot_id.'/'.$new_message->id.'/message-admin');
-                                    }
-
-                                })
-                                ->visible(fn() => auth()->user()->can('Create:BotMessage')),
-                            Action::make('Cancel')
-                                ->action(function () {
-
-                                })
-                                ->label('Вернуться назад')
-                        ])
-                    ]),
-            ])->statePath('data');
+        return MiniAppVideoForm::configure($schema);
     }
 
     public static function table(Table $table): Table
