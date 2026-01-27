@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\MiniAppVideos\Schemas;
 
+use App\Models\Core\MiniAppVideo;
 use Filament\Actions\Action;
 
 use Filament\Forms\Components\FileUpload;
@@ -34,13 +35,23 @@ class MiniAppVideoForm
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255),
                         FileUpload::make('image')
+                            ->label('Заставка видео')
                             ->disk('local')
-                            ->directory('miniapp_banners')
+                            ->directory('miniapp_video_banners')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
+                            ->visibility('public'),
+                        FileUpload::make('video')
+                            ->label('Файл видео')
+                            ->disk('local')
+                            ->directory('miniapp_video')
                             ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->visibility('public'),
                         Actions::make([
                             Action::make('Сохранить')
                                 ->action(function () {
+
+                                    $data = $this->form->getState();
+                                    MiniAppVideo::create($data);
 
                                     Notification::make()
                                         ->title('Данные успешно сохранены!')
