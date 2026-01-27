@@ -16,7 +16,7 @@ use Filament\Support\Enums\Width;
 
 class MiniAppVideoForm
 {
-    public static function configure(Schema $schema): Schema
+    public function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
