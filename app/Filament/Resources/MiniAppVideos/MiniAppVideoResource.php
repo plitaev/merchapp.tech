@@ -31,7 +31,55 @@ class MiniAppVideoResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return MiniAppVideoForm::configure($schema);
+        return $schema
+            ->components([
+                Section::make('Изображение на баннере')
+                    ->description('Как пользователь видит этот баннер')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Название видео')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
+                            ->maxLength(255),
+                        FileUpload::make('image')
+                            ->label('Заставка видео')
+                            ->disk('local')
+                            ->directory('miniapp_video_banners')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
+                            ->visibility('public'),
+                        FileUpload::make('video')
+                            ->label('Файл видео')
+                            ->disk('local')
+                            ->directory('miniapp_video')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
+                            ->visibility('public'),
+                        Actions::make([
+                            Action::make('Сохранить')
+                                ->action(function (Get $get) {
+
+                                    if (is_callable($get)) {
+                                        Notification::make()
+                                            ->title($get('name'))
+                                            ->success()
+                                            ->send();
+                                    }
+                                })
+                                ->visible(fn() => auth()->user()->can('Create:BotMessage')),
+
+                            Action::make('Cancel')
+                                ->action(function () {
+
+                                })
+                                ->label('Вернуться назад')
+                        ])
+                    ]),
+            ])->statePath('data');
     }
 
     public static function table(Table $table): Table
