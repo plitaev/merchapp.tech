@@ -2,55 +2,75 @@
 
 namespace App\Filament\Resources\MiniAppVideos;
 
-use BackedEnum;
-
-use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\FunnelConditions\Pages\AdvancedListFunnelCondition;
+use App\Filament\Resources\FunnelConditions\Pages\AdminFunnelCondition;
+use App\Filament\Resources\FunnelConditionResource\Pages;
+use App\Filament\Resources\FunnelConditionResource\RelationManagers;
+use App\Models\Core\FunnelCondition;
+use Filament\Resources\Resource;
+use Filament\Tables;
 use Filament\Tables\Table;
-
-use App\Filament\Resources\MiniAppVideos\Pages\CreateMiniAppVideo;
-use App\Filament\Resources\MiniAppVideos\Pages\EditMiniAppVideo;
-use App\Filament\Resources\MiniAppVideos\Pages\ListMiniAppVideos;
-use App\Filament\Resources\MiniAppVideos\Schemas\MiniAppVideoForm;
-use App\Filament\Resources\MiniAppVideos\Tables\MiniAppVideosTable;
-
-use App\Models\Core\MiniAppVideo;
 
 class MiniAppVideoResource extends Resource
 {
-    protected static ?string $model = MiniAppVideo::class;
+    protected static ?string $model = FunnelCondition::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static ?string $label = "Видео";
+    public static ?string $navigationLabel = "Видео";
+    public static ?string $title = "Видео";
 
-    protected static ?string $recordTitleAttribute = 'Видео';
+    public static function getPluralLabel(): ?string {return "Видео";}
 
     protected static bool $shouldRegisterNavigation = false;
 
-    public function getMaxContentWidth(): Width{return Width::ScreenTwoExtraLarge;}
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Schema $schema): Schema
     {
-        return MiniAppVideoForm::configure($schema);
+        return $schema
+            ->components([
+                //
+            ]);
     }
 
     public static function table(Table $table): Table
     {
-        return MiniAppVideosTable::configure($table);
+        return $table
+            ->columns([
+                //
+            ])
+            ->filters([
+                //
+            ])
+            ->recordActions([
+                EditAction::make(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
+            ]);
     }
 
     public static function getRelations(): array
     {
         return [
+            //
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListMiniAppVideos::route('/'),
-            'create' => CreateMiniAppVideo::route('/{mini_app_page_id}/create'),
-            'edit' => EditMiniAppVideo::route('/{record}/edit'),
+            'index' => AdvancedListFunnelCondition::route('/'),
+            'create' => AdminFunnelCondition::route('/{id}/admin'),
+            'edit' => AdminFunnelCondition::route('/{id}/admin'),
+            'admin' => AdminFunnelCondition::route('/{id}/admin'),
+
         ];
     }
 }
