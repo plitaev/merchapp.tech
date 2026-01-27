@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\MiniAppVideos;
 
+use App\Filament\Resources\MiniAppVideos\Pages\AdminMiniAppVideo;
 use Filament\Schemas\Schema;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
@@ -67,9 +68,9 @@ class MiniAppVideoResource extends Resource
     {
         return [
             'index' => AdvancedListFunnelCondition::route('/'),
-            'create' => AdminFunnelCondition::route('/{id}/admin'),
-            'edit' => AdminFunnelCondition::route('/{id}/admin'),
-            'admin' => AdminFunnelCondition::route('/{id}/admin'),
+            'create' => AdminMiniAppVideo::route('/{id}/admin'),
+            'edit' => AdminMiniAppVideo::route('/{id}/admin'),
+            'admin' => AdminMiniAppVideo::route('/{id}/admin'),
 
         ];
     }
