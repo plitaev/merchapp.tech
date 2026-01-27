@@ -120,7 +120,7 @@ class AdminMiniAppVideo extends Page implements HasForms
 
                                     $data = $this->form->getState();
 
-                                    MiniAppVideo::create($data);
+                                    $new_mini_app_video = MiniAppVideo::create($data);
 
                                     Notification::make()
                                         ->title('Данные успешно сохранены!')
@@ -137,6 +137,8 @@ class AdminMiniAppVideo extends Page implements HasForms
                                     $result = curl_exec($curl);
                                     curl_close($curl);
 
+                                    $Aresult=json_decode($result,true);
+                                    MiniAppVideo::where('id', $new_mini_app_video->id)->update(['edgecenter_id' => $Aresult['id']]);
                                 })
                                 ->visible(fn() => auth()->user()->can('Create:BotMessage')),
 
