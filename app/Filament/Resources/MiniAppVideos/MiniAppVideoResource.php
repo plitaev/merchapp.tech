@@ -27,6 +27,8 @@ class MiniAppVideoResource extends Resource
 
     protected static bool $shouldRegisterNavigation = false;
 
+    public function getMaxContentWidth(): Width{return Width::ScreenTwoExtraLarge;}
+
     public static function form(Schema $schema): Schema
     {
         return MiniAppVideoForm::configure($schema);
