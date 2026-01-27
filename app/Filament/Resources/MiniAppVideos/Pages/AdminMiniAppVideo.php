@@ -122,11 +122,6 @@ class AdminMiniAppVideo extends Page implements HasForms
 
                                     $new_mini_app_video = MiniAppVideo::create($data);
 
-                                    Notification::make()
-                                        ->title('Данные успешно сохранены!')
-                                        ->success()
-                                        ->send();
-
                                     $curl=curl_init();
                                     curl_setopt($curl,CURLOPT_URL,"https://api.edgecenter.ru/streaming/vod/videos");
                                     curl_setopt($curl,CURLOPT_RETURNTRANSFER, true);
@@ -136,6 +131,11 @@ class AdminMiniAppVideo extends Page implements HasForms
                                     curl_setopt($curl,CURLOPT_HTTPHEADER,['Content-Type: application/json','Authorization: APIKey 1858$9e823ab46df09abb48e065707137f16155b6b94f0702fb86f9b041a251dda657d3f86596d954cf431e3c73ee6662cf785c25f50e3c454c8264565299abb8c288']);
                                     $result = curl_exec($curl);
                                     curl_close($curl);
+
+                                    Notification::make()
+                                        ->title($result)
+                                        ->success()
+                                        ->send();
 
                                     $Aresult=json_decode($result,true);
                                     MiniAppVideo::where('id', $new_mini_app_video->id)->update(['edgecenter_id' => $Aresult['id']]);
