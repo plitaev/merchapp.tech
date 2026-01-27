@@ -9,6 +9,9 @@ class MiniAppVideo extends Model
 {
     protected $fillable = [
         'name',
+        'image',
+        'video',
+        'date_open',
         'edgecenter_id'
     ];
 }
