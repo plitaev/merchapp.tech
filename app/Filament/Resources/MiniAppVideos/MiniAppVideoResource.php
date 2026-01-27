@@ -70,17 +70,23 @@ class MiniAppVideoResource extends Resource
                             ->visibility('public'),
                         Actions::make([
                             Action::make('Сохранить')
-                                ->action(function (Get $get) {
+                                ->action(function () {
+                                    $data = $this->form->getState();
+                                    $new_message = MiniAppVideo::create($data);
 
-                                    if (is_callable($get)) {
-                                        Notification::make()
-                                            ->title($get('name'))
-                                            ->success()
-                                            ->send();
+                                    Notification::make()
+                                        ->title('Данные успешно сохранены!')
+                                        ->success()
+                                        ->send();
+
+                                    if ($this->id>0) {
+                                        return redirect('/admin/bots/'.$this->bot_id.'/messages');
+                                    } else {
+                                        return redirect('/admin/bots/'.$this->bot_id.'/'.$new_message->id.'/message-admin');
                                     }
+
                                 })
                                 ->visible(fn() => auth()->user()->can('Create:BotMessage')),
-
                             Action::make('Cancel')
                                 ->action(function () {
 
