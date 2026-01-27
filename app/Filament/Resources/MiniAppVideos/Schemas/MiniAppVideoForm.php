@@ -11,12 +11,13 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 
 use Filament\Support\Enums\Width;
 
 class MiniAppVideoForm
 {
-    public function configure(Schema $schema): Schema
+    public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
@@ -48,15 +49,16 @@ class MiniAppVideoForm
                             ->visibility('public'),
                         Actions::make([
                             Action::make('Сохранить')
-                                ->action(function () {
+                                ->action(function (Get $get) {
 
-                                    $data = $this->form->getState();
-                                    MiniAppVideo::create($data);
+                                    $data = SELF::form->getState();
 
-                                    Notification::make()
-                                        ->title('Данные успешно сохранены!')
-                                        ->success()
-                                        ->send();
+                                    if (is_callable($get)) {
+                                        Notification::make()
+                                            ->title($get('name'))
+                                            ->success()
+                                            ->send();
+                                    }
                                 })
                                 ->visible(fn() => auth()->user()->can('Create:BotMessage')),
 
