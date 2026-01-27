@@ -51,8 +51,6 @@ class MiniAppVideoForm
                             Action::make('Сохранить')
                                 ->action(function (Get $get) {
 
-                                    $data = SELF::form->getState();
-
                                     if (is_callable($get)) {
                                         Notification::make()
                                             ->title($get('name'))
