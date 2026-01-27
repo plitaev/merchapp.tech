@@ -2,20 +2,23 @@
 
 namespace App\Filament\Resources\MiniAppVideos\Pages;
 
+use Illuminate\Contracts\Support\Htmlable;
+
+use App\Filament\Resources\MiniAppVideos\MiniAppVideoResource;
+
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
-use App\Filament\Resources\FunnelConditions\FunnelConditionResource;
-use App\Models\Core\FunnelCondition;
+
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
-use Illuminate\Contracts\Support\Htmlable;
 
+use App\Models\Core\FunnelCondition;
 use App\Models\Core\MiniAppVideo;
 
 class AdminMiniAppVideo extends Page implements HasForms
