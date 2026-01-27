@@ -7,6 +7,7 @@ use Filament\Schemas\Schema;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Forms\Components\FileUpload;
 use App\Filament\Resources\FunnelConditions\Pages\AdvancedListFunnelCondition;
 use App\Filament\Resources\FunnelConditions\Pages\AdminFunnelCondition;
 use App\Filament\Resources\FunnelConditionResource\Pages;
