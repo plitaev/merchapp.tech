@@ -38,7 +38,7 @@ class MiniAppVideoResource extends Resource
 
     public function getMaxContentWidth(): Width{return Width::ScreenTwoExtraLarge;}
 
-    public static function form(Schema $schema): Schema
+    public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
