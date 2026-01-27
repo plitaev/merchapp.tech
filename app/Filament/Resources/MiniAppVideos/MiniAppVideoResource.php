@@ -25,6 +25,8 @@ class MiniAppVideoResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'Видео';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Schema $schema): Schema
     {
         return MiniAppVideoForm::configure($schema);
