@@ -55,7 +55,6 @@ class MiniAppVideoForm
                                 ->label('Вернуться назад')
                         ])
                     ]),
-            ])->maxContentWidth(Width::MaxContent)
-            ->statePath('data');
+            ])->statePath('data');
     }
 }
