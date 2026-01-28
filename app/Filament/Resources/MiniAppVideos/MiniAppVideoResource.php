@@ -71,7 +71,7 @@ class MiniAppVideoResource extends Resource
             'index' => AdvancedListFunnelCondition::route('/'),
             'create' => AdminMiniAppVideo::route('/{id}/admin'),
             'edit' => AdminMiniAppVideo::route('/{id}/admin'),
-            'admin' => AdminMiniAppVideo::route('/{id}/admin'),
+            'admin' => AdminMiniAppVideo::route('/{mini_app_page_id}/{id}/admin'),
 
         ];
     }
