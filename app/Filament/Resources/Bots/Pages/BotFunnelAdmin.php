@@ -26,7 +26,7 @@ class BotFunnelAdmin extends Page implements HasForms
 
     protected static string $resource = BotResource::class;
 
-    protected string $view = 'filament.resources.bot-resource.pages.bot-product-admin';
+    protected string $view = 'filament.resources.bot-resource.pages.bot-funnel-admin';
 
     protected static ?string $model = Funnel::class;
 
