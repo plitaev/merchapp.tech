@@ -78,11 +78,7 @@ class BotTelegramUnBanScheduleAdmin extends Page implements HasForms
 
     public function getHeading(): string
     {
-        if ($this->id > 0) {
-            return "Редактировать разбан";
-        } else {
-            return "Добавить разбан";
-        }
+        return '';
     }
 
     public function getTitle(): string

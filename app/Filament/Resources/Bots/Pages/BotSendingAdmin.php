@@ -84,11 +84,7 @@ class BotSendingAdmin extends Page implements HasForms, HasTable, HasInfolists
 
     public function getHeading(): string
     {
-        if ($this->id > 0) {
-            return "Редактировать рассылку";
-        } else {
-            return "Добавить рассылку";
-        }
+        return '';
     }
 
     protected function getHeaderActions(): array

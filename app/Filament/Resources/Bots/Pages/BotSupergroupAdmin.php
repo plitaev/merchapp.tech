@@ -81,11 +81,7 @@ class BotSupergroupAdmin extends Page implements HasForms
 
     public function getHeading(): string
     {
-        if ($this->id > 0) {
-            return "Редактировать супергруппу";
-        } else {
-            return "Добавить супергруппу";
-        }
+        return '';
     }
 
     public function getTitle(): string

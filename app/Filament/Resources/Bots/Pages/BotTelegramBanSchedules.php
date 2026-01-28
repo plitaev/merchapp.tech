@@ -77,7 +77,7 @@ class BotTelegramBanSchedules extends Page implements HasTable, HasForms
 
     public function getHeading(): string
     {
-        return $this->bot_name;
+        return '';
     }
 
     public function getTitle(): string

@@ -77,7 +77,7 @@ class BotPaySystemAdmin extends Page implements HasForms
 
         if ($record > 0) {
             $bot = Bot::find($record)->toArray();
-            $this->name = $bot['name'];
+            $this->name = $bot['name']??'';
         } else {
             $bot = [];
             $this->name = 'Новая платежная система';

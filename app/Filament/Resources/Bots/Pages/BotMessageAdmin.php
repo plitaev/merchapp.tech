@@ -146,13 +146,14 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
     }
 
 
+
     public function mount(int $bot_id, int $id): void
     {
         $this->bot_id = $bot_id;
         $this->id = $id;
 
         $bot = Bot::select('name')->find($bot_id);
-        $this->bot_name = $bot->name;
+        $this->bot_name = $bot->name??'';
 
         if ($id > 0) {
             $data = BotMessage::with('bot_message_type')->with('bot')->find($id)->toArray();
@@ -185,13 +186,10 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
         }
     }
 
+
     public function getHeading(): string
     {
-        if ($this->id > 0) {
-            return "Редактировать сообщение";
-        } else {
-            return "Добавить сообщение";
-        }
+      return '';
     }
 
     public function getTitle(): string

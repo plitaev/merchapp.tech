@@ -86,11 +86,7 @@ class BotTelegramBanScheduleAdmin extends Page implements HasForms
 
     public function getHeading(): string
     {
-        if ($this->id > 0) {
-            return "Редактировать бан";
-        } else {
-            return "Добавить бан";
-        }
+        return '';
     }
 
     public function getTitle(): string

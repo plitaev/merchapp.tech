@@ -72,7 +72,7 @@ class BotPays extends Page implements HasTable
 
     public function getHeading(): string
     {
-        return $this->bot_name;
+        return '';
     }
 
     public function getTitle(): string

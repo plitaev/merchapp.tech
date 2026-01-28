@@ -37,7 +37,6 @@ class BotMessages extends Page implements HasTable
 
     public int $bot_id;
     public string $bot_name;
-
     public function getMaxContentWidth(): Width{return Width::ScreenTwoExtraLarge;}
 
     public function mount(int $bot_id): void
@@ -57,7 +56,7 @@ class BotMessages extends Page implements HasTable
 
     public function getHeading(): string
     {
-        return $this->bot_name;
+        return '';
     }
 
     public function getTitle(): string

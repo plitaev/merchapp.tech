@@ -80,11 +80,7 @@ class BotFunnelAdmin extends Page implements HasForms
 
     public function getHeading(): string
     {
-        if ($this->id > 0) {
-            return "Редактировать воронку";
-        } else {
-            return "Добавить воронку";
-        }
+        return '';
     }
 
     public function getTitle(): string

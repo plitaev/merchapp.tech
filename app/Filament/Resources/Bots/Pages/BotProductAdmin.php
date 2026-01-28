@@ -82,11 +82,7 @@ class BotProductAdmin extends Page implements HasForms
 
     public function getHeading(): string
     {
-        if ($this->id > 0) {
-            return "Редактировать тариф";
-        } else {
-            return "Добавить тариф";
-        }
+        return '';
     }
 
     public function getTitle(): string

@@ -50,7 +50,7 @@ class BotChats extends Page implements HasTable
         $bot = Bot::select('name')->find($bot_id);
 
         $this->edit_bots = Permission::where('name', 'edit bots')->count();
-        $this->bot_name = $bot->name;
+        $this->bot_name = $bot->name??'';
 
         if (!Auth::user()->hasPermissionTo('View:BotUser')) {
             redirect('/admin/bots/access');
@@ -59,7 +59,7 @@ class BotChats extends Page implements HasTable
 
     public function getHeading(): string
     {
-        return $this->bot_name;
+        return '';
     }
 
     public function getTitle(): string

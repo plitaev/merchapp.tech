@@ -90,11 +90,7 @@ class BotPayAdmin extends Page implements HasForms
 
     public function getHeading(): string
     {
-        if ($this->id > 0) {
-            return "Редактировать платеж";
-        } else {
-            return "Добавить платеж";
-        }
+       return '';
     }
 
     public function getTitle(): string
