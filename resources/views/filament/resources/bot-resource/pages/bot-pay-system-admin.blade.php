@@ -59,7 +59,7 @@ if($this->bot_id != 0) {
         @if($this->id == 0 ) Новая платежная система
         @else Редактировать платежную систему
             @endif</h1>
-    @include('filament.resources.bot-resource.pages.navigation-bot', ['category' => "pay-system-admin", 'bot_id' => $this->record])
+    @include('filament.resources.bot-resource.pages.navigation-bot', ['category' => "pay-system-admin", 'bot_id' => $this->bot_id])
     {{$this->form}}
 
 </x-filament-panels::page>
