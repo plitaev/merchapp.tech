@@ -52,6 +52,8 @@ class BotPaySystemAdmin extends Page implements HasForms
 
     public $record;
 
+    public $bot_id;
+
     public int $id;
 
     public string $name;
@@ -71,19 +73,19 @@ class BotPaySystemAdmin extends Page implements HasForms
         return ['form'];
     }
 
-    public function mount(int $record): void
+    public function mount(int $bot_id): void
     {
-        $this->id = $record;
+        $this->id = $bot_id;
 
-        if ($record > 0) {
-            $bot = Bot::find($record)->toArray();
+        if ($bot_id > 0) {
+            $bot = Bot::find($bot_id)->toArray();
             $this->name = $bot['name']??'';
         } else {
             $bot = [];
             $this->name = 'Новая платежная система';
         }
 
-        $data = ($record>0?Bot::find($record)->toArray():[]);
+        $data = ($bot_id>0?Bot::find($bot_id)->toArray():[]);
         $this->form->fill($data);
 
         if (!Auth::user()->hasPermissionTo('View:PaySystem')) {
@@ -93,7 +95,7 @@ class BotPaySystemAdmin extends Page implements HasForms
 
     public function getHeading(): string
     {
-        return $this->name;
+        return '';
     }
 
     public function getTitle(): string
