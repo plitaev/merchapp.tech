@@ -1,13 +1,13 @@
 <?php
-     use App\Models\Core\Bot;
-     $bot = Bot::select('name')->find($this->bot_id);
+use App\Models\Core\Bot;
+$bot = Bot::select('name')->find($this->bot_id);
 
-     if($this->bot_id != 0) {
-         $this->bot_name = $bot->name;
-     }else{
-         $this->bot_name = '';
-     }
-     ?>
+if($this->bot_id != 0) {
+    $this->bot_name = $bot->name;
+}else{
+    $this->bot_name = '';
+}
+?>
 <x-filament-panels::page>
 
     <style>
@@ -66,11 +66,9 @@
             </nav>
         </div>
     </div>
-    <h1 class="fi-header-heading">
         @if($this->id == 0 ) Новая платежная система
         @else Редактировать платежную систему
-        @endif
-<x-filament-panels::page>
+            @endif</h1>
     @include('filament.resources.bot-resource.pages.navigation-bot', ['category' => "pay-system-admin", 'bot_id' => $this->record])
     {{$this->form}}
 
