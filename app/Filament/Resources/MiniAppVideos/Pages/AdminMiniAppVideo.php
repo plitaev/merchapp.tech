@@ -160,7 +160,7 @@ class AdminMiniAppVideo extends Page implements HasForms
                                     }
 
                                     Notification::make()
-                                        ->title($result)
+                                        ->title("Данные успешно сохранены")
                                         ->success()
                                         ->send();
                                 })
