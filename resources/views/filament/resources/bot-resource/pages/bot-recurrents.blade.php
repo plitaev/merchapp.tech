@@ -53,8 +53,7 @@ if($this->bot_id != 0) {
                     </li>
                 </ol>
             </nav>
-        </div>
-    </div>
+
     <h1 class="fi-header-heading">
         @if($this->recurrent == 1)
             График автосписаний
@@ -62,7 +61,8 @@ if($this->bot_id != 0) {
             График без автосписаний
         @endif
     </h1>
-
+        </div>
+    </div>
     @include('filament.resources.bot-resource.pages.navigation-bot', ['category' => $this->recurrent."/recurrents", 'bot_id' => $this->bot_id])
 
     <div class="fi-header fi-header-has-breadcrumbs">

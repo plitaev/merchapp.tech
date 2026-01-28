@@ -47,10 +47,10 @@ if($this->bot_id != 0) {
                     </li>
                 </ol>
             </nav>
+
+    <h1 class="fi-header-heading">В ожидании</h1>
         </div>
     </div>
-    <h1 class="fi-header-heading">В ожидании</h1>
-
     @include('filament.resources.bot-resource.pages.navigation-bot', ['category' => "pay-guests", 'bot_id' => $this->bot_id])
 
     {{$this->table}}

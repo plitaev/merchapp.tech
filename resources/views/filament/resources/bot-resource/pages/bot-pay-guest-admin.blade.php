@@ -64,12 +64,12 @@ $this->bot_name = '';
                     </li>
                 </ol>
             </nav>
-        </div>
-    </div>
+
     <h1 class="fi-header-heading">
         @if($this->id == 0 ) Новый платеж в ожидании
         @else Редактировать платеж в ожидании
         @endif</h1>
-
+        </div>
+    </div>
     {{$this->form}}
 </x-filament-panels::page>

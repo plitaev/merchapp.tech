@@ -64,11 +64,12 @@ $this->bot_name = '';
                     </li>
                 </ol>
             </nav>
-        </div>
-    </div>
+
     <h1 class="fi-header-heading">
         @if($this->id == 0 ) Новый тариф
         @else Редактировать тариф
         @endif</h1>
+        </div>
+    </div>
     {{$this->form}}
 </x-filament-panels::page>

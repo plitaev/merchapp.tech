@@ -64,12 +64,12 @@ if($this->bot_id != 0) {
                     </li>
                 </ol>
             </nav>
-        </div>
-    </div>
+
     <h1 class="fi-header-heading">
         @if($this->id == 0 ) Новая воронка
         @else Редактировать воронку
         @endif</h1>
-
+        </div>
+    </div>
     {{$this->form}}
 </x-filament-panels::page>

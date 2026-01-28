@@ -47,10 +47,11 @@
                     </li>
                 </ol>
             </nav>
-        </div>
-    </div>
+
     <h1 class="fi-header-heading">Подписчики</h1>
 
+        </div>
+    </div>
     @include('filament.resources.bot-resource.pages.navigation-bot', ['category' => "chats", 'bot_id' => $this->bot_id])
     {{$this->table}}
 </x-filament::page>

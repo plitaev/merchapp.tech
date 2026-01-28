@@ -46,11 +46,11 @@
                     <a href="/admin/bots/{{$this->bot_id}}/messages" class="fi-breadcrumbs-item-label">Сообщения</a>
                 </li>
             </ol>
-        </nav>
-    </div>
-</div>
-        <h1 class="fi-header-heading">Сообщения</h1>
 
+        <h1 class="fi-header-heading">Сообщения</h1>
+            </nav>
+        </div>
+    </div>
     @include('filament.resources.bot-resource.pages.navigation-bot', ['category' => "messages", 'bot_id' => $this->bot_id])
 
     <div class="fi-header fi-header-has-breadcrumbs">

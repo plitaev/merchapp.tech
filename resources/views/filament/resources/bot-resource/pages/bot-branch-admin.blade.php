@@ -64,13 +64,13 @@ if($this->bot_id != 0) {
                     </li>
                 </ol>
             </nav>
-        </div>
-    </div>
+
     <h1 class="fi-header-heading">
         @if($this->id == 0 ) Новая акция
         @else Редактировать акцию
         @endif</h1>
-
+        </div>
+    </div>
     {{$this->form}}
     <x-filament-actions::modals />
 </x-filament-panels::page>
