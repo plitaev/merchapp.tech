@@ -124,8 +124,9 @@ class AdminMiniAppVideo extends Page implements HasForms
                                     $data = $this->form->getState();
 
                                     if ($this->id > 0) {
-                                        (int) $video_id = $this->id;
+                                        $video_id = $this->id;
                                         $current_video = MiniAppVideo::select('video')->find($video_id);
+                                        MiniAppVideo::where('id', $video_id)->update($data);
                                     } else {
                                         $new_mini_app_video = MiniAppVideo::create($data);
                                         (int) $video_id = $new_mini_app_video->id;
@@ -163,6 +164,8 @@ class AdminMiniAppVideo extends Page implements HasForms
                                         ->title("Данные успешно сохранены")
                                         ->success()
                                         ->send();
+
+                                    return redirect('/admin/mini-app-videos/'.$this->mini_app_page_id.'/'.$video_id.'/admin');
                                 })
                                 ->visible(fn() => auth()->user()->can('Create:BotMessage')),
 
