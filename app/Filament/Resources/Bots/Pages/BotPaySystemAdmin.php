@@ -93,7 +93,7 @@ class BotPaySystemAdmin extends Page implements HasForms
 
     public function getHeading(): string
     {
-        return $this->name;
+        return '';
     }
 
     public function getTitle(): string
