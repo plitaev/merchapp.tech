@@ -70,7 +70,7 @@ class MiniAppVideoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => AdminVideoByApp::route('/{mini_app_id}/{mini_app_name}/admin_video_by_app'),
+            'index' => AdvancedListFunnelCondition::route('/'),
             'create' => AdminMiniAppVideo::route('/{id}/admin'),
             'edit' => AdminMiniAppVideo::route('/{id}/admin'),
             'admin' => AdminMiniAppVideo::route('/{mini_app_page_id}/{id}/admin'),
