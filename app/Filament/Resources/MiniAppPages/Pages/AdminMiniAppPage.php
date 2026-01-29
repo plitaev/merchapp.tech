@@ -42,6 +42,7 @@ use App\Models\Core\MiniApp;
 use App\Models\Core\MiniAppBanner;
 use App\Models\Core\MiniAppBannerLinkPage;
 use App\Models\Core\MiniAppPage;
+use App\Models\Core\MiniAppVideo;
 use App\Models\Core\MiniAppVideoLinkPage;
 
 class AdminMiniAppPage extends Page implements HasTable, HasForms
@@ -254,21 +255,21 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                     //
                 ])
                 ->recordActions([
-                    EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin"),
+                    EditAction::make()->url(fn($record) => "/admin/mini-app-videos/".$this->record."/".$record->mini_app_video_id."/admin"),
                     DeleteAction::make()
-                        ->after(function (MiniAppBannerLinkPage $record) {
-                            $check = MiniAppBannerLinkPage::where('mini_app_banner_id', $record->mini_app_banner_id)->count();
-                            if ($check == 0) MiniAppBanner::destroy($record->mini_app_banner_id);
+                        ->after(function (MiniAppVideoLinkPage $record) {
+                            $check = MiniAppVideoLinkPage::where('mini_app_video_id', $record->mini_app_video_id)->count();
+                            if ($check == 0) MiniAppVideo::destroy($record->mini_app_video_id);
                         })
                 ])
-                ->recordUrl(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin")
+                ->recordUrl(fn($record) => "/admin/mini-app-videos/".$this->record."/".$record->mini_app_video_id."/admin")
                 ->toolbarActions([
                     BulkActionGroup::make([
                         DeleteBulkAction::make()
-                            ->after(function (MiniAppBannerLinkPage $record, Collection $selectedRecords) {
+                            ->after(function (MiniAppVideoLinkPage $record, Collection $selectedRecords) {
                                 foreach ($selectedRecords as $selectedRecord) {
-                                    $check = MiniAppBannerLinkPage::where('mini_app_banner_id', $selectedRecord->mini_app_banner_id)->count();
-                                    if ($check == 0) MiniAppBanner::destroy($selectedRecord->mini_app_banner_id);
+                                    $check = MiniAppVideoLinkPage::where('mini_app_video_id', $selectedRecord->mini_app_video_id)->count();
+                                    if ($check == 0) MiniAppBanner::destroy($selectedRecord->mini_app_video_id);
                                 }
                             }),
                     ])
