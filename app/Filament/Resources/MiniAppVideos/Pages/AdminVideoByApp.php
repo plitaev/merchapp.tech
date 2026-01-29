@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\MiniAppVideos\Pages;
 
+use App\Filament\Resources\MiniAppVideos\MiniAppVideoResource;
+
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Actions\EditAction;
@@ -9,20 +11,21 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
-use App\Filament\Resources\MiniAppBanners\MiniAppBannerResource;
-use App\Models\Core\MiniAppBannerLinkPage;
-use App\Models\Core\MiniAppPage;
+
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 
+use App\Models\Core\MiniAppBannerLinkPage;
+use App\Models\Core\MiniAppPage;
+
 class AdminVideoByApp extends Page implements HasTable
 {
     use InteractsWithTable;
 
-    //protected static string $resource = MiniAppVideoResource::class;
+    protected static string $resource = MiniAppVideoResource::class;
 
     protected string $view = 'filament.resources.mini-app-banner-resource.pages.admin-banner-by-app';
     public static ?string $navigationLabel = "";
