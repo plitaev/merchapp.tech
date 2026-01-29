@@ -224,11 +224,11 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
             ->reorderable('pos');
     }
 
-    public function table2(Table $table): Table
+    public function table2(Table $table2): Table
     {
         $miniAppBannerGetLinkForRecord = new MiniAppBannerGetLinkForRecord();
 
-        return $table
+        return $table2
             ->query(MiniAppBannerLinkPage::query()->with('miniapp_banner')->where('mini_app_page_id', $this->record))
             ->persistSearchInSession()
             ->columns([
