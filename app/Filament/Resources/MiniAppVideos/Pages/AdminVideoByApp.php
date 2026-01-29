@@ -80,7 +80,7 @@ class AdminVideoByApp extends Page implements HasTable
                     ->visible(auth()->user()->can('Delete:MiniAppPage')),
 
             ])
-            ->recordUrl(fn($record) => "/admin/mini-app-banners/".$record->mini_app_page_id."/".$record->mini_app_video_id."/admin")
+            ->recordUrl(fn($record) => "/admin/mini-app-videos/".$record->mini_app_page_id."/".$record->mini_app_video_id."/admin")
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
