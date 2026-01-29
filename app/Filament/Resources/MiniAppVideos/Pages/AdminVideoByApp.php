@@ -18,7 +18,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 
-use App\Models\Core\MiniAppBannerLinkPage;
+use App\Models\Core\MiniAppVideoLinkPage;
 use App\Models\Core\MiniAppPage;
 
 class AdminVideoByApp extends Page implements HasTable
@@ -51,39 +51,22 @@ class AdminVideoByApp extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(MiniAppBannerLinkPage::with('miniapp_banner')->whereIn('mini_app_page_id', MiniAppPage::select('id')->where('mini_app_id', $this->mini_app_id)->pluck('id')->toArray()))
+            ->query(MiniAppVideoLinkPage::with('miniapp_video')->with('miniapp_page')->whereIn('mini_app_page_id', MiniAppPage::select('id')->where('mini_app_id', $this->mini_app_id)->pluck('id')->toArray()))
             ->persistSearchInSession()
             ->columns([
                 TextColumn::make('miniapp_page.name')
                     ->label('Страница')
                     ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                     ->searchable(),
-                TextColumn::make('miniapp_banner_class.name')
-                    ->label('Тип')
+                TextColumn::make('miniapp_video.name')
+                    ->label('Видео')
                     ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                     ->searchable(),
-                TextColumn::make('miniapp_banner.name')
-                    ->label('Название баннера')
-                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                    ->searchable(),
-                ImageColumn::make('miniapp_banner.image')
+                ImageColumn::make('miniapp_video.image')
                     ->disk('local')
                     ->label('Изображение')
-                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                    ->url(fn(MiniAppBannerLinkPage $record) => env('APP_URL').'/content/'.$record->image)
+                    ->url(fn(MiniAppVideoLinkPage $record) => env('APP_URL').'/content/'.$record->miniapp_video->image)
                     ->openUrlInNewTab()
-                    ->searchable(),
-                TextColumn::make('miniapp_banner.button_url')
-                    ->label('URL на кнопке')
-                    ->url(fn(MiniAppBannerLinkPage $record) => $record->button_url)
-                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                    ->openUrlInNewTab()
-                    ->color('primary')
-                    ->searchable(),
-                TextColumn::make('miniapp_banner.button_text')
-                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                    ->label('Текст на кнопке')
-                    ->searchable(),
             ])
             ->filters([
                 //
