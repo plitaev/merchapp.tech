@@ -165,124 +165,125 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
     public function table(Table $table): Table
     {
-        $miniAppBannerGetLinkForRecord = new MiniAppBannerGetLinkForRecord();
+        if ($this->mini_app_class_id == 1) {
+            $miniAppBannerGetLinkForRecord = new MiniAppBannerGetLinkForRecord();
 
-        return $table
-            ->query(MiniAppBannerLinkPage::query()->with('miniapp_banner')->where('mini_app_page_id', $this->record))
-            ->persistSearchInSession()
-            ->columns([
-                TextColumn::make('pos')
-                    ->label('№')
-                    ->searchable(),
-                TextColumn::make('miniapp_banner_class.name')
-                    ->label('Тип')
-                    ->searchable(),
-                TextColumn::make('miniapp_banner.name')
-                    ->label('Название')
-                    ->searchable(),
-                ImageColumn::make('miniapp_banner.image')
-                    ->disk('local')
-                    ->label('Изображение')
-                    ->url(fn(MiniAppBannerLinkPage $record) => env('APP_URL').'/content/'.$record->miniapp_banner->image)
-                    ->openUrlInNewTab()
-                    ->searchable(),
-                TextColumn::make('button_url')
-                    ->label('Ссылка на кнопке')
-                    ->url(fn(MiniAppBannerLinkPage $record) => $miniAppBannerGetLinkForRecord->handle($record))
-                    ->getStateUsing('Открыть')
-                    ->openUrlInNewTab()
-                    ->color('primary')
-                    ->searchable(),
-                TextColumn::make('miniapp_banner.button_text')
-                    ->label('Текст на кнопке')
-                    ->searchable(),
-            ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin"),
-                DeleteAction::make()
-                    ->after(function (MiniAppBannerLinkPage $record) {
-                        $check = MiniAppBannerLinkPage::where('mini_app_banner_id', $record->mini_app_banner_id)->count();
-                        if ($check == 0) MiniAppBanner::destroy($record->mini_app_banner_id);
-                    })
-            ])
-            ->recordUrl(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin")
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make()
-                        ->after(function (MiniAppBannerLinkPage $record, Collection $selectedRecords) {
-                            foreach ($selectedRecords as $selectedRecord) {
-                                $check = MiniAppBannerLinkPage::where('mini_app_banner_id', $selectedRecord->mini_app_banner_id)->count();
-                                if ($check == 0) MiniAppBanner::destroy($selectedRecord->mini_app_banner_id);
-                            }
-                        }),
+            return $table
+                ->query(MiniAppBannerLinkPage::query()->with('miniapp_banner')->where('mini_app_page_id', $this->record))
+                ->persistSearchInSession()
+                ->columns([
+                    TextColumn::make('pos')
+                        ->label('№')
+                        ->searchable(),
+                    TextColumn::make('miniapp_banner_class.name')
+                        ->label('Тип')
+                        ->searchable(),
+                    TextColumn::make('miniapp_banner.name')
+                        ->label('Название')
+                        ->searchable(),
+                    ImageColumn::make('miniapp_banner.image')
+                        ->disk('local')
+                        ->label('Изображение')
+                        ->url(fn(MiniAppBannerLinkPage $record) => env('APP_URL').'/content/'.$record->miniapp_banner->image)
+                        ->openUrlInNewTab()
+                        ->searchable(),
+                    TextColumn::make('button_url')
+                        ->label('Ссылка на кнопке')
+                        ->url(fn(MiniAppBannerLinkPage $record) => $miniAppBannerGetLinkForRecord->handle($record))
+                        ->getStateUsing('Открыть')
+                        ->openUrlInNewTab()
+                        ->color('primary')
+                        ->searchable(),
+                    TextColumn::make('miniapp_banner.button_text')
+                        ->label('Текст на кнопке')
+                        ->searchable(),
                 ])
-            ])
-            ->defaultSort('pos')
-            ->reorderable('pos');
-    }
-
-    public function table2(Table $table2): Table
-    {
-        $miniAppBannerGetLinkForRecord = new MiniAppBannerGetLinkForRecord();
-
-        return $table2
-            ->query(MiniAppBannerLinkPage::query()->with('miniapp_banner')->where('mini_app_page_id', $this->record))
-            ->persistSearchInSession()
-            ->columns([
-                TextColumn::make('pos')
-                    ->label('№')
-                    ->searchable(),
-                TextColumn::make('miniapp_banner_class.name')
-                    ->label('Тип')
-                    ->searchable(),
-                TextColumn::make('miniapp_banner.name')
-                    ->label('Название')
-                    ->searchable(),
-                ImageColumn::make('miniapp_banner.image')
-                    ->disk('local')
-                    ->label('Изображение')
-                    ->url(fn(MiniAppBannerLinkPage $record) => env('APP_URL').'/content/'.$record->miniapp_banner->image)
-                    ->openUrlInNewTab()
-                    ->searchable(),
-                TextColumn::make('button_url')
-                    ->label('Ссылка на кнопке')
-                    ->url(fn(MiniAppBannerLinkPage $record) => $miniAppBannerGetLinkForRecord->handle($record))
-                    ->getStateUsing('Открыть')
-                    ->openUrlInNewTab()
-                    ->color('primary')
-                    ->searchable(),
-                TextColumn::make('miniapp_banner.button_text')
-                    ->label('Текст на кнопке')
-                    ->searchable(),
-            ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin"),
-                DeleteAction::make()
-                    ->after(function (MiniAppBannerLinkPage $record) {
-                        $check = MiniAppBannerLinkPage::where('mini_app_banner_id', $record->mini_app_banner_id)->count();
-                        if ($check == 0) MiniAppBanner::destroy($record->mini_app_banner_id);
-                    })
-            ])
-            ->recordUrl(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin")
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make()
-                        ->after(function (MiniAppBannerLinkPage $record, Collection $selectedRecords) {
-                            foreach ($selectedRecords as $selectedRecord) {
-                                $check = MiniAppBannerLinkPage::where('mini_app_banner_id', $selectedRecord->mini_app_banner_id)->count();
-                                if ($check == 0) MiniAppBanner::destroy($selectedRecord->mini_app_banner_id);
-                            }
-                        }),
+                ->filters([
+                    //
                 ])
-            ])
-            ->defaultSort('pos')
-            ->reorderable('pos');
+                ->recordActions([
+                    EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin"),
+                    DeleteAction::make()
+                        ->after(function (MiniAppBannerLinkPage $record) {
+                            $check = MiniAppBannerLinkPage::where('mini_app_banner_id', $record->mini_app_banner_id)->count();
+                            if ($check == 0) MiniAppBanner::destroy($record->mini_app_banner_id);
+                        })
+                ])
+                ->recordUrl(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin")
+                ->toolbarActions([
+                    BulkActionGroup::make([
+                        DeleteBulkAction::make()
+                            ->after(function (MiniAppBannerLinkPage $record, Collection $selectedRecords) {
+                                foreach ($selectedRecords as $selectedRecord) {
+                                    $check = MiniAppBannerLinkPage::where('mini_app_banner_id', $selectedRecord->mini_app_banner_id)->count();
+                                    if ($check == 0) MiniAppBanner::destroy($selectedRecord->mini_app_banner_id);
+                                }
+                            }),
+                    ])
+                ])
+                ->defaultSort('pos')
+                ->reorderable('pos');
+        }
+
+        if ($this->mini_app_class_id == 2) {
+            $miniAppBannerGetLinkForRecord = new MiniAppBannerGetLinkForRecord();
+
+            return $table
+                ->query(MiniAppBannerLinkPage::query()->with('miniapp_banner')->where('mini_app_page_id', $this->record))
+                ->persistSearchInSession()
+                ->columns([
+                    TextColumn::make('pos')
+                        ->label('№')
+                        ->searchable(),
+                    TextColumn::make('miniapp_banner_class.name')
+                        ->label('Тип')
+                        ->searchable(),
+                    TextColumn::make('miniapp_banner.name')
+                        ->label('Название')
+                        ->searchable(),
+                    ImageColumn::make('miniapp_banner.image')
+                        ->disk('local')
+                        ->label('Изображение')
+                        ->url(fn(MiniAppBannerLinkPage $record) => env('APP_URL').'/content/'.$record->miniapp_banner->image)
+                        ->openUrlInNewTab()
+                        ->searchable(),
+                    TextColumn::make('button_url')
+                        ->label('Ссылка на кнопке')
+                        ->url(fn(MiniAppBannerLinkPage $record) => $miniAppBannerGetLinkForRecord->handle($record))
+                        ->getStateUsing('Открыть')
+                        ->openUrlInNewTab()
+                        ->color('primary')
+                        ->searchable(),
+                    TextColumn::make('miniapp_banner.button_text')
+                        ->label('Текст на кнопке')
+                        ->searchable(),
+                ])
+                ->filters([
+                    //
+                ])
+                ->recordActions([
+                    EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin"),
+                    DeleteAction::make()
+                        ->after(function (MiniAppBannerLinkPage $record) {
+                            $check = MiniAppBannerLinkPage::where('mini_app_banner_id', $record->mini_app_banner_id)->count();
+                            if ($check == 0) MiniAppBanner::destroy($record->mini_app_banner_id);
+                        })
+                ])
+                ->recordUrl(fn($record) => "/admin/mini-app-banners/".$this->record."/".$record->mini_app_banner_id."/admin")
+                ->toolbarActions([
+                    BulkActionGroup::make([
+                        DeleteBulkAction::make()
+                            ->after(function (MiniAppBannerLinkPage $record, Collection $selectedRecords) {
+                                foreach ($selectedRecords as $selectedRecord) {
+                                    $check = MiniAppBannerLinkPage::where('mini_app_banner_id', $selectedRecord->mini_app_banner_id)->count();
+                                    if ($check == 0) MiniAppBanner::destroy($selectedRecord->mini_app_banner_id);
+                                }
+                            }),
+                    ])
+                ])
+                ->defaultSort('pos')
+                ->reorderable('pos');
+        }
     }
 
 }
