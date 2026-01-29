@@ -3,19 +3,21 @@
 namespace App\Filament\Resources\MiniAppVideos;
 
 use App\Filament\Resources\MiniAppVideos\Pages\AdminMiniAppVideo;
-use Filament\Schemas\Schema;
+use App\Filament\Resources\MiniAppVideos\Pages\AdminVideoByApp;
+
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+
 use Filament\Forms\Components\FileUpload;
-use App\Filament\Resources\FunnelConditions\Pages\AdvancedListFunnelCondition;
-use App\Filament\Resources\FunnelConditions\Pages\AdminFunnelCondition;
-use App\Filament\Resources\FunnelConditionResource\Pages;
-use App\Filament\Resources\FunnelConditionResource\RelationManagers;
-use App\Models\Core\FunnelCondition;
 use Filament\Resources\Resource;
+
 use Filament\Tables;
 use Filament\Tables\Table;
+
+use Filament\Schemas\Schema;
+
+use App\Models\Core\FunnelCondition;
 
 class MiniAppVideoResource extends Resource
 {
@@ -68,11 +70,10 @@ class MiniAppVideoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => AdvancedListFunnelCondition::route('/'),
             'create' => AdminMiniAppVideo::route('/{id}/admin'),
             'edit' => AdminMiniAppVideo::route('/{id}/admin'),
             'admin' => AdminMiniAppVideo::route('/{mini_app_page_id}/{id}/admin'),
-
+            'admin_video_by_app' => AdminVideoByApp::route('/{mini_app_id}/{mini_app_name}/admin_video_by_app'),
         ];
     }
 }
