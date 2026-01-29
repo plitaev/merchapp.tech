@@ -22,12 +22,4 @@
         </div>
     </div>
 
-    @if ($this->$mini_app_class_id == 1)
-        {{$this->table}}
-    @endif
-
-    @if ($this->$mini_app_class_id == 2)
-        {{$this->table2}}
-    @endif
-
 </x-filament::page>
