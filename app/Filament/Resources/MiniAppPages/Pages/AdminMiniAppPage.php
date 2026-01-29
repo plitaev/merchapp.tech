@@ -1,39 +1,48 @@
 <?php
+
 namespace App\Filament\Resources\MiniAppPages\Pages;
 
-use App\Models\Core\MiniApp;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Actions;
-use Filament\Actions\Action;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use App\Actions\Core\MiniAppBanner\MiniAppBannerGetLinkForRecord;
 use App\Filament\Resources\MiniAppPages\MiniAppPageResource;
-use App\Models\Core\MiniAppBanner;
-use App\Models\Core\MiniAppBannerLinkPage;
-use App\Models\Core\MiniAppPage;
-use Filament\Forms;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Notifications\Notification;
-use Filament\Resources\Pages\Page;
-use Filament\Tables;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
+
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+
+use Filament\Forms;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+
+use Filament\Resources\Pages\Page;
+use Filament\Notifications\Notification;
+
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Actions;
+
+use Filament\Tables;
+use Filament\Tables\Table;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+
+use App\Actions\Core\MiniAppBanner\MiniAppBannerGetLinkForRecord;
+
+use App\Models\Core\MiniApp;
+use App\Models\Core\MiniAppBanner;
+use App\Models\Core\MiniAppBannerLinkPage;
+use App\Models\Core\MiniAppPage;
+use App\Models\Core\MiniAppVideoLinkPage;
 
 class AdminMiniAppPage extends Page implements HasTable, HasForms
 {
@@ -192,8 +201,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                         ->url(fn(MiniAppBannerLinkPage $record) => $miniAppBannerGetLinkForRecord->handle($record))
                         ->getStateUsing('Открыть')
                         ->openUrlInNewTab()
-                        ->color('primary')
-                        ->searchable(),
+                        ->color('primary'),
                     TextColumn::make('miniapp_banner.button_text')
                         ->label('Текст на кнопке')
                         ->searchable(),
@@ -226,37 +234,21 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
         }
 
         if ($this->mini_app_class_id == 2) {
-            $miniAppBannerGetLinkForRecord = new MiniAppBannerGetLinkForRecord();
-
             return $table
-                ->query(MiniAppBannerLinkPage::query()->with('miniapp_banner')->where('mini_app_page_id', $this->record))
+                ->query(MiniAppVideoLinkPage::query()->with('miniapp_video')->where('mini_app_page_id', $this->record))
                 ->persistSearchInSession()
                 ->columns([
                     TextColumn::make('pos')
                         ->label('№')
                         ->searchable(),
-                    TextColumn::make('miniapp_banner_class.name')
-                        ->label('Тип')
-                        ->searchable(),
-                    TextColumn::make('miniapp_banner.name')
+                    TextColumn::make('miniapp_video.name')
                         ->label('Название')
                         ->searchable(),
-                    ImageColumn::make('miniapp_banner.image')
+                    ImageColumn::make('miniapp_video.image')
                         ->disk('local')
                         ->label('Изображение')
-                        ->url(fn(MiniAppBannerLinkPage $record) => env('APP_URL').'/content/'.$record->miniapp_banner->image)
+                        ->url(fn(MiniAppVideoLinkPage $record) => env('APP_URL').'/content/'.$record->miniapp_video->image)
                         ->openUrlInNewTab()
-                        ->searchable(),
-                    TextColumn::make('button_url')
-                        ->label('Ссылка на кнопке')
-                        ->url(fn(MiniAppBannerLinkPage $record) => $miniAppBannerGetLinkForRecord->handle($record))
-                        ->getStateUsing('Открыть')
-                        ->openUrlInNewTab()
-                        ->color('primary')
-                        ->searchable(),
-                    TextColumn::make('miniapp_banner.button_text')
-                        ->label('Текст на кнопке')
-                        ->searchable(),
                 ])
                 ->filters([
                     //
@@ -285,5 +277,4 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                 ->reorderable('pos');
         }
     }
-
 }
