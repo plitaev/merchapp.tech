@@ -20,7 +20,7 @@ class GetCourseWebhookCreate
             ]
         );
 
-        //return $payCreateByEmail->handle($email, $product_id, $recurrent, $recurrent_status);
+        return $payCreateByEmail->handle($email, $product_id, $recurrent, $recurrent_status);
 
     }
 }
