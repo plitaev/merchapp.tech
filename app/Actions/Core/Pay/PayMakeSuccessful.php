@@ -12,10 +12,14 @@ use App\Actions\Core\ReferralProgram\ReferralBuySpecialProduct;
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserRecurrentSchedule;
 use App\Models\Core\Pay;
+use App\Models\Core\Product;
+use Illuminate\Support\Facades\Auth;
+
 
 class PayMakeSuccessful
 {
-    public function handle(string $source, int $order_number, $pay_system_payment_id, $pay_system_payment_method_id, $pay_system_comission) {
+    public function handle(string $source, int $order_number, $pay_system_payment_id, $pay_system_payment_method_id, $pay_system_comission)
+    {
         $botBranchEndByProducts = new BotBranchEndByProducts();
         $botSendMessage = new BotSendMessage();
         $botUserGetByID = new BotUserGetByID();
@@ -26,7 +30,7 @@ class PayMakeSuccessful
 
         $Asource = json_decode($source, true);
 
-        Pay::query()
+        Pay::query()->with('bot_user')
             ->where('id', $order_number)
             ->update(
                 [
@@ -85,7 +89,7 @@ class PayMakeSuccessful
             }
 
             if (isset($Asource['object']['payment_method']['card']['last4'])) {
-                $card_mask .= '******'.$Asource['object']['payment_method']['card']['last4'];
+                $card_mask .= '******' . $Asource['object']['payment_method']['card']['last4'];
             }
 
             if ($card_mask == '') $card_mask = $Asource['object']['payment_method']['title'];
@@ -93,5 +97,23 @@ class PayMakeSuccessful
             BotUser::where('id', $pay->bot_user_id)->update(['card_mask' => $card_mask]);
         }
 
+        $products = Product::where('id',$pay->product_id)->get();
+
+        foreach ($products as $product) {
+
+            if (isset($product->external_id) && isset($product->external_api_url)) {
+
+                $data = ['email' => $pay->bot_user->email, 'product_id' => $product->id];
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data, true));
+                curl_exec($ch);
+                curl_close($ch);
+
+            }
+        }
     }
+
 }
