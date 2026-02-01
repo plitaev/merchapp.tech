@@ -64,12 +64,14 @@
                     </li>
                 </ol>
             </nav>
-        </div>
-    </div>
+
     <h1 class="fi-header-heading">
         @if($this->id == 0 ) Новый пользователь
         @else Редактировать пользователь
         @endif</h1>
+            
+        </div>
+    </div>
 
     {{$this->form}}
 </x-filament-panels::page>

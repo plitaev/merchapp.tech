@@ -64,11 +64,12 @@
                     </li>
                 </ol>
             </nav>
-        </div>
-    </div>
+
     <h1 class="fi-header-heading">
         @if($this->id == 0 ) Новый платеж
         @else Редактировать платеж
         @endif</h1>
+        </div>
+    </div>
     {{$this->form}}
 </x-filament-panels::page>

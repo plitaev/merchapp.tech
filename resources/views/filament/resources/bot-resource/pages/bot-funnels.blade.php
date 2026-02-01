@@ -47,11 +47,11 @@ if($this->bot_id != 0) {
                     </li>
                 </ol>
             </nav>
-        </div>
-    </div>
+
     <h1 class="fi-header-heading">Воронки</h1>
 
-
+        </div>
+    </div>
     @include('filament.resources.bot-resource.pages.navigation-bot', ['category' => "funnels", 'bot_id' => $this->bot_id])
 
     <div class="fi-header fi-header-has-breadcrumbs">

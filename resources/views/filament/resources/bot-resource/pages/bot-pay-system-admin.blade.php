@@ -10,11 +10,6 @@ if($this->bot_id != 0) {
 ?>
 <x-filament-panels::page>
 
-    <style>
-        .fi-ta-search-field{min-width: 300px}
-        .fi-breadcrumbs:not(#merchapp-top-nav){display: none} .fi-ta-search-field{min-width: 300px}
-    </style>
-
     <style>.fi-breadcrumbs:not(#merchapp-top-nav){display: none} .fi-ta-search-field{min-width: 300px}</style>
 
     <div class="fi-header fi-header-has-breadcrumbs">
@@ -46,15 +41,22 @@ if($this->bot_id != 0) {
                             <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd"></path>
                         </svg>
 
-                        <a href="/admin/bots/{{$this->bot_id}}/pay-system-admin" class="fi-breadcrumbs-item-label">Платежная система</a>
+                        <span class="fi-breadcrumbs-item-label"><a href="/admin/bots/{{$this->bot_id}}/pay-system-admin" class="fi-breadcrumbs-item-label">
+                            @if($this->id == 0 ) Новая платежная система
+                            @else Редактировать платежную систему
+                            @endif
+                            </a></span>
                     </li>
                 </ol>
             </nav>
+
+    <h1 class="fi-header-heading">@if($this->id == 0 ) Новая платежная система
+        @else Редактировать платежную систему
+            @endif</h1>
         </div>
     </div>
-    <h1 class="fi-header-heading">Платежные системы</h1>
-
     @include('filament.resources.bot-resource.pages.navigation-bot', ['category' => "pay-system-admin", 'bot_id' => $this->bot_id])
+
     {{$this->form}}
 
 </x-filament-panels::page>

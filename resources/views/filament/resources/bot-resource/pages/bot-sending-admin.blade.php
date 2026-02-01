@@ -64,13 +64,13 @@ $this->bot_name = '';
                     </li>
                 </ol>
             </nav>
-        </div>
-    </div>
+
     <h1 class="fi-header-heading">
         @if($this->id == 0 ) Новая pассылка
         @else Редактировать pассылку
         @endif</h1>
-
+        </div>
+    </div>
     {{$this->form}}
 
     @if ($this->id > 0 && auth()->user()->can('Create:Sending'))

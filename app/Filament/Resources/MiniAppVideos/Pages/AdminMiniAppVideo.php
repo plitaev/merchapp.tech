@@ -171,8 +171,9 @@ class AdminMiniAppVideo extends Page implements HasForms
 
                             Action::make('Cancel')
                                 ->action(function () {
-
+                                    return redirect('/admin/mini-app-pages/'.$this->mini_app_page_id.'/admin');
                                 })
+                                ->color('gray')
                                 ->label('Вернуться назад')
                         ])
                     ]),

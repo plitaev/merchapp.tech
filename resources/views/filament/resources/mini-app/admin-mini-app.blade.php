@@ -22,6 +22,4 @@
         </div>
     </div>
 
-    {{$this->table}}
-
 </x-filament::page>

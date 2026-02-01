@@ -9,8 +9,6 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserGetByEmail;
 use App\Actions\Core\GetCourseWebhook\GetCourseWebhookCreate;
 use App\Actions\Core\GetCourseEventWebhook\GetCourseEventWebhookCreate;
-use App\Actions\Core\Pay\PayCreateByEmail;
-use App\Actions\Core\PaySystemCallback\PaySystemCallbackCreate;
 use App\Actions\Core\TelegramSupergroup\TelegramSupergroupSendRecurrentFail;
 
 use App\Models\Core\BotMessage;

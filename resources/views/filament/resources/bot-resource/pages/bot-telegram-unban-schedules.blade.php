@@ -47,10 +47,10 @@ if($this->bot_id != 0) {
                     </li>
                 </ol>
             </nav>
+
+    <h1 class="fi-header-heading">Разбаны</h1>
         </div>
     </div>
-    <h1 class="fi-header-heading">Разбаны</h1>
-
     @include('filament.resources.bot-resource.pages.navigation-bot', ['category' => "telegram-unban-schedules", 'bot_id' => $this->bot_id])
 
     @if (auth()->user()->can('Update:TelegramUnbanSchedule'))
