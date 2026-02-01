@@ -13,9 +13,9 @@
 --}}
 
 <table>
-    @foreach ($bot_users as $bot_user)
+    @foreach ($bot_users as $bot_user_id)
         <tr>
-            <td>{{$bot_user->id}}</td>
+            <td>{{$bot_user_id}}</td>
         </tr>
     @endforeach
 </table>
