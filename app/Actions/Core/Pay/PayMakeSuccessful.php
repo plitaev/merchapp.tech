@@ -122,10 +122,6 @@ class PayMakeSuccessful
             }
         }
 
-        Notification::make()
-            ->title('Данные успешно сохранены!l')
-            ->success()
-            ->send();
     }
 
 }

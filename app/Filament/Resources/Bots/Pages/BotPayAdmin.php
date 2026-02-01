@@ -3,6 +3,7 @@ namespace App\Filament\Resources\Bots\Pages;
 
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserBanByDeletePay;
+use App\Actions\Core\Pay\PaySendBuyedProduct;
 use App\Models\Core\BotAdminLog;
 use App\Models\Core\BotUser;
 use Filament\Schemas\Schema;
@@ -188,6 +189,7 @@ class BotPayAdmin extends Page implements HasForms
                         ->action(function () {
                             $dateEndCacheForPay = new DateEndCacheForPay();
                             $payCreateByEmail = new PayCreateByEmail();
+                            $paySendBuyedProduct = new PaySendBuyedProduct();
                             $data = $this->form->getState();
 
                             if ($this->id>0) {
@@ -212,7 +214,7 @@ class BotPayAdmin extends Page implements HasForms
                                 $payCreateByEmail->handle($data['email'], $data['product_id'], 0, 0, $data['days'], $data['price']);
                                 $output_id = $this->id;
                             }
-
+                            $paySendBuyedProduct->handle($data['email'], $data['product_id']);
 
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
