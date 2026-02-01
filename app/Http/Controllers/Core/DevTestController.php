@@ -26,6 +26,11 @@ use App\Models\Core\TelegramBanScheduleLogs;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $ids = Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [3, 25])->pluck('bot_user_id')->toArray();
+        return BotUser::select('id')->whereIn('id', $ids)->where('date_end', '>=', '2026-01-28')->pluck('id')->toArray();
+
+        /*
         $pays = Pay::with('bot_user')
             ->where('status', 1)
             ->where('price', '>', 0)
@@ -35,6 +40,7 @@ class DevTestController extends Controller
             ->get();
 
         return view('core.devtest.devtest', ['pays' => $pays]);
+        */
     }
 
 }
