@@ -213,7 +213,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                     Action::make('Сохранить')
                         ->action(function () {
                             $data = $this->form->getState();
-                            $data['bot_message_id'] = $this->id;
+                            $data['bot_message_id'] = $this->bot_message_id;
                             if ($this->id>0) {
                                 BotMessageButton::where('id', $this->id)->update($data);
                                 $button_id = $this->id;
@@ -225,7 +225,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                             //=========================================================================
 
                             $posres = BotMessageButton::select('id')
-                                ->where('bot_message_id', $this->id)
+                                ->where('bot_message_id', $this->bot_message_id)
                                 ->whereNot('id', $button_id)
                                 ->where('pos', '<=', $data['pos'])
                                 ->orderBy('pos')
@@ -240,7 +240,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                             //===
 
                             $posres = BotMessageButton::select('id')
-                                ->where('bot_message_id', $this->id)
+                                ->where('bot_message_id', $this->bot_message_id)
                                 ->whereNot('id', $button_id)
                                 ->where('pos', '>=', $data['pos'])
                                 ->orderBy('pos')
@@ -259,7 +259,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                                 ->success()
                                 ->send();
 
-                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->id.'/button-admin');
+                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/'.$this->id.'/button-admin');
                         })
                         ->visible(auth()->user()->hasPermissionTo('Create:BotMessageButtonCallback')),
 
@@ -267,7 +267,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
 
                     Action::make('Cancel')
                         ->action(function () {
-                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->id.'/button-admin');
+                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/'.$this->id.'/button-admin');
                         })
                         ->label('Отменить и вернуться назад')
                 ])
