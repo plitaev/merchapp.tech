@@ -14,6 +14,7 @@ use App\Models\Core\BotUserRecurrentSchedule;
 use App\Models\Core\Pay;
 use App\Models\Core\Product;
 use Illuminate\Support\Facades\Auth;
+use Filament\Notifications\Notification;
 
 
 class PayMakeSuccessful
@@ -98,22 +99,33 @@ class PayMakeSuccessful
         }
 
         $products = Product::where('id',$pay->product_id)->get();
-
         foreach ($products as $product) {
-
             if (isset($product->external_id) && isset($product->external_api_url)) {
+                $json = '{"email": "'.$pay->bot_user->email.'","product_id": '. $product->id.'}';
 
-                $data = ['email' => $pay->bot_user->email, 'product_id' => $product->id];
+                //$data = array('email' => $pay->bot_user->email, 'product_id' => $product->id);
 
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data, true));
-                curl_exec($ch);
-                curl_close($ch);
+                $curl = curl_init();
+                curl_setopt($curl, CURLOPT_URL, 'https://loverse.me/shop/pay_product');
+                curl_setopt($curl,CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curl,CURLOPT_ENCODING, '');
+                curl_setopt($curl,CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($curl,CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+                curl_setopt($curl,CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($curl,CURLOPT_POSTFIELDS, $json);
+                curl_setopt($curl,CURLOPT_HTTPHEADER,['Content-Type: application/json', 'Accept: application/json']);
+                $result = curl_exec($curl);
+
+                curl_close($curl);
+
 
             }
         }
+
+        Notification::make()
+            ->title('Данные успешно сохранены!l')
+            ->success()
+            ->send();
     }
 
 }
