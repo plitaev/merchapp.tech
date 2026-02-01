@@ -67,7 +67,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
         $this->bot_name = $bot->name;
 
         $this->pos_list = (new BotMessageButtonBuildPosList())->handle($id);
-        $data = ($id>0?BotMessageButton::find($id):["bot_message_id" => $id, 'pos' => $this->pos_list[1]]);
+        $data = ($id>0?BotMessageButton::find($id)->toArray():["bot_message_id" => $id, 'pos' => $this->pos_list[1]]);
         $this->form->fill($data);
 
         if (!Auth::user()->hasPermissionTo('View:BotMessage')) {
@@ -131,7 +131,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                         Select::make('pos')
                             ->label('Порядковый номер')
                             ->required()
-                            ->options($this->pos_list[0])
+                            ->options($this->pos_list)
                             ->searchable()
                             ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2])
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
