@@ -175,7 +175,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
     public function table(Table $table): Table
     {
-        if ($this->mini_app_class_id == 1) {
+        if ($this->mini_app_class_id == 0 || $this->mini_app_class_id == 1) {
             $miniAppBannerGetLinkForRecord = new MiniAppBannerGetLinkForRecord();
 
             return $table
