@@ -31,6 +31,7 @@ class DevTestController extends Controller
         $ids = Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [3, 25])->where('created_at', '>=', '2025-01-28 00:00:00')->pluck('bot_user_id')->toArray();
         $bot_users = BotUser::select('id')->whereIn('id', $ids)->where('date_end', '>=', '2026-01-28')->pluck('id')->toArray();
         $insds = TelegramSendMessageSchedule::select('bot_user_id')->where('sending_id', 3933)->whereNotIn('bot_user_id', $ids)->get();
+        return 'abx';
         return BotUser::select('email')->whereIn('id', $insds)->get();
 
         /*
