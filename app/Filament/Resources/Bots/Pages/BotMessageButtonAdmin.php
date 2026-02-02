@@ -267,7 +267,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
 
                     Action::make('Cancel')
                         ->action(function () {
-                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/'.$this->id.'/button-admin');
+                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/message-admin');
                         })
                         ->label('Отменить и вернуться назад')
                 ])

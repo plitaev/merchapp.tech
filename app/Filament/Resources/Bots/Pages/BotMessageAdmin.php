@@ -561,7 +561,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                 //
             ])
             ->recordActions([
-                ViewAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/button-admin")
+                ViewAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$this->id."/".$record->id."/button-admin")
                     ->visible(!auth()->user()->can('Update:BotMessageButton')),
 //                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/button-admin")
 //                    ->visible(auth()->user()->can('Update:BotMessageButton')),
@@ -575,7 +575,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
 
                 ])
             ])
-            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/button-admin")
+            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$this->id."/".$record->id."/button-admin")
             ->defaultSort('pos')
             ->reorderable('pos');
     }
