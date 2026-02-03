@@ -214,7 +214,7 @@ class BotPayAdmin extends Page implements HasForms
                                 $payCreateByEmail->handle($data['email'], $data['product_id'], 0, 0, $data['days'], $data['price']);
                                 $output_id = $this->id;
                             }
-                            $paySendBuyedProduct->handle($data['email'], $data['product_id']);
+                            $paySendBuyedProduct->handle($data['email'], $data['product_id'],$data['price']);
 
                             Notification::make()
                                 ->title('Данные успешно сохранены!')

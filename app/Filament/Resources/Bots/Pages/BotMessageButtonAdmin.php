@@ -67,7 +67,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
         $this->bot_name = $bot->name;
 
         $this->pos_list = (new BotMessageButtonBuildPosList())->handle($id);
-        $data = ($id>0?BotMessageButton::find($id)->toArray():["bot_message_id" => $id, 'pos' => $this->pos_list[1]]);
+        $data = ($id>0?BotMessageButton::find($id)->toArray():["bot_message_id" => $id, "pos" => $this->pos_list[1]]);
         $this->form->fill($data);
 
         if (!Auth::user()->hasPermissionTo('View:BotMessage')) {
@@ -267,7 +267,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
 
                     Action::make('Cancel')
                         ->action(function () {
-                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/'.$this->id.'/button-admin');
+                            return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_message_id.'/message-admin');
                         })
                         ->label('Отменить и вернуться назад')
                 ])
