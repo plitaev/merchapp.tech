@@ -125,7 +125,7 @@ class AdminMiniAppVideo extends Page implements HasForms
                                     $data = $this->form->getState();
 
                                     Notification::make()
-                                        ->title($data)
+                                        ->title(implode(',', $data))
                                         ->success()
                                         ->send();
 
