@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Core;
 
 use App\Actions\Core\MiniAppBanner\MiniAppBannerListByClassID;
 use App\Actions\Core\MiniAppPage\MiniAppPageGetByURL;
+use App\Models\Core\MiniAppVideo;
+use App\Models\Core\MiniAppVideoLinkPage;
 
 class MiniAppPageController
 {
@@ -13,13 +15,18 @@ class MiniAppPageController
 
         $mini_app_page = $miniAppPageGetByURL->handle();
 
-        return $mini_app_page;
+        if ($mini_app_page->miniapp->class_id == 1) {
+            return view('core.mini-app.mini-app-banner-page', [
+                'banners_big' => $miniAppBannerListByClassID->handle($mini_app_page->id, 1),
+                'banners_medium' => $miniAppBannerListByClassID->handle($mini_app_page->id, 2),
+                'banners_small' => $miniAppBannerListByClassID->handle($mini_app_page->id, 3)
+            ]);
+        }
 
-        return view('core.mini-app.mini-app-banner-page', [
-            'banners_big' => $miniAppBannerListByClassID->handle($mini_app_page->id, 1),
-            'banners_medium' => $miniAppBannerListByClassID->handle($mini_app_page->id, 2),
-            'banners_small' => $miniAppBannerListByClassID->handle($mini_app_page->id, 3)
-        ]);
+        if ($mini_app_page->miniapp->class_id == 2) {
+            $video_ids = MiniAppVideoLinkPage::select('mini_app_video_id')->where('mini_app_page_id', $mini_app_page->id)->pluck('mini_app_video_id')->toArray();
+            $videos = MiniAppVideo::whereIn('id', $video_ids)->get();
+        }
 
     }
 }
