@@ -32,7 +32,7 @@ class DevTestController extends Controller
 
         $res = BotUser::where('bot_id', 4)->get();
         foreach ($res as $data) {
-            BotUserBanSchedule::create(['bot_user_id' => $data->bot_user_id, 'run_status' => 0, 'ban_datetime' => '2026-02-03 05:00:00']);
+            BotUserBanSchedule::create(['bot_user_id' => $data->id, 'run_status' => 0, 'ban_datetime' => '2026-02-03 05:00:00']);
         }
 
         /*
