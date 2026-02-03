@@ -156,16 +156,16 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
         $this->bot_name = $bot->name??'';
 
         if ($id > 0) {
-            $data = BotMessage::with('bot_message_type')->with('bot')->find($id)->toArray();
+            $data = BotMessage::with('bot_message_type')->with('bot')->find($id);
             if ($data) {
-                $bot_user = BotUser::select('telegram_chat_id')->where('bot_id', $data['bot_id'])->where('email', auth()->user()->email)->first();
+                $bot_user = BotUser::select('telegram_chat_id')->where('bot_id', $this->bot_id)->where('email', auth()->user()->email)->first();
                 if ($bot_user) {
                     $this->send_message_self = '<a href="/bot/'.$id.'/send_to_admin" target="_blank">Нажмите <span style="text-decoration: underline">на эту ссылку</a>, чтобы отправить это сообщение себе в боте</a>';
                 } else {
-                    $this->send_message_self = 'В настоящее время ваш аккаунт администратора не связан с ботом в Telegram, чтобы отправить сообщение самому себе для проверки. Для привязки аккаунта администратора к боту перейдите в бот по ссылке: <a href="https://t.me/' . $data['bot']['alias'] . '">https://t.me/' . $data['bot']['alias'] . '</a> и нажмите Меню - Регистрация';
+                    $this->send_message_self = 'В настоящее время ваш аккаунт администратора не связан с ботом в Telegram, чтобы отправить сообщение самому себе для проверки. Для привязки аккаунта администратора к боту перейдите в бот по ссылке: <a href="https://t.me/' . $data['bot.alias'] . '">https://t.me/' . $data['bot.alias'] . '</a> и нажмите Меню - Регистрация';
                 }
 
-                $this->bot_message_listener = BotMessageListener::select('listener_id')->where('bot_message_id', $data['id'])->count();
+                $this->bot_message_listener = BotMessageListener::select('listener_id')->where('bot_message_id', $this->bot_id)->count();
 
             }
 
@@ -189,7 +189,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
 
     public function getHeading(): string
     {
-      return '';
+        return '';
     }
 
     public function getTitle(): string
@@ -561,7 +561,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                 //
             ])
             ->recordActions([
-                ViewAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/button-admin")
+                ViewAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$this->id."/".$record->id."/button-admin")
                     ->visible(!auth()->user()->can('Update:BotMessageButton')),
 //                EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/button-admin")
 //                    ->visible(auth()->user()->can('Update:BotMessageButton')),
@@ -575,7 +575,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
 
                 ])
             ])
-            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$record->id."/button-admin")
+            ->recordUrl(fn($record) => "/admin/bots/".$this->bot_id."/".$this->id."/".$record->id."/button-admin")
             ->defaultSort('pos')
             ->reorderable('pos');
     }
