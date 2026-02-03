@@ -170,9 +170,9 @@ class AdminMiniAppVideo extends Page implements HasForms
                                         ->title("Данные успешно сохранены")
                                         ->success()
                                         ->send();
-                                    */
 
                                     return redirect('/admin/mini-app-videos/'.$this->mini_app_page_id.'/'.$video_id.'/admin');
+                                    */
                                 })
                                 ->visible(fn() => auth()->user()->can('Create:BotMessage')),
 
