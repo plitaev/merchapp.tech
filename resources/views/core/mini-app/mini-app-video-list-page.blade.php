@@ -48,7 +48,7 @@
                     <div class="mx-auto grid max-w-md grid-cols-2 mt-3">
                         @endif
 
-                        <a href="" class="flex flex-col justify-between ml-1.5 mr-3 p-1.5 rounded-xl bg-white shadow-xl ring-1 ring-gray-900/10">
+                        <a href="/miniapp/player/{{$video->id}}" class="flex flex-col justify-between ml-1.5 mr-3 p-1.5 rounded-xl bg-white shadow-xl ring-1 ring-gray-900/10">
                             <div>
                                 <img src="{{env('APP_URL').'/content/'.$video->image}}?updated_at={{base64_encode($video->updated_at)}}" class="rounded-xl"/>
                             </div>

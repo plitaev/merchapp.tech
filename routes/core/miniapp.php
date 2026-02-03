@@ -12,4 +12,6 @@ Route::controller(MiniAppPageController::class)->group(function() {
         Route::get('/'.$data->url, 'mini_app_banner_page');
     }
 
+    Route::get('/miniapp/player/{id}', 'mini_app_player_page');
+
 });

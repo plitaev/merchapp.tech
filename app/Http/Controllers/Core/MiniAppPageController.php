@@ -9,7 +9,8 @@ use App\Models\Core\MiniAppVideoLinkPage;
 
 class MiniAppPageController
 {
-    public function mini_app_banner_page() {
+    public function mini_app_banner_page()
+    {
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
         $miniAppPageGetByURL = new MiniAppPageGetByURL();
 
@@ -32,6 +33,14 @@ class MiniAppPageController
             ]);
 
         }
+    }
 
+    public function mini_app_player_page(int $id)
+    {
+        $video = MiniAppVideo::find($id);
+
+        return view('core.mini-app.mini-app-player-page', [
+            'video' => $video
+        ]);
     }
 }
