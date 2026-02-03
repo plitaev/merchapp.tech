@@ -123,8 +123,8 @@ class PayMakeSuccessful
         foreach ($products as $product) {
             if (isset($product->external_id) && isset($product->external_api_url)) {
 
-                $data = array('email' => $pay->bot_user->email, "bot_user_id" => $pay->bot_user_id,'product_id' => $product->id, 'pay_price_rub' => $pay->price, 'app_url' => "https://loverse.me");
-                $json = '[{"email":"'.$pay->bot_user->email.'","product_id":"'.$product->id.'","bot_user_id":"'.$pay->bot_user_id.'","pay_price_rub":"'.$pay->price.'","app_url":"https://loverse.me"}]';
+                //$data = array('email' => $pay->bot_user->email, "bot_user_id" => $pay->bot_user_id,'product_id' => $product->id, 'pay_price_rub' => $pay->price, 'app_url' => "https://loverse.me");
+                $json = '[{"email":"'.$email.'","product_id":"'.$product->id.'","bot_user_id":"'.$bot_user_id.'","pay_price_rub":"'.$pay_price_rub.'","app_url":"https://loverse.me"}]';
 
                 $curl = curl_init();
                 curl_setopt($curl, CURLOPT_URL, 'https://loverse.me/shop/pay_product');
