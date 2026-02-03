@@ -26,6 +26,11 @@ class MiniAppPageController
         if ($mini_app_page->miniapp->class_id == 2) {
             $video_ids = MiniAppVideoLinkPage::select('mini_app_video_id')->where('mini_app_page_id', $mini_app_page->id)->pluck('mini_app_video_id')->toArray();
             $videos = MiniAppVideo::whereIn('id', $video_ids)->get();
+
+            return view('core.mini-app.mini-app-video-list-page', [
+                'videos' => $videos
+            ]);
+
         }
 
     }
