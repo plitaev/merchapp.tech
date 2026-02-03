@@ -127,7 +127,7 @@ class AdminMiniAppVideo extends Page implements HasForms
                                     $string = '';
 
                                     foreach ($data as $k => $v) {
-                                        $string .= $k.' - '.$v;
+                                        $string .= $k.' - '.$v.';';
                                     }
 
                                     Notification::make()
