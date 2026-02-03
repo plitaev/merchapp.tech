@@ -34,7 +34,7 @@
     <div class="isolate overflow-y-scroll bg-[#f1f1f1] h-[100vh]">
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
-            <iframe src="https://cdn-vod.loverse.me/videos/12436_eHD7pGycewnsOh8V" allow="autoplay; encrypted-media; clipboard-write" allowfullscreen style="width: 100%"></iframe>
+            <iframe src="https://cdn-vod.loverse.me/videos/12436_TIAqEKZROCOXB5Cb" allow="autoplay; encrypted-media; clipboard-write" allowfullscreen style="width: 100%"></iframe>
         </div>
     </div>
 
