@@ -121,7 +121,13 @@ class AdminMiniAppVideo extends Page implements HasForms
                         Actions::make([
                             Action::make('Сохранить')
                                 ->action(function () {
+
                                     $data = $this->form->getState();
+
+                                    Notification::make()
+                                        ->title($data)
+                                        ->success()
+                                        ->send();
 
                                     if ($this->id > 0) {
                                         $video_id = $this->id;
