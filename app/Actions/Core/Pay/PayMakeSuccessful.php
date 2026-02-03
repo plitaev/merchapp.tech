@@ -124,7 +124,7 @@ class PayMakeSuccessful
             if (isset($product->external_id) && isset($product->external_api_url)) {
 
                 $data = array('email' => $pay->bot_user->email, "bot_user_id" => $pay->bot_user_id,'product_id' => $product->id, 'pay_price_rub' => $pay->price, 'app_url' => "https://loverse.me");
-                $json = '[{"email":"'.$pay->bot_user->email.'","product_id":"'.$product->id.'","bot_user_id":"'.$pay->bot_user_id.'","pay_price_rub":"'.$pay->price.'","app_url":"https://loverse.me"}]';
+                $json = '[{"email":"'.$pay->bot_user->email.'","product_id":"'.$product->id.'","bot_user_id":"'.$pay->bot_user_id.'","user_id":"'.Auth::id().'","pay_price_rub":"'.$pay->price.'","app_url":"https://loverse.me"}]';
 
                 $curl = curl_init();
                 curl_setopt($curl, CURLOPT_URL, 'https://loverse.me/shop/pay_product');
