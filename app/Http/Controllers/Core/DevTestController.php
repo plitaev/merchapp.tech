@@ -28,11 +28,19 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
+        BotUser::where('bot_id', 4)->update(['date_end' => '2026-02-03']);
+
+        $res = BotUser::where('bot_id', 4)->get();
+        foreach ($res as $data) {
+            BotUserBanSchedule::create(['bot_user_id' => $data->bot_user_id, 'run_status' => 0, 'ban_datetime' => '2026-02-03 05:00:00']);
+        }
+
+        /*
         $ids = Pay::select('bot_user_id')->where('status', 1)->whereIn('product_id', [3, 25])->where('created_at', '>=', '2025-01-28 00:00:00')->pluck('bot_user_id')->toArray();
         $bot_users = BotUser::select('id')->whereIn('id', $ids)->where('date_end', '>=', '2026-01-28')->pluck('id')->toArray();
         $insds = TelegramSendMessageSchedule::select('bot_user_id')->where('sending_id', 3933)->whereNotIn('bot_user_id', $ids)->get();
         return BotUser::select('email')->whereIn('id', $insds)->pluck('email')->toArray();
-
+        */
         /*
         $pays = Pay::with('bot_user')
             ->where('status', 1)
