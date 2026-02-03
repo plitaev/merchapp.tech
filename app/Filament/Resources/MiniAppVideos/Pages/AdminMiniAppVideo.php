@@ -131,7 +131,7 @@ class AdminMiniAppVideo extends Page implements HasForms
                                     }
 
                                     Notification::make()
-                                        ->title($string)
+                                        ->title($data['image'])
                                         ->success()
                                         ->send();
                                     /*
