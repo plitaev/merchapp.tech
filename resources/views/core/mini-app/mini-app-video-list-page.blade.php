@@ -53,7 +53,7 @@
                                 <img src="{{env('APP_URL').'/content/'.$video->image}}?updated_at={{base64_encode($video->updated_at)}}" class="rounded-xl"/>
                             </div>
 
-                            <div aria-describedby="tier-team" class="mt-2 block rounded-md px-3.5 py-2 text-center text-sm/6 font-semibold shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400" style="background-color: {{$banner_medium->miniapp_banner->button_bg_color}}; color: {{$banner_medium->miniapp_banner->button_text_color}}">{{$banner_medium->miniapp_banner->button_text}}</div>
+                            <div aria-describedby="tier-team" class="mt-2 block rounded-md px-3.5 py-2 text-center text-sm/6 font-semibold shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400" style="background-color: black; color: white">{{$video->name}}</div>
                         </a>
 
                         @if ($bscount==2)
