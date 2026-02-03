@@ -13,6 +13,8 @@ class MiniAppPageController
 
         $mini_app_page = $miniAppPageGetByURL->handle();
 
+        return 'test';
+
         return view('core.mini-app.mini-app-banner-page', [
             'banners_big' => $miniAppBannerListByClassID->handle($mini_app_page->id, 1),
             'banners_medium' => $miniAppBannerListByClassID->handle($mini_app_page->id, 2),
