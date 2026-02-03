@@ -22,20 +22,28 @@ class PaySendBuyedProduct
 {
     public function handle(string $email, int $product_id)
     {
+        $bot_user_id = BotUser::where('email', $email)->first()->id;
         $products = Product::where('id',$product_id)->get();
+
         foreach ($products as $product) {
             if (isset($product->external_id) && isset($product->external_api_url)) {
 
-                $data = array('email' => $email, 'product_id' => $product->id);
+                $data = array('email' => $email, "bot_user_id" => $bot_user_id,'product_id' => $product->id, 'pay_price_rub' => 0, 'app_url' => "https://loverse.me");
+                $json = '[{"email":"'.$email.'","product_id":"'.$product->id.'","bot_user_id":"'.$bot_user_id.'","pay_price_rub":"0","app_url":"https://loverse.me"}]';
 
                 $curl = curl_init();
                 curl_setopt($curl, CURLOPT_URL, 'https://loverse.me/shop/pay_product');
-                curl_setopt($curl, CURLOPT_POST, true);
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curl,CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curl,CURLOPT_ENCODING, '');
+                curl_setopt($curl,CURLOPT_MAXREDIRS, 10);
+                curl_setopt($curl,CURLOPT_TIMEOUT, 0);
+                curl_setopt($curl,CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($curl,CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+                curl_setopt($curl,CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($curl,CURLOPT_POSTFIELDS, $json);
+                curl_setopt($curl,CURLOPT_HTTPHEADER,['Content-Type: application/json', 'Accept: application/json']);
+                $result = curl_exec($curl);
 
-                $responce = curl_exec($curl);
-                
                 curl_close($curl);
 
 
