@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Http;
 
 class PaySendBuyedProduct
 {
-    public function handle(string $email, int $product_id)
+    public function handle(string $email, int $product_id, int $pay_price_rub)
     {
         $bot_user_id = BotUser::where('email', $email)->first()->id;
         $products = Product::where('id',$product_id)->get();
@@ -28,8 +28,8 @@ class PaySendBuyedProduct
         foreach ($products as $product) {
             if (isset($product->external_id) && isset($product->external_api_url)) {
 
-                $data = array('email' => $email, "bot_user_id" => $bot_user_id,'product_id' => $product->id, 'pay_price_rub' => 0, 'app_url' => "https://loverse.me");
-                $json = '[{"email":"'.$email.'","product_id":"'.$product->id.'","bot_user_id":"'.$bot_user_id.'","pay_price_rub":"0","app_url":"https://loverse.me"}]';
+                $data = array('email' => $email, "bot_user_id" => $bot_user_id,'product_id' => $product->id, 'pay_price_rub' => "'.$pay_price_rub.'", 'app_url' => "https://loverse.me");
+                $json = '[{"email":"'.$email.'","product_id":"'.$product->id.'","bot_user_id":"'.$bot_user_id.'","pay_price_rub":"'.$pay_price_rub.'","app_url":"https://loverse.me"}]';
 
                 $curl = curl_init();
                 curl_setopt($curl, CURLOPT_URL, 'https://loverse.me/shop/pay_product');
@@ -48,7 +48,7 @@ class PaySendBuyedProduct
 
 
 
-
+               
             }
         }
     }
