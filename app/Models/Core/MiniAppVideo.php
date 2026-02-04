@@ -9,9 +9,17 @@ class MiniAppVideo extends Model
 {
     protected $fillable = [
         'name',
+        'description',
         'image',
         'video',
         'date_open',
-        'edgecenter_id'
+        'duration',
+        'edgecenter_id',
+        'edgecenter_name',
+        'edgecenter_slug',
+        'edgecenter_status',
+        'edgecenter_screenshot_url',
+        'edgecenter_hls_url',
+        'edgecenter_views'
     ];
 }

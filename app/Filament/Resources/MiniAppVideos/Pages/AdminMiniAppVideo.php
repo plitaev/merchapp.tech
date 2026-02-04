@@ -157,7 +157,18 @@ class AdminMiniAppVideo extends Page implements HasForms
                                         curl_close($curl);
 
                                         $Aresult=json_decode($result,true);
-                                        MiniAppVideo::where('id', $video_id)->update(['edgecenter_id' => $Aresult['id']]);
+                                        MiniAppVideo::where('id', $video_id)->update(
+                                            [
+                                                'edgecenter_id' => $Aresult['id'],
+                                                'edgecenter_name'=>$Aresult['name'],
+                                                'duration'=>$Aresult['duration'],
+                                                'edgecenter_slug'=>$Aresult['slug'],
+                                                'edgecenter_status'=>$Aresult['status'],
+                                                'edgecenter_screenshot_url'=>$Aresult['screenshot'],
+                                                'edgecenter_hls_url'=>$Aresult['hls_url'],
+                                                'edgecenter_views'=>$Aresult['views'],
+                                            ]
+                                        );
                                     }
 
                                     Notification::make()
