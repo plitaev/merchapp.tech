@@ -74,7 +74,7 @@ class AdminMiniAppVideo extends Page implements HasForms
 
         if (auth()->user()->hasPermissionTo('Update:FunnelCondition')) {
 
-            $data = ($id > 0 ? MiniAppVideo::find($id)->toArray() : []);
+            $data = ($id > 0 ? MiniAppVideo::find($id)->toArray() : ['name' => 'Новое видео']);
             $this->name = ($id > 0?$data['name']:'Новое видео');
 
             $this->form->fill($data);
