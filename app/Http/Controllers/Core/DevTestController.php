@@ -27,7 +27,7 @@ use App\Models\Core\TelegramBanScheduleLogs;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $bot_users = BotUser::select('id')->whereNull('date_end')->pluck('id')->toArray();
+        $bot_users = BotUser::select('id')->where('date_end', '<=', '2026-02-04')->whereNotNull('date_end')->pluck('id')->toArray();
         return view('core.devtest.devtest', ['bot_users' => $bot_users]);
     }
 
