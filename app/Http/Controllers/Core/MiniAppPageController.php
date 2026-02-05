@@ -42,6 +42,8 @@ class MiniAppPageController
         $master = file_get_contents($video->hls_url);
         $Amaster = explode(PHP_EOL, $master);
 
+        return $Amaster;
+
         return view('core.mini-app.mini-app-player-page', [
             'video' => $video
         ]);
