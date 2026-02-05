@@ -100,7 +100,7 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
 
     protected function getForms(): array
     {
-        return ['form','form2'];
+        return ['form'];
     }
 
     public function form(Schema $schema): Schema
@@ -244,61 +244,6 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                     DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-    public function form2(Schema $schema): Schema
-    {
-        return $schema
-            ->components([
-                Section::make('Видео')
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1,
-                    ])
-                    ->schema([
-                        TextInput::make('name')
-                            ->label('Название')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
-                            ->maxLength(255),
-                        TextInput::make('point')
-                            ->label('Время')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
-                            ->maxLength(255),
-                        Select::make('mini_app_video_id')
-                            ->label('Видео')
-                            ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно выберите значение из списка',
-                            ])
-                            ->disabled(auth()->user()->hasPermissionTo('Update:User')?false:true)
-
-                            ->options(
-                                MiniAppVideo::query()->pluck('name', 'id')
-                            ),
-
-                        Actions::make([
-                            Action::make('Сохранить')
-                                ->action(function () {
-                                    $data = $this->form->getState();
-
-                                    if ($this->id > 0) {
-                                        MiniAppVideoTimePoint::where('id', $this->id)->update($data);
-                                    } else {
-                                        $new_mini_app_video = MiniAppVideoTimePoint::create($data);
-                                    }
-                                }),
-
-                            Action::make('Cancel')
-                                ->action(function () {
-                                    return redirect('/admin/mini-app-videos/'.$this->mini_app_page_id.'/1/1/admin-mini-app-video-time-point');
-                                })
-                                ->color('gray')
-                                ->label('Вернуться назад')
-                        ])
-                    ]),
-            ])->statePath('data');
     }
 
 }
