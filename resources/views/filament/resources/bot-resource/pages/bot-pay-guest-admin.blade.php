@@ -1,4 +1,4 @@
-<?
+<?php
 use App\Models\Core\Bot;
 $bot = Bot::select('name')->find($this->bot_id);
 
