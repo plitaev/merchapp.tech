@@ -42,7 +42,12 @@ class MiniAppPageController
         $master = file_get_contents($video->edgecenter_hls_url);
         $Amaster = explode(PHP_EOL, $master);
 
-        return $Amaster;
+        $Atracknames = [];
+        foreach ($Amaster as $master) {
+            if (substr($master, -4) == 'm3u8') $Atracknames[] = $master;
+        }
+
+        return $Atracknames;
 
         return view('core.mini-app.mini-app-player-page', [
             'video' => $video
