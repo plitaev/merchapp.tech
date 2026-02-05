@@ -1,63 +1,38 @@
 <?php
 
 namespace App\Filament\Resources\MiniAppVideos;
-
 use App\Filament\Resources\MiniAppVideos\Pages\AdminMiniAppVideo;
 use App\Filament\Resources\MiniAppVideos\Pages\AdminVideoByApp;
+use App\Filament\Resources\MiniAppVideos\Pages\AdminMiniAppVideoTimePoint;
 
-use Filament\Actions\EditAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-
-use Filament\Forms\Components\FileUpload;
+use App\Filament\Resources\MiniAppVideos\Pages\CreateMiniAppVideo;
+use App\Filament\Resources\MiniAppVideos\Pages\EditMiniAppVideo;
+use App\Filament\Resources\MiniAppVideos\Pages\ListMiniAppVideos;
+use App\Filament\Resources\MiniAppVideos\Schemas\MiniAppVideoForm;
+use App\Filament\Resources\MiniAppVideos\Tables\MiniAppVideosTable;
+use App\Models\Core\MiniAppVideo;
+use BackedEnum;
 use Filament\Resources\Resource;
-
-use Filament\Tables;
-use Filament\Tables\Table;
-
 use Filament\Schemas\Schema;
-
-use App\Models\Core\FunnelCondition;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
 
 class MiniAppVideoResource extends Resource
 {
-    protected static ?string $model = FunnelCondition::class;
+    protected static ?string $model = MiniAppVideo::class;
 
-    public static ?string $label = "Видео";
-    public static ?string $navigationLabel = "Видео";
-    public static ?string $title = "Видео";
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    public static function getPluralLabel(): ?string {return "Видео";}
-
-    protected static bool $shouldRegisterNavigation = false;
-
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $recordTitleAttribute = 'Video';
 
     public static function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                //
-            ]);
+        return MiniAppVideoForm::configure($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                //
-            ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
+        return MiniAppVideosTable::configure($table);
     }
 
     public static function getRelations(): array
@@ -75,6 +50,9 @@ class MiniAppVideoResource extends Resource
             'edit' => AdminMiniAppVideo::route('/{id}/admin'),
             'admin' => AdminMiniAppVideo::route('/{mini_app_page_id}/{id}/admin'),
             'admin_video_by_app' => AdminVideoByApp::route('/{mini_app_id}/{mini_app_name}/admin_video_by_app'),
+            'admin_mini_app_video_time_point' => AdminMiniAppVideoTimePoint::route('/{mini_app_page_id}/{mini_app_video_id}/{id}/admin-mini-app-video-time-point'),
+
         ];
     }
 }
+
