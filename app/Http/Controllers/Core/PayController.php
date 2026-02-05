@@ -125,7 +125,7 @@ class PayController
                 ->find($bot_user->bot_id);
 
             $products = [
-                'name' => $product->description,
+                'name' => str_replace('"', '', $product->description),
                 'price' => $product->price,
                 'quantity' => '1',
                 'tax' => [
