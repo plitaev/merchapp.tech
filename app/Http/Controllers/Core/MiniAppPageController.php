@@ -39,7 +39,7 @@ class MiniAppPageController
     {
         $video = MiniAppVideo::find($id);
 
-        $master = file_get_contents($video->hls_url);
+        $master = file_get_contents($video->edgecenter_hls_url);
         $Amaster = explode(PHP_EOL, $master);
 
         return $Amaster;
