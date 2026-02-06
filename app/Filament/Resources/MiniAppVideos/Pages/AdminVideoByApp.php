@@ -28,7 +28,7 @@ class AdminVideoByApp extends Page implements HasTable
 
     protected static string $resource = MiniAppVideoResource::class;
 
-    protected string $view = 'filament.resources.mini-app-banner-resource.pages.admin-banner-by-app';
+    protected string $view = 'filament.resources.mini-app-video-resource.pages.admin-video-by-app';
     public static ?string $navigationLabel = "";
     public static ?string $title = "";
 
