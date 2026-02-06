@@ -54,7 +54,8 @@ class ProdamusMakeRecurrent
             'order_sum' => $prices[$product->id],
             'order_id' => $pay->id,
             'products' => $Aproducts,
-            'type' => 'service'
+            'type' => 'service',
+            'callbackType' => 'json'
         ];
 
         $HMACController = new HMACController();
