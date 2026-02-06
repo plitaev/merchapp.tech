@@ -7,34 +7,49 @@ use Illuminate\Contracts\Support\Htmlable;
 
 use App\Filament\Resources\MiniAppVideos\MiniAppVideoResource;
 
+use Filament\Tables\Columns\TextColumn;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\DeleteAction;
+
 
 use Filament\Forms;
+use Filament\Tables;
+use Filament\Tables\Table;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 
+use App\Actions\Core\MiniAppVideo\MiniAppVideoTimePointAdminDeleteRecord;
 use App\Models\Core\FunnelCondition;
 use App\Models\Core\MiniAppVideo;
+use App\Models\Core\MiniAppVideoTimePoint;
 
-class AdminMiniAppVideo extends Page implements HasForms
+class AdminMiniAppVideo extends Page implements HasForms, HasTable
 {
     use InteractsWithForms;
+    use InteractsWithTable;
 
     protected static string $resource = MiniAppVideoResource::class;
 
     protected string $view = 'filament.resources.mini-app-video-resource.pages.admin-mini-app-video';
 
 
-    public static ?string $label = "Условие воронки";
-    public static ?string $navigationLabel = "Условие воронки";
-    public static ?string $title = "Условие воронки";
+    public static ?string $label = "Видео";
+    public static ?string $navigationLabel = "Видео";
+    public static ?string $title = "Видео";
 
     public ?array $data = [];
     public string $name;
@@ -55,9 +70,9 @@ class AdminMiniAppVideo extends Page implements HasForms
     public function getHeading(): string
     {
         if ($this->id > 0) {
-            return "Редактировать условие воронки";
+            return "Редактировать Видео";
         } else {
-            return "Добавить условие воронки";
+            return "Добавить Видео";
         }
     }
 
@@ -190,5 +205,47 @@ class AdminMiniAppVideo extends Page implements HasForms
                     ]),
             ])->statePath('data');
     }
+
+    public function table(Table $table): Table
+    {
+        return $table
+            ->query(MiniAppVideoTimePoint::with('miniapp_video')->where('mini_app_video_id', $this->id))
+            ->persistSearchInSession()
+            ->columns([
+                TextColumn::make('name')
+                    ->label('Название точки')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
+                    ->searchable(),
+                TextColumn::make('point')
+                    ->label('Время')
+                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
+                    ->searchable(),
+
+            ])
+            ->filters([
+                //
+            ])
+            ->recordActions([
+                ViewAction::make()->url(fn($record) => "/admin/mini-app-videos/".$this->mini_app_page_id."/".$this->id."/".$record->id."/admin-mini-app-video-time-point")
+                    ->visible(!auth()->user()->can('Create:MiniAppPage')),
+                EditAction::make()->url(fn($record) => "/admin/mini-app-videos/".$this->mini_app_page_id."/".$this->id."/".$record->id."/admin-mini-app-video-time-point")
+                    ->visible(auth()->user()->can('Update:MiniAppPage')),
+                DeleteAction::make()
+                    ->before(function (DeleteAction $action, MiniAppVideoTimePoint $record) {
+                        $miniAppVideoTimePointAdminDeleteRecord = new MiniAppVideoTimePointAdminDeleteRecord();
+                        $miniAppVideoTimePointAdminDeleteRecord->handle($record, $action);
+                    })
+                    ->visible(auth()->user()->can('Delete:MiniAppPage')),
+
+            ])
+            ->recordUrl(fn($record) => "/admin/mini-app-videos/".$this->mini_app_page_id."/".$this->id."/".$record->id."/admin-mini-app-video-time-point")
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+
 }
+
 

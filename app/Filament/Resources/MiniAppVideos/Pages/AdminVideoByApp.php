@@ -20,6 +20,7 @@ use Filament\Tables\Table;
 
 use App\Models\Core\MiniAppVideoLinkPage;
 use App\Models\Core\MiniAppPage;
+use App\Models\Core\MiniAppVideoTimePoint;
 
 class AdminVideoByApp extends Page implements HasTable
 {
@@ -72,9 +73,9 @@ class AdminVideoByApp extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                ViewAction::make()->url(fn($record) => "/admin/mini-app-banners/".$record->mini_app_page_id."/".$record->mini_app_banner_id."/admin")
+                ViewAction::make()->url(fn($record) => "/admin/mini-app-videos/".$record->mini_app_page_id."/".$record->mini_app_video_id."/admin")
                     ->visible(!auth()->user()->can('Create:MiniAppPage')),
-                EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$record->mini_app_page_id."/".$record->mini_app_banner_id."/admin")
+                EditAction::make()->url(fn($record) => "/admin/mini-app-videos/".$record->mini_app_page_id."/".$record->mini_app_video_id."/admin")
                     ->visible(auth()->user()->can('Update:MiniAppPage')),
                 DeleteAction::make()
                     ->visible(auth()->user()->can('Delete:MiniAppPage')),
