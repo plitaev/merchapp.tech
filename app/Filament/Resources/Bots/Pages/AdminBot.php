@@ -1,7 +1,10 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
-use App\Actions\Core\Telegram\TelegramDeleteWebhook;
+use App\Actions\Core\Max\DeleteWebhook;
+
+use App\Actions\Core\Max\MaxDeleteWebhook;
+
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotMessage;
 use App\Models\Core\BotMessageAppointment;
@@ -35,6 +38,10 @@ use App\Actions\Core\Telegram\TelegramWebhookMake;
 use App\Actions\Core\Telegram\TelegramWebhookInfo;
 use App\Actions\Core\Telegram\TelegramSetWebhook;
 
+use App\Actions\Core\Max\MaxWebhookMake;
+use App\Actions\Core\Max\MaxWebhookInfo;
+use App\Actions\Core\Max\MaxSetWebhook;
+
 use App\Models\Core\Bot;
 use App\Models\Core\User;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +68,7 @@ class AdminBot extends Page implements HasForms
     public string $name;
 
     public string $webhook;
+    public string $max_webhook;
 
     public array $hours = [
         '0' => '0',
@@ -139,13 +147,20 @@ class AdminBot extends Page implements HasForms
         $telegramWebhookInfo = new TelegramWebhookInfo();
         $telegramWebhookMake = new TelegramWebhookMake();
 
+        $maxWebhookInfo = new MaxWebhookInfo();
+        $maxWebhookMake = new MaxWebhookMake();
         $this->id = $record;
 
         $data = ($record>0?Bot::find($record)->toArray():[]);
         $this->name = ($record > 0?$data['name']:'Новый бот');
         $this->webhook = ($record > 0?$data['name']:'Новый бот');
+        $this->max_webhook = ($record > 0?$data['name']:'Новый бот');
+
 
         if ($record > 0) {
+            $max_webhook_adaress = $maxWebhookMake->handle($record, $data['max_webhook']);
+            $data['max_webhook_status'] = $maxWebhookInfo->handle($data['max_token'], $max_webhook_adaress);
+
             $webhook_address = $telegramWebhookMake->handle($record, $data['telegram_webhook']);
             $data['telegram_webhook_status'] = $telegramWebhookInfo->handle($data['telegram_token'], $webhook_address);
         }
@@ -201,6 +216,16 @@ class AdminBot extends Page implements HasForms
                             ->required()
                             ->maxLength(255)
                             ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
+                        TextInput::make('max_token')
+                            ->label('Max-токен (из BotFather)')
+                            ->required()
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
+                        TextInput::make('max_webhook')
+                            ->label('Адрес вебхука Max')
+                            ->required()
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                         TimePicker::make('ban_time')
                             ->label('Время бана')
                             ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
@@ -245,6 +270,73 @@ class AdminBot extends Page implements HasForms
                             ->extraInputAttributes(['readonly' => true])
                     ]),
                 Actions::make([
+
+                    Action::make('webhook_view')
+                        ->label('Запросить статус Webhook Telegram')
+                        ->action(function (Set $set) {
+                            $telegramWebhookInfo = new TelegramWebhookInfo();
+                            $telegramWebhookMake = new TelegramWebhookMake();
+
+                            $formdata = $this->form->getState();
+
+                            $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
+                            $status = $telegramWebhookInfo->handle($formdata['telegram_token'], $webhook_address);
+
+                            if (is_callable($set)) {
+                                $set('telegram_webhook_status', $status);
+                            }
+                        })
+                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
+
+                    Action::make('webhook_set')
+                        ->label('Установить Webhook Telegram')
+                        ->action(function (Set $set) {
+                            $telegramSetWebhook = new TelegramSetWebhook();
+                            $telegramWebhookMake = new TelegramWebhookMake();
+
+                            $formdata = $this->form->getState();
+
+                            $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
+                            $status = $telegramSetWebhook->handle($this->id, $formdata['telegram_token'], $formdata['telegram_webhook']);
+
+                            if (is_callable($set)) {
+                                $set('telegram_webhook_status', $status);
+                            }
+                        })
+                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
+
+                    Action::make('webhook_delete')
+                        ->label('Удалить Webhook Telegram')
+                        ->action(function (Set $set) {
+                            $telegramDeleteWebhook = new TelegramDeleteWebhook();
+                            $telegramWebhookMake = new TelegramWebhookMake();
+
+                            $formdata = $this->form->getState();
+
+                            $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
+                            $status = $telegramDeleteWebhook->handle($formdata['telegram_token'], $webhook_address);
+
+                            if (is_callable($set)) {
+                                $set('telegram_webhook_status', $status);
+                            }
+                        })
+                        ->visible(auth()->user()->hasPermissionTo('Delete:Bot')),
+                ]),
+
+                Section::make('Статус бота в Max')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1
+                    ])->schema([
+                        Textarea::make('max_webhook_status')
+                            ->label('Ответ Max')
+                            ->readOnly()
+                            ->extraInputAttributes(['readonly' => true])
+                    ]),
+                Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
                             $data = $this->form->getState();
@@ -255,6 +347,7 @@ class AdminBot extends Page implements HasForms
                                 ->send();
 
                             unset($data['telegram_webhook_status']);
+                            unset($data['max_webhook_status']);
 
                             if ($this->id > 0) {
                                 Bot::where('id', $this->id)->update($data);
@@ -275,149 +368,148 @@ class AdminBot extends Page implements HasForms
                                     ]
                                 );
 
-                            Notification::make()
-                                ->title('Данные успешно сохранены!')
-                                ->success()
-                                ->send();
-                            
+                                Notification::make()
+                                    ->title('Данные успешно сохранены!')
+                                    ->success()
+                                    ->send();
+
                                 return redirect('/admin/bots/'.$new->id.'/edit');
                             }
                         })
                         ->visible(auth()->user()->hasPermissionTo('Create:Bot')),
-
                     Action::make('webhook_view')
-                        ->label('Запросить статус Webhook')
+                        ->label('Запросить статус Webhook Max')
                         ->action(function (Set $set) {
-                            $telegramWebhookInfo = new TelegramWebhookInfo();
-                            $telegramWebhookMake = new TelegramWebhookMake();
+                            $maxWebhookInfo = new MaxWebhookInfo();
+                            $maxWebhookMake = new MaxWebhookMake();
 
                             $formdata = $this->form->getState();
 
-                            $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
-                            $status = $telegramWebhookInfo->handle($formdata['telegram_token'], $webhook_address);
+                            $webhook_address = $maxWebhookMake->handle($this->id, $formdata['max_webhook']);
+                            $status = $maxWebhookInfo->handle($formdata['max_token'], $webhook_address);
 
                             if (is_callable($set)) {
-                                $set('telegram_webhook_status', $status);
+                                $set('max_webhook_status', $status);
                             }
                         })
                         ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
 
                     Action::make('webhook_set')
-                        ->label('Установить Webhook')
+                        ->label('Установить Webhook Max')
                         ->action(function (Set $set) {
-                            $telegramSetWebhook = new TelegramSetWebhook();
-                            $telegramWebhookMake = new TelegramWebhookMake();
+                            $maxSetWebhook = new MaxSetWebhook();
+                            $maxWebhookMake = new MaxWebhookMake();
 
                             $formdata = $this->form->getState();
 
-                            $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
-                            $status = $telegramSetWebhook->handle($this->id, $formdata['telegram_token'], $formdata['telegram_webhook']);
+                            $webhook_address = $maxWebhookMake->handle($this->id, $formdata['max_webhook']);
+                            $status = $maxSetWebhook->handle($this->id, $formdata['max_token'], $formdata['max_webhook']);
 
                             if (is_callable($set)) {
-                                $set('telegram_webhook_status', $status);
+                                $set('max_webhook_status', $status);
                             }
                         })
                         ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
 
                     Action::make('webhook_delete')
-                        ->label('Удалить Webhook')
+                        ->label('Удалить Webhook Max')
                         ->action(function (Set $set) {
-                            $telegramDeleteWebhook = new TelegramDeleteWebhook();
-                            $telegramWebhookMake = new TelegramWebhookMake();
+                            $maxDeleteWebhook = new MaxDeleteWebhook();
+                            $maxWebhookMake = new MaxWebhookMake();
 
                             $formdata = $this->form->getState();
 
-                            $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
-                            $status = $telegramDeleteWebhook->handle($formdata['telegram_token'], $webhook_address);
+                            $webhook_address = $maxWebhookMake->handle($this->id, $formdata['max_webhook']);
+                            $status = $maxDeleteWebhook->handle($formdata['max_token'], $webhook_address);
 
                             if (is_callable($set)) {
-                                $set('telegram_webhook_status', $status);
+                                $set('max_webhook_status', $status);
                             }
                         })
                         ->visible(auth()->user()->hasPermissionTo('Delete:Bot')),
 
-                     Action::make('load_copy')
-                         ->label('Загрузить из шаблона')
-                         ->action(function (Set $set) {
+                    Action::make('load_copy')
+                        ->label('Загрузить из шаблона')
+                        ->action(function (Set $set) {
 
-                             $botTemplateMessages = BotTemplateMessage::get();
+                            $botTemplateMessages = BotTemplateMessage::get();
 
-                             if($botTemplateMessages) {
-                                 foreach ($botTemplateMessages as $templateMessage) {
+                            if($botTemplateMessages) {
+                                foreach ($botTemplateMessages as $templateMessage) {
 
-                                     $newBotTemplateMessages = new BotMessage();
+                                    $newBotTemplateMessages = new BotMessage();
 
-                                     $bot_message_appointment = BotMessageAppointment::select('id')->where('alias', $templateMessage->bot_message_appointment_alias)->first();
+                                    $bot_message_appointment = BotMessageAppointment::select('id')->where('alias', $templateMessage->bot_message_appointment_alias)->first();
 
-                                     if ($bot_message_appointment) {
-                                         $bot_message_appointment_id = $bot_message_appointment->id;
-                                     } else {
-                                         $bot_message_appointment_id = NULL;
-                                     }
+                                    if ($bot_message_appointment) {
+                                        $bot_message_appointment_id = $bot_message_appointment->id;
+                                    } else {
+                                        $bot_message_appointment_id = NULL;
+                                    }
 
-                                     $newBotTemplateMessages->bot_id = $this->id;
-                                     $newBotTemplateMessages->bot_branch_id = $templateMessage['bot_template_branch_id'];
-                                     $newBotTemplateMessages->bot_message_type_id = $templateMessage['bot_message_type_id'];
-                                     $newBotTemplateMessages->bot_message_appointment_id = $bot_message_appointment_id;
-                                     $newBotTemplateMessages->funnel_id = $templateMessage['funnel_id'];
-                                     $newBotTemplateMessages->funnel_condition_id = $templateMessage['funnel_condition_id'];
-                                     $newBotTemplateMessages->funnel_condition_trigger_id = $templateMessage['funnel_condition_trigger_id'];
-                                     $newBotTemplateMessages->funnel_days = $templateMessage['funnel_days'];
-                                     $newBotTemplateMessages->funnel_hours = $templateMessage['funnel_hours'];
-                                     $newBotTemplateMessages->funnel_minutes = $templateMessage['funnel_minutes'];
-                                     $newBotTemplateMessages->funnel_product_id = $templateMessage['funnel_product_id'];
-                                     $newBotTemplateMessages->name = $templateMessage['name'];
-                                     $newBotTemplateMessages->text = $templateMessage['text'];
-                                     $newBotTemplateMessages->delete_through = $templateMessage['delete_through'];
-                                     $newBotTemplateMessages->delete_through_hours = $templateMessage['delete_through_hours'];
-                                     $newBotTemplateMessages->delete_through_minutes = $templateMessage['delete_through_minutes'];
-                                     $newBotTemplateMessages->delete_keyboard_through = $templateMessage['delete_keyboard_through'];
-                                     $newBotTemplateMessages->delete_keyboard_through_days = $templateMessage['delete_keyboard_through_days'];
-                                     $newBotTemplateMessages->delete_keyboard_through_hours = $templateMessage['delete_keyboard_through_hours'];
-                                     $newBotTemplateMessages->delete_keyboard_through_minutes = $templateMessage['delete_keyboard_through_minutes'];
-                                     $newBotTemplateMessages->pause_after_message = $templateMessage['pause_after_message'];
+                                    $newBotTemplateMessages->bot_id = $this->id;
+                                    $newBotTemplateMessages->bot_branch_id = $templateMessage['bot_template_branch_id'];
+                                    $newBotTemplateMessages->bot_message_type_id = $templateMessage['bot_message_type_id'];
+                                    $newBotTemplateMessages->bot_message_appointment_id = $bot_message_appointment_id;
+                                    $newBotTemplateMessages->funnel_id = $templateMessage['funnel_id'];
+                                    $newBotTemplateMessages->funnel_condition_id = $templateMessage['funnel_condition_id'];
+                                    $newBotTemplateMessages->funnel_condition_trigger_id = $templateMessage['funnel_condition_trigger_id'];
+                                    $newBotTemplateMessages->funnel_days = $templateMessage['funnel_days'];
+                                    $newBotTemplateMessages->funnel_hours = $templateMessage['funnel_hours'];
+                                    $newBotTemplateMessages->funnel_minutes = $templateMessage['funnel_minutes'];
+                                    $newBotTemplateMessages->funnel_product_id = $templateMessage['funnel_product_id'];
+                                    $newBotTemplateMessages->name = $templateMessage['name'];
+                                    $newBotTemplateMessages->text = $templateMessage['text'];
+                                    $newBotTemplateMessages->delete_through = $templateMessage['delete_through'];
+                                    $newBotTemplateMessages->delete_through_hours = $templateMessage['delete_through_hours'];
+                                    $newBotTemplateMessages->delete_through_minutes = $templateMessage['delete_through_minutes'];
+                                    $newBotTemplateMessages->delete_keyboard_through = $templateMessage['delete_keyboard_through'];
+                                    $newBotTemplateMessages->delete_keyboard_through_days = $templateMessage['delete_keyboard_through_days'];
+                                    $newBotTemplateMessages->delete_keyboard_through_hours = $templateMessage['delete_keyboard_through_hours'];
+                                    $newBotTemplateMessages->delete_keyboard_through_minutes = $templateMessage['delete_keyboard_through_minutes'];
+                                    $newBotTemplateMessages->pause_after_message = $templateMessage['pause_after_message'];
 
-                                     $newBotTemplateMessages->bot_branch_id = $templateMessage['bot_template_branch_id'];
+                                    $newBotTemplateMessages->bot_branch_id = $templateMessage['bot_template_branch_id'];
 
-                                     $newBotTemplateMessages->save();
+                                    $newBotTemplateMessages->save();
 
-                                     $botTemplateMessageButtons = BotTemplateMessageButton::where('bot_template_message_id', $templateMessage['id'])->get();
-
-
-                                     foreach ($botTemplateMessageButtons as $botTemplateMessageButton) {
-
-                                         $newBotTemplateMessageButtons = new BotMessageButton();
-
-                                         $newBotTemplateMessageButtons->bot_message_id = $newBotTemplateMessages->id;
-                                         $newBotTemplateMessageButtons->bot_message_button_type_id = $botTemplateMessageButton['bot_message_button_type_id'];
-                                         $newBotTemplateMessageButtons->pay_system_id = $botTemplateMessageButton['pay_system_id'];
-                                         $newBotTemplateMessageButtons->product_id = $botTemplateMessageButton['product_id'];
-                                         $newBotTemplateMessageButtons->name = $botTemplateMessageButton['name'];
-                                         $newBotTemplateMessageButtons->url = $botTemplateMessageButton['url'];
-                                         $newBotTemplateMessageButtons->bot_message_callback_id = $botTemplateMessageButton['bot_message_callback_id'];
-                                         $newBotTemplateMessageButtons->callback = $botTemplateMessageButton['callback'];
-                                         $newBotTemplateMessageButtons->tracking = $botTemplateMessageButton['tracking'];
-                                         $newBotTemplateMessageButtons->pos = $botTemplateMessageButton['pos'];
-                                         $newBotTemplateMessageButtons->save();
-                                     }
-
-                                 }
-                             }
+                                    $botTemplateMessageButtons = BotTemplateMessageButton::where('bot_template_message_id', $templateMessage['id'])->get();
 
 
-                             Notification::make()
-                                 ->title('Данные успешно загружены!')
-                                 ->success()
-                                 ->send();
-                         })
-                         ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
+                                    foreach ($botTemplateMessageButtons as $botTemplateMessageButton) {
+
+                                        $newBotTemplateMessageButtons = new BotMessageButton();
+
+                                        $newBotTemplateMessageButtons->bot_message_id = $newBotTemplateMessages->id;
+                                        $newBotTemplateMessageButtons->bot_message_button_type_id = $botTemplateMessageButton['bot_message_button_type_id'];
+                                        $newBotTemplateMessageButtons->pay_system_id = $botTemplateMessageButton['pay_system_id'];
+                                        $newBotTemplateMessageButtons->product_id = $botTemplateMessageButton['product_id'];
+                                        $newBotTemplateMessageButtons->name = $botTemplateMessageButton['name'];
+                                        $newBotTemplateMessageButtons->url = $botTemplateMessageButton['url'];
+                                        $newBotTemplateMessageButtons->bot_message_callback_id = $botTemplateMessageButton['bot_message_callback_id'];
+                                        $newBotTemplateMessageButtons->callback = $botTemplateMessageButton['callback'];
+                                        $newBotTemplateMessageButtons->tracking = $botTemplateMessageButton['tracking'];
+                                        $newBotTemplateMessageButtons->pos = $botTemplateMessageButton['pos'];
+                                        $newBotTemplateMessageButtons->save();
+                                    }
+
+                                }
+                            }
+
+
+                            Notification::make()
+                                ->title('Данные успешно загружены!')
+                                ->success()
+                                ->send();
+                        })
+                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
 
                     Action::make('Cancel')
                         ->action(function () {
                             return redirect('/admin/bots');
                         })
                         ->label('Отменить и вернуться назад')
-                    
+
                 ])
             ])->statePath('data');
     }
