@@ -36,7 +36,6 @@ class MaxSetWebhook
                 'http_code' => $httpCode,
                 'url' => $apiUrl,
             ]);
-            throw new \RuntimeException("Failed to set webhook: {$error}");
         }
 
         // Проверка HTTP кода
