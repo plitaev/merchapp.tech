@@ -377,7 +377,7 @@ class AdminBot extends Page implements HasForms
                             }
                         })
                         ->visible(auth()->user()->hasPermissionTo('Create:Bot')),
-                    Action::make('webhook_view')
+                    Action::make('max_webhook_view')
                         ->label('Запросить статус Webhook Max')
                         ->action(function (Set $set) {
                             $maxWebhookInfo = new MaxWebhookInfo();
@@ -394,7 +394,7 @@ class AdminBot extends Page implements HasForms
                         })
                         ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
 
-                    Action::make('webhook_set')
+                    Action::make('max_webhook_set')
                         ->label('Установить Webhook Max')
                         ->action(function (Set $set) {
                             $maxSetWebhook = new MaxSetWebhook();
@@ -411,7 +411,7 @@ class AdminBot extends Page implements HasForms
                         })
                         ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
 
-                    Action::make('webhook_delete')
+                    Action::make('max_webhook_delete')
                         ->label('Удалить Webhook Max')
                         ->action(function (Set $set) {
                             $maxDeleteWebhook = new MaxDeleteWebhook();
