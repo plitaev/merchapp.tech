@@ -218,12 +218,12 @@ class AdminBot extends Page implements HasForms
                             ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                         TextInput::make('max_token')
                             ->label('Max-токен (из BotFather)')
-                            ->required()
+
                             ->maxLength(255)
                             ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                         TextInput::make('max_webhook')
                             ->label('Адрес вебхука Max')
-                            ->required()
+
                             ->maxLength(255)
                             ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                         TimePicker::make('ban_time')
