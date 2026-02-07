@@ -1,5 +1,4 @@
 <?php
-<?php
 
 namespace App\Actions\Core\Max;
 
