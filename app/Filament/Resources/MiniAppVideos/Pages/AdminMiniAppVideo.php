@@ -121,8 +121,16 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                     ->schema([
                         TextInput::make('name')
                             ->label('Название видео')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->maxLength(255),
+                        DateTimePicker::make('date_open')
+                            ->label('Дата открытия видео')
+                            ->format('Y-m-d')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true),
+                        Textarea::make('description')
+                            ->label('Описание видео')
+                            ->extraInputAttributes(['style' => 'height: 500px'])
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true),
                         FileUpload::make('image')
                             ->label('Заставка видео')
                             ->disk('local')
