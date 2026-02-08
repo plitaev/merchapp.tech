@@ -17,6 +17,8 @@ class EdgecenterGetVideoData {
             $result = curl_exec($curl);
             curl_close($curl);
 
+            return $result;
+
             $Aresult=json_decode($result,true);
 
             $A=['edgecenter_name' => $Aresult['name'],
