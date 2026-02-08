@@ -16,6 +16,8 @@ class Bot extends Model
         'alias',
         'telegram_token',
         'telegram_webhook',
+        'max_token',
+        'max_webhook',
         'business_connection_id',
         'message_worktime_after_minutes',
         'business_bot_delay_after_bot_sent_message_in_minutes',
