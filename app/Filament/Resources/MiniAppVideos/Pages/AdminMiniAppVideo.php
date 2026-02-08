@@ -24,9 +24,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Textarea;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -121,16 +119,8 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                     ->schema([
                         TextInput::make('name')
                             ->label('Название видео')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->maxLength(255),
-                        DatePicker::make('date_open')
-                            ->label('Дата открытия видео')
-                            ->format('Y-m-d')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true),
-                        Textarea::make('description')
-                            ->label('Описание видео')
-                            ->extraInputAttributes(['style' => 'height: 500px'])
-                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true),
                         FileUpload::make('image')
                             ->label('Заставка видео')
                             ->disk('local')
@@ -211,7 +201,7 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                                 })
                                 ->color('gray')
                                 ->label('Вернуться назад')
-                        ])
+                        ]) 
                     ]),
             ])->statePath('data');
     }

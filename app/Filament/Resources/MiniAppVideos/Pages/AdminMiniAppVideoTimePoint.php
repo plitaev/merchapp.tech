@@ -40,7 +40,7 @@ use App\Models\Core\MiniAppVideoTimePoint;
 
 class AdminMiniAppVideoTimePoint extends Page implements HasForms
 {
-    use InteractsWithForms;
+    use InteractsWithForms; 
 
     protected static string $resource = MiniAppVideoResource::class;
 
