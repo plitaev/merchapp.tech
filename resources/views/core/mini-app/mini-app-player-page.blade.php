@@ -10,7 +10,6 @@
 @endsection
 
 @section('content')
-    {{--
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
 
     <script>
@@ -30,7 +29,7 @@
             app.ready();
         };
     </script>
-    --}}
+
 
     <script src="https://loverse.servicecdn.world/js/jquery-3.6.0.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
     <script src="https://loverse.servicecdn.world/js/video.min.7.20.1.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
