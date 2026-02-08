@@ -52,6 +52,10 @@
                 @endforeach
             </video-js>
 
+            @foreach ($timepoints as $timepoint)
+                <a href="javascript:void(0);" onClick="player.currentTime({{\Carbon\Carbon::parse($timepoint->point)->secondsSinceMidnight()}});" class="block">{{$timepoint->point}} - {{$timepoint->name}}</a>
+            @endforeach
+
             <script type="text/javascript">
                 var player = videojs("player",{controls: true, preload: 'auto', playbackRates: [0.50, 0.75, 1, 1.25, 1.5, 2, 2.5, 3], controlBar:{'pictureInPictureToggle': false, 'volumePanel':{'inline':false}}, poster:"", aspectRatio: '16:9',
                     html5: { hls: { overrideNative: true }, nativeVideoTracks: false, nativeAudioTracks: false, nativeTextTracks: false}});
