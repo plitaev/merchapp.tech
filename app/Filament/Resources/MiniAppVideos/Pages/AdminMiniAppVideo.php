@@ -8,10 +8,12 @@ use Illuminate\Contracts\Support\Htmlable;
 use App\Filament\Resources\MiniAppVideos\MiniAppVideoResource;
 
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\DatePicker;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
 use Filament\Actions\ViewAction;
@@ -119,8 +121,16 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                     ->schema([
                         TextInput::make('name')
                             ->label('Название видео')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->maxLength(255),
+                        DatePicker::make('date_open')
+                            ->label('Дата открытия видео')
+                            ->format('Y-m-d')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true),
+                        Textarea::make('description')
+                            ->label('Описание видео')
+                            ->extraInputAttributes(['style' => 'height: 500px'])
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true),
                         FileUpload::make('image')
                             ->label('Заставка видео')
                             ->disk('local')
@@ -201,7 +211,7 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                                 })
                                 ->color('gray')
                                 ->label('Вернуться назад')
-                        ]) 
+                        ])
                     ]),
             ])->statePath('data');
     }
