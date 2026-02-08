@@ -36,7 +36,7 @@ class AdminVideoByApp extends Page implements HasTable
     public int $mini_app_id;
 
     public string $mini_app_name;
- 
+
     public function mount(int $mini_app_id, string $mini_app_name): void
     {
         if (auth()->user()->hasPermissionTo('Update:MiniAppBanner')) {

@@ -14,4 +14,9 @@ class MiniAppVideoTimePoint extends Model
         'point'
     ];
 
+    public function miniapp_video(): BelongsTo
+    {
+        return $this->belongsTo(MiniAppVideo::class, 'mini_app_video_id', 'id');
+    }
+
 }
