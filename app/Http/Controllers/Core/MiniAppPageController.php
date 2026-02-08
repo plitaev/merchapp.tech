@@ -7,6 +7,7 @@ use App\Actions\Core\MiniAppPage\MiniAppPageGetByURL;
 
 use App\Models\Core\MiniAppVideo;
 use App\Models\Core\MiniAppVideoLinkPage;
+use App\Models\Core\MiniAppVideoTimePoint;
 
 class MiniAppPageController
 {
@@ -48,7 +49,7 @@ class MiniAppPageController
             if (substr($master, -4) == 'm3u8') $tracks_edgecenter[] = $master;
         }
 
-        $timepoints = AdminMiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
+        $timepoints = MiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
 
         return view('core.mini-app.mini-app-player-page', [
             'tracks_edgecenter' => $tracks_edgecenter,
