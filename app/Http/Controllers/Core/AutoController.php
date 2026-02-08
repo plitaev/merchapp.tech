@@ -11,6 +11,7 @@ use App\Actions\Core\Auto\BotUserSupergroupStatusDateEndExpired;
 use App\Actions\Core\Auto\BotUserSetRecurrentScheduler;
 use App\Actions\Core\Auto\BotUserSetBanScheduler;
 use App\Actions\Core\Auto\BotUserUnbanProcess;
+use App\Actions\Core\Auto\EdgecenterGetVideoData;
 use App\Actions\Core\Auto\ProdamusFinishPay;
 use App\Actions\Core\Robokassa\RobokassaRecurrentFail;
 use App\Actions\Core\Auto\TelegramBusinessOpeningHours;
@@ -59,6 +60,12 @@ class AutoController extends Controller
     {
         $botUserUnbanProcess = new BotUserUnbanProcess();
         return $botUserUnbanProcess->handle();
+    }
+
+    public function edgecenter_get_video_data()
+    {
+        $edgecenterGetVideoData = new EdgecenterGetVideoData();
+        return $edgecenterGetVideoData->handle();
     }
 
     public function prodamus_process() {

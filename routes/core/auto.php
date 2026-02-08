@@ -18,6 +18,8 @@ Route::controller(AutoController::class)->group(function() {
     Route::get('/auto/bot_user_ban_process', 'bot_user_ban_process');
     Route::get('/auto/bot_user_unban_process', 'bot_user_unban_process');
 
+    Route::get('/auto/edgecenter_get_video_data', 'edgecenter_get_video_data');
+
     Route::get('/auto/telegram_business_opening_hours', 'telegram_business_opening_hours');
     Route::get('/auto/telegram_business_responce_in_opening_hours', 'telegram_business_responce_in_opening_hours');
 
