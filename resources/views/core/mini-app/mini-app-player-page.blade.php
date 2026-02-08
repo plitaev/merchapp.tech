@@ -31,7 +31,6 @@
     </script>
 
 
-    <script src="https://loverse.servicecdn.world/js/jquery-3.6.0.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
     <script src="https://loverse.servicecdn.world/js/video.min.7.20.1.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
     <script src="https://loverse.servicecdn.world/js/videojs-http-streaming.2.14.2.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
     <script src="https://loverse.servicecdn.world/js/silvermine-videojs-quality-selector.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
