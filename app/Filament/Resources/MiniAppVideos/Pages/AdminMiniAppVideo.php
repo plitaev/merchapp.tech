@@ -46,6 +46,8 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
 
     protected string $view = 'filament.resources.mini-app-video-resource.pages.admin-mini-app-video';
 
+    protected static bool $shouldRegisterNavigation = false;
+
 
     public static ?string $label = "Видео";
     public static ?string $navigationLabel = "Видео";
