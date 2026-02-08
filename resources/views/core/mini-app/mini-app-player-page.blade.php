@@ -37,9 +37,7 @@
 
             <video-js id="player" class="vjs-default-skin" controls preload="auto" width="960" height="540" disablePictureInPicture>
                 @foreach ($tracks_edgecenter as $track_edgecenter)
-                    @if ($track_edgecenter->video_id==$contentitem->video_edgecenter_id)
-                        <source src="{{env('EDGECENTER_CDN_VIDEO')}}videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_edgecenter}}">
-                    @endif
+                    <source src="{{env('EDGECENTER_CDN_VIDEO')}}videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_edgecenter}}">
                 @endforeach
             </video-js>
 
