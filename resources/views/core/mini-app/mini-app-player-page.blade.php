@@ -7,21 +7,10 @@
 --}}
 
 @section('head')
-    <script src="https://loverse.servicecdn.world/js/jquery-3.6.0.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
-    <script src="https://loverse.servicecdn.world/js/video.min.7.20.1.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
-    <script src="https://loverse.servicecdn.world/js/videojs-http-streaming.2.14.2.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
-    <script src="https://loverse.servicecdn.world/js/silvermine-videojs-quality-selector.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
-    <script src="https://loverse.servicecdn.world/js/videojs-seek-buttons.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
-
-    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/video-js.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="/>
-    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/video-quality-selector.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="/>
-    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/vjs-svoiludi.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="/>
-    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/vjs-quality-selector.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ==">
-    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/videojs-seek-buttons.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ==">
 @endsection
 
 @section('content')
-
+    {{--
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
 
     <script>
@@ -41,6 +30,19 @@
             app.ready();
         };
     </script>
+    --}}
+
+    <script src="https://loverse.servicecdn.world/js/jquery-3.6.0.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
+    <script src="https://loverse.servicecdn.world/js/video.min.7.20.1.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
+    <script src="https://loverse.servicecdn.world/js/videojs-http-streaming.2.14.2.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
+    <script src="https://loverse.servicecdn.world/js/silvermine-videojs-quality-selector.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
+    <script src="https://loverse.servicecdn.world/js/videojs-seek-buttons.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
+
+    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/video-js.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="/>
+    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/video-quality-selector.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="/>
+    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/vjs-svoiludi.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="/>
+    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/vjs-quality-selector.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ==">
+    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/videojs-seek-buttons.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ==">
 
     <div class="isolate overflow-y-scroll bg-[#f1f1f1] h-[100vh]">
         <div class="flow-root pb-24 sm:pb-32">
@@ -51,6 +53,13 @@
                     <source src="{{env('EDGECENTER_CDN_VIDEO')}}/videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_edgecenter}}">
                 @endforeach
             </video-js>
+
+            <script type="text/javascript">
+                var player = videojs("player",{controls: true, preload: 'auto', playbackRates: [0.50, 0.75, 1, 1.25, 1.5, 2, 2.5, 3], controlBar:{'pictureInPictureToggle': false, 'volumePanel':{'inline':false}}, poster:"", aspectRatio: '16:9',
+                    html5: { hls: { overrideNative: true }, nativeVideoTracks: false, nativeAudioTracks: false, nativeTextTracks: false}});
+                player.controlBar.addChild('QualitySelector');
+                player.seekButtons({forward: 10, back: 10});
+            </script>
 
         </div>
     </div>
