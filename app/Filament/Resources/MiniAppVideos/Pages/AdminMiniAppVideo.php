@@ -167,7 +167,7 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                                         curl_setopt($curl,CURLOPT_POSTFIELDS,'{"video": {"name": "'.$data['name'].'",
                                                     "description": "none",
                                                     "origin_url": "'.env('APP_URL').'/content/'.$data['video'].'"}}');
-                                        curl_setopt($curl,CURLOPT_HTTPHEADER,['Content-Type: application/json','Authorization: APIKey 1858$9e823ab46df09abb48e065707137f16155b6b94f0702fb86f9b041a251dda657d3f86596d954cf431e3c73ee6662cf785c25f50e3c454c8264565299abb8c288']);
+                                        curl_setopt($curl,CURLOPT_HTTPHEADER,['Content-Type: application/json','Authorization: APIKey '.env('EDGECENTER_API_KEY')]);
                                         $result = curl_exec($curl);
                                         curl_close($curl);
 
