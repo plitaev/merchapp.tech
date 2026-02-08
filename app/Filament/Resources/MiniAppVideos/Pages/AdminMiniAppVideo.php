@@ -24,7 +24,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -125,7 +125,7 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                             ->label('Название видео')
                             ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->maxLength(255),
-                        DateTimePicker::make('date_open')
+                        DatePicker::make('date_open')
                             ->label('Дата открытия видео')
                             ->format('Y-m-d')
                             ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true),
