@@ -7,6 +7,17 @@
 --}}
 
 @section('head')
+    <script src="https://loverse.servicecdn.world/js/jquery-3.6.0.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
+    <script src="https://loverse.servicecdn.world/js/video.min.7.20.1.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
+    <script src="https://loverse.servicecdn.world/js/videojs-http-streaming.2.14.2.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
+    <script src="https://loverse.servicecdn.world/js/silvermine-videojs-quality-selector.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
+    <script src="https://loverse.servicecdn.world/js/videojs-seek-buttons.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
+
+    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/video-js.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="/>
+    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/video-quality-selector.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="/>
+    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/vjs-svoiludi.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="/>
+    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/vjs-quality-selector.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ==">
+    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/videojs-seek-buttons.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ==">
 @endsection
 
 @section('content')
@@ -37,7 +48,7 @@
 
             <video-js id="player" class="vjs-default-skin" controls preload="auto" width="960" height="540" disablePictureInPicture>
                 @foreach ($tracks_edgecenter as $track_edgecenter)
-                    <source src="{{env('EDGECENTER_CDN_VIDEO')}}videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_edgecenter}}">
+                    <source src="{{env('EDGECENTER_CDN_VIDEO')}}/videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_edgecenter}}">
                 @endforeach
             </video-js>
 
