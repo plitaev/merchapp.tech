@@ -34,7 +34,15 @@
     <div class="isolate overflow-y-scroll bg-[#f1f1f1] h-[100vh]">
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
-            <iframe src="https://cdn-vod.loverse.me/videos/12436_{{$video->edgecenter_slug}}" allow="autoplay; encrypted-media; clipboard-write" allowfullscreen style="width: 100%"></iframe>
+
+            <video-js id="player" class="vjs-default-skin" controls preload="auto" width="960" height="540" disablePictureInPicture>
+                @foreach ($tracks_edgecenter as $track_edgecenter)
+                    @if ($track_edgecenter->video_id==$contentitem->video_edgecenter_id)
+                        <source src="{{env('EDGECENTER_CDN_VIDEO')}}videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_edgecenter}}">
+                    @endif
+                @endforeach
+            </video-js>
+
         </div>
     </div>
 
