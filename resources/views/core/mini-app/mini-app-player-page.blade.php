@@ -53,7 +53,7 @@
             </video-js>
 
             @if ($os == "Android")
-                <a href="javascript:void(0);" onClick="Telegram.WebApp.openLink('/miniapp/player/{{$video->id}}');" target="_blank" class="text-white">Открыть на полный экран</a>
+                <a href="javascript:void(0);" onClick="Telegram.WebApp.openLink('{{env('APP_URL')}}/miniapp/player/{{$video->id}}');" target="_blank" class="text-white">Открыть на полный экран</a>
             @endif
 
             <div class="mt-3 mb-3">
