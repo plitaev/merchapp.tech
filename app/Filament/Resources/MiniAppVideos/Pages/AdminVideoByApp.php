@@ -37,6 +37,8 @@ class AdminVideoByApp extends Page implements HasTable
 
     public string $mini_app_name;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public function mount(int $mini_app_id, string $mini_app_name): void
     {
         if (auth()->user()->hasPermissionTo('Update:MiniAppBanner')) {
