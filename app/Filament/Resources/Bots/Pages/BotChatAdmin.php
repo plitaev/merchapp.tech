@@ -117,7 +117,7 @@ class BotChatAdmin extends Page implements HasForms
     public function mount(int $bot_id, int $id): void
     {
         $this->id = $id;
-        $data = ($id > 0 ? BotUser::find($id) : []);
+        $data = ($id > 0 ? BotUser::find($id)->toArray() : []);
 
         $this->bot_user_id = $id;
 
@@ -179,7 +179,7 @@ class BotChatAdmin extends Page implements HasForms
 
         }
 
-        $this->form->fill([$data]);
+        $this->form->fill($data);
 
         if (!Auth::user()->hasPermissionTo('View:BotUser')) {
             redirect('/admin/bots/access');
@@ -253,7 +253,7 @@ class BotChatAdmin extends Page implements HasForms
                             ->label('Включить')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
 
-                    ]), 
+                    ]),
                 Section::make('Индивидуальные цены')->description(new HtmlString("<a href='/admin/bots/{$this->bot_id}/{$this->bot_user_id}/user-prices' style='display: block; margin-bottom: 15px; color: #7a300d; font-weight: bold'>Добавить / Редактировать ▶️</a>".$this->bot_user_prices_individual))->schema([]),
                 Section::make('Стандартные цены')->description(new HtmlString($this->bot_user_prices_standard))->schema([])->visible($this->bot_user_prices_standard_count > 0?1:0),
                 Section::make('Видео')
