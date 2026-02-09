@@ -49,10 +49,10 @@ class MiniAppPageController
             $os = "Windows";
         } elseif (strpos($user_agent, 'Macintosh') !== false) {
             $os = "Mac OS";
-        } elseif (strpos($user_agent, 'Linux') !== false) {
-            $os = "Linux";
         } elseif (strpos($user_agent, 'Android') !== false) {
             $os = "Android";
+        } elseif (strpos($user_agent, 'Linux') !== false) {
+            $os = "Linux";
         } elseif (strpos($user_agent, 'iPhone') !== false || strpos($user_agent, 'iPad') !== false) {
             $os = "iOS";
         }
