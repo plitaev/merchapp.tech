@@ -39,7 +39,20 @@ class MiniAppPageController
 
     public function mini_app_player_page(int $id)
     {
-        return $_SERVER['HTTP_USER_AGENT'];
+        $user_agent = $_SERVER['HTTP_USER_AGENT'];
+        $os = "Unknown OS";
+
+        if (strpos($user_agent, 'Win') !== false) {
+            $os = "Windows";
+        } elseif (strpos($user_agent, 'Macintosh') !== false) {
+            $os = "Mac OS";
+        } elseif (strpos($user_agent, 'Linux') !== false) {
+            $os = "Linux";
+        } elseif (strpos($user_agent, 'Android') !== false) {
+            $os = "Android";
+        } elseif (strpos($user_agent, 'iPhone') !== false || strpos($user_agent, 'iPad') !== false) {
+            $os = "iOS";
+        }
 
         $video = MiniAppVideo::find($id);
 
@@ -52,6 +65,8 @@ class MiniAppPageController
         }
 
         $timepoints = MiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
+
+        return $os;
 
         return view('core.mini-app.mini-app-player-page', [
             'tracks_edgecenter' => $tracks_edgecenter,
