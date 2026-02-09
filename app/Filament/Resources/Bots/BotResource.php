@@ -3,6 +3,7 @@ namespace App\Filament\Resources\Bots;
 
 use App\Filament\Resources\Bots\Pages\BotShopSegments;
 use App\Filament\Resources\Bots\Pages\BotUserPriceAdmin;
+use App\Models\Core\BotUserLinkMiniAppVideo;
 use App\Models\Core\BotUserPrice;
 use Illuminate\Contracts\View\View;
 
@@ -67,6 +68,9 @@ use App\Filament\Resources\Bots\Pages\BotTelegramChatMemberErrorLogs;
 use App\Filament\Resources\Bots\Pages\BotTelegramSendMessageErrorLogs;
 use App\Filament\Resources\Bots\Pages\Access;
 use App\Filament\Resources\Bots\Pages\BotUserPrices;
+use App\Filament\Resources\Bots\Pages\BotUserLinkMiniAppVideos;
+use App\Filament\Resources\Bots\Pages\BotUserLinkMiniAppVideoAdmin;
+
 
 use App\Models\Core\Bot;
 
@@ -219,6 +223,10 @@ class BotResource extends Resource
             'user-price' => BotUserPriceAdmin::route('/{bot_id}/{bot_user_id}/{id}/user-price'),
             'recurrents' => BotRecurrents::route('/{bot_id}/{recurrent}/recurrents'),
             'recurrent' => BotRecurrent::route('/{bot_id}/{recurrent}/{date_end}/recurrent'),
+            'bot-user-link-mini-app-videos' => BotUserLinkMiniAppVideos::route('/{bot_id}/{bot_user_id}/bot-user-link-mini-app-videos'),
+            'bot-user-link-mini-app-video-admin' => BotUserLinkMiniAppVideoAdmin::route('/{bot_id}/{bot_user_id}/{id}/bot-user-link-mini-app-video-admin'),
+
+
         ];
 
         return $A;
