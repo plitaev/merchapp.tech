@@ -39,6 +39,8 @@ class MiniAppPageController
 
     public function mini_app_player_page(int $id)
     {
+        return $_SERVER['HTTP_USER_AGENT'];
+
         $video = MiniAppVideo::find($id);
 
         $master = file_get_contents($video->edgecenter_hls_url);
