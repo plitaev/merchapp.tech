@@ -56,6 +56,10 @@
                 <a href="javascript:void(0);" onClick="player.currentTime({{\Carbon\Carbon::parse($timepoint->point)->secondsSinceMidnight()}});" class="block mt-3 mb-3 text-indigo-600 bold text-center">{{$timepoint->point}} - {{$timepoint->name}}</a>
             @endforeach
 
+            @if (isset($video->description))
+                <div class="text-justify">{{$video->description}}</div>
+            @endif
+
             <script type="text/javascript">
                 var player = videojs("player",{controls: true, preload: 'auto', playbackRates: [0.50, 0.75, 1, 1.25, 1.5, 2, 2.5, 3], controlBar:{'pictureInPictureToggle': false, 'volumePanel':{'inline':false}}, poster:"", aspectRatio: '16:9',
                     html5: { hls: { overrideNative: true }, nativeVideoTracks: false, nativeAudioTracks: false, nativeTextTracks: false}});
