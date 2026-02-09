@@ -52,6 +52,10 @@
                 @endforeach
             </video-js>
 
+            @if ($os == "Android")
+                <a href="https://magiclife.merchapp.bot/af73d20326300513b0ecfdb00eae3cc376d0329ebf49e60a13798876f54e2dc4" target="_blank">Открыть на полный экран</a>
+            @endif
+
             <div class="mt-3 mb-3">
                 @foreach ($timepoints as $timepoint)
                     <a href="javascript:void(0);" onClick="player.currentTime({{\Carbon\Carbon::parse($timepoint->point)->secondsSinceMidnight()}});" class="block mt-3 mb-3 text-indigo-600 bold text-center">{{$timepoint->point}} - {{$timepoint->name}}</a>

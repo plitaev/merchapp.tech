@@ -41,7 +41,7 @@ class MiniAppPageController
     {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-        $os = "Unknown OS";
+        $os = "Unknown";
 
         if (strpos($user_agent, 'Win') !== false) {
             $os = "Windows";
@@ -66,8 +66,6 @@ class MiniAppPageController
         }
 
         $timepoints = MiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
-
-        return $os;
 
         return view('core.mini-app.mini-app-player-page', [
             'tracks_edgecenter' => $tracks_edgecenter,
