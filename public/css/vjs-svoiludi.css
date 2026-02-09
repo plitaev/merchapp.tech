@@ -1,0 +1,102 @@
+.vjs-icon-play::before, .video-js .vjs-play-control .vjs-icon-placeholder::before, .video-js .vjs-big-play-button .vjs-icon-placeholder::before{font-size:36px}
+
+.vjs-big-play-button{top:45% !important; left:45% !important; background:#ff3366 !important; font-size:4em !important}
+.vjs-icon-placeholder{font-size:26px}
+.vjs-remaining-time-display{font-size:17px}
+.vjs-playback-rate{font-size:14px}
+
+.vjs-playing{margin-top:2px}
+.vjs-paused{margin-top:2px}
+
+.vjs-paused > .vjs-icon-placeholder::before{font-size:36px}
+.vjs-playing > .vjs-icon-placeholder::before{font-size:36px}
+
+.vjs-volume-panel-horizontal{margin-top:9px}
+.vjs-fullscreen-control{margin-top:7px}
+.vjs-quality-selector{margin-top:7px}
+.vjs-menu li{font-size:14px}
+
+.vjs-remaining-time > span{display:none}
+.vjs-remaining-time > span:last-of-type{display:inline}
+
+.vjs-volume-tooltip{display:none !important}
+                     
+/*
+@media (max-width:1540px) {
+ .video-js.vjs-fluid{margin:auto; width:640px !important; height:480px !important; max-width:640px !important}
+ .vjs-tech{width:640px !important; height:480px !important}
+ .my_video_1-dimensions.vjs-fluid{padding-top:51.25% !important}
+}
+*/
+@media (max-width:1320px) {
+ .vjs-has-started .vjs-control-bar {justify-content:space-between;}
+}
+
+@media (max-width:1155px) {
+ .vjs-has-started .vjs-control-bar {justify-content:space-between;}
+}
+
+@media (max-width:980px) {
+ .vjs-big-play-button{font-size:2.3em !important; top:45% !important; left:45% !important}
+ 
+ .vjs-playing{margin-top:10px}
+ .vjs-paused{margin-top:10px}
+
+ .vjs-has-started .vjs-control-bar {justify-content:space-between;}
+ 
+ .vjs-paused > .vjs-icon-placeholder::before{font-size:26px}
+ .vjs-playing > .vjs-icon-placeholder::before{font-size:26px}
+ 
+ .vjs-mute-control .vjs-icon-placeholder::before{margin-top:4px; font-size:22px}
+ 
+ .vjs-remaining-time-display{font-size:14px}
+ 
+ .vjs-playback-rate{margin-top:5px; font-size:11px}
+ 
+ .video-js .vjs-control {width:40px}
+ 
+ .vjs-fullscreen-control .vjs-icon-placeholder::before{font-size:24px; margin-top:4px}
+ 
+ .vjs-quality-selector .vjs-icon-placeholder::before{font-size:20px; margin-top:6px}
+ 
+ .vjs-time-control{padding:0 !important}
+ 
+ .vjs-menu li{padding-right:50px; font-size:14px}
+ 
+ .vjs-playback-rate > .vjs-menubutton, .vjs-playback-rate .vjs-playback-rate-value{margin-top:4px}
+ 
+ .vjs-icon-play::before, .video-js .vjs-play-control .vjs-icon-placeholder::before, .video-js .vjs-icon-placeholder::before {font-size:26px}
+ 
+ .vjs-icon-volume-high::before, .video-js .vjs-mute-control .vjs-icon-placeholder::before{font-size:22px}
+ 
+ .vjs-quality-selector .vjs-icon-placeholder::before{font-size:22px}
+}
+
+
+
+.vjs-playback-rate{top:3px}
+.video-js .vjs-time-control{margin-top:3px}
+.video-js .vjs-play-progress::before{top:-0.533em}
+.vjs-slider-horizontal .vjs-volume-level::before{top: -0.6em}
+.video-js .vjs-volume-bar{margin: 17px 0 0 0}
+
+.video-js .vjs-volume-panel.vjs-volume-panel-vertical{margin-top:7px}
+.video-js .vjs-volume-level{left:1.5em}
+.vjs-volume-vertical{z-index:100}
+.vjs-slider-vertical .vjs-volume-level::before{left: -0.4em}  
+      
+@media (max-width:980px) {
+ .answerwrapper {width:100%; padding:0 10px}
+ .video-waiting{width:100%}
+    
+ .video-js .vjs-play-progress::before{top:-0.553em}
+ .video-js .vjs-fullscreen-control{margin-top:4px}
+ .vjs-quality-selector{margin-top:5px}
+ .vjs-menu li{padding-right:inherit}
+ 
+ .video-js .vjs-volume-control{display:none !important}                
+}
+
+@media (max-width:374px) {
+ .vjs-seek-button{display:none !important}
+}

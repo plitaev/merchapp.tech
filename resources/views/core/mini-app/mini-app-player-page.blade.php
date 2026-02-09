@@ -31,16 +31,16 @@
     </script>
 
 
-    <script src="https://loverse.servicecdn.world/js/video.min.7.20.1.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
-    <script src="https://loverse.servicecdn.world/js/videojs-http-streaming.2.14.2.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
-    <script src="https://loverse.servicecdn.world/js/silvermine-videojs-quality-selector.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
-    <script src="https://loverse.servicecdn.world/js/videojs-seek-buttons.min.js?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="></script>
+    <script src="/js/video.min.7.20.1.js"></script>
+    <script src="/js/videojs-http-streaming.2.14.2.js"></script>
+    <script src="/js/silvermine-videojs-quality-selector.min.js"></script>
+    <script src="/js/videojs-seek-buttons.min.js"></script>
 
-    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/video-js.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="/>
-    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/video-quality-selector.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="/>
-    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/vjs-svoiludi.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ=="/>
-    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/vjs-quality-selector.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ==">
-    <link rel='stylesheet' href="https://loverse.servicecdn.world/css/videojs-seek-buttons.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ==">
+    <link rel='stylesheet' href="/css/video-js.css"/>
+    <link rel='stylesheet' href="/css/video-quality-selector.css"/>
+    <link rel='stylesheet' href="/css/vjs-svoiludi.css"/>
+    <link rel='stylesheet' href="/css/vjs-quality-selector.css">
+    <link rel='stylesheet' href="/css/videojs-seek-buttons.css">
 
     <div class="m-2">
         <div class="flow-root pb-24 sm:pb-32">
