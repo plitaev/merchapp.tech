@@ -385,8 +385,8 @@ class AdminBot extends Page implements HasForms
 
                             $formdata = $this->form->getState();
 
-                            $webhook_address = $maxWebhookMake->handle($this->id, $formdata['max_webhook']);
-                            $status = $maxWebhookInfo->handle($formdata['max_token'], $webhook_address);
+                            $webhook_address = $maxWebhookMake->handle($this->id, $formdata['max_webhook']??'');
+                            $status = $maxWebhookInfo->handle($formdata['max_token']?'', $webhook_address);
 
                             if (is_callable($set)) {
                                 $set('max_webhook_status', $status);
