@@ -68,6 +68,7 @@ class MiniAppPageController
         $timepoints = MiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
 
         return view('core.mini-app.mini-app-player-page', [
+            'os' => $os,
             'tracks_edgecenter' => $tracks_edgecenter,
             'timepoints' => $timepoints,
             'video' => $video
