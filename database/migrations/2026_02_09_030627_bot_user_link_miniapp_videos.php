@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('bot_user_id');
             $table->unsignedBigInteger('mini_app_video_id');
             $table->timestamps();
-            $table->unique(['bot_user_id', 'mini_app_video_id']);
+            $table->unique(['bot_user_id', 'mini_app_video_id'], 'unique');
 
         });
     }
