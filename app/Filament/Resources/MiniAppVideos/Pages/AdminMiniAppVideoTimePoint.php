@@ -59,8 +59,6 @@ class AdminMiniAppVideoTimePoint extends Page implements HasForms
     public int $mini_app_page_id;
     public int $mini_app_video_id;
 
-    protected static bool $shouldRegisterNavigation = false;
-
     public function getTitle(): string|Htmlable
     {
         return $this->name;

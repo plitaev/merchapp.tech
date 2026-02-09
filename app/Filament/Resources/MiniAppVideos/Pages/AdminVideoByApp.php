@@ -32,12 +32,8 @@ class AdminVideoByApp extends Page implements HasTable
     public static ?string $navigationLabel = "";
     public static ?string $title = "";
 
-
     public int $mini_app_id;
-
     public string $mini_app_name;
-
-    protected static bool $shouldRegisterNavigation = false;
 
     public function mount(int $mini_app_id, string $mini_app_name): void
     {
