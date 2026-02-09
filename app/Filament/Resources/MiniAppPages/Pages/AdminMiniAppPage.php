@@ -66,6 +66,8 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
 
     public $record;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public function getRecord(): ?Model
     {
         return MiniAppPage::class;

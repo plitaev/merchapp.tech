@@ -32,6 +32,8 @@ class AdvancedListMiniAppPage extends Page implements HasTable
     public static ?string $navigationLabel = "Мини-приложения";
     public static ?string $title = "";
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public function mount(): void
     {
         if (!auth()->user()->hasPermissionTo('View:MiniAppPage')) {
