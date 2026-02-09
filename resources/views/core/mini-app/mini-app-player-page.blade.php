@@ -53,7 +53,7 @@
             </video-js>
 
 
-                <a href="javascript:void(0);" onClick="Telegram.WebApp.openLink('{{env('APP_URL')}}/miniapp/player/{{$video->id}}');" class="text-white">{{env('APP_URL')}}/miniapp/player/{{$video->id}}</a>
+                <a href="javascript:void(0);" onClick="Telegram.WebApp.openLink('{{env('APP_URL')}}/miniapp/player/{{$video->id}}', {tryBrowser: 'chrome'});" class="text-white">{{env('APP_URL')}}/miniapp/player/{{$video->id}}</a>
 
 
             <div class="mt-3 mb-3">
