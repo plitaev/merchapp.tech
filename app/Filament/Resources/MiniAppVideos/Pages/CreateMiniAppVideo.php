@@ -9,6 +9,8 @@ class CreateMiniAppVideo extends CreateRecord
 {
     protected static string $resource = MiniAppVideoResource::class;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected function getFormActions(): array {
         return [];
     }
