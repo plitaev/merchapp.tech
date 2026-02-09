@@ -64,6 +64,8 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
     public int $mini_app_page_id;
     public int $id;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public function getRecord(): ?Model
     {
         return MiniAppVideo::class;
