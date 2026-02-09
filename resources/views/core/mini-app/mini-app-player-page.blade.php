@@ -52,9 +52,9 @@
                 @endforeach
             </video-js>
 
-            @if ($os == "Android")
+
                 <a href="javascript:void(0);" onClick="Telegram.WebApp.openLink('{{env('APP_URL')}}/miniapp/player/{{$video->id}}');" target="_blank" class="text-white">{{env('APP_URL')}}/miniapp/player/{{$video->id}}</a>
-            @endif
+
 
             <div class="mt-3 mb-3">
                 @foreach ($timepoints as $timepoint)
