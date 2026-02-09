@@ -41,8 +41,6 @@ class MiniAppPageController
     {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-        return $user_agent;
-
         $os = "Unknown OS";
 
         if (strpos($user_agent, 'Win') !== false) {
