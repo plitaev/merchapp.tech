@@ -53,7 +53,7 @@
             </video-js>
 
             @foreach ($timepoints as $timepoint)
-                <a href="javascript:void(0);" onClick="player.currentTime({{\Carbon\Carbon::parse($timepoint->point)->secondsSinceMidnight()}});" class="block mt-3 mb-3 text-center">{{$timepoint->point}} - {{$timepoint->name}}</a>
+                <a href="javascript:void(0);" onClick="player.currentTime({{\Carbon\Carbon::parse($timepoint->point)->secondsSinceMidnight()}});" class="block mt-3 mb-3 text-indigo-500 text-center">{{$timepoint->point}} - {{$timepoint->name}}</a>
             @endforeach
 
             <script type="text/javascript">
