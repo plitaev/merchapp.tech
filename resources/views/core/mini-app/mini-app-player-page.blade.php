@@ -42,7 +42,7 @@
     <link rel='stylesheet' href="https://loverse.servicecdn.world/css/vjs-quality-selector.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ==">
     <link rel='stylesheet' href="https://loverse.servicecdn.world/css/videojs-seek-buttons.css?v=MjAyNS0xMi0xMiAxMDo1NjozOQ==">
 
-    <div class="p-2">
+    <div class="m-2">
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
 
@@ -53,7 +53,7 @@
             </video-js>
 
             @foreach ($timepoints as $timepoint)
-                <a href="javascript:void(0);" onClick="player.currentTime({{\Carbon\Carbon::parse($timepoint->point)->secondsSinceMidnight()}});" class="block">{{$timepoint->point}} - {{$timepoint->name}}</a>
+                <a href="javascript:void(0);" onClick="player.currentTime({{\Carbon\Carbon::parse($timepoint->point)->secondsSinceMidnight()}});" class="block mt-3 mb-3 text-center">{{$timepoint->point}} - {{$timepoint->name}}</a>
             @endforeach
 
             <script type="text/javascript">
