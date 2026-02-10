@@ -37,7 +37,7 @@ class MiniAppPageController
         }
     }
 
-    public function mini_app_player_page(int $id)
+    public function mini_app_player_page(int $id, int $messenger_user_id)
     {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
