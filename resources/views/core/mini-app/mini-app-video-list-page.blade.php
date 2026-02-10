@@ -28,7 +28,7 @@
             var ref_to_player = $('.ref-to-player');
 
             var old_ref = ref_to_player.attr('href');
-            var new_ref = oldHref.replace('MESSENGER_USER_ID', id);
+            var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
             ref_to_player.attr('href', new_ref);
 
             if (first_name!="undefined") {
