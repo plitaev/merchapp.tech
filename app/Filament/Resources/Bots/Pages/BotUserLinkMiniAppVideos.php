@@ -133,8 +133,6 @@ class BotUserLinkMiniAppVideos extends Page implements HasTable, HasInfolists
                     ->searchable()
             ])
             ->recordActions([
-            EditAction::make()->url(fn($record) => "/admin/bots/".$this->bot_id."/".$this->bot_user_id."/".$record->id."/bot-user-link-mini-app-video-admin")
-                ->visible(auth()->user()->can('Update:Pay')),
             DeleteAction::make()
                 ->visible(auth()->user()->can('Delete:Pay'))
             ])->filters([
