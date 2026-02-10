@@ -10,7 +10,7 @@
 @endsection
 
 @section('content')
-
+    <script src="/js/jquery-3.6.0.min.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
 
     <script>
@@ -22,7 +22,14 @@
                 window.location.href="/app1";
             });
 
+            let id = app.initDataUnsafe.user.id;
             let first_name = app.initDataUnsafe.user.first_name;
+
+            var ref_to_player = $('.ref-to-player');
+
+            var old_ref = ref_to_player.attr('href');
+            var new_ref = oldHref.replace('USER_ID', id);
+            ref_to_player.attr('href', new_ref);
 
             if (first_name!="undefined") {
                 document.getElementById('username').innerHTML = "😎 "+first_name;
@@ -48,7 +55,7 @@
                     <div class="mx-auto grid max-w-md grid-cols-2 mt-3">
                         @endif
 
-                        <a href="/miniapp/player/{{$video->id}}" class="flex flex-col justify-between ml-1.5 mr-3 p-1.5 rounded-xl bg-white shadow-xl ring-1 ring-gray-900/10">
+                        <a class="ref-to-player" href="/miniapp/player/{{$video->id}}/USER_ID" class="flex flex-col justify-between ml-1.5 mr-3 p-1.5 rounded-xl bg-white shadow-xl ring-1 ring-gray-900/10">
                             <div>
                                 <img src="{{env('APP_URL').'/content/'.$video->image}}?updated_at={{base64_encode($video->updated_at)}}" class="rounded-xl"/>
                             </div>
