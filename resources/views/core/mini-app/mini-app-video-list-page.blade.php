@@ -51,29 +51,11 @@
                     $bscount = $bscount + 1;
                 @endphp
 
-                @if ($bscount==1)
-                    <div class="mx-auto grid max-w-md grid-cols-2 mt-3">
-                        @endif
-
-                        <a class="ref-to-player" href="/miniapp/player/{{$video->id}}/MESSENGER_USER_ID" class="flex flex-col justify-between ml-1.5 mr-3 p-1.5 rounded-xl bg-white shadow-xl ring-1 ring-gray-900/10">
-                            <div>
-                                <img src="{{env('APP_URL').'/content/'.$video->image}}?updated_at={{base64_encode($video->updated_at)}}" class="rounded-xl"/>
-                            </div>
-
-                            <div aria-describedby="tier-team" class="mt-2 block rounded-md px-3.5 py-2 text-center text-sm/6 font-semibold shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400" style="background-color: black; color: white">{{$video->name}}</div>
-                        </a>
-
-                        @if ($bscount==2)
-                    </div>
-
-                    @php
-                        $bscount = 0;
-                    @endphp
-                @endif
+                <a href="/miniapp/player/{{$video->id}}/MESSENGER_USER_ID" class="ref-to-player block my-5">
+                    {{$video->name}}
+                </a>
 
             @endforeach
-
-            {{------}}
 
         </div>
     </div>
