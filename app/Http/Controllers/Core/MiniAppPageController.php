@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Core;
 
+use App\Models\Core\BotUser;
 use Illuminate\Support\Facades\Hash;
 
 use Carbon\Carbon;
@@ -43,7 +44,10 @@ class MiniAppPageController
 
     public function mini_app_player_page(int $id, int $messenger_user_id)
     {
-        $hash = Hash::make(microtime(), 'sha256');
+        $mini_app_token = Hash::make(microtime(), 'sha256');
+        $mini_app_token_expiration = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
+
+        BotUser::where('telegram_chat_id', $messenger_user_id)->update(['mini_app_token' => $mini_app_token, 'mini_app_token_expiration' => $mini_app_token_expiration]);
 
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
