@@ -1,24 +1,24 @@
 <x-filament-panels::page>
 
     @if (Auth::user()->hasPermissionTo('View:FunnelCondition'))
-
         {{$this->form}}
- 
-        <div class="fi-header fi-header-has-breadcrumbs">
-            <div>
-                <h1 class="fi-header-heading">Точки видео</h1>
-            </div>
-            <div class="fi-header-actions-ctn">
-                <div class="fi-ac fi-align-start">
-                    @if (auth()->user()->can('Create:FunnelCondition'))
-                        <a href="/admin/mini-app-videos/{{$mini_app_page_id}}/{{$this->id}}/0/admin-mini-app-video-time-point" class="fi-color fi-color-primary fi-bg-color-400 hover:fi-bg-color-300 dark:fi-bg-color-600 dark:hover:fi-bg-color-500 fi-text-color-900 hover:fi-text-color-800 dark:fi-text-color-950 dark:hover:fi-text-color-950 fi-btn fi-size-md  fi-ac-btn-action">
-                            Создать
-                        </a>
-                    @endif
+
+        @if ($this->id > 0)
+            <div class="fi-header fi-header-has-breadcrumbs">
+                <div><h1 class="fi-header-heading">Точки видео</h1></div>
+
+                <div class="fi-header-actions-ctn">
+                    <div class="fi-ac fi-align-start">
+                        @if (auth()->user()->can('Create:FunnelCondition'))
+                            <a href="/admin/mini-app-videos/{{$mini_app_page_id}}/{{$this->id}}/0/admin-mini-app-video-time-point" class="fi-color fi-color-primary fi-bg-color-400 hover:fi-bg-color-300 dark:fi-bg-color-600 dark:hover:fi-bg-color-500 fi-text-color-900 hover:fi-text-color-800 dark:fi-text-color-950 dark:hover:fi-text-color-950 fi-btn fi-size-md  fi-ac-btn-action">
+                                Создать
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
-        {{$this->table}}
-    @endif
 
+            {{$this->table}}
+        @endif
+    @endif
 </x-filament-panels::page>
