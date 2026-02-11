@@ -53,6 +53,8 @@ class BotUser extends Model
         'listen_success_message_status',
         'listen_success_message_status_timestamp',
         'time_zone_name',
+        'mini_app_token',
+        'mini_app_token_expiration',
         'run_status'
     ];
 
