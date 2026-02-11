@@ -83,25 +83,39 @@ class MiniAppPageController
         ]);
     }
 
-    public function mini_app_player_external(int $id, string $mini_app_hash)
+    public function mini_app_player_external(int $id, string $mini_app_token)
     {
-        $video = MiniAppVideo::find($id);
+        $bot_user = BotUser::select('mini_app_token_expiration')->where('mini_app_token', $mini_app_token)->first();
+        if ($bot_user) {
 
-        $master = file_get_contents($video->edgecenter_hls_url);
-        $Amaster = explode(PHP_EOL, $master);
+            if ($bot_user->mini_app_token_expiration > date('Y-m-d H:i:s')) {
 
-        $tracks_edgecenter = [];
-        foreach ($Amaster as $master) {
-            if (substr($master, -4) == 'm3u8') $tracks_edgecenter[] = $master;
+                $video = MiniAppVideo::find($id);
+
+                $master = file_get_contents($video->edgecenter_hls_url);
+                $Amaster = explode(PHP_EOL, $master);
+
+                $tracks_edgecenter = [];
+                foreach ($Amaster as $master) {
+                    if (substr($master, -4) == 'm3u8') $tracks_edgecenter[] = $master;
+                }
+
+                $timepoints = MiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
+
+                return view('core.mini-app.mini-app-external-page', [
+                    'tracks_edgecenter' => $tracks_edgecenter,
+                    'timepoints' => $timepoints,
+                    'video' => $video
+                ]);
+
+            } else {
+                return "Токен истёк";
+            }
+
+        } else {
+            return 'Отсутствует токен';
         }
 
-        $timepoints = MiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
-
-        return view('core.mini-app.mini-app-external-page', [
-            'tracks_edgecenter' => $tracks_edgecenter,
-            'timepoints' => $timepoints,
-            'video' => $video
-        ]);
     }
 
 }
