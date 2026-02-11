@@ -77,6 +77,7 @@ class MiniAppPageController
 
         return view('core.mini-app.mini-app-player-page', [
             'os' => $os,
+            'mini_app_token' => $mini_app_token,
             'tracks_edgecenter' => $tracks_edgecenter,
             'timepoints' => $timepoints,
             'video' => $video
