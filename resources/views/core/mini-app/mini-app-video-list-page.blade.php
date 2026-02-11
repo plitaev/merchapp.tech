@@ -46,16 +46,17 @@
                 $bscount = 0;
             @endphp
 
-            @foreach ($videos as $video)
-                @php
-                    $bscount = $bscount + 1;
-                @endphp
+            <div class="mx-5">
+                @foreach ($videos as $video)
+                    @php
+                        $bscount = $bscount + 1;
+                    @endphp
 
-                <a href="/miniapp/player/{{$video->id}}/MESSENGER_USER_ID" class="ref-to-player block my-5">
-                    {{$video->name}}
-                </a>
-
-            @endforeach
+                    <a href="/miniapp/player/{{$video->id}}/MESSENGER_USER_ID" class="ref-to-player block my-5">
+                        {{$bscount}}. {{$video->name}}
+                    </a>
+                @endforeach
+            </div>
 
         </div>
     </div>
