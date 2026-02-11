@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Core;
 
-use App\Models\Core\BotUser;
-use Illuminate\Support\Facades\Hash;
-
 use Carbon\Carbon;
 
 use App\Actions\Core\MiniAppBanner\MiniAppBannerListByClassID;
 use App\Actions\Core\MiniAppPage\MiniAppPageGetByURL;
 
+use App\Models\Core\BotUser;
 use App\Models\Core\MiniAppVideo;
 use App\Models\Core\MiniAppVideoLinkPage;
 use App\Models\Core\MiniAppVideoTimePoint;
