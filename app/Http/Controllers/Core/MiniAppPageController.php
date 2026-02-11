@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Core;
 
+use Illuminate\Support\Facades\Hash;
+
+use Carbon\Carbon;
+
 use App\Actions\Core\MiniAppBanner\MiniAppBannerListByClassID;
 use App\Actions\Core\MiniAppPage\MiniAppPageGetByURL;
 
@@ -39,6 +43,8 @@ class MiniAppPageController
 
     public function mini_app_player_page(int $id, int $messenger_user_id)
     {
+        $hash = Hash::make(microtime(), 'sha256');
+
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
         $os = "Unknown";
@@ -74,4 +80,26 @@ class MiniAppPageController
             'video' => $video
         ]);
     }
+
+    public function mini_app_player_external(int $id, string $mini_app_hash)
+    {
+        $video = MiniAppVideo::find($id);
+
+        $master = file_get_contents($video->edgecenter_hls_url);
+        $Amaster = explode(PHP_EOL, $master);
+
+        $tracks_edgecenter = [];
+        foreach ($Amaster as $master) {
+            if (substr($master, -4) == 'm3u8') $tracks_edgecenter[] = $master;
+        }
+
+        $timepoints = MiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
+
+        return view('core.mini-app.mini-app-external-page', [
+            'tracks_edgecenter' => $tracks_edgecenter,
+            'timepoints' => $timepoints,
+            'video' => $video
+        ]);
+    }
+
 }

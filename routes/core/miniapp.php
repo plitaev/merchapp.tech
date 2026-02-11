@@ -13,5 +13,6 @@ Route::controller(MiniAppPageController::class)->group(function() {
     }
 
     Route::get('/miniapp/player/{id}/{messenger_user_id}', 'mini_app_player_page');
+    Route::get('/miniapp/external/{id}/{mini_app_hash}', 'mini_app_player_external');
 
 });
