@@ -56,7 +56,7 @@
                         {{$bscount}}. {{$video->name}}
                     </a>
 
-                    <div class="py-2.5 px-3.5 border-0 border-b-1 border-indigo-100">&nbsp;&nbsp;</div>
+                    <div class="py-2.5 px-3.5 text-indigo-100 text-center">-------------------------</div>
 
                 @endforeach
             </div>
