@@ -57,7 +57,7 @@
                     </a>
 
                 @if ($bscount != count($videos))
-                        <hr class="block my-2.5 mx-12 text-black-300 text-center">
+                        <hr class="block my-2.5 mx-12 text-gray-400 text-center">
                 @endif
 
                 @endforeach
