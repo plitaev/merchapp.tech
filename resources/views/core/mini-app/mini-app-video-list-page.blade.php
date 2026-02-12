@@ -52,7 +52,7 @@
                         $bscount = $bscount + 1;
                     @endphp
 
-                    <a href="/miniapp/player/{{$video->id}}/MESSENGER_USER_ID" class="ref-to-player block my-2 rounded-xl bg-white px-3.5 py-2.5 text-md font-semibold text-indigo-600 border-1 border-indigo-600 shadow-xs hover:bg-indigo-100">
+                    <a href="/miniapp/player/{{$video->id}}/MESSENGER_USER_ID" class="ref-to-player block py-2.5 px-3.5 text-md font-semibold text-indigo-600 border-bottom-1 border-indigo-600">
                         {{$bscount}}. {{$video->name}}
                     </a>
 
