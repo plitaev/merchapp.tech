@@ -40,7 +40,7 @@
 
     <div class="isolate overflow-y-scroll bg-white h-[100vh]">
         <div class="flow-root pb-24 sm:pb-32">
-            <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
+            <div id="username" class="mt-2 mb-2.5 ml-4 font-semibold text-xl"></div>
 
             @php
                 $bscount = 0;
@@ -56,7 +56,9 @@
                         {{$bscount}}. {{$video->name}}
                     </a>
 
-                    <hr class="block my-2.5 mx-6 text-indigo-300 text-center">
+                @if ($bscount != count($videos))
+                        <hr class="block my-2.5 mx-6 text-indigo-300 text-center">
+                @endif
 
                 @endforeach
             </div>
