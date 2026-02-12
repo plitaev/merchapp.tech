@@ -40,7 +40,7 @@
 
     <div class="isolate overflow-y-scroll bg-white h-[100vh]">
         <div class="flow-root pb-24 sm:pb-32">
-            <div id="username" class="mt-2 mb-2.5 ml-4 font-semibold text-xl"></div>
+            <div id="username" class="mt-2 mb-5 ml-4 font-semibold text-xl"></div>
 
             @php
                 $bscount = 0;
