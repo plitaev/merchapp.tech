@@ -52,12 +52,12 @@
                         $bscount = $bscount + 1;
                     @endphp
 
-                    <a href="/miniapp/player/{{$video->id}}/MESSENGER_USER_ID" class="ref-to-player px-3.5 block text-md font-semibold text-indigo-300">
+                    <a href="/miniapp/player/{{$video->id}}/MESSENGER_USER_ID" class="ref-to-player px-3.5 block text-md font-semibold text-indigo-500">
                         {{$bscount}}. {{$video->name}}
                     </a>
 
                 @if ($bscount != count($videos))
-                        <hr class="block my-2.5 mx-12 text-indigo-200 text-center">
+                        <hr class="block my-2.5 mx-12 text-indigo-300 text-center">
                 @endif
 
                 @endforeach
