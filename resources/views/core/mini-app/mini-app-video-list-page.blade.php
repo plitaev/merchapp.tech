@@ -20,9 +20,7 @@
             let first_name = app.initDataUnsafe.user.first_name;
 
             $(".ref-to-player").each(function(index, element) {
-                var old_ref = element.attr('href');
-                var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
-                element.attr('href', new_ref);
+                console.log(element);
             });
 
             if (first_name!="undefined") {
