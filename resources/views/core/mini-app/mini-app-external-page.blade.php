@@ -42,6 +42,10 @@
     <link rel='stylesheet' href="/css/vjs-quality-selector.css">
     <link rel='stylesheet' href="/css/videojs-seek-buttons.css">
 
+    <style>
+        .vjs-big-play-button{background: #7e70a1}
+    </style>
+
     <div class="p-2">
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
