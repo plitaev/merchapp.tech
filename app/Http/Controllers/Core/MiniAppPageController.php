@@ -83,8 +83,10 @@ class MiniAppPageController
                         $A2 = explode(',', $A1[1]);
                         if (isset($A2[0])) {
                             $A3 = explode('x', $A2[0]);
-                            return implode('||', $A3);
-                            if (isset($A3[1])) $tracknames_edgecenter[] = $A3[1].'p';
+                            if (isset($A3[1])) {
+                                $tracknames_edgecenter[] = $A3[1].'p';
+                                return $A3[1].'p';
+                            }
                         }
                     }
 
