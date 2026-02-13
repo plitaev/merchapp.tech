@@ -79,6 +79,7 @@ class MiniAppPageController
                 if ($master != '#EXTM3U') {
 
                     $A1 = explode('RESOLUTION=', $master);
+                    return implode(',', $A1);
                     if (isset($A1[1])) {
                         $A2 = explode(',', $A1[1]);
                         if (isset($A2[0])) {
