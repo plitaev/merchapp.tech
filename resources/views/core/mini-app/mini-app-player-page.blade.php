@@ -70,7 +70,7 @@
                 @endforeach
             </video-js>
 
-            @if ($os == "Android")
+            @if ($os == "Android" || $os == "Windows")
                 <a href="javascript:void(0);" onClick="Telegram.WebApp.openLink('{{env('APP_URL')}}/miniapp/external/{{$video->id}}/{{$mini_app_token}}', {try_browser: 'chrome'});" class="block rounded-md bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-xs text-center">Открыть видео в браузере для просмотра во весь экран</a>
             @endif
 
