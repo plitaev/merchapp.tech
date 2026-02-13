@@ -79,9 +79,9 @@ class MiniAppPageController
                 if ($master != '#EXTM3U') {
 
                     $A1 = explode('RESOLUTION=', $master);
-                    return implode('||', $A1);
                     if (isset($A1[1])) {
                         $A2 = explode(',', $A1[1]);
+                        return implode('||', $A2);
                         if (isset($A2[0])) {
                             $A3 = explode('x', $A2[1]);
                             if (isset($A3[1])) $tracknames_edgecenter[] = $A3[1].'p';
