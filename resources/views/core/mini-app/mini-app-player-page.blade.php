@@ -45,7 +45,7 @@
 
                     @php
                      $track_name = 'SQ';
-                     $A1 = explode('#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=343008,RESOLUTION=', $track_name);
+                     $A1 = explode('RESOLUTION=', $track_name);
 
                      if (isset($A1[1])) {
                          $A2 = explode(',', $A1[1]);
