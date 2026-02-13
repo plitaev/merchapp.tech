@@ -18,13 +18,12 @@
             let id = app.initDataUnsafe.user.id;
             let first_name = app.initDataUnsafe.user.first_name;
 
-            const elementsArray = $('.ref-to-player');
+            const items = document.querySelectorAll(".ref-to-player");
 
-            elementsArray.forEach(el => {
-                var $this = $(this);
-                var old_ref = $this.attr('href');
+            items.forEach(item => {
+                var old_ref = item.attr('href');
                 var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
-                $this.attr('href', new_ref);
+                item.attr('href', new_ref);
             });
 
             if (first_name!="undefined") {
