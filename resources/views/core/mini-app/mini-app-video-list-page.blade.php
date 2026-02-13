@@ -20,7 +20,7 @@
             let first_name = app.initDataUnsafe.user.first_name;
 
             var player_refs = $(".ref-to-player");
-            fruits.forEach(function(item, index) {
+            player_refs.forEach(function(item, index) {
                 console.log('Array Element ' + index + ': ' + item);
             });
 
