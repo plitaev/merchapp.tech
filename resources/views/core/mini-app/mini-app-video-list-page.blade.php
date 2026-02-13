@@ -19,11 +19,6 @@
             let id = app.initDataUnsafe.user.id;
             let first_name = app.initDataUnsafe.user.first_name;
 
-            var player_refs = $(".ref-to-player");
-            player_refs.forEach(function(item, index) {
-                console.log('Array Element ' + index + ': ' + item);
-            });
-
             const elementsArray = Array.from(document.querySelectorAll('.ref-to-player'));
 
             elementsArray.forEach(el => {
