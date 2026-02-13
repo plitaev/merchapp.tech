@@ -47,8 +47,8 @@
                 @foreach ($tracks_edgecenter as $track_edgecenter)
                     @php
                         $track_count = $track_count + 1;
-                        if (isset($tracknames[$track_count])) {
-                            $track_name = $tracknames[$track_count];
+                        if (isset($tracknames_edgecenter[$track_count])) {
+                            $track_name = $tracknames_edgecenter[$track_count];
                         } else {
                             $track_name = 'HD';
                         }
