@@ -21,9 +21,9 @@
             const items = document.querySelectorAll(".ref-to-player");
 
             items.forEach(item => {
-                var old_ref = item.attr('href');
+                var old_ref = item.getAttribute('href');
                 var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
-                item.attr('href', new_ref);
+                item.setAttribute('href', new_ref);
             });
 
             if (first_name!="undefined") {
