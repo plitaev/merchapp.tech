@@ -24,8 +24,11 @@
                 console.log('Array Element ' + index + ': ' + item);
             });
 
+            const elementsArray = Array.from(document.querySelectorAll('.ref-to-player'));
 
-            var ref_to_player = $('.ref-to-player');
+            elementsArray.forEach(el => {
+                console.log(el);
+            });
 
             var old_ref = ref_to_player.attr('href');
             var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
