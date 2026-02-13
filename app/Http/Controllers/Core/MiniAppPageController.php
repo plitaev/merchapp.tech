@@ -77,6 +77,7 @@ class MiniAppPageController
             } else {
 
                 $A1 = explode('RESOLUTION=', $master);
+                return implode('', $A1);
 
                 if (isset($A1[1])) {
                     $A2 = explode(',', $A1[1]);
