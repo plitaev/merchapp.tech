@@ -20,7 +20,8 @@
             let first_name = app.initDataUnsafe.user.first_name;
 
             $(".ref-to-player").each(function(index, element) {
-                console.log(element);
+                var $this = $(this);
+                console.log($this);
             });
 
             if (first_name!="undefined") {
