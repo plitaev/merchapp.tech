@@ -47,8 +47,20 @@
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
 
             <video-js id="player" class="vjs-default-skin" controls preload="auto" width="960" height="540" disablePictureInPicture>
+
+                @php $track_count = 0; @endphp
+
                 @foreach ($tracks_edgecenter as $track_edgecenter)
-                    <source src="{{env('EDGECENTER_CDN_VIDEO')}}/videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_edgecenter}}">
+                    @php
+                        $track_count = $track_count + 1;
+                        if (isset($tracknames_edgecenter[$track_count])) {
+                            $track_name = $tracknames_edgecenter[$track_count];
+                        } else {
+                            $track_name = 'HD';
+                        }
+                    @endphp
+
+                    <source src="{{env('EDGECENTER_CDN_VIDEO')}}/videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_name}}">
                 @endforeach
             </video-js>
 
