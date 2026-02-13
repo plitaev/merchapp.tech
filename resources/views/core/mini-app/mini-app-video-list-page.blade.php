@@ -19,7 +19,7 @@
             let id = app.initDataUnsafe.user.id;
             let first_name = app.initDataUnsafe.user.first_name;
 
-            const elementsArray = Array.from(document.querySelectorAll('.ref-to-player'));
+            const elementsArray = $('.ref-to-player');
 
             elementsArray.forEach(el => {
                 var old_ref = el.attr('href');
