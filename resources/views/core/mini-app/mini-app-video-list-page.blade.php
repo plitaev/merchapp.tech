@@ -21,7 +21,9 @@
 
             $(".ref-to-player").each(function(index, element) {
                 var $this = $(this);
-                console.log($this);
+                var old_ref = $this.attr('href');
+                var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
+                $this.attr('href', new_ref);
             });
 
             if (first_name!="undefined") {
