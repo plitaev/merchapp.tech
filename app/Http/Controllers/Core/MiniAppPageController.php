@@ -53,7 +53,7 @@ class MiniAppPageController
 
         if (strpos($user_agent, 'Win') !== false) {
             $os = "Windows";
-        } elseif (strpos($user_agent, 'Macintosh') !== false) {
+        } elseif (strpos($user_agent, 'Mac') !== false) {
             $os = "MacOS";
         } elseif (strpos($user_agent, 'Android') !== false) {
             $os = "Android";
