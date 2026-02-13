@@ -42,6 +42,20 @@
 
             <video-js id="player" class="vjs-default-skin" controls preload="auto" width="960" height="540" disablePictureInPicture>
                 @foreach ($tracks_edgecenter as $track_edgecenter)
+
+                    @php
+                     $track_name = 'SQ';
+                     $A1 = explode('#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=343008,RESOLUTION=', $track_name);
+
+                     if (isset($A1[1])) {
+                         $A2 = explode(',', $A1[1]);
+                         if (isset($A2[0])) {
+                             $A3 = explode('x', $A2[1]);
+                             if (isset($A3[1])) $track_name = $A3[1].'p';
+                         }
+                     }
+                    @endphp
+
                     <source src="{{env('EDGECENTER_CDN_VIDEO')}}/videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_edgecenter}}">
                 @endforeach
             </video-js>
