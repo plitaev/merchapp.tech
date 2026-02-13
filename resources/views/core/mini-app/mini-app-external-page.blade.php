@@ -42,7 +42,7 @@
     <link rel='stylesheet' href="/css/vjs-quality-selector.css">
     <link rel='stylesheet' href="/css/videojs-seek-buttons.css">
 
-    <div class="p-8">
+    <div class="p-2">
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
 
@@ -59,7 +59,7 @@
             </div>
 
             @if (isset($video->description))
-                <pre class="whitespace-pre-wrap">{!! $video->description !!}</pre>
+                <pre class="p-6 whitespace-pre-wrap">{!! $video->description !!}</pre>
             @endif
 
             <script type="text/javascript">
