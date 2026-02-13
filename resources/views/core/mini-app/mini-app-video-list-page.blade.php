@@ -19,7 +19,9 @@
             let id = app.initDataUnsafe.user.id;
             let first_name = app.initDataUnsafe.user.first_name;
 
-            $(".ref-to-player").each(function(index, element) {
+            const elementsArray = $('.ref-to-player');
+
+            elementsArray.forEach(el => {
                 var $this = $(this);
                 var old_ref = $this.attr('href');
                 var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
