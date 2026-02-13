@@ -22,12 +22,10 @@
             const elementsArray = Array.from(document.querySelectorAll('.ref-to-player'));
 
             elementsArray.forEach(el => {
-                console.log(el);
+                var old_ref = el.attr('href');
+                var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
+                el.attr('href', new_ref);
             });
-
-            var old_ref = ref_to_player.attr('href');
-            var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
-            ref_to_player.attr('href', new_ref);
 
             if (first_name!="undefined") {
                 document.getElementById('username').innerHTML = "😎 "+first_name;
