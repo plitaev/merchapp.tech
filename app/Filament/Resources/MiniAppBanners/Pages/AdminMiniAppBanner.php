@@ -196,7 +196,6 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                         TextInput::make('button_text')
                             ->label('Текст на кнопке')
                             ->visible(auth()->user()->can('Update:MiniAppPage'))
-                            ->required()
                             ->maxLength(255)
                             ->columns([
                                 'sm' => 2,
