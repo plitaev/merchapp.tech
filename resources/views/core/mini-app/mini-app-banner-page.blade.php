@@ -16,7 +16,7 @@
     <script>
         window.onload = function() {
             let app = window.Telegram.WebApp;
-            app.BackButton.show();
+            app.BackButton.hide();
 
             app.BackButton.onClick(function() {
                 window.location.href="/app1";
