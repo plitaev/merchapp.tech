@@ -43,7 +43,7 @@
     <link rel='stylesheet' href="/css/videojs-seek-buttons.css">
 
     <style>
-        .vjs-big-play-button{background: #7e70a1}
+        .vjs-big-play-button{background: #7e70a1 !important;}
     </style>
 
     <div class="p-2">
