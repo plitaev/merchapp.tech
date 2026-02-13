@@ -19,12 +19,10 @@
             let id = app.initDataUnsafe.user.id;
             let first_name = app.initDataUnsafe.user.first_name;
 
-            const elementsArray = $('.ref-to-player');
-
-            elementsArray.forEach(el => {
-                var old_ref = el.attr('href');
+            $(".ref-to-player").each(function(index, element) {
+                var old_ref = element.attr('href');
                 var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
-                el.attr('href', new_ref);
+                element.attr('href', new_ref);
             });
 
             if (first_name!="undefined") {
