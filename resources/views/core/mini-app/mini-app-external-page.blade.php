@@ -59,7 +59,7 @@
             </div>
 
             @if (isset($video->description))
-                <div class="text-justify">{!! $video->description !!}</div>
+                <pre class="whitespace-pre-wrap">{!! $video->description !!}</pre>
             @endif
 
             <script type="text/javascript">
