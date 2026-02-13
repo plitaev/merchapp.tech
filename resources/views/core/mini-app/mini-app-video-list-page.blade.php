@@ -1,11 +1,5 @@
 @extends('core.mini-app.app')
 
-{{--
-<video autoplay loop muted playsinline class="z-1 rounded-xl">
-    <source src="https://svoiludi-a.akamaihd.net/video_kovalchuk.mp4" type="video/mp4"/>
-</video>
---}}
-
 @section('head')
 @endsection
 
