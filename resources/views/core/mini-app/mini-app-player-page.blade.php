@@ -47,7 +47,7 @@
             </video-js>
 
             @if ($os == "Android")
-                <a href="javascript:void(0);" onClick="Telegram.WebApp.openLink('{{env('APP_URL')}}/miniapp/external/{{$video->id}}/{{$mini_app_token}}', {try_browser: 'chrome'});">Открыть видео в браузере для просмотра во весь экран</a>
+                <a href="javascript:void(0);" onClick="Telegram.WebApp.openLink('{{env('APP_URL')}}/miniapp/external/{{$video->id}}/{{$mini_app_token}}', {try_browser: 'chrome'});" class="block rounded-md bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-xs hover:bg-indigo-100 dark:bg-indigo-500/20 dark:text-indigo-400 dark:shadow-none dark:hover:bg-indigo-500/30">Открыть видео в браузере для просмотра во весь экран</a>
             @endif
 
             <div class="mt-3 mb-3">
