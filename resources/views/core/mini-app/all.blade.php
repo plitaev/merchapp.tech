@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<div id="app">
+<div id="app" class="bg-white">
     @yield('body')
 </div>
 </body>
