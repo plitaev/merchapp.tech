@@ -19,6 +19,12 @@
             let id = app.initDataUnsafe.user.id;
             let first_name = app.initDataUnsafe.user.first_name;
 
+            var player_refs = $(".ref-to-player");
+            fruits.forEach(function(item, index) {
+                console.log('Array Element ' + index + ': ' + item);
+            });
+
+
             var ref_to_player = $('.ref-to-player');
 
             var old_ref = ref_to_player.attr('href');
