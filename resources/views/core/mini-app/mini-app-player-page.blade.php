@@ -12,7 +12,15 @@
             app.BackButton.show();
 
             app.BackButton.onClick(function() {
-                window.location.href="/app1";
+
+                @if ($video->id == 3)
+                    window.location.href="https://magiclife.merchapp.bot/c0afec1a1e21650aee429e2ba3598490a4bde0326e289c785364b4caf452b50b";
+                @endif
+
+                @if ($video->id == 2)
+                    window.location.href="https://magiclife.merchapp.bot/e73c079725bbdfe806e3b19c8ef49c8292f51445b6e13ae901a8a6bcbc43eb4f";
+                @endif
+
             });
 
             let first_name = app.initDataUnsafe.user.first_name;
