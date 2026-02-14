@@ -72,7 +72,7 @@ class DevTestController extends Controller
         $telegram->sendMediaGroup($A);
         */
         //===
-
+        /*
         $A = [
             'chat_id' => $chat_id,
             'message_thread_id' => 13,
@@ -81,7 +81,7 @@ class DevTestController extends Controller
         ];
 
         $telegram->sendMessage($A);
-
+        */
     }
 
 }
