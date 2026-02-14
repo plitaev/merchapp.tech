@@ -29,7 +29,7 @@ class DevTestController extends Controller
     public function devtest() {
         $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
 
-        $chat_id = 1288080888;
+        $chat_id = -1002225281436;
 
         $caption = '🆘 <b>КЛУБнички! Нам нужна ваша помощь!</b>%0A%0AПомогите протестировать приложение для клуба.%0A%0A❗️ Это ПРОБНАЯ версия. После теста оно будет удалено.%0A%0AПолная версия уже собирается, видео загружаются на серверы и через несколько дней доступ появится у всех участников Клуба%0A%0AЧто важно сейчас:%0A%0A1️⃣ Запустить приложение по этой ссылке:%0A<a href="https://t.me/ChudoClubVideoTestBot?startapp%0A%0A">https://t.me/ChudoClubVideoTestBot?startapp%0A%0A</a>2️⃣ Перейти в оба раздела и попробовать запустить видео%0A%0A3️⃣ Оставить отзыв о том, всё ли было понятно, как работает приложение и что работает или НЕ РАБОТАЕТ. %0AДля этого нажмите%0A👇👇👇👇%0A%0A<a href="https://t.me/+VTYfEQWOv8YyNGJi">ОСТАВИТЬ ОТЗЫВ</a>';
         $caption = urldecode($caption);
@@ -65,6 +65,7 @@ class DevTestController extends Controller
 
         $A = [
             'chat_id' => $chat_id,
+            'message_thread_id' => 13,
             'media' => json_encode($media),
         ];
 
@@ -74,6 +75,7 @@ class DevTestController extends Controller
 
         $A = [
             'chat_id' => $chat_id,
+            'message_thread_id' => 13,
             'text' => urldecode('Ваша помощь будет бесценна 💜'),
             'reply_markup' => $keyboard
         ];
