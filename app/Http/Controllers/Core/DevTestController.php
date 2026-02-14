@@ -74,7 +74,7 @@ class DevTestController extends Controller
 
         $A = [
             'chat_id' => $chat_id,
-            'text' => urldecode('Ваша помощь будет бесценна ❤️'),
+            'text' => urldecode('Ваша помощь будет бесценна 💜'),
             'reply_markup' => $keyboard
         ];
 
