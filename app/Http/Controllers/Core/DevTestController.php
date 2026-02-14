@@ -55,7 +55,7 @@ class DevTestController extends Controller
 
         $A = [
             'chat_id' => 247632034,
-            'media' => $media
+            'media' => json_encode($media)
         ];
 
         $telegram->sendMediaGroup($A);
