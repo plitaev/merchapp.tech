@@ -74,7 +74,8 @@ class DevTestController extends Controller
 
         $A = [
             'chat_id' => $chat_id,
-            'text' => urldecode('---------------------------------')
+            'text' => urldecode('---------------------------------'),
+            'reply_markup' => $keyboard
         ];
 
         $telegram->sendMessage($A);
