@@ -42,7 +42,8 @@ class DevTestController extends Controller
                 'type' => 'photo',
                 'media' => 'https://0daafeb7-af8a-406f-95cc-f9618e814376.selstorage.ru/oooo/1.jpg',
                 'caption' => $caption,
-                'parse_mode' => 'HTML'
+                'parse_mode' => 'HTML',
+                'reply_markup' => json_encode($keyboard)
             ),
             array(
                 'type' => 'photo',
