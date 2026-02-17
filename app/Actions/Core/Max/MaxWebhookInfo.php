@@ -8,13 +8,12 @@ class MaxWebhookInfo
 
         $webhook=str_replace("-","/",$webhook);
 
-        $webhookUrl = "https://platform-api.max.ru/me?bot".$token."/url=".$webhook;
+        $webhookUrl = "https://platform-api.max.ru/bot".$token."/url=".$webhook;
 
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_URL, $webhookUrl);
         curl_setopt($curl, CURLOPT_POST, true);
-        //curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
