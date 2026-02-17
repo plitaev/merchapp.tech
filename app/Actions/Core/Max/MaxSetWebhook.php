@@ -10,7 +10,7 @@ class MaxSetWebhook
     {
         // Безопасная сборка URL
         $appUrl = rtrim(env('APP_URL'), '/');
-        $webhookUrl = urlencode("{$appUrl}/telegram/webhook/{$id}/{$webhook}");
+        $webhookUrl = urlencode("{$appUrl}/max/webhook/{$id}/{$webhook}");
 
         $apiUrl = "https://api.max.ru/token/{$token}/setWebhook?url={$webhookUrl}";
 
