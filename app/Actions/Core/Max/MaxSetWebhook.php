@@ -12,7 +12,7 @@ class MaxSetWebhook
         $appUrl = rtrim(env('APP_URL'), '/');
         $webhookUrl = urlencode("{$appUrl}/telegram/webhook/{$id}/{$webhook}");
 
-        $apiUrl = "https://api.max.org/bot{$token}/setWebhook?url={$webhookUrl}";
+        $apiUrl = "https://api.max.ru/token/{$token}/setWebhook?url={$webhookUrl}";
 
         $curl = curl_init();
         curl_setopt_array($curl, [
