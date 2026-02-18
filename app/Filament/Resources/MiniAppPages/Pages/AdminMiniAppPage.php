@@ -5,6 +5,7 @@ use App\Models\Core\MiniApp;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Actions;
+use Illuminate\Support\HtmlString;
 use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ImageColumn;
@@ -130,6 +131,16 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                                 'required' => 'Обязательно укажите ссылку на страницу',
                             ]),
                     ]),
+                Section::make('Блоки')
+                    ->description(new HtmlString("<a href='/admin/mini-app-pages/{$this->record}/mini-app-page-blocks' style='display: block; margin-bottom: 10px; font-weight: bold'>Назначить блок страницы</a>"))
+                    ->columns([
+                        'sm' => 4,
+                        'md' => 4,
+                        'lg' => 4,
+                        'xl' => 4,
+                        '2xl' => 4,
+                    ])
+                    ->schema([]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
