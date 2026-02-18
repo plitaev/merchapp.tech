@@ -17,6 +17,7 @@ use App\Filament\Resources\MiniAppPages\Pages\AdminMiniAppPage;
 use App\Filament\Resources\MiniAppPages\Pages\PreviewMiniAppPage;
 use App\Filament\Resources\MiniAppPageResource\Pages;
 use App\Filament\Resources\MiniAppPageResource\RelationManagers;
+use App\Filament\Resources\MiniAppPages\Pages\AdminMiniAppPageBlock;
 use App\Models\Core\MiniApp;
 use App\Models\Core\MiniAppPage;
 use Filament\Forms;
@@ -110,6 +111,9 @@ class MiniAppPageResource extends Resource
         return [
             'index' => AdvancedListMiniAppPage::route('/'),
             'create' => AdminMiniAppPage::route('/{record}/create'),
+            'create-page' => CreateMiniAppPage::route('/{record}/create-page'),
+            'mini-app-page-blocks' => AdminMiniAppPageBlock::route('/{record}/mini-app-page-blocks'),
+
             //'edit' => Pages\EditMiniAppPage::route('/{record}/edit'),
             'edit' => AdminMiniAppPage::route('/{record}/admin'),
             'preview' => PreviewMiniAppPage::route('/{mini_app_page_id}/preview'),
