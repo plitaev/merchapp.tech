@@ -26,6 +26,7 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         $A = [];
+        $menus = MiniApp::orderBy('id')->get();
 
 
         $A[] = NavigationItem::make('apps')
@@ -46,6 +47,14 @@ class AdminPanelProvider extends PanelProvider
             ->url("/admin/mini-app-pages")
             ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/mini-app-pages");
 
+        foreach ($menus as $menu) {
+            $A[] = NavigationItem::make('banners_apps')
+                ->label($menu->name)
+                ->group('Баннеры')
+                ->icon('heroicon-o-photo')
+                ->url("/admin/mini-app-banners/".$menu->id."/".rawurlencode($menu->name)."/admin_banner_by_app")
+                ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/mini-app-banners/".$menu->id."/".rawurlencode($menu->name)."/admin_banner_by_app");
+        }
         $app_banners = MiniApp::where('class_id', 1)->orderByDesc('created_at')->get();
         $app_videos = MiniApp::where('class_id', 2)->orderByDesc('created_at')->get();
 
@@ -64,8 +73,13 @@ class AdminPanelProvider extends PanelProvider
                 ->group('Видео')
                 ->icon('heroicon-o-photo')
                 ->url("/admin/mini-app-videos/".$app_video->id."/".rawurlencode($app_video->name)."/admin_video_by_app")
-                ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/mini-app-videos/".$app_video->id."/".rawurlencode($app_video->name)."/admin_video_by_app");
+                ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/mini-app-banners/".$app_video->id."/".rawurlencode($app_video->name)."/admin_video_by_app");
         }
+
+
+//        Route::get('/banners_apps', function () {
+//            return view('banners_apps');
+//        })->middleware('/access');
 
         $A[] = NavigationItem::make('flisteners')
             ->label('Триггеры воронок')
@@ -94,6 +108,13 @@ class AdminPanelProvider extends PanelProvider
             ->icon('heroicon-o-code-bracket-square')
             ->url("/admin/bot-message-button-callbacks")
             ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/bot-message-button-callbacks");
+
+        $A[] = NavigationItem::make('mini-app-block-types')
+            ->label('Типы блоков Мини-приложений')
+            ->group('Справочники')
+            ->icon('heroicon-o-rectangle-group')
+            ->url("/admin/mini-app-block-types")
+            ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/mini-app-block-types");
 
         $A[] = NavigationItem::make('variable_groups')
             ->label('Переменные')
