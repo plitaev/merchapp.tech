@@ -100,14 +100,6 @@ class AdminMiniAppBlockType extends Page implements HasForms
                             ->label('Наименование')
                             ->disabled(auth()->user()->hasPermissionTo('Update:MiniApp')?false:true)
                             ->maxLength(50),
-                        TextInput::make('alias')
-                            ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно укажите псевдоним',
-                            ])
-                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniApp')?false:true)
-                            ->label('Псевдоним')
-                            ->maxLength(50),
                         ]),
                 Actions::make([
                     Action::make('Сохранить')
