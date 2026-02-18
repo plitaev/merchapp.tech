@@ -1,6 +1,6 @@
 <x-filament-panels::page>
 
-    @if (Auth::user()->hasPermissionTo('View:View:MiniAppBlockType'))
+    @if (Auth::user()->hasPermissionTo('View:View:MiniApp'))
 
     <style>.fi-breadcrumbs:not(#merchapp-top-nav){display: none}</style>
 
@@ -32,7 +32,7 @@
 
             <h1 class="fi-header-heading">Тип блока Мини-приложения</h1>
         </div>
-        @if (auth()->user()->can('Create:View:MiniAppBlockType'))
+        @if (auth()->user()->can('Create:View:MiniApp'))
 
         <div class="fi-header-actions-ctn">
             <div class="fi-ac fi-align-start">

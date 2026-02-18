@@ -30,7 +30,7 @@ class AdvancedListMiniAppBlockType extends Page implements HasTable
 
     public function mount(): void
     {
-        if (!auth()->user()->hasPermissionTo('View:MiniAppBlockType')) {
+        if (!auth()->user()->hasPermissionTo('View:MiniApp')) {
             redirect('/admin/bots/access');
         }
 
@@ -54,17 +54,17 @@ class AdvancedListMiniAppBlockType extends Page implements HasTable
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->visible(!auth()->user()->can('Update:BotMessageAppointment')),
+                    ->visible(!auth()->user()->can('Update:MiniApp')),
                 EditAction::make()->url(fn($record) => "/admin/mini-app-block-types/".$record->id."/admin")
-                    ->visible(auth()->user()->can('Update:BotMessageAppointment')),
+                    ->visible(auth()->user()->can('Update:MiniApp')),
                 DeleteAction::make()
-                    ->visible(auth()->user()->can('Delete:BotMessageAppointment')),
+                    ->visible(auth()->user()->can('Delete:MiniApp')),
 
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->visible(auth()->user()->can('Delete:BotMessageAppointment')),
+                        ->visible(auth()->user()->can('Delete:MiniApp')),
 
                 ]),
             ])
