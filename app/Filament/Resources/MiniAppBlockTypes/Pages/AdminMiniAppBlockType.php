@@ -62,7 +62,7 @@ class AdminMiniAppBlockType extends Page implements HasForms
     public function mount(int $id): void
     {
         $this->id = $id;
-        if (auth()->user()->hasPermissionTo('Update:MiniAppBlockType')) {
+        if (auth()->user()->hasPermissionTo('Update:MiniApp')) {
 
             $data = ($id > 0 ? MiniAppBlockType::find($id)->toArray() : []);
             $this->name = ($id > 0?$data['name']:'Новая воронка');
@@ -98,14 +98,14 @@ class AdminMiniAppBlockType extends Page implements HasForms
                                 'required' => 'Обязательно укажите наименование',
                                 ])
                             ->label('Наименование')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppBlockType')?false:true)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniApp')?false:true)
                             ->maxLength(50),
                         TextInput::make('alias')
                             ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите псевдоним',
                             ])
-                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppBlockType')?false:true)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniApp')?false:true)
                             ->label('Псевдоним')
                             ->maxLength(50),
                         ]),
@@ -130,7 +130,7 @@ class AdminMiniAppBlockType extends Page implements HasForms
 
                             return redirect('/admin/mini-app-block-types');
                         })
-                        ->visible(auth()->user()->can('Create:MiniAppBlockType')),
+                        ->visible(auth()->user()->can('Create:MiniApp')),
                     Action::make('Cancel')
                         ->color('gray')
                         ->action(function () {
