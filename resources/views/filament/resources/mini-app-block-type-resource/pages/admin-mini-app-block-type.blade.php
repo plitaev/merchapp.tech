@@ -1,6 +1,6 @@
 <x-filament-panels::page>
 
-    @if (Auth::user()->hasPermissionTo('View:View:MiniApp'))
+    @if (Auth::user()->hasPermissionTo('View:MiniApp'))
 
     {{$this->form}}
 
