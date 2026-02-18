@@ -131,7 +131,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                                 'required' => 'Обязательно укажите ссылку на страницу',
                             ]),
                     ]),
-                Section::make('Блоки')
+                Section::make('Блоки страницы')
                     ->description(new HtmlString("<a href='/admin/mini-app-pages/{$this->record}/mini-app-page-blocks' style='display: block; margin-bottom: 10px; font-weight: bold'>Назначить блок страницы</a>"))
                     ->columns([
                         'sm' => 4,
