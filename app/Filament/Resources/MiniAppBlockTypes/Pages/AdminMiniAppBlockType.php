@@ -65,7 +65,7 @@ class AdminMiniAppBlockType extends Page implements HasForms
         if (auth()->user()->hasPermissionTo('Update:MiniApp')) {
 
             $data = ($id > 0 ? MiniAppBlockType::find($id)->toArray() : []);
-            $this->name = ($id > 0?$data['name']:'Новая воронка');
+            $this->name = ($id > 0?$data['name']:'Новый тип блока Мини-приложения');
 
             $this->form->fill($data);
         }else{
