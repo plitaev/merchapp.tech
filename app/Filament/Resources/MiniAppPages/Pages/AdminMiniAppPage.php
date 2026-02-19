@@ -2,6 +2,7 @@
 namespace App\Filament\Resources\MiniAppPages\Pages;
 
 use App\Models\Core\MiniApp;
+use App\Models\Core\MiniAppPageBlock;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Actions;
@@ -52,6 +53,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
     public ?array $data = [];
 
     public string $name;
+    public int $count_block = 0;
 
     public $record;
 
@@ -77,7 +79,9 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
         $data = ($record>0?MiniAppPage::with('miniapp')->find($record)->toArray():[]);
         if ($record == 0) $data['url'] = hash('sha256', time());
         $this->name = ($record > 0?$data['name']:'Новая страница');
-
+        if($record > 0){
+            $this->count_block = MiniAppPageBlock::where('mini_app_page_id', $record)->count();
+        }
         $this->form->fill($data);
 
         if (!auth()->user()->hasPermissionTo('View:MiniAppPage')) {
@@ -131,8 +135,8 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                                 'required' => 'Обязательно укажите ссылку на страницу',
                             ]),
                     ]),
-                Section::make('Блоки страницы')
-                    ->description(new HtmlString("<a href='/admin/mini-app-pages/{$this->record}/mini-app-page-blocks' style='display: block; margin-bottom: 10px; font-weight: bold'>Назначить блок страницы</a>"))
+                Section::make('Статистика')
+                    ->description(new HtmlString("<a href='/admin/mini-app-pages/{$this->record}/mini-app-page-blocks' style='display: block; margin-bottom: 10px; font-weight: bold'>Блоки страницы: $this->count_block 🔍</a>"))
                     ->columns([
                         'sm' => 4,
                         'md' => 4,
