@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Core;
 
 use App\Actions\Core\PaySystemCallback\PaySystemCallbackCreate;
+use App\Models\Core\BotMessageButton;
 use App\Models\Core\GetcourseWebhook;
 use App\Models\Core\TelegramSendMessageSchedule;
 use Carbon\Carbon;
@@ -27,61 +28,33 @@ use App\Models\Core\TelegramBanScheduleLogs;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
 
-        $chat_id = -1002225281436;
+        $bot_message_id = 7;
 
-        $caption = '🆘 <b>КЛУБнички! Нам нужна ваша помощь!</b>%0A%0AПомогите протестировать приложение для клуба.%0A%0A❗️ Это ПРОБНАЯ версия. После теста оно будет удалено.%0A%0AПолная версия уже собирается, видео загружаются на серверы и через несколько дней доступ появится у всех участников Клуба%0A%0AЧто важно сейчас:%0A%0A1️⃣ Запустить приложение по этой ссылке:%0A<a href="https://t.me/ChudoClubVideoTestBot?startapp%0A%0A">https://t.me/ChudoClubVideoTestBot?startapp%0A%0A</a>2️⃣ Перейти в оба раздела и попробовать запустить видео%0A%0A3️⃣ Оставить отзыв о том, всё ли было понятно, как работает приложение и что работает или НЕ РАБОТАЕТ. %0AДля этого нажмите%0A👇👇👇👇%0A%0A<a href="https://t.me/+VTYfEQWOv8YyNGJi">ОСТАВИТЬ ОТЗЫВ</a>';
-        $caption = urldecode($caption);
+        $res = BotMessageButton::where('bot_message_id', $bot_message_id)->orderBy('pos')->get();
+        $last_pos = 0;
 
-        $keyboard=["inline_keyboard"=>[
-            [["text" => "НАЧАТЬ ТЕСТИРОВАНИЕ", "url" => "https://t.me/ChudoClubVideoTestBot?startapp"]],
-            [["text" => "ОСТАВИТЬ ОТЗЫВ", "url" => "https://t.me/+VTYfEQWOv8YyNGJi"]]
-        ]];
-        $keyboard=json_encode($keyboard,true);
+        $k = [];
+        $v = [];
 
-        $media = array(
-            array(
-                'type' => 'photo',
-                'media' => 'https://0daafeb7-af8a-406f-95cc-f9618e814376.selstorage.ru/oooo/1.jpg',
-                'caption' => $caption,
-                'parse_mode' => 'HTML',
-                'reply_markup' => json_encode($keyboard)
-            ),
-            array(
-                'type' => 'photo',
-                'media' => 'https://0daafeb7-af8a-406f-95cc-f9618e814376.selstorage.ru/oooo/2.jpg',
-            ),
-            array(
-                'type' => 'photo',
-                'media' => 'https://0daafeb7-af8a-406f-95cc-f9618e814376.selstorage.ru/oooo/3.jpg',
-            ),
-            array(
-                'type' => 'photo',
-                'media' => 'https://0daafeb7-af8a-406f-95cc-f9618e814376.selstorage.ru/oooo/4.jpg',
-            ),
-        );
+        foreach ($res as $data) {
+            $k[] = $data->pos;
+            $v[] = $data->pos." - ".$data->name;
+            $last_pos = $data->pos;
+        }
 
-        /*
-        $A = [
-            'chat_id' => $chat_id,
-            'message_thread_id' => 13,
-            'media' => json_encode($media),
-        ];
+        if ($bot_message_id == 0) {
+            $next_pos = $last_pos + 1;
+            $k[] = $next_pos;
+            $v[] = $next_pos.' - Новая кнопка';
+        } else {
+            $next_pos = 1;
+        }
 
-        $telegram->sendMediaGroup($A);
-        */
-        //===
-        /*
-        $A = [
-            'chat_id' => $chat_id,
-            'message_thread_id' => 13,
-            'text' => urldecode('Ваша помощь будет бесценна 💜'),
-            'reply_markup' => $keyboard
-        ];
+        $result = array_combine($k, $v);
 
-        $telegram->sendMessage($A);
-        */
+        return [$result, $next_pos];
+
     }
 
 }
