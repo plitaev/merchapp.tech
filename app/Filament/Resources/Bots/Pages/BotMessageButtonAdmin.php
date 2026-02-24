@@ -131,7 +131,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
                         Select::make('pos')
                             ->label('Порядковый номер')
                             ->required()
-                            ->options($this->pos_list)
+                            ->options($this->pos_list[0])
                             ->searchable()
                             ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2])
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessageButtonCallback')?false:true),
