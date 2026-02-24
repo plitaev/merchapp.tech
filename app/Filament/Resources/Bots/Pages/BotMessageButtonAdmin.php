@@ -65,7 +65,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
 
         $this->bot_name = $bot->name;
 
-        $this->pos_list = (new BotMessageButtonBuildPosList())->handle($bot_message_id);
+        $this->pos_list = (new BotMessageButtonBuildPosList())->handle($bot_message_id, $id);
 
         $data = ($id>0?BotMessageButton::find($id)->toArray():["bot_message_id" => $id, "pos" => $this->pos_list[1]]);
         $this->form->fill($data);
