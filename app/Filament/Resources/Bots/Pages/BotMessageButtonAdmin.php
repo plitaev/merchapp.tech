@@ -56,7 +56,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
         return BotMessageButton::class;
     }
 
-    public function mount(int $bot_id, int $id): void
+    public function mount(int $bot_id, int $bot_message_id, int $id): void
     {
         $this->id = $id;
         $this->bot_id = $bot_id;
@@ -65,7 +65,7 @@ class BotMessageButtonAdmin extends Page implements HasForms
 
         $this->bot_name = $bot->name;
 
-        $this->pos_list = (new BotMessageButtonBuildPosList())->handle($id);
+        $this->pos_list = (new BotMessageButtonBuildPosList())->handle($bot_message_id);
 
         $data = ($id>0?BotMessageButton::find($id)->toArray():["bot_message_id" => $id, "pos" => $this->pos_list[1]]);
         $this->form->fill($data);
