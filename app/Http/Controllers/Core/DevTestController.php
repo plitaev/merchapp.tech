@@ -30,7 +30,7 @@ class DevTestController extends Controller
 {
     public function devtest() {
         $data = BotMessage::with('bot_message_type')->with('bot')->find(81)->toArray();
-        return $data;
+        return $data['bot.alias'];
     }
 
 }
