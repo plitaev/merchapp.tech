@@ -1,4 +1,3 @@
-{{--
 <table>
     @foreach ($pays as $pay)
         <tr>
@@ -7,15 +6,6 @@
             <td>{{$pay->bot_user->email}}</td>
             <td>{{$pay->price}}</td>
             <td>{{date('d.m.Y', strtotime($pay->created_at))}}</td>
-        </tr>
-    @endforeach
-</table>
---}}
-
-<table>
-    @foreach ($bot_users as $bot_user_id)
-        <tr>
-            <td>{{$bot_user_id}}</td>
         </tr>
     @endforeach
 </table>

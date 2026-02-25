@@ -29,32 +29,14 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $bot_message_id = 7;
-        $id = 0;
+        $pays = Pay::with('bot_user')
+            ->where('status', 1)
+            ->where('created_at', '>=', '2026-01-24 00:00:00')
+            ->where('created_at', '<=', '2026-02-25 23:59:59')
+            ->orderByDesc('created_at')
+            ->get();
 
-        $res = BotMessageButton::where('bot_message_id', $bot_message_id)->orderBy('pos')->get();
-        $last_pos = 0;
-
-        $k = [];
-        $v = [];
-
-        foreach ($res as $data) {
-            $k[] = $data->pos;
-            $v[] = $data->pos." - ".$data->name;
-            $last_pos = $data->pos;
-        }
-
-        if ($id == 0) {
-            $next_pos = $last_pos + 1;
-            $k[] = $next_pos;
-            $v[] = $next_pos.' - Новая кнопка';
-        } else {
-            $next_pos = 1;
-        }
-
-        $result = array_combine($k, $v);
-
-        return [$result, $next_pos];
+        return view('core.devtest.devtest', ['pays' => $pays]);
 
     }
 
