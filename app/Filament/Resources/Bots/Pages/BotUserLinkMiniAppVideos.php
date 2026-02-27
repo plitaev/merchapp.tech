@@ -1,7 +1,6 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
-use App\Models\Core\TelegramSendMessageLog;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
