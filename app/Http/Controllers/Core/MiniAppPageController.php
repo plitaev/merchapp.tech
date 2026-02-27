@@ -25,7 +25,8 @@ class MiniAppPageController
             return view('core.mini-app.mini-app-banner-page', [
                 'banners_big' => $miniAppBannerListByClassID->handle($mini_app_page->id, 1),
                 'banners_medium' => $miniAppBannerListByClassID->handle($mini_app_page->id, 2),
-                'banners_small' => $miniAppBannerListByClassID->handle($mini_app_page->id, 3)
+                'banners_small' => $miniAppBannerListByClassID->handle($mini_app_page->id, 3),
+                'mini_app_page' => $mini_app_page
             ]);
         }
 
@@ -34,6 +35,7 @@ class MiniAppPageController
             $videos = MiniAppVideo::whereIn('id', $video_ids)->get();
 
             return view('core.mini-app.mini-app-video-list-page', [
+                'mini_app_page' => $mini_app_page,
                 'videos' => $videos
             ]);
 
