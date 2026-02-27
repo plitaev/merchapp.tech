@@ -148,10 +148,6 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                     ->schema([
                         TextInput::make('back_button_url')
                             ->label('Ссылка')
-                            ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно укажите ссылку на страницу',
-                            ]),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
