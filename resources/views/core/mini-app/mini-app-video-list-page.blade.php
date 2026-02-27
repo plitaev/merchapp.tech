@@ -9,11 +9,19 @@
     <script>
         window.onload = function() {
             let app = window.Telegram.WebApp;
-            app.BackButton.show();
 
+            @if (isset($mini_app_page->back_button_url))
+
+            app.BackButton.show();
             app.BackButton.onClick(function() {
-                window.location.href="https://magiclife.merchapp.bot/test_start";
+                window.location.href="{{$mini_app_page->back_button_url}}";
             });
+
+            @else
+
+            app.BackButton.hide();
+
+            @endif
 
             let id = app.initDataUnsafe.user.id;
             let first_name = app.initDataUnsafe.user.first_name;

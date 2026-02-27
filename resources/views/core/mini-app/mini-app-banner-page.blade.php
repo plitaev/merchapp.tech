@@ -16,11 +16,19 @@
     <script>
         window.onload = function() {
             let app = window.Telegram.WebApp;
+
+            @if (isset($mini_app_page->back_button_url))
+
+            app.BackButton.show();
+            app.BackButton.onClick(function() {
+                window.location.href="{{$mini_app_page->back_button_url}}";
+            });
+
+            @else
+
             app.BackButton.hide();
 
-            app.BackButton.onClick(function() {
-                window.location.href="/app1";
-            });
+            @endif
 
             let first_name = app.initDataUnsafe.user.first_name;
 
