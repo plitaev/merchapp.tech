@@ -33,6 +33,8 @@ class DevTestController extends Controller
 
         $telegram = new Api("7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY");
 
+        return $telegram->unbanChatMember(['chat_id' => -1002225281436, 'user_id' => 1813661015, 'only_if_banned' => true]);
+
         $botSupergroupsAll = new BotSupergroupsAll();
         $botUserUnban = new BotUserUnban();
 
