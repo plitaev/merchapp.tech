@@ -12,7 +12,7 @@
             app.BackButton.show();
 
             app.BackButton.onClick(function() {
-                window.location.href="{{env("APP_URL")}}{{$back_page}}";
+                window.location.href="{{env("APP_URL")}}/{{$back_page}}";
             });
 
             let first_name = app.initDataUnsafe.user.first_name;
