@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers\Core;
 
+use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
+use App\Actions\Core\BotUser\BotUserUnban;
 use App\Actions\Core\PaySystemCallback\PaySystemCallbackCreate;
 use App\Models\Core\BotMessageButton;
 use App\Models\Core\GetcourseWebhook;
@@ -29,14 +31,15 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $pays = Pay::with('bot_user')
-            ->where('status', 1)
-            ->where('created_at', '>=', '2026-01-24 00:00:00')
-            ->where('created_at', '<=', '2026-02-25 23:59:59')
-            ->orderByDesc('created_at')
-            ->get();
+        $telegram = new Api("7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY");
 
-        return view('core.devtest.devtest', ['pays' => $pays]);
+        $botSupergroupsAll = new BotSupergroupsAll();
+        $botUserUnban = new BotUserUnban();
+
+        $bot_user = BotUser::find(23703);
+
+        $supergroups = $botSupergroupsAll->handle();
+        return $botUserUnban->handle($bot_user, $supergroups, $telegram);
 
     }
 

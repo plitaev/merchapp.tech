@@ -119,7 +119,7 @@ class PayMakeSuccessful
         }
 
         $products = Product::where('id',$pay->product_id)->get();
-
+        /*
         foreach ($products as $product) {
             if (isset($product->external_id) && isset($product->external_api_url)) {
 
@@ -143,6 +143,7 @@ class PayMakeSuccessful
 
             }
         }
+        */
     }
 
 }
