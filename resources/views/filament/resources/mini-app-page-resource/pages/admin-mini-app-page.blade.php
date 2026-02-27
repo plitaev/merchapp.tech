@@ -12,7 +12,17 @@
         @if ($this->record > 0)
             <div class="fi-header fi-header-has-breadcrumbs">
                 <div>
-                    <h1 class="fi-header-heading">Видео</h1>
+                    <h1 class="fi-header-heading">
+
+                        @if ($this->mini_app_class_id == 1)
+                            Баннеры
+                        @endif
+
+                        @if ($this->mini_app_class_id == 2)
+                            Видео
+                        @endif
+
+                    </h1>
                 </div>
 
                 <div class="fi-header-actions-ctn">
