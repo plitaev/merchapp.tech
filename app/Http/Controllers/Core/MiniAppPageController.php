@@ -42,7 +42,7 @@ class MiniAppPageController
         }
     }
 
-    public function mini_app_player_page(int $id, int $messenger_user_id)
+    public function mini_app_player_page(int $id, int $messenger_user_id, string $back_page)
     {
         $mini_app_token = hash('sha256', microtime());
         $mini_app_token_expiration = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
@@ -99,11 +99,12 @@ class MiniAppPageController
         $timepoints = MiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
 
         return view('core.mini-app.mini-app-player-page', [
-            'os' => $os,
+            'back_page' => $back_page,
             'mini_app_token' => $mini_app_token,
+            'os' => $os,
+            'timepoints' => $timepoints,
             'tracks_edgecenter' => $tracks_edgecenter,
             'tracknames_edgecenter' => $tracknames_edgecenter,
-            'timepoints' => $timepoints,
             'video' => $video
         ]);
     }
