@@ -69,7 +69,7 @@ class ProdamusMakeRecurrent
         $responce = curl_exec($curl);
         curl_close($curl);
 
-        return $responce;
+        return $responce.'bbb';
 
         $responce_array = json_decode($responce, true);
 
