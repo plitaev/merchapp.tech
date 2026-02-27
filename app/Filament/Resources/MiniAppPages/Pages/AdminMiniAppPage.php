@@ -143,6 +143,16 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                                 'required' => 'Обязательно укажите ссылку на страницу',
                             ]),
                     ]),
+                Section::make('Ссылка для кнопки Назад')
+                    ->description('Введите URL, на который будет вести кнопка Назад. Если на данной странице кнопка Назад не нужна, оставьте это поле пустым.')
+                    ->schema([
+                        TextInput::make('back_button_url')
+                            ->label('Ссылка')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно укажите ссылку на страницу',
+                            ]),
+                    ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {

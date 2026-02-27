@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('mini_app_pages', function (Blueprint $table) {
-            $table->boolean('back_button')->after('url')->default(0);
             $table->text('back_button_url')->after('back_button')->nullable();
         });
     }

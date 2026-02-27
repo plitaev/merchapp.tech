@@ -9,7 +9,8 @@ class MiniAppPage extends Model
     protected $fillable = [
         'mini_app_id',
         'name',
-        'url'
+        'url',
+        'back_button_url'
     ];
 
     public function miniapp(): BelongsTo
