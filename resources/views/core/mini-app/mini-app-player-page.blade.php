@@ -48,18 +48,36 @@
 
                 @php $track_count = 0; @endphp
 
-                @foreach ($tracks_edgecenter as $track_edgecenter)
+                @if (!isset($video->other_hls_tracks))
+                    @foreach ($tracks_edgecenter as $track_edgecenter)
+                        @php
+                            $track_count = $track_count + 1;
+                            if (isset($tracknames_edgecenter[$track_count])) {
+                                $track_name = $tracknames_edgecenter[$track_count];
+                            } else {
+                                $track_name = 'HD';
+                            }
+                        @endphp
+
+                        <source src="{{env('EDGECENTER_CDN_VIDEO')}}/videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_name}}">
+                    @endforeach
+                @endif
+
+                @if (isset($video->other_hls_tracks))
+
                     @php
-                        $track_count = $track_count + 1;
-                        if (isset($tracknames_edgecenter[$track_count])) {
-                            $track_name = $tracknames_edgecenter[$track_count];
-                        } else {
-                            $track_name = 'HD';
-                        }
+                    $tracks_other = explode(',', $video->other_hls_tracks);
                     @endphp
 
-                    <source src="{{env('EDGECENTER_CDN_VIDEO')}}/videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_name}}">
-                @endforeach
+                    @foreach ($tracks_other as $track_other)
+                        @php
+                            $track_count = $track_count + 1;
+                        @endphp
+
+                        <source src="{{env('EDGECENTER_CDN_VIDEO')}}/videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_name}}">
+                    @endforeach
+                @endif
+
             </video-js>
 
             @if ($os == "Android" || $os == "MacOS")

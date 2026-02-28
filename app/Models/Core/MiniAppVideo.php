@@ -21,6 +21,7 @@ class MiniAppVideo extends Model
         'edgecenter_screenshot_url',
         'edgecenter_hls_url',
         'edgecenter_views',
+        'other_hls_video_id',
         'other_hls_tracks'
     ];
 }
