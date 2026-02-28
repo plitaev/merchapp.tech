@@ -66,15 +66,23 @@
                 @if (isset($video->other_hls_tracks))
 
                     @php
-                    $tracks_other = explode(',', $video->other_hls_tracks);
+                        $track_count = 0;
+                        $tracks_other = explode(',', $video->other_hls_tracks);
+                        $tracknames = explode(',', $video->other_hls_track_names);
                     @endphp
 
                     @foreach ($tracks_other as $track_other)
                         @php
-                            $track_count = $track_count + 1;
+                             if (isset($tracknames_edgecenter[$track_count])) {
+                                $track_name = $tracknames_edgecenter[$track_count];
+                            } else {
+                                $track_name = 'HD';
+                            }
+
+                             $track_count = $track_count + 1;
                         @endphp
 
-                        <source src="{{env('OTHER_HLS_TRACK_URL')}}/{{$video->other_hls_video_id}}/{{$track_other}}" type="application/x-mpegURL" label="{{$track_other}}">
+                        <source src="{{env('OTHER_HLS_TRACK_URL')}}/{{$video->other_hls_video_id}}/{{$track_other}}" type="application/x-mpegURL" label="{{$track_name}}">
                     @endforeach
                 @endif
 
