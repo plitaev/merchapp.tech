@@ -67,7 +67,7 @@ class MiniAppPageController
 
         $video = MiniAppVideo::find($id);
 
-        if (isset($video->edgecenter_hls_url)) {
+        if ($video->edgecenter_hls_url) {
             $master = file_get_contents($video->edgecenter_hls_url);
             $Amaster = explode(PHP_EOL, $master);
         } else {
