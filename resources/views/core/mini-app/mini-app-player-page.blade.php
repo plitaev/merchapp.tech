@@ -73,13 +73,13 @@
 
                     @foreach ($tracks_other as $track_other)
                         @php
-                             if (isset($tracknames_edgecenter[$track_count])) {
-                                $track_name = $tracknames_edgecenter[$track_count];
-                            } else {
-                                $track_name = 'HD';
-                            }
+                            $track_count = $track_count + 1;
 
-                             $track_count = $track_count + 1;
+                                 if (isset($tracknames_edgecenter[$track_count])) {
+                                    $track_name = $tracknames_edgecenter[$track_count];
+                                } else {
+                                    $track_name = 'HD';
+                                }
                         @endphp
 
                         <source src="{{env('OTHER_HLS_TRACK_URL')}}/{{$video->other_hls_video_id}}/{{$track_other}}" type="application/x-mpegURL" label="{{$track_name}}">
