@@ -74,7 +74,7 @@
                             $track_count = $track_count + 1;
                         @endphp
 
-                        <source src="{{env('EDGECENTER_CDN_VIDEO')}}/videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_name}}">
+                        <source src="{{env('OTHER_HLS_TRACK_URL')}}/{{$video->other_hls_video_id}}/{{$track_other}}" type="application/x-mpegURL" label="{{$track_other}}">
                     @endforeach
                 @endif
 
