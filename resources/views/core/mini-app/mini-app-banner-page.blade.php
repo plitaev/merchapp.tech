@@ -30,7 +30,7 @@
 
             app.BackButton.show();
             app.BackButton.onClick(function() {
-                window.location.href="{{$mini_app_page->back_button_url}}";
+                window.location.href="{{$mini_app_page->back_button_url}}?telegram_chat_id="+id;
             });
 
             @else
