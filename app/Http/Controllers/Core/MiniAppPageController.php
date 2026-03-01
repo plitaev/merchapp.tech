@@ -39,8 +39,8 @@ class MiniAppPageController
         if ($mini_app_page->miniapp->class_id == 2) {
 
             if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 2) {
-                if (!$bot_user) return view('core.mini-app.access_denied');
-                if ($bot_user->date_end < date('Y-m-d', time())) return view('core.mini-app.access_denied');
+                if (!$bot_user) return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
+                if ($bot_user->date_end < date('Y-m-d', time())) return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
             }
 
             $video_ids = MiniAppVideoLinkPage::select('mini_app_video_id')->where('mini_app_page_id', $mini_app_page->id)->pluck('mini_app_video_id')->toArray();
