@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('mini_app_pages', function (Blueprint $table) {
-            $table->unsignedBigInteger('mini_app_page_right_id', 255)->after('url')->nullable();
+            //$table->unsignedBigInteger('mini_app_page_right_id', 255)->after('url')->nullable();
         });
     }
 
