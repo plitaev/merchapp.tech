@@ -30,19 +30,11 @@ use App\Models\Core\TelegramBanScheduleLogs;
 class DevTestController extends Controller
 {
     public function devtest() {
-
-        $telegram = new Api("7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY");
-
-        return $telegram->unbanChatMember(['chat_id' => -1002225281436, 'user_id' => 1813661015, 'only_if_banned' => true]);
-
-        $botSupergroupsAll = new BotSupergroupsAll();
-        $botUserUnban = new BotUserUnban();
-
-        $bot_user = BotUser::find(23703);
-
-        $supergroups = $botSupergroupsAll->handle();
-        return $botUserUnban->handle($bot_user, $supergroups, $telegram);
-
+        $date_end = new DateEnd();
+        $bot_users = BotUser::where('bot_id', 6)->get();
+        foreach ($bot_users as $bot_user) {
+            $date_end->handle($bot_user, 'Y-m-d');
+        }
     }
 
 }
