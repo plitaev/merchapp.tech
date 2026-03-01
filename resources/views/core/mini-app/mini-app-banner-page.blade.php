@@ -16,12 +16,13 @@
     <script>
         window.onload = function() {
             let app = window.Telegram.WebApp;
+            let id = app.initDataUnsafe.user.id;
 
             const items = document.querySelectorAll(".ref-to-banner");
 
             items.forEach(item => {
                 var old_ref = item.getAttribute('href');
-                var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
+                var new_ref = old_ref+"?=telegram_chat_id="+id;
                 item.setAttribute('href', new_ref);
             });
 
