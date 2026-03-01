@@ -15,7 +15,7 @@ use App\Models\Core\MiniAppVideoTimePoint;
 
 class MiniAppPageController
 {
-    public function mini_app_banner_page(int $messenger_user_id)
+    public function mini_app_banner_page()
     {
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
         $miniAppPageGetByURL = new MiniAppPageGetByURL();
