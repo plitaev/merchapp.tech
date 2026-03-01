@@ -10,6 +10,7 @@ class MiniAppPage extends Model
         'mini_app_id',
         'name',
         'url',
+        'mini_app_page_access_id',
         'back_button_url'
     ];
 
