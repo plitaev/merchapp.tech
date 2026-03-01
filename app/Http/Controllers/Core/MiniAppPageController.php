@@ -33,6 +33,8 @@ class MiniAppPageController
 
         if ($mini_app_page->miniapp->class_id == 2) {
 
+            return $_GET['telegram_chat_id'];
+
             if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 2) {
                 $mini_app = MiniApp::select('bot_id')->find($mini_app_page->mini_app_id);
             }
