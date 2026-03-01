@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Core;
 
+use App\Models\Core\MiniApp;
 use Carbon\Carbon;
 
 use App\Actions\Core\MiniAppBanner\MiniAppBannerListByClassID;
@@ -14,7 +15,7 @@ use App\Models\Core\MiniAppVideoTimePoint;
 
 class MiniAppPageController
 {
-    public function mini_app_banner_page()
+    public function mini_app_banner_page(int $messenger_user_id)
     {
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
         $miniAppPageGetByURL = new MiniAppPageGetByURL();
@@ -31,6 +32,11 @@ class MiniAppPageController
         }
 
         if ($mini_app_page->miniapp->class_id == 2) {
+
+            if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 2) {
+                $mini_app = MiniApp::select('bot_id')->find($mini_app_page->mini_app_id);
+            }
+
             $video_ids = MiniAppVideoLinkPage::select('mini_app_video_id')->where('mini_app_page_id', $mini_app_page->id)->pluck('mini_app_video_id')->toArray();
             $videos = MiniAppVideo::whereIn('id', $video_ids)->get();
 

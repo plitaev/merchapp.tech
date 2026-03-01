@@ -10,6 +10,6 @@ class MiniAppPageGetByURL
         $url = $_SERVER['REQUEST_URI'];
         $url = str_replace('/', '', $url);
 
-        return MiniAppPage::with('miniapp:id,class_id')->select('id', 'mini_app_id', 'url', 'back_button_url')->where('url', $url)->first();
+        return MiniAppPage::with('miniapp:id,class_id')->select('id', 'mini_app_id', 'url', 'mini_app_page_access_id', 'back_button_url')->where('url', $url)->first();
     }
 }
