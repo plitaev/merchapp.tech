@@ -22,6 +22,9 @@ class MiniAppPageController
 
         $mini_app_page = $miniAppPageGetByURL->handle();
 
+        $mini_app = MiniApp::select('bot_id')->find($mini_app_page->mini_app_id);
+        $bot_user = BotUser::select('date_start', 'date_end')->where('telegram_chat_id', $_GET['telegram_chat_id'])->where('bot_id', $mini_app->bot_id)->first();
+
         if ($mini_app_page->miniapp->class_id == 1) {
             return view('core.mini-app.mini-app-banner-page', [
                 'banners_big' => $miniAppBannerListByClassID->handle($mini_app_page->id, 1),
@@ -34,11 +37,19 @@ class MiniAppPageController
         if ($mini_app_page->miniapp->class_id == 2) {
 
             if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 2) {
-                $mini_app = MiniApp::select('bot_id')->find($mini_app_page->mini_app_id);
+                if (!$bot_user) return view('core.mini-app.access_denied');
+                if ($bot_user->date_end < date('Y-m-d', now())) return view('core.mini-app.access_denied');
             }
 
             $video_ids = MiniAppVideoLinkPage::select('mini_app_video_id')->where('mini_app_page_id', $mini_app_page->id)->pluck('mini_app_video_id')->toArray();
             $videos = MiniAppVideo::whereIn('id', $video_ids)->get();
+
+            if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 1) {
+                $videos = MiniAppVideo::whereIn('id', $video_ids)
+                    ->where('date_open', '>=', $bot_user->date_start)
+                    ->where('date_open', '<=', $bot_user->date_end)
+                    ->get();
+            }
 
             return view('core.mini-app.mini-app-video-list-page', [
                 'mini_app_page' => $mini_app_page,
