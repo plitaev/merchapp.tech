@@ -4,6 +4,7 @@ namespace App\Filament\Resources\MiniAppPages\Pages;
 
 use App\Filament\Resources\MiniAppPages\MiniAppPageResource;
 
+use App\Models\Core\MiniAppPageAccess;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -116,11 +117,22 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
         return $schema
             ->components([
                 Section::make('Мини-приложение')
+                    ->columns([
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
                     ->schema([
                         Select::make('mini_app_id')
                             ->label('Страница опубликована в приложении')
                             ->required()
                             ->options(MiniApp::all()->pluck('name', 'id'))
+                            ->searchable(),
+                        Select::make('mini_app_page_access_id')
+                            ->label('Режим доступа')
+                            ->options(MiniAppPageAccess::all()->pluck('name', 'id'))
                             ->searchable(),
                     ]),
                 Section::make('Название страницы')
