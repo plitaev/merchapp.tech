@@ -22,8 +22,10 @@ class MiniAppPageController
 
         $mini_app_page = $miniAppPageGetByURL->handle();
 
+        $telegram_chat_id = (isset($_GET['telegram_chat_id'])?$_GET['telegram_chat_id']:0);
+
         $mini_app = MiniApp::select('bot_id')->find($mini_app_page->mini_app_id);
-        $bot_user = BotUser::select('date_start', 'date_end')->where('telegram_chat_id', $_GET['telegram_chat_id'])->where('bot_id', $mini_app->bot_id)->first();
+        $bot_user = BotUser::select('date_start', 'date_end')->where('telegram_chat_id', $telegram_chat_id)->where('bot_id', $mini_app->bot_id)->first();
 
         if ($mini_app_page->miniapp->class_id == 1) {
             return view('core.mini-app.mini-app-banner-page', [
