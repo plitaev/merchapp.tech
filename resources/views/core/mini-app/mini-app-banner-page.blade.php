@@ -22,7 +22,7 @@
 
             items.forEach(item => {
                 var old_ref = item.getAttribute('href');
-                var new_ref = old_ref+"?=telegram_chat_id="+id;
+                var new_ref = old_ref+"?telegram_chat_id="+id;
                 item.setAttribute('href', new_ref);
             });
 
