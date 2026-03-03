@@ -43,14 +43,17 @@ class DevTestController extends Controller
 
         $bot_users = BotUser::whereNull('date_start')->where('date_end', '>=','2026-03-03')->get();
         $A = [];
+        $AA = [];
         foreach ($bot_users as $bot_user) {
             $pays = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->get();
             if (count($pays) == 1) {
                 $A[] = $bot_user->id;
+            } else {
+                $AA[] = $bot_user->id;
             }
         }
 
-        return $A;
+        return $AA;
     }
 
 }
