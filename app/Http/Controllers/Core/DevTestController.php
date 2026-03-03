@@ -47,10 +47,16 @@ class DevTestController extends Controller
         foreach ($bot_users as $bot_user) {
             $pays = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->get();
             if (count($pays) == 1) {
-                $A[] = $bot_user->id;
+                $firstpay = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->first();
             } else {
-                $AA[] = $bot_user->id;
+                $firstpay = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->where('created_at', '>=', $bot_user->ban_datetime)->orderBy('created_at')->first();
             }
+
+            if ($firstpay) {
+                $date = Carbon::parse($firstpay->created_at)->format('Y-m-d');
+                BotUser::where('id', $bot_user->id)->whereNull('date_start')->update(['date_start' => $date]);
+            }
+
         }
 
         return $AA;
