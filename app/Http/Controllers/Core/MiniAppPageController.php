@@ -25,7 +25,7 @@ class MiniAppPageController
         $telegram_chat_id = (isset($_GET['telegram_chat_id'])?$_GET['telegram_chat_id']:0);
 
         $mini_app = MiniApp::select('bot_id')->find($mini_app_page->mini_app_id);
-        $bot_user = BotUser::select('date_start', 'date_end')->where('telegram_chat_id', $telegram_chat_id)->where('bot_id', $mini_app->bot_id)->first();
+        $bot_user = BotUser::select('date_start', 'date_end', 'access_bonus')->where('telegram_chat_id', $telegram_chat_id)->where('bot_id', $mini_app->bot_id)->first();
 
         if ($mini_app_page->miniapp->class_id == 1) {
             return view('core.mini-app.mini-app-banner-page', [
@@ -51,6 +51,10 @@ class MiniAppPageController
                     ->where('date_open', '>=', $bot_user->date_start)
                     ->where('date_open', '<=', $bot_user->date_end)
                     ->get();
+            }
+
+            if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 3) {
+                if ($bot_user->access_bonus == "member") return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
             }
 
             return view('core.mini-app.mini-app-video-list-page', [
