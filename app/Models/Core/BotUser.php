@@ -55,7 +55,8 @@ class BotUser extends Model
         'time_zone_name',
         'mini_app_token',
         'mini_app_token_expiration',
-        'run_status'
+        'run_status',
+        'access_bonus'
     ];
 
 

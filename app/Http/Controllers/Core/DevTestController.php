@@ -30,16 +30,13 @@ use App\Models\Core\TelegramBanScheduleLogs;
 class DevTestController extends Controller
 {
     public function devtest() {
-        /*
-        $bot_users = BotUser::where('bot_id', 5)->get();
+        $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
+
+        $bot_users = BotUser::where('run_status', 0)->get();
         foreach ($bot_users as $bot_user) {
-            BotUserBanSchedule::create([
-                'bot_user_id' => $bot_user->id,
-                'run_status' => 0,
-                'ban_datetime' => '2026-03-03 08:00:00'
-            ]);
+            $member = $telegram->getChatMember(['user_id' => $bot_user->telegram_chat_id, 'chat_id' => -1002602171099]);
+            BotUser::where('id', $bot_user->id)->update(['access_bonus' => $member->status, 'run_status' => 1]);
         }
-        */
     }
 
 }
