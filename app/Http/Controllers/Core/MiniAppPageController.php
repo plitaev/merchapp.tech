@@ -39,6 +39,7 @@ class MiniAppPageController
         if ($mini_app_page->miniapp->class_id == 2) {
 
             if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 2) {
+                return $bot_user;
                 if (!$bot_user) return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
                 if ($bot_user->date_end < date('Y-m-d', time())) return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
             }
