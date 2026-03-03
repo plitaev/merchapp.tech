@@ -57,7 +57,6 @@ class MiniAppPageController
             }
 
             if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 3) {
-                return $bot_user->access_bonus;
                 if ($bot_user->access_bonus != "member") return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
             }
 
