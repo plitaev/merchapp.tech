@@ -49,7 +49,7 @@ class DevTestController extends Controller
             if (count($pays) == 1) {
                 $firstpay = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->first();
             } else {
-                $firstpay = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->where('created_at', '>=', $bot_user->ban_datetime)->orderBy('created_at')->first();
+                $firstpay = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->where('created_at', '>=', $bot_user->ban_time)->orderBy('created_at')->first();
             }
 
             if ($firstpay) {
