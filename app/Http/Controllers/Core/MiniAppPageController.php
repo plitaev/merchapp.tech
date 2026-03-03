@@ -47,6 +47,9 @@ class MiniAppPageController
             $videos = MiniAppVideo::whereIn('id', $video_ids)->get();
 
             if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 1) {
+
+                if (!isset($bot_user->date_start) && !isset($bot_user->date_end)) return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
+
                 $videos = MiniAppVideo::whereIn('id', $video_ids)
                     ->where('date_open', '>=', $bot_user->date_start)
                     ->where('date_open', '<=', $bot_user->date_end)
