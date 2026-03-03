@@ -34,8 +34,9 @@ class DevTestController extends Controller
 
         $bot_users = BotUser::where('run_status', 0)->skip(0)->take(5)->get();
         foreach ($bot_users as $bot_user) {
+            BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
             $member = $telegram->getChatMember(['user_id' => $bot_user->telegram_chat_id, 'chat_id' => -1002602171099]);
-            BotUser::where('id', $bot_user->id)->update(['access_bonus' => $member->status, 'run_status' => 1]);
+            BotUser::where('id', $bot_user->id)->update(['access_bonus' => $member->status]);
         }
     }
 
