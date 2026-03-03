@@ -54,7 +54,7 @@ class MiniAppPageController
             }
 
             if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 3) {
-                if ($bot_user->access_bonus == "member") return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
+                if ($bot_user->access_bonus != "member") return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
             }
 
             return view('core.mini-app.mini-app-video-list-page', [
