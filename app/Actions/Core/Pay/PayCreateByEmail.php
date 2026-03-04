@@ -44,6 +44,8 @@ class PayCreateByEmail
 
             $bot_user = BotUser::find($bot_user->id);
 
+            BotUser::where('id', $bot_user->id)->whereNull('date_start')->update(['date_start' => date('Y-m-d', time())]);
+
             $botUserPriceSet->handle($bot_user);
 
             //== Завершаем ветку по покупке продукта
