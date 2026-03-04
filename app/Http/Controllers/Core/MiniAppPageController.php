@@ -22,6 +22,8 @@ class MiniAppPageController
 
         $mini_app_page = $miniAppPageGetByURL->handle();
 
+        return $mini_app_page;
+
         $telegram_chat_id = (isset($_GET['telegram_chat_id'])?$_GET['telegram_chat_id']:0);
 
         $mini_app = MiniApp::select('bot_id')->find($mini_app_page->mini_app_id);
