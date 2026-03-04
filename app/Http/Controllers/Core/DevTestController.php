@@ -41,7 +41,7 @@ class DevTestController extends Controller
         }
         */
 
-        $bot_users = BotUser::whereNull('date_start')->where('date_end', '>=','2026-03-03')->get();
+        $bot_users = BotUser::whereNull('date_start')->where('date_end', '>=','2026-03-04')->get();
         $A = [];
         $AA = [];
         foreach ($bot_users as $bot_user) {
