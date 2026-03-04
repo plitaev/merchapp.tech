@@ -30,18 +30,9 @@ use App\Models\Core\TelegramBanScheduleLogs;
 class DevTestController extends Controller
 {
     public function devtest() {
-
-        $telegram = new Api('8390541462:AAFMr9UOCIKFnBuaUVfYzY1bYnbSplUgmTw');
-
-        $bot_users = BotUser::where('bot_id', 5)->orderByDesc('id')->take(1)->get();
-        foreach ($bot_users as $bot_user) {
-            try {
-                $telegram->banChatMember(['user_id' => $bot_user->telegram_chat_id, 'chat_id' => -1003693980359]);
-            } catch (\Exception $e) {}
-        }
-
-        /*
         $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
+
+        BotUser::where('bot_id', 5)->update(['date_end' => '2026-03-04']);
 
         $bot_users = BotUser::where('run_status', 0)->skip(0)->take(5)->get();
         foreach ($bot_users as $bot_user) {
@@ -49,7 +40,7 @@ class DevTestController extends Controller
             $member = $telegram->getChatMember(['user_id' => $bot_user->telegram_chat_id, 'chat_id' => -1002602171099]);
             BotUser::where('id', $bot_user->id)->update(['access_bonus' => $member->status]);
         }
-        */
+
         /*
         $bot_users = BotUser::whereNull('date_start')->where('date_end', '>=','2026-03-04')->get();
         $A = [];
