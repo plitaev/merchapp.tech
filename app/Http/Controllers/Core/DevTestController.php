@@ -33,7 +33,7 @@ class DevTestController extends Controller
 
         $telegram = new Api('8390541462:AAFMr9UOCIKFnBuaUVfYzY1bYnbSplUgmTw');
 
-        $bot_users = BotUser::where('bot_id', 5)->take(1)->get();
+        $bot_users = BotUser::where('bot_id', 5)->orderByDesc('id')->take(1)->get();
         foreach ($bot_users as $bot_user) {
             return $telegram->banChatMember(['user_id' => $bot_user->telegram_chat_id, 'chat_id' => -1003693980359]);
         }
