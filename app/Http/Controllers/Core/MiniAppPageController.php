@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Core;
 
+use App\Models\Core\Bot;
 use App\Models\Core\MiniApp;
 use Carbon\Carbon;
 
@@ -43,7 +44,11 @@ class MiniAppPageController
 
         if ($mini_app_page->miniapp->class_id == 2) {
 
-            if (!$bot_user) return view('project.app2.need_buy', ['bot' => $bot_user->bot, 'mini_app_page' => $mini_app_page]);
+            if (!$bot_user) {
+                $bot = Bot::find($mini_app->bot_id);
+                return view('project.app2.need_buy', ['bot' => $bot, 'mini_app_page' => $mini_app_page]);
+            }
+
             if (!$bot_user->date_end) return view('project.app2.need_buy', ['bot' => $bot_user->bot, 'mini_app_page' => $mini_app_page]);
 
             if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 1) {
