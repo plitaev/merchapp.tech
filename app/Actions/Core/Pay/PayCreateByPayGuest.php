@@ -19,8 +19,17 @@ class PayCreateByPayGuest
 
         $products = Product::select('id')->where('bot_id', $bot_user->bot_id)->pluck('id')->toArray();
 
-        $res = PayGuest::whereIn('product_id', $products)->where('email', $email)->where('status', 0)->get();
+        $res = PayGuest::whereIn('product_id', $products)->where('email', $email)->where('status', 0)->orderBy('created-at')->get();
+
+        $count = 0;
+
         foreach ($res as $data) {
+
+            $count = $count + 1;
+            if ($count == 1) {
+                BotUser::where('id', $bot_user->id)->whereNull('date_start')->update(['date_start' => date('Y-m-d', strtotime($data->created_at))]);
+            }
+
             Pay::insert(
                 [
                     'product_id' => $data->product_id,
