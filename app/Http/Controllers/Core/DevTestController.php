@@ -30,7 +30,7 @@ use App\Models\Core\TelegramBanScheduleLogs;
 class DevTestController extends Controller
 {
     public function devtest() {
-
+        /*
         BotUser::where('bot_id', 5)->update(['date_end' => '2026-03-04']);
 
         $bot_users = BotUser::where('bot_id', 5)->get();
@@ -41,7 +41,7 @@ class DevTestController extends Controller
                 'ban_datetime' => '2026-03-04 10:00:00',
             ]);
         }
-
+        */
         /*
         $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
 
