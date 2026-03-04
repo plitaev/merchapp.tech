@@ -19,7 +19,7 @@ class PayCreateByPayGuest
 
         $products = Product::select('id')->where('bot_id', $bot_user->bot_id)->pluck('id')->toArray();
 
-        $res = PayGuest::whereIn('product_id', $products)->where('email', $email)->where('status', 0)->orderBy('created-at')->get();
+        $res = PayGuest::whereIn('product_id', $products)->where('email', $email)->where('status', 0)->orderBy('created_at')->get();
 
         $count = 0;
 
