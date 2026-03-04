@@ -31,13 +31,11 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $bot_users = BotUser::where('bot_id', 5)->get();
+        $telegram = new Api('8390541462:AAFMr9UOCIKFnBuaUVfYzY1bYnbSplUgmTw');
+
+        $bot_users = BotUser::where('bot_id', 5)->take(1)->get();
         foreach ($bot_users as $bot_user) {
-            BotUserBanSchedule::create([
-                'bot_user_id' => $bot_user->id,
-                'run_status' => 0,
-                'ban_datetime' => '2026-03-04 08:00:00',
-            ]);
+            return $telegram->banChatMember(['user_id' => $bot_user->telegram_chat_id, 'chat_id' => -1003693980359]);
         }
 
         /*
