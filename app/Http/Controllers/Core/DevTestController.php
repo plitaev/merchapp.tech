@@ -35,7 +35,9 @@ class DevTestController extends Controller
 
         $bot_users = BotUser::where('bot_id', 5)->orderByDesc('id')->take(1)->get();
         foreach ($bot_users as $bot_user) {
-            return $telegram->banChatMember(['user_id' => $bot_user->telegram_chat_id, 'chat_id' => -1003693980359]);
+            try {
+                $telegram->banChatMember(['user_id' => $bot_user->telegram_chat_id, 'chat_id' => -1003693980359]);
+            } catch (\Exception $e) {}
         }
 
         /*
