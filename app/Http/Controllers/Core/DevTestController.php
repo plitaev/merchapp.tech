@@ -33,12 +33,12 @@ class DevTestController extends Controller
 
         BotUser::where('bot_id', 5)->update(['date_end' => '2026-03-04']);
 
-        $bot_users = BotUser::where('bot_id', 5)->take(1)->get();
+        $bot_users = BotUser::where('bot_id', 5)->get();
         foreach ($bot_users as $bot_user) {
             BotUserBanSchedule::create([
                 'bot_user_id' => $bot_user->id,
                 'run_status' => 0,
-                'ban_datetime' => '2026-03-04 09:00:00',
+                'ban_datetime' => '2026-03-04 10:00:00',
             ]);
         }
 
