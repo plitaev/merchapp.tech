@@ -241,7 +241,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                     ->schema([
                         Select::make('funnel_id')
                             ->label('Воронка')
-                            ->options(Funnel::all()->pluck('name', 'id'))
+                            ->options(Funnel::where('bot_id', $this->bot_id)->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->live(),
