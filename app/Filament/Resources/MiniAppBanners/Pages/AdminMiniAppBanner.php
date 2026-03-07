@@ -252,7 +252,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                             ->label('Страница')
                             ->required()
                             ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                            ->options(MiniAppPage::where($this->mini_app_page_id)->where('mini_app_page_id', $this->mini_app_page_id)->pluck('name', 'id'))
+                            ->options(MiniAppPage::where('mini_app_page_id', $this->mini_app_page_id)->pluck('name', 'id'))
                             ->searchable()
                             ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2])
                     ),
