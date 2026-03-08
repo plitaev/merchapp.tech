@@ -47,7 +47,7 @@ class MiniAppPageController
         if ($mini_app_page->miniapp->class_id == 2) {
 
             $access = $miniAppVideoCheckAccess->handle($bot_user, $mini_app, $mini_app_page);
-            if ($access != 1) return $access;
+            if ($access) return $access;
 
             $video_ids = MiniAppVideoLinkPage::select('mini_app_video_id')->where('mini_app_page_id', $mini_app_page->id)->pluck('mini_app_video_id')->toArray();
             $videos = MiniAppVideo::whereIn('id', $video_ids)->get();

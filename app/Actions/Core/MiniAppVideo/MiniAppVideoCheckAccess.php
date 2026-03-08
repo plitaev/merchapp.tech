@@ -8,7 +8,6 @@ use App\Models\Core\MiniAppVideo;
 class MiniAppVideoCheckAccess
 {
     public function handle($bot_user, $mini_app, $mini_app_page) {
-
         if (!$bot_user) {
             $bot = Bot::find($mini_app->bot_id);
             return view('project.app2.need_buy', ['bot' => $bot, 'mini_app_page' => $mini_app_page]);
@@ -29,6 +28,6 @@ class MiniAppVideoCheckAccess
             if ($bot_user->access_bonus != "member") return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
         }
 
-        return 1;
+        return NULL;
     }
 }
