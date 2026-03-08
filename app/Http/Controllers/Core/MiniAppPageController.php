@@ -40,11 +40,19 @@ class MiniAppPageController
             ->where('bot_id', $mini_app->bot_id)
             ->first();
 
+        $banners_big = $miniAppBannerListByClassID->handle($mini_app_page->id, 1);
+        $banners_medium = $miniAppBannerListByClassID->handle($mini_app_page->id, 2);
+        $banners_small = $miniAppBannerListByClassID->handle($mini_app_page->id, 3);
+
+        if (count($banners_big) == 0 && count($banners_medium) == 0 && count($banners_small) == 0) {
+            return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
+        }
+
         if ($mini_app_page->miniapp->class_id == 1) {
             return view('core.mini-app.mini-app-banner-page', [
-                'banners_big' => $miniAppBannerListByClassID->handle($mini_app_page->id, 1),
-                'banners_medium' => $miniAppBannerListByClassID->handle($mini_app_page->id, 2),
-                'banners_small' => $miniAppBannerListByClassID->handle($mini_app_page->id, 3),
+                'banners_big' => $banners_big,
+                'banners_medium' => $banners_medium,
+                'banners_small' => $banners_small,
                 'mini_app_page' => $mini_app_page
             ]);
         }
