@@ -15,6 +15,7 @@ use Filament\Actions\DeleteBulkAction;
 use App\Actions\Core\MiniAppBanner\MiniAppBannerBuildPosList;
 use App\Actions\Core\MiniAppBanner\MiniAppBannerSave;
 use App\Filament\Resources\MiniAppPages\MiniAppPageResource;
+use App\Models\Core\MiniApp;
 use App\Models\Core\MiniAppBanner;
 use App\Models\Core\MiniAppBannerClass;
 use App\Models\Core\MiniAppBannerLinkPage;
@@ -60,6 +61,8 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
     public string $name;
     public $pos_list;
 
+    public ?array $video_pages_on_this_bot = [];
+
     public function getRecord(): ?Model
     {
         return MiniAppPage::class;
@@ -79,22 +82,39 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
     {
         if (auth()->user()->hasPermissionTo('Update:MiniAppBanner')) {
 
+            $mini_app_page = MiniAppPage::with('mini_app:id,bot_id')->select('id', 'mini_app_id')->find($mini_app_page_id);
+
+            if ($mini_app_page) {
+
+                $mini_apps_video = MiniApp::select('id')->where('bot_id', $mini_app_page->mini_app->bot_id)->where('class_id', 2)->pluck('id')->toArray();
+
+                if (count($mini_apps_video) > 0) {
+
+                    $mini_apps_video_pages = MiniAppPage::select('id')->whereIn('mini_app_id', $mini_apps_video)->pluck('id')->toArray();
+
+                    if (count($mini_apps_video_pages) > 0) {
+                        $this->video_pages_on_this_bot = $mini_apps_video_pages;
+                    }
+
+                }
+
+            }
+
+
             $this->mini_app_page_id = $mini_app_page_id;
-        $this->banner_id = $banner_id;
+            $this->banner_id = $banner_id;
 
-        $this->pos_list = (new MiniAppBannerBuildPosList())->handle($mini_app_page_id, $banner_id);
+            $this->pos_list = (new MiniAppBannerBuildPosList())->handle($mini_app_page_id, $banner_id);
 
-        $data = ($banner_id>0?MiniAppBanner::find($banner_id)->toArray():['id' => 0, 'mini_app_page_id' => $mini_app_page_id, 'pos' => $this->pos_list[1], 'button_text' => 'Смотреть', 'button_bg_color' => '#9ca3af', 'button_text_color' => '#ffffff']);
-        $this->name = ($this->banner_id > 0?$data['name']:'Новый баннер');
+            $data = ($banner_id>0?MiniAppBanner::find($banner_id)->toArray():['id' => 0, 'mini_app_page_id' => $mini_app_page_id, 'pos' => $this->pos_list[1], 'button_text' => 'Смотреть', 'button_bg_color' => '#9ca3af', 'button_text_color' => '#ffffff']);
 
-        $this->form->fill($data);
+            $this->name = ($this->banner_id > 0?$data['name']:'Новый баннер');
+            $this->form->fill($data);
 
-        $this->form_banner_link_page->fill([]);
-
-    }else{
-        redirect('/admin/bots/access');
-    }
-
+            $this->form_banner_link_page->fill([]);
+        } else {
+            redirect('/admin/bots/access');
+        }
     }
 
     protected function getForms(): array
@@ -252,7 +272,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                             ->label('Страница')
                             ->required()
                             ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                            ->options(MiniAppPage::where('mini_app_page_id', $this->mini_app_page_id)->pluck('name', 'id'))
+                            ->options(MiniAppPage::where('id', $this->mini_apps_video_pages)->pluck('name', 'id'))
                             ->searchable()
                             ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2])
                     ),
