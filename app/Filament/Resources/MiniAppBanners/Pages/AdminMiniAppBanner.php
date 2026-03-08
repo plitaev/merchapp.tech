@@ -90,7 +90,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                 $mini_apps_video = MiniApp::select('id')->where('bot_id', $mini_app_page->miniapp->bot_id)->where('class_id', 2)->pluck('id')->toArray();
 
                 Notification::make()
-                    ->title('Данные успешно сохранены!')
+                    ->title($mini_apps_video)
                     ->success()
                     ->send();
 
