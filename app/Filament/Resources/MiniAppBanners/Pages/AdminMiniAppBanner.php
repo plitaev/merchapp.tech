@@ -82,11 +82,11 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
     {
         if (auth()->user()->hasPermissionTo('Update:MiniAppBanner')) {
 
-            $mini_app_page = MiniAppPage::with('mini_app:id,bot_id')->select('id', 'mini_app_id')->find($mini_app_page_id);
+            $mini_app_page = MiniAppPage::with('miniapp:id,bot_id')->select('id', 'mini_app_id')->find($mini_app_page_id);
 
             if ($mini_app_page) {
 
-                $mini_apps_video = MiniApp::select('id')->where('bot_id', $mini_app_page->mini_app->bot_id)->where('class_id', 2)->pluck('id')->toArray();
+                $mini_apps_video = MiniApp::select('id')->where('bot_id', $mini_app_page->miniapp->bot_id)->where('class_id', 2)->pluck('id')->toArray();
 
                 if (count($mini_apps_video) > 0) {
 
