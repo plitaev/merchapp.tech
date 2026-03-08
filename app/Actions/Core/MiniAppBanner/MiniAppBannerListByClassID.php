@@ -22,6 +22,8 @@ class MiniAppBannerListByClassID
             ->orderBy('pos')
             ->get();
 
+        return $banners;
+
         $result = [];
 
         foreach ($banners as $banner) {
@@ -56,7 +58,7 @@ class MiniAppBannerListByClassID
                     ->first();
 
                 $restrict_access = $miniAppVideoCheckAccess->handle($bot_user, $banner->miniapp, $banner->miniapp_page);
-                //if (!$restrict_access) $result[] = $banner;
+                if (!$restrict_access) $result[] = $banner;
 
             } else {
                 $result[] = $banner;
