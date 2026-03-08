@@ -219,7 +219,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                         '2xl' => 2,
                     ])
                     ->schema([
-                        Select::make('mini_app_page_id')
+                        Select::make('mini_app_page_with_video_id')
                             ->label('Страница')
                             ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->options(MiniAppPage::whereIn('id', $this->video_pages_on_this_bot)->pluck('name', 'id'))
