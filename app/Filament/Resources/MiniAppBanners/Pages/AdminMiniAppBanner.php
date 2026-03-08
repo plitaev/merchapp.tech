@@ -272,7 +272,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                             ->label('Страница')
                             ->required()
                             ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                            ->options(MiniAppPage::where('id', $this->mini_apps_video_pages)->pluck('name', 'id'))
+                            ->options(MiniAppPage::where('id', $this->video_pages_on_this_bot)->pluck('name', 'id'))
                             ->searchable()
                             ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2]),
                         Toggle::make('mini_app_page_with_video_show_banner')
