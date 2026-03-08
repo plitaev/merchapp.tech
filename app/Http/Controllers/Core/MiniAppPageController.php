@@ -40,8 +40,6 @@ class MiniAppPageController
             ->where('bot_id', $mini_app->bot_id)
             ->first();
 
-        return $miniAppBannerListByClassID->handle($mini_app_page->id, 1);
-
         if ($mini_app_page->miniapp->class_id == 1) {
             return view('core.mini-app.mini-app-banner-page', [
                 'banners_big' => $miniAppBannerListByClassID->handle($mini_app_page->id, 1),
