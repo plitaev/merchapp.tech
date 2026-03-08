@@ -19,4 +19,6 @@
             app.ready();
         };
     </script>
+
+    fff
 @endsection
