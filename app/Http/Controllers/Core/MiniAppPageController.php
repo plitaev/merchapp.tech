@@ -44,12 +44,12 @@ class MiniAppPageController
         $banners_medium = $miniAppBannerListByClassID->handle($mini_app_page->id, 2);
         $banners_small = $miniAppBannerListByClassID->handle($mini_app_page->id, 3);
 
-        if (count($banners_big) == 0 && count($banners_medium) == 0 && count($banners_small) == 0) {
-            return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
-        }
-
         if ($mini_app_page->miniapp->class_id == 1) {
-            return '1';
+
+            if (count($banners_big) == 0 && count($banners_medium) == 0 && count($banners_small) == 0) {
+                return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
+            }
+
             return view('core.mini-app.mini-app-banner-page', [
                 'banners_big' => $banners_big,
                 'banners_medium' => $banners_medium,
@@ -59,7 +59,7 @@ class MiniAppPageController
         }
 
         if ($mini_app_page->miniapp->class_id == 2) {
-            return '2';
+
             $restrict_access = $miniAppVideoCheckAccess->handle($bot_user, $mini_app, $mini_app_page);
             if ($restrict_access) return $restrict_access;
 
