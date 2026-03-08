@@ -22,8 +22,6 @@ class MiniAppBannerListByClassID
             ->orderBy('pos')
             ->get();
 
-        return $banners;
-
         $result = [];
 
         foreach ($banners as $banner) {
