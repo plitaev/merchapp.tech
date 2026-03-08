@@ -47,6 +47,8 @@ class MiniAppBannerListByClassID
             }
             $banner->miniapp_banner->button_url = $button_url;
 
+            return $_GET['telegram_chat_id'];
+
             if (isset($_GET['telegram_chat_id']) && isset($banner->miniapp_banner->mini_app_page_with_video_id) && $banner->miniapp_banner->mini_app_page_with_video_show_banner == 0) {
 
                 return $_GET['telegram_chat_id'];
@@ -62,7 +64,6 @@ class MiniAppBannerListByClassID
                 if (!$restrict_access) $result[] = $banner;
 
             } else {
-                return 'kkk';
                 $result[] = $banner;
             }
 
