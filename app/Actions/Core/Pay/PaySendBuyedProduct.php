@@ -22,6 +22,7 @@ class PaySendBuyedProduct
 {
     public function handle(string $email, int $product_id, int $pay_price_rub)
     {
+        /*
         $bot_user_id = BotUser::where('email', $email)->first()->id;
         $products = Product::where('id',$product_id)->get();
 
@@ -48,9 +49,10 @@ class PaySendBuyedProduct
 
 
 
-               
+
             }
         }
+        */
     }
 
 }
