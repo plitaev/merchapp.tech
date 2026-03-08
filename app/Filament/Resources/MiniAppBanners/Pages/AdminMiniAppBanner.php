@@ -94,7 +94,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                     $mini_apps_video_pages = MiniAppPage::select('id')->whereIn('mini_app_id', $mini_apps_video)->pluck('id')->toArray();
 
                     Notification::make()
-                        ->title(implode(',', $mini_apps_video_pages))
+                        ->title(implode(',', $mini_apps_video))
                         ->success()
                         ->send();
 
