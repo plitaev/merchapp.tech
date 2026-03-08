@@ -20,6 +20,8 @@ class MiniAppPageController
     public function mini_app_banner_page()
     {
 
+        return 'lkkk';
+
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
         $miniAppPageGetByURL = new MiniAppPageGetByURL();
         $miniAppVideoCheckAccess = new MiniAppVideoCheckAccess();
