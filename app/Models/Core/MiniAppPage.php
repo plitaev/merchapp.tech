@@ -11,7 +11,8 @@ class MiniAppPage extends Model
         'name',
         'url',
         'mini_app_page_access_id',
-        'back_button_url'
+        'back_button_url',
+        'redirect_to_page'
     ];
 
     public function miniapp(): BelongsTo

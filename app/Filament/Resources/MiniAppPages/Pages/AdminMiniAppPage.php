@@ -161,6 +161,12 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                         TextInput::make('back_button_url')
                             ->label('Ссылка')
                     ]),
+                Section::make('Перенаправлять на страницу')
+                    ->description('Введите ID страницы, на который будет происходить редирект')
+                    ->schema([
+                        TextInput::make('back_button_url')
+                            ->label('Ссылка')
+                    ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
