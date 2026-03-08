@@ -49,6 +49,9 @@ class MiniAppBannerListByClassID
 
             if (isset($_GET['telegram_chat_id']) && isset($banner->miniapp_banner->mini_app_page_with_video_id) && $banner->miniapp_banner->mini_app_page_with_video_show_banner == 0) {
 
+                return $_GET['telegram_chat_id'];
+
+
                 $bot_user = BotUser::with('bot')
                     ->select('id', 'bot_id', 'date_start', 'date_end', 'access_bonus')
                     ->where('telegram_chat_id', $_GET['telegram_chat_id'])
