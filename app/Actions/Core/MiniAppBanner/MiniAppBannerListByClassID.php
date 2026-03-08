@@ -62,6 +62,7 @@ class MiniAppBannerListByClassID
                 if (!$restrict_access) $result[] = $banner;
 
             } else {
+                return 'kkk';
                 $result[] = $banner;
             }
 
