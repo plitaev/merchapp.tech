@@ -49,7 +49,7 @@ class MiniAppPageController
         }
 
         if ($mini_app_page->miniapp->class_id == 1) {
-            //return '1';
+            return '1';
             return view('core.mini-app.mini-app-banner-page', [
                 'banners_big' => $banners_big,
                 'banners_medium' => $banners_medium,
@@ -59,7 +59,7 @@ class MiniAppPageController
         }
 
         if ($mini_app_page->miniapp->class_id == 2) {
-            //return '2';
+            return '2';
             $restrict_access = $miniAppVideoCheckAccess->handle($bot_user, $mini_app, $mini_app_page);
             if ($restrict_access) return $restrict_access;
 
