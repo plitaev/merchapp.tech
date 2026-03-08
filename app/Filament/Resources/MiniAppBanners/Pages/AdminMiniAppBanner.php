@@ -211,6 +211,24 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                             ->visible(auth()->user()->can('Update:MiniAppPage'))
                             ->maxLength(255),
                     ]),
+                Section::make('Доступ к видео')
+                    ->description('Вы можете указать, ведет ли данный баннер на страницу с видео, и стоит ли его показывать, если у пользователя нет доступа к видео')
+                    ->columns([
+                        'sm' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                    ->schema([
+                        Select::make('mini_app_page_id')
+                            ->label('Страница')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
+                            ->options(MiniAppPage::whereIn('id', $this->video_pages_on_this_bot)->pluck('name', 'id'))
+                            ->searchable()
+                            ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2]),
+                        Toggle::make('mini_app_page_with_video_show_banner')
+                            ->label('Показывать баннер, если нет доступа к привязанной странице видео')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
+                    ]),
                 Section::make('Параметры кнопки')
                     ->description('Цвета и надпись')
                     ->columns([
@@ -265,24 +283,6 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
                                 ->visible(auth()->user()->can('Create:MiniAppPage')),
 
                         ])
-                    ]),
-                Section::make('Доступ к видео')
-                    ->description('Вы можете указать, ведет ли данный баннер на страницу с видео, и стоит ли его показывать, если у пользователя нет доступа к видео')
-                    ->columns([
-                        'sm' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
-                    ])
-                    ->schema([
-                        Select::make('mini_app_page_id')
-                            ->label('Страница')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
-                            ->options(MiniAppPage::where('id', $this->video_pages_on_this_bot)->pluck('name', 'id'))
-                            ->searchable()
-                            ->columns(['sm' => 2, 'xl' => 2, '2xl' => 2]),
-                        Toggle::make('mini_app_page_with_video_show_banner')
-                            ->label('Показывать баннер, если нет доступа к привязанной странице видео')
-                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
                     ]),
             ])->statePath('data');
     }
