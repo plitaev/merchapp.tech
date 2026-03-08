@@ -8,6 +8,7 @@ use Carbon\Carbon;
 
 use App\Actions\Core\MiniAppBanner\MiniAppBannerListByClassID;
 use App\Actions\Core\MiniAppPage\MiniAppPageGetByURL;
+use App\Actions\Core\MiniAppVideo\MiniAppVideoCheckAccess;
 
 use App\Models\Core\BotUser;
 use App\Models\Core\MiniAppVideo;
@@ -20,6 +21,7 @@ class MiniAppPageController
     {
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
         $miniAppPageGetByURL = new MiniAppPageGetByURL();
+        $miniAppVideoCheckAccess = new MiniAppVideoCheckAccess();
 
         $mini_app_page = $miniAppPageGetByURL->handle();
 
@@ -44,33 +46,17 @@ class MiniAppPageController
 
         if ($mini_app_page->miniapp->class_id == 2) {
 
-            if (!$bot_user) {
-                $bot = Bot::find($mini_app->bot_id);
-                return view('project.app2.need_buy', ['bot' => $bot, 'mini_app_page' => $mini_app_page]);
-            }
-
-            if (!$bot_user->date_end) return view('project.app2.need_buy', ['bot' => $bot_user->bot, 'mini_app_page' => $mini_app_page]);
-
-            if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 1) {
-                if (!$bot_user) return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
-                if ($bot_user->date_end < date('Y-m-d', time())) return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
-            }
+            $access = $miniAppVideoCheckAccess->handle($bot_user, $mini_app, $mini_app_page);
+            if ($access != 1) return $access;
 
             $video_ids = MiniAppVideoLinkPage::select('mini_app_video_id')->where('mini_app_page_id', $mini_app_page->id)->pluck('mini_app_video_id')->toArray();
             $videos = MiniAppVideo::whereIn('id', $video_ids)->get();
 
             if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 2) {
-
-                if (!isset($bot_user->date_start) || !isset($bot_user->date_end)) return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
-
                 $videos = MiniAppVideo::whereIn('id', $video_ids)
                     ->where('date_open', '>=', $bot_user->date_start)
                     ->where('date_open', '<=', $bot_user->date_end)
                     ->get();
-            }
-
-            if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 3) {
-                if ($bot_user->access_bonus != "member") return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
             }
 
             return view('core.mini-app.mini-app-video-list-page', [

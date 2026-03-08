@@ -1,6 +1,7 @@
 <?php
 namespace App\Actions\Core\MiniAppBanner;
 
+use App\Models\Core\BotUser;
 use App\Models\Core\MiniAppBannerLinkPage;
 
 class MiniAppBannerListByClassID
@@ -8,6 +9,7 @@ class MiniAppBannerListByClassID
     public function handle(int $mini_app_page_id, int $banner_class_id) {
         $banners = MiniAppBannerLinkPage::query()
             ->with('miniapp')
+            ->with('miniapp_page')
             ->with('miniapp_banner')
             ->with('miniapp_banner_class')
             ->whereHas('miniapp_banner_class', function ($query) use ($banner_class_id) {
@@ -42,7 +44,20 @@ class MiniAppBannerListByClassID
             }
             $banner->miniapp_banner->button_url = $button_url;
 
-            $result[] = $banner;
+            if (isset($_GET['telegram_chat_id']) && isset($banner->miniapp_banner->mini_app_page_with_video_id) && $banner->miniapp_banner->mini_app_page_with_video_show_banner == 0) {
+
+                $bot_user = BotUser::with('bot')
+                    ->select('id', 'bot_id', 'date_start', 'date_end', 'access_bonus')
+                    ->where('telegram_chat_id', $_GET['telegram_chat_id'])
+                    ->where('bot_id', $banner->miniapp->bot_id)
+                    ->first();
+
+                $result[] = $banner;
+
+            } else {
+                $result[] = $banner;
+            }
+
         }
 
         return $result;

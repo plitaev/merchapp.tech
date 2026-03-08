@@ -29,7 +29,7 @@ class PaySendBuyedProduct
         foreach ($products as $product) {
             if (isset($product->external_id) && isset($product->external_api_url)) {
 
-               // $data = array('email' => $email, "bot_user_id" => $bot_user_id,'product_id' => $product->id, 'pay_price_rub' => "'.$pay_price_rub.'", 'app_url' => "https://loverse.me");
+                $data = array('email' => $email, "bot_user_id" => $bot_user_id,'product_id' => $product->id, 'pay_price_rub' => "'.$pay_price_rub.'", 'app_url' => "https://loverse.me");
                 $json = '[{"email":"'.$email.'","product_id":"'.$product->id.'","bot_user_id":"'.$bot_user_id.'","pay_price_rub":"'.$pay_price_rub.'","app_url":"https://loverse.me"}]';
 
                 $curl = curl_init();
