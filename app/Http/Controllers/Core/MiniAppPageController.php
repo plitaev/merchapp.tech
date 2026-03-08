@@ -26,7 +26,10 @@ class MiniAppPageController
 
         $mini_app_page = $miniAppPageGetByURL->handle();
 
-        if ($mini_app_page->redirect_to_page) return view('core.mini-app.mini-app-redirect-to-page', ['mini_app_page' => $mini_app_page]);
+        if ($mini_app_page->redirect_to_page) {
+            return 'aaa';
+            return view('core.mini-app.mini-app-redirect-to-page', ['mini_app_page' => $mini_app_page]);
+        }
 
         $telegram_chat_id = (isset($_GET['telegram_chat_id'])?$_GET['telegram_chat_id']:0);
 
