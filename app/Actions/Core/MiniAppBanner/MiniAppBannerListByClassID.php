@@ -3,10 +3,13 @@ namespace App\Actions\Core\MiniAppBanner;
 
 use App\Models\Core\BotUser;
 use App\Models\Core\MiniAppBannerLinkPage;
+use App\Actions\Core\MiniAppVideo\MiniAppVideoCheckAccess;
 
 class MiniAppBannerListByClassID
 {
     public function handle(int $mini_app_page_id, int $banner_class_id) {
+        $miniAppVideoCheckAccess = new MiniAppVideoCheckAccess();
+
         $banners = MiniAppBannerLinkPage::query()
             ->with('miniapp')
             ->with('miniapp_page')
@@ -52,7 +55,8 @@ class MiniAppBannerListByClassID
                     ->where('bot_id', $banner->miniapp->bot_id)
                     ->first();
 
-                $result[] = $banner;
+                $restrict_access = $miniAppVideoCheckAccess->handle($bot_user, $banner->miniapp, $banner->miniapp_page);
+                if (!$restrict_access) $result[] = $banner;
 
             } else {
                 $result[] = $banner;
