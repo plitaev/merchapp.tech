@@ -35,6 +35,7 @@ use Filament\Actions\ViewAction;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Filament\Forms\Components\Toggle;
 
 class AdminMiniAppBanner extends Page implements HasForms, HasTable
 {
