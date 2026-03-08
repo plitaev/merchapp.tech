@@ -60,7 +60,7 @@ class MiniAppBannerListByClassID
                 $video_page = MiniAppPage::with('miniapp')->find($banner->miniapp_banner->mini_app_page_with_video_id);
 
                 $restrict_access = $miniAppVideoCheckAccess->handle($bot_user, $video_page->miniapp, $video_page);
-                if (!$restrict_access) $result[] = $banner;
+                //if (!$restrict_access) $result[] = $banner;
 
             } else {
                 $result[] = $banner;
