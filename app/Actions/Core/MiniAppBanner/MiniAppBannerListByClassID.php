@@ -4,6 +4,7 @@ namespace App\Actions\Core\MiniAppBanner;
 use App\Models\Core\BotUser;
 use App\Models\Core\MiniAppBannerLinkPage;
 use App\Actions\Core\MiniAppVideo\MiniAppVideoCheckAccess;
+use App\Models\Core\MiniAppPage;
 
 class MiniAppBannerListByClassID
 {
@@ -45,6 +46,7 @@ class MiniAppBannerListByClassID
             } else {
                 $button_url = $banner->miniapp_banner->button_url;
             }
+
             $banner->miniapp_banner->button_url = $button_url;
 
             if (isset($_GET['telegram_chat_id']) && isset($banner->miniapp_banner->mini_app_page_with_video_id) && $banner->miniapp_banner->mini_app_page_with_video_show_banner == 0) {
@@ -55,7 +57,9 @@ class MiniAppBannerListByClassID
                     ->where('bot_id', $banner->miniapp->bot_id)
                     ->first();
 
-                $restrict_access = $miniAppVideoCheckAccess->handle($bot_user, $banner->miniapp, $banner->miniapp_page);
+                $video_page = MiniAppPage::with('miniapp')->find($banner->miniapp_banner->mini_app_page_with_video_id);
+
+                $restrict_access = $miniAppVideoCheckAccess->handle($bot_user, $video_page->miniapp, $video_page);
                 if (!$restrict_access) $result[] = $banner;
 
             } else {
