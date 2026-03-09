@@ -192,7 +192,7 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                                             ->send();
 
                                         $Aresult=json_decode($result,true);
-                                        /*
+
                                         MiniAppVideo::where('id', $video_id)->update(
                                             [
                                                 'edgecenter_id' => $Aresult['id'],
@@ -205,7 +205,7 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                                                 'edgecenter_views'=>$Aresult['views'],
                                             ]
                                         );
-                                        */
+
                                     }
 
                                     Notification::make()
