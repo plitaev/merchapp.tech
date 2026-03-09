@@ -37,4 +37,8 @@ Route::controller(AutoController::class)->group(function() {
     Route::get('/auto/stat_bot_user_on_day', 'stat_bot_user_on_day');
     Route::get('/auto/send_bot_user_on_day', 'send_bot_user_on_day');
 
+
+    Route::get('/auto/cron_test_1', 'cron_test_1');
+    Route::get('/auto/cron_test_2', 'cron_test_2');
+
 });

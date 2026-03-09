@@ -140,4 +140,14 @@ class AutoController extends Controller
         return $robokassaRecurrentFail->handle();
     }
 
+    public function cron_test_1()
+    {
+        DB::table('cron_test')->insert(['name' => '1', 'created_at' => now()]);
+    }
+
+    public function cron_test_2()
+    {
+        DB::table('cron_test')->insert(['name' => '2', 'created_at' => now()]);
+    }
+
 }
