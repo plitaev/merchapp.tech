@@ -186,6 +186,11 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                                         $result = curl_exec($curl);
                                         curl_close($curl);
 
+                                        Notification::make()
+                                            ->title($result)
+                                            ->success()
+                                            ->send();
+
                                         $Aresult=json_decode($result,true);
                                         MiniAppVideo::where('id', $video_id)->update(
                                             [
