@@ -3,6 +3,8 @@ namespace App\Http\Controllers\Core;
 
 use App\Http\Controllers\Controller;
 
+use Illuminate\Facades\DB;
+
 use App\Actions\Core\Auto\BotSetFunnels;
 use App\Actions\Core\Auto\BotUserBanProcess;
 use App\Actions\Core\Auto\BotUserRecurrentSchedulerProcess;
@@ -24,7 +26,6 @@ use App\Actions\Core\Auto\TelegramScheduleEditMessageProcess;
 use App\Actions\Core\Auto\BotSetStatBotUserOnDay;
 use App\Actions\Core\Auto\BotSendUserOnDay;
 use App\Actions\Core\DateEnd\DateEndCalculateForAll;
-use App\Models\Core\BotUser;
 
 
 class AutoController extends Controller
