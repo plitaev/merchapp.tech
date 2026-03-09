@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Core;
 
 use App\Http\Controllers\Controller;
 
-use Illuminate\Facades\DB;
+use Illuminate\Support\Facades\DB;
 
 use App\Actions\Core\Auto\BotSetFunnels;
 use App\Actions\Core\Auto\BotUserBanProcess;
