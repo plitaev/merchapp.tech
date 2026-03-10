@@ -93,7 +93,7 @@ class BotPays extends Page implements HasTable
                     ->with('bot')
                     ->with('recurrent_name:id,name')
                     ->with('recurrent_status_name:id,name')
-                    ->select('id', 'bot_user_id', 'pay_system_id', 'product_id', 'price', 'days', 'recurrent', 'recurrent_status', 'created_at')
+                    ->select('id', 'bot_user_id', 'pay_system_id', 'product_id', 'price', 'days', 'recurrent', 'recurrent_status', 'payed_at')
                     ->whereHas('bot', function ($query) {
                         $query->where('bot_id', $this->bot_id);
                     })
