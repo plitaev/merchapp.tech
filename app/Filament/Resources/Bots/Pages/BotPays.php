@@ -83,7 +83,7 @@ class BotPays extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->defaultSort('created_at', 'desc')
+            ->defaultSort('payed_at', 'desc')
             ->persistSearchInSession()
             ->query(
                 Pay::with('bot_user:id,first_name,last_name,username,email')
@@ -100,7 +100,7 @@ class BotPays extends Page implements HasTable
                     ->where('status', 1)
             )
             ->columns([
-                Tables\Columns\TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('payed_at')
                     ->date('d.m.Y H:i:s')
                     ->sortable()
                     ->searchable()
