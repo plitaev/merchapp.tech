@@ -47,7 +47,7 @@ class MiniAppPageController
         if ($mini_app_page->miniapp->class_id == 1) {
 
             if (count($banners_big) == 0 && count($banners_medium) == 0 && count($banners_small) == 0) {
-                return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
+                return view('project.app2.access_denied', ['mini_app_page' => $mini_app_page]);
             }
 
             return view('core.mini-app.mini-app-banner-page', [

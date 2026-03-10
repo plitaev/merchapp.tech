@@ -16,16 +16,16 @@ class MiniAppVideoCheckAccess
         if (!$bot_user->date_end) return view('project.app2.need_buy', ['bot' => $bot_user->bot, 'mini_app_page' => $mini_app_page]);
 
         if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 1) {
-            if (!$bot_user) return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
-            if ($bot_user->date_end < date('Y-m-d', time())) return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
+            if (!$bot_user) return view('project.app2.access_denied', ['mini_app_page' => $mini_app_page]);
+            if ($bot_user->date_end < date('Y-m-d', time())) return view('project.app2.access_denied', ['mini_app_page' => $mini_app_page]);
         }
 
         if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 2) {
-            if (!isset($bot_user->date_start) || !isset($bot_user->date_end)) return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
+            if (!isset($bot_user->date_start) || !isset($bot_user->date_end)) return view('project.app2.access_denied', ['mini_app_page' => $mini_app_page]);
         }
 
         if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 3) {
-            if ($bot_user->access_bonus != "member") return view('core.mini-app.access_denied', ['mini_app_page' => $mini_app_page]);
+            if ($bot_user->access_bonus != "member") return view('project.app2.access_denied', ['mini_app_page' => $mini_app_page]);
         }
 
         return NULL;
