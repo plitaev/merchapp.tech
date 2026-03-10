@@ -22,7 +22,8 @@ class Pay extends Model
         'pay_system_comission',
         'pay_system_payment_id',
         'pay_system_payment_method_id',
-        'run_status'
+        'run_status',
+        'payed_at'
     ];
 
     public function bot(): HasOneThrough {

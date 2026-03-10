@@ -42,7 +42,8 @@ class PayCreateByPayGuest
                     'recurrent_status' => $data->recurrent_status,
                     'pay_system_id' => 5,
                     'created_at' => $data->created_at,
-                    'updated_at' => $data->updated_at
+                    'updated_at' => $data->updated_at,
+                    'payed_at' => $data->created_at,
                 ]
             );
 

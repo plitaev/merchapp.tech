@@ -18,7 +18,8 @@ class PayCreateIntoBot
             'status' => 0,
             'recurrent' => $recurrent,
             'recurrent_status' => 0,
-            'pay_system_id' => $additional_data['pay_system_id']
+            'pay_system_id' => $additional_data['pay_system_id'],
+            'payed_at' => date('Y-m-d H:i:s', time())
         ]);
 
         return $new;

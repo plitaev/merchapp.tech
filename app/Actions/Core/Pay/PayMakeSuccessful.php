@@ -39,7 +39,8 @@ class PayMakeSuccessful
                     'pay_system_callback' => $source,
                     'pay_system_payment_id' => $pay_system_payment_id,
                     'pay_system_payment_method_id' => $pay_system_payment_method_id,
-                    'pay_system_comission' => $pay_system_comission
+                    'pay_system_comission' => $pay_system_comission,
+                    'payed_at' => date('Y-m-d H:i:s', time())
                 ]
             );
 
