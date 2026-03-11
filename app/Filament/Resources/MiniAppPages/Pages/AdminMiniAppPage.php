@@ -271,7 +271,7 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                         ->searchable(),
                     TextColumn::make('miniapp_video.date_open')
                         ->label('Дата')
-                        ->format('d.m.Y')
+                        ->date('d.m.Y')
                         ->searchable(),
                     ImageColumn::make('miniapp_video.image')
                         ->disk('local')
