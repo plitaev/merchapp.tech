@@ -30,6 +30,13 @@ use App\Models\Core\TelegramBanScheduleLogs;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $date_end = new DateEnd();
+
+        $bot_users = BotUser::where('bot_id', 6)->get();
+        foreach ($bot_users as $bot_user) {
+            $date_end->handle($bot_user, 'Y-m-d');
+        }
+
         /*
         BotUser::where('bot_id', 5)->update(['date_end' => '2026-03-04']);
 
