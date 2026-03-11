@@ -32,7 +32,7 @@ class DevTestController extends Controller
     public function devtest() {
         $date_end = new DateEnd();
 
-        $bot_users = BotUser::where('bot_id', 6)->get();
+        $bot_users = BotUser::where('bot_id', 1)->get();
         foreach ($bot_users as $bot_user) {
             $date_end->handle($bot_user, 'Y-m-d');
         }
