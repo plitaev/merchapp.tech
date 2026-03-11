@@ -113,7 +113,7 @@ class AutoController extends Controller
 
     public function stat_bot_user_on_day() {
         $botSetStatBotUserOnDay = new BotSetStatBotUserOnDay();
-        return $botSetStatBotUserOnDay->handle();
+        //return $botSetStatBotUserOnDay->handle();
     }
 
     public function send_bot_user_on_day() {
@@ -139,16 +139,6 @@ class AutoController extends Controller
     public function robokassa_recurrent_fail() {
         $robokassaRecurrentFail = new RobokassaRecurrentFail();
         return $robokassaRecurrentFail->handle();
-    }
-
-    public function cron_test_1()
-    {
-        DB::table('cron_test')->insert(['name' => '1', 'created_at' => now()]);
-    }
-
-    public function cron_test_2()
-    {
-        DB::table('cron_test')->insert(['name' => '2', 'created_at' => now()]);
     }
 
 }
