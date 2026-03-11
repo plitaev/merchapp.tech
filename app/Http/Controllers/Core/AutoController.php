@@ -113,12 +113,12 @@ class AutoController extends Controller
 
     public function stat_bot_user_on_day() {
         $botSetStatBotUserOnDay = new BotSetStatBotUserOnDay();
-        //return $botSetStatBotUserOnDay->handle();
+        return $botSetStatBotUserOnDay->handle();
     }
 
     public function send_bot_user_on_day() {
         $botSendUserOnDay = new BotSendUserOnDay();
-        //return $botSendUserOnDay->handle();
+        return $botSendUserOnDay->handle();
     }
 
     public function bot_user_supergroup_status_date_end_empty() {

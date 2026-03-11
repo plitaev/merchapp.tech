@@ -197,7 +197,7 @@ class BotSendUserOnDay
         $supergroups = TelegramSupergroup::with('bot')->where('statistic_user_on_day', 1)->get();
         foreach ($supergroups as $supergroup) {
             $telegram = new Api($supergroup->bot->telegram_token);
-            $telegram->sendMessage(['chat_id' => $supergroup->telegram_id, 'parse_mode' => 'HTML', 'text' => urldecode($text), 'protect_content' => true]);
+            //$telegram->sendMessage(['chat_id' => $supergroup->telegram_id, 'parse_mode' => 'HTML', 'text' => urldecode($text), 'protect_content' => true]);
         }
 
     }
