@@ -269,6 +269,10 @@ class AdminMiniAppPage extends Page implements HasTable, HasForms
                     TextColumn::make('miniapp_video.name')
                         ->label('Название')
                         ->searchable(),
+                    TextColumn::make('miniapp_video.date_open')
+                        ->label('Дата')
+                        ->format('d.m.Y')
+                        ->searchable(),
                     ImageColumn::make('miniapp_video.image')
                         ->disk('local')
                         ->label('Изображение')
