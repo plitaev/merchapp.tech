@@ -154,10 +154,12 @@ class MiniAppPageController
 
     public function mini_app_player_external(int $id, string $mini_app_token)
     {
-        $bot_user = BotUser::select('mini_app_token_expiration')->where('mini_app_token', $mini_app_token)->first();
+        $bot_user = BotUser::select('id', 'mini_app_token_expiration')->where('mini_app_token', $mini_app_token)->first();
         if ($bot_user) {
 
             if ($bot_user->mini_app_token_expiration > date('Y-m-d H:i:s')) {
+
+                BotUser::where('id', $bot_user->id)->update(['mini_app_token_expiration' => date('Y-m-d H:i:s', time())]);
 
                 $video = MiniAppVideo::find($id);
 
