@@ -84,7 +84,7 @@ class MiniAppPageController
     public function mini_app_player_page(int $id, int $messenger_user_id, string $back_page)
     {
         $mini_app_token = hash('sha256', microtime());
-        $mini_app_token_expiration = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
+        $mini_app_token_expiration = Carbon::now()->addMinutes(1)->format('Y-m-d H:i:s');
 
         BotUser::where('telegram_chat_id', $messenger_user_id)->update(['mini_app_token' => $mini_app_token, 'mini_app_token_expiration' => $mini_app_token_expiration]);
 
