@@ -23,7 +23,7 @@
             items.forEach(item => {
                 var old_ref = item.getAttribute('href');
 
-                if (!mainString.includes('.pdf')) {
+                if (!old_ref.includes('.pdf')) {
                     var new_ref = old_ref+"?telegram_chat_id="+id;
                     item.setAttribute('href', new_ref);
                 }
