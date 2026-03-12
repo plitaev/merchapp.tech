@@ -30,13 +30,14 @@ use App\Models\Core\TelegramBanScheduleLogs;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
         $date_end = new DateEnd();
 
         $bot_users = BotUser::where('bot_id', 1)->get();
         foreach ($bot_users as $bot_user) {
             $date_end->handle($bot_user, 'Y-m-d');
         }
-
+        */
         /*
         BotUser::where('bot_id', 5)->update(['date_end' => '2026-03-04']);
 
@@ -59,11 +60,14 @@ class DevTestController extends Controller
             BotUser::where('id', $bot_user->id)->update(['access_bonus' => $member->status]);
         }
         */
-        /*
-        $bot_users = BotUser::whereNull('date_start')->where('date_end', '>=','2026-03-04')->get();
+
+        $bot_users = BotUser::whereNull('date_start')->where('date_end', '>=','2026-03-12')->get();
+
         $A = [];
         $AA = [];
+
         foreach ($bot_users as $bot_user) {
+
             $pays = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->get();
             if (count($pays) == 1) {
                 $firstpay = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->first();
@@ -83,7 +87,7 @@ class DevTestController extends Controller
         }
 
         return $AA;
-        */
+
     }
 
 }
