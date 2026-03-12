@@ -22,8 +22,11 @@
 
             items.forEach(item => {
                 var old_ref = item.getAttribute('href');
-                var new_ref = old_ref+"?telegram_chat_id="+id;
-                item.setAttribute('href', new_ref);
+
+                if (!mainString.includes('.pdf')) {
+                    var new_ref = old_ref+"?telegram_chat_id="+id;
+                    item.setAttribute('href', new_ref);
+                }
             });
 
             @if (isset($mini_app_page->back_button_url))
