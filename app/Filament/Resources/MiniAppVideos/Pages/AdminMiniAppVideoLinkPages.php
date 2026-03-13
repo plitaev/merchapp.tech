@@ -1,115 +1,191 @@
 <?php
-namespace App\Filament\Resources\MiniAppVideos\Pages;
 
-use App\Models\Core\MiniAppVideo;
-use App\Models\Core\MiniAppVideoLinkPage;
-use App\Models\Core\TelegramSendMessageLog;
-use Filament\Schemas\Schema;
+namespace App\Filament\Resources\Bots\Pages;
+
+use App\Models\Core\BotAdminLog;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
+use Filament\Actions\ViewAction;
+use DB;
+use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
+use Filament\Schemas\Components\Text;
+
+use App\Models\Core\BotUser;
+use App\Models\Core\User;
+
 use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
-use App\Models\Core\BotMessage;
-use App\Models\Core\TelegramSendMessageSchedule;
-use Illuminate\Support\HtmlString;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 
 use App\Filament\Resources\Bots\BotResource;
-
-use Filament\Forms;
-use Filament\Forms\Components;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-
-use Filament\Infolists\Concerns\InteractsWithInfolists;
-use Filament\Infolists\Contracts\HasInfolists;
-use Filament\Notifications\Notification;
+use App\Models\Core\Bot;
+use App\Models\Core\BotUserBanSchedule;
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Notifications\Notification;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
-
-use App\Actions\Core\Sending\SendingSave;
-
-use App\Models\Core\Bot;
-use App\Models\Core\Sending;
-use App\Models\Core\SendingAppointment;
-use App\Models\Core\SendingButton;
-use App\Models\Core\SendingListener;
-use App\Models\Core\SendingType;
-use App\Models\Core\BotUser;
-use App\Models\Core\Funnel;
-use App\Models\Core\FunnelCondition;
-use App\Models\Core\FunnelConditionTrigger;
-use App\Models\Core\Listener;
 use Illuminate\Support\Facades\Auth;
 
-class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasInfolists
+class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
 {
-    use InteractsWithInfolists;
     use InteractsWithTable;
+    use InteractsWithForms;
 
-    protected static string $resource = MiniAppVideoLinkPage::class;
 
-    protected string $view = 'filament.resources.bot-resource.pages.bot-telegram-send-message-logs';
+    protected static string $resource = BotResource::class;
 
-    public int $mini_app_page_id;
-    public int $mini_app_video_id;
+    protected string $view = 'filament.resources.bot-resource.pages.bot-telegram-ban-schedules';
 
-    protected static ?string $model = MiniAppVideoLinkPage::class;
 
-    public static ?string $label = "Страницы с этим видео";
-    public static ?string $navigationLabel = "Страницы с этим видео";
-    public static ?string $title = "Страницы с этим видео";
-    public ?array $data = [];
+    public static ?string $label = "Баны";
+    public static ?string $navigationLabel = "Баны";
+    public static ?string $title = "";
 
-    public function getRecord(): ?Model
+    public int $bot_id;
+    public string $bot_name;
+    public ?array $data_ban_user = [];
+
+    public function mount(int $bot_id): void
     {
-        return MiniAppVideoLinkPage::class;
+        $this->bot_id = $bot_id;
+        $bot = Bot::select('name')->find($bot_id);
+
+        $this->bot_name = $bot->name;
+
+        $this->form_ban_user->fill([]);
+
+        if (!Auth::user()->hasPermissionTo('View:BotUserBanSchedule')) {
+            redirect('/admin/bots/access');
+        }
+
+    }
+
+    protected function getForms(): array
+    {
+        return ['form_ban_user'];
     }
 
     public function getHeading(): string
     {
-
-        return "Страницы с этим видео";
-
-    }
-
-    protected function getHeaderActions(): array
-    {
-        return [];
-    }
-
-
-    public function mount(int $mini_app_page_id, int $mini_app_video_id): void
-    {
-        $this->mini_app_page_id = $mini_app_page_id;
-        $this->mini_app_video_id = $mini_app_video_id;
+        return '';
     }
 
     public function getTitle(): string
     {
-        return "Сообщения пользователя";
+        return $this->bot_name;
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->query(MiniAppVideoLinkPage::with('miniapp_page')->where('video_id', $this->mini_app_video_id))
+            ->defaultSort('updated_at', 'desc')
+            ->query(
+                BotUserBanSchedule::with('bot_user', 'run_status_name')
+                    ->whereHas('bot_user', function ($query) {
+                        $query->where('bot_id', $this->bot_id);
+                    })
+            )
             ->persistSearchInSession()
             ->columns([
-                TextColumn::make('miniapp_page.name')
-                    ->label('Название')
+                TextColumn::make('bot_user.first_name')
+                    ->label('Имя')
+                    ->searchable(),
+                TextColumn::make('bot_user.last_name')
+                    ->label('Фамилия')
+                    ->searchable(),
+                TextColumn::make('bot_user.username')
+                    ->label('Ник')
+                    ->searchable(),
+                TextColumn::make('bot_user.email')
+                    ->label('Email'),
+                TextColumn::make('ban_datetime')
+                    ->label('Дата и время бана')
+                    ->dateTime('d.m.Y H:i:s'),
+                TextColumn::make('run_status_name.name')
+                    ->label('Статус')
+                    ->color(fn (string $state): string => match ($state) {
+                        'Завершено' => 'success',
+                        'Ожидание' => 'danger',
+                        'Зарезервировано' => 'info',
+                        'Отменено' => 'info',
+                    })
             ])
-            ->filters([]);
+            ->filters([
+                //
+            ])
+            ->recordActions([
+                DeleteAction::make()
+                    ->visible(auth()->user()->can('Delete:BotUserBanSchedule')),
+
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
+                        ->visible(auth()->user()->can('Delete:BotUserBanSchedule')),
+
+                ]),
+            ]);
+    }
+
+    public function form_ban_user(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Section::make('Пользователи')
+                    ->description('')
+                    ->schema([
+                        Select::make('bot_user_id')
+                            ->label('Пользователь')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Обязательно выберите пользователя',
+                            ])
+                            ->searchable()
+                            ->options(BotUser::where('bot_id', $this->bot_id)->get()->map(function ($bot_user) {
+                                return ['key' => $bot_user->id, 'value' => (isset($bot_user->email) ? $bot_user->email : '') . " " . (isset($bot_user->first_name) && $bot_user->first_name != 'none' ? $bot_user->first_name : '') . " " . (isset($bot_user->last_name) && $bot_user->last_name != 'none' ? $bot_user->last_name : '') . " " . (isset($bot_user->username) && $bot_user->username != 'none' ? "(" . $bot_user->username . ")" : '')];
+                            })->pluck('value', 'key')->toArray())
+                            ->disabled(auth()->user()->can('Update:BotUserBanSchedule')?0:1),
+
+                    ]),
+                Actions::make([
+                    Action::make('Сохранить')
+                        ->action(function () {
+                            $formdata = $this->form_ban_user->getState();
+
+                            BotUserBanSchedule::upsert(
+                                ['ban_datetime' => now(), 'run_status' => 0, 'bot_user_id' => $formdata['bot_user_id']],
+                                ['ban_datetime', 'bot_user_id'],
+                                ['updated_at' => now()]
+                            );
+
+                            BotUser::where('id', $formdata['bot_user_id'])->update(['date_end' => now()]);
+
+                            BotAdminLog::create(['bot_user_id' =>  $formdata['bot_user_id'], 'user_id' => auth()->id(), 'name' =>'Бан пользователя']);
+
+                            Notification::make()
+                                ->title('Данные успешно сохранены!')
+                                ->success()
+                                ->send();
+
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        })
+                        ->visible(auth()->user()->hasPermissionTo('Create:BotUserBanSchedule')),
+                    Action::make('Отмена')
+                        ->action(function () {
+                            $this->dispatch('close-modal', id: 'add-page-modal');
+                        })
+                ])
+            ])->statePath('data_ban_user');
     }
 
 }
