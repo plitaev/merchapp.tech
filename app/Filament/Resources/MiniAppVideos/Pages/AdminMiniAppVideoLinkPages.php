@@ -141,6 +141,22 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
                             $formdata = $this->form_add_page->getState();
                             $formdata['mini_app_video_id'] = $this->mini_app_video_id;
 
+                            $last_pos = MiniAppVideoLinkPage::select('pos')->where('mini_app_page_id', $formdata['mini_app_page_id'])->orderByDesc('pos')->first();
+                            if ($last_pos) {
+                                $pos = $last_pos->pos + 1;
+                            } else {
+                                $pos = 1;
+                            }
+
+                            $formdata['pos'] = $pos;
+
+                            MiniAppVideoLinkPage::upsert(
+                                ['mini_app_video_id' => $this->mini_app_video_id, 'mini_app_page_id' => $formdata['mini_app_page_id'], 'pos' => $pos],
+                                ['mini_app_page_id', 'mini_app_video_id'],
+                                ['updated_at' => now()]
+                            );
+
+
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
                                 ->success()
