@@ -46,8 +46,7 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
 
     protected static string $resource = BotResource::class;
 
-    protected string $view = 'filament.resources.bot-resource.pages.bot-telegram-ban-schedules';
-
+    protected string $view = 'filament.resources.mini-app-video-resource.pages.admin-mini-app-video-link-pages';
 
     public static ?string $label = "Баны";
     public static ?string $navigationLabel = "Баны";
