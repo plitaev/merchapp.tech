@@ -67,7 +67,7 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
         $video = MiniAppVideo::find($mini_app_video_id);
         $this->video_name = $video->name;
 
-        $this->form_ban_user->fill([]);
+        $this->form_add_page->fill([]);
 
         if (!Auth::user()->hasPermissionTo('View:BotUserBanSchedule')) {
             redirect('/admin/bots/access');
