@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\MiniAppVideos;
 use App\Filament\Resources\MiniAppVideos\Pages\AdminMiniAppVideo;
-use App\Filament\Resources\MiniAppVideos\Pages\AdminMiniAppVideoLinkPages;
 use App\Filament\Resources\MiniAppVideos\Pages\AdminVideoByApp;
 use App\Filament\Resources\MiniAppVideos\Pages\AdminMiniAppVideoTimePoint;
 
@@ -54,7 +53,7 @@ class MiniAppVideoResource extends Resource
             'admin' => AdminMiniAppVideo::route('/{mini_app_page_id}/{id}/admin'),
             'admin_video_by_app' => AdminVideoByApp::route('/{mini_app_id}/{mini_app_name}/admin_video_by_app'),
             'admin_mini_app_video_time_point' => AdminMiniAppVideoTimePoint::route('/{mini_app_page_id}/{mini_app_video_id}/{id}/admin-mini-app-video-time-point'),
-            'admin_mini_app_video_link_pages' => AdminMiniAppVideoLinkPages::route('/{mini_app_page_id}/{mini_app_video_id}/admin_mini_app_video_link_pages'),
+
         ];
     }
 }
