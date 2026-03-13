@@ -138,7 +138,7 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
-                            $formdata = $this->form_ban_user->getState();
+                            $formdata = $this->form_add_page->getState();
                             $formdata['mini_app_video_id'] = $this->mini_app_video_id;
 
                             Notification::make()
