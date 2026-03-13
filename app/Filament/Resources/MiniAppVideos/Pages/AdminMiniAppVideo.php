@@ -154,7 +154,7 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                             ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->visibility('public'),
                         Section::make('Страницы')
-                            ->description(new HtmlString("<a href='/".$this->mini_app_page_id."/".$this->id."/admin_mini_app_video_link_pages' style='display: block; margin-bottom: 10px; font-weight: bold'>Прикрепленные страницы: {$this->video_page_count} 🔍</a>"))
+                            ->description(new HtmlString("<a href='/admin/mini-app-videos/".$this->mini_app_page_id."/".$this->id."/admin_mini_app_video_link_pages' style='display: block; margin-bottom: 10px; font-weight: bold'>Прикрепленные страницы: {$this->video_page_count} 🔍</a>"))
                             ->schema([]),
                         Actions::make([
                             Action::make('Сохранить')
