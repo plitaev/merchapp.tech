@@ -91,7 +91,7 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
     {
         return $table
             ->query(
-                MiniAppVideoLinkPage::with('miniapp_page')->where('mini_app_video_id', $this->mini_app_video_id)->get()
+                MiniAppVideoLinkPage::with('miniapp_page')->where('mini_app_video_id', $this->mini_app_video_id)
             )
             ->persistSearchInSession()
             ->columns([
