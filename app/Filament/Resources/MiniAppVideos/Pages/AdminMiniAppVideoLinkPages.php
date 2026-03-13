@@ -39,6 +39,8 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Core\MiniAppPage;
+
 class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
 {
     use InteractsWithTable;
@@ -126,11 +128,18 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
                 Section::make('Пользователи')
                     ->description('')
                     ->schema([
+                        Select::make('mini_app_page_id')
+                            ->label('Страница')
+                            ->options(MiniAppPage::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
+                            ->live(),
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
                             $formdata = $this->form_ban_user->getState();
+                            $formdata['mini_app_video_id'] = $this->mini_app_video_id;
 
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
