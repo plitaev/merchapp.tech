@@ -4,6 +4,7 @@ namespace App\Filament\Resources\MiniAppVideos\Pages;
 
 use App\Models\Core\BotAdminLog;
 use App\Models\Core\MiniApp;
+use App\Models\Core\MiniAppVideo;
 use App\Models\Core\MiniAppVideoLinkPage;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
@@ -55,13 +56,16 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
     public int $mini_app_page_id;
     public int $mini_app_video_id;
 
-    public string $bot_name;
+    public string $video_name;
     public ?array $data_ban_user = [];
 
     public function mount(int $mini_app_page_id, $mini_app_video_id): void
     {
         $this->mini_app_page_id = $mini_app_page_id;
         $this->mini_app_video_id = $mini_app_video_id;
+
+        $video = MiniAppVideo::find($mini_app_video_id);
+        $this->video_name = $video->name;
 
         $this->form_ban_user->fill([]);
 
@@ -73,7 +77,7 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
 
     protected function getForms(): array
     {
-        return ['form_ban_user'];
+        return ['form_add_page'];
     }
 
     public function getHeading(): string
@@ -83,7 +87,7 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
 
     public function getTitle(): string
     {
-        return "Страницы";
+        return $this->video_name;
     }
 
     public function table(Table $table): Table
@@ -115,7 +119,7 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
             ]);
     }
 
-    public function form_ban_user(Schema $schema): Schema
+    public function form_add_page(Schema $schema): Schema
     {
         return $schema
             ->components([
