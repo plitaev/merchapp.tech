@@ -129,8 +129,8 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
     {
         return $schema
             ->components([
-                Section::make('Пользователи')
-                    ->description('')
+                Section::make('Страницы')
+                    ->description('Выберите страницу, на которой должно отображаться это видео')
                     ->schema([
                         Select::make('mini_app_page_id')
                             ->label('Страница')
