@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\MiniAppVideos\Pages;
 
 use App\Models\Core\BotAdminLog;
+use App\Models\Core\MiniApp;
+use App\Models\Core\MiniAppVideoLinkPage;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -51,16 +53,16 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
     public static ?string $navigationLabel = "Баны";
     public static ?string $title = "";
 
-    public int $bot_id;
+    public int $mini_app_page_id;
+    public int $mini_app_video_id;
+
     public string $bot_name;
     public ?array $data_ban_user = [];
 
-    public function mount(int $bot_id): void
+    public function mount(int $mini_app_page_id, $mini_app_video_id): void
     {
-        $this->bot_id = $bot_id;
-        $bot = Bot::select('name')->find($bot_id);
-
-        $this->bot_name = $bot->name;
+        $this->mini_app_page_id = $mini_app_page_id;
+        $this->mini_app_video_id = $mini_app_video_id;
 
         $this->form_ban_user->fill([]);
 
@@ -88,37 +90,17 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
     public function table(Table $table): Table
     {
         return $table
-            ->defaultSort('updated_at', 'desc')
             ->query(
-                BotUserBanSchedule::with('bot_user', 'run_status_name')
+                MiniAppVideoLinkPage::with('miniapp_page')
                     ->whereHas('bot_user', function ($query) {
                         $query->where('bot_id', $this->bot_id);
                     })
             )
             ->persistSearchInSession()
             ->columns([
-                TextColumn::make('bot_user.first_name')
-                    ->label('Имя')
-                    ->searchable(),
-                TextColumn::make('bot_user.last_name')
-                    ->label('Фамилия')
-                    ->searchable(),
-                TextColumn::make('bot_user.username')
-                    ->label('Ник')
-                    ->searchable(),
-                TextColumn::make('bot_user.email')
-                    ->label('Email'),
-                TextColumn::make('ban_datetime')
-                    ->label('Дата и время бана')
-                    ->dateTime('d.m.Y H:i:s'),
-                TextColumn::make('run_status_name.name')
-                    ->label('Статус')
-                    ->color(fn (string $state): string => match ($state) {
-                        'Завершено' => 'success',
-                        'Ожидание' => 'danger',
-                        'Зарезервировано' => 'info',
-                        'Отменено' => 'info',
-                    })
+                TextColumn::make('miniapp_page.name')
+                    ->label('Страница')
+                    ->searchable()
             ])
             ->filters([
                 //
