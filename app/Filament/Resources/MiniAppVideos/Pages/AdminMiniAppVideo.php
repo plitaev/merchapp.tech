@@ -61,6 +61,8 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
     public ?array $data = [];
     public string $name;
 
+    public int $video_page_count = 0;
+
     public int $mini_app_page_id;
     public int $id;
 
@@ -93,6 +95,8 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
     {
         $this->mini_app_page_id = $mini_app_page_id;
         $this->id = $id;
+
+        $this->video_page_count = MiniAppVideoLinkPage::where('video_id', $id)->count();
 
         if (auth()->user()->hasPermissionTo('Update:FunnelCondition')) {
 
@@ -148,6 +152,9 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                             ->directory('miniapp_video')
                             ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->visibility('public'),
+                        Section::make('Страницы')
+                            ->description(new HtmlString("<a href='/".$this->mini_app_page_id."/".$this->id."/admin_mini_app_video_link_pages' style='display: block; margin-bottom: 10px; font-weight: bold'>Прикрепленные страницы: {$this->video_page_count} 🔍</a>"))
+                            ->schema([]),
                         Actions::make([
                             Action::make('Сохранить')
                                 ->action(function () {
