@@ -48,8 +48,8 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
 
     protected string $view = 'filament.resources.mini-app-video-resource.pages.admin-mini-app-video-link-pages';
 
-    public static ?string $label = "Баны";
-    public static ?string $navigationLabel = "Баны";
+    public static ?string $label = "Страницы";
+    public static ?string $navigationLabel = "Страницы";
     public static ?string $title = "";
 
     public int $mini_app_page_id;
@@ -83,7 +83,7 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
 
     public function getTitle(): string
     {
-        return $this->bot_name;
+        return "Страницы";
     }
 
     public function table(Table $table): Table
