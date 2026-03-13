@@ -55,6 +55,7 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
     public static ?string $navigationLabel = "Страницы";
     public static ?string $title = "";
 
+    public int $mini_app_id;
     public int $mini_app_page_id;
     public int $mini_app_video_id;
 
@@ -68,6 +69,9 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
 
         $video = MiniAppVideo::find($mini_app_video_id);
         $this->video_name = $video->name;
+
+        $mini_app_page = MiniAppPage::select('mini_app_id')->find($mini_app_page_id);
+        $this->mini_app_id = $mini_app_page->mini_app_id;
 
         $this->form_add_page->fill([]);
 
@@ -130,7 +134,7 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
                     ->schema([
                         Select::make('mini_app_page_id')
                             ->label('Страница')
-                            ->options(MiniAppPage::all()->pluck('name', 'id'))
+                            ->options(MiniAppPage::where('mini_app_id', $this->mini_app_id)->pluck('name', 'id'))
                             ->searchable()
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotMessage')?false:true)
                             ->live(),
