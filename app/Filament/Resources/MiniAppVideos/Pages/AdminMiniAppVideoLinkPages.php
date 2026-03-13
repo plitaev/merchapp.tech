@@ -126,33 +126,11 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
                 Section::make('Пользователи')
                     ->description('')
                     ->schema([
-                        Select::make('bot_user_id')
-                            ->label('Пользователь')
-                            ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно выберите пользователя',
-                            ])
-                            ->searchable()
-                            ->options(BotUser::where('bot_id', $this->bot_id)->get()->map(function ($bot_user) {
-                                return ['key' => $bot_user->id, 'value' => (isset($bot_user->email) ? $bot_user->email : '') . " " . (isset($bot_user->first_name) && $bot_user->first_name != 'none' ? $bot_user->first_name : '') . " " . (isset($bot_user->last_name) && $bot_user->last_name != 'none' ? $bot_user->last_name : '') . " " . (isset($bot_user->username) && $bot_user->username != 'none' ? "(" . $bot_user->username . ")" : '')];
-                            })->pluck('value', 'key')->toArray())
-                            ->disabled(auth()->user()->can('Update:BotUserBanSchedule')?0:1),
-
                     ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
                             $formdata = $this->form_ban_user->getState();
-
-                            BotUserBanSchedule::upsert(
-                                ['ban_datetime' => now(), 'run_status' => 0, 'bot_user_id' => $formdata['bot_user_id']],
-                                ['ban_datetime', 'bot_user_id'],
-                                ['updated_at' => now()]
-                            );
-
-                            BotUser::where('id', $formdata['bot_user_id'])->update(['date_end' => now()]);
-
-                            BotAdminLog::create(['bot_user_id' =>  $formdata['bot_user_id'], 'user_id' => auth()->id(), 'name' =>'Бан пользователя']);
 
                             Notification::make()
                                 ->title('Данные успешно сохранены!')
@@ -169,5 +147,4 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasForms
                 ])
             ])->statePath('data_ban_user');
     }
-
 }
