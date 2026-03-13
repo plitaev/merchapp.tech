@@ -12,7 +12,7 @@
                     <x-filament::button>Добавить страницу</x-filament::button>
                 </x-slot>
 
-                <form wire:submit.prevent="submit">{{$this->form_ban_user}}</form>
+                <form wire:submit.prevent="submit">{{$this->form_add_page}}</form>
             </x-filament::modal>
         </div>
     </div>
