@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Bots\Pages;
+namespace App\Filament\Resources\MiniAppVideos\Pages;
 
 use App\Models\Core\BotAdminLog;
 use Filament\Schemas\Components\Section;
