@@ -96,7 +96,7 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
         $this->mini_app_page_id = $mini_app_page_id;
         $this->id = $id;
 
-        $this->video_page_count = MiniAppVideoLinkPage::where('video_id', $id)->count();
+        $this->video_page_count = MiniAppVideoLinkPage::where('mini_app_video_id', $id)->count();
 
         if (auth()->user()->hasPermissionTo('Update:FunnelCondition')) {
 
