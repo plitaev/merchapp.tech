@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\MiniAppVideos\Pages;
 
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\HtmlString;
 
 use App\Filament\Resources\MiniAppVideos\MiniAppVideoResource;
 
