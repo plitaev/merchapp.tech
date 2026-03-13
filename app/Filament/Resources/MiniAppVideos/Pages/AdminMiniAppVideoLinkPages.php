@@ -57,7 +57,7 @@ class AdminMiniAppVideoLinkPages extends Page implements HasTable, HasInfolists
     use InteractsWithInfolists;
     use InteractsWithTable;
 
-    protected static string $resource = MiniAppVideo::class;
+    protected static string $resource = MiniAppVideoLinkPage::class;
 
     protected string $view = 'filament.resources.bot-resource.pages.bot-telegram-send-message-logs';
 
