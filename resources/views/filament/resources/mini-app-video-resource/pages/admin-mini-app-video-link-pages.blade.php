@@ -7,7 +7,7 @@
     {{$this->table}}
     <div class="fi-header-actions-ctn">
         <div class="fi-color fi-color-primary fi-bg-color-400 hover:fi-bg-color-300 dark:fi-bg-color-600 dark:hover:fi-bg-color-500 fi-text-color-900 hover:fi-text-color-800 dark:fi-text-color-950 dark:hover:fi-text-color-950 fi-btn fi-size-md fi-ac-btn-action">
-            <a href=/admin/bots/{{$this->bot_id}}/{{$this->bot_user_id}}/chat-admin>
+            <a href="/admin/mini-app-videos/{{$this->mini_app_page_id}}/{{$this->mini_app_video_id}}/admin">
                 Вернуться назад
             </a>
         </div>
