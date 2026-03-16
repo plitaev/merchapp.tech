@@ -146,9 +146,6 @@ class AdminBot extends Page implements HasForms
 
 
         if ($record > 0) {
-            $max_webhook_adaress = $maxWebhookMake->handle($record, $data['max_webhook']);
-            $data['max_webhook_status'] = $maxWebhookInfo->handle($data['max_token'], $max_webhook_adaress);
-
             $webhook_address = $telegramWebhookMake->handle($record, $data['telegram_webhook']);
             $data['telegram_webhook_status'] = $telegramWebhookInfo->handle($data['telegram_token'], $webhook_address);
         }
@@ -321,7 +318,6 @@ class AdminBot extends Page implements HasForms
                                 ->send();
 
                             unset($data['telegram_webhook_status']);
-                            unset($data['max_webhook_status']);
 
                             if ($this->id > 0) {
                                 Bot::where('id', $this->id)->update($data);
