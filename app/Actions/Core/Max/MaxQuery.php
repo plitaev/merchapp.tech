@@ -33,8 +33,6 @@ class MaxQuery
         $response = curl_exec($curl);
         curl_close($curl);
 
-        MaxWebhook::create(['bot_id' => $bot->id, 'callback' => $response]);
-
         return ($return_array?json_decode($response, true):$response);
     }
 }

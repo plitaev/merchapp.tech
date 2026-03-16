@@ -152,8 +152,6 @@ class AdminBot extends Page implements HasForms
             $webhook_address = $telegramWebhookMake->handle($record, $data['telegram_webhook']);
             $data['telegram_webhook_status'] = $telegramWebhookInfo->handle($data['telegram_token'], $webhook_address);
 
-            $data['max_webhook_status'] = '';
-
             if ($data['max_token']) {
                 $bot = Bot::find($record);
                 $data['max_webhook_status'] = $maxQuery->handle($bot, 'GET', 'subscriptions', false);
