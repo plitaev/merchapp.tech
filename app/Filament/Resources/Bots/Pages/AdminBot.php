@@ -154,7 +154,7 @@ class AdminBot extends Page implements HasForms
 
             if ($data['max_token']) {
                 $bot = Bot::find($record);
-                $data['max_webhook_status'] = $maxQuery->handle($bot, 'GET', 'subscriptions', false);
+                $data['max_webhook_status'] = $maxQuery->handle($bot, 'GET', 'subscriptions',[], false);
 
                 Notification::make()
                     ->title($data['max_webhook_status'])
