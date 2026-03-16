@@ -14,7 +14,20 @@ class MaxQuery
 
         $curl = curl_init();
 
-        curl_setopt($curl, CURLOPT_URL, 'https://platform-api.max.ru/' . $api_function);
+        (string) $api_url = 'https://platform-api.max.ru/' . $api_function;
+
+        if ($method != 'GET' && $method != 'POST') {
+            $add_to_url = [];
+
+            foreach ($request_data as $key => $value) {
+                $item = $key."=".$value;
+                $add_to_url[] = $item;
+            }
+
+            $api_url .= $api_url.'?'.implode('&', $add_to_url);
+        }
+
+        curl_setopt($curl, CURLOPT_URL, $api_url);
 
         if ($method == 'POST') {
             curl_setopt($curl, CURLOPT_POST, true);
@@ -23,7 +36,6 @@ class MaxQuery
 
         if ($method != 'GET' && $method != 'POST') {
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($request_data));
         }
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
