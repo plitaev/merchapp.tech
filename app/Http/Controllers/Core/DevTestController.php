@@ -30,64 +30,24 @@ use App\Models\Core\TelegramBanScheduleLogs;
 class DevTestController extends Controller
 {
     public function devtest() {
-        /*
-        $date_end = new DateEnd();
 
-        $bot_users = BotUser::where('bot_id', 1)->get();
-        foreach ($bot_users as $bot_user) {
-            $date_end->handle($bot_user, 'Y-m-d');
-        }
-        */
-        /*
-        BotUser::where('bot_id', 5)->update(['date_end' => '2026-03-04']);
+        $headers = [
+            'Content-Type: application/json',
+            'Authorization: f9LHodD0cOLzjVI0rmnmVIJCE_3fDQvCRPUlLPf4r-7ofkDgoh7ouGs60-KEnWukmyZIsztJzsLqNB1MtWBp'
+        ];
 
-        $bot_users = BotUser::where('bot_id', 5)->get();
-        foreach ($bot_users as $bot_user) {
-            BotUserBanSchedule::create([
-                'bot_user_id' => $bot_user->id,
-                'run_status' => 0,
-                'ban_datetime' => '2026-03-04 10:00:00',
-            ]);
-        }
-        */
-        /*
-        $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
+        $ch = curl_init();
+        $url = 'https://platform-api.max.ru/me';
 
-        $bot_users = BotUser::where('run_status', 0)->skip(0)->take(5)->get();
-        foreach ($bot_users as $bot_user) {
-            BotUser::where('id', $bot_user->id)->update(['run_status' => 1]);
-            $member = $telegram->getChatMember(['user_id' => $bot_user->telegram_chat_id, 'chat_id' => -1002602171099]);
-            BotUser::where('id', $bot_user->id)->update(['access_bonus' => $member->status]);
-        }
-        */
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $response = curl_exec($ch);
+        curl_close($ch);
 
-        $bot_users = BotUser::whereNull('date_start')->where('date_end', '>=','2026-03-12')->get();
-
-        $A = [];
-        $AA = [];
-
-        foreach ($bot_users as $bot_user) {
-
-            $pays = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->get();
-            if (count($pays) == 1) {
-                $firstpay = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->first();
-            } else {
-                if ($bot_user->ban_time) {
-                    $firstpay = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->where('created_at', '>=', $bot_user->ban_time)->orderBy('created_at')->first();
-                } else {
-                    $firstpay = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->first();
-                }
-            }
-
-            if ($firstpay) {
-                $date = Carbon::parse($firstpay->created_at)->format('Y-m-d');
-                BotUser::where('id', $bot_user->id)->whereNull('date_start')->update(['date_start' => $date]);
-            }
-
-        }
-
-        return $AA;
-
+        return $response;
     }
 
 }
