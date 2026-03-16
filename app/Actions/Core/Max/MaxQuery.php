@@ -20,14 +20,15 @@ class MaxQuery
             $add_to_url = [];
 
             foreach ($request_data as $key => $value) {
-                $item = $key."=".$value;
+                $item = $key . "=" . $value;
                 $add_to_url[] = $item;
             }
 
-            $api_url .= $api_url.'?'.implode('&', $add_to_url);
+            $api_url .= $api_url . '?' . implode('&', $add_to_url);
 
 
             return $api_url;
+        }
 
         curl_setopt($curl, CURLOPT_URL, $api_url);
 
