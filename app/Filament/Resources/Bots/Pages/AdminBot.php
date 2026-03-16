@@ -155,12 +155,6 @@ class AdminBot extends Page implements HasForms
             if ($data['max_token']) {
                 $bot = Bot::find($record);
                 $data['max_webhook_status'] = $maxQuery->handle($bot, 'GET', 'subscriptions',[], false);
-
-                Notification::make()
-                    ->title($data['max_webhook_status'])
-                    ->success()
-                    ->send();
-
             } else {
                 $data['max_webhook_status'] = 'Не указан токен Max. Для интеграции с Max введите токен бота, нажмите Сохранить, и вернитесь к этой странице.';
             }
