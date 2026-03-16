@@ -4,7 +4,7 @@ namespace App\Actions\Core\Max;
 
 class MaxWebhookInfo
 {
-    public function handle(string $token, string $webhook) {
+    public function handle(?string $token, ?string $webhook) {
 
         $webhook=str_replace("-","/",$webhook);
 
