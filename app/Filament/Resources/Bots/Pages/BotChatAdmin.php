@@ -209,7 +209,7 @@ class BotChatAdmin extends Page implements HasForms
                             ->label('Email')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
                         Forms\Components\TextInput::make('access_bonus')
-                            ->label('Email')
+                            ->label('Доступ к архиву (ввести member для выдачи доступа)')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
 
                     ]),
