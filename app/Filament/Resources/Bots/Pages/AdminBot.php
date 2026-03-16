@@ -462,6 +462,7 @@ class AdminBot extends Page implements HasForms
                         ->label('Запросить статус Webhook Max')
                         ->action(function (Set $set) {
                             $maxQuery = new MaxQuery();
+                            $bot = Bot::find($this->id);
                             $status = $maxQuery->handle($bot, 'GET', 'subscriptions',[], false);
 
                             if (is_callable($set)) {
