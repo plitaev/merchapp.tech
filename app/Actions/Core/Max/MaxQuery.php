@@ -22,7 +22,7 @@ class MaxQuery
         }
 
         if ($method != 'GET' && $method != 'POST') {
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, true);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
             curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($request_data));
         }
 
