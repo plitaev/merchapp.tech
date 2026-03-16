@@ -307,6 +307,19 @@ class AdminBot extends Page implements HasForms
                         })
                         ->visible(auth()->user()->hasPermissionTo('Delete:Bot')),
                 ]),
+                Section::make('Статус бота в Max')
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1
+                    ])->schema([
+                        Textarea::make('max_webhook_status')
+                            ->label('Ответ Max')
+                            ->readOnly()
+                            ->extraInputAttributes(['readonly' => true])
+                    ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
