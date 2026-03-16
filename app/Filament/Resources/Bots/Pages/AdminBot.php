@@ -387,7 +387,7 @@ class AdminBot extends Page implements HasForms
                         Textarea::make('telegram_webhook_status')
                             ->label('Ответ Telegram')
                             ->readOnly()
-                            ->extraInputAttributes(['readonly' => true])
+                            ->extraInputAttributes(['readonly' => true, 'style' => 'height: 300px'])
                     ]),
                 Actions::make([
 
@@ -453,7 +453,7 @@ class AdminBot extends Page implements HasForms
                         Textarea::make('max_webhook_status')
                             ->label('Ответ Max')
                             ->readOnly()
-                            ->extraInputAttributes(['readonly' => true])
+                            ->extraInputAttributes(['readonly' => true, 'style' => 'height: 300px'])
                     ]),
 
                 Actions::make([
