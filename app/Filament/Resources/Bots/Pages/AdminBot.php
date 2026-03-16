@@ -482,7 +482,7 @@ class AdminBot extends Page implements HasForms
                             $bot = Bot::find($this->id);
 
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
-                            $status = $maxQuery->handle($bot, 'POST', 'subscriptions', ['url' => $webhook_address ,'secret' => env('APP_KEY')], false);
+                            $status = $maxQuery->handle($bot, 'POST', 'subscriptions', ['url' => $webhook_address ,'secret' => hash('sha256', env('APP_URL'))], false);
 
                             if (is_callable($set)) {
                                 $set('max_webhook_status', $status);
