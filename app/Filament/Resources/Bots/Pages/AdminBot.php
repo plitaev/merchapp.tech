@@ -483,7 +483,7 @@ class AdminBot extends Page implements HasForms
                             $status = $telegramSetWebhook->handle($this->id, $formdata['telegram_token'], $formdata['telegram_webhook']);
 
                             if (is_callable($set)) {
-                                $set('telegram_webhook_status', $status);
+                                $set('max_webhook_status', $status);
                             }
                         })
                         ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
