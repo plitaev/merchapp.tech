@@ -6,7 +6,7 @@ use App\Models\Core\MaxWebhook;
 
 class MaxQuery
 {
-    public function handle($bot, string $method, string $api_function, $request_data) {
+    public function handle($bot, string $method, string $api_function, $request_data, bool $return_array = true) {
         $headers = [
             'Content-Type: application/json',
             'Authorization: '.$bot->max_token
@@ -14,7 +14,7 @@ class MaxQuery
 
         $curl = curl_init();
 
-        curl_setopt($curl, CURLOPT_URL, 'https://platform-api.max.ru/me');
+        curl_setopt($curl, CURLOPT_URL, 'https://platform-api.max.ru/' . $api_function);
 
         if ($method == 'POST') {
             curl_setopt($curl, CURLOPT_POST, true);
@@ -35,5 +35,6 @@ class MaxQuery
 
         MaxWebhook::create(['bot_id' => $bot->id, 'callback' => $response]);
 
+        return ($return_array?json_decode($response, true):$response);
     }
 }

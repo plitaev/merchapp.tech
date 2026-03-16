@@ -32,6 +32,7 @@ use Filament\Schemas\Components\Utilities\Set;
 
 use App\Filament\Resources\Bots\BotResource;
 
+use App\Actions\Core\Max\MaxQuery;
 use App\Actions\Core\Telegram\TelegramDeleteWebhook;
 use App\Actions\Core\Telegram\TelegramWebhookMake;
 use App\Actions\Core\Telegram\TelegramWebhookInfo;
@@ -135,6 +136,8 @@ class AdminBot extends Page implements HasForms
 
     public function mount(int $record): void
     {
+        $maxQuery = new MaxQuery();
+
         $telegramWebhookInfo = new TelegramWebhookInfo();
         $telegramWebhookMake = new TelegramWebhookMake();
         $this->id = $record;
@@ -148,6 +151,15 @@ class AdminBot extends Page implements HasForms
         if ($record > 0) {
             $webhook_address = $telegramWebhookMake->handle($record, $data['telegram_webhook']);
             $data['telegram_webhook_status'] = $telegramWebhookInfo->handle($data['telegram_token'], $webhook_address);
+
+            $data['max_webhook_status'] = '';
+
+            if ($data['max_token']) {
+                $bot = Bot::find($record);
+                $data['max_webhook_status'] = $maxQuery->handle($bot, 'GET', 'subscriptions', false);
+            } else {
+                $data['max_webhook_status'] = 'Не указан токен Max. Для интеграции с Max введите токен бота, нажмите Сохранить, и вернитесь к этой странице.';
+            }
         }
 
         $this->form->fill($data);
