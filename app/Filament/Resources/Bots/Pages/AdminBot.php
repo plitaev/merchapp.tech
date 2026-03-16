@@ -1,22 +1,20 @@
 <?php
 namespace App\Filament\Resources\Bots\Pages;
 
-use App\Actions\Core\Telegram\TelegramDeleteWebhook;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
 
-use App\Actions\Core\Max\MaxDeleteWebhook;
-
+use App\Models\Core\Bot;
 use App\Models\Core\BotBranch;
 use App\Models\Core\BotMessage;
 use App\Models\Core\BotMessageAppointment;
 use App\Models\Core\BotMessageButton;
 use App\Models\Core\BotTemplateMessage;
 use App\Models\Core\BotTemplateMessageButton;
-use Illuminate\Support\HtmlString;
 
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Components\Toggle;
-//use Filament\Forms\Components\ToggleButtons;
 use Filament\Actions\ViewAction;
 
 use Filament\Forms\Components\TimePicker;
@@ -34,17 +32,10 @@ use Filament\Schemas\Components\Utilities\Set;
 
 use App\Filament\Resources\Bots\BotResource;
 
+use App\Actions\Core\Telegram\TelegramDeleteWebhook;
 use App\Actions\Core\Telegram\TelegramWebhookMake;
 use App\Actions\Core\Telegram\TelegramWebhookInfo;
 use App\Actions\Core\Telegram\TelegramSetWebhook;
-
-use App\Actions\Core\Max\MaxWebhookMake;
-use App\Actions\Core\Max\MaxWebhookInfo;
-use App\Actions\Core\Max\MaxSetWebhook;
-
-use App\Models\Core\Bot;
-use App\Models\Core\User;
-use Illuminate\Support\Facades\Auth;
 
 class AdminBot extends Page implements HasForms
 {
@@ -146,9 +137,6 @@ class AdminBot extends Page implements HasForms
     {
         $telegramWebhookInfo = new TelegramWebhookInfo();
         $telegramWebhookMake = new TelegramWebhookMake();
-
-        $maxWebhookInfo = new MaxWebhookInfo();
-        $maxWebhookMake = new MaxWebhookMake();
         $this->id = $record;
 
         $data = ($record>0?Bot::find($record)->toArray():[]);
