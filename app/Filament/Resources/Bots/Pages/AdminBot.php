@@ -217,7 +217,7 @@ class AdminBot extends Page implements HasForms
                             ->maxLength(255)
                             ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
                         TextInput::make('max_token')
-                            ->label('Max-токен (из BotFather)')
+                            ->label('Max-токен (из Max для партнёров)')
 
                             ->maxLength(255)
                             ->disabled(auth()->user()->hasPermissionTo('Update:Bot')?false:true),
