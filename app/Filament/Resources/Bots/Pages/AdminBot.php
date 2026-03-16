@@ -474,13 +474,15 @@ class AdminBot extends Page implements HasForms
                     Action::make('max_webhook_set')
                         ->label('Установить Webhook Max')
                         ->action(function (Set $set) {
-                            $telegramSetWebhook = new TelegramSetWebhook();
+                            $maxQuery = new MaxQuery();
                             $telegramWebhookMake = new TelegramWebhookMake();
 
                             $formdata = $this->form->getState();
 
+                            $bot = Bot::find($this->id);
+
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
-                            $status = $telegramSetWebhook->handle($this->id, $formdata['telegram_token'], $formdata['telegram_webhook']);
+                            $status = $maxQuery->handle($bot, 'POST', 'subscriptions', ['url' => $webhook_address ,'secret' => env('APP_KEY')], false);
 
                             if (is_callable($set)) {
                                 $set('max_webhook_status', $status);
@@ -491,13 +493,15 @@ class AdminBot extends Page implements HasForms
                     Action::make('max_webhook_delete')
                         ->label('Удалить Webhook Max')
                         ->action(function (Set $set) {
-                            $telegramDeleteWebhook = new TelegramDeleteWebhook();
+                            $maxQuery = new MaxQuery();
                             $telegramWebhookMake = new TelegramWebhookMake();
 
                             $formdata = $this->form->getState();
 
+                            $bot = Bot::find($this->id);
+
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
-                            $status = $telegramDeleteWebhook->handle($formdata['telegram_token'], $webhook_address);
+                            $status = $maxQuery->handle($bot, 'DELETE', 'subscriptions', ['url' => $webhook_address], false);
 
                             if (is_callable($set)) {
                                 $set('max_webhook_status', $status);
