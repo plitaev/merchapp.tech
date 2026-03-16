@@ -208,6 +208,9 @@ class BotChatAdmin extends Page implements HasForms
                         Forms\Components\TextInput::make('email')
                             ->label('Email')
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
+                        Forms\Components\TextInput::make('access_bonus')
+                            ->label('Email')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
 
                     ]),
                 Section::make('Привязка аккаунта к бизнес-боту')
