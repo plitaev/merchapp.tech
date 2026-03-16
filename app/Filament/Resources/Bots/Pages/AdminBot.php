@@ -466,7 +466,7 @@ class AdminBot extends Page implements HasForms
                             $status = $maxQuery->handle($bot, 'GET', 'subscriptions',[], false);
 
                             if (is_callable($set)) {
-                                $set('telegram_webhook_status', $status);
+                                $set('max_webhook_status', $status);
                             }
                         })
                         ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
@@ -500,7 +500,7 @@ class AdminBot extends Page implements HasForms
                             $status = $telegramDeleteWebhook->handle($formdata['telegram_token'], $webhook_address);
 
                             if (is_callable($set)) {
-                                $set('telegram_webhook_status', $status);
+                                $set('max_webhook_status', $status);
                             }
                         })
                         ->visible(auth()->user()->hasPermissionTo('Delete:Bot')),
