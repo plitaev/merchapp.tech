@@ -2,6 +2,8 @@
 
 namespace App\Actions\Core\Max;
 
+use App\Models\Core\MaxWebhook;
+
 class MaxQuery
 {
     public function handle($bot, string $method, string $api_function, $request_data) {
@@ -30,5 +32,8 @@ class MaxQuery
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         $response = curl_exec($curl);
         curl_close($curl);
+
+        MaxWebhook::create(['bot_id' => $bot->id, 'callback' => $response]);
+
     }
 }
