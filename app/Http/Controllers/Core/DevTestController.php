@@ -30,24 +30,6 @@ use App\Models\Core\TelegramBanScheduleLogs;
 class DevTestController extends Controller
 {
     public function devtest() {
-
-        $headers = [
-            'Content-Type: application/json',
-            'Authorization: f9LHodD0cOLzjVI0rmnmVIJCE_3fDQvCRPUlLPf4r-7ofkDgoh7ouGs60-KEnWukmyZIsztJzsLqNB1MtWBp'
-        ];
-
-        $ch = curl_init();
-        $url = 'https://platform-api.max.ru/me';
-
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        return $response;
     }
 
 }
