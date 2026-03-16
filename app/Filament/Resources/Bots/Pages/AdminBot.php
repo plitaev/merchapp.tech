@@ -322,20 +322,6 @@ class AdminBot extends Page implements HasForms
                         })
                         ->visible(auth()->user()->hasPermissionTo('Delete:Bot')),
                 ]),
-
-                Section::make('Статус бота в Max')
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1
-                    ])->schema([
-                        Textarea::make('max_webhook_status')
-                            ->label('Ответ Max')
-                            ->readOnly()
-                            ->extraInputAttributes(['readonly' => true])
-                    ]),
                 Actions::make([
                     Action::make('Сохранить')
                         ->action(function () {
@@ -377,57 +363,6 @@ class AdminBot extends Page implements HasForms
                             }
                         })
                         ->visible(auth()->user()->hasPermissionTo('Create:Bot')),
-                    Action::make('max_webhook_view')
-                        ->label('Запросить статус Webhook Max')
-                        ->action(function (Set $set) {
-                            $maxWebhookInfo = new MaxWebhookInfo();
-                            $maxWebhookMake = new MaxWebhookMake();
-
-                            $formdata = $this->form->getState();
-
-                            $webhook_address = $maxWebhookMake->handle($this->id, $formdata['max_webhook']??'');
-                            $status = $maxWebhookInfo->handle($formdata['max_token']??'', $webhook_address);
-
-                            if (is_callable($set)) {
-                                $set('max_webhook_status', $status);
-                            }
-                        })
-                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
-
-                    Action::make('max_webhook_set')
-                        ->label('Установить Webhook Max')
-                        ->action(function (Set $set) {
-                            $maxSetWebhook = new MaxSetWebhook();
-                            $maxWebhookMake = new MaxWebhookMake();
-
-                            $formdata = $this->form->getState();
-
-                            $webhook_address = $maxWebhookMake->handle($this->id, $formdata['max_webhook']);
-                            $status = $maxSetWebhook->handle($this->id, $formdata['max_token'], $formdata['max_webhook']);
-
-                            if (is_callable($set)) {
-                                $set('max_webhook_status', $status);
-                            }
-                        })
-                        ->visible(auth()->user()->hasPermissionTo('Update:Bot')),
-
-                    Action::make('max_webhook_delete')
-                        ->label('Удалить Webhook Max')
-                        ->action(function (Set $set) {
-                            $maxDeleteWebhook = new MaxDeleteWebhook();
-                            $maxWebhookMake = new MaxWebhookMake();
-
-                            $formdata = $this->form->getState();
-
-                            $webhook_address = $maxWebhookMake->handle($this->id, $formdata['max_webhook']);
-                            $status = $maxDeleteWebhook->handle($formdata['max_token'], $webhook_address);
-
-                            if (is_callable($set)) {
-                                $set('max_webhook_status', $status);
-                            }
-                        })
-                        ->visible(auth()->user()->hasPermissionTo('Delete:Bot')),
-
                      Action::make('load_copy')
                          ->label('Загрузить из шаблона')
                          ->action(function (Set $set) {
