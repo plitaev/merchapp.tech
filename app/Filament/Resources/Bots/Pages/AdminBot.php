@@ -503,11 +503,6 @@ class AdminBot extends Page implements HasForms
                             $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
                             $status = $maxQuery->handle($bot, 'DELETE', 'subscriptions', ['url' => $webhook_address], false);
 
-                            Notification::make()
-                                ->title($status)
-                                ->success()
-                                ->send();
-
                             if (is_callable($set)) {
                                 $set('max_webhook_status', $status);
                             }
