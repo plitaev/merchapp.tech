@@ -10,6 +10,11 @@
         window.onload = function() {
             let app = window.Telegram.WebApp;
             app.BackButton.show();
+
+            if (!app.initDataUnsafe.user) {
+                window.location.href="/404";
+            }
+
             let id = app.initDataUnsafe.user.id;
 
             app.BackButton.onClick(function() {
