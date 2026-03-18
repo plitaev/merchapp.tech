@@ -33,6 +33,8 @@ use Filament\Schemas\Components\Utilities\Set;
 use App\Filament\Resources\Bots\BotResource;
 
 use App\Actions\Core\Max\MaxQuery;
+use App\Actions\Core\Max\MaxWebhookMake;
+
 use App\Actions\Core\Telegram\TelegramDeleteWebhook;
 use App\Actions\Core\Telegram\TelegramWebhookMake;
 use App\Actions\Core\Telegram\TelegramWebhookInfo;
@@ -475,13 +477,13 @@ class AdminBot extends Page implements HasForms
                         ->label('Установить Webhook Max')
                         ->action(function (Set $set) {
                             $maxQuery = new MaxQuery();
-                            $telegramWebhookMake = new TelegramWebhookMake();
+                            $maxWebhookMake = new MaxWebhookMake();
 
                             $formdata = $this->form->getState();
 
                             $bot = Bot::find($this->id);
 
-                            $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
+                            $webhook_address = $maxWebhookMake->handle($this->id, $formdata['telegram_webhook']);
                             $status = $maxQuery->handle($bot, 'POST', 'subscriptions', ['url' => $webhook_address ,'secret' => hash('sha256', env('APP_URL'))], false);
 
                             if (is_callable($set)) {
@@ -494,13 +496,13 @@ class AdminBot extends Page implements HasForms
                         ->label('Удалить Webhook Max')
                         ->action(function (Set $set) {
                             $maxQuery = new MaxQuery();
-                            $telegramWebhookMake = new TelegramWebhookMake();
+                            $maxWebhookMake = new MaxWebhookMake();
 
                             $formdata = $this->form->getState();
 
                             $bot = Bot::find($this->id);
 
-                            $webhook_address = $telegramWebhookMake->handle($this->id, $formdata['telegram_webhook']);
+                            $webhook_address = $maxWebhookMake->handle($this->id, $formdata['telegram_webhook']);
                             $status = $maxQuery->handle($bot, 'DELETE', 'subscriptions', ['url' => $webhook_address], false);
 
                             if (is_callable($set)) {

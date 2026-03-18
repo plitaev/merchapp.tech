@@ -40,7 +40,7 @@ use App\Actions\Local\ClubAccessCallback;
 
 class ClubAccessController extends Controller
 {
-    public function club_access(int $bot_id) {
+    public function club_access(string $messenger, int $bot_id) {
 
         //== Инициализируем основные классы
         $botBranchRun = new BotBranchRun();
