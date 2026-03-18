@@ -13,6 +13,7 @@ use App\Actions\Core\BotSupergroup\BotSupergroups;
 use App\Actions\Core\BotUser\BotUserCreateFromTelegram;
 use App\Actions\Core\BotUser\BotUserGetFromTelegram;
 use App\Actions\Core\BotUser\BotUserSetBranch;
+use App\Actions\Core\Max\MaxWebhookWrite;
 use App\Actions\Core\ReferralProgram\ReferralProgramRunForReferrer;
 use App\Actions\Core\ReferralProgram\ReferralProgramRunForReferral;
 use App\Actions\Core\Telegram\TelegramGetChatIDFromWebhook;
@@ -51,6 +52,7 @@ class ClubAccessController extends Controller
         $botUserCreateFromTelegram = new BotUserCreateFromTelegram();
         $botUserGetFromTelegram = new BotUserGetFromTelegram();
         $botUserSetBranch = new BotUserSetBranch();
+        $maxWebhookWrite = new MaxWebhookWrite();
         $referralProgramRunForReferrer = new ReferralProgramRunForReferrer();
         $referralProgramRunForReferral = new ReferralProgramRunForReferral();
         $telegramGetChatIDFromWebhook = new TelegramGetChatIDFromWebhook();
@@ -83,8 +85,10 @@ class ClubAccessController extends Controller
 
 
         //== Делаем первичную обработку
-        //== Пишем вебхук от телеграма в БД и в переменную
-        $webhook = $telegramWebhookWrite->handle(file_get_contents('php://input'), $bot_id);
+        //== Пишем вебхук от телеграма / макса в БД и в переменную
+
+        if ($messenger == 'telegram') $webhook = $telegramWebhookWrite->handle(file_get_contents('php://input'), $bot_id);
+        if ($messenger == 'max') $webhook = $maxWebhookWrite->handle(file_get_contents('php://input'), $bot_id);
 
         //== Получаем chat_id из вебхука, и если не найден, возвращаем ошибку
         (int) $chat_id = $telegramGetChatIDFromWebhook->handle($webhook);
