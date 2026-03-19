@@ -55,8 +55,7 @@ class BotSendMessage
 
                 //== Отправляем само сообщение
                 if ($bot_user->max_user_id) {
-                    return 'max';
-                    $message = $maxSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
+                    return $maxSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
                 }
 
                 if ($bot_user->telegram_chat_id) {
