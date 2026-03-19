@@ -8,8 +8,6 @@ class MaxQuery
 {
     public function handle($bot, string $method, string $api_function, $request_data, bool $return_array = true) {
 
-        return 'kekek';
-
         $headers = [
             'Content-Type: application/json',
             'Authorization: '.$bot->max_token
@@ -47,6 +45,8 @@ class MaxQuery
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         $response = curl_exec($curl);
         curl_close($curl);
+
+        return $response;
 
         return ($return_array?json_decode($response, true):$response);
     }
