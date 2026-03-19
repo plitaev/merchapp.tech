@@ -4,6 +4,7 @@ namespace App\Actions\Core\BotSendMessage;
 use Illuminate\Support\Facades\Schema;
 
 use App\Actions\Core\BotUser\BotUserSetListener;
+use App\Actions\Core\Max\MaxSendMessage;
 use App\Actions\Core\Telegram\TelegramSendMessage;
 
 use App\Models\Core\BotMessage;
@@ -17,6 +18,7 @@ class BotSendMessage
     public function handle($bot_user, string $bot_message_appointment_name) {
 
         $botUserSetListener = new BotUserSetListener();
+        $maxSendMessage = new MaxSendMessage();
         $telegramSendMessage = new TelegramSendMessage();
 
         $bot_message_appointment = BotMessageAppointment::where('alias', $bot_message_appointment_name)->first();
@@ -52,7 +54,13 @@ class BotSendMessage
             if ($bot_message) {
 
                 //== Отправляем само сообщение
-                $message = $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
+                if ($bot_user->max_user_id) {
+                    $message = $maxSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
+                }
+
+                if ($bot_user->telegram_chat_id) {
+                    $message = $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
+                }
 
                 //== Проверяем статусы, и ставим, если есть
                 $schema=Schema::getColumnListing(with (new BotUser())->getTable());
