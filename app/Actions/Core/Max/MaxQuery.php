@@ -39,7 +39,6 @@ class MaxQuery
             $api_url.= '?' . implode('&', $add_to_url);
         }
 
-
         curl_setopt($curl, CURLOPT_URL, $api_url);
 
         if ($method == 'POST') {

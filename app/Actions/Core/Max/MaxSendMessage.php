@@ -12,8 +12,7 @@ use App\Actions\Core\Product\ProductListByBot;
 
 use App\Models\Core\BotMessage;
 use App\Models\Core\BotMessageButton;
-use App\Models\Core\TelegramSendMessageErrorLog;
-use App\Models\Core\TelegramSendMessageLog;
+use App\Models\Core\MaxSendMessageLog;
 
 class MaxSendMessage
 {
@@ -28,7 +27,7 @@ class MaxSendMessage
 
         (int) $send_status = 0;
 
-        $bot_message = BotMessage::with('bot:id,telegram_token,business_connection_id')->find($bot_message_id);
+        $bot_message = BotMessage::with('bot')->find($bot_message_id);
 
         $text = $bot_message->text;
         $text = urldecode($text);
@@ -49,15 +48,15 @@ class MaxSendMessage
                         $url = $button->url;
                     }
 
-                    $btn = [["text" => $button->name, "url" => $url]];
+                    $btn = [["text" => $button->name, "url" => $url, "type" => "link"]];
                 }
 
                 if ($button->callback) {
-                    $btn = [["text" => $button->name, "callback_data" => $button->callback]];
+                    $btn = [["text" => $button->name, "payload" => $button->callback, "type" => "callback"]];
                 }
 
                 if ($button->bot_message_button_callbacks) {
-                    $btn = [["text" => $button->name, "callback_data" => $button->bot_message_button_callbacks->system_name]];
+                    $btn = [["text" => $button->name, "payload" => $button->bot_message_button_callbacks->system_name, "type" => "callback"]];
                 }
 
                 if ($button->bot_message_button_type_id == 4) {
@@ -73,7 +72,7 @@ class MaxSendMessage
                     }
 
 
-                    $btn = [['url' => env("APP_URL")."/pay/create/".$button->pay_system->alias."/".$bot_user->id."/".$button->product_id, "text" => $button_name]];
+                    $btn = [['url' => env("APP_URL")."/pay/create/".$button->pay_system->alias."/".$bot_user->id."/".$button->product_id, "text" => $button_name, "type" => "link"]];
                 }
 
                 $kb[] = $btn;
@@ -88,107 +87,45 @@ class MaxSendMessage
             }
 
             $A = [];
-
-            if ($bot_message->image || $bot_message->video || $bot_message->audio || $bot_message->custom_file) {
-                $A['text'] = $text;
-            } else {
-                $A['text'] = $text;
-            }
-
-            $A['reply_markup'] = $keyboard;
-            $A['parse_mode'] = 'HTML';
-            if (count($kb) > 0) $A['reply_markup'] = $keyboard;
+            $A['text'] = $text;
+            $A['attachments'] = [];
+            if (count($kb) > 0) $A['attachments'][] = ["type" => "inline_keyboard", "payload" => ["buttons" => $keyboard]];
 
             //=========================================================================================================================
 
-            if ($bot_message->image && $send_status == 0) {
-                $A['photo'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->image);
-
-                try {
-                    //$message = $telegram->sendPhoto($A);
-                } catch (\Exception $exception) {
-                    TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
-                }
-
-                $send_status = 1;
-            }
+            if ($bot_message->image) $A['attachments'][] = ["type" => "image", "payload" => ["url" => env('APP_URL').'/content/'.$bot_message->image]];
 
             //=========================================================================================================================
 
-            if ($bot_message->video && $send_status == 0) {
-                $A['video'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->video);
-
-                try {
-                    //$message = $telegram->sendVideo($A);
-                } catch (\Exception $exception) {
-                    TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
-                }
-
-                $send_status = 1;
-            }
+            if ($bot_message->video) $A['attachments'][] = ["type" => "video", "payload" => ["url" => env('APP_URL').'/content/'.$bot_message->video]];
 
             //=========================================================================================================================
 
-            if ($bot_message->audio && $send_status == 0) {
-                $A['audio'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->audio);
-
-                try {
-                    //$message = $telegram->sendAudio($A);
-                } catch (\Exception $exception) {
-                    TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
-                }
-
-                $send_status = 1;
-            }
+            if ($bot_message->audio) $A['attachments'][] = ["type" => "audio", "payload" => ["url" => env('APP_URL').'/content/'.$bot_message->audio]];
 
             //=========================================================================================================================
 
-            if ($bot_message->custom_file && $send_status == 0) {
-
-                $Aext = explode('.', $bot_message->custom_file);
-                $file_ext = $Aext[count($Aext)-1];
-
-                $filename = (isset($bot_message->custom_file_name)?$bot_message->custom_file_name:'Файл');
-
-                $A['document'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->custom_file, $filename.'.'.$file_ext);
-
-                try {
-                    //$message = $telegram->sendDocument($A);
-                } catch (\Exception $exception) {
-                    TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
-                }
-
-                $send_status = 1;
-            }
+            if ($bot_message->custom_file) $A['attachments'][] = ["type" => "file", "payload" => ["url" => env('APP_URL').'/content/'.$bot_message->custom_file]];
 
             //=========================================================================================================================
 
-            if (!$bot_message->image && !$bot_message->video && !$bot_message->audio && !$bot_message->custom_file && $send_status == 0) {
-                try {
-                    return $maxQuery->handle($bot_user->bot, 'POST', 'messages', ['text' => $text], false, ['user_id' => $bot_user->max_user_id]);
-                } catch (\Exception $exception) {
-                    return 'qwer';
-                }
-
-                $send_status = 1;
-            }
+            try {
+                $message = $maxQuery->handle($bot_user->bot, 'POST', 'messages', $A, false, ['user_id' => $bot_user->max_user_id]);
+            } catch (\Exception $exception) {}
 
             //=========================================================================================================================
 
             if (isset($message)) {
-                /*
-                TelegramSendMessageLog::create(
+
+                MaxSendMessageLog::create(
                     [
-                        'chat_id' => $bot_user->telegram_chat_id,
+                        'max_user_id' => $bot_user->max_user_id,
                         'bot_message_id' => $bot_message_id,
                         'text' => $bot_message->text,
-                        'keyboard' => $keyboard,
-                        'telegram_message_id' => $message->message_id,
-                        'telegram_message_data' => json_encode($message, true),
-                        'telegram_entities' => $entities
+                        'keyboard' => $keyboard
                     ]
                 );
-                */
+
 
                 //== Разбаниваем, если идет сообщение об успехе, и ставим в UnbanScheduler
 
