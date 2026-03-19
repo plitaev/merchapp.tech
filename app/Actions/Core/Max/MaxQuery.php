@@ -6,7 +6,7 @@ use App\Models\Core\MaxWebhook;
 
 class MaxQuery
 {
-    public function handle($bot, string $method, string $api_function, $request_data, bool $return_array = true) {
+    public function handle($bot, string $method, string $api_function, $request_data, bool $return_array = true, array $post_add_to_url = []) {
         $headers = [
             'Content-Type: application/json',
             'Authorization: '.$bot->max_token
@@ -26,6 +26,19 @@ class MaxQuery
 
             $api_url.= '?' . implode('&', $add_to_url);
         }
+
+
+        if ($method == "POST" && count($post_add_to_url) > 0) {
+            $add_to_url = [];
+
+            foreach ($post_add_to_url as $key => $value) {
+                $item = $key . "=" . $value;
+                $add_to_url[] = $item;
+            }
+
+            $api_url.= '?' . implode('&', $add_to_url);
+        }
+
 
         curl_setopt($curl, CURLOPT_URL, $api_url);
 
