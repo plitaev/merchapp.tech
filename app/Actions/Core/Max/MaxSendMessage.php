@@ -100,7 +100,7 @@ class MaxSendMessage
             if ($bot_message->custom_file) $A['attachments'][] = ["type" => "file", "payload" => ["url" => env('APP_URL').'/content/'.$bot_message->custom_file]];
 
             //=========================================================================================================================
-            return $A;
+
             try {
                 $message = $maxQuery->handle($bot_user->bot, 'POST', 'messages', $A, false, ['user_id' => $bot_user->max_user_id]);
             } catch (\Exception $exception) {}
