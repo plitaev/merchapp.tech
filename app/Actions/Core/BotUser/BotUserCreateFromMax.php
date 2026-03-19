@@ -8,20 +8,15 @@ class BotUserCreateFromMax
 
         if (!is_array($webhook)) $webhook = json_decode($webhook, true);
 
-        $first_name = (isset($webhook['message']['chat']['first_name'])?$webhook['message']['chat']['first_name']:'none');
-        $last_name = (isset($webhook['message']['chat']['last_name'])?$webhook['message']['chat']['last_name']:'none');
-        $username = (isset($webhook['message']['chat']['username'])?$webhook['message']['chat']['username']:'none');
-        $language_code = (isset($webhook['message']['from']['language_code'])?$webhook['message']['from']['language_code']:'no');
-
-        if ($first_name == "none") $first_name = (isset($webhook['business_message']['from']['first_name'])?$webhook['business_message']['from']['first_name']:'none');
-        if ($last_name == "none") $last_name = (isset($webhook['business_message']['from']['last_name'])?$webhook['business_message']['from']['last_name']:'none');
-        if ($username == "none") $username = (isset($webhook['business_message']['from']['username'])?$webhook['business_message']['from']['username']:'none');
-        if ($language_code == "none") $language_code = (isset($webhook['business_message']['from']['language_code'])?$webhook['business_message']['from']['language_code']:'no');
+        $first_name = (isset($webhook['user']['first_name'])?$webhook['user']['first_name']:'none');
+        $last_name = (isset($webhook['user']['last_name'])?$webhook['user']['last_name']:'none');
+        $username = 'none';
+        $language_code = (isset($webhook['user']['user_locale'])?$webhook['user']['user_locale']:'no');
 
         // Пишем их в БД
-        if (isset($webhook['message']) || isset($webhook['business_message'])) {
+        if (isset($webhook['user'])) {
             \App\Models\Core\BotUser::updateOrCreate(
-                ['telegram_chat_id' => $chat_id, 'bot_id' => $bot_id],
+                ['max_user_id' => $chat_id, 'bot_id' => $bot_id],
                 ['first_name' => $first_name, 'last_name' => $last_name, 'username' => $username, 'language_code' => $language_code]
             );
         }

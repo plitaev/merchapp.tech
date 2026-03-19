@@ -10,6 +10,7 @@ use App\Actions\Core\BotBranch\BotBranchRun;
 use App\Actions\Core\BotBranch\BotBranchEndOnRestart;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotSupergroup\BotSupergroups;
+use App\Actions\Core\BotUser\BotUserCreateFromMax;
 use App\Actions\Core\BotUser\BotUserCreateFromTelegram;
 use App\Actions\Core\BotUser\BotUserGetFromTelegram;
 use App\Actions\Core\BotUser\BotUserSetBranch;
@@ -54,6 +55,7 @@ class ClubAccessController extends Controller
         $botGetByID = new BotGetByID();
         $botSendMessage = new BotSendMessage();
         $botSupergroupsByBot = new BotSupergroups();
+        $botUserCreateFromMax = new BotUserCreateFromMax();
         $botUserCreateFromTelegram = new BotUserCreateFromTelegram();
         $botUserGetFromTelegram = new BotUserGetFromTelegram();
         $botUserSetBranch = new BotUserSetBranch();
@@ -113,6 +115,7 @@ class ClubAccessController extends Controller
 
         //== А если найден, то пишем в БД и идем дальше
         if ($messenger == 'telegram') $botUserCreateFromTelegram->handle($chat_id, $bot_id, $webhook);
+        if ($messenger == 'max') $botUserCreateFromMax->handle($chat_id, $bot_id, $webhook);
 
         //== Достаем данные юзера по chat_id после создания
         if ($messenger == 'telegram') $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id);
