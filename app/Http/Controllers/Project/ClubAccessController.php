@@ -300,7 +300,7 @@ class ClubAccessController extends Controller
 
             } else {
                 //== Если ни сообщение, ни колбэк, то возвращаем ошибку
-                return "MESSAGE_NOT_FOUND";
+                return "MESSAGE_NOT_FOUNDD";
             }
 
         }
