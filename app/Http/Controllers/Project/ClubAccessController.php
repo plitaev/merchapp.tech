@@ -223,6 +223,7 @@ class ClubAccessController extends Controller
             //== Проверяем, получал ли юзер приветственное сообщение
 
             if ($messenger == 'max') {
+                return 'igor';
                 return $botWelcomeMessage->handle($bot_user); //== Обрабатываем первичное стартовое сообщение (до ввода имени)
             } else {
                 $botWelcomeMessage->handle($bot_user); //== Обрабатываем первичное стартовое сообщение (до ввода имени)
