@@ -165,7 +165,7 @@ class MaxSendMessage
 
             if (!$bot_message->image && !$bot_message->video && !$bot_message->audio && !$bot_message->custom_file && $send_status == 0) {
                 try {
-                    return $maxQuery->handle($bot_user->bot, 'POST', 'messages', ['user_id' => $bot_user->max_user_id]);
+                    return $maxQuery->handle($bot_user->bot, 'POST', 'messages', ['user_id' => $bot_user->max_user_id], false);
                 } catch (\Exception $exception) {
                     return 'qwer';
                 }
