@@ -30,8 +30,6 @@ class MaxSendMessage
 
         $bot_message = BotMessage::with('bot:id,telegram_token,business_connection_id')->find($bot_message_id);
 
-        $telegram = new Api($bot_message->bot->telegram_token);
-
         $text = $bot_message->text;
         $text = urldecode($text);
         $text = $botUserInsertVariables->handle($bot_user, $text);
@@ -107,7 +105,7 @@ class MaxSendMessage
                 $A['photo'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->image);
 
                 try {
-                    $message = $telegram->sendPhoto($A);
+                    //$message = $telegram->sendPhoto($A);
                 } catch (\Exception $exception) {
                     TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
                 }
@@ -121,7 +119,7 @@ class MaxSendMessage
                 $A['video'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->video);
 
                 try {
-                    $message = $telegram->sendVideo($A);
+                    //$message = $telegram->sendVideo($A);
                 } catch (\Exception $exception) {
                     TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
                 }
@@ -135,7 +133,7 @@ class MaxSendMessage
                 $A['audio'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->audio);
 
                 try {
-                    $message = $telegram->sendAudio($A);
+                    //$message = $telegram->sendAudio($A);
                 } catch (\Exception $exception) {
                     TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
                 }
@@ -155,7 +153,7 @@ class MaxSendMessage
                 $A['document'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->custom_file, $filename.'.'.$file_ext);
 
                 try {
-                    $message = $telegram->sendDocument($A);
+                    //$message = $telegram->sendDocument($A);
                 } catch (\Exception $exception) {
                     TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
                 }
@@ -195,7 +193,7 @@ class MaxSendMessage
 
                 if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE') {
                     $supergroups = $botSupergroupsAll->handle();
-                    $botUserUnban->handle($bot_user, $supergroups, $telegram);
+                    //$botUserUnban->handle($bot_user, $supergroups, $telegram);
                     $botUserSetUnbanScheduler->handle($bot_user, date('Y-m-d H:i:s'));
                 }
 
