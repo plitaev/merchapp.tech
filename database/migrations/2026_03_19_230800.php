@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('bot_message_id');
             $table->text('text');
             $table->text('keyboard');
+            $table->text('max_responce_data');
             $table->timestamps();
         });
     }

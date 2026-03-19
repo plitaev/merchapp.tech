@@ -2,13 +2,18 @@
 
 namespace App\Models\Core;
 
-class MaxSendMessageLog
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+
+class MaxSendMessageLog extends Model
 {
     protected $fillable = [
         'max_user_id',
         'bot_message_id',
         'text',
-        'keyboard'
+        'keyboard',
+        'max_responce_data'
     ];
 
     public function bot_message(): BelongsTo

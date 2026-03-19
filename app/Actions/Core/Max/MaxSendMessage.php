@@ -122,7 +122,8 @@ class MaxSendMessage
                         'max_user_id' => $bot_user->max_user_id,
                         'bot_message_id' => $bot_message_id,
                         'text' => $bot_message->text,
-                        'keyboard' => $keyboard
+                        'keyboard' => $keyboard,
+                        'max_responce_data' => $message
                     ]
                 );
 
