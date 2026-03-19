@@ -51,8 +51,6 @@ class BotSendMessage
 
             }
 
-            return $bot_message;
-
             if ($bot_message) {
 
                 //== Отправляем само сообщение
