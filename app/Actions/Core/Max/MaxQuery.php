@@ -7,6 +7,9 @@ use App\Models\Core\MaxWebhook;
 class MaxQuery
 {
     public function handle($bot, string $method, string $api_function, $request_data, bool $return_array = true) {
+
+        return 'kekek';
+
         $headers = [
             'Content-Type: application/json',
             'Authorization: '.$bot->max_token
