@@ -109,6 +109,8 @@ class ClubAccessController extends Controller
 
         if ($chat_id == 0) return "CHAT_ID_NOT_FOUND";
 
+        if ($messenger == 'telegram' && $chat_id < 0) die();
+
         //== Получаем ID всех групп, к которым привязан бот
         $groups = $botSupergroupsByBot->handle($bot_id);
 
