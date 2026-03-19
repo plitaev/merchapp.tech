@@ -12,6 +12,7 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotSupergroup\BotSupergroups;
 use App\Actions\Core\BotUser\BotUserCreateFromMax;
 use App\Actions\Core\BotUser\BotUserCreateFromTelegram;
+use App\Actions\Core\BotUser\BotUserGetFromMax;
 use App\Actions\Core\BotUser\BotUserGetFromTelegram;
 use App\Actions\Core\BotUser\BotUserSetBranch;
 
@@ -57,6 +58,7 @@ class ClubAccessController extends Controller
         $botSupergroupsByBot = new BotSupergroups();
         $botUserCreateFromMax = new BotUserCreateFromMax();
         $botUserCreateFromTelegram = new BotUserCreateFromTelegram();
+        $botUserGetFromMax = new BotUserGetFromMax();
         $botUserGetFromTelegram = new BotUserGetFromTelegram();
         $botUserSetBranch = new BotUserSetBranch();
 
@@ -119,6 +121,7 @@ class ClubAccessController extends Controller
 
         //== Достаем данные юзера по chat_id после создания
         if ($messenger == 'telegram') $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id);
+        if ($messenger == 'max') $bot_user = $botUserGetFromMax->handle($bot_id, $chat_id);
 
         if ($bot_user->blacklist == 1) die();
 
