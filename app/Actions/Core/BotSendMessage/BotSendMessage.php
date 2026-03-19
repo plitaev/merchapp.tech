@@ -23,6 +23,8 @@ class BotSendMessage
 
         $bot_message_appointment = BotMessageAppointment::where('alias', $bot_message_appointment_name)->first();
 
+        return 'ok';
+
         if ($bot_message_appointment) {
 
             if (isset($bot_user->bot_branch_id)) {
