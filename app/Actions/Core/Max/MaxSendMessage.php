@@ -34,8 +34,6 @@ class MaxSendMessage
         $text = urldecode($text);
         $text = $botUserInsertVariables->handle($bot_user, $text);
 
-        return $bot_message;
-
         if ($bot_message) {
 
             $kb = [];
@@ -166,6 +164,7 @@ class MaxSendMessage
             //=========================================================================================================================
 
             if (!$bot_message->image && !$bot_message->video && !$bot_message->audio && !$bot_message->custom_file && $send_status == 0) {
+                return 'max max';
                 try {
                     $maxQuery->handle($bot_user->bot, 'POST', 'messages', ['user_id' => $bot_user->max_user_id]);
                 } catch (\Exception $exception) {
