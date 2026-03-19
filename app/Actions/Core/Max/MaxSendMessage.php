@@ -78,18 +78,10 @@ class MaxSendMessage
                 $kb[] = $btn;
             }
 
-
-            if (count($kb) > 0) {
-                $keyboard = ["inline_keyboard" => $kb];
-                $keyboard = json_encode($keyboard, true);
-            } else {
-                $keyboard = NULL;
-            }
-
             $A = [];
             $A['text'] = $text;
             $A['attachments'] = [];
-            if (count($kb) > 0) $A['attachments'][] = ["type" => "inline_keyboard", "payload" => ["buttons" => $keyboard]];
+            if (count($kb) > 0) $A['attachments'][] = ["type" => "inline_keyboard", "payload" => ["buttons" => $kb]];
 
             //=========================================================================================================================
 
