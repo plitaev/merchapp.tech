@@ -6,7 +6,7 @@ class BotWelcomeMessage
 {
     public function handle($bot_user) {
         $botSendMessage = new BotSendMessage();
-        return '11';
+        return $bot_user;
         if ($bot_user->sys_welcome_message_status == 0) {
             return $botSendMessage->handle($bot_user, 'SYS_WELCOME_MESSAGE');
         }
