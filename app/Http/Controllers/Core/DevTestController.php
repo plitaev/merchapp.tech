@@ -37,7 +37,13 @@ class DevTestController extends Controller
         $maxQuery = new MaxQuery();
 
         $bot = Bot::find(2);
-        return $maxQuery->handle($bot, 'POST', 'uploads', [], true, ['type' => 'file']);
+        $upload_url = $maxQuery->handle($bot, 'POST', 'uploads', [], true, ['type' => 'file']);
+        $upload_url = $upload_url['url'];
+
+        return public_path().'content/miniapp_video/01KHBFEGWK7NQR9KSKAABT97EY.mp4';
+
+        $cfile = curl_file_create(public_path().'content/miniapp_video/01KHBFEGWK7NQR9KSKAABT97EY.mp4', 'video/mp4', '01KHBFEGWK7NQR9KSKAABT97EY.mp4');
+
     }
 
 }
