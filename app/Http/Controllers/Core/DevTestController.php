@@ -27,9 +27,15 @@ use App\Actions\Core\DateEnd\DateEndNew;
 use App\Actions\Core\DateEnd\DateEnd;
 use App\Models\Core\TelegramBanScheduleLogs;
 
+use App\Actions\Core\Max\MaxQuery;
+
 class DevTestController extends Controller
 {
     public function devtest() {
+        $maxQuery = new MaxQuery();
+
+        $bot = Bot::find(2);
+        return $maxQuery->handle($bot, 'POST', 'uploads', [], false, ['type' => 'file']);
     }
 
 }
