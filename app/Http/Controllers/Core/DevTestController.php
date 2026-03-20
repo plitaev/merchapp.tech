@@ -37,7 +37,7 @@ class DevTestController extends Controller
         $maxQuery = new MaxQuery();
 
         $bot = Bot::find(2);
-        return $maxQuery->handle($bot, 'POST', 'uploads', [], false, ['type' => 'file']);
+        return $maxQuery->handle($bot, 'POST', 'uploads', [], true, ['type' => 'file']);
     }
 
 }
