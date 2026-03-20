@@ -42,11 +42,12 @@ class DevTestController extends Controller
 
         $cfile = curl_file_create(public_path().'/content/miniapp_video/01KHBFEGWK7NQR9KSKAABT97EY.mp4', 'video/mp4', '01KHBFEGWK7NQR9KSKAABT97EY.mp4');
 
+
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $upload_url);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $cfile);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, ['data' => $cfile]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
         curl_close($ch);
