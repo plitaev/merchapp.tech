@@ -66,6 +66,8 @@ class BotSupergroups extends Page implements HasTable
                     ->searchable(),
                 TextColumn::make('telegram_id')
                     ->label('ID в Telegram'),
+                TextColumn::make('max_id')
+                    ->label('ID в Max'),
                 TextColumn::make('give_access_name.name')
                     ->label('Выдавать доступ'),
             ])
