@@ -119,7 +119,6 @@ class BotSupergroupAdmin extends Page implements HasForms
                             ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
 
                         Forms\Components\TextInput::make('telegram_id')
-                            ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите ID в Telegram (только цифры)',
                             ])
@@ -127,7 +126,6 @@ class BotSupergroupAdmin extends Page implements HasForms
                             ->maxLength(255)
                             ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
                         Forms\Components\TextInput::make('max_id')
-                            ->required()
                             ->validationMessages([
                                 'required' => 'Обязательно укажите ID в Max (только цифры)',
                             ])
@@ -165,7 +163,7 @@ class BotSupergroupAdmin extends Page implements HasForms
                             ->required()
                             ->options(SupergroupDeleteParameter::all()->pluck('name', 'id'))
                             ->live()
-                            ->searchable()
+                            ->searchable(),
                             ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
 
                         Forms\Components\TextInput::make('supergroup_delete_days')
