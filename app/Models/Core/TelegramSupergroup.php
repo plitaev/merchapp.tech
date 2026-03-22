@@ -12,6 +12,7 @@ class TelegramSupergroup extends Model
         'bot_id',
         'name',
         'telegram_id',
+        'max_id',
         'give_access',
         'unban',
         'decline_chat_join_request',
