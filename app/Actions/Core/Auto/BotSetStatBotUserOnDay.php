@@ -13,7 +13,7 @@ class BotSetStatBotUserOnDay
     public function handle() {
 
         $date = date('Y-m-d', time());
-        $bots = Bot::all();
+        $bots = Bot::where('id', 1)->get();
 
         foreach ($bots as $bot) {
             $bot_users = BotUser::where('date_end', '>=', $date)->where('bot_id', $bot->id)->count();
