@@ -78,6 +78,10 @@ class BotSendMessage
                 //== Проверяем паузу, и отправляем, если есть
                 if ($bot_message->pause_after_message > 0) sleep($bot_message->pause_after_message);
 
+                //== Убираем листенер перехода к платежу, если это SUCCESS_MESSAGE
+
+                if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE') $botUserSetListener->handle('sys_go_to_pay', 0, $bot_user->id);
+
                 //== Завершаем отправку
                 return $message;
 
