@@ -35,8 +35,10 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $bot_users = BotUser::select('id')->pluck('id')->toArray();
-        return $bot_users;
+        $dateEnd = new DateEnd();
+
+        $bot_users = BotUser::find(16);
+        return $dateEnd->handle($bot_users, 'Y-m-d');
 
         $maxQuery = new MaxQuery();
 
