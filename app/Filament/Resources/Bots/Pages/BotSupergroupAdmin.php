@@ -119,11 +119,11 @@ class BotSupergroupAdmin extends Page implements HasForms
                             ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
 
                         Forms\Components\TextInput::make('telegram_id')
-                            ->required()
-                            ->validationMessages([
-                                'required' => 'Обязательно укажите ID в Telegram (только цифры)',
-                            ])
                             ->label('ID в Telegram')
+                            ->maxLength(255)
+                            ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
+                        Forms\Components\TextInput::make('max_id')
+                            ->label('ID в Max')
                             ->maxLength(255)
                             ->disabled(auth()->user()->hasPermissionTo('Update:TelegramSupergroup')?false:true),
 
