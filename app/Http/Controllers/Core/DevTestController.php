@@ -34,6 +34,10 @@ use App\Models\Core\Bot;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $bot_users = BotUser::select('id')->where('bot_id', 8)->pluck('id')->toArray();
+        return $bot_users;
+
         $maxQuery = new MaxQuery();
 
         $bot = Bot::find(2);
