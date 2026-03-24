@@ -66,7 +66,7 @@ class MaxController
 
             $result = json_decode($result, true);
 
-            BotMessage::where('id', $bot_message_id)->update(['' => $result['token']]);
+            BotMessage::where('id', $bot_message_id)->update([$real_type.'_max_id' => $result['token']]);
         }
 
     }
