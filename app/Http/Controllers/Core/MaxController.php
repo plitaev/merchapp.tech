@@ -21,12 +21,12 @@ class MaxController
         $mime_type = '';
 
         if ($bot_message->bot_message_type_id == 3) {
-            $type = 'video';
+            $type = 'file';
             $file = $bot_message->video;
         }
 
         if ($bot_message->bot_message_type_id == 4) {
-            $type = 'audio';
+            $type = 'file';
             $file = $bot_message->audio;
         }
 
@@ -37,8 +37,6 @@ class MaxController
 
 
         if ($type != '') {
-
-            return $type;
 
             $file_path = public_path().'/content/'.$file;
             $mime_type = mime_content_type($file_path);
