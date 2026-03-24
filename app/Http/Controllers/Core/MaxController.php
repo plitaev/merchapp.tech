@@ -43,11 +43,10 @@ class MaxController
             $file_name = $file_name[(count($file_name)-1)];
 
             $upload_url = $maxQuery->handle($bot_message->bot, 'POST', 'uploads', [], true, ['type' => $type]);
-            return $upload_url;
             $upload_url = $upload_url['url'];
 
             $cfile = curl_file_create($file_path, $mime_type, $file_name);
-
+            return $cfile;
 
             $ch = curl_init();
 
