@@ -34,12 +34,6 @@ use App\Models\Core\Bot;
 class DevTestController extends Controller
 {
     public function devtest() {
-
-        $dateEnd = new DateEnd();
-
-        $bot_users = BotUser::find(16);
-        return $dateEnd->handle($bot_users, 'Y-m-d');
-
         $maxQuery = new MaxQuery();
 
         $bot = Bot::find(2);

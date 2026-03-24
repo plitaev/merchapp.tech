@@ -353,6 +353,21 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             return $get('bot_message_type_id') == 3;
                         }
                     }),
+                Section::make('Видео в Max')
+                    ->description(new HtmlString("<a style='font-weight: bold' href=''></a>"))
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->visible(function (Get $get) {
+                        if (is_callable($get)) {
+                            return $get('bot_message_type_id') == 3;
+                        }
+                    })
+                    ->schema([]),
                 Section::make('Аудио')
                     ->schema([
                         FileUpload::make('audio')
