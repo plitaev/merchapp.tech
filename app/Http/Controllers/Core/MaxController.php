@@ -46,7 +46,6 @@ class MaxController
             $upload_url = $upload_url['url'];
 
             $cfile = curl_file_create($file_path, $mime_type, $file_name);
-            return $cfile;
 
             $ch = curl_init();
 
