@@ -56,7 +56,7 @@ class MaxController
             $result = curl_exec($ch);
             curl_close($ch);
 
-            return $result;
+            return 'test';
         }
 
         return $result;
