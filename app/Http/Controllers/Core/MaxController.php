@@ -67,6 +67,8 @@ class MaxController
             $result = json_decode($result, true);
 
             BotMessage::where('id', $bot_message_id)->update([$real_type.'_max_id' => $result['token']]);
+
+            return redirect('/admin/bots/'.$bot_id.'/'.$bot_message_id.'/message-admin');
         }
 
     }
