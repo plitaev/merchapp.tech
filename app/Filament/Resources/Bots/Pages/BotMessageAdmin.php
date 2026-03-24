@@ -171,9 +171,9 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
 
                 $this->bot_message_listener = BotMessageListener::select('listener_id')->where('bot_message_id', $id)->count();
 
-                if ($data->video_max_id) $this->video_max_id = "ID видео в Max: ".$data->video_max_id;
-                if ($data->audio_max_id) $this->audio_max_id = "ID аудио в Max: ".$data->audio_max_id;
-                if ($data->custom_file_max_id) $this->custom_file_max_id = "ID файла в Max: ".$data->custom_file_max_id;
+                if ($data['video_max_id']) $this->video_max_id = "ID видео в Max: ".$data['video_max_id'];
+                if ($data['audio_max_id']) $this->audio_max_id = "ID аудио в Max: ".['audio_max_id'];
+                if ($data['custom_file_max_id']) $this->custom_file_max_id = "ID файла в Max: ".$data['custom_file_max_id'];
 
             }
 
