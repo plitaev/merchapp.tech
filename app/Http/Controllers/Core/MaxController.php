@@ -36,8 +36,6 @@ class MaxController
 
         if ($type != '') {
 
-            return 'ok';
-
             $file_path = public_path().'/content/'.$file;
             $mime_type = mime_content_type($file_path);
 
@@ -57,6 +55,7 @@ class MaxController
             curl_setopt($ch, CURLOPT_POSTFIELDS, ['data' => $cfile]);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $result = curl_exec($ch);
+            return $result;
             curl_close($ch);
 
         }
