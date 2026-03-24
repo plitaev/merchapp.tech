@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Core;
 
 use App\Actions\Core\Max\MaxQuery;
 
+use App\Models\Core\Bot;
 use App\Models\Core\BotMessage;
 
 class MaxController
 {
     public function send_file(int $bot_id, int $bot_message_id) {
-
+        /*
         $maxQuery = new MaxQuery();
 
         $bot_message = BotMessage::with('bot')->find($bot_message_id);
@@ -57,6 +58,26 @@ class MaxController
             curl_close($ch);
 
         }
+
+        return $result;
+        */
+
+        $maxQuery = new MaxQuery();
+
+        $bot = Bot::find(2);
+        $upload_url = $maxQuery->handle($bot, 'POST', 'uploads', [], true, ['type' => 'file']);
+        $upload_url = $upload_url['url'];
+
+        $cfile = curl_file_create(public_path().'/content/bot_message_videos/01KMFDV813EMZMHCJ1EV86CXVE.mp4', 'video/mp4', '01KMFDV813EMZMHCJ1EV86CXVE.mp4');
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $upload_url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, ['data' => $cfile]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch);
+        curl_close($ch);
 
         return $result;
     }
