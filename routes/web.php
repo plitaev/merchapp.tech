@@ -14,6 +14,7 @@ require 'core/converter.php';
 require 'core/devtest.php';
 require 'core/google.php';
 require 'core/getcourse.php';
+require 'core/max.php';
 require 'core/miniapp.php';
 require 'core/pay.php';
 require 'core/paycount.php';
