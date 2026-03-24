@@ -41,7 +41,7 @@ class DevTestController extends Controller
         $upload_url = $upload_url['url'];
 
         $cfile = curl_file_create(public_path().'/content/bot_message_videos/01KMFDV813EMZMHCJ1EV86CXVE.mp4', 'video/mp4', '01KMFDV813EMZMHCJ1EV86CXVE.mp4');
-
+        return $cfile;
 
         $ch = curl_init();
 

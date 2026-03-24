@@ -45,8 +45,6 @@ class MaxController
             $upload_url = $maxQuery->handle($bot_message->bot, 'POST', 'uploads', [], true, ['type' => $type]);
             $upload_url = $upload_url['url'];
 
-            return $file_path.' | '.$mime_type.' | '.$file_name;
-
             $cfile = curl_file_create($file_path, $mime_type, $file_name);
             return $cfile;
 
