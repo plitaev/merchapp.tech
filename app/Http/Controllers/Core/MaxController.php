@@ -22,17 +22,20 @@ class MaxController
 
         if ($bot_message->bot_message_type_id == 3) {
             $type = 'file';
+            $real_type = 'video';
             $file = $bot_message->video;
         }
 
         if ($bot_message->bot_message_type_id == 4) {
             $type = 'file';
             $file = $bot_message->audio;
+            $real_type = 'audio';
         }
 
         if ($bot_message->bot_message_type_id == 5) {
             $type = 'file';
             $file = $bot_message->file;
+            $real_type = 'custom_file';
         }
 
 
@@ -61,23 +64,10 @@ class MaxController
             $result = curl_exec($ch);
             curl_close($ch);
 
-            return $result;
+            $result = json_decode($result, true);
 
-            /*
-            $cfile = curl_file_create(public_path().'/content/bot_message_videos/01KMFDV813EMZMHCJ1EV86CXVE.mp4', 'video/mp4', '01KMFDV813EMZMHCJ1EV86CXVE.mp4');
-
-            $ch = curl_init();
-
-            curl_setopt($ch, CURLOPT_URL, $upload_url);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, ['data' => $cfile]);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $result = curl_exec($ch);
-            curl_close($ch);
-            */
+            BotMessage::where('id', $bot_message_id)->update(['' => $result['token']]);
         }
-
-        //return $result;
 
     }
 }
