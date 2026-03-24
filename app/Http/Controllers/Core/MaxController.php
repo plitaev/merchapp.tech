@@ -54,9 +54,9 @@ class MaxController
             curl_setopt($ch, CURLOPT_POSTFIELDS, ['data' => $cfile]);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $result = curl_exec($ch);
-            return $result;
             curl_close($ch);
 
+            return $result;
         }
 
         return $result;
