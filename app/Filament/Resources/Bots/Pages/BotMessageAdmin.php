@@ -78,6 +78,10 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
     public $record;
     public string $send_message_self = "";
 
+    public string $video_max_id = "Это видео еще не загружено в Max. Нажмите, чтобы загрузить, и иметь возможность отправить его пользователям в Max.";
+    public string $audio_max_id = "Это аудио еще не загружено в Max. Нажмите, чтобы загрузить, и иметь возможность отправить его пользователям в Max.";
+    public string $custom_file_max_id = "Этот файл еще не загружен в Max. Нажмите, чтобы загрузить, и иметь возможность отправить его пользователям в Max.";
+
     public array $hours = [
         '0' => '0',
         '1' => '1',
@@ -166,6 +170,10 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                 }
 
                 $this->bot_message_listener = BotMessageListener::select('listener_id')->where('bot_message_id', $id)->count();
+
+                if ($data->video_max_id) $this->video_max_id = "ID видео в Max: ".$data->video_max_id;
+                if ($data->audio_max_id) $this->audio_max_id = "ID аудио в Max: ".$data->audio_max_id;
+                if ($data->custom_file_max_id) $this->custom_file_max_id = "ID файла в Max: ".$data->custom_file_max_id;
 
             }
 
@@ -354,14 +362,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         }
                     }),
                 Section::make('Видео в Max')
-                    ->description(new HtmlString("<a style='font-weight: bold' href=''></a>"))
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                        '2xl' => 1,
-                    ])
+                    ->description(new HtmlString("<a style='font-weight: bold' href=''>{{$this->video_max_id}}</a>"))
                     ->visible(function (Get $get) {
                         if (is_callable($get)) {
                             return $get('bot_message_type_id') == 3;
@@ -384,6 +385,14 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             return $get('bot_message_type_id') == 4;
                         }
                     }),
+                Section::make('Аудио в Max')
+                    ->description(new HtmlString("<a style='font-weight: bold' href=''>{{$this->audio_max_id}}</a>"))
+                    ->visible(function (Get $get) {
+                        if (is_callable($get)) {
+                            return $get('bot_message_type_id') == 4;
+                        }
+                    })
+                    ->schema([]),
                 Section::make('Файл')
                     ->schema([
                         FileUpload::make('custom_file')
@@ -402,6 +411,14 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             return $get('bot_message_type_id') == 5;
                         }
                     }),
+                Section::make('Файл в Max')
+                    ->description(new HtmlString("<a style='font-weight: bold' href=''>{{$this->custom_file_max_id}}</a>"))
+                    ->visible(function (Get $get) {
+                        if (is_callable($get)) {
+                            return $get('bot_message_type_id') == 5;
+                        }
+                    })
+                    ->schema([]),
                 Section::make('Удалить сообщение (не более, чем 47 часов с момента отправки)')
                     ->description('При включении данного параметра сообщение будет удалено у получивших его пользователей. Telegram позволяет полностью удалять сообщения не старше 47 часов с момента отправки.')
                     ->columns([
