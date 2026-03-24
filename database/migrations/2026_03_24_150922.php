@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bot_messages', function (Blueprint $table) {
-            $table->unsignedBigInteger('video_max_id')->after('video')->nullable();
-            $table->unsignedBigInteger('audio_max_id')->after('audio')->nullable();
-            $table->unsignedBigInteger('custom_file_max_id')->after('custom_file')->nullable();
+            $table->string('video_max_id', 255)->after('video')->nullable();
+            $table->string('audio_max_id', 255)->after('audio')->nullable();
+            $table->string('custom_file_max_id', 255)->after('custom_file')->nullable();
         });
     }
 
