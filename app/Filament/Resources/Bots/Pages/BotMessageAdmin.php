@@ -362,7 +362,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         }
                     }),
                 Section::make('Видео в Max')
-                    ->description(new HtmlString("<a style='font-weight: bold' href=''>{{$this->video_max_id}}</a>"))
+                    ->description(new HtmlString("<a style='font-weight: bold' href=''>".$this->video_max_id."</a>"))
                     ->visible(function (Get $get) {
                         if (is_callable($get)) {
                             return $get('bot_message_type_id') == 3;
@@ -386,7 +386,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         }
                     }),
                 Section::make('Аудио в Max')
-                    ->description(new HtmlString("<a style='font-weight: bold' href=''>{{$this->audio_max_id}}</a>"))
+                    ->description(new HtmlString("<a style='font-weight: bold' href=''>".$this->audio_max_id."</a>"))
                     ->visible(function (Get $get) {
                         if (is_callable($get)) {
                             return $get('bot_message_type_id') == 4;
@@ -412,7 +412,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                         }
                     }),
                 Section::make('Файл в Max')
-                    ->description(new HtmlString("<a style='font-weight: bold' href=''>{{$this->custom_file_max_id}}</a>"))
+                    ->description(new HtmlString("<a style='font-weight: bold' href=''>".$this->custom_file_max_id."</a>"))
                     ->visible(function (Get $get) {
                         if (is_callable($get)) {
                             return $get('bot_message_type_id') == 5;
