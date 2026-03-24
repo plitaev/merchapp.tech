@@ -38,6 +38,8 @@ class MaxController
 
         if ($type != '') {
 
+            return $type;
+
             $file_path = public_path().'/content/'.$file;
             $mime_type = mime_content_type($file_path);
 
