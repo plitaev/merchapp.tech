@@ -10,7 +10,7 @@ use App\Models\Core\BotMessage;
 class MaxController
 {
     public function send_file(int $bot_id, int $bot_message_id) {
-        /*
+
         $maxQuery = new MaxQuery();
 
         $bot_message = BotMessage::with('bot')->find($bot_message_id);
@@ -35,6 +35,7 @@ class MaxController
             $file = $bot_message->file;
         }
 
+        /*
         if ($type != '') {
 
             $file_path = public_path().'/content/'.$file;
