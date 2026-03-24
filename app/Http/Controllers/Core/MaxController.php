@@ -35,7 +35,7 @@ class MaxController
             $file = $bot_message->file;
         }
 
-        /*
+
         if ($type != '') {
 
             $file_path = public_path().'/content/'.$file;
@@ -46,7 +46,7 @@ class MaxController
 
             $upload_url = $maxQuery->handle($bot_message->bot, 'POST', 'uploads', [], true, ['type' => $type]);
             $upload_url = $upload_url['url'];
-
+            /*
             $cfile = curl_file_create(public_path().'/content/bot_message_videos/01KMFDV813EMZMHCJ1EV86CXVE.mp4', 'video/mp4', '01KMFDV813EMZMHCJ1EV86CXVE.mp4');
 
             $ch = curl_init();
@@ -57,11 +57,11 @@ class MaxController
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $result = curl_exec($ch);
             curl_close($ch);
-
+            */
         }
 
-        return $result;
-        */
+        //return $result;
+
 
         $maxQuery = new MaxQuery();
 
