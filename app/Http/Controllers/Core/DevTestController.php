@@ -34,24 +34,10 @@ use App\Models\Core\Bot;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $maxQuery = new MaxQuery();
-
-        $bot = Bot::find(2);
-        $upload_url = $maxQuery->handle($bot, 'POST', 'uploads', [], true, ['type' => 'file']);
-        $upload_url = $upload_url['url'];
-
-        $cfile = curl_file_create(public_path().'/content/bot_message_videos/01KMFDV813EMZMHCJ1EV86CXVE.mp4', 'video/mp4', '01KMFDV813EMZMHCJ1EV86CXVE.mp4');
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $upload_url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, ['data' => $cfile]);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $result = curl_exec($ch);
-        curl_close($ch);
-
-        return $result;
+        $bot_users = BotUser::where('ban', 0)->where('date_end', '<', '2026-03-25')->get();
+        foreach ($bot_users as $bot_user) {
+            BotUserBanSchedule::create(['bot_user_id' => $bot_user->id, 'run_status' => 0, 'ban_datetime' => '2026-03-25 12:00:00']);
+        }
     }
 
 }
