@@ -9,6 +9,7 @@ use App\Models\Core\BotUser;
 use App\Models\Core\BotUserPrice;
 use App\Models\Core\BotUserTicket;
 use App\Models\Core\Product;
+use App\Models\Core\User;
 
 class BotUserInsertVariables {
 
@@ -74,6 +75,20 @@ class BotUserInsertVariables {
             $prices = $botUserPriceGet->handle($bot_user, true);
             foreach ($prices as $product_id => $price) {
                 $text = str_replace('VAR_PRODUCT_PRICE_'.$product_id, $price, $text);
+            }
+        }
+
+        if (stripos(strtolower($text), 'VAR_USER_WEB_LOGIN')) {
+            $user = User::where('email', $bot_user->email)->first();
+            if ($user) {
+                $text = str_replace('VAR_USER_WEB_LOGIN', $user->email, $text);
+            }
+        }
+
+        if (stripos(strtolower($text), 'VAR_USER_WEB_PASSWORD')) {
+            $user = User::where('email', $bot_user->email)->first();
+            if ($user) {
+                $text = str_replace('VAR_USER_WEB_PASSWORD', $user->open_password, $text);
             }
         }
 
