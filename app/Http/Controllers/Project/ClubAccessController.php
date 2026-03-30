@@ -172,8 +172,6 @@ class ClubAccessController extends Controller
                 $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id); //== И повторно достаем его данные после сброса
             }
 
-            return 'ok';
-
             //== Если это /registration, тут обрабатываем регистрацию
             if ($Astart[0] == "/registration") {
                 $botRequestAndConfirmEmail->handle($bot_user);
@@ -202,6 +200,8 @@ class ClubAccessController extends Controller
                 $botSendMessage->handle($bot_user, 'SYS_OFERTA');
                 die();
             }
+
+            return 'ok';
 
             //== Тут обрабатываем разные входяшие параметры в бот после старта
 
