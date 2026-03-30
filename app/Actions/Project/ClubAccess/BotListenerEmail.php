@@ -58,6 +58,8 @@ class BotListenerEmail
 
                             $bot_user = BotUser::find($bot_user->id);
 
+                            return 'kkk';
+
                             if ($date_end > date('Y-m-d', time())) {
                                 $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
 
