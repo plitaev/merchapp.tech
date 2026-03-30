@@ -11,7 +11,7 @@ use App\Models\Core\BotMessage;
 use App\Models\Core\BotMessageAppointment;
 use App\Models\Core\BotMessageListener;
 use App\Models\Core\BotUser;
-
+use App\Models\Core\User;
 
 class BotSendMessage
 {
@@ -24,6 +24,23 @@ class BotSendMessage
         $bot_message_appointment = BotMessageAppointment::where('alias', $bot_message_appointment_name)->first();
 
         if ($bot_message_appointment) {
+
+            if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE') {
+                $check = User::where('email', $bot_user->email)->first();
+                if (!$check) {
+
+                    $plainPassword = Str::password(8, true, true, false, false);
+                    $hashedPassword = Hash::make($plainPassword);
+
+                    User::create([
+                        'name' => $bot_user->first_name." ".$bot_user->last_name,
+                        'email' => $bot_user->email,
+                        'password' => $hashedPassword,
+                        'open_password' => $plainPassword
+                    ]);
+
+                }
+            }
 
             if (isset($bot_user->bot_branch_id)) {
 
