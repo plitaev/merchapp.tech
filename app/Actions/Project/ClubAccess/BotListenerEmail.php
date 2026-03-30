@@ -59,8 +59,7 @@ class BotListenerEmail
                             $bot_user = BotUser::find($bot_user->id);
 
                             if ($date_end > date('Y-m-d', time())) {
-                                return 'kkk';
-                                $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+                                return $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
 
                                 //== Выключаем листенер почты
                                 $botUserSetListener->handle('listen_email', 0, $bot_user->id);
