@@ -15,7 +15,7 @@ class BotEmailVerification
             $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
 
             if ($bot_user->sys_go_to_pay_status == 1) {
-                return $botSendMessage->handle($bot_user, 'SYS_PAY_IN_BOT');
+                $botSendMessage->handle($bot_user, 'SYS_PAY_IN_BOT');
                 die();
             } else {
                 $botMainMenuMessage->handle($bot_user);
