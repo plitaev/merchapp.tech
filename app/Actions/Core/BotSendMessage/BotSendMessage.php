@@ -25,7 +25,22 @@ class BotSendMessage
 
         if ($bot_message_appointment) {
 
+            if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE') {
+                $check = User::where('email', $bot_user->email)->first();
+                if (!$check) {
 
+                    $plainPassword = Str::password(8, true, true, false, false);
+                    $hashedPassword = Hash::make($plainPassword);
+
+                    User::create([
+                        'name' => $bot_user->first_name." ".$bot_user->last_name,
+                        'email' => $bot_user->email,
+                        'password' => $hashedPassword,
+                        'open_password' => $plainPassword
+                    ]);
+
+                }
+            }
 
             if (isset($bot_user->bot_branch_id)) {
 
