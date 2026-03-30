@@ -76,7 +76,9 @@ class BotSendMessage
                 }
 
                 if ($bot_user->telegram_chat_id) {
+                    return 'ebb 2';
                     return $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
+                    $message = '';
                 }
 
                 //== Проверяем статусы, и ставим, если есть
