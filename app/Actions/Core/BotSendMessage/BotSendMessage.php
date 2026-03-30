@@ -42,8 +42,6 @@ class BotSendMessage
                 }
             }
 
-            return 'ekibelstus';
-
             if (isset($bot_user->bot_branch_id)) {
 
                 $bot_message = BotMessage::select('id', 'pause_after_message')
@@ -78,7 +76,7 @@ class BotSendMessage
                 }
 
                 if ($bot_user->telegram_chat_id) {
-                    $message = $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
+                    return $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
                 }
 
                 //== Проверяем статусы, и ставим, если есть
