@@ -42,6 +42,8 @@ class BotSendMessage
                 }
             }
 
+            return 'ekibelstus';
+
             if (isset($bot_user->bot_branch_id)) {
 
                 $bot_message = BotMessage::select('id', 'pause_after_message')
