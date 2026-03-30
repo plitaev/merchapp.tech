@@ -213,8 +213,6 @@ class ClubAccessController extends Controller
 
             }
 
-            return 'ok';
-
 
             //== Заканчиваем обрабатывать входящие параметры по ссылке на переход в ТГ к разговору с ботом
 
