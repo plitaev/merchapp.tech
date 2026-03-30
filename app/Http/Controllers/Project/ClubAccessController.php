@@ -201,8 +201,6 @@ class ClubAccessController extends Controller
                 die();
             }
 
-            return 'ok';
-
             //== Тут обрабатываем разные входяшие параметры в бот после старта
 
             if (count($Astart)==2 && $Astart[0]=="/start" && $Astart[1]!="none") {
@@ -214,6 +212,8 @@ class ClubAccessController extends Controller
                 }
 
             }
+
+            return 'ok';
 
 
             //== Заканчиваем обрабатывать входящие параметры по ссылке на переход в ТГ к разговору с ботом
