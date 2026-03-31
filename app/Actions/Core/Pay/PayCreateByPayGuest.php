@@ -2,6 +2,7 @@
 namespace App\Actions\Core\Pay;
 
 use App\Actions\Core\BotSendMessage\BotSendMessage;
+use App\Actions\Core\BotUser\BotUserSetListener;
 use App\Actions\Core\BotUserPrice\BotUserPriceSet;
 use App\Actions\Core\DateEnd\DateEnd;
 
@@ -13,6 +14,7 @@ use App\Models\Core\Product;
 class PayCreateByPayGuest
 {
     public function handle($bot_user, string $email) {
+        $botUserSetListener = new BotUserSetListener();
         $botSendMessage = new BotSendMessage();
         $botUserPriceSet = new BotUserPriceSet();
         $dateEnd = new DateEnd();
@@ -56,6 +58,7 @@ class PayCreateByPayGuest
         if (count($res) > 0) {
             $bot_user = BotUser::find($bot_user->id);
             $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+            $botUserSetListener->handle('sys_go_to_pay', 0, $bot_user->id);
         }
 
         return count($res);

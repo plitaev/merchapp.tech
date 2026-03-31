@@ -59,7 +59,10 @@ class BotListenerEmail
                             $bot_user = BotUser::find($bot_user->id);
 
                             if ($date_end > date('Y-m-d', time())) {
-                                if ($pay_guest_count == 0) $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+                                if ($pay_guest_count == 0) {
+                                    $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+                                    $botUserSetListener->handle('sys_go_to_pay', 0, $bot_user->id);
+                                }
 
                                 //== Выключаем листенер почты
                                 $botUserSetListener->handle('listen_email', 0, $bot_user->id);
