@@ -85,8 +85,10 @@ class BotListenerEmail
                 //== Выключаем листенер почты
                 $botUserSetListener->handle('listen_email', 0, $bot_user->id);
 
-                if ($bot_user->sys_go_to_pay_status == 1) {
-                    //$botSendMessage->handle($bot_user, 'SYS_PAY_IN_BOT');
+                $bot_user = BotUser::find($bot_user->id);
+
+                if ($bot_user->sys_go_to_pay_status == 1 && ($bot_user->date_end == NULL || $bot_user->date_end < date('Y-m-d', time()))) {
+                    $botSendMessage->handle($bot_user, 'SYS_PAY_IN_BOT');
                     die();
                 }
 
