@@ -34,6 +34,18 @@ use App\Models\Core\Bot;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $res = Pay::where('status', 1)->get();
+        foreach ($res as $data) {
+            $check = Pay::with('bot-user')->where('bot_user_id', $data->bot_user_id)->where('status', 1)->where('created_at', $data->created_at)->count();
+            if ($check > 0) {
+                $result[] = $data->bot_user->email;
+            }
+        }
+
+        return $result;
+
+        /*
         $pays = Pay::with('bot_user')
             ->where('status', 1)
             ->where('created_at', '>=', '2026-02-26 00:00:00')
@@ -42,5 +54,6 @@ class DevTestController extends Controller
             ->get();
 
         return view('core.devtest.devtest', ['pays' => $pays]);
+        */
     }
 }
