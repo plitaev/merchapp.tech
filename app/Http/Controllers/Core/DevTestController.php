@@ -37,8 +37,8 @@ class DevTestController extends Controller
 
         $res = Pay::with('bot_user')->where('status', 1)->get();
         foreach ($res as $data) {
-            $check = Pay::where('bot_user_id', $data->bot_user_id)->where('status', 1)->where('created_at', $data->created_at)->count();
-            if ($check > 0) {
+            $check = Pay::where('bot_user_id', $data->bot_user_id)->where('status', 1)->where('created_at', $data->created_at)->first();
+            if ($check) {
                 $result[] = $data->bot_user->email;
             }
         }
