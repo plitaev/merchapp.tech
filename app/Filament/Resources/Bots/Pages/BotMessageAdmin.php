@@ -339,6 +339,7 @@ class BotMessageAdmin extends Page implements HasForms, HasTable, HasInfolists
                             ->pasteable(auth()->user()->hasPermissionTo('Update:BotMessage'))
                             ->directory('bot_message_images')
                             ->visibility('public')
+                            ->openable()
                     ])
                     ->visible(function (Get $get) {
                         if (is_callable($get)) {

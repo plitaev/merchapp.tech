@@ -37,6 +37,8 @@ class TelegramSendMessage
 
         if ($bot_message) {
 
+
+
             $kb = [];
 
             $buttons = BotMessageButton::with('bot_message_button_callbacks')->with('product')->where('bot_message_id', $bot_message_id)->orderBy('pos')->get();
