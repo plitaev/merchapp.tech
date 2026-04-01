@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <script src="{{env('APP_URL')}}/js/telegram-web-app.js"></script>
 
     <script>
         window.onload = function() {

@@ -12,7 +12,7 @@
     @vite('resources/css/app.css')
 
     <script src="/js/jquery-3.6.0.min.js"></script>
-    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <script src="{{env('APP_URL')}}/js/telegram-web-app.js"></script>
 
     <script>
             let app = window.Telegram.WebApp;
