@@ -34,7 +34,7 @@ use App\Models\Core\Bot;
 class DevTestController extends Controller
 {
     public function devtest() {
-
+        /*
         $date_end = new DateEnd();
 
         $pays = Pay::where('payed_at', '2025-10-03 09:53:29')->get();
@@ -47,7 +47,7 @@ class DevTestController extends Controller
         foreach ($bot_users as $bot_user) {
             $date_end->handle($bot_user, 'Y-m-d');
         }
-
+        */
         /*
         $pays = Pay::with('bot_user')
             ->where('status', 1)
