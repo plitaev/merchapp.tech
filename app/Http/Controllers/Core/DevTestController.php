@@ -34,6 +34,7 @@ use App\Models\Core\Bot;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $result = [];
 
         $res = Pay::with('bot_user')->where('status', 1)->get();
         foreach ($res as $data) {
