@@ -34,6 +34,18 @@ use App\Models\Core\Bot;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $bot_users = BotUser::where('bot_id', 8)->get();
+        foreach ($bot_users as $bot_user) {
+            BotUserBanSchedule::create(
+                [
+                    'bot_user_id' => $bot_user->id,
+                    'run_status' => 0,
+                    'ban_datetime' => '2026-04-02 08:00:00'
+                ]
+            );
+        }
+
         /*
         $date_end = new DateEnd();
 
