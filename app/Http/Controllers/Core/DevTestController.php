@@ -34,6 +34,33 @@ use App\Models\Core\Bot;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
+        $bot_users = BotUser::where('bot_id', 8)->get();
+        foreach ($bot_users as $bot_user) {
+            BotUserBanSchedule::create(
+                [
+                    'bot_user_id' => $bot_user->id,
+                    'run_status' => 0,
+                    'ban_datetime' => '2026-04-02 08:10:00'
+                ]
+            );
+        }
+        */
+        /*
+        $date_end = new DateEnd();
+
+        $pays = Pay::where('payed_at', '2025-10-03 09:53:29')->get();
+
+        foreach ($pays as $pay) {
+            Pay::where('id', $pay->id)->update(['payed_at' => $pay->created_at]);
+        }
+
+        $bot_users = BotUser::get();
+        foreach ($bot_users as $bot_user) {
+            $date_end->handle($bot_user, 'Y-m-d');
+        }
+        */
+        /*
         $pays = Pay::with('bot_user')
             ->where('status', 1)
             ->where('created_at', '>=', '2026-02-26 00:00:00')
@@ -42,5 +69,6 @@ class DevTestController extends Controller
             ->get();
 
         return view('core.devtest.devtest', ['pays' => $pays]);
+        */
     }
 }
