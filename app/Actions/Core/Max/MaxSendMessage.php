@@ -89,15 +89,15 @@ class MaxSendMessage
 
             //=========================================================================================================================
 
-            if ($bot_message->video) $A['attachments'][] = ["type" => "video", "payload" => ["url" => env('APP_URL').'/content/'.$bot_message->video]];
+            if ($bot_message->video) $A['attachments'][] = ["type" => "video", "payload" => ["token" => $bot_message->video_max_id]];
 
             //=========================================================================================================================
 
-            if ($bot_message->audio) $A['attachments'][] = ["type" => "audio", "payload" => ["url" => env('APP_URL').'/content/'.$bot_message->audio]];
+            if ($bot_message->audio) $A['attachments'][] = ["type" => "audio", "payload" => ["token" => $bot_message->audio_max_id]];
 
             //=========================================================================================================================
 
-            if ($bot_message->custom_file) $A['attachments'][] = ["type" => "file", "payload" => ["url" => env('APP_URL').'/content/'.$bot_message->custom_file]];
+            if ($bot_message->custom_file) $A['attachments'][] = ["type" => "file", "payload" => ["token" => $bot_message->custom_file_max_id]];
 
             //=========================================================================================================================
 
