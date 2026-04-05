@@ -172,7 +172,11 @@ class ClubAccessController extends Controller
 
                 $botResetUser->handle($bot_user->id); //== Сбрасываем юзера
                 $botBranchEndOnRestart->handle($bot_user);
-                $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id); //== И повторно достаем его данные после сброса
+
+                //== И повторно достаем его данные после сброса
+                if ($messenger == 'telegram') $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id);
+                if ($messenger == 'max') $bot_user = $botUserGetFromMax->handle($bot_id, $chat_id);
+
             }
 
             //== Если это /registration, тут обрабатываем регистрацию
