@@ -80,6 +80,7 @@ class MaxSendMessage
 
             $A = [];
             $A['text'] = $text;
+            $A['format'] = 'html';
             $A['attachments'] = [];
             if (count($kb) > 0) $A['attachments'][] = ["type" => "inline_keyboard", "payload" => ["buttons" => $kb]];
 
