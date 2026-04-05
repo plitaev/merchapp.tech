@@ -42,12 +42,35 @@ class DevTestController extends Controller
 
         (string) $api_url = 'https://platform-api.max.ru/messages?user_id=5206051';
 
+        $request_data = '
+        {
+  "text": "Это сообщение с кнопкой-ссылкой",
+  "attachments": [
+    {
+      "type": "inline_keyboard",
+      "payload": {
+        "buttons": [
+          [
+            {
+              "type": "link",
+              "text": "Откройте сайт",
+              "url": "https://example.com"
+            }
+          ]
+        ]
+      }
+    }
+  ]
+}';
+
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $api_url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, true);
         curl_setopt($curl, CURLOPT_TIMEOUT, 10);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $request_data);
         $response = curl_exec($curl);
         curl_close($curl);
 
