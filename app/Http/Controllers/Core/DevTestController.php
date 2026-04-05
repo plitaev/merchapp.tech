@@ -63,7 +63,7 @@ class DevTestController extends Controller
         curl_setopt($curl, CURLOPT_TIMEOUT, 10);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $request_data);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($request_data, true));
         $response = curl_exec($curl);
         curl_close($curl);
 
