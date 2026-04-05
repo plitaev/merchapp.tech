@@ -133,7 +133,7 @@ class ClubAccessController extends Controller
 
         //== Переходим к работе с колбэком ТГ
         //== Если сообщение существует
-        if (($messenger == 'telegram' && isset($webhook['message'])) || $messenger == 'max') {
+        if (($messenger == 'telegram' && isset($webhook['message'])) || ($messenger == 'max' && isset($webhook['update_type']) && $webhook['update_type'] != 'message_callback')) {
 
             //== Проверяем, есть ли входящие параметры по ссылке на переход в ТГ к разговору с ботом
             if ($messenger == 'telegram') (array) $Astart = $telegramMessageGetStartParams->handle($webhook);
