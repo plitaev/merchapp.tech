@@ -37,11 +37,11 @@ class DevTestController extends Controller
 
         $headers = [
             'Content-Type: application/json',
-            'Authorization: f9LHodD0cOKhRtl0wOzX3Fz0ARjDIjj1cRtOPcm1RqHZ-fkx0lj1mVWbeIxwTur6kceUqgq03mHC0reV3ZLO'
+            'Authorization: f9LHodD0cOLzjVI0rmnmVIJCE_3fDQvCRPUlLPf4r-7ofkDgoh7ouGs60-KEnWukmyZIsztJzsLqNB1MtWBp'
         ];
 
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, "https://platform-api.max.ru/videos/f9LHodD0cOJZc0me8e6b2tEYCV6IsgF1mgmAGlT8wwPEZngYN84ZJqRsPCSIFkI7ZcBB9J7gSJ9COgIP1UAC");
+        curl_setopt($curl, CURLOPT_URL, "https://platform-api.max.ru/videos/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");
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, true);
         curl_setopt($curl, CURLOPT_TIMEOUT, 10);
