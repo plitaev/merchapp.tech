@@ -34,41 +34,22 @@ use App\Models\Core\Bot;
 class DevTestController extends Controller
 {
     public function devtest() {
-        /*
-        $bot_users = BotUser::where('bot_id', 8)->get();
-        foreach ($bot_users as $bot_user) {
-            BotUserBanSchedule::create(
-                [
-                    'bot_user_id' => $bot_user->id,
-                    'run_status' => 0,
-                    'ban_datetime' => '2026-04-02 08:10:00'
-                ]
-            );
-        }
-        */
-        /*
-        $date_end = new DateEnd();
 
-        $pays = Pay::where('payed_at', '2025-10-03 09:53:29')->get();
+        $headers = [
+            'Content-Type: application/json',
+            'Authorization: f9LHodD0cOLzjVI0rmnmVIJCE_3fDQvCRPUlLPf4r-7ofkDgoh7ouGs60-KEnWukmyZIsztJzsLqNB1MtWBp'
+        ];
 
-        foreach ($pays as $pay) {
-            Pay::where('id', $pay->id)->update(['payed_at' => $pay->created_at]);
-        }
+        (string) $api_url = 'https://platform-api.max.ru/messages?user_id=5206051';
 
-        $bot_users = BotUser::get();
-        foreach ($bot_users as $bot_user) {
-            $date_end->handle($bot_user, 'Y-m-d');
-        }
-        */
-        /*
-        $pays = Pay::with('bot_user')
-            ->where('status', 1)
-            ->where('created_at', '>=', '2026-02-26 00:00:00')
-            ->where('created_at', '<=', '2026-03-26 23:59:59')
-            ->orderByDesc('created_at')
-            ->get();
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $api_url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, true);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        $response = curl_exec($curl);
+        curl_close($curl);
 
-        return view('core.devtest.devtest', ['pays' => $pays]);
-        */
     }
 }
