@@ -40,6 +40,23 @@ class DevTestController extends Controller
             'Authorization: f9LHodD0cOLzjVI0rmnmVIJCE_3fDQvCRPUlLPf4r-7ofkDgoh7ouGs60-KEnWukmyZIsztJzsLqNB1MtWBp'
         ];
 
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, "https://platform-api.max.ru/videos/f9LHodD0cOKhRtl0wOzX3Fz0ARjDIjj1cRtOPcm1RqHZ-fkx0lj1mVWbeIxwTur6kceUqgq03mHC0reV3ZLO");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, true);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        return $response;
+
+
+        $headers = [
+            'Content-Type: application/json',
+            'Authorization: f9LHodD0cOLzjVI0rmnmVIJCE_3fDQvCRPUlLPf4r-7ofkDgoh7ouGs60-KEnWukmyZIsztJzsLqNB1MtWBp'
+        ];
+
         (string) $api_url = 'https://platform-api.max.ru/messages?user_id=5206051';
 
         $request_data = '
@@ -48,13 +65,13 @@ class DevTestController extends Controller
   "attachments": [
     {
       "type": "video",
-      "payload": {
-       "token": "f9LHodD0cOJZc0me8e6b2tEYCV6IsgF1mgmAGlT8wwPEZngYN84ZJqRsPCSIFkI7ZcBB9J7gSJ9COgIP1UAC",
-       "caption": "Пример видео-сообщения"
-      }
+  "payload": {
+    "token": "f9LHodD0cOJZc0me8e6b2tEYCV6IsgF1mgmAGlT8wwPEZngYN84ZJqRsPCSIFkI7ZcBB9J7gSJ9COgIP1UAC",
+    "caption": "Пример видео-сообщения"
+  }
     }
   ]
-  }';
+}';
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $api_url);
@@ -63,7 +80,7 @@ class DevTestController extends Controller
         curl_setopt($curl, CURLOPT_TIMEOUT, 10);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($request_data, true));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $request_data);
         $response = curl_exec($curl);
         curl_close($curl);
 
