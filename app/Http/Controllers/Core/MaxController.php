@@ -53,7 +53,7 @@ class MaxController
             $upload_url = $maxQuery->handle($bot_message->bot, 'POST', 'uploads', [], true, ['type' => $type]);
             $upload_url = $upload_url['url'];
 
-            $cfile = curl_file_create(public_path().'/content/bot_message_videos/01KMFDV813EMZMHCJ1EV86CXVE.mp4', 'video/mp4', '01KMFDV813EMZMHCJ1EV86CXVE.mp4');
+            $cfile = curl_file_create(public_path().'/content/'.$bot_message->video, $mime_type, $file_name);
 
             $ch = curl_init();
 
