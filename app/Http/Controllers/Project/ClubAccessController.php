@@ -238,12 +238,13 @@ class ClubAccessController extends Controller
 
         } else {
 
-            if (isset($webhook['callback_query'])) {
+            if (($messenger == 'telegram' && isset($webhook['callback_query'])) || $messenger == 'max' && isset($webhook['callback']['payload'])) {
                 //== Проверяем, является ли это колбэк-запросом
 
                 //== Инициализируем базовые данные и классы
 
-                $callback=$webhook['callback_query']['data'];
+                if ($messenger == 'telegram') $callback=$webhook['callback_query']['data'];
+                if ($messenger == 'max') $callback=$webhook['callback']['payload'];
 
                 //== Конец базовой инициализации
 
