@@ -246,8 +246,6 @@ class ClubAccessController extends Controller
                 if ($messenger == 'telegram') $callback=$webhook['callback_query']['data'];
                 if ($messenger == 'max') $callback=$webhook['callback']['payload'];
 
-                return $callback;
-
                 //== Конец базовой инициализации
 
                 if ($callback == 'EighteenYes') $botEighteenYes->handle($bot_user, $telegram, $webhook); //== Если выбрал Да в вопросе про 18 лет
