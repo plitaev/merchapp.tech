@@ -127,6 +127,8 @@ class ClubAccessController extends Controller
         if ($messenger == 'telegram') $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id);
         if ($messenger == 'max') $bot_user = $botUserGetFromMax->handle($bot_id, $chat_id);
 
+        return $bot_user;
+
         if ($bot_user->blacklist == 1) die();
 
         //== Заканчиваем первичную обработку
