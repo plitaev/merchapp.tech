@@ -41,7 +41,7 @@ class DevTestController extends Controller
         ];
 
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, "https://platform-api.max.ru/videos/f9LHodD0cOKhRtl0wOzX3Fz0ARjDIjj1cRtOPcm1RqHZ-fkx0lj1mVWbeIxwTur6kceUqgq03mHC0reV3ZLO");
+        curl_setopt($curl, CURLOPT_URL, "https://platform-api.max.ru/videos/f9LHodD0cOKYxMdl1Mo1V5zovUykULdnadWoYX-arCYMh8wXjqj7TbcvaHI4YSA3f37aUJGflvdKEswqH-EI");
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, true);
         curl_setopt($curl, CURLOPT_TIMEOUT, 10);
