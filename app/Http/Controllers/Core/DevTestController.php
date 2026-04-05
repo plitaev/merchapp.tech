@@ -47,17 +47,9 @@ class DevTestController extends Controller
   "text": "Это сообщение с кнопкой-ссылкой",
   "attachments": [
     {
-      "type": "inline_keyboard",
+      "type": "video",
       "payload": {
-        "buttons": [
-          [
-            {
-              "type": "link",
-              "text": "Откройте сайт",
-              "url": "https://example.com"
-            }
-          ]
-        ]
+        "buttons": "f9LHodD0cOJZc0me8e6b2tEYCV6IsgF1mgmAGlT8wwPEZngYN84ZJqRsPCSIFkI7ZcBB9J7gSJ9COgIP1UAC"
       }
     }
   ]
