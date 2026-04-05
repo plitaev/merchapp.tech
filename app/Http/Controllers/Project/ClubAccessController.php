@@ -16,8 +16,9 @@ use App\Actions\Core\BotUser\BotUserGetFromMax;
 use App\Actions\Core\BotUser\BotUserGetFromTelegram;
 use App\Actions\Core\BotUser\BotUserSetBranch;
 
-use App\Actions\Core\Max\MaxWebhookWrite;
 use App\Actions\Core\Max\MaxGetChatIDFromWebhook;
+use App\Actions\Core\Max\MaxMessageGetStartParams;
+use App\Actions\Core\Max\MaxWebhookWrite;
 
 use App\Actions\Core\ReferralProgram\ReferralProgramRunForReferrer;
 use App\Actions\Core\ReferralProgram\ReferralProgramRunForReferral;
@@ -62,8 +63,9 @@ class ClubAccessController extends Controller
         $botUserGetFromTelegram = new BotUserGetFromTelegram();
         $botUserSetBranch = new BotUserSetBranch();
 
-        $maxWebhookWrite = new MaxWebhookWrite();
         $maxGetChatIDFromWebhook = new MaxGetChatIDFromWebhook();
+        $maxMessageGetStartParams = new MaxMessageGetStartParams();
+        $maxWebhookWrite = new MaxWebhookWrite();
 
         $referralProgramRunForReferrer = new ReferralProgramRunForReferrer();
         $referralProgramRunForReferral = new ReferralProgramRunForReferral();
@@ -134,7 +136,8 @@ class ClubAccessController extends Controller
         if (($messenger == 'telegram' && isset($webhook['message'])) || $messenger == 'max') {
 
             //== Проверяем, есть ли входящие параметры по ссылке на переход в ТГ к разговору с ботом
-            (array) $Astart = $telegramMessageGetStartParams->handle($webhook);
+            if ($messenger == 'telegram') (array) $Astart = $telegramMessageGetStartParams->handle($webhook);
+            if ($messenger == 'max') (array) $Astart = $maxMessageGetStartParams->handle($webhook);
 
             //== Если это /start, тут обрабатываем старт
             if ($Astart[0] == "/start") {
