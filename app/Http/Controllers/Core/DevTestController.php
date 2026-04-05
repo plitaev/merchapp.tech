@@ -37,7 +37,7 @@ class DevTestController extends Controller
 
         $headers = [
             'Content-Type: application/json',
-            'Authorization: f9LHodD0cOLzjVI0rmnmVIJCE_3fDQvCRPUlLPf4r-7ofkDgoh7ouGs60-KEnWukmyZIsztJzsLqNB1MtWBp'
+            'Authorization: f9LHodD0cOKhRtl0wOzX3Fz0ARjDIjj1cRtOPcm1RqHZ-fkx0lj1mVWbeIxwTur6kceUqgq03mHC0reV3ZLO'
         ];
 
         $curl = curl_init();
