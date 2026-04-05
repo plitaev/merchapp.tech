@@ -48,9 +48,10 @@ class DevTestController extends Controller
   "attachments": [
     {
       "type": "video",
-      "payload": {
-        "buttons": "f9LHodD0cOJZc0me8e6b2tEYCV6IsgF1mgmAGlT8wwPEZngYN84ZJqRsPCSIFkI7ZcBB9J7gSJ9COgIP1UAC"
-      }
+  "payload": {
+    "token": "f9LHodD0cOJZc0me8e6b2tEYCV6IsgF1mgmAGlT8wwPEZngYN84ZJqRsPCSIFkI7ZcBB9J7gSJ9COgIP1UAC",
+    "caption": "Пример видео-сообщения"
+  }
     }
   ]
 }';
