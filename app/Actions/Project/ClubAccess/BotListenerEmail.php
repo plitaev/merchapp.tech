@@ -28,12 +28,15 @@ class BotListenerEmail
             if (($messenger == 'telegram' && isset($webhook['message']['entities']) && $webhook['message']['entities'][0]['type']=='email') ||
                 ($messenger == 'max' && (isset($webhook['message']['body']['text'])))) {
 
-                if (!filter_var($webhook['message']['text'], FILTER_VALIDATE_EMAIL)) {
+                if ($messenger == 'telegram') (string) $email = $webhook['message']['text'];
+                if ($messenger == 'max') (string) $email = $webhook['message']['body']['text'];
+
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $botSendMessage->handle($bot_user, 'SYS_ENTERED_EMAIL_INCORRECT');
                     die();
                 }
 
-                $other_telegram_user = BotUser::where('email', $webhook['message']['text'])->whereNot('id', $bot_user->id)->where('bot_id', $bot_user->bot_id)->count();
+                $other_telegram_user = BotUser::where('email', $email)->whereNot('id', $bot_user->id)->where('bot_id', $bot_user->bot_id)->count();
 
                 if ($other_telegram_user > 0) {
                     $botSendMessage->handle($bot_user, 'SYS_OTHER_USER_WITH_ENTERED_EMAIL');
@@ -41,10 +44,10 @@ class BotListenerEmail
                 }
 
                 //== Если юзер ввёл почту, то привязываем её ему к аккаунту
-                $botUserSetEmail->handle($bot_user, $webhook['message']['text']);
+                $botUserSetEmail->handle($bot_user, $email);
 
                 //== Проверяем гостевые платежи и перекачиваем
-                $pay_guest_count = $payCreateByPayGuest->handle($bot_user, $webhook['message']['text']);
+                $pay_guest_count = $payCreateByPayGuest->handle($bot_user, $email);
 
                 if ($bot_user->listen_check_access_status == 1) {
                     $products = Product::select('id')->where('bot_id', $bot_user->bot_id)->pluck('id')->toArray();
