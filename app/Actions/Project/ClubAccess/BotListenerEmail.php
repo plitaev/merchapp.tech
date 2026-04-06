@@ -13,7 +13,7 @@ use App\Models\Core\Product;
 
 class BotListenerEmail
 {
-    public function handle($webhook, $bot_user) {
+    public function handle(string $messenger, $webhook, $bot_user) {
         $botSendMessage = new BotSendMessage();
         $botUserSetEmail = new BotUserSetEmail();
         $botUserSetListener = new BotUserSetListener();
@@ -25,7 +25,8 @@ class BotListenerEmail
         if ($bot_user->listen_email_status == 1) {
 
             //== Если ожидает, то проверяем, является ли введенная пользователем строка почтой через стандартный определитель ТГ
-            if (isset($webhook['message']['entities']) && $webhook['message']['entities'][0]['type']=='email') {
+            if (($messenger == 'telegram' && isset($webhook['message']['entities']) && $webhook['message']['entities'][0]['type']=='email') ||
+                ($messenger == 'max' && (isset($webhook['message']['body']['text'])))) {
 
                 if (!filter_var($webhook['message']['text'], FILTER_VALIDATE_EMAIL)) {
                     $botSendMessage->handle($bot_user, 'SYS_ENTERED_EMAIL_INCORRECT');
