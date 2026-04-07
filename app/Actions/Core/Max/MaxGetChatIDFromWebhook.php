@@ -13,6 +13,8 @@ class MaxGetChatIDFromWebhook
 
         if (!isset($user_id) && isset($webhook['callback']['user']['user_id'])) $user_id = $webhook['callback']['user']['user_id'];
 
+        if (!isset($user_id) && isset($webhook['message']['recipient']['user_id'])) $user_id = $webhook['message']['recipient']['user_id'];
+
         if (!isset($user_id)) return 0;
 
         return $user_id;
