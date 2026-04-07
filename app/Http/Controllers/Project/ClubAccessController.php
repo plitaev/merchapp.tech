@@ -123,6 +123,8 @@ class ClubAccessController extends Controller
         if ($messenger == 'telegram') $botUserCreateFromTelegram->handle($chat_id, $bot_id, $webhook);
         if ($messenger == 'max') $botUserCreateFromMax->handle($chat_id, $bot_id, $webhook);
 
+        return 'ok';
+
         //== Достаем данные юзера по chat_id после создания
         if ($messenger == 'telegram') $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id);
         if ($messenger == 'max') $bot_user = $botUserGetFromMax->handle($bot_id, $chat_id);
