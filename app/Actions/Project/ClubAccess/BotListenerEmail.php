@@ -31,8 +31,6 @@ class BotListenerEmail
                 if ($messenger == 'telegram') (string) $email = $webhook['message']['text'];
                 if ($messenger == 'max') (string) $email = $webhook['message']['body']['text'];
 
-                return $email;
-
                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $botSendMessage->handle($bot_user, 'SYS_ENTERED_EMAIL_INCORRECT');
                     die();
