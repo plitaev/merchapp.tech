@@ -109,8 +109,6 @@ class ClubAccessController extends Controller
         if ($messenger == 'telegram') (int) $chat_id = $telegramGetChatIDFromWebhook->handle($webhook);
         if ($messenger == 'max') (int) $chat_id = $maxGetChatIDFromWebhook->handle($webhook);
 
-        return '321';
-
         if ($chat_id == 0) return "CHAT_ID_NOT_FOUND";
 
         if ($messenger == 'telegram' && $chat_id < 0) die();
@@ -232,6 +230,8 @@ class ClubAccessController extends Controller
 
             //== Запускаем основной скрипт клуба
             //== Проверяем, получал ли юзер приветственное сообщение
+
+            return 'welcome';
 
             $botWelcomeMessage->handle($bot_user); //== Обрабатываем первичное стартовое сообщение (до ввода имени)
             $botHandName->handle($bot_user, $webhook); //== Обрабатываем HandName - вручную введенное юзером имя
