@@ -49,6 +49,7 @@ class BotListenerEmail
                         ->first();
 
                     if ($bot_user_telegram) {
+
                         BotUser::where('id', $bot_user_telegram->id)->update(['verification_from_max' => $bot_user->max_id]);
 
                         $telegram = new Api($bot_user->bot->telegram_token);
