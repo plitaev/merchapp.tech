@@ -9,11 +9,11 @@ use App\Models\Core\BotUserRecurrentSchedule;
 
 class BotUserRecurrentDisable
 {
-    public function handle($telegram, $bot_user, $webhook) {
+    public function handle(string $messenger, $telegram, $bot_user, $webhook) {
 
         $botSendMessage = new BotSendMessage();
 
-        if (isset($webhook['callback_query']['message']['message_id'])) {
+        if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
             $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
         }
 

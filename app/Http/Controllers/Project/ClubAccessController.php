@@ -198,7 +198,7 @@ class ClubAccessController extends Controller
 
             //== Если это /subscribe, тут обрабатываем регистрацию
             if ($Astart[0] == "/subscribe") {
-                $botGoToClub->handle($telegram, $webhook, $bot_user);
+                $botGoToClub->handle($messenger, $telegram, $webhook, $bot_user);
                 die();
             }
 
@@ -214,7 +214,7 @@ class ClubAccessController extends Controller
                 $code = base64_decode($Astart[1]);
 
                 if ($code == "GoToClub") {
-                    $botGoToClub->handle($telegram, $webhook, $bot_user);
+                    $botGoToClub->handle($messenger, $telegram, $webhook, $bot_user);
                     die();
                 }
 
@@ -225,7 +225,7 @@ class ClubAccessController extends Controller
 
             //== Обрабатываем листенеры
             $botListenerEmail->handle($messenger, $webhook, $bot_user); //== Проверяем, ожидает ли юзер ввода почты
-            $botListenerPayCount->handle($webhook, $bot_user);
+            $botListenerPayCount->handle($messenger, $webhook, $bot_user);
             $botListenerPhone->handle($webhook, $bot_user);
 
             //== Запускаем основной скрипт клуба
@@ -247,30 +247,21 @@ class ClubAccessController extends Controller
 
                 //== Конец базовой инициализации
 
-                if ($callback == 'EighteenYes') $botEighteenYes->handle($bot_user, $telegram, $webhook); //== Если выбрал Да в вопросе про 18 лет
-                if ($callback == 'EighteenNo') $botEighteenNo->handle($bot_id, $telegram, $webhook); //== Если выбрал Нет в вопросе про 18 лет
+                if ($callback == 'EighteenYes') $botEighteenYes->handle($messenger, $bot_user, $telegram, $webhook); //== Если выбрал Да в вопросе про 18 лет
+                if ($callback == 'EighteenNo') $botEighteenNo->handle($messenger, $bot_id, $telegram, $webhook); //== Если выбрал Нет в вопросе про 18 лет
                 if ($callback == 'GoToContacts') $botContacts->handle($bot_id, $telegram, $webhook); //== Если нажал кнопку Контакты
-                if ($callback == 'GoToClub') $botGoToClub->handle($telegram, $webhook, $bot_user); //== Если нажал кнопку Стать участником
+                if ($callback == 'GoToClub') $botGoToClub->handle($messenger, $telegram, $webhook, $bot_user); //== Если нажал кнопку Стать участником
 
-                if ($callback == 'GoToEmailVerification') {
-                    return $botEmailVerification->handle($messenger, $telegram, $bot_user, $webhook); //== Если нажата кнопка Подтвердить почту при условии что почта уже введена
-                }
+                if ($callback == 'GoToEmailVerification') $botEmailVerification->handle($messenger, $telegram, $bot_user, $webhook); //== Если нажата кнопка Подтвердить почту при условии что почта уже введена
 
-                if ($callback == 'GoToEmailChange') $botEmailChange->handle($telegram, $bot_user, $webhook); //== Если нажата кнопка Изменить почту при условии что почта уже введена
-                if ($callback == 'BotUserRecurrentDisable') $botUserRecurrentDisable->handle($telegram, $bot_user, $webhook);
+                if ($callback == 'GoToEmailChange') $botEmailChange->handle($messenger, $telegram, $bot_user, $webhook); //== Если нажата кнопка Изменить почту при условии что почта уже введена
+                if ($callback == 'BotUserRecurrentDisable') $botUserRecurrentDisable->handle($messenger, $telegram, $bot_user, $webhook);
 
-                if ($callback == 'GoToMainMenuMessage') {
-
-                    if (isset($webhook['callback_query']['message']['message_id'])) {
-                        $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
-                    }
-
-                    $botMainMenuMessage->handle($bot_user);
-                }
+                if ($callback == 'GoToMainMenuMessage') $botMainMenuMessage->handle($messenger, $telegram, $webhook, $bot_user);
 
                 if ($callback == 'GoToStart') {
 
-                    if (isset($webhook['callback_query']['message']['message_id'])) {
+                    if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
                         $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
                     }
 
@@ -286,7 +277,7 @@ class ClubAccessController extends Controller
 
                 if ($callback == 'GoToFullTariffs') {
 
-                    if (isset($webhook['callback_query']['message']['message_id'])) {
+                    if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
                         $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
                     }
 
@@ -296,7 +287,7 @@ class ClubAccessController extends Controller
 
                 if ($callback == 'GoToPhoneEnter') {
 
-                    if (isset($webhook['callback_query']['message']['message_id'])) {
+                    if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
                         $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
                     }
 

@@ -5,11 +5,11 @@ use App\Actions\Core\BotUser\BotUserSetListener;
 
 class BotGoToClub
 {
-    public function handle($telegram, $webhook, $bot_user) {
+    public function handle(string $messenger, $telegram, $webhook, $bot_user) {
         $botRequestAndConfirmEmail = new BotRequestAndConfirmEmail();
         $botUserSetListener = new BotUserSetListener();
 
-        if (isset($webhook['callback_query']['message']['message_id'])) {
+        if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
             $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
         }
 
