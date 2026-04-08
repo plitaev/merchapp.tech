@@ -62,6 +62,8 @@ class BotListenerEmail
                         $A['text'] = 'Нажмите на кнопку, чтобы подтвердить подключение аккаунта в Max';
                         $A['reply_markup'] = $keyboard;
                         $A['parse_mode'] = 'HTML';
+                        $A['chat_id'] = $bot_user_telegram->telegram_chat_id;
+                        $A['protect_content'] = false;
 
                         $telegram->sendMessage($A);
                     }
