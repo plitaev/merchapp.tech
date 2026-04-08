@@ -237,7 +237,7 @@ class ClubAccessController extends Controller
 
         } else {
 
-            return 'bosk';
+            return $webhook['callback']['payload'];
 
             if (($messenger == 'telegram' && isset($webhook['callback_query'])) || $messenger == 'max' && isset($webhook['callback']['payload'])) {
                 //== Проверяем, является ли это колбэк-запросом
