@@ -68,6 +68,8 @@ class BotSendMessage
 
             }
 
+            return '111';
+
             if ($bot_message) {
 
                 //== Отправляем само сообщение
