@@ -12,6 +12,7 @@ class BotUser extends Model
     protected $fillable = [
         'telegram_chat_id',
         'max_user_id',
+        'verification_from_max',
         'bot_id',
         'bot_branch_id',
         'first_name',

@@ -2,6 +2,8 @@
 
 namespace App\Actions\Project\ClubAccess;
 
+use Telegram\Bot\Api;
+
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserSetEmail;
 use App\Actions\Core\BotUser\BotUserSetListener;
@@ -34,6 +36,36 @@ class BotListenerEmail
                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $botSendMessage->handle($bot_user, 'SYS_ENTERED_EMAIL_INCORRECT');
                     die();
+                }
+
+                if ($messenger == 'max') {
+
+                    $bot_user_telegram = BotUser::with('bot')
+                        ->select('id', 'telegram_chat_id')
+                        ->where('email', $email)
+                        ->whereNotNull('telegram_chat_id')
+                        ->whereNull('max_user_id')
+                        ->first();
+
+                    if ($bot_user_telegram) {
+                        BotUser::where('id', $bot_user_telegram->id)->update(['verification_from_max' => $bot_user->max_id]);
+
+                        $telegram = new Api($bot_user->bot->telegram_token);
+
+                        $kb = [];
+                        $btn = [["text" => 'Подтвердить', "callback_data" => 'connect_max_to_telegram_'.$bot_user->max_id]];
+                        $kb[] = $btn;
+                        $keyboard = ["inline_keyboard" => $kb];
+                        $keyboard = json_encode($keyboard, true);
+
+                        $A = [];
+                        $A['text'] = 'Нажмите на кнопку, чтобы подтвердить подключение аккаунта в Max';
+                        $A['reply_markup'] = $keyboard;
+                        $A['parse_mode'] = 'HTML';
+
+                        $telegram->sendMessage($A);
+                    }
+
                 }
 
                 $other_telegram_user = BotUser::where('email', $email)->whereNot('id', $bot_user->id)->where('bot_id', $bot_user->bot_id)->count();
