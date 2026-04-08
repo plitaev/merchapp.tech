@@ -237,8 +237,6 @@ class ClubAccessController extends Controller
 
         } else {
 
-            return $webhook['callback']['payload'];
-
             if (($messenger == 'telegram' && isset($webhook['callback_query'])) || $messenger == 'max' && isset($webhook['callback']['payload'])) {
                 //== Проверяем, является ли это колбэк-запросом
 
@@ -253,7 +251,12 @@ class ClubAccessController extends Controller
                 if ($callback == 'EighteenNo') $botEighteenNo->handle($bot_id, $telegram, $webhook); //== Если выбрал Нет в вопросе про 18 лет
                 if ($callback == 'GoToContacts') $botContacts->handle($bot_id, $telegram, $webhook); //== Если нажал кнопку Контакты
                 if ($callback == 'GoToClub') $botGoToClub->handle($telegram, $webhook, $bot_user); //== Если нажал кнопку Стать участником
-                if ($callback == 'GoToEmailVerification') $botEmailVerification->handle($telegram, $bot_user, $webhook); //== Если нажата кнопка Подтвердить почту при условии что почта уже введена
+
+                if ($callback == 'GoToEmailVerification') {
+                    return 'ok';
+                    $botEmailVerification->handle($telegram, $bot_user, $webhook); //== Если нажата кнопка Подтвердить почту при условии что почта уже введена
+                }
+
                 if ($callback == 'GoToEmailChange') $botEmailChange->handle($telegram, $bot_user, $webhook); //== Если нажата кнопка Изменить почту при условии что почта уже введена
                 if ($callback == 'BotUserRecurrentDisable') $botUserRecurrentDisable->handle($telegram, $bot_user, $webhook);
 
