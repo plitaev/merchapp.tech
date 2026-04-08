@@ -45,6 +45,7 @@ class BotListenerEmail
                         ->where('email', $email)
                         ->whereNotNull('telegram_chat_id')
                         ->whereNull('max_user_id')
+                        ->where('bot_id', $bot_user->bot_id)
                         ->first();
 
                     if ($bot_user_telegram) {
