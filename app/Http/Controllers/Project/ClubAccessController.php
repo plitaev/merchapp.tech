@@ -253,8 +253,7 @@ class ClubAccessController extends Controller
                 if ($callback == 'GoToClub') $botGoToClub->handle($telegram, $webhook, $bot_user); //== Если нажал кнопку Стать участником
 
                 if ($callback == 'GoToEmailVerification') {
-                    return 'ok';
-                    $botEmailVerification->handle($telegram, $bot_user, $webhook); //== Если нажата кнопка Подтвердить почту при условии что почта уже введена
+                    return $botEmailVerification->handle($messenger, $telegram, $bot_user, $webhook); //== Если нажата кнопка Подтвердить почту при условии что почта уже введена
                 }
 
                 if ($callback == 'GoToEmailChange') $botEmailChange->handle($telegram, $bot_user, $webhook); //== Если нажата кнопка Изменить почту при условии что почта уже введена
