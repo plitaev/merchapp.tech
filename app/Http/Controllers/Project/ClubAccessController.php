@@ -306,6 +306,8 @@ class ClubAccessController extends Controller
                         BotUser::where('max_user_id', $data->verification_from_max)->delete();
                         BotUser::where('id', $bot_user->id)->update(['max_user_id' => $data->verification_from_max, 'verification_from_max' => NULL]);
 
+                        $bot_user = BotUser::find($bot_user->id);
+
                         $botSendMessage->handle($bot_user, 'SYS_SEND_IN_MAX_AFTER_VERIFICATION_FROM_TELEGRAM', 'max');
                         $botSendMessage->handle($bot_user, 'SYS_SEND_IN_TELEGRAM_AFTER_VERIFICATION_FROM_TELEGRAM', 'telegram');
 
