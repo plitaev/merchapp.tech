@@ -49,8 +49,6 @@ class BotListenerEmail
 
                     if ($bot_user_telegram) {
 
-                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_MAX_BEFORE_VERIFICATION_FROM_MAX');
-
                         BotUser::where('id', $bot_user_telegram->id)->update(['verification_from_max' => $bot_user->max_user_id]);
 
                         $telegram = new Api($bot_user->bot->telegram_token);
@@ -69,6 +67,9 @@ class BotListenerEmail
                         $A['protect_content'] = false;
 
                         $telegram->sendMessage($A);
+
+                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_MAX_BEFORE_VERIFICATION_FROM_MAX');
+                        die();
                     }
 
                 }
