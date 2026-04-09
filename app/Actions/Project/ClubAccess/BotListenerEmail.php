@@ -41,7 +41,6 @@ class BotListenerEmail
                 if ($messenger == 'max') {
 
                     $bot_user_telegram = BotUser::with('bot')
-                        ->select('id', 'bot_id', 'telegram_chat_id')
                         ->where('email', $email)
                         ->whereNotNull('telegram_chat_id')
                         ->whereNull('max_user_id')
@@ -49,6 +48,8 @@ class BotListenerEmail
                         ->first();
 
                     if ($bot_user_telegram) {
+
+                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_MAX_BEFORE_VERIFICATION_FROM_MAX');
 
                         BotUser::where('id', $bot_user_telegram->id)->update(['verification_from_max' => $bot_user->max_user_id]);
 
