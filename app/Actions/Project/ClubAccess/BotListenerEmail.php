@@ -54,7 +54,7 @@ class BotListenerEmail
                         $telegram = new Api($bot_user->bot->telegram_token);
 
                         $kb = [];
-                        $btn = [["text" => 'Подтвердить', "callback_data" => 'connect_max_to_telegram_'.$bot_user->max_id]];
+                        $btn = [["text" => 'Подтвердить', "callback_data" => 'connect_max_to_telegram_'.$bot_user->max_user_id]];
                         $kb[] = $btn;
                         $keyboard = ["inline_keyboard" => $kb];
                         $keyboard = json_encode($keyboard, true);
