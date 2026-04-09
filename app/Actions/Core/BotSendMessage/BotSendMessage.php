@@ -15,7 +15,7 @@ use App\Models\Core\User;
 
 class BotSendMessage
 {
-    public function handle($bot_user, string $bot_message_appointment_name) {
+    public function handle($bot_user, string $bot_message_appointment_name, string $send_to = 'all') {
 
         $botUserSetListener = new BotUserSetListener();
         $maxSendMessage = new MaxSendMessage();
@@ -71,11 +71,11 @@ class BotSendMessage
             if ($bot_message) {
 
                 //== Отправляем само сообщение
-                if ($bot_user->max_user_id) {
+                if ($bot_user->max_user_id && ($send_to == 'all' || $send_to == 'max')) {
                     $message = $maxSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
                 }
 
-                if ($bot_user->telegram_chat_id) {
+                if ($bot_user->telegram_chat_id && ($send_to == 'all' || $send_to == 'telegram')) {
                     $message = $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
                 }
 
