@@ -308,8 +308,8 @@ class ClubAccessController extends Controller
 
                         $bot_user = BotUser::find($bot_user->id);
 
-                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_MAX_AFTER_VERIFICATION_FROM_TELEGRAM', 'max');
-                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_TELEGRAM_AFTER_VERIFICATION_FROM_TELEGRAM', 'telegram');
+                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_MAX_AFTER_VERIFICATION_FROM_MAX', 'max');
+                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_TELEGRAM_AFTER_VERIFICATION_FROM_MAX', 'telegram');
 
                         if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
                             $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
