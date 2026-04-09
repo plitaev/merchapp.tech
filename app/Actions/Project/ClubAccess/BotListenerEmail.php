@@ -74,9 +74,9 @@ class BotListenerEmail
 
                 }
 
-                $other_telegram_user = BotUser::where('email', $email)->whereNot('id', $bot_user->id)->where('bot_id', $bot_user->bot_id)->count();
+                $other_telegram_user = BotUser::where('email', $email)->whereNot('id', $bot_user->id)->where('bot_id', $bot_user->bot_id)->first();
 
-                if ($other_telegram_user > 0) {
+                if ($other_telegram_user) {
                     $botSendMessage->handle($bot_user, 'SYS_OTHER_USER_WITH_ENTERED_EMAIL');
                     die();
                 }
