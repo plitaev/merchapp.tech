@@ -47,6 +47,8 @@ use App\Actions\Project\ClubAccess\BotWelcomeMessage;
 
 use App\Actions\Local\ClubAccessCallback;
 
+use App\Models\Core\BotUser;
+
 class ClubAccessController extends Controller
 {
     public function club_access(string $messenger, int $bot_id) {
@@ -293,6 +295,21 @@ class ClubAccessController extends Controller
 
                     $botSendMessage->handle($bot_user, 'USER_PHONE_ENTER_WAITING');
                     die();
+                }
+
+                $res = BotUser::whereNotNull('verification_from_max')->get();
+
+                foreach ($res as $data) {
+
+                    if ($callback == 'connect_max_to_telegram_'.$data->verification_from_max) {
+
+                        BotUser::where('max_user_id', $data->verification_from_max)->delete();
+                        BotUser::where('id', $bot_user->id)->update(['max_user_id' => $data->verification_from_max, 'verification_from_max' => NULL]);
+
+                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_MAX_AFTER_VERIFICATION_FROM_TELEGRAM', 'max');
+                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_TELEGRAM_AFTER_VERIFICATION_FROM_TELEGRAM', 'telegram');
+                    }
+
                 }
 
                 if (file_exists(base_path().'/app/Actions/Local/ClubAccessCallback.php')) {

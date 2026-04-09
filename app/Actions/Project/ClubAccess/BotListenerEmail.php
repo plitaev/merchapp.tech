@@ -68,7 +68,7 @@ class BotListenerEmail
 
                         $telegram->sendMessage($A);
 
-                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_MAX_BEFORE_VERIFICATION_FROM_MAX');
+                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_MAX_BEFORE_VERIFICATION_FROM_MAX', 'max');
                         die();
                     }
 
