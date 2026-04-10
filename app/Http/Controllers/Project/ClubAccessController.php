@@ -144,8 +144,6 @@ class ClubAccessController extends Controller
             //== Если это /start, тут обрабатываем старт
             if ($Astart[0] == "/start") {
 
-                return '1';
-
                 if (count($Astart) == 2) {
 
                     return '2';
