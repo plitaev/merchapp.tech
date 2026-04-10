@@ -166,8 +166,7 @@ class ClubAccessController extends Controller
                 }
 
                 if ($bot_user->date_end != NULL && $bot_user->date_end > date('Y-m-d', time())) {
-                    return 'ok';
-                    return $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+                    return $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE', "telegram");
                     die();
                 }
 
