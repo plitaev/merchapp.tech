@@ -146,8 +146,6 @@ class ClubAccessController extends Controller
 
                 if (count($Astart) == 2) {
 
-                    return '2';
-
                     $branch_data = base64_decode($Astart[1]);
                     $branch_data = explode("|", $branch_data);
 
@@ -161,8 +159,6 @@ class ClubAccessController extends Controller
                         $botSendMessage->handle($bot_user, 'SYS_WELCOME_MESSAGE');
                         $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
                         die();
-
-                        return '3';
                     }
 
                 } else {
@@ -170,8 +166,7 @@ class ClubAccessController extends Controller
                 }
 
                 if ($bot_user->date_end != NULL && $bot_user->date_end > date('Y-m-d', time())) {
-                    return '5';
-                    $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+                    return $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
                     die();
                 }
 
