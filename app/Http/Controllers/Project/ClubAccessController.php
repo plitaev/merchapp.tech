@@ -178,8 +178,6 @@ class ClubAccessController extends Controller
                 //== И повторно достаем его данные после сброса
                 if ($messenger == 'telegram') $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id);
                 if ($messenger == 'max') $bot_user = $botUserGetFromMax->handle($bot_id, $chat_id);
-
-                return '6';
             }
 
             //== Если это /registration, тут обрабатываем регистрацию
