@@ -35,6 +35,16 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
+        $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
+
+        $A['text'] = 'Тест';
+        $A['chat_id'] = 247632034;
+        $A['parse_mode'] = 'HTML';
+        $A['protect_content'] = false;
+
+        return $telegram->sendMessage($A);
+
+        /*
         $headers = [
             'Content-Type: application/json',
             'Authorization: f9LHodD0cOLzjVI0rmnmVIJCE_3fDQvCRPUlLPf4r-7ofkDgoh7ouGs60-KEnWukmyZIsztJzsLqNB1MtWBp'
@@ -85,5 +95,7 @@ class DevTestController extends Controller
         curl_close($curl);
 
         return $response;
+
+        */
     }
 }
