@@ -9,7 +9,7 @@ class TelegramWebhookInfo
         $webhook=str_replace("-","/",$webhook);
 
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, "https://https://api-endpoint3.loverse.me/bot".$token."/getWebhookInfo?url=".$webhook);
+        curl_setopt($curl, CURLOPT_URL, "https://api-endpoint3.loverse.me/bot".$token."/getWebhookInfo?url=".$webhook);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $result = curl_exec($curl);
         curl_close($curl);
