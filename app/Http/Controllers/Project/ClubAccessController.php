@@ -144,7 +144,11 @@ class ClubAccessController extends Controller
             //== Если это /start, тут обрабатываем старт
             if ($Astart[0] == "/start") {
 
+                return '1';
+
                 if (count($Astart) == 2) {
+
+                    return '2';
 
                     $branch_data = base64_decode($Astart[1]);
                     $branch_data = explode("|", $branch_data);
@@ -159,13 +163,17 @@ class ClubAccessController extends Controller
                         $botSendMessage->handle($bot_user, 'SYS_WELCOME_MESSAGE');
                         $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
                         die();
+
+                        return '3';
                     }
 
                 } else {
                     if (!$bot_user->bot_branch_id) $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
+                    return '4';
                 }
 
                 if ($bot_user->date_end != NULL && $bot_user->date_end > date('Y-m-d', time())) {
+                    return '5';
                     $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
                     die();
                 }
@@ -179,7 +187,7 @@ class ClubAccessController extends Controller
                 if ($messenger == 'telegram') $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id);
                 if ($messenger == 'max') $bot_user = $botUserGetFromMax->handle($bot_id, $chat_id);
 
-                return 'ooo oook';
+                return '6';
             }
 
             //== Если это /registration, тут обрабатываем регистрацию
