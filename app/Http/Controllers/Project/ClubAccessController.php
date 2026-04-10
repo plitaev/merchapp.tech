@@ -179,6 +179,7 @@ class ClubAccessController extends Controller
                 if ($messenger == 'telegram') $bot_user = $botUserGetFromTelegram->handle($bot_id, $chat_id);
                 if ($messenger == 'max') $bot_user = $botUserGetFromMax->handle($bot_id, $chat_id);
 
+                return 'ooo oook';
             }
 
             //== Если это /registration, тут обрабатываем регистрацию
@@ -232,7 +233,6 @@ class ClubAccessController extends Controller
 
             //== Запускаем основной скрипт клуба
             //== Проверяем, получал ли юзер приветственное сообщение
-            return 'ok';
             $botWelcomeMessage->handle($bot_user); //== Обрабатываем первичное стартовое сообщение (до ввода имени)
             $botHandName->handle($bot_user, $webhook); //== Обрабатываем HandName - вручную введенное юзером имя
             $botEighteen->handle($bot_user); //== Обрабатываем подтверждение 18 лет
