@@ -144,8 +144,6 @@ class ClubAccessController extends Controller
             //== Если это /start, тут обрабатываем старт
             if ($Astart[0] == "/start") {
 
-                return $Astart;
-
                 if (count($Astart) == 2) {
 
                     $branch_data = base64_decode($Astart[1]);
@@ -234,6 +232,7 @@ class ClubAccessController extends Controller
 
             //== Запускаем основной скрипт клуба
             //== Проверяем, получал ли юзер приветственное сообщение
+            return 'ok';
             $botWelcomeMessage->handle($bot_user); //== Обрабатываем первичное стартовое сообщение (до ввода имени)
             $botHandName->handle($bot_user, $webhook); //== Обрабатываем HandName - вручную введенное юзером имя
             $botEighteen->handle($bot_user); //== Обрабатываем подтверждение 18 лет
