@@ -167,7 +167,6 @@ class ClubAccessController extends Controller
 
                 } else {
                     if (!$bot_user->bot_branch_id) $botUserSetBranch->handle($bot_user, 'BRANCH_MAIN');
-                    return '4';
                 }
 
                 if ($bot_user->date_end != NULL && $bot_user->date_end > date('Y-m-d', time())) {
