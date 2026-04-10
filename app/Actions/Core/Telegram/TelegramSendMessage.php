@@ -110,7 +110,8 @@ class TelegramSendMessage
             //=========================================================================================================================
 
             if ($bot_message->image && $send_status == 0) {
-                $A['photo'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->image);
+                //$A['photo'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->image);
+                $A['photo'] = env('APP_URL').'/content/'.$bot_message->image;
 
                 try {
                     $message = $telegram->sendPhoto($A);
