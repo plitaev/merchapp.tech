@@ -144,6 +144,8 @@ class ClubAccessController extends Controller
             //== Если это /start, тут обрабатываем старт
             if ($Astart[0] == "/start") {
 
+                return 'test';
+
                 if (count($Astart) == 2) {
 
                     $branch_data = base64_decode($Astart[1]);
