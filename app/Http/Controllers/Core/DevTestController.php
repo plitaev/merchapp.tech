@@ -43,7 +43,7 @@ class DevTestController extends Controller
             $bot_user = BotUser::with('bot')->find(1841);
 
             $A = [];
-            $A['user_ids'] = ['user_id_'.$bot_user->max_user_id];
+            $A['user_ids'] = 'user_id_'.$bot_user->max_user_id;
 
             return json_encode($A);
 
