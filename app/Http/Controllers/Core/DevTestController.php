@@ -41,7 +41,7 @@ class DevTestController extends Controller
         $A = [];
 
         foreach ($bot_users as $bot_user) {
-            $last_pay = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->orderByDesc('pay_id')->first();
+            $last_pay = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->orderByDesc('id')->first();
             if ($last_pay) $bot_user->price = $last_pay->price;
 
             $A[] = $bot_user;
