@@ -75,7 +75,7 @@ class BotListenerEmail
                 }
 
                 $other_telegram_user = BotUser::where('email', $email)->whereNot('id', $bot_user->id)->where('bot_id', $bot_user->bot_id)->first();
-
+                return 'kost';
                 return $other_telegram_user;
 
                 if ($other_telegram_user) {
