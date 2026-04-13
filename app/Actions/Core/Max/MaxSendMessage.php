@@ -125,9 +125,9 @@ class MaxSendMessage
                 //== Разбаниваем, если идет сообщение об успехе, и ставим в UnbanScheduler
 
                 if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE_MAX') {
-                    $supergroups = $botSupergroupsAll->handle();
+                    //$supergroups = $botSupergroupsAll->handle();
                     //$botUserUnban->handle($bot_user, $supergroups, $telegram);
-                    $botUserSetUnbanScheduler->handle($bot_user, date('Y-m-d H:i:s'));
+                    //$botUserSetUnbanScheduler->handle($bot_user, date('Y-m-d H:i:s'));
 
                     $res = TelegramSupergroup::where('bot_id', $bot_user->id)->get();
                     foreach ($res as $data) {
