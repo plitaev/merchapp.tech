@@ -45,7 +45,7 @@ class DevTestController extends Controller
             $A = [];
             $A['user_ids'] = '["{user_id_'.$bot_user->max_user_id.'}"]';
 
-            return json_encode($A);
+            //return json_encode($A);
 
             return $maxQuery->handle($bot_user->bot, 'POST', 'chats/'.$data->max_id.'/members', $A, false, ['user_id' => $bot_user->max_user_id]);
         }
