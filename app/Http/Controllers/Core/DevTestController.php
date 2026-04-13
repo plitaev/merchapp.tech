@@ -36,6 +36,20 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
+        $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->get();
+
+        $A = [];
+
+        foreach ($bot_users as $bot_user) {
+            $last_pay = Pay::where('status', 1)->where('bot_user_id', $bot_user->id)->orderByDesc('pay_id')->first();
+            if ($last_pay) $bot_user->price = $last_pay->price;
+
+            $A[] = $bot_user;
+        }
+
+        return $A;
+
+        /*
         $maxQuery = new MaxQuery();
 
         $res = TelegramSupergroup::where('bot_id', 9)->get();
@@ -49,7 +63,7 @@ class DevTestController extends Controller
 
             return $maxQuery->handle($bot_user->bot, 'POST', 'chats/'.$data->max_id.'/members', $A, false, ['user_id' => $bot_user->max_user_id]);
         }
-
+        */
         /*
         $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
 
