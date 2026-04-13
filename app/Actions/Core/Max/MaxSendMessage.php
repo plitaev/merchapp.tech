@@ -129,7 +129,7 @@ class MaxSendMessage
                     //$botUserUnban->handle($bot_user, $supergroups, $telegram);
                     //$botUserSetUnbanScheduler->handle($bot_user, date('Y-m-d H:i:s'));
 
-                    $res = TelegramSupergroup::where('bot_id', $bot_user->id)->get();
+                    $res = TelegramSupergroup::where('bot_id', $bot_user->bot_id)->get();
                     foreach ($res as $data) {
                         $A = [];
                         $A['user_ids'] = [$bot_user->max_user_id];
