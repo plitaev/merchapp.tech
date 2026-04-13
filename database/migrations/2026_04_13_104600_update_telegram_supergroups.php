@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('telegram_supergroups', function (Blueprint $table) {
-            $table->BigInteger('max_id')->change();
+            $table->BigInteger('max_id')->nullable()->change();
         });
     }
 
