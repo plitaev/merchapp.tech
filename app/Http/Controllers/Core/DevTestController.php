@@ -36,9 +36,16 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
+        $maxQuery = new MaxQuery();
+
         $res = TelegramSupergroup::where('bot_id', 9)->get();
         foreach ($res as $data) {
+            $bot_user = BotUser::with('bot')->find(1841);
 
+            $A = [];
+            $A['user_ids'] = ['user_id_'.$bot_user->max_id];
+
+            return $maxQuery->handle($bot_user->bot, 'POST', 'chats/'.$data->max_id.'/members', $A, false, ['user_id' => $bot_user->max_user_id]);
         }
 
         /*
