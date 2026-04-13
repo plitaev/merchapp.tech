@@ -7,6 +7,7 @@ use App\Actions\Core\PaySystemCallback\PaySystemCallbackCreate;
 use App\Models\Core\BotMessageButton;
 use App\Models\Core\GetcourseWebhook;
 use App\Models\Core\TelegramSendMessageSchedule;
+use App\Models\Core\TelegramSupergroup;
 use Carbon\Carbon;
 
 use App\Http\Controllers\Controller;
@@ -35,6 +36,12 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
+        $res = TelegramSupergroup::where('bot_id', 9)->get();
+        foreach ($res as $data) {
+
+        }
+
+        /*
         $telegram = new Api('7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY');
 
         $A['text'] = 'Тест';
@@ -43,7 +50,7 @@ class DevTestController extends Controller
         $A['protect_content'] = false;
 
         return $telegram->sendMessage($A);
-
+        */
         /*
         $headers = [
             'Content-Type: application/json',
