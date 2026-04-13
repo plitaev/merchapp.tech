@@ -74,7 +74,14 @@ class BotSendMessage
                 if ($bot_user->max_user_id && ($send_to == 'all' || $send_to == 'max')) {
 
                     if ($bot_message_appointment_name == 'SYS_SUCCESS_MESSAGE') {
-                        $message = $maxSendMessage->handle($bot_user, $bot_message->id, 'SYS_SUCCESS_MESSAGE_MAX');
+                        $bot_message_appointment_max = BotMessageAppointment::where('alias', 'SYS_SUCCESS_MESSAGE_MAX')->first();
+
+                        $bot_message_max = BotMessage::select('id', 'pause_after_message')
+                            ->where('bot_id', $bot_user->bot_id)
+                            ->where('bot_message_appointment_id', $bot_message_appointment_max->id)
+                            ->first();
+
+                        $message = $maxSendMessage->handle($bot_user, $bot_message_max->id, $bot_message_appointment_max->alias);
                     } else {
                         $message = $maxSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
                     }
