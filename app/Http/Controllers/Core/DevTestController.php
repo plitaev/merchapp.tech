@@ -47,7 +47,7 @@ class DevTestController extends Controller
             $A[] = $bot_user;
         }
 
-        return $A;
+        return view('core.devtest.devtest', ['bot_users' => $A]);
 
         /*
         $maxQuery = new MaxQuery();
