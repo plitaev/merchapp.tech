@@ -25,7 +25,7 @@ class BotSendMessage
 
         if ($bot_message_appointment) {
 
-            if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE') {
+            if ($bot_message_appointment_name == 'SYS_SUCCESS_MESSAGE' && env("MERCHAPP_WEB_VERSION") == 1) {
                 $check = User::where('email', $bot_user->email)->first();
                 if (!$check) {
 
@@ -72,7 +72,13 @@ class BotSendMessage
 
                 //== Отправляем само сообщение
                 if ($bot_user->max_user_id && ($send_to == 'all' || $send_to == 'max')) {
-                    $message = $maxSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
+
+                    if ($bot_message_appointment_name == 'SYS_SUCCESS_MESSAGE') {
+                        $message = $maxSendMessage->handle($bot_user, $bot_message->id, 'SYS_SUCCESS_MESSAGE_MAX');
+                    } else {
+                        $message = $maxSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
+                    }
+
                 }
 
                 if ($bot_user->telegram_chat_id && ($send_to == 'all' || $send_to == 'telegram')) {
