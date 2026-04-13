@@ -13,6 +13,7 @@ use App\Actions\Core\Product\ProductListByBot;
 use App\Models\Core\BotMessage;
 use App\Models\Core\BotMessageButton;
 use App\Models\Core\MaxSendMessageLog;
+use App\Models\Core\TelegramSupergroup;
 
 class MaxSendMessage
 {
@@ -123,16 +124,21 @@ class MaxSendMessage
 
                 //== Разбаниваем, если идет сообщение об успехе, и ставим в UnbanScheduler
 
-                if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE') {
+                if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE_MAX') {
                     $supergroups = $botSupergroupsAll->handle();
                     //$botUserUnban->handle($bot_user, $supergroups, $telegram);
                     $botUserSetUnbanScheduler->handle($bot_user, date('Y-m-d H:i:s'));
+
+                    $res = TelegramSupergroup::where('bot_id', $bot_user->id)->get();
+                    foreach ($res as $data) {
+                        $A = [];
+                        $A['user_ids'] = [$bot_user->max_user_id];
+                        $maxQuery->handle($bot_user->bot, 'POST', 'chats/'.$data->max_id.'/members', $A, false, ['user_id' => $bot_user->max_user_id]);
+                    }
                 }
 
                 return $message;
             }
-
         }
-
     }
 }
