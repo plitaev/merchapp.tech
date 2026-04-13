@@ -12,6 +12,10 @@ class MaxMessageGetStartParams {
             (array) $Astart = ['none', 'none'];
         }
 
+        if (isset($webhook['update_type']) && $webhook['update_type'] == 'bot_started' && $Astart[0] == 'none') {
+            (array) $Astart = ['/start', 'none'];
+        }
+
         return $Astart;
     }
 }
