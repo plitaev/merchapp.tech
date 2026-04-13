@@ -35,7 +35,7 @@ use App\Models\Core\Bot;
 class DevTestController extends Controller
 {
     public function devtest() {
-
+        /*
         $bot_users = BotUser::where('date_end', '>=', date('Y-m-d', time()))->get();
 
         $A = [];
@@ -48,7 +48,7 @@ class DevTestController extends Controller
         }
 
         return view('core.devtest.devtest', ['bot_users' => $A]);
-
+        */
         /*
         $maxQuery = new MaxQuery();
 
