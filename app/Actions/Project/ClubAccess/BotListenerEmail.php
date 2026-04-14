@@ -74,6 +74,42 @@ class BotListenerEmail
 
                 }
 
+                if ($messenger == 'telegram') {
+
+                    $bot_user_max = BotUser::with('bot')
+                        ->where('email', $email)
+                        ->whereNotNull('max_user_id')
+                        ->whereNull('telegram_chat_id')
+                        ->where('bot_id', $bot_user->bot_id)
+                        ->first();
+
+                    if ($bot_user_max) {
+
+                        BotUser::where('id', $bot_user_max->id)->update(['verification_from_max' => $bot_user->max_user_id]);
+
+                        $telegram = new Api($bot_user->bot->telegram_token);
+
+                        $kb = [];
+                        $btn = [["text" => 'Подтвердить', "callback_data" => 'connect_max_to_telegram_'.$bot_user->max_user_id]];
+                        $kb[] = $btn;
+                        $keyboard = ["inline_keyboard" => $kb];
+                        $keyboard = json_encode($keyboard, true);
+
+                        $A = [];
+                        $A['text'] = 'Нажмите на кнопку, чтобы подтвердить подключение аккаунта в Max';
+                        $A['reply_markup'] = $keyboard;
+                        $A['parse_mode'] = 'HTML';
+                        $A['chat_id'] = $bot_user_telegram->telegram_chat_id;
+                        $A['protect_content'] = false;
+
+                        $telegram->sendMessage($A);
+
+                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_MAX_BEFORE_VERIFICATION_FROM_MAX', 'max');
+                        die();
+                    }
+
+                }
+
                 $other_telegram_user = BotUser::where('email', $email)->whereNot('id', $bot_user->id)->where('bot_id', $bot_user->bot_id)->count();
 
                 if ($other_telegram_user > 0) {

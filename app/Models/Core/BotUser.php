@@ -13,6 +13,7 @@ class BotUser extends Model
         'telegram_chat_id',
         'max_user_id',
         'verification_from_max',
+        'verification_from_telegram',
         'bot_id',
         'bot_branch_id',
         'first_name',
