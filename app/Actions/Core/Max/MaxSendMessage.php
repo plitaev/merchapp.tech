@@ -3,6 +3,7 @@
 namespace App\Actions\Core\Max;
 
 use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
+use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserInsertVariables;
 use App\Actions\Core\BotUser\BotUserSetUnbanScheduler;
 use App\Actions\Core\BotUser\BotUserUnban;
@@ -18,7 +19,7 @@ use App\Models\Core\TelegramSupergroup;
 class MaxSendMessage
 {
     public function handle($bot_user, int $bot_message_id, string $bot_message_appointment = '') {
-
+        $botSendMessage = new BotSendMessage();
         $botSupergroupsAll = new BotSupergroupsAll();
         $botUserInsertVariables = new BotUserInsertVariables();
         $botUserSetUnbanScheduler = new BotUserSetUnbanScheduler();
@@ -79,6 +80,23 @@ class MaxSendMessage
                 $kb[] = $btn;
             }
 
+            if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE_MAX') {
+
+                $res = TelegramSupergroup::where('bot_id', $bot_user->bot_id)->get();
+                foreach ($res as $data) {
+                    $A = [];
+                    $A['user_ids'] = [$bot_user->max_user_id];
+                    $add_result = $maxQuery->handle($bot_user->bot, 'POST', 'chats/'.$data->max_id.'/members', $A, false, ['user_id' => $bot_user->max_user_id]);
+
+                    $add_result = json_decode($add_result, true);
+
+                    if (isset($add_result['failed_user_details']['error_code']) && $add_result['failed_user_details']['error_code'] == 'add.participant.privacy') {
+                        $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE_MAX_NEED_PRIVACY_CHANGE', 'max');
+                    }
+                }
+
+            }
+
             $A = [];
             $A['text'] = $text;
             $A['format'] = 'html';
@@ -128,13 +146,6 @@ class MaxSendMessage
                     //$supergroups = $botSupergroupsAll->handle();
                     //$botUserUnban->handle($bot_user, $supergroups, $telegram);
                     //$botUserSetUnbanScheduler->handle($bot_user, date('Y-m-d H:i:s'));
-
-                    $res = TelegramSupergroup::where('bot_id', $bot_user->bot_id)->get();
-                    foreach ($res as $data) {
-                        $A = [];
-                        $A['user_ids'] = [$bot_user->max_user_id];
-                        $maxQuery->handle($bot_user->bot, 'POST', 'chats/'.$data->max_id.'/members', $A, false, ['user_id' => $bot_user->max_user_id]);
-                    }
                 }
 
                 return $message;
