@@ -90,10 +90,9 @@ class MaxSendMessage
 
                     $add_result = json_decode($add_result, true);
 
-                    //return $add_result;
+                    return $add_result['failed_user_details']['error_code'];
 
                     if (isset($add_result['failed_user_details']['error_code']) && $add_result['failed_user_details']['error_code'] == 'add.participant.privacy') {
-                        return 'ok';
                         $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE_MAX_NEED_PRIVACY_CHANGE', 'max');
                         die();
                     }
