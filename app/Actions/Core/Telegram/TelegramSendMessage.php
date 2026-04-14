@@ -131,11 +131,13 @@ class TelegramSendMessage
                     TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
                 }
 
+                $send_status = 1;
             }
 
             //=========================================================================================================================
 
             if ($bot_message->video && $send_status == 0) {
+                /*
                 $A['video'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->video);
 
                 try {
@@ -146,11 +148,22 @@ class TelegramSendMessage
                 }
 
                 $send_status = 1;
+                */
+
+                try {
+                    $message = $telegram->sendMessage($A);
+                    $entities = $message->entities;
+                } catch (\Exception $exception) {
+                    TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
+                }
+
+                $send_status = 1;
             }
 
             //=========================================================================================================================
 
             if ($bot_message->audio && $send_status == 0) {
+                /*
                 $A['audio'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->audio);
 
                 try {
@@ -161,12 +174,22 @@ class TelegramSendMessage
                 }
 
                 $send_status = 1;
+                */
+
+                try {
+                    $message = $telegram->sendMessage($A);
+                    $entities = $message->entities;
+                } catch (\Exception $exception) {
+                    TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
+                }
+
+                $send_status = 1;
             }
 
             //=========================================================================================================================
 
             if ($bot_message->custom_file && $send_status == 0) {
-
+                /*
                 $Aext = explode('.', $bot_message->custom_file);
                 $file_ext = $Aext[count($Aext)-1];
 
@@ -177,6 +200,16 @@ class TelegramSendMessage
                 try {
                     $message = $telegram->sendDocument($A);
                     $entities = $message->caption_entities;
+                } catch (\Exception $exception) {
+                    TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
+                }
+
+                $send_status = 1;
+                */
+
+                try {
+                    $message = $telegram->sendMessage($A);
+                    $entities = $message->entities;
                 } catch (\Exception $exception) {
                     TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
                 }
