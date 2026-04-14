@@ -93,7 +93,8 @@ class TelegramSendMessage
             $A = [];
 
             if ($bot_message->image || $bot_message->video || $bot_message->audio || $bot_message->custom_file) {
-                $A['caption'] = $text;
+                //$A['caption'] = $text;
+                $A['text'] = $text;
             } else {
                 $A['text'] = $text;
             }
@@ -110,8 +111,8 @@ class TelegramSendMessage
             //=========================================================================================================================
 
             if ($bot_message->image && $send_status == 0) {
-                //$A['photo'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->image);
-                $A['photo'] = env('APP_URL').'/content/'.$bot_message->image;
+                /*
+                $A['photo'] = \Telegram\Bot\FileUpload\InputFile::create(env('APP_URL').'/content/'.$bot_message->image);
 
                 try {
                     $message = $telegram->sendPhoto($A);
@@ -121,6 +122,15 @@ class TelegramSendMessage
                 }
 
                 $send_status = 1;
+                */
+
+                try {
+                    $message = $telegram->sendMessage($A);
+                    $entities = $message->entities;
+                } catch (\Exception $exception) {
+                    TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
+                }
+
             }
 
             //=========================================================================================================================
