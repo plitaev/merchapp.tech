@@ -8,6 +8,7 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserSetEmail;
 use App\Actions\Core\BotUser\BotUserSetListener;
 use App\Actions\Core\DateEnd\DateEnd;
+use App\Actions\Core\Max\MaxQuery;
 use App\Actions\Core\Pay\PayCreateByPayGuest;
 use App\Models\Core\BotUser;
 use App\Models\Core\Pay;
@@ -21,6 +22,7 @@ class BotListenerEmail
         $botUserSetListener = new BotUserSetListener();
         $botWrongEmail = new BotWrongEmail();
         $dateEnd = new DateEnd();
+        $maxQuery = new MaxQuery();
         $payCreateByPayGuest = new PayCreateByPayGuest();
 
         //== Проверяем, ожидает ли юзер ввода почты
@@ -85,34 +87,32 @@ class BotListenerEmail
 
                     if ($bot_user_max) {
 
-                        BotUser::where('id', $bot_user_max->id)->update(['verification_from_max' => $bot_user->max_user_id]);
+                        BotUser::where('id', $bot_user_max->id)->update(['verification_from_telegram' => $bot_user->telegram_chat_id]);
 
                         $telegram = new Api($bot_user->bot->telegram_token);
 
                         $kb = [];
-                        $btn = [["text" => 'Подтвердить', "callback_data" => 'connect_max_to_telegram_'.$bot_user->max_user_id]];
+                        $btn = [["text" => 'Подтвердить', "payload" => 'connect_telegram_to_max_'.$bot_user->telegram_chat_id, "type" => "callback"]];
                         $kb[] = $btn;
-                        $keyboard = ["inline_keyboard" => $kb];
-                        $keyboard = json_encode($keyboard, true);
 
                         $A = [];
-                        $A['text'] = 'Нажмите на кнопку, чтобы подтвердить подключение аккаунта в Max';
-                        $A['reply_markup'] = $keyboard;
-                        $A['parse_mode'] = 'HTML';
-                        $A['chat_id'] = $bot_user_telegram->telegram_chat_id;
-                        $A['protect_content'] = false;
+                        $A['attachments'] = [];
+                        $A['attachments'][] = ["type" => "inline_keyboard", "payload" => ["buttons" => $kb]];
+                        $A['text'] = 'Нажмите на кнопку, чтобы подтвердить подключение аккаунта в Telegram';
+                        $A['format'] = 'html';
+                        $A['chat_id'] = $bot_user_max->max_user_id;
 
-                        $telegram->sendMessage($A);
+                        $maxQuery->handle($bot_user->bot, 'POST', 'messages', $A, false, ['user_id' => $bot_user_max->max_user_id]);
 
-                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_MAX_BEFORE_VERIFICATION_FROM_MAX', 'max');
+                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_TELEGRAM_BEFORE_VERIFICATION_FROM_TELEGRAM', 'telegram');
                         die();
                     }
 
                 }
 
-                $other_telegram_user = BotUser::where('email', $email)->whereNot('id', $bot_user->id)->where('bot_id', $bot_user->bot_id)->count();
+                $other_bot_user = BotUser::where('email', $email)->whereNot('id', $bot_user->id)->where('bot_id', $bot_user->bot_id)->count();
 
-                if ($other_telegram_user > 0) {
+                if ($other_bot_user > 0) {
                     $botSendMessage->handle($bot_user, 'SYS_OTHER_USER_WITH_ENTERED_EMAIL');
                     die();
                 }

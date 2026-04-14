@@ -296,8 +296,9 @@ class ClubAccessController extends Controller
                     die();
                 }
 
-                $res = BotUser::whereNotNull('verification_from_max')->get();
+                //== Генерим колбэки для присоединения Макс к ТГ
 
+                $res = BotUser::whereNotNull('verification_from_max')->get();
                 foreach ($res as $data) {
 
                     if ($callback == 'connect_max_to_telegram_'.$data->verification_from_max) {
@@ -315,7 +316,28 @@ class ClubAccessController extends Controller
                         }
 
                     }
+                }
 
+                //== Генерим колбэки для присоединения ТГ к Макс
+
+                $res = BotUser::whereNotNull('verification_from_telegram')->get();
+                foreach ($res as $data) {
+
+                    if ($callback == 'connect_telegram_to_max_'.$data->verification_from_telegram) {
+
+                        BotUser::where('telegram_chat_id', $data->verification_from_telegram)->delete();
+                        BotUser::where('id', $bot_user->id)->update(['telegram_chat_id' => $data->verification_from_telegram, 'verification_from_telegram' => NULL]);
+
+                        $bot_user = BotUser::find($bot_user->id);
+
+                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_MAX_AFTER_VERIFICATION_FROM_TELEGRAM', 'max');
+                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_TELEGRAM_AFTER_VERIFICATION_FROM_TELEGRAM', 'telegram');
+
+                        if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
+                            $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
+                        }
+
+                    }
                 }
 
                 if (file_exists(base_path().'/app/Actions/Local/ClubAccessCallback.php')) {
