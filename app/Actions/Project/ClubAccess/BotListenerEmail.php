@@ -25,8 +25,6 @@ class BotListenerEmail
         $maxQuery = new MaxQuery();
         $payCreateByPayGuest = new PayCreateByPayGuest();
 
-        return '123';
-
         //== Проверяем, ожидает ли юзер ввода почты
         if ($bot_user->listen_email_status == 1) {
 
@@ -152,12 +150,16 @@ class BotListenerEmail
                             }
 
                         } else {
+                            return '1';
                             $botWrongEmail->handle($bot_user);
                         }
 
                     } else {
+                        return '2';
                         $botWrongEmail->handle($bot_user);
                     }
+
+                    return '3';
 
                     die();
                 }
