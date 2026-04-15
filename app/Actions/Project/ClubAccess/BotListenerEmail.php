@@ -150,7 +150,7 @@ class BotListenerEmail
                             }
 
                         } else {
-                            return $botWrongEmail->handle($bot_user);
+                            $botWrongEmail->handle($bot_user);
                         }
 
                     } else {
