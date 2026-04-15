@@ -2,6 +2,7 @@
 namespace App\Actions\Core\BotSendMessage;
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 use App\Actions\Core\BotUser\BotUserSetListener;
 use App\Actions\Core\Max\MaxSendMessage;
