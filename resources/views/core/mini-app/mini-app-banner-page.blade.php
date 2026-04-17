@@ -16,7 +16,7 @@
 
     <script>
         window.onload = function() {
-            let max_id = window.WebApp.initDataUnsafe.user.id;
+            var max_id = window.WebApp.initDataUnsafe.user.id;
             document.getElementById('max-test').innerHTML = max_id;
         };
     </script>
