@@ -49,8 +49,8 @@
                 telegram_app.ready();
             }
 
-            if (window.WebApp && window.WebApp != "undefined") {
-                let max_app = window.WebApp;
+            if (Window.WebApp && Window.WebApp != "undefined") {
+                let max_app = Window.WebApp;
                 let id = max_app.initDataUnsafe.user.id;
 
                 document.getElementById('username').innerHTML = "😎 "+id;
