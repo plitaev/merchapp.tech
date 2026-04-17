@@ -12,42 +12,50 @@
 @section('content')
 
     <script src="{{env('APP_URL')}}/js/telegram-web-app.js"></script>
+    <script src="https://st.max.ru/js/max-web-app.js"></script>
 
     <script>
         window.onload = function() {
-            let app = window.Telegram.WebApp;
-            let id = app.initDataUnsafe.user.id;
 
-            const items = document.querySelectorAll(".ref-to-banner");
+            if (window.Telegram.WebApp && window.Telegram.WebApp != NULL && window.Telegram.WebApp != "undefined") {
+                let telegram_app = window.Telegram.WebApp;
+                let id = telegram_app.initDataUnsafe.user.id;
 
-            items.forEach(item => {
-                var old_ref = item.getAttribute('href');
+                const items = document.querySelectorAll(".ref-to-banner");
 
-                if (!old_ref.includes('viewer.html')) {
-                    var new_ref = old_ref+"?telegram_chat_id="+id;
-                    item.setAttribute('href', new_ref);
+                items.forEach(item => {
+                    var old_ref = item.getAttribute('href');
+
+                    if (!old_ref.includes('viewer.html')) {
+                        var new_ref = old_ref+"?telegram_chat_id="+id;
+                        item.setAttribute('href', new_ref);
+                    }
+                });
+
+                @if (isset($mini_app_page->back_button_url))
+                 telegram_app.BackButton.show();
+                 telegram_app.BackButton.onClick(function() {
+                     window.location.href="{{$mini_app_page->back_button_url}}?telegram_chat_id="+id;
+                 });
+                @else
+                telegram_app.BackButton.hide();
+                @endif
+
+                let first_name = telegram_app.initDataUnsafe.user.first_name;
+
+                if (first_name!="undefined") {
+                    document.getElementById('username').innerHTML = "😎 "+first_name;
                 }
-            });
-
-            @if (isset($mini_app_page->back_button_url))
-
-            app.BackButton.show();
-            app.BackButton.onClick(function() {
-                window.location.href="{{$mini_app_page->back_button_url}}?telegram_chat_id="+id;
-            });
-
-            @else
-
-            app.BackButton.hide();
-
-            @endif
-
-            let first_name = app.initDataUnsafe.user.first_name;
-
-            if (first_name!="undefined") {
-                document.getElementById('username').innerHTML = "😎 "+first_name;
+                telegram_app.ready();
             }
-            app.ready();
+
+            if (window.WebApp && window.WebApp != NULL && window.WebApp != "undefined") {
+                let max_app = window.WebApp;
+                let id = app.initDataUnsafe.user.id;
+
+                document.getElementById('username').innerHTML = "😎 "+id;
+            }
+
         };
     </script>
 
