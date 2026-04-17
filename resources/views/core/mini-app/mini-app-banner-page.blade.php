@@ -19,7 +19,7 @@
             let app = window.Telegram.WebApp;
             let id = app.initDataUnsafe.user.id;
 
-            let max_id = window.WebApp.initData.user.id;
+            let max_id = window.WebApp.initDataUnsafe.user.id;
             document.getElementById('max-test').innerHTML = max_id;
 
             const items = document.querySelectorAll(".ref-to-banner");
