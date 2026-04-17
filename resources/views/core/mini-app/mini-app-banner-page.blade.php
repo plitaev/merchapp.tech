@@ -11,22 +11,49 @@
 
 @section('content')
 
-    <script src="https://st.max.ru/js/max-web-app.js"></script>
+    <script src="{{env('APP_URL')}}/js/telegram-web-app.js"></script>
 
     <script>
         window.onload = function() {
-            let app = window.WebApp;
+            let app = window.Telegram.WebApp;
             let id = app.initDataUnsafe.user.id;
 
-            document.getElementById('max-test').innerHTML = id;
+            const items = document.querySelectorAll(".ref-to-banner");
+
+            items.forEach(item => {
+                var old_ref = item.getAttribute('href');
+
+                if (!old_ref.includes('viewer.html')) {
+                    var new_ref = old_ref+"?telegram_chat_id="+id;
+                    item.setAttribute('href', new_ref);
+                }
+            });
+
+            @if (isset($mini_app_page->back_button_url))
+
+            app.BackButton.show();
+            app.BackButton.onClick(function() {
+                window.location.href="{{$mini_app_page->back_button_url}}?telegram_chat_id="+id;
+            });
+
+            @else
+
+            app.BackButton.hide();
+
+            @endif
+
+            let first_name = app.initDataUnsafe.user.first_name;
+
+            if (first_name!="undefined") {
+                document.getElementById('username').innerHTML = "😎 "+first_name;
+            }
+            app.ready();
         };
     </script>
 
     <div class="isolate overflow-y-scroll bg-[#f1f1f1] h-[100vh]">
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
-
-            <div id="max-test">max-test</div>
 
             {{------}}
 
