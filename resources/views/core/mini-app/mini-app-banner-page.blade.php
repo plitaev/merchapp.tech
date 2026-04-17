@@ -12,7 +12,7 @@
 @section('content')
 
     <script src="{{env('APP_URL')}}/js/telegram-web-app.js"></script>
-    <script src="{{env('APP_URL')}}/js/max-web-app.js"></script>
+    <script src="https://st.max.ru/js/max-web-app.js"></script>
 
     <script>
         window.onload = function() {
