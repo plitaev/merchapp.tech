@@ -17,7 +17,7 @@
     <script>
         window.onload = function() {
 
-            if (window.Telegram.WebApp && window.Telegram.WebApp != NULL && window.Telegram.WebApp != "undefined") {
+            if (window.Telegram.WebApp && window.Telegram.WebApp != "undefined") {
                 let telegram_app = window.Telegram.WebApp;
                 let id = telegram_app.initDataUnsafe.user.id;
 
@@ -49,7 +49,7 @@
                 telegram_app.ready();
             }
 
-            if (window.WebApp && window.WebApp != NULL && window.WebApp != "undefined") {
+            if (window.WebApp && window.WebApp != "undefined") {
                 let max_app = window.WebApp;
                 let id = app.initDataUnsafe.user.id;
 
