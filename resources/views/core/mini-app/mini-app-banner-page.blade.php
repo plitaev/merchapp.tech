@@ -18,7 +18,7 @@
             let app = window.WebApp;
             let id = app.initDataUnsafe.user.id;
 
-            document.getElementById('username').innerHTML = id;
+            document.getElementById('max-test').innerHTML = id;
         };
     </script>
 
