@@ -12,11 +12,15 @@
 @section('content')
 
     <script src="{{env('APP_URL')}}/js/telegram-web-app.js"></script>
+    <script src="{{env('APP_URL')}}/js/max-web-app.js"></script>
 
     <script>
         window.onload = function() {
             let app = window.Telegram.WebApp;
             let id = app.initDataUnsafe.user.id;
+
+            let max_id = window.WebApp.initData.user.id;
+            document.getElementById('max-test').innerHTML = max_id;
 
             const items = document.querySelectorAll(".ref-to-banner");
 
@@ -54,6 +58,8 @@
     <div class="isolate overflow-y-scroll bg-[#f1f1f1] h-[100vh]">
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
+
+            <div id="max-test">max-test</div>
 
             {{------}}
 
