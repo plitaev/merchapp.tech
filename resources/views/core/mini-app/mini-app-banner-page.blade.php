@@ -51,7 +51,7 @@
 
             if (window.WebApp && window.WebApp != "undefined") {
                 let max_app = window.WebApp;
-                let id = app.initDataUnsafe.user.id;
+                let id = max_app.initDataUnsafe.user.id;
 
                 document.getElementById('username').innerHTML = "😎 "+id;
             }
