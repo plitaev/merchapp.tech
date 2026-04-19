@@ -45,7 +45,7 @@ use App\Models\Core\Bot;
 class DevTestTelegramController extends Controller
 {
     public function devtesttelegram() {
-
+      
         $botSupergroupsAll = new BotSupergroupsAll();
         $botUserInsertVariables = new BotUserInsertVariables();
         $telegramSendMessage = new TelegramSendMessage();
@@ -54,12 +54,13 @@ class DevTestTelegramController extends Controller
         $botUserUnban = new BotUserUnban();
         $botUserSetUnbanScheduler = new BotUserSetUnbanScheduler();
 
-        $bot_message_id = 425;
+        $bot_message_id = 424;
+        $bot = Bot::find(1);
 
         $bot_message = $botMessageGetByID->handle($bot_message_id);
         $telegram = new Api($bot_message->bot->telegram_token);
 
-        $bot_user = $botUserGetByEmail->handle(1, auth()->user()->email);
+        $bot_user = $botUserGetByEmail->handle($bot->id, auth()->user()->email);
 
         $botUserInsertVariables = new BotUserInsertVariables();
 
@@ -67,11 +68,13 @@ class DevTestTelegramController extends Controller
 
         $bot_message = BotMessage::with('bot:id,telegram_token,business_connection_id')->find($bot_message_id);
 
+
         $text = $bot_message->text;
         $text = urldecode($text);
         $text = $botUserInsertVariables->handle($bot_user, $text);
 
         if ($bot_message) {
+
 
             $kb = [];
 
@@ -133,7 +136,7 @@ class DevTestTelegramController extends Controller
             }
             $A['format'] = 'html';
             $A['attachments'] = [];
-            $A['chat_id'] = 5460330541;
+            $A['chat_id'] = $bot_user->telegram_user_id;
             $A['reply_markup'] = $keyboard;
             $A['parse_mode'] = 'HTML';
             $A['protect_content'] = false;
@@ -239,7 +242,7 @@ class DevTestTelegramController extends Controller
                         'telegram_entities' => $entities
                     ]
                 );
-
+                
 
                 return $message;
             }
@@ -250,25 +253,25 @@ class DevTestTelegramController extends Controller
             $TelegramWebhookMake = new TelegramWebhookMake();
 
 
-            $bot = Bot::find(1);
 
-            $webhook_address = $TelegramWebhookMake->handle(1, 'test_address');
-            $status = $TelegramQuery->handle($bot, 'POST', 'subscriptions', ['url' => $webhook_address ,'secret' => hash('sha256', env('APP_URL'))], false);
 
-//            try {
-//                $message = $TelegramQuery->handle($bot, 'POST', 'messages', 'hello', false, ['user_id' => 5460330541]);
-//            } catch (\Exception $exception) {
-//            }
-            //=========================================================================================================================
-
+//            $webhook_address = $TelegramWebhookMake->handle($bot->id, 'test_address');
+//            $status = $TelegramQuery->handle($bot, 'POST', 'subscriptions', ['url' => $webhook_address ,'secret' => hash('sha256', env('APP_URL'))], false);
 //
+
+            //=========================================================================================================================
+            $telegramQuery = new TelegramQuery();
+
+            try {
+                $message = $telegramQuery->handle($bot_user->bot, 'POST', 'messages', $A, false, ['user_id' => $bot_user->telegram_user_id]);
+            } catch (\Exception $exception) {}
+
 //            if ($bot_user) {
 //                return $telegramSendMessage->handle($bot_user, $bot_message_id);
 //            }
 
             //=========================================================================================================================
         }
-
     }
 }
 
