@@ -12,9 +12,9 @@ require 'core/bot_message.php';
 require 'core/bot_message_button.php';
 require 'core/converter.php';
 require 'core/devtest.php';
+require 'core/devtesttelegram.php';
 require 'core/google.php';
 require 'core/getcourse.php';
-require 'core/max.php';
 require 'core/miniapp.php';
 require 'core/pay.php';
 require 'core/paycount.php';
@@ -26,4 +26,8 @@ require 'core/yookassa.php';
 
 require 'project/app1.php';
 require 'project/app2.php';
-require 'project/webhook.php';
+//require 'project/app2max.php';
+require 'project/telegram_webhook.php';
+require 'project/max_webhook.php';
+
+
