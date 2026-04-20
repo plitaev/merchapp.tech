@@ -86,7 +86,7 @@ class MaxSendMessage
                 foreach ($res as $data) {
                     $A = [];
                     $A['user_ids'] = [$bot_user->max_user_id];
-                    $add_result = $maxQuery->handle($bot_user->bot, 'POST', 'chats/'.$bot_user->max_user_id.'/members', $A, false, ['user_id' => $bot_user->max_user_id]);
+                    $add_result = $maxQuery->handle($bot_user->bot, 'POST', 'chats/'.$data->max_id.'/members', $A, false, ['user_id' => $bot_user->max_user_id]);
 
                     $add_result = json_decode($add_result, true);
 
