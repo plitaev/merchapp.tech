@@ -43,30 +43,12 @@ class DevTestController extends Controller
 {
     public function devtest()
     {
-        /*
-        $date_end = new DateEnd();
+        $maxQuery = new MaxQuery();
+        $bot_user = BotUser::find(7874);
 
-        $pays = Pay::where('payed_at', '2025-10-03 09:53:29')->get();
+        $A = [];
+        $A['user_ids'] = [$bot_user->max_user_id];
 
-        foreach ($pays as $pay) {
-            Pay::where('id', $pay->id)->update(['payed_at' => $pay->created_at]);
-        }
-
-        $bot_users = BotUser::get();
-        foreach ($bot_users as $bot_user) {
-            $date_end->handle($bot_user, 'Y-m-d');
-        }
-        */
-        /*
-        $pays = Pay::with('bot_user')
-            ->where('status', 1)
-            ->where('created_at', '>=', '2026-02-26 00:00:00')
-            ->where('created_at', '<=', '2026-03-26 23:59:59')
-            ->orderByDesc('created_at')
-            ->get();
-
-        return view('core.devtest.devtest', ['pays' => $pays]);
-        */
-
+        return $maxQuery->handle($bot_user->bot, 'POST', 'chats/-73398623957689/members', $A, false, ['user_id' => $bot_user->max_user_id]);
     }
 }
