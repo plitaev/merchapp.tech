@@ -26,8 +26,5 @@ require 'core/yookassa.php';
 
 require 'project/app1.php';
 require 'project/app2.php';
-//require 'project/app2max.php';
-require 'project/telegram_webhook.php';
-require 'project/max_webhook.php';
 
 
