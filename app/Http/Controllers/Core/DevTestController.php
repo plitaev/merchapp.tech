@@ -49,6 +49,6 @@ class DevTestController extends Controller
         $A = [];
         $A['user_ids'] = [$bot_user->max_user_id];
 
-        return $maxQuery->handle($bot_user->bot, 'POST', 'chats/-73398641390265/members', $A, false, ['user_id' => $bot_user->max_user_id]);
+        return $maxQuery->handle($bot_user->bot, 'POST', 'chats/-73398623957689/members', $A, false, ['user_id' => $bot_user->max_user_id]);
     }
 }
