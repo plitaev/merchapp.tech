@@ -82,7 +82,7 @@ class BotSendMessage
                             ->where('bot_message_appointment_id', $bot_message_appointment_max->id)
                             ->first();
 
-                        return $maxSendMessage->handle($bot_user, $bot_message_max->id, $bot_message_appointment_max->alias);
+                        $message = $maxSendMessage->handle($bot_user, $bot_message_max->id, $bot_message_appointment_max->alias);
                     } else {
                         $message = $maxSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
                     }
