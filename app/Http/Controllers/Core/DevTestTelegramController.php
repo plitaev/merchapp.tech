@@ -254,11 +254,7 @@ class DevTestTelegramController extends Controller
 
             $webhook_address = $TelegramWebhookMake->handle(1, 'test_address');
             $status = $TelegramQuery->handle($bot, 'POST', 'subscriptions', ['url' => $webhook_address ,'secret' => hash('sha256', env('APP_URL'))], false);
-
-//            try {
-//                $message = $TelegramQuery->handle($bot, 'POST', 'messages', 'hello', false, ['user_id' => 5460330541]);
-//            } catch (\Exception $exception) {
-//            }
+            
             //=========================================================================================================================
 
 //
