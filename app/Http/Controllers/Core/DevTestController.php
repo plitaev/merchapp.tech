@@ -44,7 +44,7 @@ class DevTestController extends Controller
     public function devtest()
     {
         $maxQuery = new MaxQuery();
-        $bot_user = BotUser::find(7874);
+        $bot_user = BotUser::find(14307);
 
         $A = [];
         $A['user_ids'] = [$bot_user->max_user_id];
