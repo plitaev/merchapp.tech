@@ -14,6 +14,7 @@ class Bot extends Model
     protected $fillable = [
         'name',
         'alias',
+        'max_alias',
         'telegram_token',
         'telegram_webhook',
         'max_token',
