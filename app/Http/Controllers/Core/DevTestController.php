@@ -44,11 +44,11 @@ class DevTestController extends Controller
     public function devtest()
     {
         $maxQuery = new MaxQuery();
-        $bot_user = BotUser::find(7874);
+        $bot_user = BotUser::find(14307);
 
         $A = [];
         $A['user_ids'] = [$bot_user->max_user_id];
 
-        return $maxQuery->handle($bot_user->bot, 'POST', 'chats/-73398623957689/members', $A, false, ['user_id' => $bot_user->max_user_id]);
+        return $maxQuery->handle($bot_user->bot, 'POST', 'chats/-73398729274041/members', $A, false, ['user_id' => $bot_user->max_user_id]);
     }
 }
