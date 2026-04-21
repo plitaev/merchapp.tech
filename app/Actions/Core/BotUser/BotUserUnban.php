@@ -21,7 +21,7 @@ class BotUserUnban
         if (isset($supergroups[$bot_user->bot_id])) {
             foreach ($supergroups[$bot_user->bot_id] as $supergroup) {
 
-                if ($supergroup->unban == 1) {
+                if ($supergroup->unban == 1 && isset($supergroup->telegram_id)) {
                     try {
                         $status = $telegram->unbanChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'only_if_banned' => true]);
                         BotUserBanSchedule::where('bot_user_id', $bot_user->id)->where('run_status', 0)->update(['run_status' => 3]);
