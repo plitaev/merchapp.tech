@@ -27,7 +27,7 @@ class TelegramSendMessage
 
         (int) $send_status = 0;
 
-        $bot_message = BotMessage::with('bot:id,telegram_token,business_connection_id')->find($bot_message_id);
+        $bot_message = BotMessage::with('bot:id,telegram_token,business_connection_id,max_alias')->find($bot_message_id);
 
         $telegram = new Api($bot_message->bot->telegram_token);
 
@@ -50,6 +50,10 @@ class TelegramSendMessage
                         $url = env("APP_URL")."/go/".base64_encode($button->id)."/".base64_encode($bot_user->id);
                     } else {
                         $url = $button->url;
+                    }
+
+                    if ($url == env('APP_URL').'/from_telegram_to_max' || $url == env('APP_URL').'from_telegram_to_max') {
+                        $url = 'https://max.ru/'.$bot_message->bot->max_alias.'?start='.$bot_user->id;
                     }
 
                     $btn = [["text" => $button->name, "url" => $url]];
