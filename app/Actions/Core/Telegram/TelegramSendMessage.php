@@ -53,7 +53,7 @@ class TelegramSendMessage
                     }
 
                     if ($url == env('APP_URL').'/from_telegram_to_max' || $url == env('APP_URL').'from_telegram_to_max') {
-                        $url = 'https://max.ru/'.$bot_message->bot->max_alias.'?start='.base64_encode($bot_user->id.'|'.$bot_user->created_at);
+                        $url = 'https://max.ru/'.$bot_message->bot->max_alias.'?start='.base64_encode('from_telegram_to_max|'.$bot_user->id.'|'.$bot_user->created_at);
                     }
 
                     $btn = [["text" => $button->name, "url" => $url]];
