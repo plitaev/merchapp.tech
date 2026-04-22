@@ -20,6 +20,7 @@ use App\Models\Core\GetcourseWebhook;
 use App\Models\Core\TelegramSendMessageErrorLog;
 use App\Models\Core\TelegramSendMessageLog;
 use App\Models\Core\TelegramSendMessageSchedule;
+use App\Models\Core\TelegramSupergroup;
 use Carbon\Carbon;
 
 use App\Http\Controllers\Controller;
@@ -56,10 +57,12 @@ class DevTestTelegramController extends Controller
 
         $bot_message_id = 425;
 
+        $bot_id = 1;
+
         $bot_message = $botMessageGetByID->handle($bot_message_id);
         $telegram = new Api($bot_message->bot->telegram_token);
 
-        $bot_user = $botUserGetByEmail->handle(1, auth()->user()->email);
+        $bot_user = $botUserGetByEmail->handle($bot_id, auth()->user()->email);
 
         $botUserInsertVariables = new BotUserInsertVariables();
 
@@ -211,51 +214,66 @@ class DevTestTelegramController extends Controller
             }
 
             //=========================================================================================================================
-
-            if (!$bot_message->image && !$bot_message->video && !$bot_message->audio && !$bot_message->custom_file && $send_status == 0) {
-                try {
-                    $message = $telegram->sendMessage($A);
-                    $entities = $message->entities;
-                } catch (\Exception $exception) {
-                    TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
-                }
-
-                $send_status = 1;
-            }
+//
+//            if (!$bot_message->image && !$bot_message->video && !$bot_message->audio && !$bot_message->custom_file && $send_status == 0) {
+//                try {
+//                    $message = $telegram->sendMessage($A);
+//                    $entities = $message->entities;
+//                } catch (\Exception $exception) {
+//                    TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
+//                }
+//
+//                $send_status = 1;
+//            }
 
 
             //=========================================================================================================================
 
-            if (isset($message)) {
+//            if (isset($message)) {
+//
+//                TelegramSendMessageLog::create(
+//                    [
+//                        'chat_id' => $bot_user->telegram_chat_id,
+//                        'bot_message_id' => $bot_message_id,
+//                        'text' => $bot_message->text,
+//                        'keyboard' => $keyboard,
+//                        'telegram_message_id' => $message->message_id,
+//                        'telegram_message_data' => json_encode($message, true),
+//                        'telegram_entities' => $entities
+//                    ]
+//                );
+//
+//
+//                return $message;
+//            }
 
-                TelegramSendMessageLog::create(
-                    [
-                        'chat_id' => $bot_user->telegram_chat_id,
-                        'bot_message_id' => $bot_message_id,
-                        'text' => $bot_message->text,
-                        'keyboard' => $keyboard,
-                        'telegram_message_id' => $message->message_id,
-                        'telegram_message_data' => json_encode($message, true),
-                        'telegram_entities' => $entities
-                    ]
-                );
-
-
-                return $message;
-            }
             //=========================================================================================================================
-
 
             $TelegramQuery = new TelegramQuery();
             $TelegramWebhookMake = new TelegramWebhookMake();
 
 
-            $bot = Bot::find(1);
+            $bot = Bot::find($bot_id);
 
             $webhook_address = $TelegramWebhookMake->handle(1, 'test_address');
             $status = $TelegramQuery->handle($bot, 'POST', 'subscriptions', ['url' => $webhook_address ,'secret' => hash('sha256', env('APP_URL'))], false);
-            
+
             //=========================================================================================================================
+
+            $telegram = new Api($bot_user->bot->telegram_token);
+
+            $supergroup = TelegramSupergroup::find(3);
+
+//            $banChatMember = $telegram->banChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id]);
+//            $status_banChatMember = $TelegramQuery->handle($bot, 'POST', 'supergroups', ['url' => $banChatMember ,'secret' => hash('sha256', env('APP_URL'))], false);
+//
+//            $unbanChatMember = $telegram->unbanChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'only_if_banned' => true]);
+//            $status_unbanChatMember = $TelegramQuery->handle($bot, 'POST', 'supergroups', ['url' => $unbanChatMember ,'secret' => hash('sha256', env('APP_URL'))], false);
+//
+//            $getChat = $telegram->getChat(['chat_id' => $bot_user->telegram_chat_id]);
+//            $status_getChat = $TelegramQuery->handle($bot, 'POST', 'supergroups', ['url' => $getChat ,'secret' => hash('sha256', env('APP_URL'))], false);
+
+
 
 //
 //            if ($bot_user) {
