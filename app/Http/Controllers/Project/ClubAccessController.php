@@ -209,6 +209,28 @@ class ClubAccessController extends Controller
                 die();
             }
 
+            //== Если это /max, тут обрабатываем переход в Max
+            if ($Astart[0] == "/max") {
+
+                if ($messenger == 'telegram') {
+
+                    if (!$bot_user->max_user_id) {
+
+                        if ($bot_user->bot->max_alias) {
+                            $botSendMessage->handle($bot_user, 'SYS_LINK_MAX_FROM_TELEGRAM');
+                        } else {
+                            $botSendMessage->handle($bot_user, 'BOT_NOT_IN_MAX');
+                        }
+
+                    } else {
+                        $botSendMessage->handle($bot_user, 'SYS_USER_ALREADY_IN_MAX');
+                    }
+
+                }
+
+                die();
+            }
+
             //== Тут обрабатываем разные входяшие параметры в бот после старта
 
             if (count($Astart)==2 && $Astart[0]=="/start" && $Astart[1]!="none") {
@@ -293,6 +315,14 @@ class ClubAccessController extends Controller
                     }
 
                     $botSendMessage->handle($bot_user, 'USER_PHONE_ENTER_WAITING');
+                    die();
+                }
+
+                if ($callback == 'GoToMax') {
+
+                    if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
+                        $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
+                    }
                     die();
                 }
 
