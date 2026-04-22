@@ -18,6 +18,7 @@ use App\Actions\Core\BotUser\BotUserSetBranch;
 
 use App\Actions\Core\Max\MaxGetChatIDFromWebhook;
 use App\Actions\Core\Max\MaxMessageGetStartParams;
+use App\Actions\Core\Max\MaxLinkFromTelegram;
 use App\Actions\Core\Max\MaxWebhookWrite;
 
 use App\Actions\Core\ReferralProgram\ReferralProgramRunForReferrer;
@@ -66,6 +67,7 @@ class ClubAccessController extends Controller
         $botUserSetBranch = new BotUserSetBranch();
 
         $maxGetChatIDFromWebhook = new MaxGetChatIDFromWebhook();
+        $maxLinkFromTelegram = new MaxLinkFromTelegram();
         $maxMessageGetStartParams = new MaxMessageGetStartParams();
         $maxWebhookWrite = new MaxWebhookWrite();
 
@@ -211,23 +213,7 @@ class ClubAccessController extends Controller
 
             //== Если это /max, тут обрабатываем переход в Max
             if ($Astart[0] == "/max") {
-
-                if ($messenger == 'telegram') {
-
-                    if (!$bot_user->max_user_id) {
-
-                        if ($bot_user->bot->max_alias) {
-                            $botSendMessage->handle($bot_user, 'SYS_LINK_MAX_FROM_TELEGRAM');
-                        } else {
-                            $botSendMessage->handle($bot_user, 'BOT_NOT_IN_MAX');
-                        }
-
-                    } else {
-                        $botSendMessage->handle($bot_user, 'SYS_USER_ALREADY_IN_MAX');
-                    }
-
-                }
-
+                if ($messenger == 'telegram') $maxLinkFromTelegram->handle($bot_user);
                 die();
             }
 
