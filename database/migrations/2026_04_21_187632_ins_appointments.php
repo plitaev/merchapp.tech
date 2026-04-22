@@ -13,7 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        BotMessageAppointment::create(['name' => 'Переход по ссылке из Telegram в Max для связки аккаунтов', 'alias' => 'SYS_LINK_MAX_FROM_TELEGRAM']);
+        BotMessageAppointment::create(['name' => 'Аккаунт Max успешно привязан по ссылке из Telegram (Сообщение для Max)', 'alias' => 'SYS_SUCCESSFUL_LINK_MAX_FROM_TELEGRAM_SEND_IN_MAX']);
+        BotMessageAppointment::create(['name' => 'Аккаунт Max успешно привязан по ссылке из Telegram (Сообщение для Telegram)', 'alias' => 'SYS_SUCCESSFUL_LINK_MAX_FROM_TELEGRAM_SEND_IN_TELEGRAM']);
+
+        BotMessageAppointment::create(['name' => 'Аккаунт Max не привязан по ссылке из Telegram (Сообщение для Max)', 'alias' => 'SYS_FAILED_LINK_MAX_FROM_TELEGRAM_SEND_IN_MAX']);
+        BotMessageAppointment::create(['name' => 'Аккаунт Max не привязан по ссылке из Telegram (Сообщение для Telegram)', 'alias' => 'SYS_FAILED_LINK_MAX_FROM_TELEGRAM_SEND_IN_TELEGRAM']);
     }
 
     /**
