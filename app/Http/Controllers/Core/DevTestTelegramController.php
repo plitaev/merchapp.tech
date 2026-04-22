@@ -269,13 +269,15 @@ class DevTestTelegramController extends Controller
 //
 //            $unbanChatMember = $telegram->unbanChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'only_if_banned' => true]);
 //            $status_unbanChatMember = $TelegramQuery->handle($bot, 'POST', 'supergroups', ['url' => $unbanChatMember ,'secret' => hash('sha256', env('APP_URL'))], false);
-//
-//            $getChat = $telegram->getChat(['chat_id' => $bot_user->telegram_chat_id]);
-//            $status_getChat = $TelegramQuery->handle($bot, 'POST', 'supergroups', ['url' => $getChat ,'secret' => hash('sha256', env('APP_URL'))], false);
 
+//              $getChat = $telegram->getChatMember(['chat_id' => $supergroup->telegram_id]);
+//               $status_getChat = $TelegramQuery->handle($bot, 'POST', 'supergroups', ['url' => $getChat,'secret' => hash('sha256', env('APP_URL'))], false);
 
+                $getChatMember = $telegram->getChatMember(['chat_id' => $supergroup->telegram_id  , 'user_id' => $bot_user->telegram_chat_id]);
+                $status_getChatMember = $TelegramQuery->handle($bot, 'POST', 'supergroups', ['url' => $getChatMember,'secret' => hash('sha256', env('APP_URL'))], false);
 
-//
+                return   $status_getChatMember;
+                
 //            if ($bot_user) {
 //                return $telegramSendMessage->handle($bot_user, $bot_message_id);
 //            }
