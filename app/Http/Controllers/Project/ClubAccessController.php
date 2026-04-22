@@ -303,6 +303,12 @@ class ClubAccessController extends Controller
 
                         if (!$bot_user->max_user_id) {
 
+                            if ($bot_user->bot->max_alias) {
+                                $botSendMessage->handle($bot_user, 'SYS_LINK_MAX_FROM_TELEGRAM');
+                            } else {
+                                $botSendMessage->handle($bot_user, 'BOT_NOT_IN_MAX');
+                            }
+
                         } else {
                             $botSendMessage->handle($bot_user, 'SYS_USER_ALREADY_IN_MAX');
                         }
