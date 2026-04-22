@@ -307,6 +307,7 @@ class ClubAccessController extends Controller
                 if ($callback == 'GoToMax') {
 
                     if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
+                        $maxLinkFromTelegram->handle($bot_user);
                         $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
                     }
                     die();
