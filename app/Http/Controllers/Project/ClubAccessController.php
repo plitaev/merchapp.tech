@@ -154,8 +154,8 @@ class ClubAccessController extends Controller
                         if ($bot_user_tg) {
 
                             if (!$bot_user_tg->max_user_id) {
-                                BotUser::where('id', $Apayload[1])->update(['max_user_id' => $bot_user->max_user_id, 'verification_from_max' => NULL]);
                                 BotUser::destroy($bot_user->id);
+                                BotUser::where('id', $Apayload[1])->update(['max_user_id' => $bot_user->max_user_id, 'verification_from_max' => NULL]);
 
                                 $botSendMessage->handle($bot_user, 'SYS_SUCCESSFUL_LINK_MAX_FROM_TELEGRAM_SEND_IN_MAX', 'max');
                                 $botSendMessage->handle($bot_user, 'SYS_SUCCESSFUL_LINK_MAX_FROM_TELEGRAM_SEND_IN_TELEGRAM', 'telegram');
