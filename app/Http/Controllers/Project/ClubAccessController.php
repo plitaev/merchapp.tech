@@ -143,6 +143,36 @@ class ClubAccessController extends Controller
             if ($messenger == 'telegram') (array) $Astart = $telegramMessageGetStartParams->handle($webhook);
             if ($messenger == 'max') (array) $Astart = $maxMessageGetStartParams->handle($webhook);
 
+            if ($messenger == 'max') {
+                if (isset($webhook['payload'])) {
+                    $payload = base64_decode($webhook['payload']);
+                    $Apayload = explode('|', $payload);
+
+                    if ($Apayload[0] == 'from_telegram_to_max') {
+                        $bot_user_tg = BotUser::select('id', 'max_user_id')->where('id', $Apayload[1])->where('created_at', $Apayload[2])->first();
+
+                        if ($bot_user_tg) {
+
+                            if (!$bot_user_tg->max_user_id) {
+                                BotUser::destroy($bot_user->id);
+                                BotUser::where('id', $Apayload[1])->update(['max_user_id' => $bot_user->max_user_id, 'verification_from_max' => NULL]);
+
+                                $botSendMessage->handle($bot_user, 'SYS_SUCCESSFUL_LINK_MAX_FROM_TELEGRAM_SEND_IN_MAX', 'max');
+                                $botSendMessage->handle($bot_user, 'SYS_SUCCESSFUL_LINK_MAX_FROM_TELEGRAM_SEND_IN_TELEGRAM', 'telegram');
+
+                            } else {
+                                $botSendMessage->handle($bot_user, 'SYS_USER_ALREADY_IN_MAX');
+                            }
+
+                        } else {
+                            $botSendMessage->handle($bot_user, 'SYS_USER_MAX_FROM_TG_NOT_FOUND', 'max');
+                        }
+
+                    }
+
+                }
+            }
+
             //== Если это /start, тут обрабатываем старт
             if ($Astart[0] == "/start") {
 
@@ -307,6 +337,7 @@ class ClubAccessController extends Controller
                 if ($callback == 'GoToMax') {
 
                     if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
+                        $maxLinkFromTelegram->handle($bot_user);
                         $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
                     }
                     die();
