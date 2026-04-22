@@ -296,6 +296,21 @@ class ClubAccessController extends Controller
                     die();
                 }
 
+                if ($callback == 'GoToMax') {
+
+                    if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
+                        $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
+
+                        if (!$bot_user->max_user_id) {
+
+                        } else {
+                            $botSendMessage->handle($bot_user, 'SYS_USER_ALREADY_IN_MAX');
+                        }
+
+                    }
+                    die();
+                }
+
                 //== Генерим колбэки для присоединения Макс к ТГ
 
                 $res = BotUser::whereNotNull('verification_from_max')->get();
