@@ -143,6 +143,25 @@ class ClubAccessController extends Controller
             if ($messenger == 'telegram') (array) $Astart = $telegramMessageGetStartParams->handle($webhook);
             if ($messenger == 'max') (array) $Astart = $maxMessageGetStartParams->handle($webhook);
 
+            if ($messenger == 'max') {
+                if (isset($webhook['payload'])) {
+                    $payload = base64_decode($webhook['payload']);
+                    $Apayload = explode('|', $payload);
+
+                    if ($Apayload[0] == 'from_telegram_to_max') {
+                        $bot_user_tg = BotUser::select('id')->where('id', $Apayload[1])->where('created_at', $Apayload[2])->first();
+
+                        if ($bot_user_tg) {
+
+                        } else {
+                            $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+                        }
+
+                    }
+
+                }
+            }
+
             //== Если это /start, тут обрабатываем старт
             if ($Astart[0] == "/start") {
 
