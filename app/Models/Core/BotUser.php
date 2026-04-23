@@ -59,7 +59,8 @@ class BotUser extends Model
         'mini_app_token',
         'mini_app_token_expiration',
         'run_status',
-        'access_bonus'
+        'access_bonus',
+        'ref_from_telegram_to_max'
     ];
 
 
