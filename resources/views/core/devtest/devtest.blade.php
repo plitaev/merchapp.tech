@@ -25,7 +25,6 @@
 --}}
 
 
---
 <table>
     @foreach ($bot_users as $bot_user)
         <tr>
