@@ -92,6 +92,12 @@ class BotUserInsertVariables {
             }
         }
 
+        if (stripos(strtolower($text), 'VAR_USER_MAX_JOIN_REF')) {
+            if (isset($bot_user->ref_from_telegram_to_max)) {
+                $text = str_replace('VAR_USER_MAX_JOIN_REF', $bot_user->ref_from_telegram_to_max, $text);
+            }
+        }
+
         return $text;
     }
 
