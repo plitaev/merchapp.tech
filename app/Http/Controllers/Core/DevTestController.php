@@ -41,18 +41,15 @@ use App\Models\Core\Bot;
 
 class DevTestController extends Controller
 {
-    public function devtest()
-    {
-        /*
-        $bot_users = BotUser::with('bot')->get();
-        foreach ($bot_users as $bot_user) {
-            $url = 'https://max.ru/'.$bot_user->bot->max_alias.'?start='.base64_encode('from_telegram_to_max|'.$bot_user->id.'|'.$bot_user->created_at);
-            BotUser::where('id', $bot_user->id)->update(['ref_from_telegram_to_max' => $url]);
-        }
-        */
+    public function devtest() {
 
-        $bot_users = BotUser::get();
-        return view('core.devtest.devtest', ['bot_users' => $bot_users]);
+        $pays = Pay::with('bot_user')
+            ->where('status', 1)
+            ->where('created_at', '>=', '2026-03-26 00:00:00')
+            ->where('created_at', '<=', '2026-04-26 23:59:59')
+            ->orderByDesc('created_at')
+            ->get();
 
+        return view('core.devtest.devtest', ['pays' => $pays]);
     }
 }
