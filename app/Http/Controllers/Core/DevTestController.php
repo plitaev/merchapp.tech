@@ -42,7 +42,7 @@ use App\Models\Core\Bot;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $bot_users = BotUser::where('date_end', '>=', '2026-04-27')->get();
+        $bot_users = BotUser::where('date_end', '>=', '2026-04-27')->whereNotNull('ref_from_telegram_to_max')->get();
         return view('core.devtest.devtest', ['bot_users' => $bot_users]);
     }
 }
