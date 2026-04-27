@@ -1,6 +1,6 @@
 
 <table>
-    @foreach ($pays as $pay)
+    @foreach ($bot_users as $bot_user)
         <tr>
             <td>{{$bot_user->first_name}}</td>
             <td>{{$bot_user->last_name}}</td>
