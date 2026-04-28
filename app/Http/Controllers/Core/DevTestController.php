@@ -38,11 +38,19 @@ use App\Models\Core\TelegramBanScheduleLogs;
 use App\Actions\Core\Max\MaxQuery;
 
 use App\Models\Core\Bot;
+use App\Models\Core\MaxSendMessageLog;
 
 class DevTestController extends Controller
 {
     public function devtest() {
-        $bot_users = BotUser::where('date_end', '>=', '2026-04-27')->whereNotNull('ref_from_telegram_to_max')->get();
-        return view('core.devtest.devtest', ['bot_users' => $bot_users]);
+        $max_ids = MaxSendMessageLog::select('max_user_id')->where('bot_message_id', 84)->pluck('max_user_id')->toArray();
+        BotUser::whereIn('max_user_id', $max_ids)->update(
+            [
+                'listen_email_status' => 0,
+                'listen_check_access_status' => 0,
+                'sys_go_to_pay_status' => 0,
+                'listen_success_message_status' => 1
+            ]
+        );
     }
 }
