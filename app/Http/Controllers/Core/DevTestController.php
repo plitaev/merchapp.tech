@@ -43,7 +43,7 @@ use App\Models\Core\MaxSendMessageLog;
 class DevTestController extends Controller
 {
     public function devtest() {
-
+        /*
         $max_ids = MaxSendMessageLog::select('max_user_id')->where('bot_message_id', 129)->pluck('max_user_id')->toArray();
         BotUser::whereIn('max_user_id', $max_ids)->where('bot_id', 9)->update(
             [
@@ -63,6 +63,6 @@ class DevTestController extends Controller
                 'listen_success_message_status' => 1
             ]
         );
-
+        */
     }
 }
