@@ -43,26 +43,9 @@ use App\Models\Core\MaxSendMessageLog;
 class DevTestController extends Controller
 {
     public function devtest() {
-        /*
-        $max_ids = MaxSendMessageLog::select('max_user_id')->where('bot_message_id', 129)->pluck('max_user_id')->toArray();
-        BotUser::whereIn('max_user_id', $max_ids)->where('bot_id', 9)->update(
-            [
-                'listen_email_status' => 0,
-                'listen_check_access_status' => 0,
-                'sys_go_to_pay_status' => 0,
-                'listen_success_message_status' => 1
-            ]
-        );
+        $maxQuery = new MaxQuery();
 
-        $max_ids = MaxSendMessageLog::select('max_user_id')->where('bot_message_id', 147)->pluck('max_user_id')->toArray();
-        BotUser::whereIn('max_user_id', $max_ids)->where('bot_id', 10)->update(
-            [
-                'listen_email_status' => 0,
-                'listen_check_access_status' => 0,
-                'sys_go_to_pay_status' => 0,
-                'listen_success_message_status' => 1
-            ]
-        );
-        */
+        $bot_user = BotUser::find(2063);
+        return $maxQuery->handle($bot_user->bot, 'DELETE', 'chats/-72834756899027/members', [], false, ['user_id' => $bot_user->max_user_id, 'block' => true]);
     }
 }
