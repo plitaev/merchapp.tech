@@ -42,7 +42,7 @@ class BotUserBanProcess
                     //== бан в момент окончания
                     if ($supergroup->supergroup_delete_parameter_id == 1) {
                         if ($ban->bot_user->date_end <= date('Y-m-d', time())) {
-                            $telegramBanRun->handle($telegram, $supergroup, $ban);
+                            if ($ban->bot_user->telegram_chat_id) $telegramBanRun->handle($telegram, $supergroup, $ban);
                         }
                     }
 
@@ -50,7 +50,7 @@ class BotUserBanProcess
                     if ($supergroup->supergroup_delete_parameter_id == 2) {
                         $next_ban_date = Carbon::parse($ban->bot_user->date_end)->subDays(5)->format('Y-m-d');
                         if ($next_ban_date <= date('Y-m-d', time())) {
-                            $telegramBanRun->handle($telegram, $supergroup, $ban);
+                            if ($ban->bot_user->telegram_chat_id) $telegramBanRun->handle($telegram, $supergroup, $ban);
                         }
                     }
 
@@ -60,7 +60,7 @@ class BotUserBanProcess
                         $next_ban_datetime = $next_ban_date." ".$ban->bot->ban_time;
 
                         if ($next_ban_datetime <= date('Y-m-d H:i:s', time())) {
-                            $telegramBanRun->handle($telegram, $supergroup, $ban);
+                            if ($ban->bot_user->telegram_chat_id) $telegramBanRun->handle($telegram, $supergroup, $ban);
                         } else {
                             $bot_users = BotUser::with('bot')->where('id', $ban->bot_user->id)->get();
                             $botUserSetBanSchedulerCreate->handle($bot_users, $next_ban_date);
