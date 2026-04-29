@@ -43,9 +43,10 @@ use App\Models\Core\MaxSendMessageLog;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $maxQuery = new MaxQuery();
+        $bot_users = BotUser::where('date_end', '>=', '2026-04-20')->where('date_end', '<=', '2026-04-28')->whereNotNull('max_user_id')->get();
+        return $bot_users;
+        foreach ($bot_users as $bot_user) {
 
-        $bot_user = BotUser::find(2063);
-        return $maxQuery->handle($bot_user->bot, 'DELETE', 'chats/-72834756899027/members', ['user_id' => $bot_user->max_user_id, 'block' => true], false, ['user_id' => $bot_user->max_user_id, 'block' => true]);
+        }
     }
 }
