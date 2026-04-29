@@ -46,6 +46,6 @@ class DevTestController extends Controller
         $maxQuery = new MaxQuery();
 
         $bot_user = BotUser::find(2063);
-        return $maxQuery->handle($bot_user->bot, 'DELETE', 'chats/-72834756899027/members', [], false, ['user_id' => $bot_user->max_user_id, 'block' => true]);
+        return $maxQuery->handle($bot_user->bot, 'DELETE', 'chats/-72834756899027/members', ['user_id' => $bot_user->max_user_id, 'block' => true], false, ['user_id' => $bot_user->max_user_id, 'block' => true]);
     }
 }
