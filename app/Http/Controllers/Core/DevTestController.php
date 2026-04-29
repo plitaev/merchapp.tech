@@ -45,6 +45,7 @@ class DevTestController extends Controller
     public function devtest() {
         $bot_users = BotUser::where('date_end', '>=', '2026-04-20')->where('date_end', '<=', '2026-04-28')->whereNotNull('max_user_id')->get();
         return $bot_users;
+        //
         foreach ($bot_users as $bot_user) {
 
         }
