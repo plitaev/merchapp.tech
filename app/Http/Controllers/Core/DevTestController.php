@@ -43,6 +43,7 @@ use App\Models\Core\MaxSendMessageLog;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Core\User;
+use App\Actions\Core\BotSendMessage\BotSendMessage;
 
 class DevTestController extends Controller
 {
@@ -63,6 +64,7 @@ class DevTestController extends Controller
     }
 
     public function change_web_password(string $email) {
+        $botSendMessage = new BotSendMessage();
 
         $user = User::where('email', $email)->first();
         if ($user) {
@@ -70,6 +72,11 @@ class DevTestController extends Controller
             $hashedPassword = Hash::make($plainPassword);
 
             User::where('id', $user->id)->update(['password' => $hashedPassword, 'open_password' => $plainPassword]);
+
+            $bot_user = BotUser::where('email', $email)->first();
+            if ($bot_user) {
+                $botSendMessage->handle($bot_user, 'MAGICLIFE_WEB_ACCESS');
+            }
 
             return $plainPassword;
         } else {
