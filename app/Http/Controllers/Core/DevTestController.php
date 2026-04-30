@@ -43,6 +43,7 @@ use App\Models\Core\MaxSendMessageLog;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
         $bot_users = BotUser::where('date_end', '>=', '2026-04-20')->where('date_end', '<=', '2026-04-29')->whereNotNull('max_user_id')->get();
 
         foreach ($bot_users as $bot_user) {
@@ -54,5 +55,6 @@ class DevTestController extends Controller
                 ]
             );
         }
+        */
     }
 }
