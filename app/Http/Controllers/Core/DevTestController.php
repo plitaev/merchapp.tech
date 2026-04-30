@@ -40,7 +40,7 @@ use App\Actions\Core\Max\MaxQuery;
 use App\Models\Core\Bot;
 use App\Models\Core\MaxSendMessageLog;
 
-use Illuminate\Facades\Str;
+use Illuminate\Support\Facades\Str;
 use App\Models\Core\User;
 
 class DevTestController extends Controller
