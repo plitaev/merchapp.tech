@@ -40,6 +40,9 @@ use App\Actions\Core\Max\MaxQuery;
 use App\Models\Core\Bot;
 use App\Models\Core\MaxSendMessageLog;
 
+use Illuminate\Facades\Str;
+use App\Models\User;
+
 class DevTestController extends Controller
 {
     public function devtest() {
@@ -57,4 +60,21 @@ class DevTestController extends Controller
         }
         */
     }
+
+    public function change_web_password(string $email) {
+
+        $user = User::where('email', $email)->first();
+        if ($user) {
+            $plainPassword = Str::password(8, true, true, false, false);
+            $hashedPassword = Hash::make($plainPassword);
+
+            User::where('id', $user->id)->update(['password' => $hashedPassword, 'open_password' => $plainPassword]);
+
+            return $plainPassword;
+        } else {
+            return "Нет юзера с этой почтой";
+        }
+
+    }
+
 }
