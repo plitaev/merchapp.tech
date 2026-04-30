@@ -44,10 +44,15 @@ class DevTestController extends Controller
 {
     public function devtest() {
         $bot_users = BotUser::where('date_end', '>=', '2026-04-20')->where('date_end', '<=', '2026-04-29')->whereNotNull('max_user_id')->get();
-        return $bot_users;
-        //
-        foreach ($bot_users as $bot_user) {
 
+        foreach ($bot_users as $bot_user) {
+            BotUserBanSchedule::create(
+                [
+                    'bot_user_id' => $bot_user->id,
+                    'run_status' => 0,
+                    'ban_datetime' => '2026-04-30 05:45:00'
+                ]
+            );
         }
     }
 }
