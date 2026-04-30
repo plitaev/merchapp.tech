@@ -41,6 +41,7 @@ use App\Models\Core\Bot;
 use App\Models\Core\MaxSendMessageLog;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Core\User;
 
 class DevTestController extends Controller
