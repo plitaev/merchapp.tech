@@ -43,6 +43,8 @@ use App\Models\Core\PaySystemCallback;
 use App\Actions\Core\DateEnd\DateEndNew;
 use App\Actions\Core\DateEnd\DateEnd;
 use App\Models\Core\TelegramBanScheduleLogs;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Public;
 
 
 use App\Models\Core\Bot;
@@ -138,6 +140,8 @@ class DevTestTelegramController extends Controller
         //Отправить сообщение c картинкой
         echo 'Отправить сообщение c картинкой:<br>';
         $imagePath = 'https://kartinki.pibig.info/uploads/posts/2023-12/1701746323_kartinki-pibig-info-p-samie-krasivie-kartinki-na-telefon-vkontak-1.jpg';
+
+        //$imagePath = 'https://dev.merchapp.bot/public/1.jpeg';
 
         $sendMessageImage = $TelegramQuery->handle($bot, 'sendPhoto', [
             'chat_id' => $supergroup->telegram_id,
