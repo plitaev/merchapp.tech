@@ -19,8 +19,6 @@ class MiniAppPageController
 {
     public function mini_app_banner_page()
     {
-        return $_GET;
-
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
         $miniAppPageGetByURL = new MiniAppPageGetByURL();
         $miniAppVideoCheckAccess = new MiniAppVideoCheckAccess();
