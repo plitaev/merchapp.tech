@@ -64,12 +64,13 @@ class MiniAppPageController
             if ($restrict_access) return $restrict_access;
 
             $video_ids = MiniAppVideoLinkPage::select('mini_app_video_id')->where('mini_app_page_id', $mini_app_page->id)->pluck('mini_app_video_id')->toArray();
-            $videos = MiniAppVideo::whereIn('id', $video_ids)->get();
+            $videos = MiniAppVideo::whereIn('id', $video_ids)->orderByDesc('created_at')->get();
 
             if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 2) {
                 $videos = MiniAppVideo::whereIn('id', $video_ids)
                     ->where('date_open', '>=', $bot_user->date_start)
                     ->where('date_open', '<=', $bot_user->date_end)
+                    ->orderByDesc('created_at')
                     ->get();
             }
 
