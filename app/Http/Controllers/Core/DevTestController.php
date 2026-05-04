@@ -48,19 +48,9 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 class DevTestController extends Controller
 {
     public function devtest() {
-        BotUser::where('bot_id', 10)->update(['date_end' => '2026-05-02']);
-        $bot_users = BotUser::where('bot_id', 10)->get();
-
-        foreach ($bot_users as $bot_user) {
-            BotUserBanSchedule::create(
-                [
-                    'bot_user_id' => $bot_user->id,
-                    'run_status' => 0,
-                    'ban_datetime' => '2026-05-02 10:00:00'
-                ]
-            );
-        }
-
+        $dateEnd = new DateEnd();
+        $bot_user = BotUser::where('id', '17175')->first();
+        return $dateEnd->handle($bot_user, 'Y-m-d');
     }
 
     public function change_web_password(string $email) {
