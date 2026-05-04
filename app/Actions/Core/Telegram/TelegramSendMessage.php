@@ -1,5 +1,6 @@
 <?php
 namespace App\Actions\Core\Telegram;
+use App\Models\Core\TelegramSupergroup;
 use Telegram\Bot\Api;
 
 use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
@@ -8,6 +9,7 @@ use App\Actions\Core\BotUser\BotUserInsertVariables;
 use App\Actions\Core\BotUser\BotUserUnban;
 use App\Actions\Core\BotUser\BotUserSetUnbanScheduler;
 use App\Actions\Core\Product\ProductListByBot;
+use App\Actions\Core\Telegram\TelegramQuery;
 
 use App\Models\Core\BotMessage;
 use App\Models\Core\BotMessageButton;
@@ -23,6 +25,8 @@ class TelegramSendMessage
         $botUserInsertVariables = new BotUserInsertVariables();
         $botUserSetUnbanScheduler = new BotUserSetUnbanScheduler();
         $botUserUnban = new BotUserUnban();
+        $telegramQuery = new TelegramQuery();
+
         $productListByBot = new ProductListByBot();
 
         (int) $send_status = 0;
@@ -92,6 +96,27 @@ class TelegramSendMessage
                 $keyboard = json_encode($keyboard, true);
             } else {
                 $keyboard = NULL;
+            }
+
+            if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE_TELEGRAM') {
+
+                $res = TelegramSupergroup::where('bot_id', $bot_user->bot_id)->get();
+                foreach ($res as $data) {
+                    $A = [];
+                    $A['user_ids'] = [$bot_user->telegram_user_id];
+                    $add_result = $telegramQuery->handle($bot_user->bot, 'sendMessage', [
+                        'chat_id' => $data->telegram_id,
+                        'text' => $text,
+                    ]);
+
+                    $add_result = json_decode($add_result, true);
+
+                    if (isset($add_result['failed_user_details'][0]['error_code']) && $add_result['failed_user_details'][0]['error_code'] == 'add.participant.privacy') {
+                        $bot_message_appointment->handle($bot_user, 'SYS_SUCCESS_MESSAGE_TELEGRAM_NEED_PRIVACY_CHANGE', 'telegram');
+                        die();
+                    }
+                }
+
             }
 
             $A = [];
