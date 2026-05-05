@@ -2,6 +2,7 @@
 
 namespace App\Actions\Core\Auto;
 
+use App\Actions\Core\Telegram\TelegramQuery;
 use Carbon\Carbon;
 
 use App\Models\Core\BotBranchReferralProgram;
@@ -16,6 +17,7 @@ use App\Models\Core\TelegramSupergroup;
 class BotSendUserOnDay
 {
     public function handle() {
+        $telegramQuery = new TelegramQuery();
         $stat = StatBotUserOnDay::orderByDesc('created_at')->first();
         $stat1490 = Pay::select('bot_user_id')->where('price', 1490)->where('status', 1)->groupBy('bot_user_id')->get();
         $stat1990 = Pay::select('bot_user_id')->where('price', 1990)->where('status', 1)->groupBy('bot_user_id')->get();
@@ -197,7 +199,11 @@ class BotSendUserOnDay
         $supergroups = TelegramSupergroup::with('bot')->where('statistic_user_on_day', 1)->get();
         foreach ($supergroups as $supergroup) {
             $telegram = new Api($supergroup->bot->telegram_token);
-            $telegram->sendMessage(['chat_id' => $supergroup->telegram_id, 'parse_mode' => 'HTML', 'text' => urldecode($text), 'protect_content' => true]);
+            //$telegram->sendMessage(['chat_id' => $supergroup->telegram_id, 'parse_mode' => 'HTML', 'text' => urldecode($text), 'protect_content' => true]);
+            $telegramQuery->handle($supergroup->bot, 'sendMessage', [
+                'chat_id' => $supergroup->telegram_id,
+                'text' => urldecode($text),
+            ]);
         }
 
     }
