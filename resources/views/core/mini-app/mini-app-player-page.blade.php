@@ -35,6 +35,16 @@
         </script>
     @endif
 
+    @if ($mini_app_platform == 'max')
+        <script src="{{env('APP_URL')}}/js/max-web-app.js"></script>
+        <script>
+            window.onload = function() {
+                let app = window.WebApp;
+                let id = app.initDataUnsafe.user.id;
+            };
+        </script>
+    @endif
+
 
     <script src="/js/video.min.7.20.1.js"></script>
     <script src="/js/videojs-http-streaming.2.14.2.js"></script>
@@ -100,7 +110,15 @@
             </video-js>
 
             @if ($os == "Android" || $os == "MacOS" || $os == "Windows")
-                <a href="javascript:void(0);" onClick="Telegram.WebApp.openLink('{{env('APP_URL')}}/miniapp/external/{{$video->id}}/{{$mini_app_token}}', {try_browser: 'chrome'});" class="block rounded-md bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-xs text-center">Открыть видео в браузере для просмотра во весь экран</a>
+
+                @if ($mini_app_platform == 'telegram')
+                    <a href="javascript:void(0);" onClick="Telegram.WebApp.openLink('{{env('APP_URL')}}/miniapp/external/{{$video->id}}/{{$mini_app_token}}', {try_browser: 'chrome'});" class="block rounded-md bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-xs text-center">Открыть видео в браузере для просмотра во весь экран</a>
+                @endif
+
+                @if ($mini_app_platform == 'max')
+                        <a href="javascript:void(0);" onClick="window.WebApp.openLink('{{env('APP_URL')}}/miniapp/external/{{$video->id}}/{{$mini_app_token}}', {try_browser: 'chrome'});" class="block rounded-md bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-xs text-center">Открыть видео в браузере для просмотра во весь экран</a>
+                @endif
+
             @endif
 
             <div class="mt-3 mb-3">
