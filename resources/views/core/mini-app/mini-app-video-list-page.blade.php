@@ -59,6 +59,8 @@
                     var old_ref = item.getAttribute('href');
                     var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
                     item.setAttribute('href', new_ref);
+
+                    document.getElementById('max-test').innerHTML = new_ref;
                 });
 
                 if (first_name!="undefined") {
