@@ -39,7 +39,12 @@ class MiniAppPageController
 
         $bot_user = BotUser::with('bot')
             ->select('id', 'bot_id', 'date_start', 'date_end', 'access_bonus')
-            ->where('telegram_chat_id', $telegram_chat_id)
+            ->when($telegram_chat_id > 0, function($query) use ($telegram_chat_id) {
+                return $query->where('telegram_chat_id', $telegram_chat_id);
+            })
+            ->when($max_user_id > 0, function($query) use ($max_user_id) {
+                return $query->where('max_user_id', $max_user_id);
+            })
             ->where('bot_id', $mini_app->bot_id)
             ->first();
 
