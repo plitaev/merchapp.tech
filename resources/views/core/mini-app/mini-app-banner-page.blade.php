@@ -75,6 +75,8 @@
                     if (!old_ref.includes('viewer.html')) {
                         var new_ref = old_ref+"?platform=max&max_user_id="+id;
                         item.setAttribute('href', new_ref);
+
+                        document.getElementById('max-test').innerHTML = new_ref;
                     }
                 });
             };
