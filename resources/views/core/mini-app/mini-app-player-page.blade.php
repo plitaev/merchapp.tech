@@ -42,7 +42,7 @@
                 let app = window.WebApp;
                 let id = app.initDataUnsafe.user.id;
 
-                app.BackButton.show();
+
 
                 if (!app.initDataUnsafe.user) {
                     window.location.href="/404";
@@ -59,8 +59,6 @@
                     if (first_name!="undefined") {
                         document.getElementById('username').innerHTML = "😎 "+first_name;
                     }
-                    app.ready();
-
                 }
 
             };
