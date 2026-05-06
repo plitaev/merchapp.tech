@@ -56,7 +56,7 @@
 
                 app.BackButton.show();
                 app.BackButton.onClick(function() {
-                    window.location.href="{{$mini_app_page->back_button_url}}?telegram_chat_id="+id;
+                    window.location.href="{{$mini_app_page->back_button_url}}?platform=max&max_user_id="+id;
                 });
 
                 @else
