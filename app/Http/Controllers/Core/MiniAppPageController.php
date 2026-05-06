@@ -39,9 +39,14 @@ class MiniAppPageController
 
         $bot_user = BotUser::with('bot')
             ->select('id', 'bot_id', 'date_start', 'date_end', 'access_bonus')
-            ->where('max_user_id', $max_user_id)
+            ->when($telegram_chat_id > 0, function($query) use ($telegram_chat_id) {
+                return $query->where('telegram_chat_id', $telegram_chat_id);
+            })
+            ->when($max_user_id > 0, function($query) use ($max_user_id) {
+                return $query->where('max_user_id', $max_user_id);
+            })
             ->where('bot_id', $mini_app->bot_id)
-            ->get();
+            ->first();
 
         $banners_big = $miniAppBannerListByClassID->handle($mini_app_page->id, 1);
         $banners_medium = $miniAppBannerListByClassID->handle($mini_app_page->id, 2);
@@ -64,7 +69,7 @@ class MiniAppPageController
 
         if ($mini_app_page->miniapp->class_id == 2) {
 
-            return $bot_user;
+            return $telegram_chat_id.' | '.$max_user_id;
 
             $restrict_access = $miniAppVideoCheckAccess->handle($bot_user, $mini_app, $mini_app_page);
             if ($restrict_access) return $restrict_access;
