@@ -80,10 +80,6 @@
                 }
 
             };
-
-            window.onload = function() {
-                window.Telegram.WebApp.BackButton.show();
-            };
         </script>
     @endif
 
