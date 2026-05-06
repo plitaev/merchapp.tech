@@ -92,8 +92,10 @@ class MiniAppPageController
         }
     }
 
-    public function mini_app_player_page(int $id, string $messenger, int $messenger_user_id, string $back_page)
+    public function mini_app_player_page(int $id, string $messenger, $messenger_user_id, string $back_page)
     {
+        return $messenger_user_id;
+
         $mini_app_token = hash('sha256', microtime());
         $mini_app_token_expiration = Carbon::now()->addMinutes(1)->format('Y-m-d H:i:s');
 
