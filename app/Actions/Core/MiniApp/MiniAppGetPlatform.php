@@ -7,11 +7,7 @@ class MiniAppGetPlatform
     public function handle() {
 
         if (isset($_GET['platform'])) {
-
             $platform = str_replace('?WebAppStartParam=', '', $_GET['platform']);
-            return $platform;
-
-            $platform = (isset($A['platform'])?$A['platform']:'telegram');
         } else {
             $platform = 'telegram';
         }
