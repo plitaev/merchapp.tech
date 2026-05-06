@@ -35,7 +35,6 @@ class MiniAppPageController
         $telegram_chat_id = (isset($_GET['telegram_chat_id'])?$_GET['telegram_chat_id']:0);
         $max_user_id = (isset($_GET['max_user_id'])?$_GET['max_user_id']:0);
 
-        return implode(',', $_GET);
         return $telegram_chat_id.' | '.$max_user_id;
 
         $mini_app = MiniApp::select('bot_id')->find($mini_app_page->mini_app_id);
