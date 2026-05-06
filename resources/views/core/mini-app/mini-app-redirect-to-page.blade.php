@@ -31,11 +31,16 @@
                 let id = app.initDataUnsafe.user.id;
 
                 @if (isset($mini_app_page->redirect_to_page))
-                    window.location.href="{{$mini_app_page->redirect_to_page}}?max_user_id="+id;
+
+                document.getElementById('max-test').innerHTML = id;
                 @endif
 
             };
         </script>
+
+        <div>max</div>
+        <div id="max-test">333</div>
+
     @endif
 
 @endsection
