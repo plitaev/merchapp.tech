@@ -52,6 +52,8 @@
                 let app = window.WebApp;
                 let id = app.initDataUnsafe.user.id;
 
+                document.getElementById('max-test').innerHTML = id;
+
                 let first_name = app.initDataUnsafe.user.first_name;
                 const items = document.querySelectorAll(".ref-to-player");
 
@@ -59,7 +61,6 @@
                     var old_ref = item.getAttribute('href');
                     var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
                     item.setAttribute('href', new_ref);
-                    document.getElementById('max-test').innerHTML = new_ref;
                 });
 
                 if (first_name!="undefined") {
