@@ -161,6 +161,7 @@ class MiniAppPageController
         }
 
         $timepoints = MiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
+        return $mini_app_platform;
 
         return view('core.mini-app.mini-app-player-page', [
             'back_page' => $back_page,
