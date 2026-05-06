@@ -32,7 +32,7 @@
 
                 @if (isset($mini_app_page->redirect_to_page))
 
-                document.getElementById('max-test').innerHTML = id;
+                document.getElementById('max-test').innerHTML = app;
                 @endif
 
             };
