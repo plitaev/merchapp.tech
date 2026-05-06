@@ -2,6 +2,7 @@
 
 namespace App\Actions\Project\ClubAccess;
 
+use App\Actions\Core\Telegram\TelegramQuery;
 use Telegram\Bot\Api;
 
 use App\Actions\Core\BotSendMessage\BotSendMessage;
@@ -23,6 +24,7 @@ class BotListenerEmail
         $botWrongEmail = new BotWrongEmail();
         $dateEnd = new DateEnd();
         $maxQuery = new MaxQuery();
+        $telegramQuery = new TelegramQuery();
         $payCreateByPayGuest = new PayCreateByPayGuest();
 
         //== Проверяем, ожидает ли юзер ввода почты
@@ -85,6 +87,7 @@ class BotListenerEmail
                         ->where('bot_id', $bot_user->bot_id)
                         ->first();
 
+
                     if ($bot_user_max) {
 
                         BotUser::where('id', $bot_user_max->id)->update(['verification_from_telegram' => $bot_user->telegram_chat_id]);
@@ -103,6 +106,30 @@ class BotListenerEmail
                         $A['chat_id'] = $bot_user_max->max_user_id;
 
                         $maxQuery->handle($bot_user->bot, 'POST', 'messages', $A, false, ['user_id' => $bot_user_max->max_user_id]);
+
+                        $botSendMessage->handle($bot_user, 'SYS_SEND_IN_TELEGRAM_BEFORE_VERIFICATION_FROM_TELEGRAM', 'telegram');
+                        die();
+                    }
+
+                    $bot_user_telegram = BotUser::with('bot')
+                        ->where('email', $email)
+                        ->whereNotNull('telegram_user_id')
+                        ->whereNull('telegram_chat_id')
+                        ->where('bot_id', $bot_user->bot_id)
+                        ->first();
+
+
+                    if ($bot_user_telegram) {
+
+                        BotUser::where('id', $bot_user_telegram->id)->update(['verification_from_telegram' => $bot_user->telegram_chat_id]);
+
+                        $telegram = new Api($bot_user->bot->telegram_token);
+
+                        $kb = [];
+                        $btn = [["text" => 'Подтвердить', "payload" => 'connect_telegram_to_telegram_'.$bot_user->telegram_chat_id, "type" => "callback"]];
+                        $kb[] = $btn;
+
+                        $telegramQuery->handle($bot_user->bot, 'sendMessage', ['chat_id' => $bot_user_telegram->telegram_user_id, 'text' =>  'Нажмите на кнопку, чтобы подтвердить подключение аккаунта в Telegram']);
 
                         $botSendMessage->handle($bot_user, 'SYS_SEND_IN_TELEGRAM_BEFORE_VERIFICATION_FROM_TELEGRAM', 'telegram');
                         die();

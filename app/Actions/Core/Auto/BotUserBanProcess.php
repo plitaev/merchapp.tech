@@ -1,6 +1,7 @@
 <?php
 namespace App\Actions\Core\Auto;
 
+use App\Actions\Core\Telegram\TelegramQuery;
 use Telegram\Bot\Api;
 use Carbon\Carbon;
 
@@ -20,6 +21,7 @@ class BotUserBanProcess
         $botSupergroupsAll = new BotSupergroupsAll();
         $botUserSetBanSchedulerCreate = new BotUserSetBanSchedulerCreate();
         $maxQuery = new MaxQuery();
+        $telegramQuery = new TelegramQuery();
         $telegramBanRun = new TelegramBanRun();
 
         $datetime = date('Y-m-d H:i:s', time());
@@ -44,7 +46,8 @@ class BotUserBanProcess
                     //== бан в момент окончания
                     if ($supergroup->supergroup_delete_parameter_id == 1) {
                         if ($ban->bot_user->date_end <= date('Y-m-d', time())) {
-                            if ($ban->bot_user->telegram_chat_id) $telegramBanRun->handle($telegram, $supergroup, $ban);
+                            //if ($ban->bot_user->telegram_chat_id) $telegramBanRun->handle($telegram, $supergroup, $ban);
+                            if ($ban->bot_user->telegram_chat_id) $telegramQuery->handle($ban->bot, 'banChatMember', ['chat_id' => $supergroup->telegram_id, 'user_id' => $ban->bot_user->telegram_user_id]);
                             if ($ban->bot_user->max_user_id && $supergroup->max_id) $maxQuery->handle($ban->bot, 'DELETE', 'chats/'.$supergroup->max_id.'/members', ['user_id' => $ban->bot_user->max_user_id, 'block' => true], false, ['user_id' => $ban->bot_user->max_user_id, 'block' => true]);
                         }
                     }
@@ -64,7 +67,8 @@ class BotUserBanProcess
                         $next_ban_datetime = $next_ban_date." ".$ban->bot->ban_time;
 
                         if ($next_ban_datetime <= date('Y-m-d H:i:s', time())) {
-                            if ($ban->bot_user->telegram_chat_id) $telegramBanRun->handle($telegram, $supergroup, $ban);
+                            //if ($ban->bot_user->telegram_chat_id) $telegramBanRun->handle($telegram, $supergroup, $ban);
+                            if ($ban->bot_user->telegram_chat_id && $supergroup->telegram_id) $telegramQuery->handle($ban->bot, 'banChatMember', ['chat_id' => $supergroup->telegram_id, 'user_id' => $ban->bot_user->telegram_user_id]);
                             if ($ban->bot_user->max_user_id && $supergroup->max_id) $maxQuery->handle($ban->bot, 'DELETE', 'chats/'.$supergroup->max_id.'/members', ['user_id' => $ban->bot_user->max_user_id, 'block' => true], false, ['user_id' => $ban->bot_user->max_user_id, 'block' => true]);
                         } else {
                             $bot_users = BotUser::with('bot')->where('id', $ban->bot_user->id)->get();

@@ -154,7 +154,12 @@ class TelegramSendMessage
                 */
 
                 try {
-                    $message = $telegram->sendMessage($A);
+                   // $message = $telegram->sendMessage($A);
+                    $message =  $telegramQuery->handle($bot_user->bot, 'sendMessage', [
+                        'chat_id' => $bot_user->telegram_chat_id,
+                        'text' => $A['text'],
+                    ]);
+
                     $entities = $message->entities;
                 } catch (\Exception $exception) {
                     TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
