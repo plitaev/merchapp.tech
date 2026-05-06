@@ -73,30 +73,30 @@
                     var old_ref = item.getAttribute('href');
 
                     if (!old_ref.includes('viewer.html')) {
-                        var new_ref = old_ref+"?platform=max&max_user_id="+id;
+                        var new_ref = old_ref + "?platform=max&max_user_id=" + id;
                         item.setAttribute('href', new_ref);
                     }
                 });
 
                 @if (isset($mini_app_page->back_button_url))
                 app.BackButton.show();
-                app.BackButton.onClick(function() {
-                    window.location.href="{{$mini_app_page->back_button_url}}?platform=max&max_user_id="+id;
+                app.BackButton.onClick(function () {
+                    window.location.href = "{{$mini_app_page->back_button_url}}?platform=max&max_user_id=" + id;
                 });
 
-                if (app.platform == "desktop")
+                if (app.platform == "desktop") {
                     document.getElementById('max-desktop-back-button-container').setAttribute('style', 'display:block');
-                    document.getElementById('max-desktop-back-button').setAttribute('href', "{{$mini_app_page->back_button_url}}?platform=max&max_user_id="+id);
-                @endif
+                    document.getElementById('max-desktop-back-button').setAttribute('href', "{{$mini_app_page->back_button_url}}?platform=max&max_user_id=" + id);
+                }
 
                 @else
 
                 app.BackButton.hide();
 
-                if (app.platform == "desktop")
+                if (app.platform == "desktop") {
                     document.getElementById('max-desktop-back-button-container').setAttribute('style', 'display:none');
                     document.getElementById('max-desktop-back-button').setAttribute('href', "");
-                @endif
+                }
 
                 @endif
 
