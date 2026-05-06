@@ -83,6 +83,8 @@ class MiniAppPageController
                     ->get();
             }
 
+            return $mini_app_platform;
+
             return view('core.mini-app.mini-app-video-list-page', [
                 'mini_app_page' => $mini_app_page,
                 'mini_app_platform' => $mini_app_platform,
