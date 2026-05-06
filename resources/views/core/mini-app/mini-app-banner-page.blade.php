@@ -59,30 +59,7 @@
         </script>
     @endif
 
-    @if ($mini_app_platform == 'max')
-        <script src="{{env('APP_URL')}}/js/max-web-app.js"></script>
 
-        <script>
-            window.onload = function() {
-                let app = window.WebApp;
-                let id = app.initDataUnsafe.user.id;
-
-                const items = document.querySelectorAll(".ref-to-banner");
-
-                items.forEach(item => {
-                    var old_ref = item.getAttribute('href');
-
-                    if (!old_ref.includes('viewer.html')) {
-                        var new_ref = old_ref+"?platform=max&max_user_id="+id;
-                        item.setAttribute('href', new_ref);
-
-                        document.getElementById('max-test').innerHTML = new_ref;
-                    }
-                });
-            };
-        </script>
-
-    @endif
 
     <div class="isolate overflow-y-scroll bg-[#f1f1f1] h-[100vh]">
         <div class="flow-root pb-24 sm:pb-32">
