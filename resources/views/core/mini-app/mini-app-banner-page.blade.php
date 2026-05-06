@@ -77,6 +77,22 @@
                         item.setAttribute('href', new_ref);
                     }
                 });
+
+                @if (isset($mini_app_page->back_button_url))
+                app.BackButton.show();
+                app.BackButton.onClick(function() {
+                    window.location.href="{{$mini_app_page->back_button_url}}?platform=telegram&telegram_chat_id="+id;
+                });
+                @else
+                app.BackButton.hide();
+                @endif
+
+                let first_name = telegram_app.initDataUnsafe.user.first_name;
+
+                if (first_name!="undefined") {
+                    document.getElementById('username').innerHTML = "😎 "+first_name;
+                }
+
             };
         </script>
 

@@ -52,6 +52,19 @@
                 let app = window.WebApp;
                 let id = app.initDataUnsafe.user.id;
 
+                @if (isset($mini_app_page->back_button_url))
+
+                app.BackButton.show();
+                app.BackButton.onClick(function() {
+                    window.location.href="{{$mini_app_page->back_button_url}}?telegram_chat_id="+id;
+                });
+
+                @else
+
+                app.BackButton.hide();
+
+                @endif
+
                 let first_name = app.initDataUnsafe.user.first_name;
                 const items = document.querySelectorAll(".ref-to-player");
 
