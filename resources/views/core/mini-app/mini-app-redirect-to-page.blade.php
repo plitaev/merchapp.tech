@@ -14,7 +14,7 @@
                 let id = app.initDataUnsafe.user.id;
 
                 @if (isset($mini_app_page->redirect_to_page))
-                    window.location.href="{{$mini_app_page->redirect_to_page}}?telegram_chat_id="+id;
+                    window.location.href="{{$mini_app_page->redirect_to_page}}?platform=telegram&telegram_chat_id="+id;
                 @endif
 
                 app.ready();
@@ -31,7 +31,7 @@
                 let id = app.initDataUnsafe.user.id;
 
                 @if (isset($mini_app_page->redirect_to_page))
-                    window.location.href="{{$mini_app_page->redirect_to_page}}?max_user_id="+id;
+                    window.location.href="{{$mini_app_page->redirect_to_page}}?platform=max&max_user_id="+id;
                 @endif
 
             };
