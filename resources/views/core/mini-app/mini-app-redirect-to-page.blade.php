@@ -5,7 +5,7 @@
 
 @section('content')
 
-    @if ($platform == 'telegram')
+    @if ($mini_app_platform == 'telegram')
         <script src="{{env('APP_URL')}}/js/telegram-web-app.js"></script>
 
         <script>
@@ -22,7 +22,7 @@
         </script>
     @endif
 
-    @if ($platform == 'max')
+    @if ($mini_app_platform == 'max')
         <script src="https://st.max.ru/js/max-web-app.js"></script>
 
         <script>
