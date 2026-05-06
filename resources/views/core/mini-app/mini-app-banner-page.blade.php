@@ -79,14 +79,25 @@
                 });
 
                 @if (isset($mini_app_page->back_button_url))
-
                 app.BackButton.show();
                 app.BackButton.onClick(function () {
                     window.location.href = "{{$mini_app_page->back_button_url}}?platform=max&max_user_id=" + id;
                 });
 
+                if (app.platform == "desktop") {
+                    //document.getElementById('max-desktop-back-button-container').setAttribute('style', 'display:block');
+                    //document.getElementById('max-desktop-back-button').setAttribute('href', "{{$mini_app_page->back_button_url}}?platform=max&max_user_id=" + id);
+                }
+
                 @else
+
                 app.BackButton.hide();
+
+                if (app.platform == "desktop") {
+                    //document.getElementById('max-desktop-back-button-container').setAttribute('style', 'display:none');
+                    //document.getElementById('max-desktop-back-button').setAttribute('href', "");
+                }
+
                 @endif
 
                 let first_name = telegram_app.initDataUnsafe.user.first_name;
@@ -103,6 +114,12 @@
     <div class="isolate overflow-y-scroll bg-[#f1f1f1] h-[100vh]">
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
+
+            @if ($mini_app_platform == 'max')
+                <div id="max-desktop-back-button-container" class="text-center mt-10" style="display: none">
+                    <a id="max-desktop-back-button" href="" class="inline-block mx-auto rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-xs hover:bg-indigo-100 dark:bg-indigo-500/20 dark:text-indigo-400 dark:shadow-none dark:hover:bg-indigo-500/30">Вернуться назад</a>
+                </div>
+            @endif
 
             @foreach ($banners_big as $banner_big)
                 <div class="mt-3 ml-3 mr-3">
