@@ -23,7 +23,7 @@
     @endif
 
     @if ($mini_app_platform == 'max')
-        <script src="https://st.max.ru/js/max-web-app.js"></script>
+        <script src="{{env('APP_URL')}}/js/max-web-app.js"></script>
 
         <script>
             window.onload = function() {
