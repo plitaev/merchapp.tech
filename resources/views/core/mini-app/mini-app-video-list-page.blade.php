@@ -4,42 +4,70 @@
 @endsection
 
 @section('content')
-    <script src="{{env('APP_URL')}}/js/telegram-web-app.js"></script>
 
-    <script>
-        window.onload = function() {
-            let app = window.Telegram.WebApp;
-            let id = app.initDataUnsafe.user.id;
+    @if ($mini_app_platform == 'telegram')
+        <script src="{{env('APP_URL')}}/js/telegram-web-app.js"></script>
 
-            @if (isset($mini_app_page->back_button_url))
+        <script>
+            window.onload = function() {
+                let app = window.Telegram.WebApp;
+                let id = app.initDataUnsafe.user.id;
 
-            app.BackButton.show();
-            app.BackButton.onClick(function() {
-                window.location.href="{{$mini_app_page->back_button_url}}?telegram_chat_id="+id;
-            });
+                @if (isset($mini_app_page->back_button_url))
 
-            @else
+                app.BackButton.show();
+                app.BackButton.onClick(function() {
+                    window.location.href="{{$mini_app_page->back_button_url}}?telegram_chat_id="+id;
+                });
 
-            app.BackButton.hide();
+                @else
 
-            @endif
+                app.BackButton.hide();
 
-            let first_name = app.initDataUnsafe.user.first_name;
+                @endif
 
-            const items = document.querySelectorAll(".ref-to-player");
+                let first_name = app.initDataUnsafe.user.first_name;
 
-            items.forEach(item => {
-                var old_ref = item.getAttribute('href');
-                var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
-                item.setAttribute('href', new_ref);
-            });
+                const items = document.querySelectorAll(".ref-to-player");
 
-            if (first_name!="undefined") {
-                document.getElementById('username').innerHTML = "😎 "+first_name;
-            }
-            app.ready();
-        };
-    </script>
+                items.forEach(item => {
+                    var old_ref = item.getAttribute('href');
+                    var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
+                    item.setAttribute('href', new_ref);
+                });
+
+                if (first_name!="undefined") {
+                    document.getElementById('username').innerHTML = "😎 "+first_name;
+                }
+                app.ready();
+            };
+        </script>
+    @endif
+
+    @if ($mini_app_platform == 'max')
+        <script src="{{env('APP_URL')}}/js/max-web-app.js"></script>
+
+        <script>
+            window.onload = function() {
+                let app = window.WebApp;
+                let id = app.initDataUnsafe.user.id;
+
+                let first_name = app.initDataUnsafe.user.first_name;
+                const items = document.querySelectorAll(".ref-to-player");
+
+                items.forEach(item => {
+                    var old_ref = item.getAttribute('href');
+                    var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
+                    item.setAttribute('href', new_ref);
+                });
+
+                if (first_name!="undefined") {
+                    document.getElementById('username').innerHTML = "😎 "+first_name;
+                }
+
+            };
+        </script>
+    @endif
 
     <div class="isolate overflow-y-scroll bg-white h-[100vh]">
         <div class="flow-root pb-24 sm:pb-32">
@@ -55,7 +83,7 @@
                         $bscount = $bscount + 1;
                     @endphp
 
-                    <a href="/miniapp/player/{{$video->id}}/MESSENGER_USER_ID/{{$mini_app_page->url}}" class="ref-to-player flex justify-between align-center text-md font-semibold text-indigo-500">
+                    <a href="/miniapp/player/{{$video->id}}/{{$mini_app_platform}}/MESSENGER_USER_ID/{{$mini_app_page->url}}" class="ref-to-player flex justify-between align-center text-md font-semibold text-indigo-500">
 
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FB7185" style="width: 15%">
                             <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm14.024-.983a1.125 1.125 0 0 1 0 1.966l-5.603 3.113A1.125 1.125 0 0 1 9 15.113V8.887c0-.857.921-1.4 1.671-.983l5.603 3.113Z" clip-rule="evenodd" />
