@@ -88,6 +88,8 @@
                     document.getElementById('username').innerHTML = "😎 "+first_name;
                 }
 
+                document.getElementById('username').innerHTML = app.platform;
+
             };
         </script>
     @endif
