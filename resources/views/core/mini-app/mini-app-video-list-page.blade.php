@@ -52,8 +52,6 @@
                 let app = window.WebApp;
                 let id = app.initDataUnsafe.user.id;
 
-                app.BackButton.show();
-
                 @if (isset($mini_app_page->back_button_url))
 
                 app.BackButton.show();
