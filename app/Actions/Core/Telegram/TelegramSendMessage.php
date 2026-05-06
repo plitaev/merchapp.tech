@@ -98,27 +98,6 @@ class TelegramSendMessage
                 $keyboard = NULL;
             }
 
-            if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE_TELEGRAM') {
-
-                $res = TelegramSupergroup::where('bot_id', $bot_user->bot_id)->get();
-                foreach ($res as $data) {
-                    $A = [];
-                    $A['user_ids'] = [$bot_user->telegram_user_id];
-                    $add_result = $telegramQuery->handle($bot_user->bot, 'sendMessage', [
-                        'chat_id' => $data->telegram_id,
-                        'text' => $text,
-                    ]);
-
-                    $add_result = json_decode($add_result, true);
-
-                    if (isset($add_result['failed_user_details'][0]['error_code']) && $add_result['failed_user_details'][0]['error_code'] == 'add.participant.privacy') {
-                        $bot_message_appointment->handle($bot_user, 'SYS_SUCCESS_MESSAGE_TELEGRAM_NEED_PRIVACY_CHANGE', 'telegram');
-                        die();
-                    }
-                }
-
-            }
-
             $A = [];
 
             if ($bot_message->image || $bot_message->video || $bot_message->audio || $bot_message->custom_file) {
