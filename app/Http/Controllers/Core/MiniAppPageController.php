@@ -48,6 +48,8 @@ class MiniAppPageController
             ->where('bot_id', $mini_app->bot_id)
             ->first();
 
+        return $bot_user;
+
         $banners_big = $miniAppBannerListByClassID->handle($mini_app_page->id, 1);
         $banners_medium = $miniAppBannerListByClassID->handle($mini_app_page->id, 2);
         $banners_small = $miniAppBannerListByClassID->handle($mini_app_page->id, 3);
@@ -68,8 +70,6 @@ class MiniAppPageController
         }
 
         if ($mini_app_page->miniapp->class_id == 2) {
-
-            return $mini_app_platform;
 
             $restrict_access = $miniAppVideoCheckAccess->handle($bot_user, $mini_app, $mini_app_page);
             if ($restrict_access) return $restrict_access;
