@@ -88,7 +88,7 @@
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
 
-            <div id="max-text">{{$mini_app_platform}}</div>
+            <div id="max-text">{{$mini_app_platform}} (test)</div>
 
             {{------}}
 
