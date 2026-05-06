@@ -54,19 +54,6 @@
 
                 document.getElementById('max-test').innerHTML = id;
 
-                let first_name = app.initDataUnsafe.user.first_name;
-                const items = document.querySelectorAll(".ref-to-player");
-
-                items.forEach(item => {
-                    var old_ref = item.getAttribute('href');
-                    var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
-                    item.setAttribute('href', new_ref);
-                });
-
-                if (first_name!="undefined") {
-                    document.getElementById('username').innerHTML = "😎 "+first_name;
-                }
-
             };
         </script>
     @endif
