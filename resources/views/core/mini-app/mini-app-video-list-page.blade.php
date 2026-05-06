@@ -59,19 +59,9 @@
                     window.location.href="{{$mini_app_page->back_button_url}}?platform=max&max_user_id="+id;
                 });
 
-                if (app.platform == "desktop") {
-                    //document.getElementById('max-desktop-back-button-container').setAttribute('style', 'display:block');
-                    //document.getElementById('max-desktop-back-button').setAttribute('href', "{{$mini_app_page->back_button_url}}?platform=max&max_user_id=" + id);
-                }
-
                 @else
 
                 app.BackButton.hide();
-
-                if (app.platform == "desktop") {
-                    //document.getElementById('max-desktop-back-button-container').setAttribute('style', 'display:none');
-                    //document.getElementById('max-desktop-back-button').setAttribute('href', "");
-                }
 
                 @endif
 
