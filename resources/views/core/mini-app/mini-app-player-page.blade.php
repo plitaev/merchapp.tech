@@ -4,33 +4,36 @@
 @endsection
 
 @section('content')
-    <script src="{{env('APP_URL')}}/js/telegram-web-app.js"></script>
 
-    <script>
-        window.onload = function() {
-            let app = window.Telegram.WebApp;
-            app.BackButton.show();
+    @if ($mini_app_platform == 'telegram')
+        <script src="{{env('APP_URL')}}/js/telegram-web-app.js"></script>
 
-            if (!app.initDataUnsafe.user) {
-                window.location.href="/404";
-            } else {
+        <script>
+            window.onload = function() {
+                let app = window.Telegram.WebApp;
+                app.BackButton.show();
 
-                let id = app.initDataUnsafe.user.id;
+                if (!app.initDataUnsafe.user) {
+                    window.location.href="/404";
+                } else {
 
-                app.BackButton.onClick(function() {
-                    window.location.href="{{env("APP_URL")}}/{{$back_page}}?telegram_chat_id="+id;
-                });
+                    let id = app.initDataUnsafe.user.id;
 
-                let first_name = app.initDataUnsafe.user.first_name;
+                    app.BackButton.onClick(function() {
+                        window.location.href="{{env("APP_URL")}}/{{$back_page}}?telegram_chat_id="+id;
+                    });
 
-                if (first_name!="undefined") {
-                    document.getElementById('username').innerHTML = "😎 "+first_name;
+                    let first_name = app.initDataUnsafe.user.first_name;
+
+                    if (first_name!="undefined") {
+                        document.getElementById('username').innerHTML = "😎 "+first_name;
+                    }
+                    app.ready();
+
                 }
-                app.ready();
-
-            }
-        };
-    </script>
+            };
+        </script>
+    @endif
 
 
     <script src="/js/video.min.7.20.1.js"></script>
