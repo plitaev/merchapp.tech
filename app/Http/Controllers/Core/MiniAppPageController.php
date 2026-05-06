@@ -97,8 +97,6 @@ class MiniAppPageController
         $mini_app_token = hash('sha256', microtime());
         $mini_app_token_expiration = Carbon::now()->addMinutes(1)->format('Y-m-d H:i:s');
 
-        return $messenger_user_id;
-
         BotUser::query()
             ->when($messenger == 'telegram', function($query) use ($messenger_user_id) {
                 return $query->where('telegram_chat_id', $messenger_user_id);
