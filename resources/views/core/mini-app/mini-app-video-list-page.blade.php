@@ -61,7 +61,7 @@
 
                 @else
 
-                app.BackButton.hide();
+                //app.BackButton.hide();
 
                 @endif
 
