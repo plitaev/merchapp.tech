@@ -26,10 +26,7 @@ class MiniAppPageController
         $miniAppVideoCheckAccess = new MiniAppVideoCheckAccess();
 
         $mini_app_page = $miniAppPageGetByURL->handle();
-
         $mini_app_platform = $miniAppGetPlatform->handle();
-
-        return $mini_app_platform;
 
         if ($mini_app_page->redirect_to_page) {
             return view('core.mini-app.mini-app-redirect-to-page', ['mini_app_page' => $mini_app_page, 'mini_app_platform' => $mini_app_platform]);
