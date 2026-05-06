@@ -69,7 +69,7 @@
 
                 const items = document.querySelectorAll(".ref-to-banner");
 
-                document.getElementById('max-test').innerHTML = new_ref;
+                document.getElementById('max-test').innerHTML = items;
 
                 items.forEach(item => {
                     var old_ref = item.getAttribute('href');
