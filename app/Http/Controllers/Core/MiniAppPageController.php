@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 use App\Actions\Core\MiniAppBanner\MiniAppBannerListByClassID;
 use App\Actions\Core\MiniAppPage\MiniAppPageGetByURL;
-use App\Actions\Core\MiniAppPage\MiniAppPageGetPlatform;
+use App\Actions\Core\MiniApp\MiniAppGetPlatform;
 use App\Actions\Core\MiniAppVideo\MiniAppVideoCheckAccess;
 
 use App\Models\Core\BotUser;
@@ -22,12 +22,12 @@ class MiniAppPageController
     {
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
         $miniAppPageGetByURL = new MiniAppPageGetByURL();
-        $miniAppPageGetPlatform = new MiniAppPageGetPlatform();
+        $miniAppGetPlatform = new MiniAppGetPlatform();
         $miniAppVideoCheckAccess = new MiniAppVideoCheckAccess();
 
         $mini_app_page = $miniAppPageGetByURL->handle();
 
-        $mini_app_platform = $miniAppPageGetPlatform->handle();
+        $mini_app_platform = $miniAppGetPlatform->handle();
 
         return $mini_app_platform;
 
