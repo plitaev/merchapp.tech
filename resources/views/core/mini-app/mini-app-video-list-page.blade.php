@@ -46,15 +46,15 @@
 
     @if ($mini_app_platform == 'max')
         <script src="{{env('APP_URL')}}/js/max-web-app.js"></script>
-
         <script>
             window.onload = function() {
                 let app = window.WebApp;
                 let id = app.initDataUnsafe.user.id;
 
-                @if (isset($mini_app_page->back_button_url))
-
                 app.BackButton.show();
+
+
+                @if (isset($mini_app_page->back_button_url))
                 app.BackButton.onClick(function() {
                     window.location.href="{{$mini_app_page->back_button_url}}?platform=max&max_user_id="+id;
                 });
