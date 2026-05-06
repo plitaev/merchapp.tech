@@ -67,7 +67,7 @@
 
             @foreach ($banners_big as $banner_big)
                 <div class="mt-3 ml-3 mr-3">
-                    <a href="{{$banner_big->miniapp_banner->button_url}}?mini_app_platform={{$mini_app_platform}}" class="ref-to-banner relative flex flex-col justify-between w-full rounded-xl bg-cover shadow-xl ring-1 ring-gray-900/10">
+                    <a href="{{$banner_big->miniapp_banner->button_url}}?platform={{$mini_app_platform}}" class="ref-to-banner relative flex flex-col justify-between w-full rounded-xl bg-cover shadow-xl ring-1 ring-gray-900/10">
                         <img src="{{env('APP_URL').'/content/'.$banner_big->miniapp_banner->image}}?updated_at={{base64_encode($banner_big->updated_at)}}" class="z-1 rounded-xl"/>
 
                         @if (isset($banner_big->miniapp_banner->button_text))
@@ -93,7 +93,7 @@
                     <div class="mx-auto grid max-w-md grid-cols-2 mt-3">
                         @endif
 
-                        <a href="{{$banner_medium->miniapp_banner->button_url}}?mini_app_platform={{$mini_app_platform}}" class="ref-to-banner flex flex-col justify-between ml-1.5 mr-3 p-1.5 rounded-xl bg-white shadow-xl ring-1 ring-gray-900/10">
+                        <a href="{{$banner_medium->miniapp_banner->button_url}}?platform={{$mini_app_platform}}" class="ref-to-banner flex flex-col justify-between ml-1.5 mr-3 p-1.5 rounded-xl bg-white shadow-xl ring-1 ring-gray-900/10">
                             <div>
                                 <img src="{{env('APP_URL').'/content/'.$banner_medium->miniapp_banner->image}}?updated_at={{base64_encode($banner_medium->miniapp_banner->updated_at)}}" class="rounded-xl"/>
                             </div>
@@ -129,7 +129,7 @@
                     <div class="mx-auto grid max-w-md grid-cols-2 mt-3">
                         @endif
 
-                        <a href="{{$banner_small->miniapp_banner->button_url}}?mini_app_platform={{$mini_app_platform}}" class="ref-to-banner flex flex-col justify-between ml-1.5 mr-3 p-1.5 rounded-xl bg-white shadow-xl ring-1 ring-gray-900/10">
+                        <a href="{{$banner_small->miniapp_banner->button_url}}?platform={{$mini_app_platform}}" class="ref-to-banner flex flex-col justify-between ml-1.5 mr-3 p-1.5 rounded-xl bg-white shadow-xl ring-1 ring-gray-900/10">
                             <div>
                                 <img src="{{env('APP_URL').'/content/'.$banner_small->miniapp_banner->image}}?updated_at={{base64_encode($banner_small->miniapp_banner->updated_at)}}" class="rounded-xl"/>
                             </div>
