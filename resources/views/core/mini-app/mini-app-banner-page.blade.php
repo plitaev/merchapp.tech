@@ -69,16 +69,12 @@
 
                 const items = document.querySelectorAll(".ref-to-banner");
 
-                document.getElementById('max-test').innerHTML = id;
-
                 items.forEach(item => {
                     var old_ref = item.getAttribute('href');
 
                     if (!old_ref.includes('viewer.html')) {
                         var new_ref = old_ref+"?platform=max&max_user_id="+id;
                         item.setAttribute('href', new_ref);
-
-                        document.getElementById('max-test').innerHTML = new_ref;
                     }
                 });
             };
@@ -89,10 +85,6 @@
     <div class="isolate overflow-y-scroll bg-[#f1f1f1] h-[100vh]">
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
-
-            <div id="max-test">{{$mini_app_platform}} (test)</div>
-
-            {{------}}
 
             @foreach ($banners_big as $banner_big)
                 <div class="mt-3 ml-3 mr-3">
