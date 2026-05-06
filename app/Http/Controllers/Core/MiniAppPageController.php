@@ -8,6 +8,7 @@ use Carbon\Carbon;
 
 use App\Actions\Core\MiniAppBanner\MiniAppBannerListByClassID;
 use App\Actions\Core\MiniAppPage\MiniAppPageGetByURL;
+use App\Actions\Core\MiniAppPage\MiniAppPageGetPlatform;
 use App\Actions\Core\MiniAppVideo\MiniAppVideoCheckAccess;
 
 use App\Models\Core\BotUser;
@@ -21,12 +22,17 @@ class MiniAppPageController
     {
         $miniAppBannerListByClassID = new MiniAppBannerListByClassID();
         $miniAppPageGetByURL = new MiniAppPageGetByURL();
+        $miniAppPageGetPlatform = new MiniAppPageGetPlatform();
         $miniAppVideoCheckAccess = new MiniAppVideoCheckAccess();
 
         $mini_app_page = $miniAppPageGetByURL->handle();
 
+        $mini_app_platform = $miniAppPageGetPlatform->handle();
+
+        return $mini_app_platform;
+
         if ($mini_app_page->redirect_to_page) {
-            return view('core.mini-app.mini-app-redirect-to-page', ['mini_app_page' => $mini_app_page]);
+            return view('core.mini-app.mini-app-redirect-to-page', ['mini_app_page' => $mini_app_page, 'mini_app_platform' => $mini_app_platform]);
         }
 
         $telegram_chat_id = (isset($_GET['telegram_chat_id'])?$_GET['telegram_chat_id']:0);

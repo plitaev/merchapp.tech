@@ -8,9 +8,14 @@ class MiniAppGetPlatform
 
         if (isset($_GET['platform'])) {
 
-        } else {
+            $platform = str_replace('?WebAppStartParam=', '', $_GET['platform']);
+            $A = json_decode($platform, true);
 
+            $platform = (isset($A['platform'])?$A['platform']:'telegram');
+        } else {
+            $platform = 'telegram';
         }
 
+        return $platform;
     }
 }
