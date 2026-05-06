@@ -83,8 +83,6 @@ class MiniAppPageController
                     ->get();
             }
 
-            return $mini_app_platform;
-
             return view('core.mini-app.mini-app-video-list-page', [
                 'mini_app_page' => $mini_app_page,
                 'mini_app_platform' => $mini_app_platform,
@@ -94,19 +92,16 @@ class MiniAppPageController
         }
     }
 
-    public function mini_app_player_page(int $id, string $messenger, int $messenger_user_id, string $back_page)
+    public function mini_app_player_page(int $id, string $mini_app_platform, int $messenger_user_id, string $back_page)
     {
-        $miniAppGetPlatform = new MiniAppGetPlatform();
-        $mini_app_platform = $miniAppGetPlatform->handle();
-
         $mini_app_token = hash('sha256', microtime());
         $mini_app_token_expiration = Carbon::now()->addMinutes(1)->format('Y-m-d H:i:s');
 
         BotUser::query()
-            ->when($messenger == 'telegram', function($query) use ($messenger_user_id) {
+            ->when($mini_app_platform == 'telegram', function($query) use ($messenger_user_id) {
                 return $query->where('telegram_chat_id', $messenger_user_id);
             })
-            ->when($messenger == 'max', function($query) use ($messenger_user_id) {
+            ->when($mini_app_platform == 'max', function($query) use ($messenger_user_id) {
                 return $query->where('max_user_id', $messenger_user_id);
             })
             ->update(['mini_app_token' => $mini_app_token, 'mini_app_token_expiration' => $mini_app_token_expiration]);
