@@ -62,7 +62,7 @@
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-5 ml-4 font-semibold text-xl"></div>
 
-            <div id="max-test">max-test</div>
+            <div id="max-test">{{$mini_app_platform}}</div>
 
             @php
                 $bscount = 0;
