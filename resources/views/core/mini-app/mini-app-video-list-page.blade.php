@@ -52,6 +52,7 @@
                 let id = app.initDataUnsafe.user.id;
 
                 app.BackButton.show();
+                document.getElementById('max-test').innerHTML = "after show";
 
 
                 @if (isset($mini_app_page->back_button_url))
@@ -86,7 +87,7 @@
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-5 ml-4 font-semibold text-xl"></div>
 
-            <div class="mt-2 mb-5 ml-4 font-semibold text-xl">{{$mini_app_platform}}</div>
+            <div id="max-test" class="mt-2 mb-5 ml-4 font-semibold text-xl">{{$mini_app_platform}}</div>
 
             @php
                 $bscount = 0;
