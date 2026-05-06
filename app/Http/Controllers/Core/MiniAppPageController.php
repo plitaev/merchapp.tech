@@ -69,8 +69,6 @@ class MiniAppPageController
 
         if ($mini_app_page->miniapp->class_id == 2) {
 
-            return $bot_user;
-
             $restrict_access = $miniAppVideoCheckAccess->handle($bot_user, $mini_app, $mini_app_page);
             if ($restrict_access) return $restrict_access;
 
