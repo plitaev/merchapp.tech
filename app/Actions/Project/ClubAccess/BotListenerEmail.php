@@ -2,8 +2,6 @@
 
 namespace App\Actions\Project\ClubAccess;
 
-use Telegram\Bot\Api;
-
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 use App\Actions\Core\BotUser\BotUserSetEmail;
 use App\Actions\Core\BotUser\BotUserSetListener;
