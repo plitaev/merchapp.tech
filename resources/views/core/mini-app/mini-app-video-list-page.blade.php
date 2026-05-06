@@ -55,6 +55,8 @@
                 let first_name = app.initDataUnsafe.user.first_name;
                 const items = document.querySelectorAll(".ref-to-player");
 
+                document.getElementById('max-test').innerHTML = "ok max";
+
                 items.forEach(item => {
                     var old_ref = item.getAttribute('href');
                     var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
