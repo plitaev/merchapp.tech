@@ -125,8 +125,6 @@ class MiniAppPageController
 
         $video = MiniAppVideo::find($id);
 
-        return $video;
-
         if ($video->edgecenter_hls_url) {
             $master = file_get_contents($video->edgecenter_hls_url);
             $Amaster = explode(PHP_EOL, $master);
@@ -161,6 +159,8 @@ class MiniAppPageController
         }
 
         $timepoints = MiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
+
+        return 'ok';
 
         return view('core.mini-app.mini-app-player-page', [
             'back_page' => $back_page,
