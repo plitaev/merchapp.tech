@@ -62,7 +62,7 @@ class DevTestController extends Controller
 
         if (count($kb) > 0) $A['attachments'][] = ["type" => "inline_keyboard", "payload" => ["buttons" => $kb]];
 
-        $message = $maxQuery->handle($bot, 'POST', 'messages', $A, false, ['user_id' => 5206051]);
+        return $maxQuery->handle($bot, 'POST', 'messages', $A, false, ['user_id' => 5206051]);
     }
 
     public function change_web_password(string $email) {
