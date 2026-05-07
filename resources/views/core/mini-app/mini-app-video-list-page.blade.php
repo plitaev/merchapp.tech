@@ -51,12 +51,6 @@
                 let app = window.WebApp;
                 let id = app.initDataUnsafe.user.id;
 
-                app.BackButton.show();
-
-                app.BackButton.onClick(function() {
-                    window.location.href="{{$mini_app_page->back_button_url}}?platform=max&max_user_id="+id;
-                });
-
                 let first_name = app.initDataUnsafe.user.first_name;
                 const items = document.querySelectorAll(".ref-to-player");
 
@@ -65,6 +59,17 @@
                     var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
                     item.setAttribute('href', new_ref);
                 });
+
+                if (first_name!="undefined") {
+                    document.getElementById('username').innerHTML = "😎 "+first_name;
+                }
+
+                app.BackButton.show();
+
+                app.BackButton.onClick(function() {
+                    window.location.href="{{$mini_app_page->back_button_url}}?platform=max&max_user_id="+id;
+                });
+
             };
         </script>
     @endif
