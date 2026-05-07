@@ -123,7 +123,7 @@ class MaxSendMessage
             //=========================================================================================================================
 
             try {
-                $message = $maxQuery->handle($bot_user->bot, 'POST', 'messages', $A, false, ['chat_id' => -72834756899027]);
+                $message = $maxQuery->handle($bot_user->bot, 'POST', 'messages', $A, false, ['user_id' => $bot_user->max_user_id]);
             } catch (\Exception $exception) {}
 
             //=========================================================================================================================
