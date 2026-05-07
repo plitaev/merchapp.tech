@@ -42,7 +42,6 @@ class MaxQuery
         curl_setopt($curl, CURLOPT_URL, $api_url);
 
         if ($method == 'POST') {
-            return json_encode($request_data);
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($request_data));
         }
