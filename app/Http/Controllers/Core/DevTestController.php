@@ -48,9 +48,21 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $dateEnd = new DateEnd();
-        $bot_user = BotUser::where('id', '17175')->first();
-        return $dateEnd->handle($bot_user, 'Y-m-d');
+        $maxQuery = new MaxQuery();
+        $bot = Bot::find(11);
+
+        $A = [];
+        $A['text'] = 'Добро пожаловать в клуб «Счастливы вместе»%0A%0AВ этом чате мы будем общаться: вы сможете задавать свои вопросы, получать ответы от экспертов и обсуждать ситуации с участницами клуба.%0A%0A✍️ <b>Абонемент начинает действовать с сегодняшнего дня и рассчитан на 3 месяца активной работы.%0A%0AЧтобы просмотреть все доступные эфиры, вебинары, видео- и аудиоматериалы, пройдите авторизацию в боте-помощнике — это откроет вам полный доступ к базе контента.</b>%0A%0A☝️ Обращаем внимание: <b>все материалы доступны только на время вашего участия в клубе «Счастливы вместе».</b> После завершения абонемента доступ к базе закрывается, материалы не сохраняются в личном кабинете.';
+        $A['format'] = 'html';
+        $A['attachments'] = [];
+
+        $btn = [['url' => 'https://max.ru/id246520639349_3_bot?startapp', "type" => "link"]];
+        $kb[] = $btn;
+
+
+        if (count($kb) > 0) $A['attachments'][] = ["type" => "inline_keyboard", "payload" => ["buttons" => $kb]];
+
+        $message = $maxQuery->handle($bot, 'POST', 'messages', $A, false, ['user_id' => 5206051]);
     }
 
     public function change_web_password(string $email) {
