@@ -115,7 +115,7 @@
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
 
             @if (isset($mini_app_page->back_button_url))
-                <div class="text-center mt-10" id="max-desktop-back-button-container" style="display: none">
+                <div class="text-center mb-10" id="max-desktop-back-button-container" style="display: none">
                     <a href="javascript:void(0);" id="max-desktop-back-button" class="inline-block mx-auto rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-xs hover:bg-indigo-100 dark:bg-indigo-500/20 dark:text-indigo-400 dark:shadow-none dark:hover:bg-indigo-500/30">Вернуться назад</a>
                 </div>
             @endif
