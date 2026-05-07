@@ -200,6 +200,12 @@ class BotSendUserOnDay
         foreach ($supergroups as $supergroup) {
             $telegram = new Api($supergroup->bot->telegram_token);
             $telegram->sendMessage(['chat_id' => $supergroup->telegram_id, 'parse_mode' => 'HTML', 'text' => urldecode($text), 'protect_content' => true]);
+            /*
+            $telegramQuery->handle($supergroup->bot, 'sendMessage', [
+                'chat_id' => $supergroup->telegram_id,
+                'text' => urldecode($text),
+            ]);
+            */
         }
 
     }
