@@ -14,6 +14,8 @@ use App\Models\Core\TelegramUnbanSchedule;
 use App\Models\Core\TelegramUnbanScheduleErrorLog;
 use App\Models\Core\TelegramUnbanScheduleLog;
 
+use Telegram\Bot\Api;
+
 class BotUserUnban
 {
     public function handle($bot_user, $supergroups) {
