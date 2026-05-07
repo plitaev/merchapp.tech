@@ -63,6 +63,8 @@ class TelegramQuery
 //        return ($return_array?json_decode($response, true):$response);
     function handle($bot, string $api_function, array $params = []): array|false
     {
+        return $params;
+
         $headers = [
             'Content-Type: application/json',
             'Authorization: '.$bot->Telegram_token
