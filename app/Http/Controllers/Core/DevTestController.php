@@ -49,10 +49,10 @@ class DevTestController extends Controller
 {
     public function devtest() {
 
-        $bot_user = BotUser::find(2154);
+        $bot_user = BotUser::find(2227);
 
         $botSendMessage = new BotSendMessage();
-        return $botSendMessage->handle($bot_user, 'LOVERSE_SV_SENDING_MAX', 'max');
+        return $botSendMessage->handle($bot_user, 'LOVERSE_ZM_SENDING_MAX', 'max');
 
 
         $maxQuery = new MaxQuery();
