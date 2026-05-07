@@ -48,6 +48,13 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 class DevTestController extends Controller
 {
     public function devtest() {
+
+        $bot_user = BotUser::find(2154);
+
+        $botSendMessage = new BotSendMessage();
+        return $botSendMessage->handle($bot_user, 'LOVERSE_SV_SENDING_MAX', 'max');
+
+
         $maxQuery = new MaxQuery();
         $bot = Bot::find(11);
 
