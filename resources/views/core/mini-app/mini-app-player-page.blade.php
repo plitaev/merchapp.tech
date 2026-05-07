@@ -51,6 +51,9 @@
                         app.BackButton.onClick(function() {
                             window.location.href="{{env("APP_URL")}}/{{$back_page}}?platform=max&max_user_id="+id;
                         });
+                    } else {
+                        document.getElementById('max-desktop-back-button-container').setAttribute('style', 'display: block');
+                        document.getElementById('max-desktop-back-button').setAttribute('href', "{{env("APP_URL")}}/{{$back_page}}?platform=max&max_user_id="+id);
                     }
 
                     let first_name = app.initDataUnsafe.user.first_name;
@@ -83,6 +86,10 @@
     <div class="p-2">
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
+
+            <div class="text-center mt-10" id="max-desktop-back-button-container" style="display: none">
+                <a href="javascript:void(0);" id="max-desktop-back-button" class="inline-block mx-auto rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-xs hover:bg-indigo-100 dark:bg-indigo-500/20 dark:text-indigo-400 dark:shadow-none dark:hover:bg-indigo-500/30">Вернуться назад</a>
+            </div>
 
             <video-js id="player" class="vjs-default-skin" controls preload="auto" width="960" height="540" disablePictureInPicture playsinline allowsInlineMediaPlayback=true>
 
