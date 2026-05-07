@@ -50,32 +50,7 @@
             window.onload = function() {
                 let app = window.WebApp;
                 let id = app.initDataUnsafe.user.id;
-
                 app.BackButton.show();
-
-                app.BackButton.onClick(function() {
-                    window.location.href="{{$mini_app_page->back_button_url}}?platform=max&max_user_id="+id;
-                });
-
-
-
-                //app.BackButton.hide();
-
-
-
-                let first_name = app.initDataUnsafe.user.first_name;
-                const items = document.querySelectorAll(".ref-to-player");
-
-                items.forEach(item => {
-                    var old_ref = item.getAttribute('href');
-                    var new_ref = old_ref.replace('MESSENGER_USER_ID', id);
-                    item.setAttribute('href', new_ref);
-                });
-
-                if (first_name!="undefined") {
-                    document.getElementById('username').innerHTML = "😎 "+first_name;
-                }
-
             };
         </script>
     @endif
@@ -83,8 +58,6 @@
     <div class="isolate overflow-y-scroll bg-white h-[100vh]">
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-5 ml-4 font-semibold text-xl"></div>
-
-            <div id="max-test" class="mt-2 mb-5 ml-4 font-semibold text-xl">{{$mini_app_platform}}</div>
 
             @php
                 $bscount = 0;
