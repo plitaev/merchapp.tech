@@ -85,9 +85,7 @@
                 });
 
                 @else
-
-                //app.BackButton.hide();
-
+                app.BackButton.hide();
                 @endif
 
                 if (first_name!="undefined") {
