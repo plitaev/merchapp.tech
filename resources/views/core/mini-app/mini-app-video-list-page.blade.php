@@ -50,7 +50,13 @@
             window.onload = function() {
                 let app = window.WebApp;
                 let id = app.initDataUnsafe.user.id;
+
                 app.BackButton.show();
+
+                app.BackButton.onClick(function() {
+                    window.location.href="{{$mini_app_page->back_button_url}}?platform=max&max_user_id="+id;
+                });
+
             };
         </script>
     @endif
