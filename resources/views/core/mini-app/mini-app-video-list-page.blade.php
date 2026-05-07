@@ -52,19 +52,16 @@
                 let id = app.initDataUnsafe.user.id;
 
                 app.BackButton.show();
-                document.getElementById('max-test').innerHTML = "after show";
 
-
-                @if (isset($mini_app_page->back_button_url))
                 app.BackButton.onClick(function() {
                     window.location.href="{{$mini_app_page->back_button_url}}?platform=max&max_user_id="+id;
                 });
 
-                @else
+
 
                 //app.BackButton.hide();
 
-                @endif
+
 
                 let first_name = app.initDataUnsafe.user.first_name;
                 const items = document.querySelectorAll(".ref-to-player");
