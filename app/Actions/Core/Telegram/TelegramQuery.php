@@ -94,5 +94,6 @@ class TelegramQuery
 
         return json_decode($response, true);
     }
+
 }
 
