@@ -16,7 +16,8 @@ use App\Models\Core\TelegramUnbanScheduleLog;
 
 class BotUserUnban
 {
-    public function handle($bot_user, $supergroups, $telegram) {
+    public function handle($bot_user, $supergroups) {
+        $telegram = new Api($bot_user->bot->telegram_token);
 
         if (isset($supergroups[$bot_user->bot_id])) {
             foreach ($supergroups[$bot_user->bot_id] as $supergroup) {

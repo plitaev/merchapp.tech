@@ -1,7 +1,6 @@
 <?php
 namespace App\Actions\Core\Telegram;
 use App\Models\Core\TelegramSupergroup;
-use Telegram\Bot\Api;
 
 use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
 use App\Actions\Core\BotUserPrice\BotUserPriceGet;
@@ -32,8 +31,6 @@ class TelegramSendMessage
         (int) $send_status = 0;
 
         $bot_message = BotMessage::with('bot:id,telegram_token,business_connection_id,max_alias')->find($bot_message_id);
-
-        $telegram = new Api($bot_message->bot->telegram_token);
 
         $text = $bot_message->text;
         $text = urldecode($text);
@@ -133,8 +130,7 @@ class TelegramSendMessage
                 */
 
                 try {
-                    // $message = $telegram->sendMessage($A);
-                    $message =  $telegramQuery->handle($bot_user->bot, 'sendMessage', $A);
+                    $message =  $telegramQuery->handle($bot_user->bot, 'sendPhoto', $A);
 
                     $entities = $message->entities;
                 } catch (\Exception $exception) {
@@ -161,7 +157,7 @@ class TelegramSendMessage
                 */
 
                 try {
-                    $message = $telegram->sendMessage($A);
+                    $message =  $telegramQuery->handle($bot_user->bot, 'sendVideo', $A);
                     $entities = $message->entities;
                 } catch (\Exception $exception) {
                     TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
@@ -187,7 +183,7 @@ class TelegramSendMessage
                 */
 
                 try {
-                    $message = $telegram->sendMessage($A);
+                    $message =  $telegramQuery->handle($bot_user->bot, 'sendAudio', $A);
                     $entities = $message->entities;
                 } catch (\Exception $exception) {
                     TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
@@ -218,7 +214,7 @@ class TelegramSendMessage
                 */
 
                 try {
-                    $message = $telegram->sendMessage($A);
+                    $message =  $telegramQuery->handle($bot_user->bot, 'sendMessage', $A);
                     $entities = $message->entities;
                 } catch (\Exception $exception) {
                     TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
@@ -231,7 +227,7 @@ class TelegramSendMessage
 
             if (!$bot_message->image && !$bot_message->video && !$bot_message->audio && !$bot_message->custom_file && $send_status == 0) {
                 try {
-                    $message = $telegram->sendMessage($A);
+                    $message =  $telegramQuery->handle($bot_user->bot, 'sendMessage', $A);
                     $entities = $message->entities;
                 } catch (\Exception $exception) {
                     TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
@@ -260,7 +256,7 @@ class TelegramSendMessage
 
                 if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE') {
                     $supergroups = $botSupergroupsAll->handle();
-                    $botUserUnban->handle($bot_user, $supergroups, $telegram);
+                    $botUserUnban->handle($bot_user, $supergroups);
                     $botUserSetUnbanScheduler->handle($bot_user, date('Y-m-d H:i:s'));
                 }
 
@@ -271,3 +267,4 @@ class TelegramSendMessage
 
     }
 }
+
