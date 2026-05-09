@@ -60,7 +60,7 @@ class DevTestController extends Controller
         $url = 'https://api-endpoint5.loverse.me/bot7427797340:AAEZd2WfiGalZ7EvAdRv2yCNkgTDwM7nVhY/sendMessage';
 
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $api_url);
+        curl_setopt($curl, CURLOPT_URL, $url);
         $response = curl_exec($curl);
 
         if(curl_errno($curl)){
