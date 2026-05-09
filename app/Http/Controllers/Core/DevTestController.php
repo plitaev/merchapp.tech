@@ -52,7 +52,17 @@ class DevTestController extends Controller
         $bot_user = BotUser::find(7874);
 
         $botSendMessage = new BotSendMessage();
-        return $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE', 'telegram');
+        $api_url = $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE', 'telegram');
+
+        $curl = curl_init($api_url);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 320);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        echo curl_exec($curl);
+
+        var_dump(curl_getinfo($curl));   // return request information
+
+
+        curl_close($curl);
 
 
         $maxQuery = new MaxQuery();
