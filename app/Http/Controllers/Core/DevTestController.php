@@ -45,14 +45,15 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Core\User;
 use App\Actions\Core\BotSendMessage\BotSendMessage;
 
+use App\Actions\Core\Telegram\TelegramQuery;
+
 class DevTestController extends Controller
 {
     public function devtest() {
+        $telegramQuery = new TelegramQuery();
 
         $bot_user = BotUser::find(7874);
-        $botSendMessage = new BotSendMessage();
-
-        return $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE', 'telegram');
+        $telegramQuery->handle($bot_user->bot,'banChatMember', ['chat_id' => -1002225281436, 'user_id' => 247632034]);
     }
 
     public function change_web_password(string $email) {
