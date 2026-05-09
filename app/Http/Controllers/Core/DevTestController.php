@@ -54,7 +54,8 @@ class DevTestController extends Controller
 
         $api_url = $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE', 'telegram');
 
-        $curl = curl_init($api_url);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $api_url);
         curl_setopt($curl, CURLOPT_TIMEOUT, 320);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         var_dump(curl_getinfo($curl));   // return request information
