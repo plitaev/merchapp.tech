@@ -27,6 +27,7 @@ use App\Actions\Core\ReferralProgram\ReferralProgramRunForReferral;
 use App\Actions\Core\Telegram\TelegramGetChatIDFromWebhook;
 use App\Actions\Core\Telegram\TelegramMessageGetStartParams;
 use App\Actions\Core\Telegram\TelegramWebhookWrite;
+use App\Actions\Core\Telegram\TelegramQuery;
 
 use App\Actions\Project\ClubAccess\BotCabinetRecurrentCheck;
 use App\Actions\Project\ClubAccess\BotContacts;
@@ -76,6 +77,7 @@ class ClubAccessController extends Controller
 
         $telegramGetChatIDFromWebhook = new TelegramGetChatIDFromWebhook();
         $telegramMessageGetStartParams = new TelegramMessageGetStartParams();
+        $telegramQuery = new TelegramQuery();
         $telegramWebhookWrite = new TelegramWebhookWrite();
 
         //== Инициализируем классы проекта
@@ -301,7 +303,7 @@ class ClubAccessController extends Controller
                 if ($callback == 'GoToStart') {
 
                     if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
-                        $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
+                        $telegramQuery->handle($bot_user->bot, 'answerCallbackQuery', ['callback_query_id' => $webhook['callback_query']['id']]);
                     }
 
                     if ($bot_user->date_end != NULL && $bot_user->date_end > date('Y-m-d', time())) {
@@ -317,7 +319,7 @@ class ClubAccessController extends Controller
                 if ($callback == 'GoToFullTariffs') {
 
                     if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
-                        $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
+                        $telegramQuery->handle($bot_user->bot, 'answerCallbackQuery', ['callback_query_id' => $webhook['callback_query']['id']]);
                     }
 
                     $botSendMessage->handle($bot_user, 'SYS_PAY_IN_BOT_ALL_TARIFFS');
@@ -327,7 +329,7 @@ class ClubAccessController extends Controller
                 if ($callback == 'GoToPhoneEnter') {
 
                     if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
-                        $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
+                        $telegramQuery->handle($bot_user->bot, 'answerCallbackQuery', ['callback_query_id' => $webhook['callback_query']['id']]);
                     }
 
                     $botSendMessage->handle($bot_user, 'USER_PHONE_ENTER_WAITING');
@@ -338,7 +340,7 @@ class ClubAccessController extends Controller
 
                     if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
                         $maxLinkFromTelegram->handle($bot_user);
-                        $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
+                        $telegramQuery->handle($bot_user->bot, 'answerCallbackQuery', ['callback_query_id' => $webhook['callback_query']['id']]);
                     }
                     die();
                 }
@@ -359,7 +361,7 @@ class ClubAccessController extends Controller
                         $botSendMessage->handle($bot_user, 'SYS_SEND_IN_TELEGRAM_AFTER_VERIFICATION_FROM_MAX', 'telegram');
 
                         if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
-                            $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
+                            $telegramQuery->handle($bot_user->bot, 'answerCallbackQuery', ['callback_query_id' => $webhook['callback_query']['id']]);
                         }
 
                     }
@@ -381,7 +383,7 @@ class ClubAccessController extends Controller
                         $botSendMessage->handle($bot_user, 'SYS_SEND_IN_TELEGRAM_AFTER_VERIFICATION_FROM_TELEGRAM', 'telegram');
 
                         if ($messenger == 'telegram' && isset($webhook['callback_query']['message']['message_id'])) {
-                            $telegram->answerCallbackQuery(['callback_query_id' => $webhook['callback_query']['id']]);
+                            $telegramQuery->handle($bot_user->bot, 'answerCallbackQuery', ['callback_query_id' => $webhook['callback_query']['id']]);
                         }
 
                     }

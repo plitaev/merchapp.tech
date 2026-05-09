@@ -6,7 +6,7 @@ use Telegram\Bot\Api;
 class TelegramScheduleEditMessageProcess
 {
     public function handle() {
-        $res = TelegramScheduleEditMessage::with('bot:telegram_token')->with('bot_message:id,bot_message_type_id')
+        $res = TelegramScheduleEditMessage::with('bot')->with('bot_message:id,bot_message_type_id')
             ->select('id', 'bot_message_id', 'chat_id', 'telegram_message_id', 'text', 'entities', 'keyboard')
             ->where('status', 0)
             ->where('edit_datetime', '<=', date('Y-m-d H:i:s', time()))
