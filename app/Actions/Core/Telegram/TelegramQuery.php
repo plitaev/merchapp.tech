@@ -17,11 +17,8 @@ class TelegramQuery
         $api_url.= '?' . implode('&', $add_to_url);
 
         $curl = curl_init();
-
         curl_setopt($curl, CURLOPT_URL, $api_url);
-
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HEADER, true);
         curl_setopt($curl, CURLOPT_TIMEOUT, 10);
         $response = curl_exec($curl);
         curl_close($curl);
