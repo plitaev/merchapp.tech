@@ -107,7 +107,7 @@ class TelegramSendMessage
                 $A['text'] = $text;
             }
 
-            //$A['text'] = urlencode($A['text']);
+            $A['text'] = urlencode($A['text']);
             $A['chat_id'] = $bot_user->telegram_chat_id;
             $A['reply_markup'] = $keyboard;
             $A['parse_mode'] = 'HTML';
