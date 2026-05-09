@@ -90,7 +90,7 @@ class BotSendMessage
                 }
 
                 if ($bot_user->telegram_chat_id && ($send_to == 'all' || $send_to == 'telegram')) {
-                    return $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
+                    $message = $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
                 }
 
                 //== Проверяем статусы, и ставим, если есть
