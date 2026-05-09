@@ -17,6 +17,8 @@ class TelegramQuery
 
         $api_url.= '?' . implode('&', $add_to_url);
 
+        return $api_url;
+
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_URL, $api_url);
@@ -26,7 +28,6 @@ class TelegramQuery
         curl_setopt($curl, CURLOPT_TIMEOUT, 10);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         $response = curl_exec($curl);
-        return $api_url;
         curl_close($curl);
 
         $response = explode('includeSubdomains', $response);
