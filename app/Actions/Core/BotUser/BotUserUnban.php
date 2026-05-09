@@ -2,6 +2,8 @@
 
 namespace App\Actions\Core\BotUser;
 
+use App\Actions\Core\Telegram\TelegramQuery;
+
 use App\Models\Core\BotUser;
 use App\Models\Core\BotUserBanSchedule;
 use App\Models\Core\BotUserRecurrentSchedule;
@@ -19,6 +21,7 @@ use Telegram\Bot\Api;
 class BotUserUnban
 {
     public function handle($bot_user, $supergroups) {
+        $telegramQuery = new TelegramQuery();
         $telegram = new Api($bot_user->bot->telegram_token);
 
         if (isset($supergroups[$bot_user->bot_id])) {
@@ -26,17 +29,22 @@ class BotUserUnban
 
                 if ($supergroup->unban == 1 && isset($supergroup->telegram_id)) {
                     try {
-                        $status = $telegram->unbanChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'only_if_banned' => true]);
+                        $status = $telegramQuery->handle($bot_user->bot, 'unbanChatMember', ['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'only_if_banned' => true]);
+                        $status = json_decode($status, true);
+                        $status = ($status['ok'] == true?1:0);
+
                         BotUserBanSchedule::where('bot_user_id', $bot_user->id)->where('run_status', 0)->update(['run_status' => 3]);
                         //BotUserRecurrentSchedule::where('bot_user_id', $bot_user->id)->where('run_status', 0)->update(['run_status' => 3]);
 
                         TelegramUnbanScheduleLog::create(['bot_user_id' => $bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id, 'status' => $status]);
 
                         try {
-                            $member = $telegram->getChatMember(['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id]);
-                            TelegramChatMemberLog::create(['bot_user_id' => $bot_user->id, 'user_id' => $bot_user->telegram_chat_id, 'chat_id' => $supergroup->telegram_id, 'status' => $member->status, 'text' => $member]);
+                            $member = $telegramQuery->handle($bot_user->bot, 'getChatMember', ['chat_id' => $supergroup->telegram_id, 'user_id' => $bot_user->telegram_chat_id]);
+                            $member = json_decode($member, true);
 
-                            if ($member->status != 'banned') {
+                            TelegramChatMemberLog::create(['bot_user_id' => $bot_user->id, 'user_id' => $bot_user->telegram_chat_id, 'chat_id' => $supergroup->telegram_id, 'status' => $member->status, 'text' => $member['result']['status']]);
+
+                            if ($member['result']['status'] != 'banned') {
                                 BotUserUnbanSchedule::where('bot_user_id', $bot_user->id)->update(['run_status' => 1]);
                                 BotUser::where('id', $bot_user->id)->update(['ban' => 0, 'unban' => 1, 'unban_time' => now()]);
 
