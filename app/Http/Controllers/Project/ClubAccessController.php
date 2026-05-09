@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Project;
 
 use App\Http\Controllers\Controller;
-use Telegram\Bot\Api;
 
 use App\Actions\Core\Bot\BotGetByID;
 use App\Actions\Core\BotBranch\BotBranchRun;
@@ -98,7 +97,6 @@ class ClubAccessController extends Controller
         $botWelcomeMessage = new BotWelcomeMessage();
 
         $bot = $botGetByID->handle($bot_id);
-        $telegram = new Api($bot->telegram_token);
 
         //== Заканчиваем инициацию классов
 
