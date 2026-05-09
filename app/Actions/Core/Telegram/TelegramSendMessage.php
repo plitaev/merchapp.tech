@@ -107,7 +107,6 @@ class TelegramSendMessage
                 $A['text'] = $text;
             }
 
-            //$A['text'] = urlencode($A['text']);
             $A['chat_id'] = $bot_user->telegram_chat_id;
             $A['reply_markup'] = $keyboard;
             $A['parse_mode'] = 'HTML';
@@ -231,7 +230,7 @@ class TelegramSendMessage
 
             if (!$bot_message->image && !$bot_message->video && !$bot_message->audio && !$bot_message->custom_file && $send_status == 0) {
                 try {
-                    return $telegramQuery->handle($bot_user->bot, 'sendMessage', $A);
+                    $message = $telegramQuery->handle($bot_user->bot, 'sendMessage', $A);
                     //$entities = $message->entities;
                 } catch (\Exception $exception) {
                     TelegramSendMessageErrorLog::create(['chat_id' => $bot_user->telegram_chat_id, 'bot_message_id' => $bot_message_id, 'text' => $exception]);
