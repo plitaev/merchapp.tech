@@ -3,7 +3,6 @@
 namespace App\Actions\Core\Auto;
 use Carbon\Carbon;
 
-use App\Actions\Core\Telegram\TelegramQuery;
 use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
 use App\Actions\Core\Auto\BotUserSetBanSchedulerCreate;
 use App\Actions\Core\Max\MaxQuery;
@@ -20,7 +19,6 @@ class BotUserBanProcess
         $botSupergroupsAll = new BotSupergroupsAll();
         $botUserSetBanSchedulerCreate = new BotUserSetBanSchedulerCreate();
         $maxQuery = new MaxQuery();
-        $telegramQuery = new TelegramQuery();
         $telegramBanRun = new TelegramBanRun();
 
         $datetime = date('Y-m-d H:i:s', time());
