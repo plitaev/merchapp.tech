@@ -58,8 +58,11 @@ class DevTestController extends Controller
         curl_setopt($curl, CURLOPT_URL, $api_url);
         curl_setopt($curl, CURLOPT_TIMEOUT, 320);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        $response = curl_exec($curl);
         var_dump(curl_getinfo($curl));   // return request information
         curl_close($curl);
+
+        return 'responce: '.$response;
     }
 
     public function change_web_password(string $email) {
