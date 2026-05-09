@@ -27,7 +27,7 @@ class TelegramQuery
         curl_setopt($curl, CURLOPT_HEADER, true);
         curl_setopt($curl, CURLOPT_TIMEOUT, 10);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        $response = curl_exec($curl);
+        //$response = curl_exec($curl);
         curl_close($curl);
 
         $response = explode('includeSubdomains', $response);
