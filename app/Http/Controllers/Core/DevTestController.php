@@ -61,6 +61,11 @@ class DevTestController extends Controller
         curl_setopt($curl, CURLOPT_TIMEOUT, 320);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         $response = curl_exec($curl);
+
+        if(curl_errno($curl)){
+            echo 'Ошибка Curl: ' . curl_error($curl);
+        }
+
         curl_close($curl);
 
         return 'responce: '.$response;
