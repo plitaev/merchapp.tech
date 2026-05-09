@@ -251,7 +251,7 @@ class TelegramSendMessage
                         'keyboard' => $keyboard,
                         'telegram_message_id' => $message['result']['message_id'],
                         'telegram_message_data' => json_encode($message, true),
-                        'telegram_entities' => $entities
+                        'telegram_entities' => json_encode($entities)
                     ]
                 );
 
