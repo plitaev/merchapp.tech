@@ -15,8 +15,6 @@ class TelegramQuery
         $response = curl_exec($curl);
         curl_close($curl);
 
-        return 'responce: '. $response;
-
         $response = explode('includeSubdomains', $response);
         $response = $response[0];
 
