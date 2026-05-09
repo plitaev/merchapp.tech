@@ -233,7 +233,7 @@ class ClubAccessController extends Controller
 
             //== Если это /subscribe, тут обрабатываем регистрацию
             if ($Astart[0] == "/subscribe") {
-                $botGoToClub->handle($messenger, $telegram, $webhook, $bot_user);
+                $botGoToClub->handle($messenger, $webhook, $bot_user);
                 die();
             }
 
@@ -255,7 +255,7 @@ class ClubAccessController extends Controller
                 $code = base64_decode($Astart[1]);
 
                 if ($code == "GoToClub") {
-                    $botGoToClub->handle($messenger, $telegram, $webhook, $bot_user);
+                    $botGoToClub->handle($messenger, $webhook, $bot_user);
                     die();
                 }
 
@@ -387,11 +387,6 @@ class ClubAccessController extends Controller
                         }
 
                     }
-                }
-
-                if (file_exists(base_path().'/app/Actions/Local/ClubAccessCallback.php')) {
-                    $clubAccessCallback = new ClubAccessCallback();
-                    return $clubAccessCallback->handle($telegram, $webhook, $callback, $bot_user);
                 }
 
             } else {

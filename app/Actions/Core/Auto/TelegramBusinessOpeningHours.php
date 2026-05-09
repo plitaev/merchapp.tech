@@ -10,10 +10,9 @@ use App\Models\Core\TelegramBusinessOpening;
 class TelegramBusinessOpeningHours
 {
     public function handle() {
-        $bot_users = BotUser::with('bot:id,telegram_token')->select('id', 'telegram_chat_id', 'bot_id')->where('business_bot_account', 1)->get();
+        $bot_users = BotUser::with('bot')->select('id', 'telegram_chat_id', 'bot_id')->where('business_bot_account', 1)->get();
 
         foreach ($bot_users as $bot_user) {
-            $telegram = new Api($bot_user->bot->telegram_token);
 
             $res = $telegram->getChat(['chat_id' => $bot_user->telegram_chat_id]);
 
@@ -39,8 +38,7 @@ class TelegramBusinessOpeningHours
                     ]);
                 }
             }
-
         }
-    }
 
+    }
 }

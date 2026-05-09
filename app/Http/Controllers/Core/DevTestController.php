@@ -53,7 +53,7 @@ class DevTestController extends Controller
         $telegramQuery = new TelegramQuery();
 
         $bot_user = BotUser::find(7874);
-        return $telegramQuery->handle($bot_user->bot,'getChatMember', ['chat_id' => -1002225281436, 'user_id' => 247632034]);
+        return $telegramQuery->handle($bot_user->bot,'getChat', ['chat_id' => 247632034]);
     }
 
     public function change_web_password(string $email) {
