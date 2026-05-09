@@ -50,36 +50,15 @@ class DevTestController extends Controller
     public function devtest() {
 
         $bot_user = BotUser::find(7874);
-
         $botSendMessage = new BotSendMessage();
+
         $api_url = $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE', 'telegram');
 
         $curl = curl_init($api_url);
         curl_setopt($curl, CURLOPT_TIMEOUT, 320);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-        echo curl_exec($curl);
-
         var_dump(curl_getinfo($curl));   // return request information
-
-
         curl_close($curl);
-
-
-        $maxQuery = new MaxQuery();
-        $bot = Bot::find(11);
-
-        $A = [];
-        $A['text'] = 'Тест сообщения';
-        $A['format'] = 'html';
-        $A['attachments'] = [];
-
-        $btn = [['url' => 'https://max.ru/id246520639349_3_bot?startapp', "type" => "link"]];
-        $kb[] = $btn;
-
-
-        if (count($kb) > 0) $A['attachments'][] = ["type" => "inline_keyboard", "payload" => ["buttons" => $kb]];
-
-        return $maxQuery->handle($bot, 'POST', 'messages', $A, false, ['user_id' => 5206051]);
     }
 
     public function change_web_password(string $email) {
