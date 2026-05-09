@@ -2,7 +2,7 @@
 
 namespace App\Actions\Core\Auto;
 
-use Telegram\Bot\Api;
+use App\Actions\Core\Telegram\TelegramQuery;
 
 use App\Models\Core\BotUser;
 use App\Models\Core\TelegramBusinessOpening;
@@ -10,19 +10,21 @@ use App\Models\Core\TelegramBusinessOpening;
 class TelegramBusinessOpeningHours
 {
     public function handle() {
+        $telegramQuery = new TelegramQuery();
+
         $bot_users = BotUser::with('bot')->select('id', 'telegram_chat_id', 'bot_id')->where('business_bot_account', 1)->get();
 
         foreach ($bot_users as $bot_user) {
 
-            $res = $telegram->getChat(['chat_id' => $bot_user->telegram_chat_id]);
+            $res = $telegramQuery->handle($bot_user->bot, 'getChat', ['chat_id' => $bot_user->telegram_chat_id]);
 
             $telegram_data_hash = md5(json_encode($res));
 
-            if (isset($res['business_opening_hours']['time_zone_name'])) {
+            if (isset($res['result']['business_opening_hours']['time_zone_name'])) {
                 BotUser::where('id', $bot_user->id)->update(['time_zone_name' => $res['business_opening_hours']['time_zone_name']]);
             }
 
-            $res = $res['business_opening_hours']['opening_hours'];
+            $res = $res['result']['business_opening_hours']['opening_hours'];
 
             $check = TelegramBusinessOpening::where('bot_user_id', $bot_user->id)->where('telegram_data_hash', $telegram_data_hash)->count();
 
