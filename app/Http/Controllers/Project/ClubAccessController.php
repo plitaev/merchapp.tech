@@ -47,8 +47,6 @@ use App\Actions\Project\ClubAccess\BotResetUser;
 use App\Actions\Project\ClubAccess\BotUserRecurrentDisable;
 use App\Actions\Project\ClubAccess\BotWelcomeMessage;
 
-use App\Actions\Local\ClubAccessCallback;
-
 use App\Models\Core\BotUser;
 
 class ClubAccessController extends Controller
@@ -274,7 +272,7 @@ class ClubAccessController extends Controller
             $botWelcomeMessage->handle($bot_user); //== Обрабатываем первичное стартовое сообщение (до ввода имени)
             $botHandName->handle($bot_user, $webhook); //== Обрабатываем HandName - вручную введенное юзером имя
             $botEighteen->handle($bot_user); //== Обрабатываем подтверждение 18 лет
-            $botMainMenuMessage->handle($messenger, $telegram, $webhook, $bot_user); //== Обрабатываем сообщение с главным меню
+            $botMainMenuMessage->handle($messenger, $webhook, $bot_user); //== Обрабатываем сообщение с главным меню
 
         } else {
 
@@ -288,17 +286,17 @@ class ClubAccessController extends Controller
 
                 //== Конец базовой инициализации
 
-                if ($callback == 'EighteenYes') $botEighteenYes->handle($messenger, $bot_user, $telegram, $webhook); //== Если выбрал Да в вопросе про 18 лет
-                if ($callback == 'EighteenNo') $botEighteenNo->handle($messenger, $bot_id, $telegram, $webhook); //== Если выбрал Нет в вопросе про 18 лет
-                if ($callback == 'GoToContacts') $botContacts->handle($bot_id, $telegram, $webhook); //== Если нажал кнопку Контакты
-                if ($callback == 'GoToClub') $botGoToClub->handle($messenger, $telegram, $webhook, $bot_user); //== Если нажал кнопку Стать участником
+                if ($callback == 'EighteenYes') $botEighteenYes->handle($messenger, $bot_user, $webhook); //== Если выбрал Да в вопросе про 18 лет
+                if ($callback == 'EighteenNo') $botEighteenNo->handle($messenger, $bot_id, $webhook); //== Если выбрал Нет в вопросе про 18 лет
+                if ($callback == 'GoToContacts') $botContacts->handle($bot_id, $webhook); //== Если нажал кнопку Контакты
+                if ($callback == 'GoToClub') $botGoToClub->handle($messenger, $webhook, $bot_user); //== Если нажал кнопку Стать участником
 
-                if ($callback == 'GoToEmailVerification') $botEmailVerification->handle($messenger, $telegram, $bot_user, $webhook); //== Если нажата кнопка Подтвердить почту при условии что почта уже введена
+                if ($callback == 'GoToEmailVerification') $botEmailVerification->handle($messenger, $bot_user, $webhook); //== Если нажата кнопка Подтвердить почту при условии что почта уже введена
 
-                if ($callback == 'GoToEmailChange') $botEmailChange->handle($messenger, $telegram, $bot_user, $webhook); //== Если нажата кнопка Изменить почту при условии что почта уже введена
-                if ($callback == 'BotUserRecurrentDisable') $botUserRecurrentDisable->handle($messenger, $telegram, $bot_user, $webhook);
+                if ($callback == 'GoToEmailChange') $botEmailChange->handle($messenger, $bot_user, $webhook); //== Если нажата кнопка Изменить почту при условии что почта уже введена
+                if ($callback == 'BotUserRecurrentDisable') $botUserRecurrentDisable->handle($messenger, $bot_user, $webhook);
 
-                if ($callback == 'GoToMainMenuMessage') $botMainMenuMessage->handle($messenger, $telegram, $webhook, $bot_user);
+                if ($callback == 'GoToMainMenuMessage') $botMainMenuMessage->handle($messenger, $webhook, $bot_user);
 
                 if ($callback == 'GoToStart') {
 

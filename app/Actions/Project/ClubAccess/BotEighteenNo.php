@@ -5,9 +5,9 @@ use App\Actions\Core\BotSendMessage\BotSendMessageAlert;
 
 class BotEighteenNo
 {
-    public function handle(string $messenger, int $bot_id, $telegram, $webhook) {
+    public function handle(string $messenger, int $bot_id, $webhook) {
         $botSendMessageAlert = new BotSendMessageAlert();
 
-        if ($messenger == 'telegram') $botSendMessageAlert->handle($bot_id, $telegram, $webhook, 'SYS_EIGHTEEN_NO');
+        if ($messenger == 'telegram') $botSendMessageAlert->handle($bot_id, $webhook, 'SYS_EIGHTEEN_NO');
     }
 }
