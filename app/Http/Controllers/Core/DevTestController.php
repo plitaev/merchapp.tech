@@ -50,10 +50,11 @@ use App\Actions\Core\Telegram\TelegramQuery;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $botSendMessage = new BotSendMessage();
         $telegramQuery = new TelegramQuery();
 
         $bot_user = BotUser::find(7874);
-        return $telegramQuery->handle($bot_user->bot,'getChat', ['chat_id' => 247632034]);
+        return $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL');
     }
 
     public function change_web_password(string $email) {
