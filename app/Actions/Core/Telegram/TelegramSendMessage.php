@@ -243,6 +243,8 @@ class TelegramSendMessage
 
             if (isset($message)) {
 
+                return $message;
+
                 TelegramSendMessageLog::create(
                     [
                         'chat_id' => $bot_user->telegram_chat_id,
