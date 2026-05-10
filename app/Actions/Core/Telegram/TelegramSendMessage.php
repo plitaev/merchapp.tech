@@ -230,6 +230,7 @@ class TelegramSendMessage
 
             if (!$bot_message->image && !$bot_message->video && !$bot_message->audio && !$bot_message->custom_file && $send_status == 0) {
                 try {
+                    return 'aaa';
                     return $telegramQuery->handle($bot_user->bot, 'sendMessage', $A);
                     $entities = $message['result']['entities'];
                 } catch (\Exception $exception) {
