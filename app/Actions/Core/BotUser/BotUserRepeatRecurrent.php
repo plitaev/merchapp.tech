@@ -21,7 +21,7 @@ class BotUserRepeatRecurrent
         $payCreateIntoBot = new PayCreateIntoBot();
         $payMakeSuccessful = new PayMakeSuccessful();
 
-        $bot_user = BotUser::with('bot:id,recurrent_time')->find($data->bot_user_id);
+        $bot_user = BotUser::with('bot')->find($data->bot_user_id);
 
         if ($bot_user->recurrent_repeat == 0) {
 
@@ -49,10 +49,10 @@ class BotUserRepeatRecurrent
 
             BotUser::where('id', $data->bot_user_id)->update(['recurrent_repeat' => 1]);
 
-            return $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL');
+            $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL');
 
         } else {
-            return $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL_SECOND');
+            $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL_SECOND');
         }
 
     }

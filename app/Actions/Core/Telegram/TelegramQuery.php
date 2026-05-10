@@ -7,8 +7,6 @@ class TelegramQuery
     public function handle($bot, string $api_function, $request_data, bool $return_array = true) {
         (string) $api_url = env('APP_TELEGRAM_API_URL').'/bot'.$bot->telegram_token.'/'.$api_function;
 
-        return $api_url;
-
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $api_url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
