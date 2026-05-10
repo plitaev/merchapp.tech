@@ -71,8 +71,6 @@ class ProdamusMakeRecurrent
 
         $responce_array = json_decode($responce, true);
 
-        return $responce_array;
-
 
         if ($responce_array['success'] == true) {
 
