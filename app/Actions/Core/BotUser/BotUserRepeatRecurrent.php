@@ -52,6 +52,7 @@ class BotUserRepeatRecurrent
             return $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL');
 
         } else {
+            return 'belkacem';
             $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL_SECOND');
         }
 
