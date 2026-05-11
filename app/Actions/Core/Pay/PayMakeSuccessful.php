@@ -60,6 +60,7 @@ class PayMakeSuccessful
 
         //== Завершаем ветку по покупке продукта
         $botBranchEndByProducts->handle($pay->product_id, $pay->bot_user_id);
+        return '5';
         $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
         //==
 
