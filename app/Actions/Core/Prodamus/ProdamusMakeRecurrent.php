@@ -72,19 +72,14 @@ class ProdamusMakeRecurrent
         $responce_array = json_decode($responce, true);
 
         if ($responce_array['success'] == true) {
-
-            return '1';
-
             BotUserBanSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
             BotUserRecurrentSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
 
             $payMakeSuccessful->handle(json_encode($responce), $pay->id, NULL, $data->prevous_pay->pay_system_payment_method_id, NULL);
 
         } else {
-
-            return '2';
-
             if ($responce_array['success'] == false) {
+                return '3';
                 $botUserRepeatRecurrent->handle($data);
             }
 
