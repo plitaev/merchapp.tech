@@ -241,21 +241,23 @@ class TelegramSendMessage
 
             //=========================================================================================================================
 
-            var_dump($message);
-
             if (isset($message)) {
 
-                TelegramSendMessageLog::create(
-                    [
-                        'chat_id' => $bot_user->telegram_chat_id,
-                        'bot_message_id' => $bot_message_id,
-                        'text' => $bot_message->text,
-                        'keyboard' => $keyboard,
-                        'telegram_message_id' => $message['result']['message_id'],
-                        'telegram_message_data' => json_encode($message, true),
-                        'telegram_entities' => json_encode($entities)
-                    ]
-                );
+                if (isset($message['result']['message_id'])) {
+
+                    TelegramSendMessageLog::create(
+                        [
+                            'chat_id' => $bot_user->telegram_chat_id,
+                            'bot_message_id' => $bot_message_id,
+                            'text' => $bot_message->text,
+                            'keyboard' => $keyboard,
+                            'telegram_message_id' => $message['result']['message_id'],
+                            'telegram_message_data' => json_encode($message, true),
+                            'telegram_entities' => json_encode($entities)
+                        ]
+                    );
+
+                }
 
                 //== Разбаниваем, если идет сообщение об успехе, и ставим в UnbanScheduler
 
