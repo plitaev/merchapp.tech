@@ -65,7 +65,7 @@ class DevTestController extends Controller
                 [
                     'bot_user_id' => $data->id,
                     'run_status' => 0,
-                    'ban_datetime' => date('Y-m-d', time())
+                    'ban_datetime' => date('Y-m-d H:i:s', time())
                 ]
             );
         }
@@ -76,7 +76,7 @@ class DevTestController extends Controller
                 [
                     'bot_user_id' => $data->id,
                     'run_status' => 0,
-                    'ban_datetime' => date('Y-m-d', time())
+                    'ban_datetime' => date('Y-m-d H:i:s', time())
                 ]
             );
         }
