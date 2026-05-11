@@ -81,12 +81,12 @@ class ProdamusMakeRecurrent
         } else {
 
             if ($responce_array['success'] == false) {
+                return '1';
                 $botUserRepeatRecurrent->handle($data);
             }
 
         }
 
-        return '1';
 
         return ['new_pay_id' => $pay->id, 'pay_system_responce' => json_encode($responce_array)];
 
