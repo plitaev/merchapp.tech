@@ -43,7 +43,6 @@ class BotUserBanProcess
                     if ($supergroup->supergroup_delete_parameter_id == 1) {
                         if ($ban->bot_user->date_end <= date('Y-m-d', time())) {
                             if ($ban->bot_user->telegram_chat_id) {
-                                return '1';
                                 return $telegramBanRun->handle($supergroup, $ban);
                             }
                             if ($ban->bot_user->max_user_id && $supergroup->max_id) $maxQuery->handle($ban->bot, 'DELETE', 'chats/'.$supergroup->max_id.'/members', ['user_id' => $ban->bot_user->max_user_id, 'block' => true], false, ['user_id' => $ban->bot_user->max_user_id, 'block' => true]);
