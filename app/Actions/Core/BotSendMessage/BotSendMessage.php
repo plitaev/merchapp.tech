@@ -18,8 +18,6 @@ class BotSendMessage
 {
     public function handle($bot_user, string $bot_message_appointment_name, string $send_to = 'all') {
 
-        return '7';
-
         $botUserSetListener = new BotUserSetListener();
         $maxSendMessage = new MaxSendMessage();
         $telegramSendMessage = new TelegramSendMessage();
@@ -70,6 +68,8 @@ class BotSendMessage
                     ->first();
 
             }
+
+            return '7';
 
             if ($bot_message) {
 
