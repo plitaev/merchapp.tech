@@ -92,7 +92,7 @@ class MaxSendMessage
 
                     if (isset($add_result['failed_user_details'][0]['error_code']) && $add_result['failed_user_details'][0]['error_code'] == 'add.participant.privacy') {
                         $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE_MAX_NEED_PRIVACY_CHANGE', 'max');
-                        die();
+                        //die();
                     }
                 }
 
