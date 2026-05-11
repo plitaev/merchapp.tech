@@ -17,7 +17,6 @@ class TelegramBanRun
 
         try {
             $status = $telegramQuery->handle($ban->bot,'banChatMember', ['chat_id' => $supergroup->telegram_id, 'user_id' => $ban->bot_user->telegram_user_id]);
-            $status = json_decode($status, true);
             $status = ($status['ok'] == true?1:0);
 
             TelegramBanScheduleLogs::create(['bot_user_id' => $ban->bot_user->id, 'chat_id' => $supergroup->telegram_id, 'user_id' =>$ban->bot_user->telegram_chat_id, 'status' => $status]);
