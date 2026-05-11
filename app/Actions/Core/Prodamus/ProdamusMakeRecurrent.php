@@ -73,6 +73,8 @@ class ProdamusMakeRecurrent
 
         if ($responce_array['success'] == true) {
 
+            return '1';
+
             BotUserBanSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
             BotUserRecurrentSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
 
@@ -80,8 +82,9 @@ class ProdamusMakeRecurrent
 
         } else {
 
+            return '2';
+
             if ($responce_array['success'] == false) {
-                return '1';
                 $botUserRepeatRecurrent->handle($data);
             }
 
