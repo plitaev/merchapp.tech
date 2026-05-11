@@ -71,8 +71,6 @@ class ProdamusMakeRecurrent
 
         $responce_array = json_decode($responce, true);
 
-        return $responce_array;
-
         if ($responce_array['success'] == true) {
 
             BotUserBanSchedule::where('bot_user_id', $data->bot_user_id)->where('run_status', 0)->update(['run_status' => 3]);
@@ -87,6 +85,8 @@ class ProdamusMakeRecurrent
             }
 
         }
+
+        return '1';
 
         return ['new_pay_id' => $pay->id, 'pay_system_responce' => json_encode($responce_array)];
 
