@@ -63,7 +63,7 @@ class DevTestController extends Controller
         foreach ($res as $data) {
             BotUserBanSchedule::create(
                 [
-                    'bot_user_id' => $data->bot_user_id,
+                    'bot_user_id' => $data->id,
                     'run_status' => 0,
                     'ban_datetime' => date('Y-m-d', time())
                 ]
@@ -74,7 +74,7 @@ class DevTestController extends Controller
         foreach ($res as $data) {
             BotUserBanSchedule::create(
                 [
-                    'bot_user_id' => $data->bot_user_id,
+                    'bot_user_id' => $data->id,
                     'run_status' => 0,
                     'ban_datetime' => date('Y-m-d', time())
                 ]
