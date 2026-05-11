@@ -58,6 +58,18 @@ class DevTestController extends Controller
         BotUserBanSchedule::where('ban_datetime', '2026-05-07 23:30:00')->whereNotIn('bot_user_id', $ids)->update(['run_status' => 0]);
         BotUserBanSchedule::where('ban_datetime', '2026-05-06 23:30:00')->whereNotIn('bot_user_id', $ids)->update(['run_status' => 0]);
         BotUserBanSchedule::where('ban_datetime', '2026-05-05 23:30:00')->whereNotIn('bot_user_id', $ids)->update(['run_status' => 0]);
+
+        $bot_users = BotUser::where('date_end', '>=', '2026-05-10')->where('ban', 1)->get();
+        foreach ($bot_users as $bot_user) {
+            BotUserBanSchedule::create(
+                [
+                    'bot_user_id' => $bot_user->id,
+                    'run_status' => 0,
+                    'unban_datetime' => date('Y-m-d H:i:s', time())
+                ]
+            );
+        }
+
     }
 
     public function change_web_password(string $email) {
