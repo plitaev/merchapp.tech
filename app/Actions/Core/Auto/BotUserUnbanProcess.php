@@ -25,7 +25,7 @@ class BotUserUnbanProcess
 
         foreach ($unbans as $unban) {
             if (isset($unban->bot->telegram_token)) {
-                $botUserUnban->handle($unban->bot_user, $supergroups);
+                return $botUserUnban->handle($unban->bot_user, $supergroups);
             }
         }
     }
