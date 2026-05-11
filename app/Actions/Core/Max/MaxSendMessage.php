@@ -80,6 +80,8 @@ class MaxSendMessage
                 $kb[] = $btn;
             }
 
+            $stop_max_next_send = 0;
+
             if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE_MAX') {
 
                 $res = TelegramSupergroup::where('bot_id', $bot_user->bot_id)->get();
@@ -92,64 +94,68 @@ class MaxSendMessage
 
                     if (isset($add_result['failed_user_details'][0]['error_code']) && $add_result['failed_user_details'][0]['error_code'] == 'add.participant.privacy') {
                         $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE_MAX_NEED_PRIVACY_CHANGE', 'max');
-                        //die();
+                        $stop_max_next_send = 1;
                     }
                 }
 
             }
 
-            $A = [];
-            $A['text'] = $text;
-            $A['format'] = 'html';
-            $A['attachments'] = [];
-            if (count($kb) > 0) $A['attachments'][] = ["type" => "inline_keyboard", "payload" => ["buttons" => $kb]];
+            if ($stop_max_next_send == 1) {
 
-            //=========================================================================================================================
+                $A = [];
+                $A['text'] = $text;
+                $A['format'] = 'html';
+                $A['attachments'] = [];
+                if (count($kb) > 0) $A['attachments'][] = ["type" => "inline_keyboard", "payload" => ["buttons" => $kb]];
 
-            if ($bot_message->image) $A['attachments'][] = ["type" => "image", "payload" => ["url" => env('APP_URL').'/content/'.$bot_message->image]];
+                //=========================================================================================================================
 
-            //=========================================================================================================================
+                if ($bot_message->image) $A['attachments'][] = ["type" => "image", "payload" => ["url" => env('APP_URL').'/content/'.$bot_message->image]];
 
-            if ($bot_message->video) $A['attachments'][] = ["type" => "video", "payload" => ["token" => $bot_message->video_max_id]];
+                //=========================================================================================================================
 
-            //=========================================================================================================================
+                if ($bot_message->video) $A['attachments'][] = ["type" => "video", "payload" => ["token" => $bot_message->video_max_id]];
 
-            if ($bot_message->audio) $A['attachments'][] = ["type" => "audio", "payload" => ["token" => $bot_message->audio_max_id]];
+                //=========================================================================================================================
 
-            //=========================================================================================================================
+                if ($bot_message->audio) $A['attachments'][] = ["type" => "audio", "payload" => ["token" => $bot_message->audio_max_id]];
 
-            if ($bot_message->custom_file) $A['attachments'][] = ["type" => "file", "payload" => ["token" => $bot_message->custom_file_max_id]];
+                //=========================================================================================================================
 
-            //=========================================================================================================================
+                if ($bot_message->custom_file) $A['attachments'][] = ["type" => "file", "payload" => ["token" => $bot_message->custom_file_max_id]];
 
-            try {
-                $message = $maxQuery->handle($bot_user->bot, 'POST', 'messages', $A, false, ['user_id' => $bot_user->max_user_id]);
-            } catch (\Exception $exception) {}
+                //=========================================================================================================================
 
-            //=========================================================================================================================
+                try {
+                    $message = $maxQuery->handle($bot_user->bot, 'POST', 'messages', $A, false, ['user_id' => $bot_user->max_user_id]);
+                } catch (\Exception $exception) {}
 
-            if (isset($message)) {
+                //=========================================================================================================================
 
-                MaxSendMessageLog::create(
-                    [
-                        'max_user_id' => $bot_user->max_user_id,
-                        'bot_message_id' => $bot_message_id,
-                        'text' => $bot_message->text,
-                        'keyboard' => json_encode($A['attachments']),
-                        'max_responce_data' => $message
-                    ]
-                );
+                if (isset($message)) {
+
+                    MaxSendMessageLog::create(
+                        [
+                            'max_user_id' => $bot_user->max_user_id,
+                            'bot_message_id' => $bot_message_id,
+                            'text' => $bot_message->text,
+                            'keyboard' => json_encode($A['attachments']),
+                            'max_responce_data' => $message
+                        ]
+                    );
 
 
-                //== Разбаниваем, если идет сообщение об успехе, и ставим в UnbanScheduler
+                    //== Разбаниваем, если идет сообщение об успехе, и ставим в UnbanScheduler
 
-                if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE_MAX') {
-                    //$supergroups = $botSupergroupsAll->handle();
-                    //$botUserUnban->handle($bot_user, $supergroups, $telegram);
-                    //$botUserSetUnbanScheduler->handle($bot_user, date('Y-m-d H:i:s'));
+                    if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE_MAX') {
+                        //$supergroups = $botSupergroupsAll->handle();
+                        //$botUserUnban->handle($bot_user, $supergroups, $telegram);
+                        //$botUserSetUnbanScheduler->handle($bot_user, date('Y-m-d H:i:s'));
+                    }
+
+                    return $message;
                 }
 
-                return $message;
             }
         }
     }
