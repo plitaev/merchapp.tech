@@ -31,10 +31,9 @@ class BotUserRepeatRecurrent
                 $additional_data = [];
                 $additional_data['pay_system_id'] = 4;
 
-                $new_pay = $payCreateIntoBot->handle($bot_user, $one_day_product, $additional_data);
+                return $payCreateIntoBot->handle($bot_user, $one_day_product, $additional_data);
                 $payMakeSuccessful->handle('{"auto_generated_payment_finished": 1}', $new_pay->id, NULL, NULL, NULL);
                 $dateEnd->handle($bot_user, 'Y-m-d');
-                return '3';
             }
 
             $next_day = Carbon::now()->addDay()->format('Y-m-d');
