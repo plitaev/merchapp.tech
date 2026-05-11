@@ -47,6 +47,8 @@ use App\Actions\Core\BotSendMessage\BotSendMessage;
 
 use App\Actions\Core\Telegram\TelegramQuery;
 
+use App\Models\Core\BotUserUnbanSchedule;
+
 class DevTestController extends Controller
 {
     public function devtest() {
@@ -61,7 +63,7 @@ class DevTestController extends Controller
 
         $bot_users = BotUser::where('date_end', '>=', '2026-05-10')->where('ban', 1)->get();
         foreach ($bot_users as $bot_user) {
-            BotUserBanSchedule::create(
+            BotUserUnbanSchedule::create(
                 [
                     'bot_user_id' => $bot_user->id,
                     'run_status' => 0,
