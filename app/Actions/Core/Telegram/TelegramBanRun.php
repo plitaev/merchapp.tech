@@ -16,7 +16,7 @@ class TelegramBanRun
         $telegramQuery = new TelegramQuery();
 
         try {
-            $status = $telegramQuery->handle($ban->bot,'banChatMember', ['chat_id' => $supergroup->telegram_id, 'user_id' => $ban->bot_user->telegram_user_id]);
+            return $telegramQuery->handle($ban->bot,'banChatMember', ['chat_id' => $supergroup->telegram_id, 'user_id' => $ban->bot_user->telegram_user_id]);
             $status = ($status['ok'] == true?1:0);
 
             if ($supergroup->telegram_id) {
