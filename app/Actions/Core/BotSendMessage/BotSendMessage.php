@@ -89,8 +89,6 @@ class BotSendMessage
 
                 }
 
-                return '9';
-
                 if ($bot_user->telegram_chat_id && ($send_to == 'all' || $send_to == 'telegram')) {
                     $message = $telegramSendMessage->handle($bot_user, $bot_message->id, $bot_message_appointment_name);
                 }
