@@ -25,6 +25,7 @@ class BotUserRepeatRecurrent
         $bot_user = BotUser::with('bot')->find($data->bot_user_id);
 
         if ($bot_user->recurrent_repeat == 0) {
+            return '1';
 
             $one_day_product = Product::where('bot_id', $bot_user->bot_id)->where('days', '1')->first();
             if ($one_day_product) {
@@ -53,9 +54,8 @@ class BotUserRepeatRecurrent
             $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL');
 
         } else {
+            return '2';
             $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL_SECOND');
         }
-
-        return 'abc';
     }
 }
