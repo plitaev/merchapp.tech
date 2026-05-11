@@ -16,6 +16,8 @@ use App\Models\Core\Product;
 class BotUserRepeatRecurrent
 {
     public function handle($data) {
+        return 'test';
+
         $botSendMessage = new BotSendMessage();
         $dateEnd = new DateEnd();
         $payCreateIntoBot = new PayCreateIntoBot();
