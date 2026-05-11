@@ -16,7 +16,6 @@ use App\Models\Core\Product;
 class BotUserRepeatRecurrent
 {
     public function handle($data) {
-        return 'test';
 
         $botSendMessage = new BotSendMessage();
         $dateEnd = new DateEnd();
@@ -57,5 +56,6 @@ class BotUserRepeatRecurrent
             $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL_SECOND');
         }
 
+        return 'abc';
     }
 }
