@@ -50,11 +50,14 @@ use App\Actions\Core\Telegram\TelegramQuery;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $botSendMessage = new BotSendMessage();
-        $telegramQuery = new TelegramQuery();
+        $ids = BotUser::select('id')->where('date_end', '>=', date('Y-m-d', time()))->pluck('id')->toArray();
 
-        $bot_user = BotUser::find(7874);
-        return $botSendMessage->handle($bot_user, 'BOT_PAYMENT_RECURRENT_FAIL');
+        BotUserBanSchedule::where('ban_datetime', '2026-05-10 23:30:00')->whereNotIn('bot_user_id', $ids)->update(['run_status' => 0]);
+        BotUserBanSchedule::where('ban_datetime', '2026-05-09 23:30:00')->whereNotIn('bot_user_id', $ids)->update(['run_status' => 0]);
+        BotUserBanSchedule::where('ban_datetime', '2026-05-08 23:30:00')->whereNotIn('bot_user_id', $ids)->update(['run_status' => 0]);
+        BotUserBanSchedule::where('ban_datetime', '2026-05-07 23:30:00')->whereNotIn('bot_user_id', $ids)->update(['run_status' => 0]);
+        BotUserBanSchedule::where('ban_datetime', '2026-05-06 23:30:00')->whereNotIn('bot_user_id', $ids)->update(['run_status' => 0]);
+        BotUserBanSchedule::where('ban_datetime', '2026-05-05 23:30:00')->whereNotIn('bot_user_id', $ids)->update(['run_status' => 0]);
     }
 
     public function change_web_password(string $email) {
