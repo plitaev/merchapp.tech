@@ -241,6 +241,8 @@ class TelegramSendMessage
 
             //=========================================================================================================================
 
+            var_dump($message);
+
             if (isset($message)) {
 
                 TelegramSendMessageLog::create(
