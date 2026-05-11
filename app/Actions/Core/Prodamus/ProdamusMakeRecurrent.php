@@ -81,8 +81,8 @@ class ProdamusMakeRecurrent
         } else {
 
             if ($responce_array['success'] == false) {
-                return '1';
                 $botUserRepeatRecurrent->handle($data);
+                return '1';
             }
 
         }
