@@ -12,8 +12,6 @@ class MaxQuery
             'Authorization: '.$bot->max_token
         ];
 
-        return 'aa';
-
         $curl = curl_init();
 
         (string) $api_url = 'https://platform-api.max.ru/' . $api_function;
