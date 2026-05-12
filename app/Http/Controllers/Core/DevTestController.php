@@ -52,6 +52,7 @@ use App\Models\Core\BotUserUnbanSchedule;
 class DevTestController extends Controller
 {
     public function devtest() {
+        /*
         $ids = BotUser::select('id')->where('date_end', '>=', date('Y-m-d', time()))->pluck('id')->toArray();
 
         BotUserBanSchedule::where('ban_datetime', '2026-05-10 23:30:00')->whereNotIn('bot_user_id', $ids)->update(['run_status' => 0]);
@@ -71,6 +72,13 @@ class DevTestController extends Controller
                 ]
             );
         }
+        */
+
+        $botSendMessage = new BotSendMessage();
+
+        $bot_user = BotUser::where('id', 2227)->first();
+
+        return $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
 
     }
 
