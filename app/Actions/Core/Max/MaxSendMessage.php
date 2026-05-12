@@ -35,6 +35,8 @@ class MaxSendMessage
         $text = urldecode($text);
         $text = $botUserInsertVariables->handle($bot_user, $text);
 
+        return 'aa';
+
         if ($bot_message) {
 
             $kb = [];
