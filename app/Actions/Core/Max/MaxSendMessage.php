@@ -100,10 +100,7 @@ class MaxSendMessage
 
             }
 
-
-
-
-            if ($stop_max_next_send == 1) {
+            if ($stop_max_next_send == 0) {
 
                 $A = [];
                 $A['text'] = $text;
@@ -130,10 +127,8 @@ class MaxSendMessage
                 //=========================================================================================================================
 
                 try {
-                    return $maxQuery->handle($bot_user->bot, 'POST', 'messages', $A, false, ['user_id' => $bot_user->max_user_id]);
-                } catch (\Exception $exception) {
-                    return 'dd';
-                }
+                    $message = $maxQuery->handle($bot_user->bot, 'POST', 'messages', $A, false, ['user_id' => $bot_user->max_user_id]);
+                } catch (\Exception $exception) {}
 
                 //=========================================================================================================================
 
