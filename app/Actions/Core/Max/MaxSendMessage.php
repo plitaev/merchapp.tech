@@ -131,7 +131,9 @@ class MaxSendMessage
 
                 try {
                     return $maxQuery->handle($bot_user->bot, 'POST', 'messages', $A, false, ['user_id' => $bot_user->max_user_id]);
-                } catch (\Exception $exception) {}
+                } catch (\Exception $exception) {
+                    return 'dd';
+                }
 
                 //=========================================================================================================================
 
