@@ -78,7 +78,7 @@ class DevTestController extends Controller
 
         $bot_user = BotUser::where('id', 2227)->first();
 
-        return $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
+        return $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE', 'max');
 
     }
 
