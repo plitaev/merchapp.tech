@@ -53,27 +53,4 @@ class DevTestController extends Controller
 {
     public function devtest() {
     }
-
-    public function change_web_password(string $email) {
-        $botSendMessage = new BotSendMessage();
-
-        $user = User::where('email', $email)->first();
-        if ($user) {
-            $plainPassword = Str::password(8, true, true, false, false);
-            $hashedPassword = Hash::make($plainPassword);
-
-            User::where('id', $user->id)->update(['password' => $hashedPassword, 'open_password' => $plainPassword]);
-
-            $bot_user = BotUser::where('email', $email)->first();
-            if ($bot_user) {
-                $botSendMessage->handle($bot_user, 'MAGICLIFE_WEB_ACCESS');
-            }
-
-            return $plainPassword;
-        } else {
-            return "Нет юзера с этой почтой";
-        }
-
-    }
-
 }
