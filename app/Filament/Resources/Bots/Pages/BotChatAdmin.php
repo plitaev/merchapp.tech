@@ -3,6 +3,7 @@ namespace App\Filament\Resources\Bots\Pages;
 
 use App\Filament\Resources\Bots\BotResource;
 
+use App\Models\Core\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\HtmlString;
 
@@ -90,7 +91,6 @@ class BotChatAdmin extends Page implements HasForms
 
     public ?array $products = [];
 
-    public ?string $individual_prices = '';
     public int $count_ban_error;
     public int $count_unban_error;
 
@@ -98,6 +98,8 @@ class BotChatAdmin extends Page implements HasForms
     public int $count_send_message_error;
 
     public int $bot_user_id;
+
+    public ?string $web_version_access = '';
 
     public function getRecord(): ?Model
     {
@@ -118,6 +120,28 @@ class BotChatAdmin extends Page implements HasForms
     {
         $this->id = $id;
         $data = ($id > 0 ? BotUser::find($id)->toArray() : []);
+
+        if ($id > 0) {
+            if (isset($data['email'])) {
+
+                $user = User::select('open_password')->where('email', $data['email'])->first();
+
+                if ($user) {
+
+                    if ($user->open_password) {
+                        $this->web_version_access = 'Пароль от веб-версии: '.$user->open_password.'. Перегенерировать пароль можно кнопкой в конце страницы';
+                    } else {
+                        $this->web_version_access = 'У данного пользователя отсутствует пароль в веб-версии. Сгенерировать пароль можно кнопкой в конце страницы';
+                    }
+
+                } else {
+                    $this->web_version_access = 'У данного пользователя отсутствует аккаунт в веб-версии';
+                }
+
+            } else {
+                $this->web_version_access = 'У данного пользователя отсутствует email';
+            }
+        }
 
         $this->bot_user_id = $id;
 
@@ -213,6 +237,19 @@ class BotChatAdmin extends Page implements HasForms
                             ->disabled(auth()->user()->hasPermissionTo('Update:BotUser')?false:true),
 
                     ]),
+
+                Section::make('Доступ к веб-версии')
+                    ->description($this->web_version_access)
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                        '2xl' => 1,
+                    ])
+                    ->schema([])
+                    ->visible(env('MERCHAPP_WEB_VERSION') == 1),
+
                 Section::make('Привязка аккаунта к бизнес-боту')
                     ->description('Поставьте галочку, если к данному аккаунту привязан бизнес-бот')
                     ->columns([
@@ -396,6 +433,32 @@ class BotChatAdmin extends Page implements HasForms
                             return redirect('/admin/bots/'.$this->bot_id.'/'.$this->bot_user_id.'/chat-admin');
                         })
                         ->visible(fn() => auth()->user()->can('Update:BotUser')),
+
+                    Action::make('Сгенерировать пароль для веб-версии')
+                        ->action(function () {
+                            $botSendMessage = new BotSendMessage();
+
+                            $data = $this->form->getState();
+
+                            $plainPassword = Str::password(8, true, true, false, false);
+                            $hashedPassword = Hash::make($plainPassword);
+
+                            User::where('email', $data['email'])->update(['password' => $hashedPassword, 'open_password' => $plainPassword]);
+
+                            $bot_user = BotUser::find($this->bot_user_id);
+                            if ($bot_user) {
+                                $botSendMessage->handle($bot_user, 'SYS_WEB_ACCESS');
+                            }
+
+                            Notification::make()
+                                ->title('Пароль успешно сгенерирован!')
+                                ->success()
+                                ->send();
+
+                            return redirect('/admin/bots/' . $this->bot_id . '/chats');
+                        })
+                        ->visible(fn() => auth()->user()->can('Update:BotUser')),
+
                     Action::make('Cancel')
                         ->color('gray')
                         ->action(function () {
