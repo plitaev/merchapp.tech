@@ -4,8 +4,11 @@ namespace App\Filament\Resources\Bots\Pages;
 use App\Filament\Resources\Bots\BotResource;
 
 use App\Models\Core\User;
+
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 
 use Carbon\Carbon;
 
