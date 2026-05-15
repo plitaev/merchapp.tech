@@ -434,7 +434,7 @@ class BotChatAdmin extends Page implements HasForms
                         })
                         ->visible(fn() => auth()->user()->can('Update:BotUser')),
 
-                    Action::make('Сгенерировать пароль для веб-версии')
+                    Action::make('web_verson_generate_password')
                         ->action(function () {
                             $botSendMessage = new BotSendMessage();
 
@@ -457,6 +457,7 @@ class BotChatAdmin extends Page implements HasForms
 
                             return redirect('/admin/bots/' . $this->bot_id . '/chats');
                         })
+                        ->label('Сгенерировать пароль для веб-версии')
                         ->visible(fn() => auth()->user()->can('Update:BotUser')),
 
                     Action::make('Cancel')
