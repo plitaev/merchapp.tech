@@ -153,6 +153,13 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                             ->directory('miniapp_video')
                             ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                             ->visibility('public'),
+                        FileUpload::make('audio')
+                            ->label('Файл аудио')
+                            ->disk('local')
+                            ->acceptedFileTypes(['audio/mpeg'])
+                            ->directory('miniapp_audio')
+                            ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
+                            ->visibility('public'),
                         Section::make('Страницы')
                             ->description(new HtmlString("<a href='/admin/mini-app-videos/".$this->mini_app_page_id."/".$this->id."/admin_mini_app_video_link_pages' style='display: block; margin-bottom: 10px; font-weight: bold'>Прикрепленные страницы: {$this->video_page_count} 🔍</a>"))
                             ->schema([]),
@@ -272,5 +279,3 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
     }
 
 }
-
-
