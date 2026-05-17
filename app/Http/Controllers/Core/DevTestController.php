@@ -1,20 +1,5 @@
 <?php
 namespace App\Http\Controllers\Core;
-
-use App\Actions\Core\BotSupergroup\BotSupergroupsAll;
-use App\Actions\Core\BotUser\BotUserInsertVariables;
-use App\Actions\Core\BotUser\BotUserSetUnbanScheduler;
-use App\Actions\Core\BotUser\BotUserUnban;
-use App\Actions\Core\BotUserPrice\BotUserPriceGet;
-use App\Actions\Core\PaySystemCallback\PaySystemCallbackCreate;
-use App\Actions\Core\Product\ProductListByBot;
-use App\Actions\Core\Telegram\TelegramWebhookInfo;
-use App\Models\Core\BotMessage;
-use App\Models\Core\BotMessageButton;
-use App\Models\Core\GetcourseWebhook;
-use App\Models\Core\TelegramSendMessageErrorLog;
-use App\Models\Core\TelegramSendMessageLog;
-use App\Models\Core\TelegramSendMessageSchedule;
 use Carbon\Carbon;
 
 use App\Http\Controllers\Controller;
@@ -52,5 +37,9 @@ use App\Models\Core\BotUserUnbanSchedule;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $botSendMessage = new BotSendMessage();
+
+        $bot_user = BotUser::with('bot')->where('id', 7874)->first();
+        return $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE', 'telegram');
     }
 }
