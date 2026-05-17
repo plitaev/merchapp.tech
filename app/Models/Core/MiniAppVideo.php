@@ -12,6 +12,7 @@ class MiniAppVideo extends Model
         'description',
         'image',
         'video',
+        'audio',
         'date_open',
         'duration',
         'edgecenter_id',
