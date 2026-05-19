@@ -106,6 +106,8 @@ class BotSendMessage
                 $listeners = BotMessageListener::with('listener:id,alias')->where('bot_message_id', $bot_message->id)->get();
                 foreach ($listeners as $listener) $botUserSetListener->handle($listener->listener->alias, 1, $bot_user->id);
 
+                if ($bot_message->id == 170) BotUser::where('id', $bot_user->id)->update(['listen_email_status' => 1, 'listen_time_status_timestamp' => date('Y-m-d H:i:s')]);
+
                 //== Проверяем паузу, и отправляем, если есть
                 if ($bot_message->pause_after_message > 0) sleep($bot_message->pause_after_message);
 
