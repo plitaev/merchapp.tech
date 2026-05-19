@@ -262,8 +262,6 @@ class ClubAccessController extends Controller
 
             //== Обрабатываем листенеры
             $botListenerEmail->handle($messenger, $webhook, $bot_user); //== Проверяем, ожидает ли юзер ввода почты
-            $botListenerPayCount->handle($messenger, $webhook, $bot_user);
-            $botListenerPhone->handle($messenger, $webhook, $bot_user);
 
             //== Запускаем основной скрипт клуба
             //== Проверяем, получал ли юзер приветственное сообщение
