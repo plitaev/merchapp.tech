@@ -251,6 +251,7 @@ class ClubAccessController extends Controller
                 $code = base64_decode($Astart[1]);
 
                 if ($code == "GoToClub") {
+                    return '111';
                     $botGoToClub->handle($messenger, $webhook, $bot_user);
                     die();
                 }
