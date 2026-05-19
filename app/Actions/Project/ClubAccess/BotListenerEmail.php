@@ -66,7 +66,7 @@ class BotListenerEmail
                         $A['chat_id'] = $bot_user_telegram->telegram_chat_id;
                         $A['protect_content'] = false;
 
-                        $telegramQuery->handle($bot_user->bot, 'sendMessage', ['chat_id' => $bot_user_telegram->telegram_user_id, 'text' =>  'Нажмите на кнопку, чтобы подтвердить подключение аккаунта в Telegram']);
+                        $telegramQuery->handle($bot_user->bot, 'sendMessage', $A);
 
                         $botSendMessage->handle($bot_user, 'SYS_SEND_IN_MAX_BEFORE_VERIFICATION_FROM_MAX', 'max');
                         die();
