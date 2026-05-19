@@ -16,6 +16,7 @@ class BotGoToClub
         }
 
         $botUserSetListener->handle('sys_go_to_pay', 1, $bot_user->id);
+        return '111';
         $botRequestAndConfirmEmail->handle($bot_user);
     }
 }

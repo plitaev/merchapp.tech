@@ -288,7 +288,6 @@ class ClubAccessController extends Controller
                 if ($callback == 'EighteenNo') $botEighteenNo->handle($messenger, $bot_id, $webhook); //== Если выбрал Нет в вопросе про 18 лет
                 if ($callback == 'GoToContacts') $botContacts->handle($bot_id, $webhook); //== Если нажал кнопку Контакты
                 if ($callback == 'GoToClub') {
-                    return '11';
                     return $botGoToClub->handle($messenger, $webhook, $bot_user);
                 } //== Если нажал кнопку Стать участником
 
