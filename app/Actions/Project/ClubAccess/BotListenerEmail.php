@@ -25,6 +25,8 @@ class BotListenerEmail
         $telegramQuery = new TelegramQuery();
         $payCreateByPayGuest = new PayCreateByPayGuest();
 
+        return '111';
+
         //== Проверяем, ожидает ли юзер ввода почты
         if ($bot_user->listen_email_status == 1) {
 
