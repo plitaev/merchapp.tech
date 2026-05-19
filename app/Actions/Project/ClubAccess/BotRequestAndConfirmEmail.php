@@ -11,7 +11,6 @@ class BotRequestAndConfirmEmail
         if ($bot_user->email) {
             $botSendMessage->handle($bot_user, 'SYS_CONFIRM_EMAIL');
         } else {
-            return 'kkk www';
             $botSendMessage->handle($bot_user, 'SYS_REQUEST_EMAIL');
         }
 
