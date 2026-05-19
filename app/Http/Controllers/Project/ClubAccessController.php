@@ -261,7 +261,7 @@ class ClubAccessController extends Controller
             //== Заканчиваем обрабатывать входящие параметры по ссылке на переход в ТГ к разговору с ботом
 
             //== Обрабатываем листенеры
-            return $botListenerEmail->handle($messenger, $webhook, $bot_user); //== Проверяем, ожидает ли юзер ввода почты
+            $botListenerEmail->handle($messenger, $webhook, $bot_user); //== Проверяем, ожидает ли юзер ввода почты
             $botListenerPayCount->handle($messenger, $webhook, $bot_user);
             $botListenerPhone->handle($messenger, $webhook, $bot_user);
 

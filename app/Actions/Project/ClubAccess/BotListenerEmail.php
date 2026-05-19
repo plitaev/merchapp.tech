@@ -28,8 +28,6 @@ class BotListenerEmail
         //== Проверяем, ожидает ли юзер ввода почты
         if ($bot_user->listen_email_status == 1) {
 
-            return '111';
-
             //== Если ожидает, то проверяем, является ли введенная пользователем строка почтой через стандартный определитель ТГ
             if (($messenger == 'telegram' && isset($webhook['message']['entities']) && $webhook['message']['entities'][0]['type']=='email') ||
                 ($messenger == 'max' && (isset($webhook['message']['body']['text'])))) {
