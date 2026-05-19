@@ -251,7 +251,6 @@ class ClubAccessController extends Controller
                 $code = base64_decode($Astart[1]);
 
                 if ($code == "GoToClub") {
-                    return '111';
                     $botGoToClub->handle($messenger, $webhook, $bot_user);
                     die();
                 }
@@ -288,7 +287,10 @@ class ClubAccessController extends Controller
                 if ($callback == 'EighteenYes') $botEighteenYes->handle($messenger, $bot_user, $webhook); //== Если выбрал Да в вопросе про 18 лет
                 if ($callback == 'EighteenNo') $botEighteenNo->handle($messenger, $bot_id, $webhook); //== Если выбрал Нет в вопросе про 18 лет
                 if ($callback == 'GoToContacts') $botContacts->handle($bot_id, $webhook); //== Если нажал кнопку Контакты
-                if ($callback == 'GoToClub') $botGoToClub->handle($messenger, $webhook, $bot_user); //== Если нажал кнопку Стать участником
+                if ($callback == 'GoToClub') {
+                    return '11';
+                    return $botGoToClub->handle($messenger, $webhook, $bot_user);
+                } //== Если нажал кнопку Стать участником
 
                 if ($callback == 'GoToEmailVerification') $botEmailVerification->handle($messenger, $bot_user, $webhook); //== Если нажата кнопка Подтвердить почту при условии что почта уже введена
 
