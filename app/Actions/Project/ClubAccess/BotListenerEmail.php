@@ -26,7 +26,7 @@ class BotListenerEmail
         $payCreateByPayGuest = new PayCreateByPayGuest();
 
         //== Проверяем, ожидает ли юзер ввода почты
-        if ($bot_user->listen_email_status == 1 || $bot_user->sys_go_to_pay_status == 1) {
+        if ($bot_user->listen_email_status == 1) {
 
             //== Если ожидает, то проверяем, является ли введенная пользователем строка почтой через стандартный определитель ТГ
             if (($messenger == 'telegram' && isset($webhook['message']['entities']) && $webhook['message']['entities'][0]['type']=='email') ||
