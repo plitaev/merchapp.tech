@@ -39,7 +39,7 @@ class DevTestController extends Controller
     public function devtest() {
         $botSendMessage = new BotSendMessage();
 
-        $bot_user = BotUser::with('bot')->where('id', 7874)->first();
+        $bot_user = BotUser::with('bot')->where('id', 35619)->first();
         return $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE', 'telegram');
     }
 }
