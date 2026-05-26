@@ -37,9 +37,15 @@ use App\Models\Core\BotUserUnbanSchedule;
 class DevTestController extends Controller
 {
     public function devtest() {
-        $botSendMessage = new BotSendMessage();
 
-        $bot_user = BotUser::with('bot')->where('id', 35619)->first();
-        return $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE', 'telegram');
+        $pays = Pay::with('bot_user')
+            ->where('status', 1)
+            ->where('created_at', '>=', '2026-04-25 00:00:00')
+            ->where('created_at', '<=', '2026-05-25 23:59:59')
+            ->orderByDesc('created_at')
+            ->get();
+
+        return view('core.devtest.devtest', ['pays' => $pays]);
+
     }
 }
