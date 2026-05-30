@@ -37,7 +37,15 @@ use App\Models\Core\BotUserUnbanSchedule;
 class DevTestController extends Controller
 {
     public function devtest() {
+        $dateEnd = new DateEnd();
 
+        $bot_users = BotUser::where('bot_id', 6)->get();
+        foreach ($bot_users as $bot_user) {
+            $dateEnd->handle($bot_user, 'Y-m-d');
+        }
+
+
+        /*
         $pays = Pay::with('bot_user')
             ->where('status', 1)
             ->where('created_at', '>=', '2026-04-25 00:00:00')
@@ -46,6 +54,6 @@ class DevTestController extends Controller
             ->get();
 
         return view('core.devtest.devtest', ['pays' => $pays]);
-
+        */
     }
 }
