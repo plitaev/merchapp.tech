@@ -17,14 +17,11 @@ require 'core/getcourse.php';
 require 'core/max.php';
 require 'core/miniapp.php';
 require 'core/pay.php';
-require 'core/paycount.php';
 require 'core/prodamus.php';
 require 'core/robokassa.php';
 require 'core/tbank.php';
 require 'core/telegram.php';
 require 'core/yookassa.php';
-require 'core/set_password.php';
-
 
 require 'project/app1.php';
 require 'project/app2.php';
