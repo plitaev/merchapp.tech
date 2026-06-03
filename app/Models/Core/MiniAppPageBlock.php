@@ -5,6 +5,8 @@ namespace App\Models\Core;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class MiniAppPageBlock extends Model
@@ -26,4 +28,13 @@ class MiniAppPageBlock extends Model
     {
         return $this->belongsTo(MiniAppBlockType::class, 'block_type_id', 'id');
     }
+
+    public function mini_app_banner(): HasMany {
+        return $this->hasMany(MiniAppBanner::class, 'mini_app_page_block_id');
+    }
+
+    public function mini_app_video(): HasMany {
+        return $this->hasMany(MiniAppVideo::class, 'mini_app_page_block_id');
+    }
+
 }

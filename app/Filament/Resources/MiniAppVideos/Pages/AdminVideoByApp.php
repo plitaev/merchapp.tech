@@ -62,24 +62,33 @@ class AdminVideoByApp extends Page implements HasTable
                     ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
                     ->searchable(),
                 ImageColumn::make('miniapp_video.image')
-                    ->disk('local')
                     ->label('Изображение')
-                    ->url(fn(MiniAppVideoLinkPage $record) => env('APP_URL').'/content/'.$record->miniapp_video->image)
+
+                    //->url(fn(MiniAppVideoLinkPage $record) => env('APP_URL').'/content/'.$record->miniapp_video->image)
+                    ->openUrlInNewTab(),
+                TextColumn::make('miniapp_video.audio')
+                    ->label('Видео')
+                   // ->directory('miniapp_audio')
+
+                    //->url(fn(MiniAppVideoLinkPage $record) => env('APP_URL').'/content/'.$record->miniapp_video->image)
                     ->openUrlInNewTab()
+
+                    ->disabled(auth()->user()->hasPermissionTo('Update:MiniAppPage')?false:true)
+                    ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->recordActions([
-                ViewAction::make()->url(fn($record) => "/admin/mini-app-videos/".$record->mini_app_page_id."/".$record->mini_app_video_id."/admin")
+                ViewAction::make()->url(fn($record) => "/admin/mini-app-videos/".$record->mini_app_page_id."/".$record->mini_app_video_id."/0/admin")
                     ->visible(!auth()->user()->can('Create:MiniAppPage')),
-                EditAction::make()->url(fn($record) => "/admin/mini-app-videos/".$record->mini_app_page_id."/".$record->mini_app_video_id."/admin")
+                EditAction::make()->url(fn($record) => "/admin/mini-app-videos/".$record->mini_app_page_id."/".$record->mini_app_video_id."/0/admin")
                     ->visible(auth()->user()->can('Update:MiniAppPage')),
                 DeleteAction::make()
                     ->visible(auth()->user()->can('Delete:MiniAppPage')),
 
             ])
-            ->recordUrl(fn($record) => "/admin/mini-app-videos/".$record->mini_app_page_id."/".$record->mini_app_video_id."/admin")
+            ->recordUrl(fn($record) => "/admin/mini-app-videos/".$record->mini_app_page_id."/".$record->mini_app_video_id."/0/admin")
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

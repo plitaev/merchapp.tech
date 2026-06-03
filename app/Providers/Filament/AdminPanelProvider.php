@@ -47,6 +47,12 @@ class AdminPanelProvider extends PanelProvider
             ->url("/admin/mini-app-pages")
             ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/mini-app-pages");
 
+        $A[] = NavigationItem::make('pages')
+            ->label('Страницы(test)')
+            ->icon('heroicon-o-newspaper')
+            ->url("/admin/mini-app-page-constructors")
+            ->isActiveWhen(fn () => url()->current()==env("APP_URL")."/admin/mini-app-page-constructors");
+
         foreach ($menus as $menu) {
             $A[] = NavigationItem::make('banners_apps')
                 ->label($menu->name)

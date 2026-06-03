@@ -17,7 +17,8 @@ class MiniAppBanner extends Model
         'button_bg_color',
         'button_text_color',
         'mini_app_page_with_video_id',
-        'mini_app_page_with_video_show_banner'
+        'mini_app_page_with_video_show_banner',
+        'mini_app_page_block_id'
     ];
 
     public function miniapp_page(): BelongsTo

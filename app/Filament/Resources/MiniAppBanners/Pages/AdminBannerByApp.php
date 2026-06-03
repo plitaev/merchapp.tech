@@ -86,15 +86,15 @@ class AdminBannerByApp extends Page implements HasTable
                 //
             ])
             ->recordActions([
-                ViewAction::make()->url(fn($record) => "/admin/mini-app-banners/".$record->mini_app_page_id."/".$record->mini_app_banner_id."/admin")
+                ViewAction::make()->url(fn($record) => "/admin/mini-app-banners/".$record->mini_app_page_id."/".$record->mini_app_banner_id."/0/admin")
                     ->visible(!auth()->user()->can('Create:MiniAppPage')),
-                EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$record->mini_app_page_id."/".$record->mini_app_banner_id."/admin")
+                EditAction::make()->url(fn($record) => "/admin/mini-app-banners/".$record->mini_app_page_id."/".$record->mini_app_banner_id."/0/admin")
                     ->visible(auth()->user()->can('Update:MiniAppPage')),
                 DeleteAction::make()
                     ->visible(auth()->user()->can('Delete:MiniAppPage')),
 
             ])
-            ->recordUrl(fn($record) => "/admin/mini-app-banners/".$record->mini_app_page_id."/".$record->mini_app_banner_id."/admin")
+            ->recordUrl(fn($record) => "/admin/mini-app-banners/".$record->mini_app_page_id."/".$record->mini_app_banner_id."/0/admin")
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

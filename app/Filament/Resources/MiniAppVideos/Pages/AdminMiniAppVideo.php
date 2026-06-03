@@ -19,6 +19,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Hidden;
 
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Actions;
@@ -62,6 +63,7 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
     public ?array $data = [];
     public string $name;
 
+    public int $mini_app_page_block_id = 0;
     public int $video_page_count = 0;
 
     public int $mini_app_page_id;
@@ -92,14 +94,15 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
     }
 
 
-    public function mount(int $mini_app_page_id, int $id): void
+    public function mount(int $mini_app_page_id, int $id, int $mini_app_page_block_id = 0): void
     {
         $this->mini_app_page_id = $mini_app_page_id;
         $this->id = $id;
 
+        $this->mini_app_page_block_id = $mini_app_page_block_id;
         $this->video_page_count = MiniAppVideoLinkPage::where('mini_app_video_id', $id)->count();
 
-        if (auth()->user()->hasPermissionTo('Update:FunnelCondition')) {
+        if (auth()->user()) {
 
             $data = ($id > 0 ? MiniAppVideo::find($id)->toArray() : ['name' => 'Новое видео']);
             $this->name = ($id > 0?$data['name']:'Новое видео');
@@ -163,10 +166,17 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                         Section::make('Страницы')
                             ->description(new HtmlString("<a href='/admin/mini-app-videos/".$this->mini_app_page_id."/".$this->id."/admin_mini_app_video_link_pages' style='display: block; margin-bottom: 10px; font-weight: bold'>Прикрепленные страницы: {$this->video_page_count} 🔍</a>"))
                             ->schema([]),
+                        Hidden::make('mini_app_page_block_id'),
                         Actions::make([
                             Action::make('Сохранить')
                                 ->action(function () {
                                     $data = $this->form->getState();
+
+                                    if ($this->mini_app_page_block_id == 0 || $data->mini_app_page_block_id == '') {
+                                        $data->mini_app_page_block_id = '';
+                                    } else {
+                                        $data->mini_app_page_block_id = $this->mini_app_page_block_id;
+                                    }
 
                                     if ($this->id > 0) {
                                         $video_id = $this->id;
