@@ -138,7 +138,7 @@
                 @endif
 
                 @if (isset($video->audio))
-                        <audio id="audio_example" class="video-js vjs-default-skin" controls preload="auto" poster="" data-setup='{}'>
+                        <audio id="player" class="video-js vjs-default-skin" controls preload="auto" poster="" data-setup='{}'>
                             <source src="{{env("APP_URL")}}/content/{{$video->audio}}" type='audio/mpeg'/>
                         </audio>
                 @endif
