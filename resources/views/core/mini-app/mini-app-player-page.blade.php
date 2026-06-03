@@ -93,45 +93,56 @@
 
             <video-js id="player" class="vjs-default-skin" controls preload="auto" width="960" height="540" disablePictureInPicture playsinline allowsInlineMediaPlayback=true>
 
-                @php $track_count = 0; @endphp
+                @if (isset($video->video))
 
-                @if (!isset($video->other_hls_tracks))
-                    @foreach ($tracks_edgecenter as $track_edgecenter)
-                        @php
-                            $track_count = $track_count + 1;
-                            if (isset($tracknames_edgecenter[$track_count])) {
-                                $track_name = $tracknames_edgecenter[$track_count];
-                            } else {
-                                $track_name = 'HD';
-                            }
-                        @endphp
+                    @php $track_count = 0; @endphp
 
-                        <source src="{{env('EDGECENTER_CDN_VIDEO')}}/videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_name}}">
-                    @endforeach
-                @endif
-
-                @if (isset($video->other_hls_tracks))
-
-                    @php
-                        $track_count = 0;
-                        $tracks_other = explode(',', $video->other_hls_tracks);
-                        $tracknames_other = explode(',', $video->other_hls_track_names);
-                    @endphp
-
-                    @foreach ($tracks_other as $track_other)
-                        @php
-                                 if (isset($tracknames_other[$track_count])) {
-                                    $track_name = $tracknames_other[$track_count];
+                    @if (!isset($video->other_hls_tracks))
+                        @foreach ($tracks_edgecenter as $track_edgecenter)
+                            @php
+                                $track_count = $track_count + 1;
+                                if (isset($tracknames_edgecenter[$track_count])) {
+                                    $track_name = $tracknames_edgecenter[$track_count];
                                 } else {
                                     $track_name = 'HD';
                                 }
+                            @endphp
 
-                                 $track_count = $track_count + 1;
+                            <source src="{{env('EDGECENTER_CDN_VIDEO')}}/videos/{{env('EDGECENTER_ACCOUNT_ID')}}_{{$video->edgecenter_slug}}/{{$track_edgecenter}}" type="application/x-mpegURL" label="{{$track_name}}">
+                        @endforeach
+                    @endif
+
+                    @if (isset($video->other_hls_tracks))
+
+                        @php
+                            $track_count = 0;
+                            $tracks_other = explode(',', $video->other_hls_tracks);
+                            $tracknames_other = explode(',', $video->other_hls_track_names);
                         @endphp
 
-                        <source src="{{env('OTHER_HLS_TRACK_URL')}}/{{$video->other_hls_video_id}}/{{$track_other}}" type="application/x-mpegURL" label="{{$track_name}}">
-                    @endforeach
+                        @foreach ($tracks_other as $track_other)
+                            @php
+                                if (isset($tracknames_other[$track_count])) {
+                                   $track_name = $tracknames_other[$track_count];
+                               } else {
+                                   $track_name = 'HD';
+                               }
+
+                                $track_count = $track_count + 1;
+                            @endphp
+
+                            <source src="{{env('OTHER_HLS_TRACK_URL')}}/{{$video->other_hls_video_id}}/{{$track_other}}" type="application/x-mpegURL" label="{{$track_name}}">
+                        @endforeach
+                    @endif
+
                 @endif
+
+                @if (isset($video->audio))
+                        <audio id="audio_example" class="video-js vjs-default-skin" controls preload="auto" poster="" data-setup='{}'>
+                            <source src="{{env("APP_URL")}}/content/{{$video->audio}}" type='audio/mpeg'/>
+                        </audio>
+                @endif
+
 
             </video-js>
 
