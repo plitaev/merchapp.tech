@@ -261,9 +261,9 @@ class AdminMiniAppPageConstructor extends Page implements HasTable, HasForms,  H
                                 ->success()
                                 ->send();
 
-                            if ($form_data['mini_app_page_id'] == 1) {
+                            if ($form_data['block_type_id'] == 1) {
                                 return redirect('/admin/mini-app-banners/'.$this->record.'/0/'.$new->id.'/admin');
-                            } elseif ($form_data['mini_app_page_id'] == 2) {
+                            } elseif ($form_data['block_type_id'] == 2) {
                                 return redirect('/admin/mini-app-videos/'.$this->record.'/0/'.$new->id.'/admin');
                             }
                         }),
