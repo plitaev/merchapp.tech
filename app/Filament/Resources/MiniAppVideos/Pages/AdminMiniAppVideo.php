@@ -172,10 +172,10 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                                 ->action(function () {
                                     $data = $this->form->getState();
 
-                                    if ($this->mini_app_page_block_id == 0 || $data->mini_app_page_block_id == '') {
-                                        $data->mini_app_page_block_id = '';
-                                    } else {
-                                        $data->mini_app_page_block_id = $this->mini_app_page_block_id;
+                                    if ($this->mini_app_page_block_id == 0) {
+                                        $data['mini_app_page_block_id'] = null;
+                                    } else  if ($this->mini_app_page_block_id != 0) {
+                                        $data['mini_app_page_block_id'] = $this->mini_app_page_block_id;
                                     }
 
                                     if ($this->id > 0) {
@@ -233,7 +233,12 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                                         ->success()
                                         ->send();
 
-                                    return redirect('/admin/mini-app-videos/'.$this->mini_app_page_id.'/'.$video_id.'/admin');
+                                    if ($this->mini_app_page_block_id == 0) {
+                                        return redirect('/admin/mini-app-videos/' . $this->mini_app_page_id . '/' . $video_id . '/admin');
+                                    } else {
+                                        redirect("/admin/mini-app-page-constructors/".$this->mini_app_page_id."/admin");
+
+                                    }
                                 })
                                 ->visible(fn() => auth()->user()->can('Create:BotMessage')),
 
