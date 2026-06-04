@@ -307,9 +307,9 @@ class AdminMiniAppPageConstructor extends Page implements HasTable, HasForms,  H
                         $miniAppPageBlock = MiniAppPageBlock::find($record->id);
 
                         if($record->block_type_id == 1) {
-                            MiniAppBanner::where('mini_app_page_block_id', $miniAppPageBlock->id)->update(['mini_app_page_block_id' => '']);
+                            MiniAppBanner::where('mini_app_page_block_id', $miniAppPageBlock->id)->update(['mini_app_page_block_id' => null]);
                         } else if($record->block_type_id == 2) {
-                            MiniAppVideo::where('mini_app_page_block_id', $miniAppPageBlock->id)->update(['mini_app_page_block_id' => '']);
+                            MiniAppVideo::where('mini_app_page_block_id', $miniAppPageBlock->id)->update(['mini_app_page_block_id' => null]);
                         }
                     })
                     ->visible(auth()->user()->hasPermissionTo('Delete:MiniApp'))
