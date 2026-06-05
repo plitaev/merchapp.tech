@@ -132,6 +132,9 @@ class MiniAppPageController
         $timepoints = [];
 
         if ($video->video) {
+            $type = 'video';
+            $type_name = 'Видео';
+
             if ($video->edgecenter_hls_url) {
                 $master = file_get_contents($video->edgecenter_hls_url);
                 $Amaster = explode(PHP_EOL, $master);
@@ -163,11 +166,17 @@ class MiniAppPageController
             $timepoints = MiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
         }
 
+        if ($video->audio) {
+            $type = 'audio';
+            $type_name = 'Аудио';
+        }
+
         return view('core.mini-app.mini-app-player-page', [
             'back_page' => $back_page,
             'mini_app_token' => $mini_app_token,
             'mini_app_platform' => $mini_app_platform,
             'os' => $os,
+            'type' => $type,
             'timepoints' => $timepoints,
             'tracks_edgecenter' => $tracks_edgecenter,
             'tracknames_edgecenter' => $tracknames_edgecenter,
@@ -186,40 +195,44 @@ class MiniAppPageController
 
                 $video = MiniAppVideo::find($id);
 
-                if ($video->edgecenter_hls_url) {
-                    $master = file_get_contents($video->edgecenter_hls_url);
-                    $Amaster = explode(PHP_EOL, $master);
-                } else {
-                    $Amaster = [];
-                }
+                $Amaster = [];
 
                 $tracks_edgecenter = [];
                 $tracknames_edgecenter = [];
 
-                foreach ($Amaster as $master) {
-                    if (substr($master, -4) == 'm3u8') {
-                        $tracks_edgecenter[] = $master;
-                    } else {
+                $timepoints = [];
 
-                        if ($master != '#EXTM3U') {
+                if ($video->video) {
+                    if ($video->edgecenter_hls_url) {
+                        $master = file_get_contents($video->edgecenter_hls_url);
+                        $Amaster = explode(PHP_EOL, $master);
+                    }
 
-                            $A1 = explode('RESOLUTION=', $master);
-                            if (isset($A1[1])) {
-                                $A2 = explode(',', $A1[1]);
-                                if (isset($A2[0])) {
-                                    $A3 = explode('x', $A2[0]);
-                                    if (isset($A3[1])) {
-                                        $tracknames_edgecenter[] = $A3[1].'p';
+                    foreach ($Amaster as $master) {
+                        if (substr($master, -4) == 'm3u8') {
+                            $tracks_edgecenter[] = $master;
+                        } else {
+
+                            if ($master != '#EXTM3U') {
+
+                                $A1 = explode('RESOLUTION=', $master);
+                                if (isset($A1[1])) {
+                                    $A2 = explode(',', $A1[1]);
+                                    if (isset($A2[0])) {
+                                        $A3 = explode('x', $A2[0]);
+                                        if (isset($A3[1])) {
+                                            $tracknames_edgecenter[] = $A3[1].'p';
+                                        }
                                     }
                                 }
+
                             }
 
                         }
-
                     }
-                }
 
-                $timepoints = MiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
+                    $timepoints = MiniAppVideoTimePoint::where('mini_app_video_id', $video->id)->get();
+                }
 
                 return view('core.mini-app.mini-app-external-page', [
                     'tracks_edgecenter' => $tracks_edgecenter,

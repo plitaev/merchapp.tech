@@ -40,13 +40,6 @@ class DevTestController extends Controller
         $botSendMessage = new BotSendMessage();
         $dateEnd = new DateEnd();
 
-        $bot_users = BotUser::where('bot_id', 6)->get();
-        foreach ($bot_users as $bot_user) {
-            $dateEnd->handle($bot_user, 'Y-m-d');
-            $botSendMessage->handle($bot_user, 'SYS_SUCCESS_MESSAGE');
-        }
-
-
         /*
         $pays = Pay::with('bot_user')
             ->where('status', 1)
