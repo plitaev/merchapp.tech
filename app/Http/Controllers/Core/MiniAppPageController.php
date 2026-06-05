@@ -177,6 +177,7 @@ class MiniAppPageController
             'mini_app_platform' => $mini_app_platform,
             'os' => $os,
             'type' => $type,
+            'type_name' => $type_name,
             'timepoints' => $timepoints,
             'tracks_edgecenter' => $tracks_edgecenter,
             'tracknames_edgecenter' => $tracknames_edgecenter,
