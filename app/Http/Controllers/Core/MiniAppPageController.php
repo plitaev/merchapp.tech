@@ -133,7 +133,7 @@ class MiniAppPageController
 
         if ($video->video) {
             $type = 'video';
-            $type_name = 'Видео';
+            $type_name = 'видео';
 
             if ($video->edgecenter_hls_url) {
                 $master = file_get_contents($video->edgecenter_hls_url);
@@ -168,7 +168,7 @@ class MiniAppPageController
 
         if ($video->audio) {
             $type = 'audio';
-            $type_name = 'Аудио';
+            $type_name = 'аудио';
         }
 
         return view('core.mini-app.mini-app-player-page', [
