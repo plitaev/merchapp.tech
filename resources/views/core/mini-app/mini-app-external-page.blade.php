@@ -50,7 +50,7 @@
         <div class="flow-root pb-24 sm:pb-32">
             <div id="username" class="mt-2 mb-2 ml-4 font-semibold text-xl"></div>
 
-            @if (isset($video->video))
+            @if (isset($video->video) || isset($video->edgecenter_id) || isset($video->other_hls_video_id))
                 <video-js id="player" class="vjs-default-skin" controls preload="auto" width="960" height="540" disablePictureInPicture playsinline allowsInlineMediaPlayback=true>
 
                     @php $track_count = 0; @endphp

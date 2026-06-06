@@ -91,7 +91,7 @@
                 <a href="javascript:void(0);" id="max-desktop-back-button" class="inline-block mx-auto rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-xs hover:bg-indigo-100 dark:bg-indigo-500/20 dark:text-indigo-400 dark:shadow-none dark:hover:bg-indigo-500/30">Вернуться назад</a>
             </div>
 
-                @if (isset($video->video))
+                @if (isset($video->video) || isset($video->edgecenter_id) || isset($video->other_hls_video_id))
                 <video-js id="player" class="vjs-default-skin" controls preload="auto" width="960" height="540" disablePictureInPicture playsinline allowsInlineMediaPlayback=true>
 
                     @php $track_count = 0; @endphp
