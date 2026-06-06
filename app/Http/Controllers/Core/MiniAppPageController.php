@@ -131,10 +131,7 @@ class MiniAppPageController
 
         $timepoints = [];
 
-        $type = '';
-        $type_name = '';
-
-        if ($video->video) {
+        if ($video->video || $video->edgecenter_id || $video->other_hls_video_id) {
             $type = 'video';
             $type_name = 'видео';
 
