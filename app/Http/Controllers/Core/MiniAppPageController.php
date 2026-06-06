@@ -132,6 +132,7 @@ class MiniAppPageController
         $timepoints = [];
 
         $type = '';
+        $type_name = '';
 
         if ($video->video) {
             $type = 'video';
