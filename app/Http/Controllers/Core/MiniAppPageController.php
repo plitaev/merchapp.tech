@@ -33,17 +33,14 @@ class MiniAppPageController
             return view('core.mini-app.mini-app-redirect-to-page', ['mini_app_page' => $mini_app_page, 'mini_app_platform' => $mini_app_platform]);
         }
 
-        if (app('merchapp.pages.navigation')) {
-            $navigator = app('merchapp.pages.navigation');
-            $navigator[$mini_app_page->url] = $mini_app_page->name;
-        } else {
+        if (!App::resolved('merchapp.pages.navigation')) {
             App::singleton('merchapp.pages.navigation', function () {
-                return [];
+                return []; // Создаем массив по умолчанию, если он еще не был создан
             });
-
-            $navigator = app('merchapp.pages.navigation');
-            $navigator[$mini_app_page->url] = $mini_app_page->name;
         }
+
+        $navigator = app('merchapp.pages.navigation');
+        $navigator[$mini_app_page->url][] = $mini_app_page->name;
 
         $telegram_chat_id = (isset($_GET['telegram_chat_id'])?$_GET['telegram_chat_id']:0);
         $max_user_id = (isset($_GET['max_user_id'])?$_GET['max_user_id']:0);
