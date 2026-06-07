@@ -33,7 +33,7 @@ class MiniAppPageController
             return view('core.mini-app.mini-app-redirect-to-page', ['mini_app_page' => $mini_app_page, 'mini_app_platform' => $mini_app_platform]);
         }
 
-        if (!App::resolved('merchapp.pages.navigation')) {
+        if (!App::has('merchapp.pages.navigation')) {
             App::singleton('merchapp.pages.navigation', function () {
                 return []; // Создаем массив по умолчанию, если он еще не был создан
             });
