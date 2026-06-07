@@ -68,6 +68,8 @@ class MiniAppPageController
                 return view('project.app2.access_denied', ['mini_app_page' => $mini_app_page]);
             }
 
+            return $navigator;
+
             return view('core.mini-app.mini-app-banner-page', [
                 'banners_big' => $banners_big,
                 'banners_medium' => $banners_medium,
