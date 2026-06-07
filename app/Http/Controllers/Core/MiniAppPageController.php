@@ -41,6 +41,7 @@ class MiniAppPageController
 
         $navigator = app('merchapp.pages.navigation');
         $navigator[$mini_app_page->url] = $mini_app_page->name;
+        App::instance('merchapp.pages.navigation', $navigator);
 
         $telegram_chat_id = (isset($_GET['telegram_chat_id'])?$_GET['telegram_chat_id']:0);
         $max_user_id = (isset($_GET['max_user_id'])?$_GET['max_user_id']:0);
