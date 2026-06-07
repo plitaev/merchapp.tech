@@ -11,6 +11,8 @@
 
 @section('content')
 
+    {{implode(' > ', $navigator)}}
+
     @if ($mini_app_platform == 'telegram')
         <script src="{{env('APP_URL')}}/js/telegram-web-app.js"></script>
         <script>

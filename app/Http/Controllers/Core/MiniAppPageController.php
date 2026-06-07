@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Core;
 
-use App\Models\Core\Bot;
-use App\Models\Core\MiniApp;
+use Illuminate\Support\Facades\App;
+
 use Carbon\Carbon;
 
 use App\Actions\Core\MiniAppBanner\MiniAppBannerListByClassID;
@@ -12,6 +12,7 @@ use App\Actions\Core\MiniApp\MiniAppGetPlatform;
 use App\Actions\Core\MiniAppVideo\MiniAppVideoCheckAccess;
 
 use App\Models\Core\BotUser;
+use App\Models\Core\MiniApp;
 use App\Models\Core\MiniAppVideo;
 use App\Models\Core\MiniAppVideoLinkPage;
 use App\Models\Core\MiniAppVideoTimePoint;
@@ -30,6 +31,18 @@ class MiniAppPageController
 
         if ($mini_app_page->redirect_to_page) {
             return view('core.mini-app.mini-app-redirect-to-page', ['mini_app_page' => $mini_app_page, 'mini_app_platform' => $mini_app_platform]);
+        }
+
+        if (app('merchapp.pages.navigation')) {
+            $navigator = app('merchapp.pages.navigation');
+            $navigator[$mini_app_page->url] = $mini_app_page->name;
+        } else {
+            App::singleton('merchapp.pages.navigation', function () {
+                return [];
+            });
+
+            $navigator = app('merchapp.pages.navigation');
+            $navigator[$mini_app_page->url] = $mini_app_page->name;
         }
 
         $telegram_chat_id = (isset($_GET['telegram_chat_id'])?$_GET['telegram_chat_id']:0);
@@ -63,7 +76,8 @@ class MiniAppPageController
                 'banners_medium' => $banners_medium,
                 'banners_small' => $banners_small,
                 'mini_app_page' => $mini_app_page,
-                'mini_app_platform' => $mini_app_platform
+                'mini_app_platform' => $mini_app_platform,
+                'navigator' => $navigator
             ]);
         }
 
@@ -86,6 +100,7 @@ class MiniAppPageController
             return view('core.mini-app.mini-app-video-list-page', [
                 'mini_app_page' => $mini_app_page,
                 'mini_app_platform' => $mini_app_platform,
+                'navigator' => $navigator,
                 'videos' => $videos
             ]);
 
