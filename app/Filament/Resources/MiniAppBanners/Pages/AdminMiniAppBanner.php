@@ -81,7 +81,7 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
         return [];
     }
 
-    public function mount(int $mini_app_page_id, int $banner_id, int $mini_app_page_block_id = 0): void
+    public function mount(int $mini_app_page_id, int $banner_id): void
     {
         if (auth()->user()->hasPermissionTo('Update:MiniAppBanner')) {
 
