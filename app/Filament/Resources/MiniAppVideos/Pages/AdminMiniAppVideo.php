@@ -94,12 +94,12 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
     }
 
 
-    public function mount(int $mini_app_page_id, int $id, int $mini_app_page_block_id = 0): void
+    public function mount(int $mini_app_page_id, int $id): void
     {
         $this->mini_app_page_id = $mini_app_page_id;
         $this->id = $id;
 
-        $this->mini_app_page_block_id = $mini_app_page_block_id;
+        //$this->mini_app_page_block_id = $mini_app_page_block_id;
         $this->video_page_count = MiniAppVideoLinkPage::where('mini_app_video_id', $id)->count();
 
         if (auth()->user()) {
