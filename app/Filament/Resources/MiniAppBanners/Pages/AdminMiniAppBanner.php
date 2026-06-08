@@ -103,7 +103,6 @@ class AdminMiniAppBanner extends Page implements HasForms, HasTable
 
             }
 
-            $this->mini_app_page_block_id = $mini_app_page_block_id;
             $this->mini_app_page_id = $mini_app_page_id;
             $this->banner_id = $banner_id;
 
