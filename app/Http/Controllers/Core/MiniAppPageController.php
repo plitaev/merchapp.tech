@@ -85,6 +85,16 @@ class MiniAppPageController
             if ($restrict_access) return $restrict_access;
 
             $video_ids = MiniAppVideoLinkPage::select('mini_app_video_id')->where('mini_app_page_id', $mini_app_page->id)->orderBy('pos')->pluck('mini_app_video_id')->toArray();
+
+            if (count($video_ids) == 0) {
+                return view('core.mini-app.mini-app-video-list-page', [
+                    'mini_app_page' => $mini_app_page,
+                    'mini_app_platform' => $mini_app_platform,
+                    'navigator' => $navigator,
+                    'videos' => []
+                ]);
+            }
+
             $videos = MiniAppVideo::whereIn('id', $video_ids)->orderByRaw(\DB::raw("FIELD(id, ".implode(',', $video_ids)." )"))->get();
 
             if (isset($mini_app_page->mini_app_page_access_id) && $mini_app_page->mini_app_page_access_id == 2) {
