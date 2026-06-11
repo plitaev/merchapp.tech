@@ -193,7 +193,7 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                                         ['updated_at' => now()]
                                     );
 
-                                    if ($this->id == 0 || ($this->id > 0 && $current_video->video != $data['video'])) {
+                                    if (isset($data['video']) && ($this->id == 0 || ($this->id > 0 && $current_video->video != $data['video']))) {
                                         $curl=curl_init();
                                         curl_setopt($curl,CURLOPT_URL,"https://api.edgecenter.ru/streaming/vod/videos");
                                         curl_setopt($curl,CURLOPT_RETURNTRANSFER, true);
