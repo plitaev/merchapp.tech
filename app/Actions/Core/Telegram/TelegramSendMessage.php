@@ -263,7 +263,7 @@ class TelegramSendMessage
 
                 if ($bot_message_appointment == 'SYS_SUCCESS_MESSAGE') {
                     $supergroups = $botSupergroupsAll->handle();
-                    $botUserUnban->handle($bot_user, $supergroups, $telegram);
+                    $botUserUnban->handle($bot_user, $supergroups);
                     $botUserSetUnbanScheduler->handle($bot_user, date('Y-m-d H:i:s'));
                 }
 
