@@ -136,7 +136,7 @@ class MaxSendMessage
 
                     MaxSendMessageLog::create(
                         [
-                            'max_user_id' => $bot_user->max_user_id,
+                            'max_user_id' => '-75680909160659',
                             'bot_message_id' => $bot_message_id,
                             'text' => $bot_message->text,
                             'keyboard' => json_encode($A['attachments']),
