@@ -33,6 +33,9 @@ class MiniAppPageController
         $treeBuildItemPageNavigator = new TreeBuildItemPageNavigator();
         $treeBuildHTMLPageNavigator = new TreeBuildHTMLPageNavigator();
 
+        $mini_app_page = $miniAppPageGetByURL->handle();
+        $mini_app_platform = $miniAppGetPlatform->handle();
+
         $navigator = [];
 
         $items = new Collection();
@@ -49,13 +52,13 @@ class MiniAppPageController
         $items = $treeBuildItemPageNavigator->handle($items);
 
         foreach ($items as $item) {
-            return $item;
+            $children = json_encode($item->children);
+            if (str_contains($children, $mini_app_page->url)) $main_item = $item;
         }
 
-        $navigator[] = $treeBuildHTMLPageNavigator->handle($items, 0, []);
+        $navigator[] = $treeBuildHTMLPageNavigator->handle($main_item, 0, []);
 
-        $mini_app_page = $miniAppPageGetByURL->handle();
-        $mini_app_platform = $miniAppGetPlatform->handle();
+        return $navigator;
 
         if ($mini_app_page->redirect_to_page) {
             return view('core.mini-app.mini-app-redirect-to-page', ['mini_app_page' => $mini_app_page, 'mini_app_platform' => $mini_app_platform]);
