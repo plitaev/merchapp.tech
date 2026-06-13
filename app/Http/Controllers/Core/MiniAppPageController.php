@@ -14,6 +14,7 @@ use App\Actions\Core\MiniAppVideo\MiniAppVideoCheckAccess;
 use App\Actions\Core\MiniAppPage\TreeBuildItemPageNavigator;
 use App\Actions\Core\MiniAppPage\TreeBuildHTMLPageNavigator;
 use App\Actions\Core\MiniAppPage\TreeFindParents;
+use App\Actions\Core\MiniAppPage\TreeFindParentsDirectly;
 
 use App\Models\Core\BotUser;
 use App\Models\Core\MiniApp;
@@ -34,32 +35,17 @@ class MiniAppPageController
         $treeBuildItemPageNavigator = new TreeBuildItemPageNavigator();
         $treeBuildHTMLPageNavigator = new TreeBuildHTMLPageNavigator();
         $treeFindParents = new TreeFindParents();
+        $treeFindParentsDirectly = new TreeFindParentsDirectly();
 
         $mini_app_page = $miniAppPageGetByURL->handle();
         $mini_app_platform = $miniAppGetPlatform->handle();
 
-        $navigator = [];
-
-        $items = new Collection();
-
-        $items_raw = MiniAppPage::orderBy('id')->get();
-
-        foreach ($items_raw as $item) {
-            $back_button_url = str_replace(env('APP_URL').'/', '', $item->back_button_url);
-            $parent_page = MiniAppPage::select('id')->where('url', $back_button_url)->first();
-            $item->parent_id = ($parent_page?$parent_page->id:0);
-            $items->push($item);
-        }
-
-        $items = $treeBuildItemPageNavigator->handle($items);
-
-        $navigator = $treeFindParents->handle($items, $mini_app_page->id);
-
-        //$navigator = $treeBuildHTMLPageNavigator->handle($items, 0, []);
-
         if ($mini_app_page->redirect_to_page) {
             return view('core.mini-app.mini-app-redirect-to-page', ['mini_app_page' => $mini_app_page, 'mini_app_platform' => $mini_app_platform]);
         }
+
+        $pages = MiniAppPage::all();
+        $navigator = $treeFindParentsDirectly->handle($pages, $mini_app_page->id);
 
         $telegram_chat_id = (isset($_GET['telegram_chat_id'])?$_GET['telegram_chat_id']:0);
         $max_user_id = (isset($_GET['max_user_id'])?$_GET['max_user_id']:0);
