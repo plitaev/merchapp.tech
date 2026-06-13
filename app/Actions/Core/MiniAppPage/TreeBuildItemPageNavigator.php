@@ -21,6 +21,7 @@ class TreeBuildItemPageNavigator
 
             }
         }
+
         return $items;
     }
 }
