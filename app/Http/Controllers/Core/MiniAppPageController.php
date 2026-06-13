@@ -51,11 +51,15 @@ class MiniAppPageController
 
         $items = $treeBuildItemPageNavigator->handle($items);
 
-        foreach ($items as $item) {
-            return json_encode($item);
+        $item_key = 0;
+
+        foreach ($items as $key => $item) {
+            if (strpos(json_encode($item), $mini_app_page->url)) $item_key = $key;
         }
 
-        $navigator = $treeBuildHTMLPageNavigator->handle($items, 0, []);
+        $navigator = $treeBuildHTMLPageNavigator->handle($items[$key], 0, []);
+
+        return $navigator;
 
         if ($mini_app_page->redirect_to_page) {
             return view('core.mini-app.mini-app-redirect-to-page', ['mini_app_page' => $mini_app_page, 'mini_app_platform' => $mini_app_platform]);
