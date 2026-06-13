@@ -13,6 +13,7 @@ use App\Actions\Core\MiniApp\MiniAppGetPlatform;
 use App\Actions\Core\MiniAppVideo\MiniAppVideoCheckAccess;
 use App\Actions\Core\MiniAppPage\TreeBuildItemPageNavigator;
 use App\Actions\Core\MiniAppPage\TreeBuildHTMLPageNavigator;
+use App\Actions\Core\MiniAppPage\TreeFindParents;
 
 use App\Models\Core\BotUser;
 use App\Models\Core\MiniApp;
@@ -32,6 +33,7 @@ class MiniAppPageController
 
         $treeBuildItemPageNavigator = new TreeBuildItemPageNavigator();
         $treeBuildHTMLPageNavigator = new TreeBuildHTMLPageNavigator();
+        $treeFindParents = new TreeFindParents();
 
         $mini_app_page = $miniAppPageGetByURL->handle();
         $mini_app_platform = $miniAppGetPlatform->handle();
@@ -51,7 +53,7 @@ class MiniAppPageController
 
         $items = $treeBuildItemPageNavigator->handle($items);
 
-        return $items;
+        return $treeFindParents->handle($items, $mini_app_page->id);
 
         $navigator = $treeBuildHTMLPageNavigator->handle($items, 0, []);
 
