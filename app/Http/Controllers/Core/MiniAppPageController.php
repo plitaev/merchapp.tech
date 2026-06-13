@@ -33,7 +33,7 @@ class MiniAppPageController
         $treeBuildItemPageNavigator = new TreeBuildItemPageNavigator();
         $treeBuildHTMLPageNavigator = new TreeBuildHTMLPageNavigator();
 
-        $result = [];
+        $navigator = [];
 
         $items = new Collection();
 
@@ -47,9 +47,7 @@ class MiniAppPageController
         }
 
         $items = $treeBuildItemPageNavigator->handle($items);
-        $result[] = $treeBuildHTMLPageNavigator->handle($items, 0, []);
-
-        return $result;
+        $navigator[] = $treeBuildHTMLPageNavigator->handle($items, 0, []);
 
         $mini_app_page = $miniAppPageGetByURL->handle();
         $mini_app_platform = $miniAppGetPlatform->handle();
@@ -57,16 +55,6 @@ class MiniAppPageController
         if ($mini_app_page->redirect_to_page) {
             return view('core.mini-app.mini-app-redirect-to-page', ['mini_app_page' => $mini_app_page, 'mini_app_platform' => $mini_app_platform]);
         }
-
-        if (!App::has('merchapp.pages.navigation')) {
-            App::singleton('merchapp.pages.navigation', function () {
-                return []; // Создаем массив по умолчанию, если он еще не был создан
-            });
-        }
-
-        $navigator = app('merchapp.pages.navigation');
-        $navigator[$mini_app_page->url] = $mini_app_page->name;
-        App::instance('merchapp.pages.navigation', $navigator);
 
         $telegram_chat_id = (isset($_GET['telegram_chat_id'])?$_GET['telegram_chat_id']:0);
         $max_user_id = (isset($_GET['max_user_id'])?$_GET['max_user_id']:0);
