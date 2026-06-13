@@ -45,8 +45,7 @@ class MiniAppPageController
         }
 
         $pages = MiniAppPage::all();
-        $navigator = [];
-        $navigator[] = $treeFindParentsDirectly->handle($pages, $mini_app_page->id, $navigator);
+        $navigator = $treeFindParentsDirectly->handle($pages, $mini_app_page->id, []);
 
         $telegram_chat_id = (isset($_GET['telegram_chat_id'])?$_GET['telegram_chat_id']:0);
         $max_user_id = (isset($_GET['max_user_id'])?$_GET['max_user_id']:0);
