@@ -49,6 +49,8 @@ class MiniAppPageController
         $items = $treeBuildItemPageNavigator->handle($items);
         $navigator[] = $treeBuildHTMLPageNavigator->handle($items, 0, []);
 
+        return $navigator;
+
         $mini_app_page = $miniAppPageGetByURL->handle();
         $mini_app_platform = $miniAppGetPlatform->handle();
 
