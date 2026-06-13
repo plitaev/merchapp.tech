@@ -151,7 +151,7 @@ class MiniAppBannerResource extends Resource
             'index' => ListMiniAppBanners::route('/'),
             'create' => CreateMiniAppBanner::route('/create'),
             'edit' => EditMiniAppBanner::route('/{record}/edit'),
-            'admin' => AdminMiniAppBanner::route('/{mini_app_page_id}/{banner_id}/admin'),
+            'admin' => AdminMiniAppBanner::route('/{mini_app_page_id}/{banner_id}/{mini_app_page_block_id}/admin'),
             'admin_banner_by_app' => AdminBannerByApp::route('/{mini_app_id}/{mini_app_name}/admin_banner_by_app'),
         ];
     }

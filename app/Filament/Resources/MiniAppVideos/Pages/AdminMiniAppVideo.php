@@ -94,12 +94,12 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
     }
 
 
-    public function mount(int $mini_app_page_id, int $id): void
+    public function mount(int $mini_app_page_id, int $id, int $mini_app_page_block_id): void
     {
         $this->mini_app_page_id = $mini_app_page_id;
         $this->id = $id;
 
-        //$this->mini_app_page_block_id = $mini_app_page_block_id;
+        $this->mini_app_page_block_id = $mini_app_page_block_id;
         $this->video_page_count = MiniAppVideoLinkPage::where('mini_app_video_id', $id)->count();
 
         if (auth()->user()) {
@@ -166,10 +166,18 @@ class AdminMiniAppVideo extends Page implements HasForms, HasTable
                         Section::make('Страницы')
                             ->description(new HtmlString("<a href='/admin/mini-app-videos/".$this->mini_app_page_id."/".$this->id."/admin_mini_app_video_link_pages' style='display: block; margin-bottom: 10px; font-weight: bold'>Прикрепленные страницы: {$this->video_page_count} 🔍</a>"))
                             ->schema([]),
+                        Hidden::make('mini_app_page_block_id'),
+
                         Actions::make([
                             Action::make('Сохранить')
                                 ->action(function () {
                                     $data = $this->form->getState();
+
+                                    if ($this->mini_app_page_block_id == 0) {
+                                        $data_form['mini_app_page_block_id'] = null;
+                                    } else if ($this->mini_app_page_block_id != 0) {
+                                        $data_form['mini_app_page_block_id'] = $this->mini_app_page_block_id;
+                                    }
 
                                     if ($this->id > 0) {
                                         $video_id = $this->id;
