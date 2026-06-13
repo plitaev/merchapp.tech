@@ -13,9 +13,12 @@ class TreeBuildItemPageNavigator
         foreach ($items as $key => $item) {
             $item_by_id->get($item->id)->children = new Collection;
             if ($item->parent_id != 0) {
-                return $item;
-                $item_by_id->get($item->parent_id)->children->push($item);
-                unset($items[$key]);
+
+                if (isset($item)) {
+                    $item_by_id->get($item->parent_id)->children->push($item);
+                    unset($items[$key]);
+                }
+
             }
         }
         return $items;
