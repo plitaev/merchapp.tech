@@ -53,7 +53,7 @@ class MiniAppPageController
 
         $items = $treeBuildItemPageNavigator->handle($items);
 
-        return $treeFindParents->handle($items, $mini_app_page->id);
+        $navigator = $treeFindParents->handle($items, $mini_app_page->id);
 
         //$navigator = $treeBuildHTMLPageNavigator->handle($items, 0, []);
 
