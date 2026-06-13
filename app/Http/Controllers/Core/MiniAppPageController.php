@@ -37,7 +37,7 @@ class MiniAppPageController
 
         $items = new Collection();
 
-        $items_raw = MiniAppPage::whereNotNull('back_button_url')->orderBy('id')->get();
+        $items_raw = MiniAppPage::orderBy('id')->get();
 
         foreach ($items_raw as $item) {
             $back_button_url = str_replace(env('APP_URL').'/', '', $item->back_button_url);
