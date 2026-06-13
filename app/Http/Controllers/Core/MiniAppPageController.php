@@ -10,9 +10,12 @@ use App\Actions\Core\MiniAppBanner\MiniAppBannerListByClassID;
 use App\Actions\Core\MiniAppPage\MiniAppPageGetByURL;
 use App\Actions\Core\MiniApp\MiniAppGetPlatform;
 use App\Actions\Core\MiniAppVideo\MiniAppVideoCheckAccess;
+use App\Actions\Core\MiniAppPage\TreeBuildItemPageNavigator;
+use App\Actions\Core\MiniAppPage\TreeBuildHTMLPageNavigator;
 
 use App\Models\Core\BotUser;
 use App\Models\Core\MiniApp;
+use App\Models\Core\MiniAppPage;
 use App\Models\Core\MiniAppVideo;
 use App\Models\Core\MiniAppVideoLinkPage;
 use App\Models\Core\MiniAppVideoTimePoint;
@@ -25,6 +28,15 @@ class MiniAppPageController
         $miniAppPageGetByURL = new MiniAppPageGetByURL();
         $miniAppGetPlatform = new MiniAppGetPlatform();
         $miniAppVideoCheckAccess = new MiniAppVideoCheckAccess();
+
+        $treeBuildItemPageNavigator = new TreeBuildItemPageNavigator();
+        $treeBuildHTMLPageNavigator = new TreeBuildHTMLPageNavigator();
+
+        $result = [];
+
+        $items = MiniAppPage::whereNotNull('back_button_url')->orderBy('id')->get();
+        $items = $treeBuildItemPageNavigator->handle($items);
+        $result[] = $treeBuildHTMLPageNavigator->handle($items, 0, []);
 
         $mini_app_page = $miniAppPageGetByURL->handle();
         $mini_app_platform = $miniAppGetPlatform->handle();
