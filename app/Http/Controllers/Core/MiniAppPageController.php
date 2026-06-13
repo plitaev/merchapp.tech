@@ -59,7 +59,7 @@ class MiniAppPageController
 
         $navigator = $treeBuildHTMLPageNavigator->handle($items[$key], 0, []);
 
-        return $navigator;
+        return $item_key;
 
         if ($mini_app_page->redirect_to_page) {
             return view('core.mini-app.mini-app-redirect-to-page', ['mini_app_page' => $mini_app_page, 'mini_app_platform' => $mini_app_platform]);
