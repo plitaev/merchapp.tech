@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Core;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 
 use Carbon\Carbon;
