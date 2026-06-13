@@ -52,7 +52,7 @@ class MiniAppPageController
         $items = $treeBuildItemPageNavigator->handle($items);
 
         foreach ($items as $item) {
-            return $item;
+            return json_encode($item);
         }
 
         $navigator = $treeBuildHTMLPageNavigator->handle($items, 0, []);
