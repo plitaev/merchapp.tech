@@ -6,15 +6,15 @@ use App\Models\Core\MiniAppPage;
 
 class TreeFindParentsDirectly
 {
-    public function handle($items, int $id, array $navigator) {
+    public function handle($items, int $id, string $navigator) {
 
         foreach ($items as $item) {
 
             if ($item->id == $id && $item->back_button_url) {
                 $back_button_url = str_replace(env('APP_URL').'/', '', $item->back_button_url);
                 $parent_page = MiniAppPage::select('id', 'back_button_url')->where('url', $back_button_url)->first();
-                $navigator[] = $parent_page->id;
-                if ($parent_page->back_button_url) $navigator[] = $this->handle($items, $parent_page->id, $navigator);
+                $navigator .= $parent_page->id;
+                if ($parent_page->back_button_url) $navigator .= $this->handle($items, $parent_page->id, $navigator);
             }
 
         }
