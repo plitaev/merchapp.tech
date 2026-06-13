@@ -6,7 +6,7 @@ use App\Models\Core\MiniAppPage;
 
 class TreeFindParentsDirectly
 {
-    public function handle(array $items, int $id) {
+    public function handle($items, int $id) {
         $result = [];
 
         foreach ($items as $item) {
