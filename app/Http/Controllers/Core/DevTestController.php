@@ -40,10 +40,6 @@ class DevTestController extends Controller
         $botSendMessage = new BotSendMessage();
         $dateEnd = new DateEnd();
 
-        $bot_user = BotUser::find(2594);
-
-        $botSendMessage->handle($bot_user, 'LOVERSE_NYA_SENDING_MAX', 'max');
-
         /*
         $pays = Pay::with('bot_user')
             ->where('status', 1)
