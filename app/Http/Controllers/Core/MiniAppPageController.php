@@ -57,7 +57,7 @@ class MiniAppPageController
             if (strpos(json_encode($item), $mini_app_page->url)) $item_key = $key;
         }
 
-        $navigator = $treeBuildHTMLPageNavigator->handle($items[$key], 0, []);
+        $navigator = $treeBuildHTMLPageNavigator->handle($items, 0, []);
 
         return $item_key;
 
