@@ -34,7 +34,7 @@ class MiniAppPageController
 
         $result = [];
 
-        $items = [];
+        $items = new Collection();
 
         $items_raw = MiniAppPage::whereNotNull('back_button_url')->orderBy('id')->get();
 
@@ -42,7 +42,7 @@ class MiniAppPageController
             $back_button_url = str_replace(env('APP_URL').'/', '', $item->back_button_url);
             $parent_page = MiniAppPage::select('id')->where('url', $back_button_url)->first();
             $item->parent_id = ($parent_page?$parent_page->id:0);
-            $items[] = $item;
+            $items->push($item);
         }
 
         return $items;
