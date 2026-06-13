@@ -5,6 +5,7 @@ namespace App\Actions\Core\MiniAppPage;
 class TreeFindParents
 {
     function handle($elements, $targetId, $parents = []) {
+        return $elements;
         foreach ($elements as $element) {
             // Если элемент найден — возвращаем его родителей
             if ($element['id'] == $targetId) {
