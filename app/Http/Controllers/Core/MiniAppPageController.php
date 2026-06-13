@@ -122,6 +122,8 @@ class MiniAppPageController
 
     public function mini_app_player_page(int $id, string $mini_app_platform, int $messenger_user_id, string $back_page)
     {
+        $treeFindParentsDirectly = new TreeFindParentsDirectly();
+
         $mini_app_token = hash('sha256', microtime());
         $mini_app_token_expiration = Carbon::now()->addMinutes(1)->format('Y-m-d H:i:s');
 
@@ -199,10 +201,18 @@ class MiniAppPageController
             $type_name = 'аудио';
         }
 
+        $pages = MiniAppPage::all();
+        (string) $navigator = '';
+
+        $back_page = MiniAppPage::select('id')->where('url', $back_page)->first();
+
+        $navigator = $treeFindParentsDirectly->handle($pages, $back_page->id, $navigator);
+
         return view('core.mini-app.mini-app-player-page', [
             'back_page' => $back_page,
             'mini_app_token' => $mini_app_token,
             'mini_app_platform' => $mini_app_platform,
+            'navigator' => $navigator,
             'os' => $os,
             'type' => $type,
             'type_name' => $type_name,
