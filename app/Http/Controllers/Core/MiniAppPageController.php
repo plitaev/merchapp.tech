@@ -39,14 +39,14 @@ class MiniAppPageController
 
         $items_raw = MiniAppPage::whereNotNull('back_button_url')->orderBy('id')->get();
 
-        return $items_raw;
-
         foreach ($items_raw as $item) {
             $back_button_url = str_replace(env('APP_URL').'/', '', $item->back_button_url);
             $parent_page = MiniAppPage::select('id')->where('url', $back_button_url)->first();
             $item->parent_id = ($parent_page?$parent_page->id:0);
             $items->push($item);
         }
+
+        return $items;
 
         $items = $treeBuildItemPageNavigator->handle($items);
         $result[] = $treeBuildHTMLPageNavigator->handle($items, 0, []);
