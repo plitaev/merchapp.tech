@@ -17,7 +17,7 @@ class TreeFindParents
                 $currentParents = $parents;
                 $currentParents[] = $element['name']; // или весь $element
 
-                $result = handle($element['children'], $targetId, $currentParents);
+                $result = $this->handle($element['children'], $targetId, $currentParents);
 
                 if ($result !== null) {
                     return $result;
