@@ -51,12 +51,7 @@ class MiniAppPageController
 
         $items = $treeBuildItemPageNavigator->handle($items);
 
-        foreach ($items as $item) {
-            $children = json_encode($item->children);
-            if (str_contains($children, $mini_app_page->url)) $main_item = $item;
-        }
-
-        $navigator[] = $treeBuildHTMLPageNavigator->handle($main_item, 0, []);
+        $navigator[] = $treeBuildHTMLPageNavigator->handle($items, 0, []);
 
         return $navigator;
 
